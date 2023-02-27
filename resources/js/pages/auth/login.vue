@@ -1,0 +1,157 @@
+<template>
+	<div>
+		<div class="flex h-screen items-center justify-center  px-4 sm:px-6 lg:px-8">
+			<div class="w-full max-w-md space-y-8 border p-8">
+				<div>
+					<h1 class="text-4xl text-gray-600  font-bold ">High School </h1>
+					<h2 class="mt-6 text-center text-2xl text-gray-800 sanfont-khmer">គ្រប់គ្រងសាលារៀន </h2>
+				</div>
+				<form
+					class="mt-8 space-y-6"
+					id="login-form"
+				>
+					<input
+						type="hidden"
+						name="remember"
+						value="true"
+					/>
+					<div class="-space-y-px rounded-md shadow-sm">
+						<div>
+							<label
+								for="email-address"
+								class="sr-only"
+							>Email address</label>
+							<input
+								id="email-address"
+								v-model="objData.email"
+								name="email"
+								type="email"
+								class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+								placeholder="Email address"
+							/>
+						</div>
+						<div>
+							<label
+								for="password"
+								class="sr-only"
+							>Password</label>
+							<input
+								id="password"
+								v-model="objData.password"
+								name="password"
+								type="password"
+								class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+								placeholder="Password"
+							/>
+						</div>
+					</div>
+					<div class="flex items-center justify-between">
+						<div class="flex items-center">
+							<input
+								id="remember-me"
+								name="remember-me"
+								type="checkbox"
+								class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+							/>
+							<label
+								for="remember-me"
+								class="ml-2 block text-sm text-gray-900"
+							>Remember me</label>
+						</div>
+						<div class="text-sm">
+
+						</div>
+					</div>
+					<div>
+					</div>
+				</form>
+				<button
+					@click="login"
+					class="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-800 py-2 px-4 text-sm font-medium text-white hover:bg-gray-700"
+				>
+					Sign in
+				</button>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="bg-black before:animate-pulse before:bg-gradient-to-b before:from-gray-900 overflow-hidden before:via-[#00FF00] before:to-gray-900 before:absolute before:-inset-1">
+		<div id="myDIV">
+			<div class="w-[100vw] h-[100vh] flex items-center justify-center absolute">
+				<div class="w-2/3 bg-gray-800 text-white z-50 py-4 px-8 rounded-lg">
+					<div class="w-full flex justify-center text-[#00FF00] text-xl mb:2 md:mb-5">
+						Sign In
+					</div>
+					<div class="mb-6">
+						<label
+							for="email"
+							class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						>Your email</label>
+						<input
+							type="email"
+							id="email"
+							class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 md:p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							placeholder="name@neurolink.com"
+							required
+						>
+					</div>
+					<div class="mb-6">
+						<label
+							for="password"
+							class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						>Your password</label>
+						<input
+							type="password"
+							id="password"
+							class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 md:p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							required
+						>
+					</div>
+					<div class="flex flex-row justify-between">
+						<div class="text-white">Forgot Password</div>
+						<div class="text-[#00FF00]">Signup</div>
+					</div>
+					<div class="mt-4 md:mt-10 w-full flex justify-center text-sm md:text-xl bg-[#00FF00] py-2 rounded-md">
+						Login
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div> -->
+</template>
+<script>
+export default {
+	data() {
+		return {
+			objData: {
+				email: 'admin@gmail.com',
+				password: 'dev123'
+			}
+		}
+	},
+	mounted() {
+		// const para = document.createElement("div");
+		// para.className = 'flex flex-wrap gap-1 h-screen items-center justify-center  relative';
+		// let el = '<div class = "  transition-colors duration-[1.5s] hover:duration-[0s] border-[#00FF00] h-[calc(6.15vw-2px)] w-[calc(6.15vw-2px)] md:h-[calc(5.4vw-2px)] md:w-[calc(5.4vw-2px)] lg:h-[calc(3.4vw-2px)] lg:w-[calc(3.4vw-2px)] bg-gray-900 hover:bg-[#00FF00]"></div>'
+		// for (var k = 1; k <= 1000; k++) {
+		// 	el += '<div class = " transition-colors duration-[1.5s] hover:duration-[0s] border-[#00FF00] h-[calc(6.15vw-2px)] w-[calc(6.15vw-2px)] md:h-[calc(5.4vw-2px)] md:w-[calc(5.4vw-2px)] lg:h-[calc(3.4vw-2px)] lg:w-[calc(3.4vw-2px)] bg-gray-900 hover:bg-[#00FF00]"></div>';
+		// };
+
+		// para.innerHTML = el;
+		// document.getElementById("myDIV").appendChild(para);
+	},
+	methods: {
+		login() {
+			this.$store.dispatch("auth/LOGIN_SYSTEM", this.objData).then(reponse => {
+				if (reponse.status == '201' && localStorage.getItem('token') != null) {
+					// this.$router.push('/');
+					window.location = '/';
+				}
+			})
+		}
+	}
+}
+</script>
+
+<style>
+</style>

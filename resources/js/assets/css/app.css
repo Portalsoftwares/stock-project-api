@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+
+html{
+  font-family: 'Roboto'
+}
+
+  .router-link-exact-active{
+    background: #334155!important ;
+    color: #fff !important;
+    border-radius: 4px;
+  }
+
+ .sanfont-khmer{
+   font-family: 'Noto Sans Khmer', sans-serif !important;
+ }
+@tailwind utilities;
