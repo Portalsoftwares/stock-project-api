@@ -130,15 +130,6 @@ export default {
 		}
 	},
 	mounted() {
-		// const para = document.createElement("div");
-		// para.className = 'flex flex-wrap gap-1 h-screen items-center justify-center  relative';
-		// let el = '<div class = "  transition-colors duration-[1.5s] hover:duration-[0s] border-[#00FF00] h-[calc(6.15vw-2px)] w-[calc(6.15vw-2px)] md:h-[calc(5.4vw-2px)] md:w-[calc(5.4vw-2px)] lg:h-[calc(3.4vw-2px)] lg:w-[calc(3.4vw-2px)] bg-gray-900 hover:bg-[#00FF00]"></div>'
-		// for (var k = 1; k <= 1000; k++) {
-		// 	el += '<div class = " transition-colors duration-[1.5s] hover:duration-[0s] border-[#00FF00] h-[calc(6.15vw-2px)] w-[calc(6.15vw-2px)] md:h-[calc(5.4vw-2px)] md:w-[calc(5.4vw-2px)] lg:h-[calc(3.4vw-2px)] lg:w-[calc(3.4vw-2px)] bg-gray-900 hover:bg-[#00FF00]"></div>';
-		// };
-
-		// para.innerHTML = el;
-		// document.getElementById("myDIV").appendChild(para);
 	},
 	methods: {
 		login() {

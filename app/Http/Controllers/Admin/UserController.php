@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use App\Models\UploadFile;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use DB;
 
 class UserController extends Controller
@@ -53,9 +56,10 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'unique:users'],
+            'photo_id' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', Rules\Password::defaults()],
-            // 'role' => 'required',
+            'role' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -68,13 +72,15 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'photo_id' => $request->photo_id,
             'password' => Hash::make($request->password),
         ]);
-
-        if(isset($request->roles)){
-            $user->assignRole($request->roles);
-        }
-
+      $rolesArray =   explode(',', $request->role);
+       
+       foreach($rolesArray as $row){
+           $user->assignRole($row);
+       }
+       
         $response = [ 
             'user' => $user,
             'message' => "User created."
@@ -101,17 +107,16 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::where('id', $id)->first();
-
+        $user = User::where('id', $id)->with('img') ->first();
+        // dd( Hash::check('123a456789', $user->password, []));
+            
         if (is_null($user)) {
             $response = [ 
                 'message' => 'user not found',
             ];
             return  response($response, 404);
         }
-
         $roles = Role::all();
-
         $response = [ 
             'user' => $user,
             'user_has_roles' => $user->roles->pluck("name"),
@@ -131,7 +136,7 @@ class UserController extends Controller
     {
         $user = User::where('id', $request->id)->first();
 
-        if (is_null($user)) {
+        if (is_null($request)) {
             abort(404);
         }
 
@@ -139,16 +144,15 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'profile_image' => $request->profile_image
+            'photo_id' => $request->photo_id,
         ]);
-
-        // delete all user roles
+        // Delete all user roles
         DB::table('model_has_roles')->where('model_id', $request->id)->delete();
-
-        if(isset($request->roles)){
-            $user->assignRole($request->roles);
-        }
-
+       $rolesArray =   explode(',', $request->role);
+       
+       foreach($rolesArray as $row){
+           $user->assignRole($row);
+       }
         $response = [ 
             'user' => $user,
             'message' => "User updated."

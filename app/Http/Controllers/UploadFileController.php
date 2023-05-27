@@ -25,26 +25,23 @@ class UploadFileController extends Controller
      */
     public function store(Request $request)
     {
-        $fields = $request->validate([
-            'activation_id' =>'required',
+        $request->validate([
+             'file' => 'required|mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:2048'
         ]);
-        if ($request->hasFile('files')) {
-            $name = $request->file('files')->getClientOriginalName();
-            $size = $request->file('files')->getSize();
-            $type = $request->file('files')->getClientOriginalExtension();
-            $path =  $request->file('files')->storeAs('public/images' , date('mdYHis') ."_". $name);
-            $files =  UploadFile::create([
-               'activation_id' =>$fields['activation_id'],
-               'file_path' =>  date('mdYHis') ."_". $name,  
-               'name' => $name,
-               'size' =>  $size ,
-               'type' => $type
-              ]);
-              $response = [ 
-                  'file' => $files , 
-              ];
+        $fileUpload = new UploadFile;
+        if($request->hasFile('file')) {
+            $file_name = time().'_'.$request->file->getClientOriginalName();
+            $file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
+            $fileUpload->name = time().'_'.$request->file->getClientOriginalName();
+            $fileUpload->file_path = '/storage/uploads/' . $file_name;
+            $fileUpload->size =$request->file->getSize();
+            $fileUpload->type =$request->file->getClientOriginalExtension();
+            $fileUpload->save();
+            $response = [ 
+                'file' => $fileUpload , 
+            ];
               return  response($response, 201);
-         }
+        }
     }
 
     /**

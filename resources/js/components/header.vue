@@ -33,14 +33,12 @@
 							class="p-panel-header-icon p-link mr-2"
 							@click="showClick"
 						>
-							<el-icon
-								style="width: 2rem; height: 2rem;"
-								class="p-1 rounded-full border"
+							<el-avatar
+								:size="30"
+								:src="user.img!=null ? user.img.file_path: 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'"
+								class="object-contain"
 							>
-								<MilkTea />
-
-							</el-icon>
-
+							</el-avatar>
 						</button>
 						<template #dropdown>
 							<el-dropdown-menu>

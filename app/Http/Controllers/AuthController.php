@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\UploadFile;
 
 class AuthController extends Controller
 {
@@ -33,7 +34,7 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        $user = User::where('email' ,$request->email)->with('roles.permissions')->first();
+        $user = User::where('email' ,$request->email)->with('img')->with('roles.permissions')->first();
         if(!$user || !Hash::check($request->password , $user->password)){
             return response([
                 'message' => ' Bad creds'

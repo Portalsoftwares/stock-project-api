@@ -10,15 +10,15 @@
 		>
 			<div class="h-full flex justify-center items-center  ">
 				<span
-					class="font-semibold uppercase text-xl px-6 whitespace-nowrap"
+					class="font-semibold uppercase text-xl px-6 whitespace-nowrap sanfont-khmer"
 					v-if="dataSibar"
-				>SMS High School</span>
+				>ប្រព័ន្ធ. វិទ្យាល័យ</span>
 				<div
 					class="text-center flex justify-center items-center h-full"
 					v-if="!dataSibar"
 				>
 					<img
-						src="https://avatars.githubusercontent.com/u/97021587?v=4"
+						src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
 						class="p-[2px] w-8 h-8 rounded-full ring-1 ring-gray-300 dark:ring-gray-500 "
 						alt="Avatar"
 					/>
@@ -31,11 +31,12 @@
 						v-show="dataSibar"
 					>
 						<div
-							class="text-center "
+							class="text-center flex-col flex justify-center items-center h-full"
 							v-if="user"
 						>
+
 							<img
-								src="https://avatars.githubusercontent.com/u/97021587?v=4"
+								src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
 								class="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4"
 								alt="Avatar"
 							/>
@@ -53,7 +54,10 @@
 						>
 							<el-icon style="font-size: 1.2rem">
 								<Menu />
-							</el-icon> <span v-show="dataSibar">Dashboard</span>
+							</el-icon> <span
+								v-show="dataSibar"
+								class="sanfont-khmer"
+							>ដាសបត</span>
 						</router-link>
 					</div>
 					<div
@@ -67,7 +71,7 @@
 							<el-tooltip
 								class="box-item"
 								effect="dark"
-								content="មនុស្ស"
+								content="អ្នកប្រើប្រាស់ "
 								placement="right-start"
 							>
 								<el-icon style="font-size: 1.2rem">
@@ -78,7 +82,7 @@
 							<span
 								v-show="dataSibar"
 								class="sanfont-khmer"
-							>មនុស្ស </span>
+							>អ្នកប្រើប្រាស់ </span>
 						</router-link>
 					</div>
 					<div
@@ -104,6 +108,31 @@
 								v-show="dataSibar"
 								class="sanfont-khmer "
 							> ថ្នាក់រៀន</span>
+						</router-link>
+					</div>
+					<div
+						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
+						:class="dataSibar == true ? 'px-2' : ''"
+					>
+						<router-link
+							to="/class"
+							class="py-2 px-2 flex space-x-2 items-center"
+						>
+							<el-tooltip
+								class="box-item"
+								effect="dark"
+								content="វត្តមានសិស្ស"
+								placement="right-start"
+							>
+								<el-icon style="font-size: 1.2rem">
+									<Suitcase />
+								</el-icon>
+							</el-tooltip>
+
+							<span
+								v-show="dataSibar"
+								class="sanfont-khmer "
+							> វត្តមានសិស្ស</span>
 						</router-link>
 					</div>
 				</div>

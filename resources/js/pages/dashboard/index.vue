@@ -104,7 +104,7 @@
 		</div>
 	</div>
 	<div class="grid grid-cols-3 gap-2 ">
-		<div class="col-span-2 border rounded shadow bg-gray-50">
+		<div class="col-span-2 border rounded  bg-gray-50">
 			<div class="flex flex-col  ">
 				<div
 					class="m-2"
@@ -136,7 +136,7 @@
 					type="error"
 					show-icon
 				/> -->
-				<el-table
+				<!-- <el-table
 					:data="tableData"
 					style="width: 100%"
 				>
@@ -173,10 +173,10 @@
 							/>
 						</el-table-column>
 					</el-table-column>
-				</el-table>
+				</el-table> -->
 			</div>
 		</div>
-		<div class="border rounded shadow bg-gray-50">
+		<!-- <div class="border rounded shadow bg-gray-50">
 			<div class="w-full h-full  p-5">
 				<el-timeline>
 					<el-timeline-item
@@ -208,7 +208,7 @@
 					</el-timeline-item>
 				</el-timeline>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 <script>
