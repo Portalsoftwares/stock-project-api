@@ -31,6 +31,10 @@ php artisan db:seed
 ```
 npm run eq
 ```
+### Run project
+```
+php artisan serve
+```
 ### UI interface
 
 ![MicrosoftTeams-image (6)](https://user-images.githubusercontent.com/97021587/201824359-4bbbe298-2cea-47fc-9e2b-d552a89223be.png)
