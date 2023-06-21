@@ -23,13 +23,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $response = [ 
-            'users' => User::with(array('roles' => function($query) {
+        $response = [
+            'users' => User::with(array('roles' => function ($query) {
                 $query->get();
-            }))
-            ->get()
+            }))->with('img')->get()
         ];
-        return  response($response , 201);
+        return  response($response, 201);
     }
 
     /**
@@ -39,8 +38,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $response = [ 
-            'roles' => Role::all()  
+        $response = [
+            'roles' => Role::all()
         ];
         return  response($response, 201);
     }
@@ -63,7 +62,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $response = [ 
+            $response = [
                 'errors' => $validator->messages(),
             ];
             return  response($response, 201);
@@ -75,13 +74,13 @@ class UserController extends Controller
             'photo_id' => $request->photo_id,
             'password' => Hash::make($request->password),
         ]);
-      $rolesArray =   explode(',', $request->role);
-       
-       foreach($rolesArray as $row){
-           $user->assignRole($row);
-       }
-       
-        $response = [ 
+        $rolesArray =   explode(',', $request->role);
+
+        foreach ($rolesArray as $row) {
+            $user->assignRole($row);
+        }
+
+        $response = [
             'user' => $user,
             'message' => "User created."
         ];
@@ -107,17 +106,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::where('id', $id)->with('img') ->first();
+        $user = User::where('id', $id)->with('img')->first();
         // dd( Hash::check('123a456789', $user->password, []));
-            
+
         if (is_null($user)) {
-            $response = [ 
+            $response = [
                 'message' => 'user not found',
             ];
             return  response($response, 404);
         }
         $roles = Role::all();
-        $response = [ 
+        $response = [
             'user' => $user,
             'user_has_roles' => $user->roles->pluck("name"),
             'roles' => $roles
@@ -148,12 +147,12 @@ class UserController extends Controller
         ]);
         // Delete all user roles
         DB::table('model_has_roles')->where('model_id', $request->id)->delete();
-       $rolesArray =   explode(',', $request->role);
-       
-       foreach($rolesArray as $row){
-           $user->assignRole($row);
-       }
-        $response = [ 
+        $rolesArray =   explode(',', $request->role);
+
+        foreach ($rolesArray as $row) {
+            $user->assignRole($row);
+        }
+        $response = [
             'user' => $user,
             'message' => "User updated."
         ];

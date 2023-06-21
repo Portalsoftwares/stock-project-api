@@ -108,7 +108,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'kh',
 
     /*
     |--------------------------------------------------------------------------
@@ -194,7 +194,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-         Spatie\Permission\PermissionServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
 
     ],
 

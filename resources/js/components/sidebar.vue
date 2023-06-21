@@ -40,8 +40,7 @@
 								class="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4"
 								alt="Avatar"
 							/>
-							<h5 class="text-xl font-medium leading-tight mb-2">{{ user.name }}</h5>
-							<p class="text-gray-500">{{ user.email }}</p>
+							<div class="text-xl font-medium leading-tight mb-2 sanfont-khmer">{{ user.roles[0].name }}</div>
 						</div>
 					</div>
 					<div
@@ -56,7 +55,7 @@
 								<Menu />
 							</el-icon> <span
 								v-show="dataSibar"
-								class="sanfont-khmer"
+								class="sanfont-khmer text-sm"
 							>ដាសបត</span>
 						</router-link>
 					</div>
@@ -81,8 +80,83 @@
 
 							<span
 								v-show="dataSibar"
-								class="sanfont-khmer"
+								class="sanfont-khmer text-sm"
 							>អ្នកប្រើប្រាស់ </span>
+						</router-link>
+					</div>
+					<div
+						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
+						:class="dataSibar == true ? 'px-2' : ''"
+					>
+						<router-link
+							to="/student"
+							class="py-2 px-2 flex space-x-2 items-center"
+						>
+							<el-tooltip
+								class="box-item"
+								effect="dark"
+								content="សិស្សានុសិស្ស"
+								placement="right-start"
+							>
+								<el-icon style="font-size: 1.2rem">
+									<User />
+								</el-icon>
+							</el-tooltip>
+
+							<span
+								v-show="dataSibar"
+								class="sanfont-khmer text-sm"
+							> សិស្សានុសិស្ស</span>
+						</router-link>
+					</div>
+					<div
+						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
+						:class="dataSibar == true ? 'px-2' : ''"
+					>
+						<router-link
+							to="/teacher"
+							class="py-2 px-2 flex space-x-2 items-center"
+						>
+							<el-tooltip
+								class="box-item"
+								effect="dark"
+								content="គ្រូបង្រៀន"
+								placement="right-start"
+							>
+								<el-icon style="font-size: 1.2rem">
+									<Suitcase />
+								</el-icon>
+							</el-tooltip>
+
+							<span
+								v-show="dataSibar"
+								class="sanfont-khmer text-sm"
+							> គ្រូបង្រៀន</span>
+						</router-link>
+					</div>
+					<div
+						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
+						:class="dataSibar == true ? 'px-2' : ''"
+					>
+						<router-link
+							to="/subject"
+							class="py-2 px-2 flex space-x-2 items-center"
+						>
+							<el-tooltip
+								class="box-item"
+								effect="dark"
+								content="មុខវិជ្ជា"
+								placement="right-start"
+							>
+								<el-icon style="font-size: 1.2rem">
+									<Suitcase />
+								</el-icon>
+							</el-tooltip>
+
+							<span
+								v-show="dataSibar"
+								class="sanfont-khmer text-sm"
+							> មុខវិជ្ជា</span>
 						</router-link>
 					</div>
 					<div
@@ -100,13 +174,12 @@
 								placement="right-start"
 							>
 								<el-icon style="font-size: 1.2rem">
-									<Suitcase />
+									<CircleCheck />
 								</el-icon>
 							</el-tooltip>
-
 							<span
 								v-show="dataSibar"
-								class="sanfont-khmer "
+								class="sanfont-khmer  text-sm"
 							> ថ្នាក់រៀន</span>
 						</router-link>
 					</div>
@@ -115,7 +188,7 @@
 						:class="dataSibar == true ? 'px-2' : ''"
 					>
 						<router-link
-							to="/class"
+							to="/attendentp"
 							class="py-2 px-2 flex space-x-2 items-center"
 						>
 							<el-tooltip
@@ -125,13 +198,12 @@
 								placement="right-start"
 							>
 								<el-icon style="font-size: 1.2rem">
-									<Suitcase />
+									<CircleCheck />
 								</el-icon>
 							</el-tooltip>
-
 							<span
 								v-show="dataSibar"
-								class="sanfont-khmer "
+								class="sanfont-khmer  text-sm"
 							> វត្តមានសិស្ស</span>
 						</router-link>
 					</div>
@@ -159,7 +231,7 @@
 
 							<span
 								v-show="dataSibar"
-								class="sanfont-khmer"
+								class="sanfont-khmer text-sm"
 							>អំពីយើង </span>
 						</a>
 					</div>

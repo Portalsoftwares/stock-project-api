@@ -176,39 +176,17 @@
 				</el-table> -->
 			</div>
 		</div>
-		<!-- <div class="border rounded shadow bg-gray-50">
-			<div class="w-full h-full  p-5">
-				<el-timeline>
-					<el-timeline-item
-						timestamp="2018/4/12"
-						placement="top"
-					>
-						<el-card>
-							<h4>Update Github template</h4>
-							<p>Tom committed 2018/4/12 20:46</p>
-						</el-card>
-					</el-timeline-item>
-					<el-timeline-item
-						timestamp="2018/4/3"
-						placement="top"
-					>
-						<el-card>
-							<h4>Update Github template</h4>
-							<p>Tom committed 2018/4/3 20:46</p>
-						</el-card>
-					</el-timeline-item>
-					<el-timeline-item
-						timestamp="2018/4/2"
-						placement="top"
-					>
-						<el-card>
-							<h4>Update Github template</h4>
-							<p>Tom committed 2018/4/2 20:46</p>
-						</el-card>
-					</el-timeline-item>
-				</el-timeline>
-			</div>
-		</div> -->
+		<el-calendar>
+			<!-- Use 2.5 slot syntax. If you use Vue 2.6, please use new slot syntax-->
+			<template
+				slot="dateCell"
+				slot-scope="{date, data}"
+			>
+				<p :class="data.isSelected ? 'is-selected' : ''">
+					{{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : ''}}
+				</p>
+			</template>
+		</el-calendar>
 	</div>
 </template>
 <script>

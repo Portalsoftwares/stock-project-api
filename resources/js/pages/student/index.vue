@@ -11,6 +11,7 @@
 			</el-input>
 		</div>
 		<div class="self-end">
+
 			<el-button
 				type="primary"
 				@click="AddUser"
@@ -18,7 +19,7 @@
 				<el-icon>
 					<CirclePlusFilled />
 				</el-icon>
-				<span class="mx-1 sanfont-khmer"> បន្ថែម អ្នកប្រើប្រាស់</span>
+				<span class="mx-1 sanfont-khmer"> បន្ថែម សិស្ស</span>
 			</el-button>
 		</div>
 	</div>
@@ -47,7 +48,7 @@
 				</div>
 				<el-table
 					:data="tableData"
-					height="840"
+					height="800"
 					style="width: 100%"
 					resizable="true"
 					header-cell-class-name="sanfont-khmer text-md"
@@ -58,6 +59,18 @@
 						type="selection"
 						width="55"
 					/>
+					<el-table-column label="គោត្តនាម">
+						<template #default="scope">{{ scope.row.first_name_kh }}</template>
+					</el-table-column>
+					<el-table-column label="នាមខ្លួន">
+						<template #default="scope">{{ scope.row.last_name_kh }}</template>
+					</el-table-column>
+					<el-table-column label="គោត្តនាម ឡាតាំង">
+						<template #default="scope">{{ scope.row.first_name_en }}</template>
+					</el-table-column>
+					<el-table-column label="នាមខ្លួន ឡាតាំង">
+						<template #default="scope">{{ scope.row.last_name_en }}</template>
+					</el-table-column>
 					<el-table-column
 						property="profile"
 						label="រូបភាព"
@@ -65,37 +78,10 @@
 					>
 						<template #default="scope">
 							<img
-								:src="scope.row.img?.file_path"
+								:src="(scope.row.profile).replace('public/','')"
 								alt=""
 								class="h-[50px] w-[50px] rounded-full"
 							>
-						</template>
-					</el-table-column>
-					<el-table-column label="ឈ្មោះ">
-						<template #default="scope">{{ scope.row.name }}</template>
-					</el-table-column>
-					<el-table-column
-						property="email"
-						label="សារអេឡិចត្រូនិច"
-						width="300"
-					/>
-					<el-table-column
-						property="roles"
-						label="តួនាទី"
-						width="400"
-					>
-						<template #default="scope">
-							<div class="flex space-x-1 min-w-[200px]">
-								<div
-									v-for="data in scope.row.roles "
-									:key="data.id"
-								>
-									<el-tag
-										type="info"
-										disable-transitions
-									>{{ data.name }}</el-tag>
-								</div>
-							</div>
 						</template>
 					</el-table-column>
 					<el-table-column
@@ -116,7 +102,16 @@
 							>លុប</el-button>
 						</template>
 					</el-table-column>
+
 				</el-table>
+				<div class="py-2">
+					<el-pagination
+						background
+						layout="prev, pager, next"
+						:total="1000"
+					>
+					</el-pagination>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -440,8 +435,8 @@ export default {
 			})
 		},
 		async getData() {
-			await axios.get('/user/get').then(response => {
-				this.tableData = response.data.users
+			await axios.get('/student/get').then(response => {
+				this.tableData = response.data.data
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
@@ -457,7 +452,7 @@ export default {
 				this.ruleForm.roles = response.data.user_has_roles
 				this.ruleForm.email = response.data.user.email
 				this.imageUrl = response.data.user.img?.file_path
-				this.ruleForm.photo_id = response.data.photo_id
+				this.ruleForm.photo_id = response.data.user.id
 				this.roles = response.data.roles
 				this.dialogFormVisible = true;
 			}).catch((error) => {

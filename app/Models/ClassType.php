@@ -6,15 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
-class Type extends Model
+class ClassType extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    protected $table ='types';
-    protected $dates = [ 'deleted_at' ];
+    // use SoftDeletes;
+    protected $table = 'class_type';
+    // protected $dates = ['deleted_at'];
     protected $fillable = [
+        'class_type_id',
         'name',
-        'description'
+        'note',
     ];
+
+    public function student_in_class()
+    {
+    }
 }

@@ -23,7 +23,7 @@
 					class="px-4 flex justify-center items-center space-x-4"
 					v-if="user"
 				>
-					<span class="text-gray-600 text-[12px]">{{ user.email }}</span>
+					<span class="text-gray-600 text-[14px]">{{ user.name }}</span>
 
 					<el-dropdown
 						ref="dropdown1"
@@ -64,7 +64,6 @@
 							</el-dropdown-menu>
 						</template>
 					</el-dropdown>
-
 				</div>
 			</div>
 		</div>
@@ -75,6 +74,7 @@
 <script>
 import { ref } from 'vue'
 import { mapGetters } from 'vuex'
+
 export default {
 	setup() {
 		const dropdown1 = ref()

@@ -514,7 +514,7 @@ video {
 }
 
 html{
-  font-family: 'Roboto'
+  font-family: 'Khmer OS Siemreap', serif !important;
 }
 
 .router-link-exact-active{
@@ -524,7 +524,7 @@ html{
 }
 
 .sanfont-khmer{
-  font-family: 'Noto Serif Khmer', serif !important;
+  font-family: 'Khmer OS Siemreap', serif !important;
 }
 
 .sr-only {
@@ -704,6 +704,10 @@ html{
   margin-top: 1rem;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
 .mt-6 {
   margin-top: 1.5rem;
 }
@@ -794,6 +798,14 @@ html{
 
 .h-\[100vh\] {
   height: 100vh;
+}
+
+.h-\[25px\] {
+  height: 25px;
+}
+
+.h-\[50px\] {
+  height: 50px;
 }
 
 .h-\[calc\(100vh-3rem\)\] {
@@ -888,8 +900,12 @@ html{
   width: 100vw;
 }
 
-.w-\[200px\] {
-  width: 200px;
+.w-\[25px\] {
+  width: 25px;
+}
+
+.w-\[50px\] {
+  width: 50px;
 }
 
 .w-auto {
@@ -900,12 +916,12 @@ html{
   width: 100%;
 }
 
-.min-w-\[300px\] {
-  min-width: 300px;
-}
-
 .min-w-\[200px\] {
   min-width: 200px;
+}
+
+.min-w-\[300px\] {
+  min-width: 300px;
 }
 
 .max-w-full {
@@ -934,6 +950,10 @@ html{
 
 .grow-0 {
   flex-grow: 0;
+}
+
+.table-fixed {
+  table-layout: fixed;
 }
 
 .border-collapse {
@@ -1044,6 +1064,10 @@ html{
   gap: 1rem;
 }
 
+.gap-5 {
+  gap: 1.25rem;
+}
+
 .gap-8 {
   gap: 2rem;
 }
@@ -1058,6 +1082,12 @@ html{
   --tw-space-y-reverse: 0;
   margin-top: calc(-1px * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(-1px * var(--tw-space-y-reverse));
+}
+
+.space-x-1 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.25rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
@@ -1100,12 +1130,6 @@ html{
   --tw-space-y-reverse: 0;
   margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(2rem * var(--tw-space-y-reverse));
-}
-
-.space-x-1 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(0.25rem * var(--tw-space-x-reverse));
-  margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .divide-y > :not([hidden]) ~ :not([hidden]) {
@@ -1264,6 +1288,16 @@ html{
 .border-indigo-600 {
   --tw-border-opacity: 1;
   border-color: rgb(79 70 229 / var(--tw-border-opacity));
+}
+
+.border-slate-300 {
+  --tw-border-opacity: 1;
+  border-color: rgb(203 213 225 / var(--tw-border-opacity));
+}
+
+.border-slate-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(148 163 184 / var(--tw-border-opacity));
 }
 
 .border-teal-200 {
@@ -1600,8 +1634,8 @@ html{
   line-height: 2.5rem;
 }
 
-.text-\[12px\] {
-  font-size: 12px;
+.text-\[14px\] {
+  font-size: 14px;
 }
 
 .text-base {
@@ -1676,6 +1710,11 @@ html{
 .text-\[\#00FF00\] {
   --tw-text-opacity: 1;
   color: rgb(0 255 0 / var(--tw-text-opacity));
+}
+
+.text-amber-400 {
+  --tw-text-opacity: 1;
+  color: rgb(251 191 36 / var(--tw-text-opacity));
 }
 
 .text-blue-400 {

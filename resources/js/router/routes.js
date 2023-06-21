@@ -16,26 +16,32 @@ export default [
                 path: "/user",
             },
             {
+                name: "student",
+                component: import('./../pages/student'),
+                path: "/student",
+            },
+            {
+                name: "teacher",
+                component: import('./../pages/teacher'),
+                path: "/teacher",
+            },
+            {
+                name: "subject",
+                component: import('./../pages/subject'),
+                path: "/subject",
+            },
+            {
+
                 name: "class",
                 component: import('./../pages/class'),
                 path: "/class",
             },
-            // {
-            //     name: "Contact",
-            //     component: import('./../pages/contact'),
-            //     path: "/contact",
-            // },
-            // {
-            //     name: "Customer",
-            //     component: import('./../pages/customer'),
-            //     path: "/customer",
-            // },
-            // {
+            {
 
-            //     name: "Activation",
-            //     component: import('./../pages/activation'),
-            //     path: "/activation",
-            // }
+                name: "class-detail",
+                component: import('./../pages/class/class-detail'),
+                path: "/class-detail",
+            }
         ]
     },
     {

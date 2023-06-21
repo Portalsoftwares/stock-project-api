@@ -2,7 +2,7 @@
 @tailwind components;
 
 html{
-  font-family: 'Roboto'
+  font-family: 'Khmer OS Siemreap', serif !important;
 }
 
   .router-link-exact-active{
@@ -12,7 +12,7 @@ html{
   }
 
  .sanfont-khmer{
-   font-family: 'Noto Serif Khmer', serif !important;
+   font-family: 'Khmer OS Siemreap', serif !important;
  }
  
 @tailwind utilities;

@@ -1,5 +1,6 @@
 
 // import axios from "axios";
+import axios from "axios";
 export const auth = {
   namespaced: true,
   state: {
@@ -18,6 +19,8 @@ export const auth = {
       state.USER = value.user;
       state.LOGGINED = true;
       //LOCAL STORE
+      console.log(axios.defaults)
+
       localStorage.setItem('token', JSON.stringify(state.TOKEN));
       localStorage.setItem('user', JSON.stringify(state.USER));
       localStorage.setItem('logined', JSON.stringify(state.LOGGINED));
@@ -41,6 +44,7 @@ export const auth = {
     async LOGIN_SYSTEM({ commit }, payload) {
       const response = await axios.post('/login', payload).then(resp => {
         // SET STATE AND LOCAL STORE
+        axios.defaults.headers.common['Authorization'] = `Bearer ${resp.data.token}`;
         commit('SET_TOKEN', resp.data)
         return resp;
       });

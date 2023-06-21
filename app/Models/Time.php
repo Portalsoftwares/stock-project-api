@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Term extends Model
+class Time extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    protected $table ='terms';
-    protected $dates = [ 'deleted_at' ];
+    // use SoftDeletes;
+    protected $table = 'time';
+    // protected $dates = ['deleted_at'];
     protected $fillable = [
         'name',
-        'term',
-        'description'
+        'start_date',
+        'end_date',
     ];
 }
