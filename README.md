@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-# Subscription APP - Vue Laravel
+# High School Management System - Vue Laravel
 
 ## Project setup
 ```
@@ -30,6 +30,14 @@ php artisan db:seed
 ### Compile style
 ```
 npm run eq
+```
+### Compile script
+```
+npm run watch
+```
+### Run project
+```
+php artisan serve
 ```
 ### UI interface
 
