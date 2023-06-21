@@ -31,6 +31,10 @@ php artisan db:seed
 ```
 npm run eq
 ```
+### Compile script
+```
+npm run watch
+```
 ### Run project
 ```
 php artisan serve
