@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunksubscription_management_system"] = self["webpackChunksubscription_management_system"] || []).push([["resources_js_pages_student_index_vue"],{
+(self["webpackChunksms_high_school"] = self["webpackChunksms_high_school"] || []).push([["resources_js_pages_student_index_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/student/index.vue?vue&type=script&lang=js":
 /*!**************************************************************************************************************************************************************************************************!*\
