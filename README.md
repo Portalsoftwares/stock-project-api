@@ -9,35 +9,43 @@
 
 # High School Management System - Vue Laravel
 
-## Project setup
+## 1 Project setup
 ```
 composer install
 ```
-### install node 
+### 2 install node 
 
 ```
 npm install
 ```
-### Make migrations 
+### 3 Make migrations 
 ```
-php artisan migrate
+php artisan migrate:fresh
 ```
-### Make Seeder
+### 4 Make Seeder
 
 ```
 php artisan db:seed
 ```
-### Compile style
+### 5 Compile style
 ```
 npm run eq
 ```
-### Compile script
+### 6 Compile script
 ```
 npm run watch
 ```
-### Run project
+### 7 generate key 🗝 
+```
+php artisan key:generate
+```
+### 8 Run project
 ```
 php artisan serve
+```
+### 9 link storage 
+```
+php artisan storage:link
 ```
 ### UI interface
 
