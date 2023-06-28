@@ -1,18 +1,8 @@
 @tailwind base;
 @tailwind components;
-
-html{
-  font-family: 'Khmer OS Siemreap', serif !important;
-}
-
   .router-link-exact-active{
     background: #334155!important ;
     color: #fff !important;
     border-radius: 4px;
-  }
-
- .sanfont-khmer{
-   font-family: 'Khmer OS Siemreap', serif !important;
- }
- 
+  } 
 @tailwind utilities;

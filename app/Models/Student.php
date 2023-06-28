@@ -21,4 +21,8 @@ class Student extends Model
         'dob',
         'status'
     ];
+    public function current_class()
+    {
+        return   $this->belongsTo(StudentClass::class, 'student_id', 'student_id');
+    }
 }

@@ -76,6 +76,11 @@ Route::prefix('v1')->group(function () {
     Route::prefix('schedule_class')->group(function () {
       Route::get('/{id}/get', [ScheduleClassController::class, 'index']);
       Route::get('/schedule', [ScheduleClassController::class, 'getScheduleDayTime']);
+      Route::post('/create', [ScheduleClassController::class, 'create']);
+    });
+    //Teacher class
+    Route::prefix('teacher_class')->group(function () {
+      Route::post('/create', [ScheduleClassController::class, 'createTeacher']);
     });
   });
 });

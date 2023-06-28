@@ -59,22 +59,42 @@
 						type="selection"
 						width="55"
 					/>
-					<el-table-column label="គោត្តនាម">
-						<template #default="scope">{{ scope.row.first_name_kh }}</template>
+					<el-table-column
+						property="first_name_kh"
+						sortable
+						label="គោត្តនាម"
+					>
 					</el-table-column>
-					<el-table-column label="នាមខ្លួន">
-						<template #default="scope">{{ scope.row.last_name_kh }}</template>
+					<el-table-column
+						property="last_name_kh"
+						sortable
+						label="នាមខ្លួន"
+					>
 					</el-table-column>
-					<el-table-column label="គោត្តនាម ឡាតាំង">
-						<template #default="scope">{{ scope.row.first_name_en }}</template>
+					<el-table-column
+						property="first_name_en"
+						label="គោត្តនាម ឡាតាំង"
+					>
 					</el-table-column>
-					<el-table-column label="នាមខ្លួន ឡាតាំង">
-						<template #default="scope">{{ scope.row.last_name_en }}</template>
+					<el-table-column
+						property="last_name_en"
+						label="នាមខ្លួន ឡាតាំង"
+					>
+					</el-table-column>
+					<el-table-column
+						label="ថ្នាក់រៀន"
+						sortable
+						:filters="classData"
+					>
+						<template #default="scope">
+							<div>
+								{{ scope.row.current_class?.class.grade_name }}
+							</div>
+						</template>
 					</el-table-column>
 					<el-table-column
 						property="profile"
 						label="រូបភាព"
-						width="300"
 					>
 						<template #default="scope">
 							<img
@@ -262,6 +282,7 @@ export default {
 	data() {
 		return {
 			tableData: [],
+			classData: [],
 			showSuccess: false,
 			showInfo: false,
 			dialogFormVisible: false,
@@ -437,6 +458,7 @@ export default {
 		async getData() {
 			await axios.get('/student/get').then(response => {
 				this.tableData = response.data.data
+				this.classData = response.data.class
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")

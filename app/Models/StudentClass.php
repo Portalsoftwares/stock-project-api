@@ -23,4 +23,8 @@ class StudentClass extends Model
     {
         return $this->hasOne(Student::class, 'student_id', 'student_id');
     }
+    public function class()
+    {
+        return $this->hasOne(GradeLevel::class, 'grade_level_id', 'grade_level_id');
+    }
 }

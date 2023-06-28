@@ -20,6 +20,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       tableData: [],
+      classData: [],
       showSuccess: false,
       showInfo: false,
       dialogFormVisible: false,
@@ -273,6 +274,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _context5.next = 2;
               return axios.get('/student/get').then(function (response) {
                 _this6.tableData = response.data.data;
+                _this6.classData = response.data["class"];
               })["catch"](function (error) {
                 if (error.response.status == 401) {
                   _this6.$store.commit("auth/CLEAR_TOKEN");
@@ -456,41 +458,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "selection",
         width: "55"
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
+        property: "first_name_kh",
+        sortable: "",
         label: "គោត្តនាម"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.first_name_kh), 1 /* TEXT */)];
-        }),
-
-        _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
+        property: "last_name_kh",
+        sortable: "",
         label: "នាមខ្លួន"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.last_name_kh), 1 /* TEXT */)];
-        }),
-
-        _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
+        property: "first_name_en",
         label: "គោត្តនាម ឡាតាំង"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.first_name_en), 1 /* TEXT */)];
-        }),
-
-        _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
+        property: "last_name_en",
         label: "នាមខ្លួន ឡាតាំង"
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
+        label: "ថ្នាក់រៀន",
+        sortable: "",
+        filters: $data.classData
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.last_name_en), 1 /* TEXT */)];
+          var _scope$row$current_cl;
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$current_cl = scope.row.current_class) === null || _scope$row$current_cl === void 0 ? void 0 : _scope$row$current_cl["class"].grade_name), 1 /* TEXT */)];
         }),
 
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
+      }, 8 /* PROPS */, ["filters"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         property: "profile",
-        label: "រូបភាព",
-        width: "300"
+        label: "រូបភាព"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {

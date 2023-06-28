@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
             SubjectSeeder::class,
             StudentSeeder::class,
             TeacherSeeder::class,
-            PermissionTableSeeder::class,
-            RoleAndPermissionSeeder::class,
-            UserSeeder::class,
+            // PermissionTableSeeder::class,
+            // RoleAndPermissionSeeder::class,
+            // UserSeeder::class,
         ]);
     }
 }

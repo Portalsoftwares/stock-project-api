@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-white p-2 w-full flex justify-between">
+	<div class="bg-white p-2">
 		<div class="self-start">
 			<el-input
 				placeholder="ស្វែងរក"
@@ -38,6 +38,7 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="grid grid-cols-1 gap-2 ">
 		<div class=" border rounded bg-gray-50">
 			<div class="flex flex-col  ">
@@ -249,25 +250,6 @@
 						</el-table-column>
 						<el-empty description="description"></el-empty>
 					</el-table>
-				</div>
-				<div v-if="showDataAs=='Grid'">
-					<el-row :gutter="12">
-						<el-col :span="4">
-							<el-card shadow="always"> Always </el-card>
-						</el-col>
-						<el-col :span="4">
-							<el-card shadow="hover"> Hover </el-card>
-						</el-col>
-						<el-col :span="4">
-							<el-card shadow="never"> Never </el-card>
-						</el-col>
-						<el-col :span="4">
-							<el-card shadow="hover"> Hover </el-card>
-						</el-col>
-						<el-col :span="4">
-							<el-card shadow="never"> Never </el-card>
-						</el-col>
-					</el-row>
 				</div>
 				<div class="py-2">
 					<el-pagination

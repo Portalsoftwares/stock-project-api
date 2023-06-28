@@ -13,8 +13,8 @@ class TeacherClass extends Model
     protected $table = 'teacher_class';
     // protected $dates = ['deleted_at'];
     protected $fillable = [
-        'teacher_id',
         'grade_level_id',
+        'teacher_id',
         'subject_id',
         'role',
     ];

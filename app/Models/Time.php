@@ -17,4 +17,8 @@ class Time extends Model
         'start_date',
         'end_date',
     ];
+    public function getSchedule()
+    {
+        return $this->hasMany(SubjectScheduleDay::class, 'time_id', 'id');
+    }
 }

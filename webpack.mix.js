@@ -10,7 +10,7 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
+mix.copy('resources/font', 'public/font');
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .disableNotifications()
@@ -18,4 +18,3 @@ mix.js('resources/js/app.js', 'public/js')
         //
     ]);
 
-    
