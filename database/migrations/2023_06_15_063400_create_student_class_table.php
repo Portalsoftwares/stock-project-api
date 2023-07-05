@@ -16,8 +16,15 @@ return new class extends Migration
         Schema::create('student_class', function (Blueprint $table) {
             $table->id();
             $table->integer('student_id');
-            $table->integer('grade_level_id');
-            $table->integer('role');
+            $table->integer('class_id');
+            $table->integer('from_class_id');
+            $table->boolean('is_duplicate');
+            $table->string('from_secondary_high_school');
+            $table->dateTime('secondary_exam_date');
+            $table->string('secondary_exam_place');
+            $table->integer('secondary_exam_room');
+            $table->integer('secondary_exam_desk');
+            $table->integer('role_id');
             $table->timestamps();
         });
     }

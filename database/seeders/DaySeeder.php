@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Day;
 
@@ -16,26 +15,28 @@ class DaySeeder extends Seeder
     public function run()
     {
         Day::create([
-            'name' => 'ច័ន្ទ',
+            'day_name_kh' => 'ថ្ងៃ ច័ន្ទ',
+            'day_name_en' => 'Monday',
         ]);
         Day::create([
-            'name' => 'អង្គារ៍',
+            'day_name_kh' => 'ថ្ងៃ អង្គារ៍',
+            'day_name_en' => 'Tuesday',
         ]);
         Day::create([
-            'name' => 'ពុធ',
+            'day_name_kh' => 'ថ្ងៃ ពុធ',
+            'day_name_en' => 'Wenesday',
         ]);
         Day::create([
-            'name' => 'ព្រហស្បតិ៍',
+            'day_name_kh' => 'ថ្ងៃ ព្រហស្បតិ៍',
+            'day_name_en' => 'Thursday',
         ]);
         Day::create([
-            'name' => 'សុក្រ',
+            'day_name_kh' => 'ថ្ងៃ សុក្រ',
+            'day_name_en' => 'Friday',
         ]);
         Day::create([
-            'name' => 'សៅរ៍',
-
-        ]);
-        Day::create([
-            'name' => 'អាទិត្យ',
+            'day_name_kh' => 'ថ្ងៃ សៅរ៍',
+            'day_name_en' => 'saturday',
         ]);
     }
 }

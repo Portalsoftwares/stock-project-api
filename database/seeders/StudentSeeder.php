@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Student;
 
@@ -22,8 +21,15 @@ class StudentSeeder extends Seeder
                 'last_name_kh' => 'មាលា',
                 'first_name_en' => 'sin',
                 'last_name_en' => 'Melea',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/student1.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "11",
+                'phone' => "08765432345",
+                'email' => "melea@gmail.com",
+                'other' => ''
             ]
         );
         Student::create(
@@ -32,8 +38,15 @@ class StudentSeeder extends Seeder
                 'last_name_kh' => 'សាមី',
                 'first_name_en' => 'Phim',
                 'last_name_en' => 'Samiii',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/student2.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "12",
+                'phone' => "08765432345",
+                'email' => "Samiii@gmail.com",
+                'other' => ''
             ]
         );
         Student::create(
@@ -42,8 +55,15 @@ class StudentSeeder extends Seeder
                 'last_name_kh' => 'វិ ហាប់​',
                 'first_name_en' => 'Porn',
                 'last_name_en' => 'Vi hab',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/student3.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "13",
+                'phone' => "08765432345",
+                'email' => "hab@gmail.com",
+                'other' => ''
             ]
         );
         Student::create(
@@ -52,8 +72,15 @@ class StudentSeeder extends Seeder
                 'last_name_kh' => 'ច័ន្ទណាវី',
                 'first_name_en' => 'Vireak',
                 'last_name_en' => 'Chann navy',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/student4.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "14",
+                'phone' => "08765432345",
+                'email' => "navy@gmail.com",
+                'other' => ''
             ]
         );
         Student::create(
@@ -62,8 +89,15 @@ class StudentSeeder extends Seeder
                 'last_name_kh' => 'ខ​ មាស',
                 'first_name_en' => 'Phom',
                 'last_name_en' => ' K Meas',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/student5.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "15",
+                'phone' => "08765432345",
+                'email' => "meas@gmail.com",
+                'other' => ''
             ]
         );
         Student::create(
@@ -72,8 +106,15 @@ class StudentSeeder extends Seeder
                 'last_name_kh' => 'ស្រីណែត',
                 'first_name_en' => 'Siev',
                 'last_name_en' => 'Srey neath',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/student6.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "16",
+                'phone' => "08765432345",
+                'email' => "neath@gmail.com",
+                'other' => ''
             ]
         );
         Student::create(
@@ -82,8 +123,15 @@ class StudentSeeder extends Seeder
                 'last_name_kh' => 'ពិរុណ',
                 'first_name_en' => 'Mab',
                 'last_name_en' => 'Piron',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/student7.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "17",
+                'phone' => "08765432345",
+                'email' => "piron@gmail.com",
+                'other' => ''
             ]
         );
         Student::create(
@@ -92,8 +140,15 @@ class StudentSeeder extends Seeder
                 'last_name_kh' => 'សារឿន',
                 'first_name_en' => 'Lay',
                 'last_name_en' => 'Sa roeun',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/student8.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "18",
+                'phone' => "08765432345",
+                'email' => "roeun@gmail.com",
+                'other' => ''
             ]
         );
         Student::create(
@@ -102,8 +157,15 @@ class StudentSeeder extends Seeder
                 'last_name_kh' => 'ឡុង',
                 'first_name_en' => 'Lomong',
                 'last_name_en' => 'Long',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/student9.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "19",
+                'phone' => "08765432345",
+                'email' => "Long@gmail.com",
+                'other' => ''
             ]
         );
         Student::create(
@@ -112,8 +174,15 @@ class StudentSeeder extends Seeder
                 'last_name_kh' => 'សារិទ្ធ',
                 'first_name_en' => 'Ek',
                 'last_name_en' => 'Sarith',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/student10.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Sarith@gmail.com",
+                'other' => ''
             ]
         );
         Student::create(
@@ -122,8 +191,15 @@ class StudentSeeder extends Seeder
                 'last_name_kh' => 'ដាវ់ាន់',
                 'first_name_en' => 'Sorn',
                 'last_name_en' => 'Davann',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/1686830640_R.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
             ]
         );
     }

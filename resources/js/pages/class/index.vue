@@ -12,20 +12,6 @@
 		</div>
 		<div class="self-end">
 			<div class="flex space-x-2">
-				<div style="">
-					<el-radio-group
-						v-model="showDataAs"
-						size=""
-					>
-						<el-radio-button
-							label="List"
-							disabled
-						/>
-						<el-radio-button label="Table" />
-						<el-radio-button label="Grid" />
-					</el-radio-group>
-				</div>
-
 				<el-button
 					type="primary"
 					@click="AddUser"
@@ -62,13 +48,14 @@
 						show-icon
 					/>
 				</div>
-				<div v-if="showDataAs=='Table'">
+				<div>
 					<el-table
 						v-loading="loading_class"
 						:data="tableData"
 						height="800"
 						style="width: 100%"
 						resizable="true"
+						fit
 						header-cell-class-name="sanfont-khmer text-md"
 						row-class-name="sanfont-khmer"
 						selectable
@@ -78,7 +65,7 @@
 							width="55"
 						/>
 						<el-table-column label="ឈ្មោះ">
-							<template #default="scope">{{ scope.row.grade_name }}</template>
+							<template #default="scope">{{ scope.row.class_name }}</template>
 						</el-table-column>
 						<el-table-column label="គ្រូ សរុប">
 							<template #default="scope">{{ scope.row.get_teacher_in_class.length }} នាក់
@@ -125,10 +112,10 @@
 											width="80"
 										>
 											<template #default="scope">
-												<img
+												<!-- <img
 													:src="(scope.row.teacher_in_class.profile).replace('public/','')"
 													class="h-[25px] w-[25px] rounded-full"
-												>
+												> -->
 											</template>
 										</el-table-column>
 										<el-table-column
@@ -187,10 +174,10 @@
 											width="80"
 										>
 											<template #default="scope">
-												<img
+												<!-- <img
 													:src="(scope.row.student_in_class.profile).replace('public/','')"
 													class="h-[25px] w-[25px] rounded-full"
-												>
+												> -->
 											</template>
 										</el-table-column>
 										<el-table-column

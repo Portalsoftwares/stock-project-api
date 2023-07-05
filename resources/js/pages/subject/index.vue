@@ -1,241 +1,221 @@
 <template>
-	<div class="bg-white p-2 w-full flex justify-between">
-		<div class="self-start">
-			<el-input
-				placeholder="ស្វែងរក"
-				class="sanfont-khmer"
-				v-model="search"
-			>
-				<i class="el-input__icon el-icon-search"></i>
-				<CirclePlusFilled class="el-input__icon" />
-			</el-input>
-		</div>
-		<div class="self-end">
-			<el-button
-				type="primary"
-				@click="AddUser"
-			>
-				<el-icon>
-					<CirclePlusFilled />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> បន្ថែម មុខវិជ្ជា</span>
-			</el-button>
-		</div>
-	</div>
-	<div class="grid grid-cols-1 gap-2 ">
-		<div class=" border rounded bg-gray-50">
-			<div class="flex flex-col  ">
-				<div
-					class="m-2"
-					v-if="showSuccess"
-				>
-					<el-alert
-						title="success alert"
-						type="success"
-						show-icon
-					/>
-				</div>
-				<div
-					class="m-2"
-					v-if="showInfo"
-				>
-					<el-alert
-						title="info alert"
-						type="info"
-						show-icon
-					/>
-				</div>
-				<el-table
-					:data="tableData"
-					height="800"
-					style="width: 100%"
-					resizable="true"
-					header-cell-class-name="sanfont-khmer text-md"
-					row-class-name="sanfont-khmer"
-					selectable
-				>
-					<el-table-column
-						type="selection"
-						width="55"
-					/>
-					<el-table-column label="ឈ្មោះ">
-						<template #default="scope">{{ scope.row.name_kh }}</template>
-					</el-table-column>
-					<el-table-column label="ឈ្មោះ អង់គ្លេស">
-						<template #default="scope">{{ scope.row.name_en }}</template>
-					</el-table-column>
+	<el-tabs type="border-card">
+		<el-tab-pane label="មុខវិជ្ជាទូទៅ">
+			<div class="bg-white p-2 w-full flex justify-between">
 
-					<el-table-column
-						fixed="right"
-						label="សកម្មភាព"
+				<div class="self-start">
+					<el-input
+						placeholder="ស្វែងរក"
+						class="sanfont-khmer"
+						v-model="search"
 					>
-						<template #default="scope">
-							<el-button
-								size="small"
-								class="sanfont-khmer"
-								@click="editUser(scope.row.id)"
-							>កែប្រែ</el-button>
-							<el-button
-								size="small"
-								type="danger"
-								class="sanfont-khmer"
-								@click="handleDelete(scope.$index, scope.row)"
-							>លុប</el-button>
-						</template>
-					</el-table-column>
-					<el-empty description="description"></el-empty>
-				</el-table>
-				<div class="py-2">
-					<el-pagination
-						background
-						layout="prev, pager, next"
-						:total="1000"
+						<i class="el-input__icon el-icon-search"></i>
+						<CirclePlusFilled class="el-input__icon" />
+					</el-input>
+				</div>
+				<div class="self-end">
+					<el-button
+						type="primary"
+						@click="AddUser"
 					>
-					</el-pagination>
+						<el-icon>
+							<CirclePlusFilled />
+						</el-icon>
+						<span class="mx-1 sanfont-khmer"> បន្ថែម មុខវិជ្ជា</span>
+					</el-button>
 				</div>
 			</div>
-		</div>
-	</div>
-	<!-- Dialog  -->
-	<el-dialog
-		v-model="dialogFormVisible"
-		title="ព័ត៍មានអ្នកប្រើប្រាស់"
-		class="sanfont-khmer"
-		width="50%"
-	>
-		<el-form
-			class="grid grid-cols-2"
-			:model="ruleForm"
-			:rules="rules"
-			ref="ruleForm"
-			id="fm"
-		>
-			<div>
-				<el-form-item
-					label="ឈ្មោះ"
-					prop="name"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.name"
-						name="name"
-						clearable
-					></el-input>
-				</el-form-item>
-				<el-form-item
-					label="សារអេឡិចត្រូនិច"
-					prop="email"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.email"
-						autocomplete="off"
-						name="email"
-						clearable
-					/>
-				</el-form-item>
-				<el-form-item
-					v-if="isShowPassword"
-					label="ពាក្យសម្ងាត់"
-					prop="password"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.password"
-						name="password"
-						show-password
-					/>
-				</el-form-item>
-				<el-form-item
-					label="តួនាទី"
-					prop="roles"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-select
-						v-model="ruleForm.roles"
-						placeholder="Select roles"
-						class="text-left "
-						multiple
-					>
-						<el-option
-							v-for="data in roles"
-							:key="data"
-							:label="data.name"
-							:value="data.name"
-						/>
-					</el-select>
-				</el-form-item>
-			</div>
-			<el-form-item
-				label="រូបភាព"
-				class="sanfont-khmer"
-				:label-width="formLabelWidth"
-			>
-				<div>
-					<el-upload
-						class="avatar-uploader"
-						action="#"
-						name="file"
-						:show-file-list="true"
-						:auto-upload="false"
-						:on-change="handleAvatarSuccess"
-						:before-upload="beforeAvatarUpload"
-					>
-						<img
-							v-if="imageUrl"
-							:src="imageUrl"
-							class="avatar 	object-contain "
+			<div class="grid grid-cols-1 gap-2 ">
+				<div class=" border rounded bg-gray-50">
+					<div class="flex flex-col  ">
+						<div
+							class="m-2"
+							v-if="showSuccess"
 						>
-						<i
-							v-else
-							class="el-icon-plus avatar-uploader-icon"
-						></i>
-					</el-upload>
-					<input
-						type="hidden"
-						name="photo_id"
-						v-model="ruleForm.photo_id"
-					>
+							<el-alert
+								title="success alert"
+								type="success"
+								show-icon
+							/>
+						</div>
+						<div
+							class="m-2"
+							v-if="showInfo"
+						>
+							<el-alert
+								title="info alert"
+								type="info"
+								show-icon
+							/>
+						</div>
+						<el-table
+							:data="tableData"
+							height="800"
+							style="width: 100%"
+							resizable="true"
+							header-cell-class-name="sanfont-khmer text-md"
+							row-class-name="sanfont-khmer"
+							selectable
+						>
+							<el-table-column
+								type="selection"
+								width="55"
+							/>
+							<el-table-column label="ឈ្មោះ">
+								<template #default="scope">{{ scope.row.subject_name_kh }}</template>
+							</el-table-column>
+							<el-table-column label="ឈ្មោះ អង់គ្លេស">
+								<template #default="scope">{{ scope.row.subject_name_en }}</template>
+							</el-table-column>
+							<el-table-column label="ឈ្មោះកាត់">
+								<template #default="scope">{{ scope.row.subject_sort_name_en }}</template>
+							</el-table-column>
+
+							<el-table-column
+								fixed="right"
+								label="សកម្មភាព"
+							>
+								<template #default="scope">
+									<el-button
+										size="small"
+										class="sanfont-khmer"
+										@click="editUser(scope.row.id)"
+									>កែប្រែ</el-button>
+									<el-button
+										size="small"
+										type="danger"
+										class="sanfont-khmer"
+										@click="handleDelete(scope.$index, scope.row)"
+									>លុប</el-button>
+								</template>
+							</el-table-column>
+							<el-empty description="description"></el-empty>
+						</el-table>
+						<div class="py-2">
+							<el-pagination
+								background
+								layout="prev, pager, next"
+								:total="1000"
+							>
+							</el-pagination>
+						</div>
+					</div>
 				</div>
-			</el-form-item>
-		</el-form>
-		<el-dialog v-model="dialogVisible">
-			<img
-				w-full
-				:src="dialogImageUrl"
-				alt="Preview Image"
-			/>
-		</el-dialog>
-		<template #footer>
-			<span class="dialog-footer">
-				<el-button
-					@click="cancelAction()"
-					class="sanfont-khmer"
-				> បោះបង់</el-button>
-				<el-button
-					v-if="!isShowButtonUpdate"
-					type="primary"
-					class="sanfont-khmer"
-					@click="submitForm('ruleForm')"
-				>
-					រក្សាទុក
-				</el-button>
-				<el-button
-					v-if="isShowButtonUpdate"
-					type="primary"
-					class="sanfont-khmer"
-					@click="updateData('ruleForm')"
-				>
-					រក្សាទុក
-				</el-button>
-			</span>
-		</template>
-	</el-dialog>
-	<!-- Dialog user  -->
+			</div>
+		</el-tab-pane>
+		<el-tab-pane label="មុខវិជ្ជា តាមកំរិត">
+			<div class="bg-white p-2 w-full flex justify-between">
+
+				<div class="self-start">
+					<el-input
+						placeholder="ស្វែងរក"
+						class="sanfont-khmer"
+						v-model="search"
+					>
+						<i class="el-input__icon el-icon-search"></i>
+						<CirclePlusFilled class="el-input__icon" />
+					</el-input>
+				</div>
+				<div class="self-end">
+					<el-button
+						type="primary"
+						@click="AddUser"
+					>
+						<el-icon>
+							<CirclePlusFilled />
+						</el-icon>
+						<span class="mx-1 sanfont-khmer"> បន្ថែម មុខវិជ្ជាតាមកំរិត</span>
+					</el-button>
+				</div>
+			</div>
+			<div class="grid grid-cols-1 gap-2 ">
+				<div class=" border rounded bg-gray-50">
+					<div class="flex flex-col  ">
+						<div
+							class="m-2"
+							v-if="showSuccess"
+						>
+							<el-alert
+								title="success alert"
+								type="success"
+								show-icon
+							/>
+						</div>
+						<div
+							class="m-2"
+							v-if="showInfo"
+						>
+							<el-alert
+								title="info alert"
+								type="info"
+								show-icon
+							/>
+						</div>
+						<el-table
+							:data="tableDataSubjectLevel"
+							height="800"
+							style="width: 100%"
+							resizable="true"
+							header-cell-class-name="sanfont-khmer text-md"
+							row-class-name="sanfont-khmer"
+							selectable
+						>
+							<el-table-column
+								type="selection"
+								width="55"
+							/>
+							<el-table-column label="ឈ្មោះ">
+								<template #default="scope">{{ scope.row.subject.subject_name_kh }}</template>
+							</el-table-column>
+							<el-table-column label="កំរិត">
+								<template #default="scope">{{ scope.row.grade_level.grade_level_name }}</template>
+							</el-table-column>
+							<el-table-column label="ប្រភេទថ្នាក់">
+								<template #default="scope">{{ scope.row.class_type.name }}</template>
+							</el-table-column>
+							<el-table-column label="ពិន្ទុពេញ">
+								<template #default="scope">{{ scope.row.full_score }}</template>
+							</el-table-column>
+							<el-table-column label="មេគុណ">
+								<template #default="scope">{{ scope.row.divide }}</template>
+							</el-table-column>
+							<el-table-column label="មធ្យម">
+								<template #default="scope">{{ scope.row.average }}</template>
+							</el-table-column>
+							<el-table-column
+								fixed="right"
+								label="សកម្មភាព"
+							>
+								<template #default="scope">
+									<el-button
+										size="small"
+										class="sanfont-khmer"
+										@click="editUser(scope.row.id)"
+									>កែប្រែ</el-button>
+									<el-button
+										size="small"
+										type="danger"
+										class="sanfont-khmer"
+										@click="handleDelete(scope.$index, scope.row)"
+									>លុប</el-button>
+								</template>
+							</el-table-column>
+							<el-empty description="description"></el-empty>
+						</el-table>
+						<div class="py-2">
+							<el-pagination
+								background
+								layout="prev, pager, next"
+								:total="1000"
+							>
+							</el-pagination>
+						</div>
+					</div>
+				</div>
+			</div>
+		</el-tab-pane>
+	</el-tabs>
+
 </template>
 <script>
 export default {
@@ -243,6 +223,7 @@ export default {
 	data() {
 		return {
 			tableData: [],
+			tableDataSubjectLevel: [],
 			showSuccess: false,
 			showInfo: false,
 			dialogFormVisible: false,
@@ -289,7 +270,8 @@ export default {
 		}
 	},
 	mounted() {
-		this.getData()
+		this.getData();
+		this.getDataSubjectLevel()
 	},
 	methods: {
 		handleAvatarSuccess(file) {
@@ -418,6 +400,15 @@ export default {
 		async getData() {
 			await axios.get('/subject/get').then(response => {
 				this.tableData = response.data.data
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		async getDataSubjectLevel() {
+			await axios.get('/subject/get_subject_level').then(response => {
+				this.tableDataSubjectLevel = response.data.data
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")

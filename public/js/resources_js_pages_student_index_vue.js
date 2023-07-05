@@ -442,7 +442,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "info alert",
     type: "info",
     "show-icon": ""
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table, {
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{ tableData }} "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table, {
     data: $data.tableData,
     height: "800",
     style: {
@@ -458,19 +458,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "selection",
         width: "55"
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-        property: "first_name_kh",
         sortable: "",
-        label: "គោត្តនាម"
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-        property: "last_name_kh",
-        sortable: "",
-        label: "នាមខ្លួន"
+        label: "គោត្តនាម និងនាម"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.first_name_kh + " " + scope.row.last_name_kh), 1 /* TEXT */)];
+        }),
+
+        _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         property: "first_name_en",
-        label: "គោត្តនាម ឡាតាំង"
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-        property: "last_name_en",
-        label: "នាមខ្លួន ឡាតាំង"
+        label: "គោត្តនាម និងនាម ឡាតាំង"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.first_name_en + " " + scope.row.last_name_en), 1 /* TEXT */)];
+        }),
+
+        _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         label: "ថ្នាក់រៀន",
         sortable: "",
@@ -483,13 +487,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["filters"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-        property: "profile",
         label: "រូបភាព"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-            src: scope.row.profile.replace('public/', ''),
-            alt: "",
+            src: scope.row.profile_img.file_path,
+            alt: "profile",
+            title: "profile",
             "class": "h-[50px] w-[50px] rounded-full"
           }, null, 8 /* PROPS */, _hoisted_11)];
         }),

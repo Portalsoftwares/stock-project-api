@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('teacher_class', function (Blueprint $table) {
             $table->id();
             $table->integer('teacher_id');
-            $table->integer('grade_level_id');
-            $table->integer('subject_id');
-            $table->integer('role');
+            $table->integer('class_id');
+            $table->integer('subject_grade_id');
+            $table->integer('role_id');
             $table->timestamps();
         });
     }

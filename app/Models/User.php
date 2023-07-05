@@ -10,9 +10,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\UploadFile;
+
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable ,HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +23,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'photo_id',
+        'file_upload_id',
         'password',
     ];
 
@@ -51,6 +52,6 @@ class User extends Authenticatable
     }
     public function img()
     {
-        return $this->hasOne(UploadFile::class, 'id','photo_id');
+        return $this->hasOne(UploadFile::class, 'file_upload_id', 'file_upload_id');
     }
 }

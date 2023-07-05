@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Subject;
+use App\Models\SubjectGradeLevel;
 
 class SubjectController extends Controller
 {
@@ -14,9 +15,19 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $teacher =  Subject::all();
+        $subject =  Subject::all();
         $response = [
-            'data' => $teacher,
+            'data' => $subject,
+        ];
+        return  response($response, 200);
+    }
+    // Subject Grade Level
+
+    public function getSubjectLevel()
+    {
+        $subjectLevel =  SubjectGradeLevel::with(['subject', 'grade_level', 'class_type'])->get();
+        $response = [
+            'data' => $subjectLevel,
         ];
         return  response($response, 200);
     }

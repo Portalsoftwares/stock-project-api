@@ -94,31 +94,6 @@
 						:class="dataSibar == true ? 'px-2' : ''"
 					>
 						<router-link
-							to="/student"
-							class="py-2 px-2 flex space-x-2 items-center"
-						>
-							<el-tooltip
-								class="box-item"
-								effect="dark"
-								content="សិស្សានុសិស្ស"
-								placement="right-start"
-							>
-								<el-icon style="font-size: 1.2rem">
-									<User />
-								</el-icon>
-							</el-tooltip>
-
-							<span
-								v-show="dataSibar"
-								class="sanfont-khmer text-sm"
-							> សិស្សានុសិស្ស</span>
-						</router-link>
-					</div>
-					<div
-						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
-					>
-						<router-link
 							to="/teacher"
 							class="py-2 px-2 flex space-x-2 items-center"
 						>
@@ -139,6 +114,32 @@
 							> គ្រូបង្រៀន</span>
 						</router-link>
 					</div>
+					<div
+						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
+						:class="dataSibar == true ? 'px-2' : ''"
+					>
+						<router-link
+							to="/student"
+							class="py-2 px-2 flex space-x-2 items-center"
+						>
+							<el-tooltip
+								class="box-item"
+								effect="dark"
+								content="សិស្សានុសិស្ស"
+								placement="right-start"
+							>
+								<el-icon style="font-size: 1.2rem">
+									<User />
+								</el-icon>
+							</el-tooltip>
+
+							<span
+								v-show="dataSibar"
+								class="sanfont-khmer text-sm"
+							> សិស្សានុសិស្ស</span>
+						</router-link>
+					</div>
+
 					<div
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
 						:class="dataSibar == true ? 'px-2' : ''"

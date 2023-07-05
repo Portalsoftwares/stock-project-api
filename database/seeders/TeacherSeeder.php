@@ -22,8 +22,20 @@ class TeacherSeeder extends Seeder
                 'last_name_kh' => 'ស៊ីវម៉ី',
                 'first_name_en' => 'Sopea',
                 'last_name_en' => 'Sivmey',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/teacher10.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'teacher_level' => "មទភ",
+                'profession' => "ភាសាខ្មែរ,ពលរដ្ឋ",
+                'role' => "គ្រូបង្រៀន",
+                'join_date' => "10-01-2021",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "1",
+                'phone' => "08765432345",
+                'email' => "sivmey@gmail.com",
+                'is_enable_account' => "0",
+                'other' => ''
             ]
         );
         Teacher::create(
@@ -32,8 +44,20 @@ class TeacherSeeder extends Seeder
                 'last_name_kh' => 'វណ្ណា',
                 'first_name_en' => 'sok san',
                 'last_name_en' => 'vana',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/teacher9.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'teacher_level' => "មទភ",
+                'profession' => "ភាសាខ្មែរ,ពលរដ្ឋ",
+                'role' => "គ្រូបង្រៀន",
+                'join_date' => "10-01-2021",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "2",
+                'phone' => "08765432345",
+                'email' => "soksan@gmail.com",
+                'is_enable_account' => "0",
+                'other' => ''
             ]
         );
         Teacher::create(
@@ -42,8 +66,20 @@ class TeacherSeeder extends Seeder
                 'last_name_kh' => 'ចន្ទវត្តី',
                 'first_name_en' => 'keo',
                 'last_name_en' => 'chanvettey',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/teacher8.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'teacher_level' => "មទភ",
+                'profession' => "ភាសាខ្មែរ,ពលរដ្ឋ",
+                'role' => "គ្រូបង្រៀន",
+                'join_date' => "10-01-2021",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "3",
+                'phone' => "08765432345",
+                'email' => "chanvettey@gmail.com",
+                'is_enable_account' => "0",
+                'other' => ''
             ]
         );
         Teacher::create(
@@ -52,8 +88,20 @@ class TeacherSeeder extends Seeder
                 'last_name_kh' => 'សុភារី',
                 'first_name_en' => 'kim',
                 'last_name_en' => 'sopheary',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/teacher7.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'teacher_level' => "មទភ",
+                'profession' => "ភាសាខ្មែរ,ពលរដ្ឋ",
+                'role' => "គ្រូបង្រៀន",
+                'join_date' => "10-01-2021",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "4",
+                'phone' => "08765432345",
+                'email' => "sopheary@gmail.com",
+                'is_enable_account' => "0",
+                'other' => ''
             ]
         );
         Teacher::create(
@@ -62,8 +110,20 @@ class TeacherSeeder extends Seeder
                 'last_name_kh' => 'ទេវី',
                 'first_name_en' => 'teb',
                 'last_name_en' => 'tevy',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/teacher6.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'teacher_level' => "មទភ",
+                'profession' => "ភាសាខ្មែរ,ពលរដ្ឋ",
+                'role' => "គ្រូបង្រៀន",
+                'join_date' => "10-01-2021",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "5",
+                'phone' => "08765432345",
+                'email' => "tevy@gmail.com",
+                'is_enable_account' => "0",
+                'other' => ''
             ]
         );
         Teacher::create(
@@ -72,8 +132,20 @@ class TeacherSeeder extends Seeder
                 'last_name_kh' => 'មល្លិកា',
                 'first_name_en' => 'mlekrout',
                 'last_name_en' => 'milekka',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/teacher5.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'teacher_level' => "មទភ",
+                'profession' => "ភាសាខ្មែរ,ពលរដ្ឋ",
+                'role' => "គ្រូបង្រៀន",
+                'join_date' => "10-01-2021",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "6",
+                'phone' => "08765432345",
+                'email' => "milekka@gmail.com",
+                'is_enable_account' => "0",
+                'other' => ''
             ]
         );
         Teacher::create(
@@ -82,8 +154,20 @@ class TeacherSeeder extends Seeder
                 'last_name_kh' => 'តារារស្មី',
                 'first_name_en' => 'sal',
                 'last_name_en' => 'darareaksmey',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/teacher4.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'teacher_level' => "មទភ",
+                'profession' => "ភាសាខ្មែរ,ពលរដ្ឋ",
+                'role' => "គ្រូបង្រៀន",
+                'join_date' => "10-01-2021",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "7",
+                'phone' => "08765432345",
+                'email' => "darareaksmey@gmail.com",
+                'is_enable_account' => "0",
+                'other' => ''
             ]
         );
         Teacher::create(
@@ -92,8 +176,20 @@ class TeacherSeeder extends Seeder
                 'last_name_kh' => 'សុជាតា',
                 'first_name_en' => 'neng',
                 'last_name_en' => 'socheata',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/teacher3.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'teacher_level' => "មទភ",
+                'profession' => "ភាសាខ្មែរ,ពលរដ្ឋ",
+                'role' => "គ្រូបង្រៀន",
+                'join_date' => "10-01-2021",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "8",
+                'phone' => "08765432345",
+                'email' => "socheata@gmail.com",
+                'is_enable_account' => "0",
+                'other' => ''
             ]
         );
         Teacher::create(
@@ -102,8 +198,20 @@ class TeacherSeeder extends Seeder
                 'last_name_kh' => 'បុរី',
                 'first_name_en' => 'rin',
                 'last_name_en' => 'borey',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/teacher2.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'teacher_level' => "មទភ",
+                'profession' => "ភាសាខ្មែរ,ពលរដ្ឋ",
+                'role' => "គ្រូបង្រៀន",
+                'join_date' => "10-01-2021",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "9",
+                'phone' => "08765432345",
+                'email' => "borey@gmail.com",
+                'is_enable_account' => "0",
+                'other' => ''
             ]
         );
         Teacher::create(
@@ -112,8 +220,20 @@ class TeacherSeeder extends Seeder
                 'last_name_kh' => 'មាលា',
                 'first_name_en' => 'Maly',
                 'last_name_en' => 'Melea',
-                'dob' =>  now(),
-                'profile' => 'public/storage/uploads/teacher1.jpg'
+                'date_of_birth' => '01-01-2003',
+                'gender_id' =>  "1",
+                'teacher_level' => "មទភ",
+                'profession' => "ភាសាខ្មែរ,ពលរដ្ឋ",
+                'role' => "គ្រូបង្រៀន",
+                'join_date' => "10-01-2021",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "10",
+                'phone' => "08765432345",
+                'email' => "Melea@gmail.com",
+                'is_enable_account' => "0",
+                'other' => ''
             ]
         );
     }

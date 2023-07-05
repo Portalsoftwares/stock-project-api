@@ -124,7 +124,7 @@ export default {
 	data() {
 		return {
 			objData: {
-				email: 'admin@gmail.com',
+				email: 'sievmey@gmail.com',
 				password: 'dev123'
 			}
 		}

@@ -14,7 +14,8 @@ class Subject extends Model
     // protected $dates = ['deleted_at'];
     protected $fillable = [
         'subject_id',
-        'name_kh',
-        'name_en',
+        'subject_name_kh',
+        'subject_name_en',
+        'subject_sort_name_en',
     ];
 }

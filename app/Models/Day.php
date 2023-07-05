@@ -13,6 +13,8 @@ class Day extends Model
     protected $table = 'day';
     // protected $dates = ['deleted_at'];
     protected $fillable = [
-        'name',
+        'day_id',
+        'day_name_kh',
+        'day_name_en',
     ];
 }

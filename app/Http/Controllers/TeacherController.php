@@ -14,7 +14,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teacher =  Teacher::all();
+        $teacher =  Teacher::with('profile_img')->get();
         $response = [
             'data' => $teacher,
         ];

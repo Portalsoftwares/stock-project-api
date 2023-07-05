@@ -18,7 +18,23 @@ class Teacher extends Model
         'last_name_kh',
         'first_name_en',
         'last_name_en',
-        'dob',
-        'status'
+        'date_of_birth',
+        'gender_id',
+        'teacher_level',
+        'profession',
+        'role',
+        'join_date',
+        'place_of_birth',
+        'address',
+        'status_id',
+        'file_upload_id',
+        'phone',
+        'email',
+        'is_enable_account',
+        'other',
     ];
+    public function profile_img()
+    {
+        return $this->hasOne(UploadFile::class, 'file_upload_id', 'file_upload_id');
+    }
 }

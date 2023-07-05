@@ -16,32 +16,39 @@ class SubjectSeeder extends Seeder
     public function run()
     {
         Subject::create([
-            'name_kh' => 'ខ្មែរ',
-            'name_en' => 'Khmer',
+            'subject_name_kh' => 'ភាសាខ្មែរ',
+            'subject_name_en' => 'Khmer',
+            'subject_sort_name_en' => 'K',
         ]);
         Subject::create([
-            'name_kh' => 'គណិត',
-            'name_en' => 'Math',
+            'subject_name_kh' => 'គណិតវិទ្យា',
+            'subject_name_en' => 'Math',
+            'subject_sort_name_en' => 'M',
         ]);
         Subject::create([
-            'name_kh' => 'រូប',
-            'name_en' => 'Physic',
+            'subject_name_kh' => 'រូបវិទ្យា',
+            'subject_name_en' => 'Physic',
+            'subject_sort_name_en' => 'P',
         ]);
         Subject::create([
-            'name_kh' => 'គីមី',
-            'name_en' => 'Chimistery',
+            'subject_name_kh' => 'គីមីវិទ្យា',
+            'subject_name_en' => 'Chimistery',
+            'subject_sort_name_en' => 'C',
         ]);
         Subject::create([
-            'name_kh' => 'ជីវះ',
-            'name_en' => 'Biology'
+            'subject_name_kh' => 'ជីវះវិទ្យា',
+            'subject_name_en' => 'Biology',
+            'subject_sort_name_en' => 'B',
         ]);
         Subject::create([
-            'name_kh' => 'ភូមិ',
-            'name_en' => 'Phylosophy'
+            'subject_name_kh' => 'ភូមិវិទ្យា',
+            'subject_name_en' => 'Giography',
+            'subject_sort_name_en' => 'G',
         ]);
         Subject::create([
-            'name_kh' => 'ប្រវត្តិ',
-            'name_en' => 'History'
+            'subject_name_kh' => 'ប្រវត្តិវិទ្យា',
+            'subject_name_en' => 'History',
+            'subject_sort_name_en' => 'H',
         ]);
     }
 }

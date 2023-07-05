@@ -15,7 +15,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       objData: {
-        email: 'admin@gmail.com',
+        email: 'sievmey@gmail.com',
         password: 'dev123'
       }
     };

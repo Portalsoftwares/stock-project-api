@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('time', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('time_id');
             $table->string('name');
             $table->time('start_date');
             $table->time('end_date');

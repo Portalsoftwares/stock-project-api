@@ -15,11 +15,7 @@ return new class extends Migration
     {
         Schema::create('grade_level', function (Blueprint $table) {
             $table->bigIncrements('grade_level_id');
-            $table->string('grade_name');
-            $table->integer('grade_type');
-            $table->integer('academic_id');
-            $table->integer('class_type_id');
-            $table->integer('status');
+            $table->string('grade_level_name');
             $table->timestamps();
         });
     }

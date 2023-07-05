@@ -4,11 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UploadFileController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ClassController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\GradeLevelController;
-use App\Http\Controllers\ScheduleClassController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\AttendanceController;
 
 //Version 1 API
 Route::prefix('v1')->group(function () {
@@ -62,6 +63,8 @@ Route::prefix('v1')->group(function () {
     //Subject
     Route::prefix('subject')->group(function () {
       Route::get('/get', [SubjectController::class, 'index']);
+      // Level
+      Route::get('/get_subject_level', [SubjectController::class, 'getSubjectLevel']);
     });
     //Subject
     Route::prefix('subject')->group(function () {
@@ -69,18 +72,22 @@ Route::prefix('v1')->group(function () {
     });
     //Grade Level
     Route::prefix('grade_level')->group(function () {
-      Route::get('/get', [GradeLevelController::class, 'index']);
-      Route::get('/teacher/{id}/get', [GradeLevelController::class, 'getTeacher']);
+      Route::get('/get', [ClassController::class, 'index']);
+      Route::get('/teacher/{id}/get', [ClassController::class, 'getTeacher']);
     });
     //Schedule class
     Route::prefix('schedule_class')->group(function () {
-      Route::get('/{id}/get', [ScheduleClassController::class, 'index']);
-      Route::get('/schedule', [ScheduleClassController::class, 'getScheduleDayTime']);
-      Route::post('/create', [ScheduleClassController::class, 'create']);
+      Route::get('/{id}/get', [ScheduleController::class, 'index']);
+      Route::get('/{id}/schedule', [ScheduleController::class, 'getScheduleDayTime']);
+      Route::post('/create', [ScheduleController::class, 'create']);
     });
     //Teacher class
     Route::prefix('teacher_class')->group(function () {
-      Route::post('/create', [ScheduleClassController::class, 'createTeacher']);
+      Route::post('/create', [ScheduleController::class, 'createTeacher']);
+    });
+    //Attendance 
+    Route::prefix('attendance')->group(function () {
+      Route::get('/call/{id}', [AttendanceController::class, 'callStudentAttendance']);
     });
   });
 });

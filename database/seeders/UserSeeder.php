@@ -15,30 +15,36 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-         User::create([
-            'name' => 'Admin', 
-            'email' => 'admin@gmail.com',
+        User::create([
+            'name' => 'សោភា ស៊ីវម៉ី',
+            'teacher_id' => '1',
+            'email' => 'sievmey@gmail.com',
+            'file_upload_id' => '1',
             'password' => bcrypt('dev123')
-         ])->each(
-            function($user){
+        ])->each(
+            function ($user) {
                 $user->assignRole('super-admin');
             }
         );
         User::create([
-            'name' => 'Editor', 
-            'email' => 'edit@gmail.com',
+            'name' => 'សុខ សាន្ត វណ្ណា',
+            'teacher_id' => '2',
+            'email' => 'sanvanna@gmail.com',
+            'file_upload_id' => '2',
             'password' => bcrypt('dev123')
         ])->each(
-            function($user){
+            function ($user) {
                 $user->assignRole('role-editor');
             }
         );
         User::create([
-            'name' => 'Viewer', 
-            'email' => 'viewer@gmail.com',
+            'name' => 'កែវ ចន្ទវត្តី',
+            'teacher_id' => '3',
+            'email' => 'chanvettey@gmail.com',
+            'file_upload_id' => '3',
             'password' => bcrypt('dev123')
         ])->each(
-            function($user){
+            function ($user) {
                 $user->assignRole('role-viewer');
             }
         );

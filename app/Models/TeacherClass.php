@@ -13,10 +13,10 @@ class TeacherClass extends Model
     protected $table = 'teacher_class';
     // protected $dates = ['deleted_at'];
     protected $fillable = [
-        'grade_level_id',
         'teacher_id',
-        'subject_id',
-        'role',
+        'class_id',
+        'subject_grade_id',
+        'role_id',
     ];
 
     public function teacher_in_class()
@@ -25,6 +25,6 @@ class TeacherClass extends Model
     }
     public function teacher_subject_in_class()
     {
-        return $this->hasOne(Subject::class, 'subject_id', 'subject_id');
+        return $this->hasOne(SubjectGradeLevel::class, 'subject_grade_id', 'subject_grade_id');
     }
 }

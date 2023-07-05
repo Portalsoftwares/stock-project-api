@@ -13,12 +13,13 @@ class Time extends Model
     protected $table = 'time';
     // protected $dates = ['deleted_at'];
     protected $fillable = [
+        'time_id',
         'name',
         'start_date',
         'end_date',
     ];
     public function getSchedule()
     {
-        return $this->hasMany(SubjectScheduleDay::class, 'time_id', 'id');
+        return $this->hasMany(ScheduleLine::class, 'time_id', 'time_id');
     }
 }

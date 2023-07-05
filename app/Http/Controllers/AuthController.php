@@ -10,53 +10,57 @@ use App\Models\UploadFile;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
-            'password' =>'required|string'
-         ]);
+            'password' => 'required|string'
+        ]);
         $user = User::create([
             'name' => $fields['name'],
             'email' => $fields['email'],
-            'password' => bcrypt( $fields['password'])
-         ]);
+            'password' => bcrypt($fields['password'])
+        ]);
         $token = $user->createToken('devop')->plainTextToken;
-        $response = [ 
-            'user' => $user , 
-            'token' => $token  
+        $response = [
+            'user' => $user,
+            'token' => $token
         ];
         return  response($response, 201);
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        $user = User::where('email' ,$request->email)->with('img')->with('roles.permissions')->first();
-        if(!$user || !Hash::check($request->password , $user->password)){
+        $user = User::where('email', $request->email)->with('img')->with('roles.permissions')->first();
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
                 'message' => ' Bad creds'
             ], 401);
         }
         $token = $user->createToken('devop')->plainTextToken;
-        $response = [ 
-            'user' =>$user , 
-            'token' =>$token  
+        $response = [
+            'user' => $user,
+            'token' => $token
         ];
         return  response($response, 201);
     }
 
-    public function logout(Request $request){
-      auth()->user()->tokens()->delete();
-      return response([
-        'message' =>'Logged Out',
-      ],200);
+    public function logout(Request $request)
+    {
+        auth()->user()->tokens()->delete();
+        return response([
+            'message' => 'Logged Out',
+        ], 200);
     }
-    
-    public function get(){
+
+    public function get()
+    {
         $user = User::with('roles.permissions')->get();
         return  response($user, 200);
     }
-}   
+}

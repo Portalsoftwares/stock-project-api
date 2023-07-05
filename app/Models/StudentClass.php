@@ -14,9 +14,15 @@ class StudentClass extends Model
     // protected $dates = ['deleted_at'];
     protected $fillable = [
         'student_id',
-        'grade_level_id',
-        'role',
-
+        'class_id',
+        'from_class_id',
+        'is_duplicate',
+        'from_secondary_high_school',
+        'secondary_exam_date',
+        'secondary_exam_place',
+        'secondary_exam_room',
+        'secondary_exam_desk',
+        'role_id',
     ];
 
     public function student_in_class()
@@ -25,6 +31,6 @@ class StudentClass extends Model
     }
     public function class()
     {
-        return $this->hasOne(GradeLevel::class, 'grade_level_id', 'grade_level_id');
+        return $this->hasOne(Classes::class, 'class_id', 'class_id');
     }
 }

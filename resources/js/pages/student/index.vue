@@ -46,6 +46,7 @@
 						show-icon
 					/>
 				</div>
+				<!-- {{ tableData }} -->
 				<el-table
 					:data="tableData"
 					height="800"
@@ -59,27 +60,19 @@
 						type="selection"
 						width="55"
 					/>
+
 					<el-table-column
-						property="first_name_kh"
 						sortable
-						label="គោត្តនាម"
+						label="គោត្តនាម និងនាម"
 					>
-					</el-table-column>
-					<el-table-column
-						property="last_name_kh"
-						sortable
-						label="នាមខ្លួន"
-					>
+						<template #default="scope">{{scope.row.first_name_kh +" "+scope.row.last_name_kh }}</template>
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
-						label="គោត្តនាម ឡាតាំង"
+						label="គោត្តនាម និងនាម ឡាតាំង"
 					>
-					</el-table-column>
-					<el-table-column
-						property="last_name_en"
-						label="នាមខ្លួន ឡាតាំង"
-					>
+						<template #default="scope">{{scope.row.first_name_en +" "+scope.row.last_name_en }}</template>
+
 					</el-table-column>
 					<el-table-column
 						label="ថ្នាក់រៀន"
@@ -92,14 +85,12 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column
-						property="profile"
-						label="រូបភាព"
-					>
+					<el-table-column label="រូបភាព">
 						<template #default="scope">
 							<img
-								:src="(scope.row.profile).replace('public/','')"
-								alt=""
+								:src="scope.row.profile_img.file_path"
+								alt="profile"
+								title="profile"
 								class="h-[50px] w-[50px] rounded-full"
 							>
 						</template>

@@ -3,179 +3,147 @@
 		<div class="bg-white p-2 w-full flex-col justify-between">
 			<div class="flex justify-between py-2">
 				<el-page-header @back="Back">
-					<!-- <template #breadcrumb>
-					<el-breadcrumb separator-icon="ArrowRight">
-						<el-breadcrumb-item :to="{ path: '/class' }">
-							<span class="sanfont-khmer text-sm"> ថ្នាក់រៀន</span>
-						</el-breadcrumb-item>
-						<el-breadcrumb-item>
-							<span class="sanfont-khmer text-sm"> ថ្នាក់ទី ១០ A</span>
-						</el-breadcrumb-item>
-					</el-breadcrumb>
-				</template> -->
 					<template #title>
 						<span class="sanfont-khmer text-sm"> ថយក្រោយ</span>
 					</template>
 					<template #content>
-						<span class="text-large font-600 mr-3 sanfont-khmer text-xl "> ថ្នាក់​ទី {{ classData.grade_name }} </span>
+						<span class="text-large font-600 mr-3 sanfont-khmer text-xl "> ថ្នាក់​ទី {{ classData.class_name }} </span>
 					</template>
 				</el-page-header>
-				<!-- <div class="self-start">
-				<el-input
-					placeholder="ស្វែងរក"
-					class="sanfont-khmer"
-					v-model="search"
-				>
-					<i class="el-input__icon el-icon-search"></i>
-					<CirclePlusFilled class="el-input__icon" />
-				</el-input>
-			</div> -->
 				<div class="self-end">
-					<!-- <div class="flex space-x-2">
-					<div style="">
-						<el-radio-group
-							v-model="showDataAs"
-							size=""
-						>
-							<el-radio-button
-								label="List"
-								disabled
-							/>
-							<el-radio-button label="Table" />
-							<el-radio-button label="Grid" />
-						</el-radio-group>
-					</div>
-
-					<el-button
-						type="primary"
-						@click="AddUser"
-					>
-						<el-icon>
-							<CirclePlusFilled />
-						</el-icon>
-						<span class="mx-1 sanfont-khmer"> បន្ថែម ថ្នាក់</span>
-					</el-button>
-				</div> -->
 				</div>
 			</div>
 
-			<div class="grid grid-cols-2 gap-5 p-4">
-				<div class="py-5 ">
-					<div class="flex justify-between py-2 items-center">
-						<div class="text-left text-md font-bold pb-2 ">កាលវិភាគប្រចាំសប្តាហ៍</div>
-						<el-button
-							type="primary"
-							size="medium"
-							@click="addNewSchedule"
-						>
-							<el-icon>
-								<Setting />
-							</el-icon>
-							<span class="mx-1 sanfont-khmer "> គ្រប់គ្រងកាលវិភាគ</span>
-						</el-button>
-					</div>
-
-					<el-table
-						v-loading="loading_schedule"
-						:data="tableData"
-						resizable="false"
-						header-cell-class-name="sanfont-khmer text-md"
-						row-class-name="sanfont-khmer"
-						style="width: 100%"
-						stripe
-						border
-					>
-						<el-table-column
-							label="ម៉ោង"
-							fixed
-						>
-							<template #default="scope">
-								<span>
-									{{ scope.row.name }}
-								</span>
-							</template>
-						</el-table-column>
-						<el-table-column
-							v-for="(day, index) in columnDay "
-							:key="day"
-							:prop="day"
-							:label="day.name"
-						>
-							<template #default="scope">
-								<div
-									v-for="data in scope.row.get_schedule"
+			<!-- Tap student -->
+			<el-tabs type="border-card">
+				<el-tab-pane label="ព័ត៌មានទូទៅ">
+					<!-- Overall detail -->
+					<div class="grid grid-cols-2 gap-5 p-4">
+						<div class="py-5 ">
+							<div class="flex justify-between py-2 items-center">
+								<div class="text-left text-md font-bold pb-2 ">កាលវិភាគប្រចាំសប្តាហ៍</div>
+								<el-button
+									type="primary"
+									size="medium"
+									@click="addNewSchedule"
+								>
+									<el-icon>
+										<Setting />
+									</el-icon>
+									<span class="mx-1 sanfont-khmer "> គ្រប់គ្រងកាលវិភាគ</span>
+								</el-button>
+							</div>
+							<el-table
+								v-loading="loading_schedule"
+								:data="tableData"
+								resizable="false"
+								header-cell-class-name="sanfont-khmer text-md"
+								row-class-name="sanfont-khmer"
+								style="width: 100%"
+								stripe
+								border
+							>
+								<el-table-column
+									label="ម៉ោង"
+									fixed
+								>
+									<template #default="scope">
+										<span>
+											{{ scope.row.name }}
+										</span>
+									</template>
+								</el-table-column>
+								{{ columnDay }}
+								<el-table-column
+									v-for="(day, index) in columnDay "
+									:key="day"
+									:prop="day"
+									:label="day.day_name_kh"
+								>
+									<template #default="scope">
+										<div
+											v-for="data in scope.row.get_schedule"
+											:key="data"
+										>
+											<div v-if="data.day_id ==day.day_id">
+												<div v-if="(index+1) == ( activeDay -1)">
+													<el-button
+														type="primary"
+														@click="callAttenance(data.subject.subject_id)"
+														bg
+														text
+													> <span class="mx-1">
+															{{ data.subject.subject.subject_name_kh }}
+														</span>
+														<el-icon>
+															<Star />
+														</el-icon>
+													</el-button>
+												</div>
+												<div v-else>
+													{{ data.subject.subject.subject_name_kh }}
+												</div>
+											</div>
+										</div>
+									</template>
+								</el-table-column>
+							</el-table>
+						</div>
+						<div class="py-5 ">
+							<div class="flex justify-between py-2 items-center">
+								<div class="text-left text-md font-bold pb-2 ">គ្រូ និង មុខវិជ្ជា</div>
+								<el-button
+									type="primary"
+									size="medium"
+									@click="addTeacher"
+								>
+									<el-icon>
+										<Setting />
+									</el-icon>
+									<span class="mx-1 sanfont-khmer"> គ្រប់គ្រងគ្រូ និងមុខវិជ្ជា</span>
+								</el-button>
+							</div>
+							<div class="grid grid-cols-3 gap-2">
+								<el-col
+									v-for="data in teacherData "
 									:key="data"
 								>
-									<div v-if="data.day_id ==day.id">
-										<div v-if="(index+1) ==activeDay">
-
-											<el-button
-												@click="callAttenance(data.subject.subject_id)"
-												tag="div"
-												role="button"
-												tabindex="0"
-											>{{ data.subject.name_kh }}
-												<el-badge
-													value="In class"
-													class="item py-1"
-													type="primary"
-												></el-badge>
-											</el-button>
+									<el-card
+										shadow="hover"
+										class="text-left"
+									>
+										<div>
+											ឈ្មោះ : <span class="font-bold">{{ data.teacher_in_class.first_name_kh }} {{ data.teacher_in_class.last_name_kh }}</span>
 										</div>
-										<div v-else>
-											{{ data.subject.name_kh }}
+										<div>
+											មុខវិជ្ជា : <span class="font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span>
 										</div>
-									</div>
-								</div>
-							</template>
-						</el-table-column>
-					</el-table>
-				</div>
-				<div class="py-5 ">
-					<div class="flex justify-between py-2 items-center">
-						<div class="text-left text-md font-bold pb-2 ">គ្រូ និង មុខវិជ្ជា</div>
-						<el-button
-							type="primary"
-							size="medium"
-							@click="addTeacher"
-						>
-							<el-icon>
-								<Setting />
-							</el-icon>
-							<span class="mx-1 sanfont-khmer"> គ្រប់គ្រងគ្រូ និងមុខវិជ្ជា</span>
-						</el-button>
+										<div
+											v-if="data.role==1"
+											class="py-2 "
+										>
+											<el-tag>គ្រូបន្ទុកថ្នាក់</el-tag>
+										</div>
+									</el-card>
+								</el-col>
+							</div>
+						</div>
 					</div>
-					<div class="grid grid-cols-3 gap-2">
-						<el-col
-							v-for="data in teacherData "
-							:key="data"
-						>
-							<el-card
-								shadow="hover"
-								class="text-left"
-							>
-								<div>
-									ឈ្មោះ : <span class="font-bold">{{ data.teacher_in_class.first_name_kh }} {{ data.teacher_in_class.last_name_kh }}</span>
-								</div>
-								<div>
-									មុខវិជ្ជា : <span class="font-bold">{{ data.teacher_subject_in_class.name_kh }}</span>
-								</div>
-								<div
-									v-if="data.role==1"
-									class="py-2 "
-								>
-									<el-tag>គ្រូបន្ទុកថ្នាក់</el-tag>
-								</div>
-							</el-card>
-						</el-col>
-					</div>
-				</div>
-			</div>
+				</el-tab-pane>
+				<el-tab-pane label="សិស្សក្នុងថ្នាក់">
+					<studentClass
+						is="studentClass"
+						:data="studentData"
+					></studentClass>
+				</el-tab-pane>
+				<el-tab-pane label="វត្តមានសិស្ស">
+					<attendanceClass is="attendanceClass"></attendanceClass>
+				</el-tab-pane>
+			</el-tabs>
 		</div>
 	</div>
 	<!-- <keep-alive> -->
-	<studentClass is="studentClass"></studentClass>
-	<attendanceClass is="attendanceClass"></attendanceClass>
+
 	<!-- </keep-alive> -->
 	<!-- Dialog  Manage Schedule -->
 	<el-dialog
@@ -185,10 +153,10 @@
 		class="sanfont-khmer"
 		width="50%"
 	>
-		<div class="mt-5 bg-white p-5">
+		<div class="bg-white px-5">
 			<div class="flex justify-between py-2">
 				<div></div>
-				<el-button
+				<!-- <el-button
 					type="primary"
 					@click="addNewSchedule"
 				>
@@ -196,11 +164,11 @@
 						<CirclePlusFilled />
 					</el-icon>
 					<span class="mx-1 sanfont-khmer"> បន្ថែម កាលវិភាគ</span>
-				</el-button>
+				</el-button> -->
 			</div>
 			<el-table
 				v-loading="loading_schedule"
-				:data="tableData"
+				:data="studentCallAttendance"
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
@@ -209,28 +177,136 @@
 				border
 			>
 				<el-table-column
-					label="ឈ្មោះសិស្ស"
-					fixed
-				>
+					label="ID"
+					type="index"
+				></el-table-column>
+				<el-table-column label="ឈ្មោះសិស្ស">
 					<template #default="scope">
 						<span>
-							{{ scope.row.time.name }}
+							{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}
 						</span>
 					</template>
 				</el-table-column>
-				<el-table-column label="ច័ន្ទ">
+				<el-table-column label="ថ្ងៃខែឆ្នាំកំណើត">
 					<template #default="scope">
-						<div v-if="scope.row.subject_day1">
-							<el-tag>{{ scope.row.subject_day1.name_kh }}</el-tag>
-						</div>
-						<div v-else>
-							ទំនេរ
-						</div>
+						<span>
+							01-06-2020
+						</span>
+					</template>
+				</el-table-column>
+				<el-table-column label="ស្ថានភាព">
+					<template #default="scope">
+						<span class="text-blue-500">
+							កំពុងសិក្សា
+						</span>
 					</template>
 				</el-table-column>
 
+				<el-table-column
+					align="center"
+					label="ម៉ោងទី ១​ : 7h:00 - 8h:00"
+				>
+					<el-table-column width="120">
+						<template #header>
+							<div class="text-green-600">PS</div>
+						</template>
+						<template #default="scope">
+							<el-radio-group
+								v-model="scope.row.attendance_type_id"
+								fill="#67C23A"
+								size="small"
+							>
+								<el-radio
+									label="1"
+									border
+								>មក</el-radio>
+							</el-radio-group>
+						</template>
+					</el-table-column>
+					<el-table-column width="120">
+						<template #header>
+							<div class="text-yellow-600">PM</div>
+						</template>
+						<template #default="scope">
+							<el-radio-group
+								v-model="scope.row.attendance_type_id"
+								size="small"
+							>
+								<el-radio
+									label="2"
+									fill="#67C23A"
+									border
+								>ច្បាប់</el-radio>
+							</el-radio-group>
+						</template>
+					</el-table-column>
+					<el-table-column width="120">
+						<template #header>
+							<div class="text-blue-600">AL</div>
+						</template>
+						<template #default="scope">
+							<el-radio-group
+								v-model="scope.row.attendance_type_id"
+								size="small"
+							>
+								<el-radio
+									label="3"
+									border
+								>យឺត</el-radio>
+							</el-radio-group>
+						</template>
+					</el-table-column>
+					<el-table-column width="120">
+						<template #header>
+							<div class="text-red-600">A</div>
+						</template>
+						<template #default="scope">
+							<el-radio-group
+								v-model="scope.row.attendance_type_id"
+								size="small"
+							>
+								<el-radio
+									label="4"
+									border
+								>មិនមក</el-radio>
+							</el-radio-group>
+						</template>
+					</el-table-column>
+				</el-table-column>
 			</el-table>
 		</div>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button
+					@click="closeForm()"
+					class="sanfont-khmer"
+				> បោះបង់</el-button>
+				<!-- <el-button
+					v-if="!isShowButtonUpdate"
+					type="primary"
+					class="sanfont-khmer"
+					@click="submitFormClose('ruleFormSchedule')"
+				>
+					រក្សាទុក ហើយបិទ
+				</el-button> -->
+				<el-button
+					v-if="!isShowButtonUpdate"
+					type="primary"
+					class="sanfont-khmer"
+					@click="submitFormAttendance('ruleFormSchedule')"
+				>
+					រក្សាទុក ហើយបន្ត
+				</el-button>
+				<el-button
+					v-if="isShowButtonUpdate"
+					type="primary"
+					class="sanfont-khmer"
+					@click="updateData('ruleFormSchedule')"
+				>
+					រក្សាទុក
+				</el-button>
+			</span>
+		</template>
 	</el-dialog>
 	<!-- Dialog Form Schedule  -->
 	<el-dialog
@@ -255,10 +331,30 @@
 					:label-width="formLabelWidth"
 				>
 					<el-input
-						v-model="classData.grade_name"
+						v-model="classData.class_name"
 						disabled
 						name="class_id"
 					></el-input>
+				</el-form-item>
+				<el-form-item
+					label="ថ្ងៃ"
+					:error="errors.day_id"
+					prop="day_id"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-select
+						v-model="ruleFormSchedule.day_id"
+						placeholder="ជ្រើសរើស ថ្ងៃ"
+						class="text-left "
+					>
+						<el-option
+							v-for="data in dataDay.day"
+							:key="data"
+							:label="data.day_name_kh"
+							:value="data.day_id"
+						/>
+					</el-select>
 				</el-form-item>
 				<el-form-item
 					label="ម៉ោង"
@@ -276,47 +372,27 @@
 							v-for="data in dataDay.time"
 							:key="data"
 							:label="data.name"
-							:value="data.id"
-						/>
-					</el-select>
-				</el-form-item>
-				<el-form-item
-					label="ថ្ងៃ"
-					prop="day_id"
-					:error="errors.day_id"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-select
-						v-model="ruleFormSchedule.day_id"
-						placeholder="ជ្រើសរើស ថ្ងៃ"
-						class="text-left "
-					>
-						<el-option
-							v-for="data in dataDay.day"
-							:key="data"
-							:label="data.name"
-							:value="data.id"
+							:value="data.time_id"
 						/>
 					</el-select>
 				</el-form-item>
 				<el-form-item
 					label="មុខវិជ្ជា"
-					prop="subject_id"
+					prop="subject_grade_id"
 					class="sanfont-khmer"
-					:error="errors.subject_id"
+					:error="errors.subject_grade_id"
 					:label-width="formLabelWidth"
 				>
 					<el-select
-						v-model="ruleFormSchedule.subject_id"
+						v-model="ruleFormSchedule.subject_grade_id"
 						placeholder="ជ្រើសរើស មុខវិជ្ជា"
 						class="text-left "
 					>
 						<el-option
 							v-for="data in teacherData"
 							:key="data"
-							:label="data.teacher_subject_in_class.name_kh"
-							:value="data.teacher_subject_in_class.subject_id"
+							:label="data.teacher_subject_in_class.subject.subject_name_kh"
+							:value="data.teacher_subject_in_class.subject_grade_id"
 						/>
 					</el-select>
 				</el-form-item>
@@ -381,7 +457,7 @@
 					:label-width="formLabelWidth"
 				>
 					<el-input
-						v-model="classData.grade_name"
+						v-model="classData.class_name"
 						disabled
 						name="class_id"
 					></el-input>
@@ -408,32 +484,31 @@
 				</el-form-item>
 				<el-form-item
 					label="មុខវិជ្ជា"
-					prop="subject_id"
-					:error="errors.subject_id"
+					:error="errors.subject_grade_id"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
 				>
 					<el-select
-						v-model="ruleFormTeacher.subject_id"
+						v-model="ruleFormTeacher.subject_grade_id"
 						placeholder="ជ្រើសរើស មុខវិជ្ជា"
 						class="text-left "
 					>
 						<el-option
 							v-for="data in subjectData"
 							:key="data"
-							:label="data.name_kh"
-							:value="data.subject_id"
+							:label="data.subject.subject_name_kh"
+							:value="data.subject_grade_id"
 						/>
 					</el-select>
 				</el-form-item>
 				<el-form-item
 					label="តួនាទី"
-					prop="role"
-					:error="errors.role"
+					prop="role_id"
+					:error="errors.role_id"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
 				>
-					<el-radio-group v-model="ruleFormTeacher.role">
+					<el-radio-group v-model="ruleFormTeacher.role_id">
 						<div class="flex space-x-2">
 							<el-radio
 								label="1"
@@ -489,6 +564,9 @@ export default {
 	components: { studentClass, attendanceClass },
 	data() {
 		return {
+			// Attendance 
+			studentCallAttendance: [],
+
 			subjectData: [],
 			tableData: [],
 			teacherData: [],
@@ -497,7 +575,7 @@ export default {
 			dataDay: [],
 			columnDay: [],
 			allTeacherData: [],
-			dialogFormVisible: true,
+			dialogFormVisible: false,
 			dialogFormSchedule: false,
 			formLabelWidth: "150px",
 			loading_schedule: false,
@@ -505,7 +583,7 @@ export default {
 			ruleFormSchedule: {
 				class_id: 1,
 				time_id: 1,
-				subject_id: 1,
+				subject_grade_id: 1,
 				day_id: 1,
 			},
 			rulesSchedule: {
@@ -515,7 +593,7 @@ export default {
 				time_id: [
 					{ required: true, message: 'Please select time', trigger: 'change' }
 				],
-				subject_id: [
+				subject_grade_id: [
 					{ required: true, message: 'Please select subject', trigger: 'change' }
 				],
 				day_id: [
@@ -526,8 +604,8 @@ export default {
 			ruleFormTeacher: {
 				class_id: 1,
 				teacher_id: 1,
-				subject_id: 1,
-				role: '0',
+				subject_grade_id: 1,
+				role_id: '0',
 			},
 			ruleTeacher: {
 				class_id: [
@@ -536,7 +614,7 @@ export default {
 				teacher_id: [
 					{ required: true, message: 'Please select teacher', trigger: 'change' }
 				],
-				subject_id: [
+				subject_grade_id: [
 					{ required: true, message: 'Please select subject', trigger: 'change' }
 				],
 			},
@@ -551,9 +629,6 @@ export default {
 		this.activeDay = new Date().getDay();
 	},
 	methods: {
-		callAttenance(subject_id) {
-			this.dialogFormVisible = true;
-		},
 		Back() {
 			this.$router.push('/class');
 		},
@@ -562,11 +637,11 @@ export default {
 		},
 		addTeacher() {
 			this.dialogFormTeacher = true;
-			this.ruleFormTeacher.class_id = this.classData.grade_level_id
+			this.ruleFormTeacher.class_id = this.classData.class_id
 		},
 		addNewSchedule() {
 			this.dialogFormSchedule = true;
-			this.ruleFormSchedule.class_id = this.classData.grade_level_id
+			this.ruleFormSchedule.class_id = this.classData.class_id
 		},
 		resetForm(formName) {
 			if (this.$refs[formName]) {
@@ -588,8 +663,8 @@ export default {
 			const form = new FormData(formID);
 			form.append('class_id', this.ruleFormTeacher.class_id)
 			form.append('teacher_id', this.ruleFormTeacher.teacher_id)
-			form.append('role', this.ruleFormTeacher.role)
-			form.append('subject_id', this.ruleFormTeacher.subject_id)
+			form.append('role_id', this.ruleFormTeacher.role_id)
+			form.append('subject_grade_id', this.ruleFormTeacher.subject_grade_id)
 			console.log(form, formID);
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
@@ -615,6 +690,7 @@ export default {
 		// Schedule Function
 		closeForm() {
 			this.dialogFormSchedule = false;
+			this.dialogFormTeacher = false
 		},
 		submitFormClose(formName) {
 			this.submitForm(formName);
@@ -640,7 +716,7 @@ export default {
 			form.append('class_id', this.ruleFormSchedule.class_id)
 			form.append('time_id', this.ruleFormSchedule.time_id)
 			form.append('day_id', this.ruleFormSchedule.day_id)
-			form.append('subject_id', this.ruleFormSchedule.subject_id)
+			form.append('subject_grade_id', this.ruleFormSchedule.subject_grade_id)
 			console.log(form, formID);
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
@@ -692,7 +768,8 @@ export default {
 			})
 		},
 		async getTimeDayData() {
-			await axios.get('/schedule_class/schedule').then(response => {
+			const class_id = this.$route.query.id;
+			await axios.get('/schedule_class/' + class_id + '/schedule').then(response => {
 				this.dataDay = response.data.data
 				this.subjectData = response.data.data.subject
 				this.allTeacherData = response.data.data.teacher
@@ -703,6 +780,22 @@ export default {
 				}
 			})
 		},
+		// Attendance
+		submitFormAttendance() {
+			console.log(this.studentCallAttendance);
+		},
+		async callAttenance() {
+			const class_id = this.$route.query.id;
+			await axios.get('/attendance/call/' + class_id).then(response => {
+				this.studentCallAttendance = response.data.data
+				this.dialogFormVisible = true;
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+
+		}
 	}
 }
 </script>
@@ -791,7 +884,6 @@ export default {
 }
 .item {
 	margin-top: 10px;
-	padding: 3px;
 	margin-right: 10px;
 }
 </style>
