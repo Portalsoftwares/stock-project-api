@@ -291,21 +291,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 .p-tooltip-text {
 	font-size: 10px !important;
-}
-
-#side-bar {
-	/* overflow: hidden; */
-	transition: 300ms;
-}
-
-.side-bar-visible {
-	width: 250px !important;
-}
-
-.side-bar-close {
-	width: 50px !important;
 }
 </style>

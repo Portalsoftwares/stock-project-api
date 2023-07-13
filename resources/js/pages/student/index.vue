@@ -103,7 +103,7 @@
 							<el-button
 								size="small"
 								class="sanfont-khmer"
-								@click="editUser(scope.row.id)"
+								@click="editUser()"
 							>កែប្រែ</el-button>
 							<el-button
 								size="small"
@@ -457,22 +457,23 @@ export default {
 			})
 		},
 		async editUser(id) {
-			this.isShowButtonUpdate = true;
-			this.isShowPassword = false;
-			await axios.get('/user/' + id + '/edit').then(response => {
-				this.ruleForm.name = response.data.user.name
-				this.ruleForm.userId = response.data.user.id
-				this.ruleForm.roles = response.data.user_has_roles
-				this.ruleForm.email = response.data.user.email
-				this.imageUrl = response.data.user.img?.file_path
-				this.ruleForm.photo_id = response.data.user.id
-				this.roles = response.data.roles
-				this.dialogFormVisible = true;
-			}).catch((error) => {
-				if (error.response.status == 401) {
-					this.$store.commit("auth/CLEAR_TOKEN")
-				}
-			})
+			this.dialogFormVisible = true;
+			// this.isShowButtonUpdate = true;
+			// this.isShowPassword = false;
+			// await axios.get('/user/' + id + '/edit').then(response => {
+			// 	this.ruleForm.name = response.data.user.name
+			// 	this.ruleForm.userId = response.data.user.id
+			// 	this.ruleForm.roles = response.data.user_has_roles
+			// 	this.ruleForm.email = response.data.user.email
+			// 	this.imageUrl = response.data.user.img?.file_path
+			// 	this.ruleForm.photo_id = response.data.user.id
+			// 	this.roles = response.data.roles
+
+			// }).catch((error) => {
+			// 	if (error.response.status == 401) {
+			// 		this.$store.commit("auth/CLEAR_TOKEN")
+			// 	}
+			// })
 		},
 		notification() {
 			this.showSuccess = !this.showSuccess

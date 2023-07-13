@@ -32,6 +32,14 @@ class Student extends Model
     {
         return   $this->belongsTo(StudentClass::class, 'student_id', 'student_id');
     }
+    public function gender()
+    {
+        return   $this->hasOne(Gender::class, 'gender_id', 'gender_id');
+    }
+    public function status()
+    {
+        return   $this->hasOne(StudentStatus::class, 'status_id', 'status_id');
+    }
     public function profile_img()
     {
         return $this->hasOne(UploadFile::class, 'file_upload_id', 'file_upload_id');

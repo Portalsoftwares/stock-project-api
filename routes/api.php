@@ -87,7 +87,9 @@ Route::prefix('v1')->group(function () {
     });
     //Attendance 
     Route::prefix('attendance')->group(function () {
-      Route::get('/call/{id}', [AttendanceController::class, 'callStudentAttendance']);
+      Route::post('/call/{id}', [AttendanceController::class, 'callStudentAttendance']);
+      Route::post('/create', [AttendanceController::class, 'create']);
+      Route::post('/report/{id}', [AttendanceController::class, 'reportInclass']);
     });
   });
 });

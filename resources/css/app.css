@@ -9,3 +9,19 @@ body {
     font-weight: 500;
     font-size: 16px;
 }
+#side-bar {
+	overflow: hidden;
+	transition: 300ms;
+}
+
+.transaction-width{
+    	overflow: hidden;
+	transition: 300ms;
+}
+.side-bar-visible {
+	width: 250px !important;
+}
+
+.side-bar-close {
+	width: 50px !important;
+}

@@ -33,4 +33,12 @@ class StudentClass extends Model
     {
         return $this->hasOne(Classes::class, 'class_id', 'class_id');
     }
+    public function role()
+    {
+        return   $this->hasOne(StudentRole::class, 'role_id', 'role_id');
+    }
+    public function attendanceLine()
+    {
+        return $this->hasMany(AttendanceLine::class, 'student_id', 'student_id');
+    }
 }

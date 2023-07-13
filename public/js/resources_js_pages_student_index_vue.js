@@ -293,25 +293,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
-              _this7.isShowButtonUpdate = true;
-              _this7.isShowPassword = false;
-              _context6.next = 4;
-              return axios.get('/user/' + id + '/edit').then(function (response) {
-                var _response$data$user$i;
-                _this7.ruleForm.name = response.data.user.name;
-                _this7.ruleForm.userId = response.data.user.id;
-                _this7.ruleForm.roles = response.data.user_has_roles;
-                _this7.ruleForm.email = response.data.user.email;
-                _this7.imageUrl = (_response$data$user$i = response.data.user.img) === null || _response$data$user$i === void 0 ? void 0 : _response$data$user$i.file_path;
-                _this7.ruleForm.photo_id = response.data.user.id;
-                _this7.roles = response.data.roles;
-                _this7.dialogFormVisible = true;
-              })["catch"](function (error) {
-                if (error.response.status == 401) {
-                  _this7.$store.commit("auth/CLEAR_TOKEN");
-                }
-              });
-            case 4:
+              _this7.dialogFormVisible = true;
+              // this.isShowButtonUpdate = true;
+              // this.isShowPassword = false;
+              // await axios.get('/user/' + id + '/edit').then(response => {
+              // 	this.ruleForm.name = response.data.user.name
+              // 	this.ruleForm.userId = response.data.user.id
+              // 	this.ruleForm.roles = response.data.user_has_roles
+              // 	this.ruleForm.email = response.data.user.email
+              // 	this.imageUrl = response.data.user.img?.file_path
+              // 	this.ruleForm.photo_id = response.data.user.id
+              // 	this.roles = response.data.roles
+
+              // }).catch((error) => {
+              // 	if (error.response.status == 401) {
+              // 		this.$store.commit("auth/CLEAR_TOKEN")
+              // 	}
+              // })
+            case 1:
             case "end":
               return _context6.stop();
           }
@@ -506,15 +505,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             size: "small",
             "class": "sanfont-khmer",
-            onClick: function onClick($event) {
-              return $options.editUser(scope.row.id);
-            }
+            onClick: _cache[1] || (_cache[1] = function ($event) {
+              return $options.editUser();
+            })
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("កែប្រែ")];
             }),
-            _: 2 /* DYNAMIC */
-          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+            _: 1 /* STABLE */
+          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             size: "small",
             type: "danger",
             "class": "sanfont-khmer",
@@ -539,7 +538,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     total: 1000
   })])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisible,
-    "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+    "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
       return $data.dialogFormVisible = $event;
     }),
     title: "ព័ត៍មានអ្នកប្រើប្រាស់",
@@ -548,7 +547,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, {
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[7] || (_cache[7] = function ($event) {
+        onClick: _cache[8] || (_cache[8] = function ($event) {
           return $options.cancelAction();
         }),
         "class": "sanfont-khmer"
@@ -561,7 +560,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 0,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[8] || (_cache[8] = function ($event) {
+        onClick: _cache[9] || (_cache[9] = function ($event) {
           return $options.submitForm('ruleForm');
         })
       }, {
@@ -573,7 +572,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 1,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[9] || (_cache[9] = function ($event) {
+        onClick: _cache[10] || (_cache[10] = function ($event) {
           return $options.updateData('ruleForm');
         })
       }, {
@@ -601,7 +600,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.name,
-                "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+                "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
                   return $data.ruleForm.name = $event;
                 }),
                 name: "name",
@@ -618,7 +617,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.email,
-                "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
                   return $data.ruleForm.email = $event;
                 }),
                 autocomplete: "off",
@@ -637,7 +636,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.password,
-                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+                "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
                   return $data.ruleForm.password = $event;
                 }),
                 name: "password",
@@ -654,7 +653,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleForm.roles,
-                "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+                "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
                   return $data.ruleForm.roles = $event;
                 }),
                 placeholder: "Select roles",
@@ -701,7 +700,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }, 8 /* PROPS */, ["on-change", "before-upload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
                 type: "hidden",
                 name: "photo_id",
-                "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+                "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
                   return $data.ruleForm.photo_id = $event;
                 })
               }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.ruleForm.photo_id]])])];
@@ -712,7 +711,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["model", "rules"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
         modelValue: $data.dialogVisible,
-        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
           return $data.dialogVisible = $event;
         })
       }, {

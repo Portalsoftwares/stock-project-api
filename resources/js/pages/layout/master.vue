@@ -1,16 +1,17 @@
 <template>
 	<div class="flex flex-row">
-		<div class="w-full ">
-			<div class="flex w-full ">
-				<Siade :dataSibar="isOpen"></Siade>
-				<div class="w-full border">
-					<Header :toggleSideBar="clickToggle"></Header>
-					<div
-						class="bg-slate-100 h-full overflow-y-auto px-4 pt-4 w-full"
-						style="height: calc(100vh - 3rem)"
-					>
-						<router-view />
-					</div>
+		<div class="flex w-full ">
+			<Siade :dataSibar="isOpen"></Siade>
+			<div
+				:class="isOpen==false? 'w-full': ' w-[calc(100vw-250px)]'"
+				class="transaction-width"
+			>
+				<Header :toggleSideBar="clickToggle"></Header>
+				<div
+					class="bg-slate-100 h-full overflow-y-auto px-4 pt-4 w-auto"
+					style="height: calc(100vh - 3rem)"
+				>
+					<router-view />
 				</div>
 			</div>
 		</div>
@@ -23,13 +24,12 @@ export default {
 	components: { Siade, Header },
 	data() {
 		return {
-			isOpen: true
+			isOpen: false
 		}
 	},
 	methods: {
 		clickToggle() {
 			this.isOpen = !this.isOpen
-			console.log("dataSibar");
 		}
 	}
 };

@@ -16,10 +16,12 @@ import { ElNotification, ElMessage, ElCollapseTransition, ElTable, ElPopover } f
 //IMPORT COMPONENTS
 import store from "./store/index"
 import router from "./router"
+import * as moment from 'moment'
 const app = createApp(App)
 //COMPONENTS
 app.use(ElNotification)
 app.use(ElMessage)
+app.use(moment)
 app.component(ElTable)
 app.component(ElPopover)
 import km from 'element-plus/dist/locale/km.mjs'

@@ -20,7 +20,7 @@ npm install
 ```
 ### 3 Make migrations 
 ```
-php artisan migrate:fresh
+php artisan migrate:fresh --seed
 ```
 ### 4 Make Seeder
 

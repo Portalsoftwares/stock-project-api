@@ -13,10 +13,16 @@
 				<div class="self-end">
 				</div>
 			</div>
-
 			<!-- Tap student -->
-			<el-tabs type="border-card">
-				<el-tab-pane label="ព័ត៌មានទូទៅ">
+			<el-tabs
+				type="border-card"
+				v-model="tabClassDetail"
+				@tab-change="changeTap"
+			>
+				<el-tab-pane
+					label="ព័ត៌មានទូទៅ"
+					name="tab-class-detail-1"
+				>
 					<!-- Overall detail -->
 					<div class="grid grid-cols-2 gap-5 p-4">
 						<div class="py-5 ">
@@ -53,9 +59,8 @@
 										</span>
 									</template>
 								</el-table-column>
-								{{ columnDay }}
 								<el-table-column
-									v-for="(day, index) in columnDay "
+									v-for="day in columnDay "
 									:key="day"
 									:prop="day"
 									:label="day.day_name_kh"
@@ -66,10 +71,10 @@
 											:key="data"
 										>
 											<div v-if="data.day_id ==day.day_id">
-												<div v-if="(index+1) == ( activeDay -1)">
+												<div v-if="day.day_id== activeDay">
 													<el-button
 														type="primary"
-														@click="callAttenance(data.subject.subject_id)"
+														@click="callAttenance(data.day_id, data.time_id,data.subject.subject_id)"
 														bg
 														text
 													> <span class="mx-1">
@@ -119,7 +124,7 @@
 											មុខវិជ្ជា : <span class="font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span>
 										</div>
 										<div
-											v-if="data.role==1"
+											v-if="data.role_id==1"
 											class="py-2 "
 										>
 											<el-tag>គ្រូបន្ទុកថ្នាក់</el-tag>
@@ -130,22 +135,32 @@
 						</div>
 					</div>
 				</el-tab-pane>
-				<el-tab-pane label="សិស្សក្នុងថ្នាក់">
-					<studentClass
-						is="studentClass"
-						:data="studentData"
-					></studentClass>
+				<el-tab-pane
+					label="សិស្សក្នុងថ្នាក់"
+					name="tab-class-detail-2"
+				>
+					<keep-alive>
+						<studentClass :data="studentData"></studentClass>
+					</keep-alive>
 				</el-tab-pane>
-				<el-tab-pane label="វត្តមានសិស្ស">
-					<attendanceClass is="attendanceClass"></attendanceClass>
+				<el-tab-pane
+					label="វត្តមានសិស្ស"
+					name="tab-class-detail-3"
+				>
+					<attendanceClass
+						is="attendanceClass"
+						:subjectData="teacherData"
+						:classData="classData"
+						:dataDayObj="dataDayObj"
+						:dataTimeObj="dataTimeObj"
+						:dataSubjectGradeObj="dataSubjectGradeObj"
+						:studentCallAttendance="studentCallAttendance"
+					></attendanceClass>
 				</el-tab-pane>
 			</el-tabs>
 		</div>
 	</div>
-	<!-- <keep-alive> -->
-
-	<!-- </keep-alive> -->
-	<!-- Dialog  Manage Schedule -->
+	<!-- Dialog  Manage Attendance list -->
 	<el-dialog
 		v-model="dialogFormVisible"
 		fullscreen="true"
@@ -155,16 +170,62 @@
 	>
 		<div class="bg-white px-5">
 			<div class="flex justify-between py-2">
-				<div></div>
-				<!-- <el-button
-					type="primary"
-					@click="addNewSchedule"
+				<el-form
+					label-position="top"
+					label-width="50px"
+					model="top"
 				>
-					<el-icon>
-						<CirclePlusFilled />
-					</el-icon>
-					<span class="mx-1 sanfont-khmer"> បន្ថែម កាលវិភាគ</span>
-				</el-button> -->
+					<div class="flex space-x-2">
+						<el-form-item label="ថ្នាក់រៀន">
+							<el-select
+								v-model="classData.class_name"
+								disabled
+							>
+								<el-option
+									label="classData.class_name"
+									value="classData.class_name"
+								/>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="ថ្ងៃ">
+							<el-select
+								v-model="dataDayObj.day_name_kh"
+								disabled
+							>
+								<el-option
+									label="dataDay"
+									value="dataDay"
+								/>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="ម៉ោង">
+							<el-select
+								v-model="dataTimeObj.name"
+								disabled
+							>
+								<el-option
+									label="dataDay"
+									value="dataDay"
+								/>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="មុខវិទ្យា">
+
+							<el-select
+								v-if="dataSubjectGradeObj.subject !=null"
+								v-model="dataSubjectGradeObj.subject.subject_name_kh"
+								disabled
+							>
+								<el-option
+									label="dataDay"
+									value="dataDay"
+								/>
+							</el-select>
+						</el-form-item>
+					</div>
+				</el-form>
+				<div>
+				</div>
 			</div>
 			<el-table
 				v-loading="loading_schedule"
@@ -182,29 +243,40 @@
 				></el-table-column>
 				<el-table-column label="ឈ្មោះសិស្ស">
 					<template #default="scope">
-						<span>
-							{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}
-						</span>
+
+						<div>
+							<span class="w-[10px]">
+								<span v-if="scope.row.student_in_class.gender_id ==2">
+									ក. &nbsp;
+								</span>
+								<span v-else>
+									&nbsp;
+									&nbsp;
+									&nbsp;
+								</span>
+							</span>
+							<span>{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}</span>
+						</div>
 					</template>
 				</el-table-column>
 				<el-table-column label="ថ្ងៃខែឆ្នាំកំណើត">
 					<template #default="scope">
 						<span>
-							01-06-2020
+							{{ scope.row.student_in_class.date_of_birth }}
 						</span>
 					</template>
 				</el-table-column>
 				<el-table-column label="ស្ថានភាព">
 					<template #default="scope">
-						<span class="text-blue-500">
-							កំពុងសិក្សា
+						<span :style="'color:'+scope.row.student_in_class.status.color">
+							{{ scope.row.student_in_class.status.status_kh }}
 						</span>
 					</template>
 				</el-table-column>
 
 				<el-table-column
 					align="center"
-					label="ម៉ោងទី ១​ : 7h:00 - 8h:00"
+					:label="dataTimeObj.name +' : ' + dataTimeObj.start_date +' - ' + dataTimeObj.end_date"
 				>
 					<el-table-column width="120">
 						<template #header>
@@ -218,8 +290,9 @@
 							>
 								<el-radio
 									label="1"
+									class="bg-green-50 border border-green-50"
 									border
-								>មក</el-radio>
+								>វត្តមាន</el-radio>
 							</el-radio-group>
 						</template>
 					</el-table-column>
@@ -234,7 +307,7 @@
 							>
 								<el-radio
 									label="2"
-									fill="#67C23A"
+									class="bg-yellow-50 border border-yellow-50"
 									border
 								>ច្បាប់</el-radio>
 							</el-radio-group>
@@ -248,9 +321,12 @@
 							<el-radio-group
 								v-model="scope.row.attendance_type_id"
 								size="small"
+								text-color="#2563eb"
+								fill="#2563eb"
 							>
 								<el-radio
 									label="3"
+									class="bg-blue-50 border border-blue-50"
 									border
 								>យឺត</el-radio>
 							</el-radio-group>
@@ -262,13 +338,16 @@
 						</template>
 						<template #default="scope">
 							<el-radio-group
+								class=""
 								v-model="scope.row.attendance_type_id"
 								size="small"
+								text-color="#dc2626"
 							>
 								<el-radio
+									class="bg-red-50 border border-red-50"
 									label="4"
 									border
-								>មិនមក</el-radio>
+								>អវត្តមាន</el-radio>
 							</el-radio-group>
 						</template>
 					</el-table-column>
@@ -278,30 +357,13 @@
 		<template #footer>
 			<span class="dialog-footer">
 				<el-button
-					@click="closeForm()"
+					@click="closeFormAttendance()"
 					class="sanfont-khmer"
 				> បោះបង់</el-button>
-				<!-- <el-button
-					v-if="!isShowButtonUpdate"
-					type="primary"
-					class="sanfont-khmer"
-					@click="submitFormClose('ruleFormSchedule')"
-				>
-					រក្សាទុក ហើយបិទ
-				</el-button> -->
 				<el-button
-					v-if="!isShowButtonUpdate"
 					type="primary"
 					class="sanfont-khmer"
 					@click="submitFormAttendance('ruleFormSchedule')"
-				>
-					រក្សាទុក ហើយបន្ត
-				</el-button>
-				<el-button
-					v-if="isShowButtonUpdate"
-					type="primary"
-					class="sanfont-khmer"
-					@click="updateData('ruleFormSchedule')"
 				>
 					រក្សាទុក
 				</el-button>
@@ -564,8 +626,17 @@ export default {
 	components: { studentClass, attendanceClass },
 	data() {
 		return {
+			// Tap 
+			tabClassDetail: '',
 			// Attendance 
 			studentCallAttendance: [],
+			attendanceTimeId: 1,
+			attendanceDayId: 1,
+			attendanceClassId: 1,
+			attendanceSubjecGradetId: 1,
+			dataDayObj: [],
+			dataTimeObj: [],
+			dataSubjectGradeObj: [],
 
 			subjectData: [],
 			tableData: [],
@@ -627,8 +698,14 @@ export default {
 		this.getTeacher()
 		this.getTimeDayData()
 		this.activeDay = new Date().getDay();
+		// Default active tap
+		this.tabClassDetail = localStorage.getItem('tab-class-detail') ?? 'tab-class-detail-1';
 	},
 	methods: {
+		//tap funtion
+		changeTap(name) {
+			localStorage.setItem('tab-class-detail', name);
+		},
 		Back() {
 			this.$router.push('/class');
 		},
@@ -757,9 +834,9 @@ export default {
 			const class_id = this.$route.query.id;
 			await axios.get('/schedule_class/' + class_id + '/get').then(response => {
 				this.tableData = response.data.data
-				setTimeout(() => {
-					this.loading_schedule = false;
-				}, 1000)
+				// setTimeout(() => {
+				this.loading_schedule = false;
+				// }, 1000)
 			}).catch((error) => {
 				this.loading_schedule = false;
 				if (error.response.status == 401) {
@@ -781,13 +858,56 @@ export default {
 			})
 		},
 		// Attendance
-		submitFormAttendance() {
-			console.log(this.studentCallAttendance);
+		/*
+		*  Function create attendace
+		*/
+		async submitFormAttendance() {
+			const attendanceInfo = {
+				'class_id': this.attendanceClassId,
+				'time_id': this.attendanceTimeId,
+				'day_id': this.attendanceDayId,
+				'subject_grade_id': this.attendanceSubjecGradetId,
+				'data': this.studentCallAttendance
+			}
+			const config = {
+				headers: { 'content-type': 'multipart/form-data' }
+			}
+			await axios.post('/attendance/create', attendanceInfo, config).then(response => {
+				this.getScheduleData();
+				this.$message({
+					message: 'Successfully , this is a success message.',
+					type: 'success'
+				});
+			}).catch((error) => {
+				if (error.response.status == 400) {
+					this.errors = error.response.data.errors;
+					this.$message({
+						message: 'Error, this is a errror message.',
+						type: 'error'
+					});
+				}
+			})
 		},
-		async callAttenance() {
+		async callAttenance(day_id, time_id, subject_id) {
 			const class_id = this.$route.query.id;
-			await axios.get('/attendance/call/' + class_id).then(response => {
+			this.attendanceTimeId = time_id;
+			this.attendanceDayId = day_id;
+			this.attendanceClassId = class_id;
+			this.attendanceSubjecGradetId = subject_id;
+			const attendanceInfo = {
+				'class_id': this.attendanceClassId,
+				'time_id': this.attendanceTimeId,
+				'day_id': this.attendanceDayId,
+				'subject_grade_id': this.attendanceSubjecGradetId,
+			}
+			const config = {
+				headers: { 'content-type': 'multipart/form-data' }
+			}
+			await axios.post('/attendance/call/' + class_id, attendanceInfo, config).then(response => {
 				this.studentCallAttendance = response.data.data
+				this.dataDayObj = response.data.day
+				this.dataTimeObj = response.data.time
+				this.dataSubjectGradeObj = response.data.subject
 				this.dialogFormVisible = true;
 			}).catch((error) => {
 				if (error.response.status == 401) {
@@ -795,6 +915,13 @@ export default {
 				}
 			})
 
+		},
+		closeFormAttendance() {
+			this.dialogFormVisible = false;
+			this.studentCallAttendance = []
+			this.dataDayObj = []
+			this.dataTimeObj = []
+			this.dataSubjectGradeObj = []
 		}
 	}
 }
