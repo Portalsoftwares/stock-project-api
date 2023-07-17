@@ -24,9 +24,9 @@
 					name="tab-class-detail-1"
 				>
 					<!-- Overall detail -->
-					<div class="grid grid-cols-2 gap-5 p-4">
-						<div class="py-5 ">
-							<div class="flex justify-between py-2 items-center">
+					<div class="grid grid-cols-2 gap-5 ">
+						<div class=" ">
+							<div class="flex justify-between items-center">
 								<div class="text-left text-md font-bold pb-2 ">កាលវិភាគប្រចាំសប្តាហ៍</div>
 								<el-button
 									type="primary"
@@ -71,19 +71,18 @@
 											:key="data"
 										>
 											<div v-if="data.day_id ==day.day_id">
-												<div v-if="day.day_id== activeDay">
-													<el-button
-														type="primary"
+												<div
+													v-if="day.day_id== activeDay"
+													class="flex items-center space-x-2 "
+												>
+													<span class="relative flex h-3 w-3">
+														<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-300 opacity-75"></span>
+														<span class="relative inline-flex rounded-full h-3 w-3 bg-blue-400"></span>
+													</span>
+													<el-link
 														@click="callAttenance(data.day_id, data.time_id,data.subject.subject_id)"
-														bg
-														text
-													> <span class="mx-1">
-															{{ data.subject.subject.subject_name_kh }}
-														</span>
-														<el-icon>
-															<Star />
-														</el-icon>
-													</el-button>
+														type="primary"
+													>{{ data.subject.subject.subject_name_kh }}</el-link>
 												</div>
 												<div v-else>
 													{{ data.subject.subject.subject_name_kh }}
@@ -94,7 +93,7 @@
 								</el-table-column>
 							</el-table>
 						</div>
-						<div class="py-5 ">
+						<div class="">
 							<div class="flex justify-between py-2 items-center">
 								<div class="text-left text-md font-bold pb-2 ">គ្រូ និង មុខវិជ្ជា</div>
 								<el-button
@@ -156,6 +155,20 @@
 						:dataSubjectGradeObj="dataSubjectGradeObj"
 						:studentCallAttendance="studentCallAttendance"
 					></attendanceClass>
+				</el-tab-pane>
+				<el-tab-pane
+					label="ពិន្ទុសិស្ស"
+					name="tab-class-detail-4"
+				>
+					<scoreClass
+						is="scoreClass"
+						:subjectData="teacherData"
+						:classData="classData"
+						:dataDayObj="dataDayObj"
+						:dataTimeObj="dataTimeObj"
+						:dataSubjectGradeObj="dataSubjectGradeObj"
+						:studentCallAttendance="studentCallAttendance"
+					></scoreClass>
 				</el-tab-pane>
 			</el-tabs>
 		</div>
@@ -622,8 +635,9 @@
 <script>
 import studentClass from './student-class/index.vue'
 import attendanceClass from './attendence-class/index.vue'
+import scoreClass from './score-class/index.vue'
 export default {
-	components: { studentClass, attendanceClass },
+	components: { studentClass, attendanceClass, scoreClass },
 	data() {
 		return {
 			// Tap 

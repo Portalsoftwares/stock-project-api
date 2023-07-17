@@ -1,12 +1,28 @@
 
 <template>
-	<div class="mt-5 bg-white p-5">
-		<div>
-			<div class="text-left text-md font-bold pb-2 ">វត្តមានសិស្សតាម មុខវិជ្ជា</div>
+	<div class=" bg-white ">
+
+		<div class="pb-2 flex justify-between">
+			<div class="text-left text-md font-bold  ">វត្តមានសិស្សតាម មុខវិជ្ជា</div>
+			<div class="text-right">
+				<el-button
+					type="primary"
+					class="sanfont-khmer"
+					@click="addScore('ruleForm')"
+				>
+
+					<el-icon>
+						<Edit />
+					</el-icon>
+					<span class="mx-1">
+						ស្រង់វត្តមានសិស្ស
+					</span>
+				</el-button>
+			</div>
 		</div>
 		<div class="grid grid-cols-4 gap-2 ">
 			<div
-				class="z-10 mt-1 overflow-hidden rounded-xl bg-white shadow ring-1 ring-gray-900/5 "
+				class="z-10 mt-1 overflow-hidden rounded bg-white shadow ring-1 ring-gray-900/5 "
 				v-for="data in subjectData"
 				:key="data"
 				@click="showInfomationAttendance(data.teacher_subject_in_class.subject)"
@@ -250,7 +266,7 @@ export default {
 			const class_id = this.$route.query.id;
 			this.attendanceClassId = class_id;
 			this.attendanceSubjecGradetId = obj.subject_id;
-			this.dataSubjectGradeObj = obj
+			this.dataSubjectGradeObj = obj;
 			const attendanceInfo = {
 				'class_id': this.attendanceClassId,
 				'time_id': this.attendanceTimeId,
@@ -261,8 +277,8 @@ export default {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
 			await axios.post('/attendance/report/' + class_id, attendanceInfo, config).then(response => {
-				this.attendanceObj = response.data.attendance
-				this.studentObj = response.data.student
+				this.attendanceObj = response.data.attendance;
+				this.studentObj = response.data.student;
 				this.dialogFormVisible = true;
 			}).catch((error) => {
 				if (error.response.status == 401) {
