@@ -167,7 +167,7 @@
 					<el-table-column
 						v-for="data in attendanceObj"
 						:key="data.attendance_id"
-						width="150"
+						width="100"
 						align="center"
 					>
 						<template #header>
@@ -182,16 +182,39 @@
 					<el-table-column
 						fixed="right"
 						label="សរុប"
-						min-width="240"
+						align="center"
+						min-width="200"
 					>
-						<template #default="scope">
+
+						<el-table-column
+							prop="state"
+							label="PS"
+							width="50"
+						/>
+						<el-table-column
+							prop="city"
+							label="PM"
+							width="50"
+						/>
+						<el-table-column
+							prop="address"
+							label="AL"
+							width="50"
+						/>
+						<el-table-column
+							prop="address"
+							label="A"
+							width="50"
+						/>
+
+						<!-- <template #default="scope">
 							<div class="flex space-x-4 ">
 								<span class="text-green-600">( 2 ) PS</span>
 								<span class="text-yellow-600">( 0 ) P</span>
 								<span class="text-blue-600">( 0 ) AL</span>
 								<span class="text-red-600">( 2 ) A</span>
 							</div>
-						</template>
+						</template> -->
 					</el-table-column>
 				</el-table>
 			</div>

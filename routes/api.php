@@ -10,7 +10,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AttendanceController;
-
+use App\Http\Controllers\ScoreController;
 //Version 1 API
 Route::prefix('v1')->group(function () {
   // User 
@@ -90,6 +90,12 @@ Route::prefix('v1')->group(function () {
       Route::post('/call/{id}', [AttendanceController::class, 'callStudentAttendance']);
       Route::post('/create', [AttendanceController::class, 'create']);
       Route::post('/report/{id}', [AttendanceController::class, 'reportInclass']);
+    });
+    //Score 
+    Route::prefix('score')->group(function () {
+      Route::post('/collect/{id}', [ScoreController::class, 'index']);
+      Route::post('/create', [ScoreController::class, 'create']);
+      Route::post('/report/{id}', [ScoreController::class, 'reportInclass']);
     });
   });
 });

@@ -6,7 +6,7 @@
 				<el-button
 					type="primary"
 					class="sanfont-khmer"
-					@click="addScore('ruleForm')"
+					@click="showInfomationStudentScore()"
 				>
 
 					<el-icon>
@@ -63,34 +63,239 @@
 			</div>
 		</div>
 	</div>
+	<!-- Dialog  Manage Attendance list -->
+	<el-dialog
+		v-model="dialogFormVisible"
+		fullscreen="true"
+		title="ស្រង់ពិន្ទុសិស្ស"
+		class="sanfont-khmer text-xl"
+		width="50%"
+	>
+		<div class="bg-white px-5">
+			<div class="flex justify-between py-2">
+				<el-form
+					label-position="top"
+					label-width="50px"
+					model="top"
+				>
+					<div class="flex space-x-2">
+						<el-form-item label="ថ្នាក់រៀន">
+							<el-select
+								v-model="classData.class_name"
+								disabled
+							>
+								<el-option
+									label="classData.class_name"
+									value="classData.class_name"
+								/>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="មុខវិទ្យា">
+							<el-select v-model="scoreSubjectGradeId">
+								<el-option
+									v-for="data in subjectData"
+									:key="data"
+									:label="data.teacher_subject_in_class.subject.subject_name_kh"
+									:value="data.teacher_subject_in_class.subject_grade_id"
+								/>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="ប្រភេទពិន្ទុ">
+							<el-select v-model="scoreTypeId">
+								<el-option
+									v-for="data in scoreTypeObj"
+									:key="data"
+									:label="data.name"
+									:value="data.score_type_id"
+								/>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="កំណត់">
+							<el-button
+								type="primary"
+								class="sanfont-khmer"
+								@click="showInfomationStudentScore()"
+							>
+								យល់ព្រម
+							</el-button>
+						</el-form-item>
+					</div>
+				</el-form>
+				<div>
+				</div>
+			</div>
+			<el-table
+				v-loading="loading_schedule"
+				:data="studentObj"
+				resizable="false"
+				header-cell-class-name="sanfont-khmer text-md"
+				row-class-name="sanfont-khmer"
+				style="width: 100%"
+				stripe
+				border
+			>
+				<el-table-column
+					label="ID"
+					type="index"
+					fixed
+				></el-table-column>
+				<el-table-column
+					fixed
+					label="ឈ្មោះសិស្ស"
+					min-width="250"
+				>
+					<template #default="scope">
+						<div>
+							<span class="w-[10px]">
+								<span v-if="scope.row.student_in_class.gender_id ==2">
+									ក. &nbsp;
+								</span>
+								<span v-else>
+									&nbsp;
+									&nbsp;
+									&nbsp;
+								</span>
+							</span>
+							<span>{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}</span>
+						</div>
+					</template>
+				</el-table-column>
+				<el-table-column
+					fixed
+					label="ថ្ងៃខែឆ្នាំកំណើត"
+					min-width="200"
+				>
+					<template #default="scope">
+						<span>
+							{{ scope.row.student_in_class.date_of_birth }}
+						</span>
+					</template>
+				</el-table-column>
+				<el-table-column
+					fixed
+					label="ស្ថានភាព"
+					width="150"
+				>
+					<template #default="scope">
+						<span :style="'color:'+scope.row.student_in_class.status.color">
+							{{ scope.row.student_in_class.status.status_kh }}
+						</span>
+					</template>
+				</el-table-column>
+				<el-table-column
+					v-for="data in attendanceObj"
+					:key="data.attendance_id"
+					width="100"
+					align="center"
+				>
+					<template #header>
+						{{ formatDate(data.created_at)}}
+					</template>
+					<template #default="scope">
+						<span :class="geColor(scope.row['attendance_'+data.attendance_id])">
+							{{ scope.row['attendance_'+data.attendance_id]}}
+						</span>
+					</template>
+				</el-table-column>
+				<el-table-column
+					fixed="right"
+					label="ពិន្ទុ"
+					align="center"
+					min-width="100"
+				>
+					<template #default="scope">
+						<div class="flex space-x-4 ">
+							<el-input
+								v-model="scope.row.mark"
+								placeholder="0.00"
+							/>
+						</div>
+					</template>
+				</el-table-column>
+			</el-table>
+		</div>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button
+					@click="closeFormAttendance()"
+					class="sanfont-khmer"
+				> បោះបង់</el-button>
+				<el-button
+					type="primary"
+					class="sanfont-khmer"
+					@click="printAttendance()"
+				>
+					បោះពុម្ភ
+				</el-button>
+			</span>
+		</template>
+	</el-dialog>
+	<!-- Dialog Form Schedule  -->
 </template>
 <script>
 export default {
 	props: {
 		data: Object,
 		subjectData: Object,
-		studentCallAttendance: Object,
-		dataDayObj: Object,
-		dataTimeObj: Object,
 		classData: Object
 	},
 	data() {
 		return {
 			dialogFormVisible: false,
-			attendanceTimeId: '1',
-			attendanceDayId: '1',
-			attendanceClassId: '1',
+
+			scoreClassId: '1',
+			scoreSubjectGradeId: '',
+			scoreTypeId: '',
 
 			//
-			attendanceObj: [],
 			studentObj: [],
-			dataSubjectGradeObj: []
+			dataSubjectGradeObj: [],
+			scoreTypeObj: []
 
 		}
 	},
 	methods: {
-		addScore() {
-			alert(1);
+		// async collectScore() {
+		// 	const class_id = this.$route.query.id;
+		// 	this.scoreClassId = class_id;
+		// 	const scoreInfo = {
+		// 		'class_id': this.scoreClassId,
+		// 		'subject_grade_id': this.scoreSubjectGradeId,
+		// 		'score_type_id': this.scoreTypeId,
+		// 	}
+		// 	const config = {
+		// 		headers: { 'content-type': 'multipart/form-data' }
+		// 	}
+		// 	await axios.post('/score/collect/' + class_id, scoreInfo, config).then(response => {
+		// 		this.studentObj = response.data.student;
+		// 		this.scoreTypeObj = response.data.score_type;
+		// 		this.dialogFormVisible = true;
+		// 	}).catch((error) => {
+		// 		if (error.response.status == 401) {
+		// 			this.$store.commit("auth/CLEAR_TOKEN")
+		// 		}
+		// 	})
+		// },
+		async showInfomationStudentScore() {
+			const class_id = this.$route.query.id;
+			this.scoreClassId = class_id;
+			const scoreInfo = {
+				'class_id': this.scoreClassId,
+				'subject_grade_id': this.scoreSubjectGradeId,
+				'score_type_id': this.scoreTypeId,
+			}
+			const config = {
+				headers: { 'content-type': 'multipart/form-data' }
+			}
+			await axios.post('/score/collect/' + class_id, scoreInfo, config).then(response => {
+				this.studentObj = response.data.student;
+				this.scoreTypeObj = response.data.score_type;
+				this.dialogFormVisible = true;
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
 		}
 	}
 }

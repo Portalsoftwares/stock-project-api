@@ -26,21 +26,21 @@ class UploadFileController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-             'file' => 'required|mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:2048'
+            'file' => 'required|mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:2048'
         ]);
         $fileUpload = new UploadFile;
-        if($request->hasFile('file')) {
-            $file_name = time().'_'.$request->file->getClientOriginalName();
+        if ($request->hasFile('file')) {
+            $file_name = time() . '_' . $request->file->getClientOriginalName();
             $file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
-            $fileUpload->name = time().'_'.$request->file->getClientOriginalName();
-            $fileUpload->file_path = '/storage/uploads/' . $file_name;
-            $fileUpload->size =$request->file->getSize();
-            $fileUpload->type =$request->file->getClientOriginalExtension();
+            $fileUpload->name = time() . '_' . $request->file->getClientOriginalName();
+            $fileUpload->file_path = 'storage/uploads/' . $file_name;
+            $fileUpload->size = $request->file->getSize();
+            $fileUpload->type = $request->file->getClientOriginalExtension();
             $fileUpload->save();
-            $response = [ 
-                'file' => $fileUpload , 
+            $response = [
+                'file' => $fileUpload,
             ];
-              return  response($response, 201);
+            return  response($response, 201);
         }
     }
 
@@ -77,13 +77,13 @@ class UploadFileController extends Controller
     {
         //
     }
-    public function getUploadFileByActivation(Request $request, $id){
+    public function getUploadFileByActivation(Request $request, $id)
+    {
 
         $files = UploadFile::where('activation_id', $id)->get();
-        $response = [ 
-            'file' => $files , 
+        $response = [
+            'file' => $files,
         ];
         return  response($response, 200);
-
     }
 }

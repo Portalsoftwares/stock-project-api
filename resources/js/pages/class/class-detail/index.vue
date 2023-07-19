@@ -39,59 +39,62 @@
 									<span class="mx-1 sanfont-khmer "> គ្រប់គ្រងកាលវិភាគ</span>
 								</el-button>
 							</div>
-							<el-table
-								v-loading="loading_schedule"
-								:data="tableData"
-								resizable="false"
-								header-cell-class-name="sanfont-khmer text-md"
-								row-class-name="sanfont-khmer"
-								style="width: 100%"
-								stripe
-								border
-							>
-								<el-table-column
-									label="ម៉ោង"
-									fixed
+							<div class="py-2">
+								<el-table
+									v-loading="loading_schedule"
+									:data="tableData"
+									resizable="false"
+									header-cell-class-name="sanfont-khmer text-md"
+									row-class-name="sanfont-khmer"
+									style="width: 100%"
+									stripe
+									border
 								>
-									<template #default="scope">
-										<span>
-											{{ scope.row.name }}
-										</span>
-									</template>
-								</el-table-column>
-								<el-table-column
-									v-for="day in columnDay "
-									:key="day"
-									:prop="day"
-									:label="day.day_name_kh"
-								>
-									<template #default="scope">
-										<div
-											v-for="data in scope.row.get_schedule"
-											:key="data"
-										>
-											<div v-if="data.day_id ==day.day_id">
-												<div
-													v-if="day.day_id== activeDay"
-													class="flex items-center space-x-2 "
-												>
-													<span class="relative flex h-3 w-3">
-														<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-300 opacity-75"></span>
-														<span class="relative inline-flex rounded-full h-3 w-3 bg-blue-400"></span>
-													</span>
-													<el-link
-														@click="callAttenance(data.day_id, data.time_id,data.subject.subject_id)"
-														type="primary"
-													>{{ data.subject.subject.subject_name_kh }}</el-link>
-												</div>
-												<div v-else>
-													{{ data.subject.subject.subject_name_kh }}
+									<el-table-column
+										label="ម៉ោង"
+										fixed
+									>
+										<template #default="scope">
+											<span>
+												{{ scope.row.name }}
+											</span>
+										</template>
+									</el-table-column>
+									<el-table-column
+										v-for="day in columnDay "
+										:key="day"
+										:prop="day"
+										:label="day.day_name_kh"
+									>
+										<template #default="scope">
+											<div
+												v-for="data in scope.row.get_schedule"
+												:key="data"
+											>
+												<div v-if="data.day_id ==day.day_id">
+													<div
+														v-if="day.day_id== activeDay"
+														class="flex items-center space-x-2 "
+													>
+														<span class="relative flex h-3 w-3">
+															<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-300 opacity-75"></span>
+															<span class="relative inline-flex rounded-full h-3 w-3 bg-blue-400"></span>
+														</span>
+														<el-link
+															@click="callAttenance(data.day_id, data.time_id,data.subject.subject_id)"
+															type="primary"
+														>{{ data.subject.subject.subject_name_kh }}</el-link>
+													</div>
+													<div v-else>
+														{{ data.subject.subject.subject_name_kh }}
+													</div>
 												</div>
 											</div>
-										</div>
-									</template>
-								</el-table-column>
-							</el-table>
+										</template>
+									</el-table-column>
+								</el-table>
+
+							</div>
 						</div>
 						<div class="">
 							<div class="flex justify-between py-2 items-center">

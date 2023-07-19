@@ -4,7 +4,7 @@
         "dev": "npm run --max_old_space_size=8192 development",
         "development": "mix",
         "watch": "mix watch",
-        "eq": " npx tailwindcss -i ./resources/js/assets/css/app.css -o ./resources/js/dist/app.css --watch"
+        "style": " npx tailwindcss -i ./resources/js/assets/css/app.css -o ./resources/js/dist/app.css --watch"
     },
     "devDependencies": {
         "axios": "^1.1.2",

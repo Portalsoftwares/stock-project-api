@@ -149,7 +149,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      isOpen: false
+      isOpen: true
     };
   },
   methods: {

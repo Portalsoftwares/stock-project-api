@@ -23,7 +23,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       showSuccess: false,
       showInfo: false,
       dialogFormVisible: false,
-      roles: [],
+      roles: null,
       name: "",
       formLabelWidth: "150px",
       dialogImageUrl: "",
@@ -243,7 +243,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               // this.resetForm('ruleForm');
               _this5.ruleForm.name = '';
               _this5.ruleForm.userId = '';
-              _this5.ruleForm.roles = '';
+              _this5.ruleForm.roles = null;
               _this5.ruleForm.email = '';
               _this5.imageUrl = '';
               _this5.ruleForm.photo_id = '';
@@ -606,6 +606,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
                   return $data.ruleForm.name = $event;
                 }),
+                autocomplete: "off",
                 name: "name",
                 clearable: ""
               }, null, 8 /* PROPS */, ["modelValue"])];
@@ -642,6 +643,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
                   return $data.ruleForm.password = $event;
                 }),
+                autocomplete: "off",
                 name: "password",
                 "show-password": ""
               }, null, 8 /* PROPS */, ["modelValue"])];
@@ -649,7 +651,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
             label: "តួនាទី",
-            prop: "roles",
             "class": "sanfont-khmer",
             "label-width": $data.formLabelWidth
           }, {

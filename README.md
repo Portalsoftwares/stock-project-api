@@ -29,7 +29,7 @@ php artisan db:seed
 ```
 ### 5 Compile style
 ```
-npm run eq
+npm run style
 ```
 ### 6 Compile script
 ```

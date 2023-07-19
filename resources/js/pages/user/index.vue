@@ -143,6 +143,7 @@
 				>
 					<el-input
 						v-model="ruleForm.name"
+						autocomplete="off"
 						name="name"
 						clearable
 					></el-input>
@@ -169,20 +170,20 @@
 				>
 					<el-input
 						v-model="ruleForm.password"
+						autocomplete="off"
 						name="password"
 						show-password
 					/>
 				</el-form-item>
 				<el-form-item
 					label="តួនាទី"
-					prop="roles"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
 				>
 					<el-select
 						v-model="ruleForm.roles"
 						placeholder="Select roles"
-						class="text-left "
+						class="text-left"
 						multiple
 					>
 						<el-option
@@ -270,7 +271,7 @@ export default {
 			showSuccess: false,
 			showInfo: false,
 			dialogFormVisible: false,
-			roles: [],
+			roles: null,
 			name: "",
 			formLabelWidth: "150px",
 			dialogImageUrl: "",
@@ -361,7 +362,6 @@ export default {
 		*/
 		async submitUplaod() {
 			const form = new FormData(document.getElementById('fm'));
-
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
@@ -392,10 +392,9 @@ export default {
 			})
 		},
 		/*
-	*  Function update new user  
-	*/
+		*  Function update new user  
+		*/
 		async updateData() {
-
 			const form = new FormData(document.getElementById('fm'));
 			form.append('role', this.ruleForm.roles)
 			const config = {
@@ -423,7 +422,7 @@ export default {
 			// this.resetForm('ruleForm');
 			this.ruleForm.name = ''
 			this.ruleForm.userId = ''
-			this.ruleForm.roles = ''
+			this.ruleForm.roles = null
 			this.ruleForm.email = ''
 			this.imageUrl = ''
 			this.ruleForm.photo_id = ''

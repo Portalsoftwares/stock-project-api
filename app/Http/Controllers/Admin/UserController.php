@@ -71,7 +71,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'photo_id' => $request->photo_id,
+            'file_upload_id' => $request->photo_id,
             'password' => Hash::make($request->password),
         ]);
         $rolesArray =   explode(',', $request->role);
@@ -143,7 +143,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'photo_id' => $request->photo_id,
+            'file_upload_id' => $request->photo_id,
         ]);
         // Delete all user roles
         DB::table('model_has_roles')->where('model_id', $request->id)->delete();

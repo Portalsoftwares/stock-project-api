@@ -24,7 +24,7 @@ export default {
 	components: { Siade, Header },
 	data() {
 		return {
-			isOpen: false
+			isOpen: true
 		}
 	},
 	methods: {
