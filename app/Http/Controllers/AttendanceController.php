@@ -39,7 +39,6 @@ class AttendanceController extends Controller
         if (!empty($attendance)) {
             $attendanceLine = AttendanceLine::where('attendance_id', $attendance->attendance_id)->get();
         }
-        // dd($attendanceLine);
         $student =   StudentClass::query()->where('class_id', $id)->with(['student_in_class.gender', 'student_in_class.status'])->get();
         $day =   Day::where('day_id', $day_id)->first();
         $time =   Time::where('time_id', $time_id)->first();
@@ -82,7 +81,6 @@ class AttendanceController extends Controller
             $attendanceLine = [];
             if (isset($attendance)) {
                 foreach ($data as $row) {
-                    // dd($row);
                     $obj = [
                         'attendance_id' => $attendance->id,
                         'student_id' => $row['student_id'],

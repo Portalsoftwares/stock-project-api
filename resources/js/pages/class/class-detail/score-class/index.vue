@@ -115,6 +115,7 @@
 								type="primary"
 								class="sanfont-khmer"
 								@click="showInfomationStudentScore()"
+								v-loading.fullscreen.lock="fullscreenLoading"
 							>
 								យល់ព្រម
 							</el-button>
@@ -223,9 +224,10 @@
 				<el-button
 					type="primary"
 					class="sanfont-khmer"
-					@click="printAttendance()"
+					@click="collectScore()"
+					v-loading.fullscreen.lock="fullscreenLoading"
 				>
-					បោះពុម្ភ
+					រក្សាទុក
 				</el-button>
 			</span>
 		</template>
@@ -243,40 +245,54 @@ export default {
 		return {
 			dialogFormVisible: false,
 
-			scoreClassId: '1',
-			scoreSubjectGradeId: '',
-			scoreTypeId: '',
+			scoreClassId: 1,
+			scoreSubjectGradeId: null,
+			scoreTypeId: null,
 
 			//
 			studentObj: [],
 			dataSubjectGradeObj: [],
-			scoreTypeObj: []
+			scoreTypeObj: [],
+			//loading
+			fullscreenLoading: false
 
 		}
 	},
 	methods: {
-		// async collectScore() {
-		// 	const class_id = this.$route.query.id;
-		// 	this.scoreClassId = class_id;
-		// 	const scoreInfo = {
-		// 		'class_id': this.scoreClassId,
-		// 		'subject_grade_id': this.scoreSubjectGradeId,
-		// 		'score_type_id': this.scoreTypeId,
-		// 	}
-		// 	const config = {
-		// 		headers: { 'content-type': 'multipart/form-data' }
-		// 	}
-		// 	await axios.post('/score/collect/' + class_id, scoreInfo, config).then(response => {
-		// 		this.studentObj = response.data.student;
-		// 		this.scoreTypeObj = response.data.score_type;
-		// 		this.dialogFormVisible = true;
-		// 	}).catch((error) => {
-		// 		if (error.response.status == 401) {
-		// 			this.$store.commit("auth/CLEAR_TOKEN")
-		// 		}
-		// 	})
-		// },
+		async collectScore() {
+			const class_id = this.$route.query.id;
+			this.scoreClassId = class_id;
+			const scoreInfo = {
+				'class_id': this.scoreClassId,
+				'score_type_id': this.scoreTypeId,
+				'subject_grade_id': this.scoreSubjectGradeId,
+				'data': this.studentObj,
+			}
+			const config = {
+				headers: { 'content-type': 'application/json' }
+			}
+			await axios.post('/score/collect/' + class_id + '/create', scoreInfo, config).then(response => {
+
+				this.fullscreenLoading = false;
+				this.$notify.success({
+					title: 'ព័ត៌មាន',
+					message: 'បញ្ចូលពិន្ទុបានជោគជ័យ 😊',
+					showClose: true
+				});
+				this.showInfomationStudentScore()
+			}).catch((error) => {
+				this.$notify.error({
+					title: 'កំហុស',
+					message: 'បញ្ចូលពិន្ទុមិនបានជោគជ័យទេ 😓',
+					showClose: true
+				});
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
 		async showInfomationStudentScore() {
+			this.fullscreenLoading = true;
 			const class_id = this.$route.query.id;
 			this.scoreClassId = class_id;
 			const scoreInfo = {
@@ -285,12 +301,14 @@ export default {
 				'score_type_id': this.scoreTypeId,
 			}
 			const config = {
-				headers: { 'content-type': 'multipart/form-data' }
+				headers: { 'content-type': 'application/json' }
 			}
 			await axios.post('/score/collect/' + class_id, scoreInfo, config).then(response => {
 				this.studentObj = response.data.student;
 				this.scoreTypeObj = response.data.score_type;
 				this.dialogFormVisible = true;
+				this.fullscreenLoading = false;
+
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")

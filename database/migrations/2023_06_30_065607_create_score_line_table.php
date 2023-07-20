@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('score_id');
             $table->integer('student_id');
-            $table->integer('subject_grade_id');
+            $table->decimal('mark');
             $table->timestamps();
         });
     }
