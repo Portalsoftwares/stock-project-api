@@ -94,8 +94,7 @@ Route::prefix('v1')->group(function () {
     //Score 
     Route::prefix('score')->group(function () {
       Route::post('/collect/{id}', [ScoreController::class, 'index']);
-      Route::post('/create', [ScoreController::class, 'create']);
-      Route::post('/report/{id}', [ScoreController::class, 'reportInclass']);
+      Route::post('/collect/{id}/create', [ScoreController::class, 'create']);
     });
   });
 });

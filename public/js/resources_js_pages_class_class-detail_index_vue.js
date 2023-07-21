@@ -569,38 +569,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       dialogFormVisible: false,
-      scoreClassId: '1',
-      scoreSubjectGradeId: '',
-      scoreTypeId: '',
+      scoreClassId: 1,
+      scoreSubjectGradeId: null,
+      scoreTypeId: null,
       //
       studentObj: [],
       dataSubjectGradeObj: [],
-      scoreTypeObj: []
+      scoreTypeObj: [],
+      //loading
+      fullscreenLoading: false
     };
   },
   methods: {
-    // async collectScore() {
-    // 	const class_id = this.$route.query.id;
-    // 	this.scoreClassId = class_id;
-    // 	const scoreInfo = {
-    // 		'class_id': this.scoreClassId,
-    // 		'subject_grade_id': this.scoreSubjectGradeId,
-    // 		'score_type_id': this.scoreTypeId,
-    // 	}
-    // 	const config = {
-    // 		headers: { 'content-type': 'multipart/form-data' }
-    // 	}
-    // 	await axios.post('/score/collect/' + class_id, scoreInfo, config).then(response => {
-    // 		this.studentObj = response.data.student;
-    // 		this.scoreTypeObj = response.data.score_type;
-    // 		this.dialogFormVisible = true;
-    // 	}).catch((error) => {
-    // 		if (error.response.status == 401) {
-    // 			this.$store.commit("auth/CLEAR_TOKEN")
-    // 		}
-    // 	})
-    // },
-    showInfomationStudentScore: function showInfomationStudentScore() {
+    collectScore: function collectScore() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var class_id, scoreInfo, config;
@@ -611,20 +592,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this.scoreClassId = class_id;
               scoreInfo = {
                 'class_id': _this.scoreClassId,
+                'score_type_id': _this.scoreTypeId,
                 'subject_grade_id': _this.scoreSubjectGradeId,
-                'score_type_id': _this.scoreTypeId
+                'data': _this.studentObj
               };
               config = {
                 headers: {
-                  'content-type': 'multipart/form-data'
+                  'content-type': 'application/json'
                 }
               };
               _context.next = 6;
-              return axios.post('/score/collect/' + class_id, scoreInfo, config).then(function (response) {
-                _this.studentObj = response.data.student;
-                _this.scoreTypeObj = response.data.score_type;
-                _this.dialogFormVisible = true;
+              return axios.post('/score/collect/' + class_id + '/create', scoreInfo, config).then(function (response) {
+                _this.fullscreenLoading = false;
+                _this.$notify.success({
+                  title: 'ព័ត៌មាន',
+                  message: 'បញ្ចូលពិន្ទុបានជោគជ័យ 😊',
+                  showClose: true
+                });
+                _this.showInfomationStudentScore();
               })["catch"](function (error) {
+                _this.$notify.error({
+                  title: 'កំហុស',
+                  message: 'បញ្ចូលពិន្ទុមិនបានជោគជ័យទេ 😓',
+                  showClose: true
+                });
                 if (error.response.status == 401) {
                   _this.$store.commit("auth/CLEAR_TOKEN");
                 }
@@ -634,6 +625,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return _context.stop();
           }
         }, _callee);
+      }))();
+    },
+    showInfomationStudentScore: function showInfomationStudentScore() {
+      var _this2 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var class_id, scoreInfo, config;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _this2.fullscreenLoading = true;
+              class_id = _this2.$route.query.id;
+              _this2.scoreClassId = class_id;
+              scoreInfo = {
+                'class_id': _this2.scoreClassId,
+                'subject_grade_id': _this2.scoreSubjectGradeId,
+                'score_type_id': _this2.scoreTypeId
+              };
+              config = {
+                headers: {
+                  'content-type': 'application/json'
+                }
+              };
+              _context2.next = 7;
+              return axios.post('/score/collect/' + class_id, scoreInfo, config).then(function (response) {
+                _this2.studentObj = response.data.student;
+                _this2.scoreTypeObj = response.data.score_type;
+                _this2.dialogFormVisible = true;
+                _this2.fullscreenLoading = false;
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this2.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 7:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2);
       }))();
     }
   }
@@ -1314,11 +1343,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             is: "scoreClass",
             subjectData: $data.teacherData,
             classData: $data.classData,
-            dataDayObj: $data.dataDayObj,
-            dataTimeObj: $data.dataTimeObj,
             dataSubjectGradeObj: $data.dataSubjectGradeObj,
             studentCallAttendance: $data.studentCallAttendance
-          }, null, 8 /* PROPS */, ["subjectData", "classData", "dataDayObj", "dataTimeObj", "dataSubjectGradeObj", "studentCallAttendance"])];
+          }, null, 8 /* PROPS */, ["subjectData", "classData", "dataSubjectGradeObj", "studentCallAttendance"])];
         }),
         _: 1 /* STABLE */
       })];
@@ -2161,20 +2188,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" បោះបង់")];
         }),
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_button, {
         type: "primary",
         "class": "sanfont-khmer",
         onClick: _cache[6] || (_cache[6] = function ($event) {
-          return _ctx.printAttendance();
+          return $options.collectScore();
         })
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" បោះពុម្ភ ")];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" រក្សាទុក ")];
         }),
         _: 1 /* STABLE */
-      })])];
+      })), [[_directive_loading, $data.fullscreenLoading, void 0, {
+        fullscreen: true,
+        lock: true
+      }]])])];
     }),
-
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
         "label-position": "top",
@@ -2255,7 +2284,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             label: "កំណត់"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_button, {
                 type: "primary",
                 "class": "sanfont-khmer",
                 onClick: _cache[4] || (_cache[4] = function ($event) {
@@ -2266,9 +2295,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" យល់ព្រម ")];
                 }),
                 _: 1 /* STABLE */
-              })];
+              })), [[_directive_loading, $data.fullscreenLoading, void 0, {
+                fullscreen: true,
+                lock: true
+              }]])];
             }),
-
             _: 1 /* STABLE */
           })])];
         }),

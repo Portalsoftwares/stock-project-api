@@ -15,7 +15,6 @@ class scoreLine extends Model
     protected $fillable = [
         'score_id',
         'student_id',
-        'subject_grade_id',
         'mark'
     ];
 }

@@ -15,5 +15,6 @@ class score extends Model
     protected $fillable = [
         'class_id',
         'score_type_id',
+        'subject_grade_id',
     ];
 }

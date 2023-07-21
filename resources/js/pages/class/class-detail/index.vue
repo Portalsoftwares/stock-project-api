@@ -167,8 +167,6 @@
 						is="scoreClass"
 						:subjectData="teacherData"
 						:classData="classData"
-						:dataDayObj="dataDayObj"
-						:dataTimeObj="dataTimeObj"
 						:dataSubjectGradeObj="dataSubjectGradeObj"
 						:studentCallAttendance="studentCallAttendance"
 					></scoreClass>

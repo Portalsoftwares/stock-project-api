@@ -27,18 +27,16 @@ class ScoreController extends Controller
         $score_type_id = $request->score_type_id;
         $student = StudentClass::query()->where('class_id', $id)->with(['student_in_class.gender', 'student_in_class.status',])->get();
         $score = Score::where(function ($query) use ($class_id, $subject_grade_id, $score_type_id) {
-            $query->where('class_id', $class_id)->where('score_type_id', $score_type_id);
+            $query->where('class_id', $class_id)->where('score_type_id', $score_type_id)->where('subject_grade_id', $subject_grade_id);
         })->first();
-        $scoreLine = [];
-        if (!empty($score)) {
+        $scoreLine = null;
+        if ($score) {
             $scoreLine = scoreLine::where('score_id', $score->score_id)->get();
         }
-
         $scoreType = scoreType::all();
-
         foreach ($student as $index => $data) {
             // បាន​ហៅ វត្តមានហើយ
-            if (!empty($score)) {
+            if (!empty($score) && !$scoreLine->isEmpty()) {
                 if ($data->student_id == $scoreLine[$index]->student_id) {
                     $data['mark'] =  $scoreLine[$index]->mark;
                 }
@@ -47,7 +45,6 @@ class ScoreController extends Controller
                 $data['mark'] = 0.0;
             }
         }
-
         $response = [
             'student' => $student,
             'score_type' => $scoreType
@@ -60,9 +57,54 @@ class ScoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'class_id' => ['required', 'exists:class,class_id'],
+            'score_type_id' => ['required', 'exists:score_type,score_type_id'],
+            'subject_grade_id' => ['required', 'exists:subject_grade_level,subject_grade_id'],
+        ]);
+
+        if ($validator->fails()) {
+            $response = [
+                'errors' => $validator->messages(),
+            ];
+            return  response($response, 400);
+        }
+
+        DB::transaction(function () use ($request) {
+            $score = Score::where(function ($query) use ($request) {
+                $query->where('class_id', $request->class_id)->where('score_type_id', $request->score_type_id)->where('subject_grade_id', $request->subject_grade_id);
+            })->first();
+            //Create
+            if (!$score) {
+                $score = Score::create([
+                    'class_id' => $request->class_id,
+                    'score_type_id' => $request->score_type_id,
+                    'subject_grade_id' => $request->subject_grade_id
+                ]);
+            } else {
+                scoreLine::where('score_id', $score->score_id)->delete();
+            }
+            $data = $request->data ?? [];
+            $scoreLine = [];
+            if (isset($score)) {
+                foreach ($data as $row) {
+                    $obj = [
+                        'score_id' => $score->score_id,
+                        'student_id' => $row['student_id'],
+                        'mark' => $row['mark'],
+                    ];
+                    array_push($scoreLine, $obj);
+                }
+                //Insert scoreLine 
+                scoreLine::insert($scoreLine);
+            }
+        });
+        $response = [
+            'message' => 'success',
+        ];
+        return  response($response, 200);
     }
 
     /**
@@ -71,9 +113,8 @@ class ScoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
     }
 
     /**
