@@ -41,7 +41,7 @@
 								alt="Avatar"
 							/> -->
 							<img
-								:src="user.img!=null ? user.img.file_path: 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'"
+								src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
 								class="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4"
 								alt="Avatar"
 							/>
