@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-white p-2">
+	<div class="bg-white p-2 flex justify-between">
 		<div class="self-start">
 			<el-input
 				placeholder="ស្វែងរក"
@@ -127,7 +127,7 @@
 	<!-- Dialog  -->
 	<el-dialog
 		v-model="dialogFormVisible"
-		title="ព័ត៍មានអ្នកប្រើប្រាស់"
+		title="ព័ត៏មានថ្នាក់រៀន"
 		class="sanfont-khmer"
 		width="50%"
 	>
@@ -140,57 +140,66 @@
 		>
 			<div>
 				<el-form-item
-					label="ឈ្មោះ"
-					prop="name"
+					label="ឈ្មោះថ្នាក់រៀន"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
 				>
 					<el-input
-						v-model="ruleForm.name"
+						v-model="nameClass"
 						name="name"
-						clearable
+						disabled
 					></el-input>
 				</el-form-item>
 				<el-form-item
-					label="សារអេឡិចត្រូនិច"
-					prop="email"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.email"
-						autocomplete="off"
-						name="email"
-						clearable
-					/>
-				</el-form-item>
-				<el-form-item
-					v-if="isShowPassword"
-					label="ពាក្យសម្ងាត់"
-					prop="password"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.password"
-						name="password"
-						show-password
-					/>
-				</el-form-item>
-				<el-form-item
-					label="តួនាទី"
-					prop="roles"
+					label="កំរិតថ្នាក់"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
 				>
 					<el-select
-						v-model="ruleForm.roles"
+						v-model="gradeLevelId"
 						placeholder="Select roles"
 						class="text-left "
-						multiple
+						@change="getNameClass()"
 					>
 						<el-option
-							v-for="data in roles"
+							v-for="data in gradeLevel"
+							:key="data"
+							:label="data.name"
+							:value="data.name"
+						/>
+					</el-select>
+				</el-form-item>
+				<el-form-item
+					label="និមិត្ត"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-select
+						v-model="nameSimbleName"
+						placeholder="Select roles"
+						class="text-left "
+						@change="getNameClass()"
+					>
+						<el-option
+							v-for="data in nameSimble"
+							:key="data"
+							:label="data.name"
+							:value="data.name"
+						/>
+					</el-select>
+				</el-form-item>
+				<el-form-item
+					label="ប្រភេទថ្នាក់"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-select
+						v-model="classTypeId"
+						placeholder="Select roles"
+						class="text-left "
+					>
+						<el-option
+							v-for="data in classType"
 							:key="data"
 							:label="data.name"
 							:value="data.name"
@@ -198,38 +207,6 @@
 					</el-select>
 				</el-form-item>
 			</div>
-			<el-form-item
-				label="រូបភាព"
-				class="sanfont-khmer"
-				:label-width="formLabelWidth"
-			>
-				<div>
-					<el-upload
-						class="avatar-uploader"
-						action="#"
-						name="file"
-						:show-file-list="true"
-						:auto-upload="false"
-						:on-change="handleAvatarSuccess"
-						:before-upload="beforeAvatarUpload"
-					>
-						<img
-							v-if="imageUrl"
-							:src="imageUrl"
-							class="avatar 	object-contain "
-						>
-						<i
-							v-else
-							class="el-icon-plus avatar-uploader-icon"
-						></i>
-					</el-upload>
-					<input
-						type="hidden"
-						name="photo_id"
-						v-model="ruleForm.photo_id"
-					>
-				</div>
-			</el-form-item>
 		</el-form>
 		<el-dialog v-model="dialogVisible">
 			<img
@@ -277,7 +254,7 @@ export default {
 			dialogFormVisible: false,
 			roles: [],
 			name: "",
-			formLabelWidth: "150px",
+			formLabelWidth: "120px",
 			dialogImageUrl: "",
 			dialogVisible: false,
 			files: {},
@@ -314,13 +291,70 @@ export default {
 					{ required: true, message: 'Please add photo', trigger: 'change' }
 				],
 			},
-			search: ''
+			search: '',
+			gradeLevel: [
+				{
+					name: '10',
+					id: '1'
+				},
+				{
+					name: '11',
+					id: 2
+				},
+				{
+					name: '12',
+					id: 3
+				},
+			],
+			classType: [
+				{
+					name: 'ធម្មតា',
+					id: '1'
+				},
+				{
+					name: 'ថ្នាក់វិទ្យាសាស្រ្តពិត',
+					id: 2
+				},
+				{
+					name: 'ថ្នាក់វិទ្យាសាស្រ្តសង្គម',
+					id: 3
+				},
+			],
+			nameSimble: [
+				{
+					name: 'A',
+					id: '1'
+				},
+				{
+					name: 'B',
+					id: 2
+				},
+				{
+					name: 'C',
+					id: 3
+				},
+				{
+					name: 'D',
+					id: 4
+				},
+				{
+					name: 'E',
+					id: 5
+				},
+			],
+			gradeLevelId: '',
+			classTypeId: '',
+			nameSimbleName: '',
+			nameClass: ''
 		}
 	},
 	mounted() {
 		this.getData()
 	},
 	methods: {
+		getNameClass() {
+			this.nameClass = this.gradeLevelId + " " + this.nameSimbleName;
+		},
 		handleAvatarSuccess(file) {
 			if (file) {
 				this.ruleForm.profile_img = file

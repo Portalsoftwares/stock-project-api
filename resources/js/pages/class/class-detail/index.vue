@@ -378,6 +378,7 @@
 					type="primary"
 					class="sanfont-khmer"
 					@click="submitFormAttendance('ruleFormSchedule')"
+					v-loading.fullscreen.lock="fullscreenLoading"
 				>
 					រក្សាទុក
 				</el-button>
@@ -706,6 +707,7 @@ export default {
 			},
 			errors: {},
 			activeDay: '',
+			fullscreenLoading: false
 		}
 	},
 	mounted() {
@@ -877,6 +879,7 @@ export default {
 		*  Function create attendace
 		*/
 		async submitFormAttendance() {
+			this.fullscreenLoading = true;
 			const attendanceInfo = {
 				'class_id': this.attendanceClassId,
 				'time_id': this.attendanceTimeId,
@@ -889,11 +892,19 @@ export default {
 			}
 			await axios.post('/attendance/create', attendanceInfo, config).then(response => {
 				this.getScheduleData();
-				this.$message({
-					message: 'Successfully , this is a success message.',
-					type: 'success'
+				this.fullscreenLoading = false;
+				this.$notify.success({
+					title: 'រួចរាល់',
+					message: 'បញ្ចូលវត្តមានបានជោគជ័យ 😊',
+					showClose: true
 				});
 			}).catch((error) => {
+				this.fullscreenLoading = false;
+				this.$notify.error({
+					title: 'កំហុស',
+					message: 'បញ្ចូលវត្តមានមិនបានជោគជ័យទេ 😓',
+					showClose: true
+				});
 				if (error.response.status == 400) {
 					this.errors = error.response.data.errors;
 					this.$message({
@@ -904,6 +915,7 @@ export default {
 			})
 		},
 		async callAttenance(day_id, time_id, subject_id) {
+			this.fullscreenLoading = true;
 			const class_id = this.$route.query.id;
 			this.attendanceTimeId = time_id;
 			this.attendanceDayId = day_id;
@@ -924,7 +936,13 @@ export default {
 				this.dataTimeObj = response.data.time
 				this.dataSubjectGradeObj = response.data.subject
 				this.dialogFormVisible = true;
+				setTimeout(() => {
+					this.fullscreenLoading = false;
+				}, 2000)
+
 			}).catch((error) => {
+				this.fullscreenLoading = false;
+
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}

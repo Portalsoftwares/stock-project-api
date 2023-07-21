@@ -208,7 +208,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }]
       },
       errors: {},
-      activeDay: ''
+      activeDay: '',
+      fullscreenLoading: false
     };
   },
   mounted: function mounted() {
@@ -457,6 +458,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
+              _this8.fullscreenLoading = true;
               attendanceInfo = {
                 'class_id': _this8.attendanceClassId,
                 'time_id': _this8.attendanceTimeId,
@@ -469,14 +471,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context6.next = 4;
+              _context6.next = 5;
               return axios.post('/attendance/create', attendanceInfo, config).then(function (response) {
                 _this8.getScheduleData();
-                _this8.$message({
-                  message: 'Successfully , this is a success message.',
-                  type: 'success'
+                _this8.fullscreenLoading = false;
+                _this8.$notify.success({
+                  title: 'រួចរាល់',
+                  message: 'បញ្ចូលវត្តមានបានជោគជ័យ 😊',
+                  showClose: true
                 });
               })["catch"](function (error) {
+                _this8.fullscreenLoading = false;
+                _this8.$notify.error({
+                  title: 'កំហុស',
+                  message: 'បញ្ចូលវត្តមានមិនបានជោគជ័យទេ 😓',
+                  showClose: true
+                });
                 if (error.response.status == 400) {
                   _this8.errors = error.response.data.errors;
                   _this8.$message({
@@ -485,7 +495,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
                 }
               });
-            case 4:
+            case 5:
             case "end":
               return _context6.stop();
           }
@@ -499,6 +509,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
           while (1) switch (_context7.prev = _context7.next) {
             case 0:
+              _this9.fullscreenLoading = true;
               class_id = _this9.$route.query.id;
               _this9.attendanceTimeId = time_id;
               _this9.attendanceDayId = day_id;
@@ -515,19 +526,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context7.next = 9;
+              _context7.next = 10;
               return axios.post('/attendance/call/' + class_id, attendanceInfo, config).then(function (response) {
                 _this9.studentCallAttendance = response.data.data;
                 _this9.dataDayObj = response.data.day;
                 _this9.dataTimeObj = response.data.time;
                 _this9.dataSubjectGradeObj = response.data.subject;
                 _this9.dialogFormVisible = true;
+                setTimeout(function () {
+                  _this9.fullscreenLoading = false;
+                }, 2000);
               })["catch"](function (error) {
+                _this9.fullscreenLoading = false;
                 if (error.response.status == 401) {
                   _this9.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 9:
+            case 10:
             case "end":
               return _context7.stop();
           }
@@ -664,6 +679,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2);
       }))();
+    },
+    closeForm: function closeForm() {
+      this.dialogFormVisible = false;
     }
   }
 });
@@ -1373,7 +1391,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" បោះបង់")];
         }),
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_button, {
         type: "primary",
         "class": "sanfont-khmer",
         onClick: _cache[6] || (_cache[6] = function ($event) {
@@ -1384,9 +1402,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" រក្សាទុក ")];
         }),
         _: 1 /* STABLE */
-      })])];
+      })), [[_directive_loading, $data.fullscreenLoading, void 0, {
+        fullscreen: true,
+        lock: true
+      }]])])];
     }),
-
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
         "label-position": "top",
@@ -2180,7 +2200,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
         onClick: _cache[5] || (_cache[5] = function ($event) {
-          return _ctx.closeFormAttendance();
+          return $options.closeForm();
         }),
         "class": "sanfont-khmer"
       }, {
