@@ -218,7 +218,7 @@
 		<template #footer>
 			<span class="dialog-footer">
 				<el-button
-					@click="closeFormAttendance()"
+					@click="closeForm()"
 					class="sanfont-khmer"
 				> បោះបង់</el-button>
 				<el-button
@@ -272,7 +272,6 @@ export default {
 				headers: { 'content-type': 'application/json' }
 			}
 			await axios.post('/score/collect/' + class_id + '/create', scoreInfo, config).then(response => {
-
 				this.fullscreenLoading = false;
 				this.$notify.success({
 					title: 'ព័ត៌មាន',
@@ -314,6 +313,10 @@ export default {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
 			})
+		},
+		closeForm() {
+			this.dialogFormVisible = false
+
 		}
 	}
 }

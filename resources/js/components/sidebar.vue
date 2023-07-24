@@ -25,7 +25,7 @@
 				</div>
 			</div>
 			<div class="flex flex-col justify-between h-[calc(100vh-3rem)] w-full bg-gray-900">
-				<div class="menu-man text-left px-2 whitespace-nowrap flex flex-col space-y-2 ">
+				<div class="menu-man text-left  whitespace-nowrap flex flex-col space-y-2 ">
 					<div
 						class="profile flex justify-center items-center text-center p-5 "
 						v-show="dataSibar"
@@ -50,7 +50,7 @@
 					</div>
 					<div
 						class="    rounded-sm cursor-pointer text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/dashboard"
@@ -66,7 +66,7 @@
 					</div>
 					<div
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/user"
@@ -91,7 +91,7 @@
 					</div>
 					<div
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/teacher"
@@ -116,7 +116,7 @@
 					</div>
 					<div
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/student"
@@ -142,7 +142,7 @@
 
 					<div
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/subject"
@@ -167,7 +167,7 @@
 					</div>
 					<div
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/class"
@@ -191,7 +191,7 @@
 					</div>
 					<div
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/attendentp"
@@ -217,7 +217,7 @@
 				<div class="menu-man text-left px-2 justify-self-end whitespace-nowrap">
 					<div
 						class="   py-3 rounded-md cursor-pointer text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/setting"
@@ -242,7 +242,7 @@
 					</div>
 					<div
 						class="   py-3 rounded-md cursor-pointer text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<a
 							href="https://website-nuxt-front.vercel.app/"

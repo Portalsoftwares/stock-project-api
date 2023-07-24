@@ -3,6 +3,6 @@
   .router-link-exact-active{
     background: #334155!important ;
     color: #fff !important;
-    border-radius: 4px;
+    border-left: 4px solid #ffff;
   } 
 @tailwind utilities;
