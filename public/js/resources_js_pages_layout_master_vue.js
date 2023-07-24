@@ -333,7 +333,7 @@ var _hoisted_7 = {
   "class": "flex flex-col justify-between h-[calc(100vh-3rem)] w-full bg-gray-900"
 };
 var _hoisted_8 = {
-  "class": "menu-man text-left px-2 whitespace-nowrap flex flex-col space-y-2"
+  "class": "menu-man text-left whitespace-nowrap flex flex-col space-y-2"
 };
 var _hoisted_9 = {
   "class": "profile flex justify-center items-center text-center p-5"
@@ -400,7 +400,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4",
     alt: "Avatar"
   }, null, 8 /* PROPS */, _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.user.roles[0].name), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-sm cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-sm cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/dashboard",
     "class": "py-2 px-2 flex space-x-2 items-center"
@@ -419,7 +419,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/user",
     "class": "py-2 px-2 flex space-x-2 items-center"
@@ -449,7 +449,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/teacher",
     "class": "py-2 px-2 flex space-x-2 items-center"
@@ -479,7 +479,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/student",
     "class": "py-2 px-2 flex space-x-2 items-center"
@@ -509,7 +509,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/subject",
     "class": "py-2 px-2 flex space-x-2 items-center"
@@ -539,7 +539,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/class",
     "class": "py-2 px-2 flex space-x-2 items-center"
@@ -569,7 +569,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/attendentp",
     "class": "py-2 px-2 flex space-x-2 items-center"
@@ -599,7 +599,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["py-3 rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["py-3 rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/setting",
     "class": "py-2 px-2 flex space-x-2 items-center"
@@ -629,7 +629,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["py-3 rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["py-3 rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
     "class": "box-item",
     effect: "dark",

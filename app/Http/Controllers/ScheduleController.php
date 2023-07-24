@@ -44,10 +44,10 @@ class ScheduleController extends Controller
 
     public function  getScheduleDayTime(Request $request, $id)
     {
-        $classType = Classes::where('class_id', $id)->select('class_type_id')->first();
+        $class = Classes::where('class_id', $id)->select('grade_level_id', 'class_type_id')->first();
         $day =  Day::all();
         $time = Time::all();
-        $subject = SubjectGradeLevel::where('grade_level_id', $id)->where('class_type_id', $classType->class_type_id)->with('subject')->get();
+        $subject = SubjectGradeLevel::where('grade_level_id', $class->grade_level_id)->where('class_type_id', $class->class_type_id)->with('subject')->get();
         $teacher = Teacher::all();
         $data =  [
             'day' => $day,

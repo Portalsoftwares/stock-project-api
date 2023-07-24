@@ -375,7 +375,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this5.loading_student = true;
               class_id = _this5.$route.query.id;
               _context3.next = 4;
-              return axios.get('/grade_level/teacher/' + class_id + '/get').then(function (response) {
+              return axios.get('/class/teacher/' + class_id + '/get').then(function (response) {
                 _this5.teacherData = response.data.teacher;
                 _this5.studentData = response.data.student;
                 _this5.classData = response.data["class"];

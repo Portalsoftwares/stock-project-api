@@ -36,55 +36,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isShowButtonUpdate: false,
       showDataAs: "Table",
       ruleForm: {
-        name: null,
-        roles: null,
-        password: null,
-        email: null,
-        photo_id: null,
-        userId: null
+        class_name: null,
+        class_type_id: null,
+        grade_level_id: null,
+        academic_id: null,
+        class_symbol: null
       },
       rules: {
-        name: [{
+        class_name: [{
           required: true,
-          message: 'Please input Activity name',
-          trigger: 'blur'
-        }, {
-          min: 3,
-          max: 15,
-          message: 'Length should be 3 to 15',
-          trigger: 'blur'
+          message: 'សូមបញ្ចូលឈ្មោះថ្នាក់'
         }],
-        roles: [{
+        class_symbol: [{
           required: true,
-          message: 'Please select role',
+          message: 'សូមបញ្ចូលឈ្មោះថ្នាក់',
           trigger: 'change'
         }],
-        email: [{
+        class_type_id: [{
           required: true,
-          message: 'Please input email address',
-          trigger: 'blur'
-        }, {
-          type: 'email',
-          message: 'Please input correct email address',
-          trigger: ['blur', 'change']
+          message: 'សូមបញ្ចូលប្រភេទថ្នាក់',
+          trigger: 'change'
         }],
-        password: [{
+        grade_level_id: [{
           required: true,
-          message: 'Please set password',
-          trigger: 'blur'
-        }, {
-          min: 8,
-          max: 15,
-          message: 'Length should be 3 to 15',
-          trigger: 'blur'
+          message: 'សូមបញ្ចូលកំរិតថ្នាក់',
+          trigger: 'change'
         }],
-        photo_id: [{
+        academic_id: [{
           required: true,
-          message: 'Please add photo',
+          message: 'សូមបញ្ចូលឆ្នាំសិក្សា',
           trigger: 'change'
         }]
       },
       search: '',
+      academic: [{
+        name: 'ឆ្នាំសិក្សា២០២១-២០២២',
+        id: '1'
+      }, {
+        name: 'ឆ្នាំសិក្សា២០២២-២០២៣',
+        id: 2
+      }, {
+        name: 'ឆ្នាំសិក្សា២០២៣-២០២៤',
+        id: 3
+      }],
       gradeLevel: [{
         name: '10',
         id: '1'
@@ -97,13 +91,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       classType: [{
         name: 'ធម្មតា',
-        id: '1'
+        id: '1',
+        disabled: true
       }, {
         name: 'ថ្នាក់វិទ្យាសាស្រ្តពិត',
-        id: 2
+        id: 2,
+        disabled: true
       }, {
         name: 'ថ្នាក់វិទ្យាសាស្រ្តសង្គម',
-        id: 3
+        id: 3,
+        disabled: true
       }],
       nameSimble: [{
         name: 'A',
@@ -121,9 +118,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         name: 'E',
         id: 5
       }],
-      gradeLevelId: '',
-      classTypeId: '',
-      nameSimbleName: '',
+      gradeLevelId: null,
       nameClass: ''
     };
   },
@@ -132,7 +127,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     getNameClass: function getNameClass() {
-      this.nameClass = this.gradeLevelId + " " + this.nameSimbleName;
+      var _this$gradeLevelId, _this$gradeLevelId$na, _this$gradeLevelId2;
+      this.ruleForm.grade_level_id = (_this$gradeLevelId = this.gradeLevelId) === null || _this$gradeLevelId === void 0 ? void 0 : _this$gradeLevelId.id;
+      this.ruleForm.class_name = ((_this$gradeLevelId$na = (_this$gradeLevelId2 = this.gradeLevelId) === null || _this$gradeLevelId2 === void 0 ? void 0 : _this$gradeLevelId2.name) !== null && _this$gradeLevelId$na !== void 0 ? _this$gradeLevelId$na : '') + " " + this.ruleForm.class_symbol;
     },
     handleAvatarSuccess: function handleAvatarSuccess(file) {
       if (file) {
@@ -157,9 +154,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$refs[formName].validate(function (valid) {
         if (valid) {
           _this.submitData();
-          _this.resetForm('ruleForm');
+          // this.resetForm('ruleForm')
         } else {
-          console.log('error submit!!');
+          _this.$notify.error({
+            title: 'កំហុស',
+            message: 'បញ្ចូលមិនបានជោគជ័យទេ 😓',
+            showClose: true
+          });
           return false;
         }
       });
@@ -211,27 +212,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     submitData: function submitData() {
       var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var form, config;
+        var data, config;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              form = new FormData(document.getElementById('fm'));
-              form.append('role', _this3.ruleForm.roles);
+              data = {
+                'class_name': _this3.ruleForm.class_name,
+                'class_type_id': _this3.ruleForm.class_type_id,
+                'grade_level_id': _this3.ruleForm.grade_level_id,
+                'academic_id': _this3.ruleForm.academic_id
+              };
               config = {
                 headers: {
-                  'content-type': 'multipart/form-data'
+                  'content-type': 'application/json'
                 }
               };
-              _context2.next = 5;
-              return axios.post('/user/store', form, config).then(function (response) {
-                _this3.getData();
+              _context2.next = 4;
+              return axios.post('/class/store', data, config).then(function (response) {
                 _this3.dialogFormVisible = false;
-                _this3.$message({
-                  message: 'Congrats, this is a success message.',
-                  type: 'success'
+                _this3.$notify.success({
+                  title: 'ព័ត៌មាន',
+                  message: 'បញ្ចូលបានជោគជ័យ 😊',
+                  showClose: true
                 });
+                _this3.getData();
               });
-            case 5:
+            case 4:
             case "end":
               return _context2.stop();
           }
@@ -317,7 +323,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _this6.loading_class = true;
               _context5.next = 3;
-              return axios.get('/grade_level/get').then(function (response) {
+              return axios.get('/class/get').then(function (response) {
                 _this6.tableData = response.data.data;
                 _this6.loading_class = false;
               })["catch"](function (error) {
@@ -549,7 +555,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-            to: '/class-detail?id=' + scope.row.grade_level_id,
+            to: '/class-detail?id=' + scope.row.class_id,
             "class": "mx-2"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -603,7 +609,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     total: 1000
   })])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisible,
-    "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
       return $data.dialogFormVisible = $event;
     }),
     title: "ព័ត៏មានថ្នាក់រៀន",
@@ -612,7 +618,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, {
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[8] || (_cache[8] = function ($event) {
+        onClick: _cache[9] || (_cache[9] = function ($event) {
           return $options.cancelAction();
         }),
         "class": "sanfont-khmer"
@@ -625,7 +631,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 0,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[9] || (_cache[9] = function ($event) {
+        onClick: _cache[10] || (_cache[10] = function ($event) {
           return $options.submitForm('ruleForm');
         })
       }, {
@@ -637,7 +643,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 1,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[10] || (_cache[10] = function ($event) {
+        onClick: _cache[11] || (_cache[11] = function ($event) {
           return $options.updateData('ruleForm');
         })
       }, {
@@ -658,14 +664,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
             label: "ឈ្មោះថ្នាក់រៀន",
+            prop: "class_name",
             "class": "sanfont-khmer",
             "label-width": $data.formLabelWidth
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.nameClass,
+                modelValue: $data.ruleForm.class_name,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-                  return $data.nameClass = $event;
+                  return $data.ruleForm.class_name = $event;
                 }),
                 name: "name",
                 disabled: ""
@@ -673,19 +680,50 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "កំរិតថ្នាក់",
+            label: "ឆ្នាំសិក្សា",
+            prop: "academic_id",
             "class": "sanfont-khmer",
             "label-width": $data.formLabelWidth
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $data.gradeLevelId,
+                modelValue: $data.ruleForm.academic_id,
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-                  return $data.gradeLevelId = $event;
+                  return $data.ruleForm.academic_id = $event;
                 }),
                 placeholder: "Select roles",
+                "class": "text-left"
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.academic, function (data) {
+                    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
+                      key: data,
+                      label: data.name,
+                      value: data.id
+                    }, null, 8 /* PROPS */, ["label", "value"]);
+                  }), 128 /* KEYED_FRAGMENT */))];
+                }),
+
+                _: 1 /* STABLE */
+              }, 8 /* PROPS */, ["modelValue"])];
+            }),
+            _: 1 /* STABLE */
+          }, 8 /* PROPS */, ["label-width"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+            label: "កំរិតថ្នាក់",
+            "class": "sanfont-khmer",
+            prop: "grade_level_id",
+            "label-width": $data.formLabelWidth
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
+                modelValue: $data.gradeLevelId,
+                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+                  return $data.gradeLevelId = $event;
+                }),
+                "value-key": "id",
+                placeholder: "Select roles",
                 "class": "text-left",
-                onChange: _cache[3] || (_cache[3] = function ($event) {
+                onChange: _cache[4] || (_cache[4] = function ($event) {
                   return $options.getNameClass();
                 })
               }, {
@@ -694,7 +732,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
                       key: data,
                       label: data.name,
-                      value: data.name
+                      value: data
                     }, null, 8 /* PROPS */, ["label", "value"]);
                   }), 128 /* KEYED_FRAGMENT */))];
                 }),
@@ -706,17 +744,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, 8 /* PROPS */, ["label-width"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
             label: "និមិត្ត",
             "class": "sanfont-khmer",
+            prop: "class_symbol",
             "label-width": $data.formLabelWidth
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $data.nameSimbleName,
-                "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-                  return $data.nameSimbleName = $event;
+                modelValue: $data.ruleForm.class_symbol,
+                "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+                  return $data.ruleForm.class_symbol = $event;
                 }),
                 placeholder: "Select roles",
                 "class": "text-left",
-                onChange: _cache[5] || (_cache[5] = function ($event) {
+                onChange: _cache[6] || (_cache[6] = function ($event) {
                   return $options.getNameClass();
                 })
               }, {
@@ -737,24 +776,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, 8 /* PROPS */, ["label-width"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
             label: "ប្រភេទថ្នាក់",
             "class": "sanfont-khmer",
+            prop: "class_type_id",
             "label-width": $data.formLabelWidth
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $data.classTypeId,
-                "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-                  return $data.classTypeId = $event;
+                modelValue: $data.ruleForm.class_type_id,
+                "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+                  return $data.ruleForm.class_type_id = $event;
                 }),
                 placeholder: "Select roles",
                 "class": "text-left"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.classType, function (data) {
+                    var _ctx$item;
                     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
                       key: data,
                       label: data.name,
-                      value: data.name
-                    }, null, 8 /* PROPS */, ["label", "value"]);
+                      value: data.id,
+                      disabled: (_ctx$item = _ctx.item) === null || _ctx$item === void 0 ? void 0 : _ctx$item.disabled
+                    }, null, 8 /* PROPS */, ["label", "value", "disabled"]);
                   }), 128 /* KEYED_FRAGMENT */))];
                 }),
 
@@ -767,7 +809,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["model", "rules"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
         modelValue: $data.dialogVisible,
-        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
           return $data.dialogVisible = $event;
         })
       }, {

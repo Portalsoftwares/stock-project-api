@@ -70,11 +70,13 @@ Route::prefix('v1')->group(function () {
     Route::prefix('subject')->group(function () {
       Route::get('/get', [SubjectController::class, 'index']);
     });
-    //Grade Level
-    Route::prefix('grade_level')->group(function () {
+    //Class
+    Route::prefix('class')->group(function () {
       Route::get('/get', [ClassController::class, 'index']);
       Route::get('/teacher/{id}/get', [ClassController::class, 'getTeacher']);
+      Route::post('/store', [ClassController::class, 'store']);
     });
+
     //Schedule class
     Route::prefix('schedule_class')->group(function () {
       Route::get('/{id}/get', [ScheduleController::class, 'index']);

@@ -834,7 +834,7 @@ export default {
 		async getTeacher() {
 			this.loading_student = true;
 			const class_id = this.$route.query.id;
-			await axios.get('/grade_level/teacher/' + class_id + '/get').then(response => {
+			await axios.get('/class/teacher/' + class_id + '/get').then(response => {
 				this.teacherData = response.data.teacher
 				this.studentData = response.data.student
 				this.classData = response.data.class

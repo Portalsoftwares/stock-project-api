@@ -88,7 +88,7 @@
 						>
 							<template #default="scope">
 								<router-link
-									:to="'/class-detail?id='+scope.row.grade_level_id"
+									:to="'/class-detail?id='+scope.row.class_id"
 									class="mx-2"
 								>
 									<el-button
@@ -141,22 +141,44 @@
 			<div>
 				<el-form-item
 					label="ឈ្មោះថ្នាក់រៀន"
+					prop="class_name"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
 				>
 					<el-input
-						v-model="nameClass"
+						v-model="ruleForm.class_name"
 						name="name"
 						disabled
 					></el-input>
 				</el-form-item>
 				<el-form-item
-					label="កំរិតថ្នាក់"
+					label="ឆ្នាំសិក្សា"
+					prop="academic_id"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
 				>
 					<el-select
+						v-model="ruleForm.academic_id"
+						placeholder="Select roles"
+						class="text-left "
+					>
+						<el-option
+							v-for="data in academic"
+							:key="data"
+							:label="data.name"
+							:value="data.id"
+						/>
+					</el-select>
+				</el-form-item>
+				<el-form-item
+					label="កំរិតថ្នាក់"
+					class="sanfont-khmer"
+					prop="grade_level_id"
+					:label-width="formLabelWidth"
+				>
+					<el-select
 						v-model="gradeLevelId"
+						value-key="id"
 						placeholder="Select roles"
 						class="text-left "
 						@change="getNameClass()"
@@ -165,17 +187,19 @@
 							v-for="data in gradeLevel"
 							:key="data"
 							:label="data.name"
-							:value="data.name"
+							:value="data"
 						/>
 					</el-select>
 				</el-form-item>
+
 				<el-form-item
 					label="និមិត្ត"
 					class="sanfont-khmer"
+					prop="class_symbol"
 					:label-width="formLabelWidth"
 				>
 					<el-select
-						v-model="nameSimbleName"
+						v-model="ruleForm.class_symbol"
 						placeholder="Select roles"
 						class="text-left "
 						@change="getNameClass()"
@@ -191,18 +215,20 @@
 				<el-form-item
 					label="ប្រភេទថ្នាក់"
 					class="sanfont-khmer"
+					prop="class_type_id"
 					:label-width="formLabelWidth"
 				>
 					<el-select
-						v-model="classTypeId"
+						v-model="ruleForm.class_type_id"
 						placeholder="Select roles"
-						class="text-left "
+						class="text-left"
 					>
 						<el-option
 							v-for="data in classType"
 							:key="data"
 							:label="data.name"
-							:value="data.name"
+							:value="data.id"
+							:disabled="item?.disabled"
 						/>
 					</el-select>
 				</el-form-item>
@@ -264,34 +290,45 @@ export default {
 			isShowButtonUpdate: false,
 			showDataAs: "Table",
 			ruleForm: {
-				name: null,
-				roles: null,
-				password: null,
-				email: null,
-				photo_id: null,
-				userId: null
+				class_name: null,
+				class_type_id: null,
+				grade_level_id: null,
+				academic_id: null,
+				class_symbol: null
 			},
 			rules: {
-				name: [
-					{ required: true, message: 'Please input Activity name', trigger: 'blur' },
-					{ min: 3, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
+				class_name: [
+					{ required: true, message: 'សូមបញ្ចូលឈ្មោះថ្នាក់' },
 				],
-				roles: [
-					{ required: true, message: 'Please select role', trigger: 'change' }
+				class_symbol: [
+					{ required: true, message: 'សូមបញ្ចូលឈ្មោះថ្នាក់', trigger: 'change' },
 				],
-				email: [
-					{ required: true, message: 'Please input email address', trigger: 'blur' },
-					{ type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
+				class_type_id: [
+					{ required: true, message: 'សូមបញ្ចូលប្រភេទថ្នាក់', trigger: 'change' }
 				],
-				password: [
-					{ required: true, message: 'Please set password', trigger: 'blur' },
-					{ min: 8, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
+				grade_level_id: [
+					{ required: true, message: 'សូមបញ្ចូលកំរិតថ្នាក់', trigger: 'change' },
 				],
-				photo_id: [
-					{ required: true, message: 'Please add photo', trigger: 'change' }
+				academic_id: [
+					{ required: true, message: 'សូមបញ្ចូលឆ្នាំសិក្សា', trigger: 'change' },
 				],
+
 			},
 			search: '',
+			academic: [
+				{
+					name: 'ឆ្នាំសិក្សា២០២១-២០២២',
+					id: '1'
+				},
+				{
+					name: 'ឆ្នាំសិក្សា២០២២-២០២៣',
+					id: 2
+				},
+				{
+					name: 'ឆ្នាំសិក្សា២០២៣-២០២៤',
+					id: 3
+				},
+			],
 			gradeLevel: [
 				{
 					name: '10',
@@ -309,15 +346,18 @@ export default {
 			classType: [
 				{
 					name: 'ធម្មតា',
-					id: '1'
+					id: '1',
+					disabled: true,
 				},
 				{
 					name: 'ថ្នាក់វិទ្យាសាស្រ្តពិត',
-					id: 2
+					id: 2,
+					disabled: true,
 				},
 				{
 					name: 'ថ្នាក់វិទ្យាសាស្រ្តសង្គម',
-					id: 3
+					id: 3,
+					disabled: true,
 				},
 			],
 			nameSimble: [
@@ -342,9 +382,7 @@ export default {
 					id: 5
 				},
 			],
-			gradeLevelId: '',
-			classTypeId: '',
-			nameSimbleName: '',
+			gradeLevelId: null,
 			nameClass: ''
 		}
 	},
@@ -353,7 +391,8 @@ export default {
 	},
 	methods: {
 		getNameClass() {
-			this.nameClass = this.gradeLevelId + " " + this.nameSimbleName;
+			this.ruleForm.grade_level_id = this.gradeLevelId?.id
+			this.ruleForm.class_name = (this.gradeLevelId?.name ?? '') + " " + this.ruleForm.class_symbol;
 		},
 		handleAvatarSuccess(file) {
 			if (file) {
@@ -377,9 +416,13 @@ export default {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
 					this.submitData()
-					this.resetForm('ruleForm')
+					// this.resetForm('ruleForm')
 				} else {
-					console.log('error submit!!');
+					this.$notify.error({
+						title: 'កំហុស',
+						message: 'បញ្ចូលមិនបានជោគជ័យទេ 😓',
+						showClose: true
+					});
 					return false;
 				}
 			});
@@ -416,18 +459,24 @@ export default {
 		*  Function create new user  
 		*/
 		async submitData() {
-			const form = new FormData(document.getElementById('fm'));
-			form.append('role', this.ruleForm.roles)
-			const config = {
-				headers: { 'content-type': 'multipart/form-data' }
+			const data = {
+				'class_name': this.ruleForm.class_name,
+				'class_type_id': this.ruleForm.class_type_id,
+				'grade_level_id': this.ruleForm.grade_level_id,
+				'academic_id': this.ruleForm.academic_id,
 			}
-			await axios.post('/user/store', form, config).then(response => {
-				this.getData();
+			const config = {
+				headers: { 'content-type': 'application/json' }
+			}
+
+			await axios.post('/class/store', data, config).then(response => {
 				this.dialogFormVisible = false;
-				this.$message({
-					message: 'Congrats, this is a success message.',
-					type: 'success'
+				this.$notify.success({
+					title: 'ព័ត៌មាន',
+					message: 'បញ្ចូលបានជោគជ័យ 😊',
+					showClose: true
 				});
+				this.getData();
 			})
 		},
 		/*
@@ -480,7 +529,7 @@ export default {
 		},
 		async getData() {
 			this.loading_class = true;
-			await axios.get('/grade_level/get').then(response => {
+			await axios.get('/class/get').then(response => {
 				this.tableData = response.data.data
 				this.loading_class = false;
 			}).catch((error) => {
