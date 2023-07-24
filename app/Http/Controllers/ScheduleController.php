@@ -29,7 +29,7 @@ class ScheduleController extends Controller
         $schedule = [];
         $timeData = [];
         if (!empty($data)) {
-            $schedule = $data->class_id;
+            $schedule = $data->schedule_id;
             $timeData =  Time::with([
                 'getSchedule.subject.subject', 'getSchedule' => function ($query) use ($schedule) {
                     $query->where('schedule_id', $schedule);
