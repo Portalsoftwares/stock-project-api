@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="bg-gray-800  text-white overflow-hidden"
+		class=" text-white  "
 		id="side-bar"
 		:class="dataSibar == true ? 'side-bar-visible' : 'side-bar-close'"
 	>
@@ -8,7 +8,7 @@
 			style="height: 3rem"
 			class="w-full"
 		>
-			<div class="h-full flex justify-center items-center  ">
+			<div class="h-full flex justify-center items-center shadow-md bg-blue-900">
 				<span
 					class="font-semibold uppercase text-xl px-6 whitespace-nowrap sanfont-khmer"
 					v-if="dataSibar"
@@ -24,7 +24,7 @@
 					/>
 				</div>
 			</div>
-			<div class="flex flex-col justify-between h-[calc(100vh-3rem)] w-full bg-gray-900">
+			<div class="flex flex-col justify-between h-[calc(100vh-3rem)] w-full bg-blue-900">
 				<div class="menu-man text-left  whitespace-nowrap flex flex-col space-y-2 ">
 					<div
 						class="profile flex justify-center items-center text-center p-5 "
@@ -54,7 +54,7 @@
 					>
 						<router-link
 							to="/dashboard"
-							class="py-2 px-2 flex space-x-2 items-center"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-icon style="font-size: 1.2rem">
 								<Menu />
@@ -70,7 +70,7 @@
 					>
 						<router-link
 							to="/user"
-							class="py-2 px-2 flex space-x-2 items-center"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
@@ -95,7 +95,7 @@
 					>
 						<router-link
 							to="/teacher"
-							class="py-2 px-2 flex space-x-2 items-center"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
@@ -120,7 +120,7 @@
 					>
 						<router-link
 							to="/student"
-							class="py-2 px-2 flex space-x-2 items-center"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
@@ -146,7 +146,7 @@
 					>
 						<router-link
 							to="/subject"
-							class="py-2 px-2 flex space-x-2 items-center"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
@@ -171,7 +171,8 @@
 					>
 						<router-link
 							to="/class"
-							class="py-2 px-2 flex space-x-2 items-center"
+							:class="[activeMenuNameRoute('class')?'router-link-exact-active':'']"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
@@ -190,17 +191,17 @@
 						</router-link>
 					</div>
 					<div
-						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
+						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white  "
 						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
-							to="/attendentp"
-							class="py-2 px-2 flex space-x-2 items-center"
+							to="/reports"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
 								effect="dark"
-								content="វត្តមានសិស្ស"
+								content="របាយការណ៍"
 								placement="right-start"
 							>
 								<el-icon style="font-size: 1.2rem">
@@ -210,7 +211,7 @@
 							<span
 								v-show="dataSibar"
 								class="sanfont-khmer  text-sm"
-							> វត្តមានសិស្ស</span>
+							> របាយការណ៍</span>
 						</router-link>
 					</div>
 				</div>
@@ -221,7 +222,7 @@
 					>
 						<router-link
 							to="/setting"
-							class="py-2 px-2 flex space-x-2 items-center"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
@@ -239,32 +240,6 @@
 								class="sanfont-khmer text-sm"
 							>ការកំណត់ </span>
 						</router-link>
-					</div>
-					<div
-						class="   py-3 rounded-md cursor-pointer text-gray-300 hover:text-white"
-						:class="dataSibar == true ? ' ' : ''"
-					>
-						<a
-							href="https://website-nuxt-front.vercel.app/"
-							target="_blank"
-							class="px-2 flex space-x-2"
-						>
-							<el-tooltip
-								class="box-item"
-								effect="dark"
-								content="អំពីយើង"
-								placement="right-start"
-							>
-								<el-icon style="font-size: 1.2rem">
-									<Warning />
-								</el-icon>
-							</el-tooltip>
-
-							<span
-								v-show="dataSibar"
-								class="sanfont-khmer text-sm"
-							>អំពីយើង </span>
-						</a>
 					</div>
 				</div>
 			</div>
@@ -288,6 +263,11 @@ export default {
 			user: 'auth/user',
 		})
 	},
+	methods: {
+		activeMenuNameRoute(name) {
+			return this.$route.name.includes(name);
+		}
+	}
 };
 </script>
 
