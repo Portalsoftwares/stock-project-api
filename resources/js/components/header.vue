@@ -4,25 +4,39 @@
 		style="height: 3rem"
 	>
 		<div class="flex items-center justify-between  w-full p-button-sm">
-			<div class="flex space-x-2 h-full">
+			<div class="flex space-x-1 h-full">
 				<div
 					@click="toggleSideBar"
 					class="h-full px-5 hover:bg-gray-100 flex items-center cursor-pointer"
 				>
 					<el-icon style="font-size: 1.2rem">
-						<Fold />
+						<Fold />  
 					</el-icon>
 				</div>
+				<div class="pt-[13px]">
+					<span class="text-[16px]">ប្រព័ន្ធគ្រប់គ្រងសិស្សានុសិស្ស ជំនាន់ ១.0</span>
+				</div>
+						
+			</div>
+			
+	
+			<div class="flex space-x-6">
 
-			</div>
-			<div class="py-1">
-				<!-- <InputText placeholder="Search Menu" type="text" class="min-w-[300px]" /> -->
-			</div>
-			<div>
+				<div class="self-center">
+					<el-input
+					placeholder="ស្វែងរក"
+					class="sanfont-khmer"
+					v-model="a"
+					>
+					<i class="el-input__icon el-icon-search"></i>
+					<CirclePlusFilled class="el-input__icon" />
+					</el-input>
+				</div>
 				<div
 					class="px-4 flex justify-center items-center space-x-4"
 					v-if="user"
-				>
+				>	
+				
 					<span class="text-gray-600 text-[14px]">{{ user.name }}</span>
 
 					<el-dropdown
@@ -152,4 +166,6 @@ export default {
 	display: flex;
 	align-items: center;
 }
+
+
 </style>

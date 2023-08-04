@@ -1,5 +1,6 @@
 <template>
 	<div class="bg-white p-2 w-full flex justify-between">
+		<div class="flex space-x-2">
 		<div class="self-start">
 			<el-input
 				placeholder="ស្វែងរក"
@@ -10,6 +11,18 @@
 				<CirclePlusFilled class="el-input__icon" />
 			</el-input>
 		</div>
+		<div class="self-start  " >
+			<el-select v-model="filterSelectValue" filterable placeholder="តម្រៀប">
+    		<el-option
+    		  	v-for="item in filter"
+      			:key="item.filterValue"
+      			:label="item.filterLabel"
+      			:value="item.filterValue">
+    		</el-option>
+  			</el-select>
+		</div>
+		</div>
+
 		<div class="self-end">
 			<el-button
 				type="primary"
@@ -18,7 +31,7 @@
 				<el-icon>
 					<CirclePlusFilled />
 				</el-icon>
-				<span class="mx-1 sanfont-khmer"> បន្ថែម សិស្ស</span>
+				<span class="mx-1 sanfont-khmer"> បន្ថែមគ្រូ</span>
 			</el-button>
 		</div>
 	</div>
@@ -47,7 +60,7 @@
 				</div>
 				<el-table
 					:data="tableData"
-					height="800"
+					height="770"
 					style="width: 100%"
 					resizable="true"
 					header-cell-class-name="sanfont-khmer text-md"
@@ -59,22 +72,36 @@
 						width="55"
 					/>
 					<el-table-column
-						sortable
+						type="index"
+      					width="90"
+						label="ល.រ"
+					>
+						<template #default="scope">{{scope.row.teacher_id }}</template>
+					</el-table-column>
+					<el-table-column
+						width="250"
 						label="គោត្តនាម និងនាម"
 					>
 						<template #default="scope">{{scope.row.first_name_kh +" "+scope.row.last_name_kh }}</template>
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
-						label="គោត្តនាម និងនាម ឡាតាំង"
+						label="គោត្តនាម និងនាមជាភាសាឡាតាំង"
+						width="320"
 					>
 						<template #default="scope">{{scope.row.first_name_en +" "+scope.row.last_name_en }}</template>
 
 					</el-table-column>
 					<el-table-column
+						width="180"
+						label="ភេទ"
+					>
+						<template #default="scope">{{scope.row.gender_id}}</template>
+					</el-table-column>
+					<el-table-column
 						property="profile"
 						label="រូបភាព"
-						width="300"
+						width="200"
 					>
 						<template #default="scope">
 							<img
@@ -83,6 +110,16 @@
 								title="profile"
 								class="h-[50px] w-[50px] rounded-full"
 							>
+						</template>
+					</el-table-column>
+					<el-table-column
+						label="ថ្ងៃ ខែ ឆ្នាំកំណើត"
+						width="332"
+					>
+						<template #default="scope">
+							<div>
+								{{ scope.row.date_of_birth}}
+							</div>
 						</template>
 					</el-table-column>
 					<el-table-column
@@ -105,7 +142,7 @@
 					</el-table-column>
 					<el-empty description="description"></el-empty>
 				</el-table>
-				<div class="py-2">
+				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
 						layout="prev, pager, next"
@@ -305,7 +342,21 @@ export default {
 					{ required: true, message: 'Please add photo', trigger: 'change' }
 				],
 			},
-			search: ''
+			search: '',
+			filter: [{
+					filterValue: 'តាមឈ្មោះ',
+        			filterLabel: 'តាមឈ្មោះ'
+       				 }, {
+					filterValue: 'តាមលេខរៀង',
+        			filterLabel: 'តាមលេខរៀង'
+       				 },{
+					filterValue: 'តាមកាលបរិច្ឆេត',
+        			filterLabel: 'តាមកាលបរិច្ឆេត'
+       				 }, {
+					filterValue: 'តាមទំហំផ្ទុក',
+					filterLabel: 'តាមទំហំផ្ទុក'
+        	}],
+			filterSelectValue: "",
 		}
 	},
 	mounted() {

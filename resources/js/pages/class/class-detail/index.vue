@@ -3,11 +3,11 @@
 		<div class="bg-white p-2 w-full flex-col justify-between">
 			<div class="flex justify-between py-2">
 				<el-page-header @back="Back">
-					<template #title>
+					<template #title>	
 						<span class="sanfont-khmer text-sm"> ថយក្រោយ</span>
-					</template>
+					</template> 
 					<template #content>
-						<span class="text-large font-600 mr-3 sanfont-khmer text-xl "> ថ្នាក់​ទី {{ classData.class_name }} </span>
+						<span class="text-large font-600 mr-3 sanfont-khmer text-xl "> ថ្នាក់​ទី {{ classData.class_name }} </span> 
 					</template>
 				</el-page-header>
 				<div class="self-end">
