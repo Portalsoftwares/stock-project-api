@@ -35,9 +35,8 @@
 				<div
 					class="px-4 flex justify-center items-center space-x-4"
 					v-if="user"
-				>	
-				
-					<span class="text-gray-600 text-[14px]">{{ user.name }}</span>
+				>
+					<span class="text-gray-600 text-[14px]"> សួស្ដី, {{ user.name }}</span>
 
 					<el-dropdown
 						ref="dropdown1"

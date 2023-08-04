@@ -66,7 +66,7 @@
 					height="770"
 					style="width: 100%"
 					resizable="true"
-					header-cell-class-name="sanfont-khmer text-md"
+					header-cell-class-name="header-table-font-khmer text-md"
 					row-class-name="sanfont-khmer"
 					selectable
 				>
@@ -76,13 +76,17 @@
 						width="55"
 					/>
 
+					
 					<el-table-column
 						type="index"
       					width="90"
+						align="start"
 						label="ល.រ"
+						
 					>
 						<template #default="scope">{{scope.row.student_id }}</template>
 					</el-table-column>
+					
 
 					<el-table-column
 						width="250"
@@ -102,12 +106,16 @@
 						width="120"
 						label="ភេទ"
 					>
-						<template #default="scope">{{scope.row.gender_id}}</template>
+						<template #default="scope">
+							<div v-if="scope.row.gender_id == 1">ប្រុស</div>
+							<div v-else>ស្រី</div>
+						</template>
 					</el-table-column>
 					<el-table-column
 						width="180"
 						label="ថ្នាក់រៀន"
 						sortable
+						
 						:filters="classData"
 					>
 						<template #default="scope">
@@ -116,7 +124,7 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="រូបភាព">
+					<el-table-column label="រូបភាព" > 
 						<template #default="scope">
 							<img
 								:src="scope.row.profile_img.file_path"
@@ -136,11 +144,9 @@
 						</template>
 					</el-table-column>
 					<el-table-column
-						fixed="right"
 						align="center"
+						fixed="right"
 						label="សកម្មភាព"
-						
-						
 					>
 						<template #default="scope">
 							<el-button

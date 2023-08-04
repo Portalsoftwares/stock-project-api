@@ -68,7 +68,7 @@
 						style="width: 100%"
 						resizable="true"
 						fit
-						header-cell-class-name="sanfont-khmer text-md"
+						header-cell-class-name="header-table-font-khmer text-md"
 						row-class-name="sanfont-khmer"
 						selectable
 					>

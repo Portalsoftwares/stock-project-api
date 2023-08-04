@@ -490,7 +490,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "width": "100%"
     },
     resizable: "true",
-    "header-cell-class-name": "sanfont-khmer text-md",
+    "header-cell-class-name": "header-table-font-khmer text-md",
     "row-class-name": "sanfont-khmer",
     selectable: ""
   }, {

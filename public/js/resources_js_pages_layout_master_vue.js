@@ -123,7 +123,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
     user: 'auth/user'
-  }))
+  })),
+  methods: {
+    activeMenuNameRoute: function activeMenuNameRoute(name) {
+      return this.$route.name.includes(name);
+    }
+  }
 });
 
 /***/ }),
@@ -257,7 +262,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       })];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["modelValue"])]), _ctx.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.user.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dropdown, {
+  }, 8 /* PROPS */, ["modelValue"])]), _ctx.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, " សួស្ដី, " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.user.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dropdown, {
     ref: "dropdown1",
     trigger: "contextmenu"
   }, {
@@ -336,18 +341,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _assets_moey_small_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../assets/moey-small.png */ "./resources/js/assets/moey-small.png");
 /* harmony import */ var _assets_moey_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../assets/moey.png */ "./resources/js/assets/moey.png");
-/* harmony import */ var _assets_homepage_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/homepage.png */ "./resources/js/assets/homepage.png");
-/* harmony import */ var _assets_user_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../assets/user.png */ "./resources/js/assets/user.png");
-/* harmony import */ var _assets_student_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../assets/student.png */ "./resources/js/assets/student.png");
-/* harmony import */ var _assets_teacher_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../assets/teacher.png */ "./resources/js/assets/teacher.png");
-/* harmony import */ var _assets_class_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../assets/class.png */ "./resources/js/assets/class.png");
-/* harmony import */ var _assets_subject_png__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../assets/subject.png */ "./resources/js/assets/subject.png");
-
-
-
-
-
-
 
 
 
@@ -358,362 +351,261 @@ var _hoisted_1 = {
   "class": "w-full"
 };
 var _hoisted_2 = {
-  "class": "h-full flex justify-center items-center"
+  "class": "h-full flex justify-center items-center shadow-md bg-blue-900"
 };
 var _hoisted_3 = {
-  "class": "flex flex-col pt-[30px]"
+  key: 0,
+  "class": "font-semibold uppercase text-[15 px] px-6 whitespace-nowrap sanfont-khmer"
 };
 var _hoisted_4 = {
-  key: 0,
-  "class": "font-semibold text-[15px] px-1 sanfont-khmer"
-};
-var _hoisted_5 = {
-  key: 0,
-  "class": "font-semibold text-[10px] px-1 sanfont-khmer"
-};
-var _hoisted_6 = {
-  key: 0,
+  key: 1,
   "class": "text-center flex justify-center items-center h-full"
 };
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
   src: _assets_moey_small_png__WEBPACK_IMPORTED_MODULE_1__["default"],
   "class": "p-[2px] w-8 h-8 rounded-full ring-1 ring-gray-300 dark:ring-gray-500",
   alt: "Avatar"
 }, null, -1 /* HOISTED */);
-var _hoisted_8 = [_hoisted_7];
-var _hoisted_9 = {
-  "class": "flex flex-col justify-between h-[calc(100vh-3rem)] w-full bg-indigo-900"
+var _hoisted_6 = [_hoisted_5];
+var _hoisted_7 = {
+  "class": "flex flex-col justify-between h-[calc(100vh-3rem)] w-full bg-blue-900"
 };
-var _hoisted_10 = {
+var _hoisted_8 = {
   "class": "menu-man text-left whitespace-nowrap flex flex-col space-y-2"
 };
-var _hoisted_11 = {
+var _hoisted_9 = {
   "class": "profile flex justify-center items-center text-center p-5"
 };
-var _hoisted_12 = {
-  key: 0,
-  "class": "text-center flex-col flex justify-center items-center h-full"
+var _hoisted_10 = {
+  "class": "pb-[30px]"
 };
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+var _hoisted_11 = {
+  key: 0,
+  "class": "text-center flex-col flex justify-center items-start h-full"
+};
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
   src: _assets_moey_png__WEBPACK_IMPORTED_MODULE_2__["default"],
   "class": "p-1 w-28 h-36 rounded-full mb-4",
   alt: "Avatar1"
 }, null, -1 /* HOISTED */);
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: _assets_homepage_png__WEBPACK_IMPORTED_MODULE_3__["default"]
-}, null, -1 /* HOISTED */);
+var _hoisted_13 = {
+  "class": "pl-[3px] pt-[3px]"
+};
+var _hoisted_14 = {
+  "class": "sanfont-khmer text-[19px]"
+};
 var _hoisted_15 = {
-  "class": "sanfont-khmer text-[19px] pl-2"
+  "class": "pl-[3px] pt-[3px]"
 };
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: _assets_user_png__WEBPACK_IMPORTED_MODULE_4__["default"]
-}, null, -1 /* HOISTED */);
+var _hoisted_16 = {
+  "class": "sanfont-khmer text-[19px]"
+};
 var _hoisted_17 = {
-  "class": "sanfont-khmer text-[19px] pl-2"
+  "class": "pl-[3px] pt-[3px]"
 };
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: _assets_student_png__WEBPACK_IMPORTED_MODULE_5__["default"]
-}, null, -1 /* HOISTED */);
+var _hoisted_18 = {
+  "class": "sanfont-khmer text-[19px]"
+};
 var _hoisted_19 = {
-  "class": "sanfont-khmer text-[19px] pl-2"
+  "class": "pl-[3px] pt-[3px]"
 };
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: _assets_teacher_png__WEBPACK_IMPORTED_MODULE_6__["default"]
-}, null, -1 /* HOISTED */);
+var _hoisted_20 = {
+  "class": "sanfont-khmer text-[19px]"
+};
 var _hoisted_21 = {
-  "class": "sanfont-khmer text-[19px] pl-2"
+  "class": "pl-[3px] pt-[3px]"
 };
-var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: _assets_class_png__WEBPACK_IMPORTED_MODULE_7__["default"]
-}, null, -1 /* HOISTED */);
+var _hoisted_22 = {
+  "class": "sanfont-khmer text-[19px]"
+};
 var _hoisted_23 = {
-  "class": "sanfont-khmer text-[19px] pl-2"
+  "class": "pl-[3px] pt-[3px]"
 };
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: _assets_subject_png__WEBPACK_IMPORTED_MODULE_8__["default"]
-}, null, -1 /* HOISTED */);
+var _hoisted_24 = {
+  "class": "sanfont-khmer text-[19px]"
+};
 var _hoisted_25 = {
-  "class": "sanfont-khmer text-[19px] pl-2"
+  "class": "pl-[3px] pt-[3px]"
 };
 var _hoisted_26 = {
-  "class": "sanfont-khmer text-sm"
+  "class": "sanfont-khmer text-[19px]"
 };
 var _hoisted_27 = {
-  "class": "menu-man text-left px-2 justify-self-end whitespace-nowrap"
+  "class": "menu-man text-left px-1 justify-self-end whitespace-nowrap"
 };
 var _hoisted_28 = {
-  "class": "sanfont-khmer text-sm"
+  "class": "pl-[3px] pt-[3px]"
 };
 var _hoisted_29 = {
-  href: "https://website-nuxt-front.vercel.app/",
-  target: "_blank",
-  "class": "px-2 flex space-x-2"
-};
-var _hoisted_30 = {
-  "class": "sanfont-khmer text-sm"
+  "class": "sanfont-khmer text-[19px]"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_PieChart = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("PieChart");
   var _component_el_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-icon");
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
-  var _component_el_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-tooltip");
-  var _component_CircleCheck = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("CircleCheck");
+  var _component_User = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("User");
+  var _component_Coordinate = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Coordinate");
+  var _component_Place = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Place");
+  var _component_Reading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Reading");
+  var _component_OfficeBuilding = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("OfficeBuilding");
+  var _component_DocumentCopy = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("DocumentCopy");
   var _component_Setting = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Setting");
-  var _component_Warning = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Warning");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bg-indigo-900 text-white overflow-hidden", $props.dataSibar == true ? 'side-bar-visible' : 'side-bar-close']),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["text-white", $props.dataSibar == true ? 'side-bar-visible' : 'side-bar-close']),
     id: "side-bar"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$props.dataSibar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_4, "សាលាចំណេះទូទៅ​ និងបច្ចេកទេសពួក")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$props.dataSibar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_5, "PUOK TECHNICAL AND GENERAL SCHOOL")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), !$props.dataSibar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, _hoisted_8)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_ctx.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img\r\n\t\t\t\t\t\t\t\tsrc=\"https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png\"\r\n\t\t\t\t\t\t\t\tclass=\"p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4\"\r\n\t\t\t\t\t\t\t\talt=\"Avatar\"\r\n\t\t\t\t\t\t\t/> "), _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("  <div class=\"text-xl font-medium leading-tight mb-2 sanfont-khmer\">{{ user.roles[0].name }}</div>  ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [$props.dataSibar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_3, "វិទ្យាល័យចំណេះទូទៅ និងបច្ចេកទេសពួក")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$props.dataSibar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, _hoisted_6)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_ctx.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img\r\n\t\t\t\t\t\t\t\tsrc=\"https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png\"\r\n\t\t\t\t\t\t\t\tclass=\"p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4\"\r\n\t\t\t\t\t\t\t\talt=\"Avatar\"\r\n\t\t\t\t\t\t\t/> "), _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("  <div class=\"text-xl font-medium leading-tight mb-2 sanfont-khmer\">{{ user.roles[0].name }}</div>  ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-sm cursor-pointer text-white hover:text-gray-300", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/dashboard",
-    "class": "py-2 px-4 flex space-x-2 items-center"
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
         style: {
-          "font-size": "2.1rem"
+          "font-size": "1.8rem"
         }
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_14];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_PieChart)];
         }),
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, "ផ្ទាំងគ្រប់គ្រង", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, "ដាសបត", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])];
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-white hover:text-gray-300", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/user",
-    "class": "py-2 px-4 flex space-x-2 items-center"
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
-        "class": "box-item",
-        effect: "dark",
-        content: "អ្នកប្រើប្រាស់ ",
-        placement: "right-start"
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+        style: {
+          "font-size": "1.8rem"
+        }
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
-            style: {
-              "font-size": "2.1rem"
-            }
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [_hoisted_16];
-            }),
-            _: 1 /* STABLE */
-          })];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_User)];
         }),
-
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, "អ្នកប្រើប្រាស់ ", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
-    }),
-    _: 1 /* STABLE */
-  })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-white hover:text-gray-300", $props.dataSibar == true ? ' ' : ''])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-    to: "/student",
-    "class": "py-2 px-4 flex space-x-2 items-center"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
-        "class": "box-item",
-        effect: "dark",
-        content: "សិស្សានុសិស្ស",
-        placement: "right-start"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
-            style: {
-              "font-size": "2.1rem"
-            }
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [_hoisted_18];
-            }),
-            _: 1 /* STABLE */
-          })];
-        }),
-
-        _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, " សិស្សានុសិស្ស", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, "អ្នកប្រើប្រាស់", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])];
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-white hover:text-gray-300", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/teacher",
-    "class": "py-2 px-4 flex space-x-2 items-center"
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
-        "class": "box-item",
-        effect: "dark",
-        content: "គ្រូបង្រៀន",
-        placement: "right-start"
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+        style: {
+          "font-size": "1.8rem"
+        }
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
-            style: {
-              "font-size": "2.1rem"
-            }
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [_hoisted_20];
-            }),
-            _: 1 /* STABLE */
-          })];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Coordinate)];
         }),
-
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, " គ្រូបង្រៀន", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, "គ្រូបង្រៀន", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])];
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-white hover:text-gray-300", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-    to: "/class",
-    "class": "py-2 px-4 flex space-x-2 items-center"
+    to: "/student",
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
-        "class": "box-item",
-        effect: "dark",
-        content: "ថ្នាក់រៀន",
-        placement: "right-start"
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+        style: {
+          "font-size": "1.8rem"
+        }
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
-            style: {
-              "font-size": "2.1rem"
-            }
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [_hoisted_22];
-            }),
-            _: 1 /* STABLE */
-          })];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Place)];
         }),
-
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, " ថ្នាក់រៀន", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, "សិក្សានុសិស្ស", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])];
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-white hover:text-gray-300", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/subject",
-    "class": "py-2 px-4 flex space-x-2 items-center"
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
-        "class": "box-item",
-        effect: "dark",
-        content: "មុខវិជ្ជា",
-        placement: "right-start"
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+        style: {
+          "font-size": "1.8rem"
+        }
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
-            style: {
-              "font-size": "2.1rem"
-            }
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [_hoisted_24];
-            }),
-            _: 1 /* STABLE */
-          })];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Reading)];
         }),
-
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, " មុខវិជ្ជា", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, "មុខវិជ្ជា", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])];
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-white hover:text-gray-300", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-    to: "/attendentp",
-    "class": "py-2 px-2 flex space-x-2 items-center"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
-        "class": "box-item",
-        effect: "dark",
-        content: "វត្តមានសិស្ស",
-        placement: "right-start"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
-            style: {
-              "font-size": "1.2rem"
-            }
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CircleCheck)];
-            }),
-            _: 1 /* STABLE */
-          })];
-        }),
-
-        _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, " វត្តមានសិស្ស", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
-    }),
-    _: 1 /* STABLE */
-  })], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["py-3 rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-    to: "/setting",
-    "class": "py-2 px-2 flex space-x-2 items-center"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
-        "class": "box-item",
-        effect: "dark",
-        content: "ការកំណត់",
-        placement: "right-start"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
-            style: {
-              "font-size": "1.2rem"
-            }
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Setting)];
-            }),
-            _: 1 /* STABLE */
-          })];
-        }),
-
-        _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, "ការកំណត់ ", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
-    }),
-    _: 1 /* STABLE */
-  })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["py-3 rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
-    "class": "box-item",
-    effect: "dark",
-    content: "អំពីយើង",
-    placement: "right-start"
+    to: "/class",
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
         style: {
-          "font-size": "1.2rem"
+          "font-size": "1.8rem"
         }
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Warning)];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_OfficeBuilding)];
         }),
         _: 1 /* STABLE */
-      })];
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, "ថ្នាក់រៀន", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])];
     }),
-
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, "អំពីយើង ", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])], 2 /* CLASS */)])])])], 2 /* CLASS */);
+  })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-white hover:text-gray-300", $props.dataSibar == true ? ' ' : ''])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: "/reports",
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+        style: {
+          "font-size": "1.8rem"
+        }
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_DocumentCopy)];
+        }),
+        _: 1 /* STABLE */
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, "របាយការណ៍", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])];
+    }),
+    _: 1 /* STABLE */
+  })], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["py-3 rounded-md cursor-pointer text-white hover:text-gray-300", $props.dataSibar == true ? ' ' : ''])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: "/setting",
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+        style: {
+          "font-size": "1.8rem"
+        }
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Setting)];
+        }),
+        _: 1 /* STABLE */
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, "ការកំណត់", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])];
+    }),
+    _: 1 /* STABLE */
+  })], 2 /* CLASS */)])])])], 2 /* CLASS */);
 }
 
 /***/ }),
@@ -803,34 +695,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.p-tooltip-text {\r\n\tfont-size: 10
 
 /***/ }),
 
-/***/ "./resources/js/assets/class.png":
-/*!***************************************!*\
-  !*** ./resources/js/assets/class.png ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/class.png?7a3aecda139be9e366c9fe196463b394");
-
-/***/ }),
-
-/***/ "./resources/js/assets/homepage.png":
-/*!******************************************!*\
-  !*** ./resources/js/assets/homepage.png ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/homepage.png?8a38e20f27894ef2efa54caf79db4ca7");
-
-/***/ }),
-
 /***/ "./resources/js/assets/moey-small.png":
 /*!********************************************!*\
   !*** ./resources/js/assets/moey-small.png ***!
@@ -856,62 +720,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/moey.png?199b8443bc6ac90b0ad5fe3dc0c4c17b");
-
-/***/ }),
-
-/***/ "./resources/js/assets/student.png":
-/*!*****************************************!*\
-  !*** ./resources/js/assets/student.png ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/student.png?c066f03e271dd079a0b1208d49a5bff8");
-
-/***/ }),
-
-/***/ "./resources/js/assets/subject.png":
-/*!*****************************************!*\
-  !*** ./resources/js/assets/subject.png ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/subject.png?b74505518d82c9cbb70cb46b14980e29");
-
-/***/ }),
-
-/***/ "./resources/js/assets/teacher.png":
-/*!*****************************************!*\
-  !*** ./resources/js/assets/teacher.png ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/teacher.png?a534985ce35c1704f0a291e02b6b3fd5");
-
-/***/ }),
-
-/***/ "./resources/js/assets/user.png":
-/*!**************************************!*\
-  !*** ./resources/js/assets/user.png ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/user.png?a421b7d412c79b699e1f3514c896a790");
 
 /***/ }),
 

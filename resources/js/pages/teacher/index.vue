@@ -63,7 +63,7 @@
 					height="770"
 					style="width: 100%"
 					resizable="true"
-					header-cell-class-name="sanfont-khmer text-md"
+					header-cell-class-name="header-table-font-khmer text-md"
 					row-class-name="sanfont-khmer"
 					selectable
 				>
@@ -350,16 +350,15 @@
 				<div>	
 				<el-form-item
 					label="ថ្ងៃចូលបង្រៀន"
-					prop=""	
+					prop="dobValue"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
 				>
-					<el-input
-						v-model="ruleForm.address"
-						autocomplete="off"
-						name="email"
-						clearable
-					/>
+					<el-date-picker
+     				 v-model="ruleForm.dobValue"
+    				 type="date"
+      				placeholder="Pick a day">
+    				</el-date-picker>
 				</el-form-item>
 				</div>
 			</div>

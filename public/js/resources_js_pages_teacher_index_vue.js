@@ -503,7 +503,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "width": "100%"
     },
     resizable: "true",
-    "header-cell-class-name": "sanfont-khmer text-md",
+    "header-cell-class-name": "header-table-font-khmer text-md",
     "row-class-name": "sanfont-khmer",
     selectable: ""
   }, {
@@ -870,19 +870,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
             label: "ថ្ងៃចូលបង្រៀន",
-            prop: "",
+            prop: "dobValue",
             "class": "sanfont-khmer",
             "label-width": $data.formLabelWidth
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.ruleForm.address,
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_date_picker, {
+                modelValue: $data.ruleForm.dobValue,
                 "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
-                  return $data.ruleForm.address = $event;
+                  return $data.ruleForm.dobValue = $event;
                 }),
-                autocomplete: "off",
-                name: "email",
-                clearable: ""
+                type: "date",
+                placeholder: "Pick a day"
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
             _: 1 /* STABLE */

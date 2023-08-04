@@ -35,12 +35,21 @@ export default [
                 name: "class",
                 component: import('./../pages/class'),
                 path: "/class",
+                exact: false,
             },
             {
 
-                name: "class-detail",
+                name: "class.detail",
                 component: import('./../pages/class/class-detail'),
                 path: "/class-detail",
+
+            },
+            {
+
+                name: "reports",
+                component: import('./../pages/report'),
+                path: "/reports",
+
             }
         ]
     },

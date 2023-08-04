@@ -64,8 +64,8 @@
 							height="700"
 							style="width: 100%"
 							resizable="true"
-							header-cell-class-name="sanfont-khmer text-md"
-							row-class-name="sanfont-khmer"
+							header-cell-class-name="header-table-font-khmer text-md"
+							row-class-name="sheader-table-font-khmer"
 							selectable
 						>
 							<el-table-column
@@ -188,7 +188,7 @@
 							height="700"
 							style="width: 100%"
 							resizable="true"
-							header-cell-class-name="sanfont-khmer text-md"
+							header-cell-class-name="header-table-font-khmer text-md"
 							row-class-name="sanfont-khmer"
 							selectable
 						>
