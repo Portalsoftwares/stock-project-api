@@ -124,6 +124,7 @@
 					</el-table-column>
 					<el-table-column
 						fixed="right"
+						align="center"
 						label="សកម្មភាព"
 					>
 						<template #default="scope">
@@ -157,9 +158,13 @@
 	<el-dialog
 		v-model="dialogFormVisible"
 		title="ព័ត៍មានអ្នកប្រើប្រាស់"
-		class="sanfont-khmer"
+		class="sanfont-khmer "
 		width="50%"
 	>
+	<!-- 
+	<div class="flex justify-start item-start pl-[40px] space-y-[20px]">
+	<h1 class= "font-bold text-[20px]">ព័ត៍មានអ្នកប្រើប្រាស់</h1>
+	</div>-->
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleForm"
@@ -167,66 +172,9 @@
 			ref="ruleForm"
 			id="fm"
 		>
+		<div class="flex flex-col">
+		<div class=" item-start ">
 			<div>
-				<el-form-item
-					label="ឈ្មោះ"
-					prop="name"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.name"
-						name="name"
-						clearable
-					></el-input>
-				</el-form-item>
-				<el-form-item
-					label="សារអេឡិចត្រូនិច"
-					prop="email"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.email"
-						autocomplete="off"
-						name="email"
-						clearable
-					/>
-				</el-form-item>
-				<el-form-item
-					v-if="isShowPassword"
-					label="ពាក្យសម្ងាត់"
-					prop="password"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.password"
-						name="password"
-						show-password
-					/>
-				</el-form-item>
-				<el-form-item
-					label="តួនាទី"
-					prop="roles"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-select
-						v-model="ruleForm.roles"
-						placeholder="Select roles"
-						class="text-left "
-						multiple
-					>
-						<el-option
-							v-for="data in roles"
-							:key="data"
-							:label="data.name"
-							:value="data.name"
-						/>
-					</el-select>
-				</el-form-item>
-			</div>
 			<el-form-item
 				label="រូបភាព"
 				class="sanfont-khmer"
@@ -259,6 +207,268 @@
 					>
 				</div>
 			</el-form-item>
+			</div>
+		
+		</div>
+		<div class="flex flex-row ">
+			<div class="flex flex-col space-y-1">
+				<div>
+					
+				<el-form-item
+					label="នាមត្រកូល (ខ្មែរ)"
+					prop="firstNameKh"
+					class="sanfont-khmer "
+
+					:label-width="formLabelWidth"
+				>	
+					<el-input
+						v-model="ruleForm.firstNameKh"
+						name="firstNameKh1"
+						clearable
+					></el-input>
+				</el-form-item>
+				</div>	
+				<div>
+				<el-form-item
+					label="នាមខ្លួន (ខ្មែរ)"
+					prop="LastNameKh"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.LastNameKh"
+						name="LastNameKh1"
+						clearable
+					></el-input>
+				</el-form-item>
+				</div>
+				<div>
+				<el-form-item
+					label="នាមត្រកូល(អង់គ្លេស)"
+					prop="firstNameEng"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.firstNameEng"
+						name="firstNameEng1"
+						clearable
+					></el-input>
+				</el-form-item>
+				</div>
+				<div>
+				<el-form-item
+					label="នាមខ្លួន (អង់គ្លេស)"
+					prop="LastNameEng"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.LastNameEng"
+						name="LastNameEng1"
+						clearable
+					></el-input>
+				</el-form-item>
+				</div>
+				<div>
+				<el-form-item
+					label="ភេទ"
+					prop="gender"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+				<el-select v-model="ruleForm.genderValue" placeholder="ជ្រើសរើស">
+   				 <el-option
+     				v-for="item in gender"
+     				:key="item.genderValue"
+    				:label="item.genderLabel"
+    			 	:value="item.genderValue">
+    			</el-option>
+  				</el-select>
+				</el-form-item>
+				</div>
+
+				<div>
+				<el-form-item
+					label="ថ្ងៃកំណើត"
+					prop="dobValue"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-date-picker
+     				 v-model="ruleForm.dobValue"
+    				 type="date"
+      				placeholder="Pick a day">
+    				</el-date-picker>
+				</el-form-item>
+				</div>
+				<div>	
+				<el-form-item
+					label="អាស័យដ្ឋាន"
+					prop="address"	
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.address"
+						autocomplete="off"
+						name="email"
+						clearable
+					/>
+				</el-form-item>
+				</div>
+				<div>	
+				<el-form-item
+					label="កំរិត"
+					prop="teacher_level"	
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.address"
+						autocomplete="off"
+						name="email"
+						clearable
+					/>
+				</el-form-item>
+				</div>
+				<div>	
+				<el-form-item
+					label="មុខវិជ្ជា"
+					prop="subject"	
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.address"
+						autocomplete="off"
+						name="email"
+						clearable
+					/>
+				</el-form-item>
+				</div>
+				<div>	
+				<el-form-item
+					label="ថ្ងៃចូលបង្រៀន"
+					prop=""	
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.address"
+						autocomplete="off"
+						name="email"
+						clearable
+					/>
+				</el-form-item>
+				</div>
+			</div>
+			<div class="flex flex-col space-y-1">	
+				<div>
+				<el-form-item
+					label="លេខទូរស័ព្ទ"
+					prop="phoneNum"	
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.phoneNum"
+						autocomplete="off"
+						type="number"
+						name="phoneNum"
+						clearable
+					/>
+				</el-form-item>
+				</div>
+				<div>
+				<el-form-item
+					label="សារអេឡិចត្រូនិច"
+					prop="email"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.email"
+						autocomplete="off"
+						name="email"
+						clearable
+					/>
+				</el-form-item>
+				</div>
+				<div>
+				<el-form-item
+					v-if="isShowPassword"
+					label="ពាក្យសម្ងាត់"
+					prop="password"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.password"
+						name="password"
+						show-password
+					/>
+				</el-form-item>
+				</div>
+				<div>
+				<el-form-item
+					label="តួនាទី"
+					prop="roles"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-select
+						v-model="ruleForm.roles"
+						placeholder="ជ្រើសរើស"
+						class="text-left "
+						multiple
+					>
+						<el-option
+							v-for="data in roles"
+							:key="data"
+							:label="data.name"
+							:value="data.name"
+						/>
+					</el-select>
+				</el-form-item>
+				</div>
+				<div>
+				<el-form-item
+					label="ស្ថានភាព"
+					prop="status"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+				<el-select v-model="ruleForm.statusValue" placeholder="ជ្រើសរើស">
+   				 <el-option
+     				v-for="item in status"
+     				:key="item.statusValue"
+    				:label="item.statusLabel"
+    			 	:value="item.statusValue">
+    			</el-option>
+				</el-select>
+				</el-form-item>
+				</div>
+				<div>
+				<el-form-item
+					label="ផ្សេងៗ"
+					prop="studentOtherText"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+				<el-input
+  					type="textarea"
+  					:rows="2"
+ 					 placeholder="Please input"
+ 					 v-model="ruleForm.studentOtherText">
+				</el-input>
+				</el-form-item>
+				</div>
+			</div>
+		</div>
+		</div>
+	
+		
 		</el-form>
 		<el-dialog v-model="dialogVisible">
 			<img
@@ -271,7 +481,8 @@
 			<span class="dialog-footer">
 				<el-button
 					@click="cancelAction()"
-					class="sanfont-khmer"
+					class="sanfont-khmer "
+					type="danger"
 				> បោះបង់</el-button>
 				<el-button
 					v-if="!isShowButtonUpdate"

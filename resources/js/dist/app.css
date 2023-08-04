@@ -1577,6 +1577,10 @@ video {
   padding-right: 0.5rem;
 }
 
+.pr-4 {
+  padding-right: 1rem;
+}
+
 .pr-9 {
   padding-right: 2.25rem;
 }
@@ -1599,18 +1603,6 @@ video {
 
 .pt-\[30px\] {
   padding-top: 30px;
-}
-
-.pr-4 {
-  padding-right: 1rem;
-}
-
-.pr-\[20px\] {
-  padding-right: 20px;
-}
-
-.pr-\[40px\] {
-  padding-right: 40px;
 }
 
 .text-left {

@@ -120,6 +120,7 @@
 					</el-table-column>
 					<el-table-column
 						fixed="right"
+						align="center"
 						label="សកម្មភាព"
 					>
 						<template #default="scope">
