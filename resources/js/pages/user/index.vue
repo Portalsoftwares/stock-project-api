@@ -64,11 +64,13 @@
 						width="300"
 					>
 						<template #default="scope">
-							<img
+							<el-image
+								style="width: 40px; height: 40px"
 								:src="scope.row.img?.file_path"
-								alt=""
-								class="h-[50px] w-[50px] rounded-full"
-							>
+								fit="cover"
+								:lazy="true"
+								class="rounded-full"
+							/>
 						</template>
 					</el-table-column>
 					<el-table-column label="ឈ្មោះ">
