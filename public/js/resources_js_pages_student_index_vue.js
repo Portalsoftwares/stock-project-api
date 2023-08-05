@@ -709,7 +709,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
       return $data.dialogFormVisible = $event;
     }),
-    title: "ព័ត៍មានអ្នកប្រើប្រាស់",
+    title: "ព័ត៌មានសិស្ស",
     "class": "sanfont-khmer",
     width: "50%"
   }, {
@@ -900,8 +900,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
                   return $data.ruleForm.dobValue = $event;
                 }),
-                type: "date",
-                placeholder: "Pick a day"
+                type: "date"
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
             _: 1 /* STABLE */
@@ -1064,7 +1063,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 type: "textarea",
                 rows: 2,
-                placeholder: "Please input",
                 modelValue: $data.ruleForm.studentOtherText,
                 "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
                   return $data.ruleForm.studentOtherText = $event;

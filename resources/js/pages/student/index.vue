@@ -177,7 +177,7 @@
 	<!-- Dialog  -->
 	<el-dialog
 		v-model="dialogFormVisible"
-		title="ព័ត៍មានអ្នកប្រើប្រាស់"
+		title="ព័ត៌មានសិស្ស"
 		class="sanfont-khmer "
 		width="50%"
 	>
@@ -321,7 +321,6 @@
 								<el-date-picker
 									v-model="ruleForm.dobValue"
 									type="date"
-									placeholder="Pick a day"
 								>
 								</el-date-picker>
 							</el-form-item>
@@ -458,7 +457,6 @@
 								<el-input
 									type="textarea"
 									:rows="2"
-									placeholder="Please input"
 									v-model="ruleForm.studentOtherText"
 								>
 								</el-input>
