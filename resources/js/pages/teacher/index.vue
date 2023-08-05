@@ -93,11 +93,15 @@
 
 					</el-table-column>
 					<el-table-column
-						width="180"
+						width="120"
 						label="ភេទ"
 					>
-						<template #default="scope">{{scope.row.gender_id}}</template>
+						<template #default="scope">
+							<div v-if="scope.row.gender_id == 1">ប្រុស</div>
+							<div v-else>ស្រី</div>
+						</template>
 					</el-table-column>
+					
 					<el-table-column
 						property="profile"
 						label="រូបភាព"
@@ -114,7 +118,7 @@
 					</el-table-column>
 					<el-table-column
 						label="ថ្ងៃ ខែ ឆ្នាំកំណើត"
-						width="332"
+						width="232"
 					>
 						<template #default="scope">
 							<div>
@@ -303,8 +307,21 @@
 				</el-form-item>
 				</div>
 				<div>	
+					<el-form-item
+					label="ទីកន្លែងកំណើត"
+					prop="birsthAddress"	
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.birsthAddress"
+						autocomplete="off"
+						name="email"
+						clearable
+					/>
+				</el-form-item>	
 				<el-form-item
-					label="អាស័យដ្ឋាន"
+					label="អាស័យដ្ឋានបច្ចុប្បន្ន"
 					prop="address"	
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
@@ -319,17 +336,39 @@
 				</div>
 				<div>	
 				<el-form-item
-					label="កំរិត"
-					prop="teacher_level"	
+					label="ថ្ងៃចូលបង្រៀន"
+					prop="teachDate"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
 				>
-					<el-input
-						v-model="ruleForm.address"
-						autocomplete="off"
-						name="email"
-						clearable
-					/>
+					<el-date-picker
+     				 v-model="ruleForm.teachDate"
+    				 type="date"
+      				placeholder="Pick a day">
+    				</el-date-picker>
+				</el-form-item>
+				</div>	
+				
+				
+				
+				
+			</div>
+			<div class="flex flex-col space-y-1">
+				<div>
+				<el-form-item
+					label="កំរិត"
+					prop="teacher_level"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+				<el-select v-model="ruleForm.teacher_level_value" placeholder="ជ្រើសរើស">
+   				 <el-option
+     				v-for="item in teacher_level"
+     				:key="item.teacher_level_value"
+    				:label="item.teacher_level_Label"
+    			 	:value="item.teacher_level_value">
+    			</el-option>
+  				</el-select>
 				</el-form-item>
 				</div>
 				<div>	
@@ -347,22 +386,6 @@
 					/>
 				</el-form-item>
 				</div>
-				<div>	
-				<el-form-item
-					label="ថ្ងៃចូលបង្រៀន"
-					prop="dobValue"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-date-picker
-     				 v-model="ruleForm.dobValue"
-    				 type="date"
-      				placeholder="Pick a day">
-    				</el-date-picker>
-				</el-form-item>
-				</div>
-			</div>
-			<div class="flex flex-col space-y-1">	
 				<div>
 				<el-form-item
 					label="លេខទូរស័ព្ទ"
@@ -394,6 +417,7 @@
 					/>
 				</el-form-item>
 				</div>
+				
 				<div>
 				<el-form-item
 					v-if="isShowPassword"
@@ -530,7 +554,10 @@ export default {
 				password: null,
 				email: null,
 				photo_id: null,
-				userId: null
+				userId: null,
+				dobValue: null,
+				teachDate:null,
+
 			},
 			rules: {
 				name: [
@@ -538,7 +565,7 @@ export default {
 					{ min: 3, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
 				],
 				roles: [
-					{ required: true, message: 'Please select role', trigger: 'change' }
+					{ required: true, message: 'Please select role', trigger: 'blur' }
 				],
 				email: [
 					{ required: true, message: 'Please input email address', trigger: 'blur' },
@@ -567,6 +594,33 @@ export default {
 					filterLabel: 'តាមទំហំផ្ទុក'
         	}],
 			filterSelectValue: "",
+
+			teacher_level: [{
+						teacher_level_value: 'មទភ',
+						teacher_level_Label: 'មទភ'
+       				 }, {
+						teacher_level_value: 'មបភ',
+						teacher_level_Label: 'មបភ'
+        	}],
+			teacher_level_Value: "",
+
+			status: [{
+					statusValue: 'កំពុងសិក្សា',
+        			statusLabel: 'កំពុងសិក្សា'
+       				 }, {
+					statusValue: 'បញ្ឈប់ការសិក្សា',
+					statusLabel: 'បញ្ឈប់ការសិក្សា'
+        	}],
+			statusValue: '',
+
+			gender: [{
+					genderValue: 'ប្រុស',
+        			genderLabel: 'ប្រុស'
+       				 }, {
+					genderValue: 'ស្រី',
+					genderLabel: 'ស្រី'
+        	}],
+			generValue: '',
 		}
 	},
 	mounted() {
@@ -706,22 +760,23 @@ export default {
 			})
 		},
 		async editUser(id) {
-			this.isShowButtonUpdate = true;
-			this.isShowPassword = false;
-			await axios.get('/user/' + id + '/edit').then(response => {
-				this.ruleForm.name = response.data.user.name
-				this.ruleForm.userId = response.data.user.id
-				this.ruleForm.roles = response.data.user_has_roles
-				this.ruleForm.email = response.data.user.email
-				this.imageUrl = response.data.user.img?.file_path
-				this.ruleForm.photo_id = response.data.user.id
-				this.roles = response.data.roles
-				this.dialogFormVisible = true;
-			}).catch((error) => {
-				if (error.response.status == 401) {
-					this.$store.commit("auth/CLEAR_TOKEN")
-				}
-			})
+			this.dialogFormVisible = true;
+			//this.isShowButtonUpdate = true;
+			//this.isShowPassword = false;
+			//await axios.get('/user/' + id + '/edit').then(response => {
+				//this.ruleForm.name = response.data.user.name
+				//this.ruleForm.userId = response.data.user.id
+				//this.ruleForm.roles = response.data.user_has_roles
+				//this.ruleForm.email = response.data.user.email
+				//this.imageUrl = response.data.user.img?.file_path
+				//this.ruleForm.photo_id = response.data.user.id
+				//this.roles = response.data.roles
+				//this.dialogFormVisible = true;
+			//}).catch((error) => {
+				//if (error.response.status == 401) {
+					//this.$store.commit("auth/CLEAR_TOKEN")
+				//}
+			//})
 		},
 		notification() {
 			this.showSuccess = !this.showSuccess

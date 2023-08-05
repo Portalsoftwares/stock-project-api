@@ -1,8 +1,46 @@
 <template>
 	<!-- <div class="mt-5 bg-white p-5"> -->
-	<div>
-		<div class="text-left text-md font-bold pb-2 ">បញ្ជីឈ្មោះសិស្ស</div>
-	</div>
+		<div>
+		<div class="text-left text-[20px] font-bold pb-2 ">បញ្ជីឈ្មោះសិស្ស</div>
+		</div>
+		<div class="bg-white p-2 w-full flex justify-between">
+		<div class="flex space-x-2">
+		<div class="self-start">
+			<el-input
+				placeholder="ស្វែងរក"
+				class="sanfont-khmer"
+				v-model="search"
+			>
+				<i class="el-input__icon el-icon-search"></i>
+				<CirclePlusFilled class="el-input__icon" />
+			</el-input>
+		</div> 
+		<div class="self-start  " >
+			<el-select v-model="filterSelectValue" filterable placeholder="តម្រៀប">
+    		<el-option
+    		  	v-for="item in filter"
+      			:key="item.filterValue"
+      			:label="item.filterLabel"
+      			:value="item.filterValue">
+    		</el-option>
+  			</el-select>
+		</div>
+		</div>
+		
+		<div class="self-end">
+
+			<el-button
+				type="primary"
+				@click="AddUser"
+			>
+				<el-icon>
+					<CirclePlusFilled />
+				</el-icon>
+				<span class="mx-1 sanfont-khmer"> បន្ថែមសិស្ស</span>
+			</el-button>
+		</div>
+	</div>	
+	
 	<el-table
 		:data="data"
 		header-cell-class-name="sanfont-khmer text-md"
@@ -39,6 +77,7 @@
 </template>
 <script>
 export default {
+	
 	props: {
 		data: Object
 	},
@@ -47,11 +86,27 @@ export default {
 	},
 	data() {
 		return {
-			studentClass: []
+			studentClass: [],
+
+			filter: [{
+					filterValue: 'តាមឈ្មោះ',
+        			filterLabel: 'តាមឈ្មោះ'
+       				 }, {
+					filterValue: 'តាមលេខរៀង',
+        			filterLabel: 'តាមលេខរៀង'
+       				 },{
+					filterValue: 'តាមកាលបរិច្ឆេត',
+        			filterLabel: 'តាមកាលបរិច្ឆេត'
+       				 }, {
+					filterValue: 'តាមទំហំផ្ទុក',
+					filterLabel: 'តាមទំហំផ្ទុក'
+        	}],
+			filterSelectValue: "",
 		}
 	},
+	
 	methods: {
-
+		
 	}
 }
 </script>

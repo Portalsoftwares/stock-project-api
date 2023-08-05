@@ -706,7 +706,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     total: 1000
   })])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisible,
-    "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
+    "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
       return $data.dialogFormVisible = $event;
     }),
     title: "ព័ត៍មានអ្នកប្រើប្រាស់",
@@ -715,7 +715,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, {
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[18] || (_cache[18] = function ($event) {
+        onClick: _cache[19] || (_cache[19] = function ($event) {
           return $options.cancelAction();
         }),
         "class": "sanfont-khmer",
@@ -729,7 +729,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 0,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[19] || (_cache[19] = function ($event) {
+        onClick: _cache[20] || (_cache[20] = function ($event) {
           return $options.submitForm('ruleForm');
         })
       }, {
@@ -741,7 +741,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 1,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[20] || (_cache[20] = function ($event) {
+        onClick: _cache[21] || (_cache[21] = function ($event) {
           return $options.updateData('ruleForm');
         })
       }, {
@@ -906,16 +906,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "អាស័យដ្ឋាន",
+            label: "ទីកន្លែងកំណើត",
             prop: "address",
             "class": "sanfont-khmer",
             "label-width": $data.formLabelWidth
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.ruleForm.address,
+                modelValue: $data.ruleForm.birsthAddress,
                 "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
-                  return $data.ruleForm.address = $event;
+                  return $data.ruleForm.birsthAddress = $event;
                 }),
                 autocomplete: "off",
                 name: "email",
@@ -924,6 +924,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+            label: "អាស័យដ្ឋានបច្ចុប្បន្ន",
+            prop: "address",
+            "class": "sanfont-khmer",
+            "label-width": $data.formLabelWidth
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                modelValue: $data.ruleForm.address,
+                "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+                  return $data.ruleForm.address = $event;
+                }),
+                autocomplete: "off",
+                name: "email",
+                clearable: ""
+              }, null, 8 /* PROPS */, ["modelValue"])];
+            }),
+            _: 1 /* STABLE */
+          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
             label: "លេខទូរស័ព្ទ",
             prop: "phoneNum",
             "class": "sanfont-khmer",
@@ -932,7 +950,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.phoneNum,
-                "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+                "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
                   return $data.ruleForm.phoneNum = $event;
                 }),
                 autocomplete: "off",
@@ -951,7 +969,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.email,
-                "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+                "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
                   return $data.ruleForm.email = $event;
                 }),
                 autocomplete: "off",
@@ -970,7 +988,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.password,
-                "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
+                "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
                   return $data.ruleForm.password = $event;
                 }),
                 name: "password",
@@ -987,7 +1005,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleForm.roles,
-                "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
+                "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
                   return $data.ruleForm.roles = $event;
                 }),
                 placeholder: "ជ្រើសរើស",
@@ -1017,7 +1035,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleForm.statusValue,
-                "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+                "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
                   return $data.ruleForm.statusValue = $event;
                 }),
                 placeholder: "ជ្រើសរើស"
@@ -1048,7 +1066,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 rows: 2,
                 placeholder: "Please input",
                 modelValue: $data.ruleForm.studentOtherText,
-                "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
+                "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
                   return $data.ruleForm.studentOtherText = $event;
                 })
               }, null, 8 /* PROPS */, ["modelValue"])];
@@ -1059,7 +1077,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["model", "rules"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
         modelValue: $data.dialogVisible,
-        "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
+        "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
           return $data.dialogVisible = $event;
         })
       }, {

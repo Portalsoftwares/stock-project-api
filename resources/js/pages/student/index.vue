@@ -326,7 +326,25 @@
 				</div>
 				<div>	
 				<el-form-item
-					label="អាស័យដ្ឋាន"
+					label="ទីកន្លែងកំណើត"
+					prop="address"	
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.birsthAddress"
+						autocomplete="off"
+						name="email"
+						clearable
+					/>
+				</el-form-item>
+				</div>
+				
+			</div>
+			<div class="flex flex-col space-y-1">	
+				<div>	
+				<el-form-item
+					label="អាស័យដ្ឋានបច្ចុប្បន្ន"
 					prop="address"	
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
@@ -339,8 +357,6 @@
 					/>
 				</el-form-item>
 				</div>
-			</div>
-			<div class="flex flex-col space-y-1">	
 				<div>
 				<el-form-item
 					label="លេខទូរស័ព្ទ"
