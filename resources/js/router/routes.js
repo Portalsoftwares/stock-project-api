@@ -49,6 +49,7 @@ export default [
                 name: "reports",
                 component: import('./../pages/report'),
                 path: "/reports",
+                meta: { transition: 'fade' }
 
             }
         ]

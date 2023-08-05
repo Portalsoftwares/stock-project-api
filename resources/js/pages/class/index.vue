@@ -1,5 +1,6 @@
 <template>
 	<div class="bg-white p-2 flex justify-between">
+		<div class="flex space-x-2">
 		<div class="self-start">
 			<el-input
 				placeholder="ស្វែងរក"
@@ -10,6 +11,17 @@
 				<CirclePlusFilled class="el-input__icon" />
 			</el-input>
 		</div>
+		<div class="self-start  " >
+			<el-select v-model="filterSelectValue" filterable placeholder="តម្រៀប">
+    		<el-option
+    		  	v-for="item in filter"
+      			:key="item.filterValue"
+      			:label="item.filterLabel"
+      			:value="item.filterValue">
+    		</el-option>
+  			</el-select>
+		</div>
+		</div>
 		<div class="self-end">
 			<div class="flex space-x-2">
 				<el-button
@@ -19,7 +31,7 @@
 					<el-icon>
 						<CirclePlusFilled />
 					</el-icon>
-					<span class="mx-1 sanfont-khmer"> បន្ថែម ថ្នាក់</span>
+					<span class="mx-1 sanfont-khmer"> បន្ថែមថ្នាក់</span>
 				</el-button>
 			</div>
 		</div>
@@ -52,7 +64,7 @@
 					<el-table
 						v-loading="loading_class"
 						:data="tableData"
-						height="800"
+						height="770"
 						style="width: 100%"
 						resizable="true"
 						fit
@@ -64,7 +76,16 @@
 							type="selection"
 							width="55"
 						/>
-						<el-table-column label="ឈ្មោះ">
+
+						<el-table-column
+						type="index"
+      					width="90"
+						label="ល.រ"
+						>
+						<template #default="scope">{{scope.row.class_id }}</template>
+						</el-table-column>
+
+						<el-table-column label="ឈ្មោះ" >
 							<template #default="scope">{{ scope.row.class_name }}</template>
 						</el-table-column>
 						<el-table-column label="គ្រូ សរុប">
@@ -113,7 +134,7 @@
 						<el-empty description="description"></el-empty>
 					</el-table>
 				</div>
-				<div class="py-2">
+				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
 						layout="prev, pager, next"
@@ -383,7 +404,22 @@ export default {
 				},
 			],
 			gradeLevelId: null,
-			nameClass: ''
+			nameClass: '',
+
+			filter: [{
+					filterValue: 'តាមឈ្មោះ',
+        			filterLabel: 'តាមឈ្មោះ'
+       				 }, {
+					filterValue: 'តាមលេខរៀង',
+        			filterLabel: 'តាមលេខរៀង'
+       				 },{
+					filterValue: 'តាមកាលបរិច្ឆេត',
+        			filterLabel: 'តាមកាលបរិច្ឆេត'
+       				 }, {
+					filterValue: 'តាមទំហំផ្ទុក',
+					filterLabel: 'តាមទំហំផ្ទុក'
+        	}],
+			filterSelectValue: "",
 		}
 	},
 	mounted() {

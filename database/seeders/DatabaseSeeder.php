@@ -20,24 +20,24 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            // FileUploadSeeder::class,
-            // PermissionTableSeeder::class,
-            // RoleAndPermissionSeeder::class,
-            // UserSeeder::class,
-            // TimeSeeder::class,
-            // DaySeeder::class,
-            // SubjectSeeder::class,
-            // StudentSeeder::class,
-            // TeacherSeeder::class,
-            // TeacherStatusSeeder::class,
-            // StudentStatusSeeder::class,
-            // GenderSeeder::class,
-            // ClassTypeSeeder::class,
-            // AttendanceTypeSeeder::class,
-            // GradeLevelSeeder::class,
-            // AcademicSeeder::class,
-            // TeacherRoleSeeder::class,
-            // StudentRoleSeeder::class
+             FileUploadSeeder::class,
+             PermissionTableSeeder::class,
+             RoleAndPermissionSeeder::class,
+             UserSeeder::class,
+             TimeSeeder::class,
+             DaySeeder::class,
+             SubjectSeeder::class,
+             StudentSeeder::class,
+             TeacherSeeder::class,
+             TeacherStatusSeeder::class,
+             StudentStatusSeeder::class,
+             GenderSeeder::class,
+             ClassTypeSeeder::class,
+             AttendanceTypeSeeder::class,
+             GradeLevelSeeder::class,
+             AcademicSeeder::class,
+             TeacherRoleSeeder::class,
+             StudentRoleSeeder::class
         ]);
     }
 }

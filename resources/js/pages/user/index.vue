@@ -1,5 +1,6 @@
 <template>
 	<div class="bg-white p-2 w-full flex justify-between">
+		<div class="flex space-x-2">
 		<div class="self-start">
 			<el-input
 				placeholder="ស្វែងរក"
@@ -10,6 +11,17 @@
 				<CirclePlusFilled class="el-input__icon" />
 			</el-input>
 		</div>
+		<div class="" >
+			<el-select v-model="filterSelectValue" filterable placeholder="តម្រៀប">
+    		<el-option
+    		  	v-for="item in filter"
+      			:key="item.filterValue"
+      			:label="item.filterLabel"
+      			:value="item.filterValue">
+    		</el-option>
+  			</el-select>
+		</div>
+		</div>
 		<div class="self-end">
 			<el-button
 				type="primary"
@@ -18,9 +30,10 @@
 				<el-icon>
 					<CirclePlusFilled />
 				</el-icon>
-				<span class="mx-1 sanfont-khmer"> បន្ថែម អ្នកប្រើប្រាស់</span>
+				<span class="mx-1 sanfont-khmer"> បន្ថែមអ្នកប្រើប្រាស់</span>
 			</el-button>
 		</div>
+		
 	</div>
 	<div class="grid grid-cols-1 gap-2 ">
 		<div class=" border rounded bg-gray-50">
@@ -47,7 +60,7 @@
 				</div>
 				<el-table
 					:data="tableData"
-					height="840"
+					height="770"
 					style="width: 100%"
 					resizable="true"
 					header-cell-class-name="header-table-font-khmer text-md"
@@ -58,6 +71,13 @@
 						type="selection"
 						width="55"
 					/>
+					<el-table-column
+						type="index"
+      					width="90"
+						label="ល.រ"
+					>
+						<template #default="scope">{{scope.row.id }}</template>
+					</el-table-column>
 					<el-table-column
 						property="profile"
 						label="រូបភាព"
@@ -102,6 +122,7 @@
 					</el-table-column>
 					<el-table-column
 						fixed="right"
+						align="center"
 						label="សកម្មភាព"
 					>
 						<template #default="scope">
@@ -119,6 +140,14 @@
 						</template>
 					</el-table-column>
 				</el-table>
+				<div class="py-2 flex justify-center">
+					<el-pagination
+						background
+						layout="prev, pager, next"
+						:total="1000"
+					>
+					</el-pagination>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -312,7 +341,22 @@ export default {
 					{ required: true, message: 'Please add photo', trigger: 'change' }
 				],
 			},
-			search: ''
+			search: '',
+
+			filter: [{
+					filterValue: 'តាមឈ្មោះ',
+        			filterLabel: 'តាមឈ្មោះ'
+       				 }, {
+					filterValue: 'តាមលេខរៀង',
+        			filterLabel: 'តាមលេខរៀង'
+       				 },{
+					filterValue: 'តាមកាលបរិច្ឆេត',
+        			filterLabel: 'តាមកាលបរិច្ឆេត'
+       				 }, {
+					filterValue: 'តាមទំហំផ្ទុក',
+					filterLabel: 'តាមទំហំផ្ទុក'
+        	}],
+			filterSelectValue: "",
 		}
 	},
 	mounted() {
@@ -565,4 +609,9 @@ export default {
 .red {
 	color: var(--el-color-error);
 }
+
+.mr-820{
+	margin-right:820px;
+}
+
 </style>

@@ -2,7 +2,7 @@
 	<el-tabs type="border-card">
 		<el-tab-pane label="មុខវិជ្ជាទូទៅ">
 			<div class="bg-white p-2 w-full flex justify-between">
-
+				<div class="flex space-x-2">
 				<div class="self-start">
 					<el-input
 						placeholder="ស្វែងរក"
@@ -13,6 +13,17 @@
 						<CirclePlusFilled class="el-input__icon" />
 					</el-input>
 				</div>
+				<div class="self-start  " >
+					<el-select v-model="filterSelectValue" filterable placeholder="តម្រៀប">
+    				<el-option
+    		  		v-for="item in filter"
+      				:key="item.filterValue"
+      				:label="item.filterLabel"
+      				:value="item.filterValue">
+    				</el-option>
+  					</el-select>
+				</div>
+				</div>
 				<div class="self-end">
 					<el-button
 						type="primary"
@@ -21,7 +32,7 @@
 						<el-icon>
 							<CirclePlusFilled />
 						</el-icon>
-						<span class="mx-1 sanfont-khmer"> បន្ថែម មុខវិជ្ជា</span>
+						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជា</span>
 					</el-button>
 				</div>
 			</div>
@@ -50,7 +61,7 @@
 						</div>
 						<el-table
 							:data="tableData"
-							height="800"
+							height="700"
 							style="width: 100%"
 							resizable="true"
 							header-cell-class-name="header-table-font-khmer text-md"
@@ -61,6 +72,15 @@
 								type="selection"
 								width="55"
 							/>
+
+							<el-table-column
+								type="index"
+      							width="90"
+								label="ល.រ"
+								>
+								<template #default="scope">{{scope.row.subject_id }}</template>
+							</el-table-column>
+
 							<el-table-column label="ឈ្មោះ">
 								<template #default="scope">{{ scope.row.subject_name_kh }}</template>
 							</el-table-column>
@@ -73,6 +93,7 @@
 
 							<el-table-column
 								fixed="right"
+								align="center"
 								label="សកម្មភាព"
 							>
 								<template #default="scope">
@@ -91,7 +112,7 @@
 							</el-table-column>
 							<el-empty description="description"></el-empty>
 						</el-table>
-						<div class="py-2">
+						<div class="py-2 flex justify-center">
 							<el-pagination
 								background
 								layout="prev, pager, next"
@@ -103,9 +124,9 @@
 				</div>
 			</div>
 		</el-tab-pane>
-		<el-tab-pane label="មុខវិជ្ជា តាមកំរិត">
+		<el-tab-pane label="មុខវិជ្ជាតាមកំរិត">
 			<div class="bg-white p-2 w-full flex justify-between">
-
+				<div class="flex space-x-2">
 				<div class="self-start">
 					<el-input
 						placeholder="ស្វែងរក"
@@ -116,6 +137,17 @@
 						<CirclePlusFilled class="el-input__icon" />
 					</el-input>
 				</div>
+				<div class="self-start  " >
+					<el-select v-model="filterSelectValue" filterable placeholder="តម្រៀប">
+    				<el-option
+    		  		v-for="item in filter"
+      				:key="item.filterValue"
+      				:label="item.filterLabel"
+      				:value="item.filterValue">
+    				</el-option>
+  					</el-select>
+				</div>
+				</div>
 				<div class="self-end">
 					<el-button
 						type="primary"
@@ -124,7 +156,7 @@
 						<el-icon>
 							<CirclePlusFilled />
 						</el-icon>
-						<span class="mx-1 sanfont-khmer"> បន្ថែម មុខវិជ្ជាតាមកំរិត</span>
+						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជាតាមកំរិត</span>
 					</el-button>
 				</div>
 			</div>
@@ -153,7 +185,7 @@
 						</div>
 						<el-table
 							:data="tableDataSubjectLevel"
-							height="800"
+							height="700"
 							style="width: 100%"
 							resizable="true"
 							header-cell-class-name="header-table-font-khmer text-md"
@@ -164,6 +196,15 @@
 								type="selection"
 								width="55"
 							/>
+
+							<el-table-column
+								type="index"
+      							width="90"
+								label="ល.រ"
+								>
+								<template #default="scope">{{scope.row.subject_grade_id }}</template>
+							</el-table-column>
+
 							<el-table-column label="ឈ្មោះ">
 								<template #default="scope">{{ scope.row.subject.subject_name_kh }}</template>
 							</el-table-column>
@@ -184,6 +225,7 @@
 							</el-table-column>
 							<el-table-column
 								fixed="right"
+								align="center"
 								label="សកម្មភាព"
 							>
 								<template #default="scope">
@@ -202,7 +244,7 @@
 							</el-table-column>
 							<el-empty description="description"></el-empty>
 						</el-table>
-						<div class="py-2">
+						<div class="py-2 flex justify-center">
 							<el-pagination
 								background
 								layout="prev, pager, next"
@@ -266,7 +308,22 @@ export default {
 					{ required: true, message: 'Please add photo', trigger: 'change' }
 				],
 			},
-			search: ''
+			search: '',
+
+			filter: [{
+					filterValue: 'តាមឈ្មោះ',
+        			filterLabel: 'តាមឈ្មោះ'
+       				 }, {
+					filterValue: 'តាមលេខរៀង',
+        			filterLabel: 'តាមលេខរៀង'
+       				 },{
+					filterValue: 'តាមកាលបរិច្ឆេត',
+        			filterLabel: 'តាមកាលបរិច្ឆេត'
+       				 }, {
+					filterValue: 'តាមទំហំផ្ទុក',
+					filterLabel: 'តាមទំហំផ្ទុក'
+        	}],
+			filterSelectValue: "",
 		}
 	},
 	mounted() {

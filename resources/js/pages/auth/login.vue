@@ -1,10 +1,15 @@
 <template>
 	<div>
-		<div class="flex h-screen items-center justify-center  px-4 sm:px-6 lg:px-8">
-			<div class="w-full max-w-md space-y-8 border p-8">
+		<div class="flex h-screen items-center justify-center px-4 sm:px-6 lg:px-8 ">
+			<div class="w-[500px]  space-y-8 border p-8 shadow-lg">
+				
+				<div class="flex items-center justify-center ">
+					<img  alt="logo" class="h-[100px] w-[80px] " src="../../assets/moey.png">
+					</div>
+					
 				<div>
-					<h1 class="text-4xl text-gray-600  font-bold ">High School </h1>
-					<h2 class="mt-6 text-center text-2xl text-gray-800 sanfont-khmer">គ្រប់គ្រងសាលារៀន </h2>
+					<h2 class="mt-6 text-center text-2xl text-gray-800 sanfont-khmer">សាលាចំណេះទូទៅ និងបច្ចេកទេសពួក </h2>
+					<h1 class="text-2xl text-gray-600 text-[20px] font-bold">PUOK TECHNICAL AND GENERAL SCHOOL </h1>
 				</div>
 				<form
 					class="mt-8 space-y-6"
@@ -15,7 +20,7 @@
 						name="remember"
 						value="true"
 					/>
-					<div class="-space-y-px rounded-md shadow-sm">
+					<div class="space-y-[20px] rounded-md shadow-sm">
 						<div>
 							<label
 								for="email-address"
@@ -26,22 +31,25 @@
 								v-model="objData.email"
 								name="email"
 								type="email"
-								class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-								placeholder="Email address"
+								class="relative block w-full h-full appearance-none rounded-lg  border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm "
+								placeholder="ឈ្មោះអ្នកប្រើប្រាស់/សារអេឡិចត្រូនិច"
+								
 							/>
 						</div>
+						
 						<div>
 							<label
 								for="password"
 								class="sr-only"
 							>Password</label>
 							<input
+								
 								id="password"
 								v-model="objData.password"
 								name="password"
 								type="password"
-								class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-								placeholder="Password"
+								class="relative block w-full h-full appearance-none rounded-lg border border-gray-300 px-3 py-2  text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+								placeholder="ពាក្យសម្ងាត់"
 							/>
 						</div>
 					</div>
@@ -55,8 +63,8 @@
 							/>
 							<label
 								for="remember-me"
-								class="ml-2 block text-sm text-gray-900"
-							>Remember me</label>
+								class="ml-2 block text-sm text-gray-900 text-[17px]"
+							>ចងចាំអ្នកប្រើប្រាស់</label>
 						</div>
 						<div class="text-sm">
 
@@ -65,12 +73,16 @@
 					<div>
 					</div>
 				</form>
+				
+				<div class="flex item-center justify-center">
 				<button
+					
 					@click="login"
-					class="group relative flex w-full justify-center rounded-md border border-transparent bg-gray-800 py-2 px-4 text-sm font-medium text-white hover:bg-gray-700"
+					class="group relative w-[90px] h-[50px] rounded-md border border-transparent bg-blue-600 py-2 px-4 text-[18px] font-bold text-white hover:bg-gray-700"
 				>
-					Sign in
+					ចូល
 				</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -123,9 +135,12 @@
 export default {
 	data() {
 		return {
+			
+
 			objData: {
 				email: 'sievmey@gmail.com',
-				password: 'dev123'
+				password: 'dev123',
+				
 			}
 		}
 	},
@@ -136,7 +151,10 @@ export default {
 			this.$store.dispatch("auth/LOGIN_SYSTEM", this.objData).then(reponse => {
 				if (reponse.status == '201' && localStorage.getItem('token') != null) {
 					this.$router.push('/');
+				}else{
+					
 				}
+				
 			})
 		}
 	}
@@ -144,4 +162,5 @@ export default {
 </script>
 
 <style>
+
 </style>

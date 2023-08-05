@@ -1,4 +1,18 @@
 <template>
+	<div class="text-left mb-4">
+		<el-select
+			v-model="academic"
+			placeholder="ជ្រើសរើស"
+			class="text-left "
+		>
+			<el-option
+				v-for="data in academics"
+				:key="data"
+				:label="data.name"
+				:value="data.id"
+			/>
+		</el-select>
+	</div>
 	<div class=" mb-4 ">
 		<el-row :gutter="16">
 			<el-col :span="6">
@@ -7,18 +21,7 @@
 						<template #title>
 							<div style="display: inline-flex; align-items: center">
 								<div class="text-xl">​សិស្សសរុប</div>
-								<el-tooltip
-									effect="dark"
-									content="Number of users who logged into the product in one day"
-									placement="top"
-								>
-									<el-icon
-										style="margin-left: 4px"
-										:size="12"
-									>
-										<Warning />
-									</el-icon>
-								</el-tooltip>
+
 							</div>
 						</template>
 					</el-statistic>
@@ -41,18 +44,7 @@
 						<template #title>
 							<div style="display: inline-flex; align-items: center">
 								<div class="text-xl">​គ្រូសរុប</div>
-								<el-tooltip
-									effect="dark"
-									content="Number of users who logged into the product in one day"
-									placement="top"
-								>
-									<el-icon
-										style="margin-left: 4px"
-										:size="12"
-									>
-										<Warning />
-									</el-icon>
-								</el-tooltip>
+
 							</div>
 						</template>
 					</el-statistic>
@@ -75,18 +67,7 @@
 						<template #title>
 							<div style="display: inline-flex; align-items: center">
 								<div class="text-xl">អ្នកប្រើប្រាស់</div>
-								<el-tooltip
-									effect="dark"
-									content="Number of users who logged into the product in one day"
-									placement="top"
-								>
-									<el-icon
-										style="margin-left: 4px"
-										:size="12"
-									>
-										<Warning />
-									</el-icon>
-								</el-tooltip>
+
 							</div>
 						</template>
 					</el-statistic>
@@ -109,18 +90,7 @@
 						<template #title>
 							<div style="display: inline-flex; align-items: center">
 								<div class="text-xl">​ថ្នាក់សរុប</div>
-								<el-tooltip
-									effect="dark"
-									content="Number of users who logged into the product in one day"
-									placement="top"
-								>
-									<el-icon
-										style="margin-left: 4px"
-										:size="12"
-									>
-										<Warning />
-									</el-icon>
-								</el-tooltip>
+
 							</div>
 						</template>
 					</el-statistic>
@@ -381,7 +351,20 @@ export default {
 			showInfo: false,
 			optionsLine,
 			optionsColumn,
-			optionsAttendace
+			optionsAttendace,
+			academic: '2',
+			academics: [
+				{
+					name: "ឆ្នាំសិក្សា២០២១-២០២២",
+					id: '1',
+
+				},
+				{
+					name: "ឆ្នាំសិក្សា២០២២-២០២៣",
+					id: '2',
+
+				}
+			]
 		}
 	},
 	computed: {

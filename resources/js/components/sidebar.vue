@@ -10,12 +10,12 @@
 		>
 			<div class="h-full flex justify-center items-center shadow-md bg-blue-900">
 				<div
-					class="font-semibold uppercase text-md px-2 whitespace-nowrap sanfont-khmer flex py-2 items-center justfy-start"
+					class="font-semibold uppercase text-md px-2 whitespace-nowrap sanfont-khmer flex py-2 items-center "
 					v-if="dataSibar"
 				>
 					<img
 						src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
-						class="p-[2px] w-[50px] h-[50px]  "
+						class="w-[50px] h-[50px] ml-[-10px]"
 						alt="Avatar"
 					/>
 					<span>វិ.ចំណេះទូទៅនិង បច្ចេកទេសពួក</span>
@@ -234,7 +234,7 @@
 							<span
 								v-show="dataSibar"
 								class="sanfont-khmer  text-sm"
-							> ម៉ោងពេល</span>
+							> ម៉ោងសិក្សា</span>
 						</router-link>
 					</div>
 					<div
@@ -313,6 +313,28 @@
 								class="sanfont-khmer text-sm"
 							> ការកំណត់</span>
 						</router-link>
+					</div>
+					<div
+						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
+						:class="dataSibar == true ? ' ' : ''"
+					>
+						<div class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900">
+							<el-tooltip
+								class="box-item"
+								effect="dark"
+								content="ការកំណត់"
+								placement="right-start"
+							>
+								<el-icon style="font-size: 1.5rem">
+									<InfoFilled />
+								</el-icon>
+							</el-tooltip>
+
+							<span
+								v-show="dataSibar"
+								class="sanfont-khmer text-sm"
+							> Copyright @ 2023 BIT14</span>
+						</div>
 					</div>
 				</div>
 			</div>
