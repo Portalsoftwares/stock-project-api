@@ -1300,6 +1300,10 @@ video {
   padding-top: 13px;
 }
 
+.pr-2 {
+  padding-right: 0.5rem;
+}
+
 .text-left {
   text-align: left;
 }
