@@ -123,6 +123,105 @@
 					</div>
 				</div>
 			</div>
+
+			<!-- Dialog  -->
+	<el-dialog
+		v-model="dialogFormVisible"
+		title="បន្ថែមមុខវិទ្យា"
+		class="sanfont-khmer"
+		width="50%"
+	>
+		<el-form
+			class="grid grid-cols-2"
+			:model="ruleForm"
+			:rules="rules"
+			ref="ruleForm"
+			id="fm"
+		>
+			
+		<div class="flex flex-col space-y-1">
+						<div>
+							<el-form-item
+								label="ឈ្មោះមុខវិទ្យា (ខ្មែរ)"
+								prop="subjectKhName"
+								class="sanfont-khmer "
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.firstNameKh"
+									name="firstNameKh1"
+									clearable
+								></el-input>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="ឈ្មោះមុខវិទ្យា (អង់គ្លេស)"
+								prop="subjectEngName"
+								class="sanfont-khmer "
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.subjectEngName"
+									name="subjectEngName"
+									clearable
+								></el-input>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="អក្សរកាត់នៃមុខវិជ្ជា"
+								prop="subjectShortName"
+								class="sanfont-khmer "
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.subjectShortName"
+									name="subjectShortName"
+									clearable
+								></el-input>
+							</el-form-item>
+						</div>
+						
+						
+					</div>
+
+			
+		</el-form>
+		<el-dialog v-model="dialogVisible">
+			<img
+				w-full
+				:src="dialogImageUrl"
+				alt="Preview Image"
+			/>
+		</el-dialog>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button
+					@click="cancelAction()"
+					class="sanfont-khmer"
+					type="danger"
+				> បោះបង់</el-button>
+				<el-button
+					v-if="!isShowButtonUpdate"
+					type="primary"
+					class="sanfont-khmer"
+					@click="submitForm('ruleForm')"
+				>
+					រក្សាទុក
+				</el-button>
+				<el-button
+					v-if="isShowButtonUpdate"
+					type="primary"
+					class="sanfont-khmer"
+					@click="updateData('ruleForm')"
+				>
+					រក្សាទុក
+				</el-button>
+			</span>
+		</template>
+	</el-dialog>
+	<!-- Dialog user  -->
 		</el-tab-pane>
 		<el-tab-pane label="មុខវិជ្ជាតាមកំរិត">
 			<div class="bg-white p-2 w-full flex justify-between">
@@ -255,6 +354,178 @@
 					</div>
 				</div>
 			</div>
+
+			<!-- Dialog  -->
+	<el-dialog
+		v-model="dialogFormVisible"
+		title="បន្ថែមមុខវិទ្យាតាមកំរិត"
+		class="sanfont-khmer "
+		width="50%"
+	>
+		<!-- 
+	<div class="flex justify-start item-start pl-[40px] space-y-[20px]">
+	<h1 class= "font-bold text-[20px]">ព័ត៌មានគ្រូ</h1>
+	</div>-->
+		<el-form
+			class="grid grid-cols-2"
+			:model="ruleForm"
+			:rules="rules"
+			ref="ruleForm"
+			id="fm"
+		>
+			<div class="flex flex-col">
+				<div class=" item-start ">
+					
+				</div>
+				<div class="flex flex-row ">
+					<div class="flex flex-col space-y-1">
+						<div>
+
+							<el-form-item
+								label="ឈ្មោះមុខវិទ្យា (ខ្មែរ)"
+								prop="subjectKhName"
+								class="sanfont-khmer "
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.firstNameKh"
+									name="firstNameKh1"
+									clearable
+								></el-input>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="កំរិតថ្នាក់"
+								prop="gradeLevel"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-select
+									v-model="ruleForm.gradeLevelalue"
+									placeholder="ជ្រើសរើស"
+								>
+									<el-option
+										v-for="item in gradeLevel"
+										:key="item.gradeLevelValue"
+										:label="item.gradeLevelLabel"
+										:value="item.gradeLevelValue"
+									>
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="ប្រភេទថ្នាក់"
+								prop="classType"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-select
+									v-model="ruleForm.classTypeValue"
+									placeholder="ជ្រើសរើស"
+								>
+									<el-option
+										v-for="item in classType"
+										:key="item.classTypeValue"
+										:label="item.classTypeLabel"
+										:value="item.classTypeValue"
+									>
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="ពិន្ទុពេញ"
+								prop="fullScore"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.fullScore"
+									autocomplete="off"
+									type="number"
+									name="fullScore"
+									clearable
+								/>
+							</el-form-item>
+						</div>
+						
+						<div>
+							<el-form-item
+								label="មេគុណ"
+								prop="devide"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.devide"
+									autocomplete="off"
+									type="number"
+									name="devide"
+									clearable
+								/>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="មេគុណ"
+								prop="devide"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.devide"
+									autocomplete="off"
+									type="number"
+									name="devide"
+									clearable
+								/>
+							</el-form-item>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
+		</el-form>
+		<el-dialog v-model="dialogVisible">
+			<img
+				w-full
+				:src="dialogImageUrl"
+				alt="Preview Image"
+			/>
+		</el-dialog>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button
+					@click="cancelAction()"
+					class="sanfont-khmer "
+					type="danger"
+				> បោះបង់</el-button>
+				<el-button
+					v-if="!isShowButtonUpdate"
+					type="primary"
+					class="sanfont-khmer"
+					@click="submitForm('ruleForm')"
+				>
+					រក្សាទុក
+				</el-button>
+				<el-button
+					v-if="isShowButtonUpdate"
+					type="primary"
+					class="sanfont-khmer"
+					@click="updateData('ruleForm')"
+				>
+					រក្សាទុក
+				</el-button>
+			</span>
+		</template>
+	</el-dialog>
+	<!-- Dialog user  -->
+
 		</el-tab-pane>
 	</el-tabs>
 
@@ -271,7 +542,7 @@ export default {
 			dialogFormVisible: false,
 			roles: [],
 			name: "",
-			formLabelWidth: "150px",
+			formLabelWidth: "160px",
 			dialogImageUrl: "",
 			dialogVisible: false,
 			files: {},
@@ -324,6 +595,32 @@ export default {
 					filterLabel: 'តាមទំហំផ្ទុក'
         	}],
 			filterSelectValue: "",
+
+			gradeLevel: [{
+				gradeLevelValue: '10',
+				gradeLevelLabel: '10'
+			}, {
+				gradeLevelValue: '11',
+				gradeLevelLabel: '11'
+			},
+			{
+				gradeLevelValue: '12',
+				gradeLevelLabel: '12'
+			}],
+			gradeLevelValue: '',
+
+			classType: [{
+				classTypeValue: 'ធម្មតា',
+				classTypeLabel: 'ធម្មតា'
+			}, {
+				classTypeValue: 'វិទ្យាសាស្រ្តពិក',
+				classTypeLabel: 'វិទ្យាសាស្រ្តពិក'
+			},
+			{
+				classTypeValue: 'វិទ្យាសាស្រ្តសង្គម',
+				classTypeLabel: 'វិទ្យាសាស្រ្តសង្គម'
+			}],
+			classTypeValue: '',
 		}
 	},
 	mounted() {
@@ -436,23 +733,23 @@ export default {
 		async AddUser() {
 			// this.cancelAction()
 			// this.resetForm('ruleForm');
-			this.ruleForm.name = ''
-			this.ruleForm.userId = ''
-			this.ruleForm.roles = ''
-			this.ruleForm.email = ''
-			this.imageUrl = ''
-			this.ruleForm.photo_id = ''
-			this.roles = null
+			//this.ruleForm.name = ''
+			//this.ruleForm.userId = ''
+			//this.ruleForm.roles = ''
+			//this.ruleForm.email = ''
+			//this.imageUrl = ''
+			//this.ruleForm.photo_id = ''
+			//this.roles = null
 
 			this.dialogFormVisible = true
-			this.isShowButtonUpdate = false;
-			this.isShowPassword = true;
+			//this.isShowButtonUpdate = false;
+			//this.isShowPassword = true;
 
-			await axios.get('/user/create').then(response => {
-				this.roles = response.data.roles
-			}).catch((error) => {
-				console.log(error)
-			})
+			//await axios.get('/user/create').then(response => {
+				//this.roles = response.data.roles
+			//}).catch((error) => {
+				//console.log(error)
+			//})
 		},
 		async getData() {
 			await axios.get('/subject/get').then(response => {
@@ -473,22 +770,23 @@ export default {
 			})
 		},
 		async editUser(id) {
-			this.isShowButtonUpdate = true;
-			this.isShowPassword = false;
-			await axios.get('/user/' + id + '/edit').then(response => {
-				this.ruleForm.name = response.data.user.name
-				this.ruleForm.userId = response.data.user.id
-				this.ruleForm.roles = response.data.user_has_roles
-				this.ruleForm.email = response.data.user.email
-				this.imageUrl = response.data.user.img?.file_path
-				this.ruleForm.photo_id = response.data.user.id
-				this.roles = response.data.roles
-				this.dialogFormVisible = true;
-			}).catch((error) => {
-				if (error.response.status == 401) {
-					this.$store.commit("auth/CLEAR_TOKEN")
-				}
-			})
+			this.dialogFormVisible = true;
+			//this.isShowButtonUpdate = true;
+			//this.isShowPassword = false;
+			//await axios.get('/user/' + id + '/edit').then(response => {
+				//this.ruleForm.name = response.data.user.name
+				//this.ruleForm.userId = response.data.user.id
+				//this.ruleForm.roles = response.data.user_has_roles
+				//this.ruleForm.email = response.data.user.email
+				//this.imageUrl = response.data.user.img?.file_path
+				//this.ruleForm.photo_id = response.data.user.id
+				//this.roles = response.data.roles
+				
+			//}).catch((error) => {
+			//	if (error.response.status == 401) {
+					//this.$store.commit("auth/CLEAR_TOKEN")
+				//}
+			//})
 		},
 		notification() {
 			this.showSuccess = !this.showSuccess

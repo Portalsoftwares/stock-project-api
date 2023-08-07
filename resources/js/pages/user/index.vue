@@ -81,7 +81,7 @@
 					<el-table-column
 						property="profile"
 						label="រូបភាព"
-						width="300"
+						width="200"
 					>
 						<template #default="scope">
 							<el-image
@@ -99,12 +99,21 @@
 					<el-table-column
 						property="email"
 						label="សារអេឡិចត្រូនិច"
-						width="300"
+						width="250"
 					/>
+
+					<el-table-column label="លេខទូរស័ព្ទ">
+						<template #default="scope">
+							<div v-if="scope.row.id==1">011 999222</div>
+							<div v-if="scope.row.id==2">012 999222</div>
+							<div v-if="scope.row.id==3">077 999222</div>
+						</template>
+					</el-table-column>
+
 					<el-table-column
 						property="roles"
 						label="តួនាទី"
-						width="400"
+						width="350"
 					>
 						<template #default="scope">
 							<div class="flex space-x-1 min-w-[200px]">
@@ -120,6 +129,7 @@
 							</div>
 						</template>
 					</el-table-column>
+					
 					<el-table-column
 						fixed="right"
 						align="center"
