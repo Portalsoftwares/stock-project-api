@@ -174,7 +174,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         filterValue: 'តាមទំហំផ្ទុក',
         filterLabel: 'តាមទំហំផ្ទុក'
       }],
-      filterSelectValue: ""
+      filterSelectValue: "",
+      loading: false
     };
   },
   mounted: function mounted() {
@@ -362,16 +363,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              _context5.next = 2;
+              _this6.loading = true;
+              _context5.next = 3;
               return axios.get('/student/get').then(function (response) {
                 _this6.tableData = response.data.data;
                 _this6.classData = response.data["class"];
+                _this6.loading = false;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
                   _this6.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 2:
+            case 3:
             case "end":
               return _context5.stop();
           }
@@ -525,6 +528,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_date_picker = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-date-picker");
   var _component_el_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-form");
   var _component_el_dialog = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-dialog");
+  var _directive_loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("loading");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
     placeholder: "ស្វែងរក",
     "class": "sanfont-khmer",
@@ -579,7 +583,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "info alert",
     type: "info",
     "show-icon": ""
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{ tableData }} "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table, {
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{ tableData }} "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
     data: $data.tableData,
     height: "770",
     style: {
@@ -700,7 +704,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
 
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["data"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
+  }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
     background: "",
     layout: "prev, pager, next",
     total: 1000
@@ -711,7 +715,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     title: "ព័ត៌មានសិស្ស",
     "class": "sanfont-khmer",
-    width: "50%"
+    width: "50%",
+    "align-center": "true",
+    draggable: ""
   }, {
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {

@@ -1,28 +1,40 @@
 <template>
-	<div class="bg-white p-2 w-full flex justify-between">
+	<div class="bg-white p-2 w-full flex justify-between border rounded-t">
 		<div class="flex space-x-2">
-		<div class="self-start">
-			<el-input
-				placeholder="ស្វែងរក"
-				class="sanfont-khmer"
-				v-model="search"
-			>
-				<i class="el-input__icon el-icon-search"></i>
-				<CirclePlusFilled class="el-input__icon" />
-			</el-input>
-		</div>
-		<div class="" >
-			<el-select v-model="filterSelectValue" filterable placeholder="តម្រៀប">
-    		<el-option
-    		  	v-for="item in filter"
-      			:key="item.filterValue"
-      			:label="item.filterLabel"
-      			:value="item.filterValue">
-    		</el-option>
-  			</el-select>
-		</div>
+			<div class="self-start">
+				<el-input
+					placeholder="ស្វែងរក"
+					class="sanfont-khmer"
+					v-model="search"
+				>
+				</el-input>
+			</div>
+			<div class="hidden">
+				<el-select
+					v-model="filterSelectValue"
+					filterable
+					placeholder="តម្រៀប"
+				>
+					<el-option
+						v-for="item in filter"
+						:key="item.filterValue"
+						:label="item.filterLabel"
+						:value="item.filterValue"
+					>
+					</el-option>
+				</el-select>
+			</div>
 		</div>
 		<div class="self-end">
+
+			<el-button type="info">
+				<el-icon>
+					<Document />
+				</el-icon>
+				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+
+			</el-button>
+
 			<el-button
 				type="primary"
 				@click="AddUser"
@@ -33,31 +45,11 @@
 				<span class="mx-1 sanfont-khmer"> បន្ថែមអ្នកប្រើប្រាស់</span>
 			</el-button>
 		</div>
-		
+
 	</div>
 	<div class="grid grid-cols-1 gap-2 ">
 		<div class=" border rounded bg-gray-50">
 			<div class="flex flex-col  ">
-				<div
-					class="m-2"
-					v-if="showSuccess"
-				>
-					<el-alert
-						title="success alert"
-						type="success"
-						show-icon
-					/>
-				</div>
-				<div
-					class="m-2"
-					v-if="showInfo"
-				>
-					<el-alert
-						title="info alert"
-						type="info"
-						show-icon
-					/>
-				</div>
 				<el-table
 					:data="tableData"
 					height="770"
@@ -66,6 +58,7 @@
 					header-cell-class-name="header-table-font-khmer text-md"
 					row-class-name="sanfont-khmer"
 					selectable
+					v-loading="loading"
 				>
 					<el-table-column
 						type="selection"
@@ -73,7 +66,7 @@
 					/>
 					<el-table-column
 						type="index"
-      					width="90"
+						width="90"
 						label="ល.រ"
 					>
 						<template #default="scope">{{scope.row.id }}</template>
@@ -81,7 +74,7 @@
 					<el-table-column
 						property="profile"
 						label="រូបភាព"
-						width="300"
+						width="100"
 					>
 						<template #default="scope">
 							<el-image
@@ -93,13 +86,17 @@
 							/>
 						</template>
 					</el-table-column>
-					<el-table-column label="ឈ្មោះ">
+					<el-table-column
+						label="ឈ្មោះ"
+						sortable
+					>
 						<template #default="scope">{{ scope.row.name }}</template>
 					</el-table-column>
 					<el-table-column
 						property="email"
 						label="សារអេឡិចត្រូនិច"
 						width="300"
+						sortable
 					/>
 					<el-table-column
 						property="roles"
@@ -143,8 +140,8 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
-						layout="prev, pager, next"
-						:total="1000"
+						layout="prev, pager, next, sizes"
+						:total="tableData.length"
 					>
 					</el-pagination>
 				</div>
@@ -344,19 +341,21 @@ export default {
 			search: '',
 
 			filter: [{
-					filterValue: 'តាមឈ្មោះ',
-        			filterLabel: 'តាមឈ្មោះ'
-       				 }, {
-					filterValue: 'តាមលេខរៀង',
-        			filterLabel: 'តាមលេខរៀង'
-       				 },{
-					filterValue: 'តាមកាលបរិច្ឆេត',
-        			filterLabel: 'តាមកាលបរិច្ឆេត'
-       				 }, {
-					filterValue: 'តាមទំហំផ្ទុក',
-					filterLabel: 'តាមទំហំផ្ទុក'
-        	}],
+				filterValue: 'តាមឈ្មោះ',
+				filterLabel: 'តាមឈ្មោះ'
+			}, {
+				filterValue: 'តាមលេខរៀង',
+				filterLabel: 'តាមលេខរៀង'
+			}, {
+				filterValue: 'តាមកាលបរិច្ឆេត',
+				filterLabel: 'តាមកាលបរិច្ឆេត'
+			}, {
+				filterValue: 'តាមទំហំផ្ទុក',
+				filterLabel: 'តាមទំហំផ្ទុក'
+			}],
 			filterSelectValue: "",
+			loading: false
+
 		}
 	},
 	mounted() {
@@ -485,8 +484,10 @@ export default {
 			})
 		},
 		async getData() {
+			this.loading = true
 			await axios.get('/user/get').then(response => {
 				this.tableData = response.data.users
+				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
@@ -610,8 +611,7 @@ export default {
 	color: var(--el-color-error);
 }
 
-.mr-820{
-	margin-right:820px;
+.mr-820 {
+	margin-right: 820px;
 }
-
 </style>

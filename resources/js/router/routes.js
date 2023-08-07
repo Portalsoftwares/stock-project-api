@@ -46,6 +46,20 @@ export default [
             },
             {
 
+                name: "time",
+                component: import('./../pages/time'),
+                path: "/time",
+
+            },
+            {
+
+                name: "academic",
+                component: import('./../pages/academic'),
+                path: "/academic",
+
+            },
+            {
+
                 name: "reports",
                 component: import('./../pages/report'),
                 path: "/reports",

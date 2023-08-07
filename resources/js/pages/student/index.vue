@@ -74,6 +74,7 @@
 					header-cell-class-name="header-table-font-khmer text-md"
 					row-class-name="sanfont-khmer"
 					selectable
+					v-loading="loading"
 				>
 
 					<el-table-column
@@ -180,6 +181,8 @@
 		title="ព័ត៌មានសិស្ស"
 		class="sanfont-khmer "
 		width="50%"
+		align-center="true"
+		draggable
 	>
 		<!-- 
 	<div class="flex justify-start item-start pl-[40px] space-y-[20px]">
@@ -622,6 +625,7 @@ export default {
 				filterLabel: 'តាមទំហំផ្ទុក'
 			}],
 			filterSelectValue: "",
+			loading: false
 		}
 	},
 	mounted() {
@@ -752,9 +756,11 @@ export default {
 			})
 		},
 		async getData() {
+			this.loading = true
 			await axios.get('/student/get').then(response => {
 				this.tableData = response.data.data
 				this.classData = response.data.class
+				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")

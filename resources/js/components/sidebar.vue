@@ -322,12 +322,13 @@
 							<el-tooltip
 								class="box-item"
 								effect="dark"
-								content="ការកំណត់"
+								content="កម្មសិទ្ធិ"
 								placement="right-start"
 							>
-								<el-icon style="font-size: 1.5rem">
+								<!-- <el-icon>
 									<InfoFilled />
-								</el-icon>
+								</el-icon> -->
+								<span style="font-size: 1.5rem"> &copy;</span>
 							</el-tooltip>
 
 							<span

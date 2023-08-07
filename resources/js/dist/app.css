@@ -603,6 +603,14 @@ video {
   margin-left: 0.5rem;
 }
 
+.ml-4 {
+  margin-left: 1rem;
+}
+
+.ml-\[-10px\] {
+  margin-left: -10px;
+}
+
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -635,12 +643,8 @@ video {
   margin-top: 2rem;
 }
 
-.ml-\[-5px\] {
-  margin-left: -5px;
-}
-
-.ml-\[-10px\] {
-  margin-left: -10px;
+.mr-4 {
+  margin-right: 1rem;
 }
 
 .block {
@@ -805,6 +809,10 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-\[150px\] {
+  width: 150px;
 }
 
 .min-w-\[200px\] {

@@ -1,5 +1,6 @@
 {
     "private": true,
+    "name": "USEA THESIS BIT14",
     "scripts": {
         "dev": "npm run --max_old_space_size=8192 development",
         "development": "mix",

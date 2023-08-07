@@ -97,7 +97,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         filterValue: 'តាមទំហំផ្ទុក',
         filterLabel: 'តាមទំហំផ្ទុក'
       }],
-      filterSelectValue: ""
+      filterSelectValue: "",
+      loading: false
     };
   },
   mounted: function mounted() {
@@ -286,15 +287,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              _context5.next = 2;
+              _this6.loading = true;
+              _context5.next = 3;
               return axios.get('/subject/get').then(function (response) {
                 _this6.tableData = response.data.data;
+                _this6.loading = false;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
                   _this6.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 2:
+            case 3:
             case "end":
               return _context5.stop();
           }
@@ -307,15 +310,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
-              _context6.next = 2;
+              _this7.loading = true;
+              _context6.next = 3;
               return axios.get('/subject/get_subject_level').then(function (response) {
                 _this7.tableDataSubjectLevel = response.data.data;
+                _this7.loading = false;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
                   _this7.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 2:
+            case 3:
             case "end":
               return _context6.stop();
           }
@@ -478,6 +483,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_pagination = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-pagination");
   var _component_el_tab_pane = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-tab-pane");
   var _component_el_tabs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-tabs");
+  var _directive_loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("loading");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_tabs, {
     type: "border-card"
   }, {
@@ -540,7 +546,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             title: "info alert",
             type: "info",
             "show-icon": ""
-          })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table, {
+          })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
             data: $data.tableData,
             height: "700",
             style: {
@@ -626,7 +632,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               })];
             }),
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["data"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
+          }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
             background: "",
             layout: "prev, pager, next",
             total: 1000
@@ -691,7 +697,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             title: "info alert",
             type: "info",
             "show-icon": ""
-          })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table, {
+          })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
             data: $data.tableDataSubjectLevel,
             height: "700",
             style: {
@@ -801,7 +807,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               })];
             }),
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["data"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
+          }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
             background: "",
             layout: "prev, pager, next",
             total: 1000

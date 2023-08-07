@@ -3,26 +3,31 @@
 		<el-tab-pane label="មុខវិជ្ជាទូទៅ">
 			<div class="bg-white p-2 w-full flex justify-between">
 				<div class="flex space-x-2">
-				<div class="self-start">
-					<el-input
-						placeholder="ស្វែងរក"
-						class="sanfont-khmer"
-						v-model="search"
-					>
-						<i class="el-input__icon el-icon-search"></i>
-						<CirclePlusFilled class="el-input__icon" />
-					</el-input>
-				</div>
-				<div class="self-start  " >
-					<el-select v-model="filterSelectValue" filterable placeholder="តម្រៀប">
-    				<el-option
-    		  		v-for="item in filter"
-      				:key="item.filterValue"
-      				:label="item.filterLabel"
-      				:value="item.filterValue">
-    				</el-option>
-  					</el-select>
-				</div>
+					<div class="self-start">
+						<el-input
+							placeholder="ស្វែងរក"
+							class="sanfont-khmer"
+							v-model="search"
+						>
+							<i class="el-input__icon el-icon-search"></i>
+							<CirclePlusFilled class="el-input__icon" />
+						</el-input>
+					</div>
+					<div class="self-start  ">
+						<el-select
+							v-model="filterSelectValue"
+							filterable
+							placeholder="តម្រៀប"
+						>
+							<el-option
+								v-for="item in filter"
+								:key="item.filterValue"
+								:label="item.filterLabel"
+								:value="item.filterValue"
+							>
+							</el-option>
+						</el-select>
+					</div>
 				</div>
 				<div class="self-end">
 					<el-button
@@ -67,6 +72,7 @@
 							header-cell-class-name="header-table-font-khmer text-md"
 							row-class-name="sheader-table-font-khmer"
 							selectable
+							v-loading="loading"
 						>
 							<el-table-column
 								type="selection"
@@ -75,9 +81,9 @@
 
 							<el-table-column
 								type="index"
-      							width="90"
+								width="90"
 								label="ល.រ"
-								>
+							>
 								<template #default="scope">{{scope.row.subject_id }}</template>
 							</el-table-column>
 
@@ -127,26 +133,31 @@
 		<el-tab-pane label="មុខវិជ្ជាតាមកំរិត">
 			<div class="bg-white p-2 w-full flex justify-between">
 				<div class="flex space-x-2">
-				<div class="self-start">
-					<el-input
-						placeholder="ស្វែងរក"
-						class="sanfont-khmer"
-						v-model="search"
-					>
-						<i class="el-input__icon el-icon-search"></i>
-						<CirclePlusFilled class="el-input__icon" />
-					</el-input>
-				</div>
-				<div class="self-start  " >
-					<el-select v-model="filterSelectValue" filterable placeholder="តម្រៀប">
-    				<el-option
-    		  		v-for="item in filter"
-      				:key="item.filterValue"
-      				:label="item.filterLabel"
-      				:value="item.filterValue">
-    				</el-option>
-  					</el-select>
-				</div>
+					<div class="self-start">
+						<el-input
+							placeholder="ស្វែងរក"
+							class="sanfont-khmer"
+							v-model="search"
+						>
+							<i class="el-input__icon el-icon-search"></i>
+							<CirclePlusFilled class="el-input__icon" />
+						</el-input>
+					</div>
+					<div class="self-start  ">
+						<el-select
+							v-model="filterSelectValue"
+							filterable
+							placeholder="តម្រៀប"
+						>
+							<el-option
+								v-for="item in filter"
+								:key="item.filterValue"
+								:label="item.filterLabel"
+								:value="item.filterValue"
+							>
+							</el-option>
+						</el-select>
+					</div>
 				</div>
 				<div class="self-end">
 					<el-button
@@ -191,6 +202,7 @@
 							header-cell-class-name="header-table-font-khmer text-md"
 							row-class-name="sanfont-khmer"
 							selectable
+							v-loading="loading"
 						>
 							<el-table-column
 								type="selection"
@@ -199,9 +211,9 @@
 
 							<el-table-column
 								type="index"
-      							width="90"
+								width="90"
 								label="ល.រ"
-								>
+							>
 								<template #default="scope">{{scope.row.subject_grade_id }}</template>
 							</el-table-column>
 
@@ -311,19 +323,20 @@ export default {
 			search: '',
 
 			filter: [{
-					filterValue: 'តាមឈ្មោះ',
-        			filterLabel: 'តាមឈ្មោះ'
-       				 }, {
-					filterValue: 'តាមលេខរៀង',
-        			filterLabel: 'តាមលេខរៀង'
-       				 },{
-					filterValue: 'តាមកាលបរិច្ឆេត',
-        			filterLabel: 'តាមកាលបរិច្ឆេត'
-       				 }, {
-					filterValue: 'តាមទំហំផ្ទុក',
-					filterLabel: 'តាមទំហំផ្ទុក'
-        	}],
+				filterValue: 'តាមឈ្មោះ',
+				filterLabel: 'តាមឈ្មោះ'
+			}, {
+				filterValue: 'តាមលេខរៀង',
+				filterLabel: 'តាមលេខរៀង'
+			}, {
+				filterValue: 'តាមកាលបរិច្ឆេត',
+				filterLabel: 'តាមកាលបរិច្ឆេត'
+			}, {
+				filterValue: 'តាមទំហំផ្ទុក',
+				filterLabel: 'តាមទំហំផ្ទុក'
+			}],
 			filterSelectValue: "",
+			loading: false
 		}
 	},
 	mounted() {
@@ -455,8 +468,10 @@ export default {
 			})
 		},
 		async getData() {
+			this.loading = true
 			await axios.get('/subject/get').then(response => {
 				this.tableData = response.data.data
+				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
@@ -464,8 +479,11 @@ export default {
 			})
 		},
 		async getDataSubjectLevel() {
+			this.loading = true
+
 			await axios.get('/subject/get_subject_level').then(response => {
 				this.tableDataSubjectLevel = response.data.data
+				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
