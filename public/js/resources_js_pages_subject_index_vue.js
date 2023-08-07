@@ -428,7 +428,7 @@ var _hoisted_6 = {
 };
 var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "mx-1 sanfont-khmer"
-}, " បន្ថែមមុខវិជ្ជា", -1 /* HOISTED */);
+}, " បន្ថែមមុខវិទ្យា", -1 /* HOISTED */);
 var _hoisted_8 = {
   "class": "grid grid-cols-1 gap-2"
 };
@@ -479,7 +479,7 @@ var _hoisted_23 = {
 };
 var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "mx-1 sanfont-khmer"
-}, " បន្ថែមមុខវិជ្ជាតាមកំរិត", -1 /* HOISTED */);
+}, " បន្ថែមមុខវិជ្ជា", -1 /* HOISTED */);
 var _hoisted_25 = {
   "class": "grid grid-cols-1 gap-2"
 };
@@ -539,7 +539,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tab_pane, {
-        label: "មុខវិជ្ជាទូទៅ"
+        label: "មុខវិទ្យាទូទៅ"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
@@ -622,7 +622,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                label: "ឈ្មោះ"
+                label: "មុខវិទ្យា"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.subject_name_kh), 1 /* TEXT */)];
@@ -630,7 +630,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                label: "ឈ្មោះ អង់គ្លេស"
+                label: "មុខវិទ្យា (អង់គ្លេស)"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.subject_name_en), 1 /* TEXT */)];
@@ -638,7 +638,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                label: "ឈ្មោះកាត់"
+                label: "មុខវិទ្យា (អក្សរកាត់)"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.subject_sort_name_en), 1 /* TEXT */)];
@@ -779,7 +779,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     }),
                     _: 1 /* STABLE */
                   }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-                    label: "អក្សរកាត់នៃមុខវិជ្ជា",
+                    label: "ឈ្មោះមុខវិទ្យា (អក្សរកាត់)",
                     prop: "subjectShortName",
                     "class": "sanfont-khmer",
                     "label-width": $data.formLabelWidth
@@ -902,7 +902,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                label: "ឈ្មោះ"
+                label: "មុខវិទ្យា"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.subject.subject_name_kh), 1 /* TEXT */)];
@@ -910,7 +910,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                label: "កំរិត"
+                label: "កម្រិត"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.grade_level.grade_level_name), 1 /* TEXT */)];
@@ -942,7 +942,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                label: "មធ្យម"
+                label: "មធ្យមភាគ"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.average), 1 /* TEXT */)];
@@ -995,7 +995,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
               return $data.dialogFormVisible = $event;
             }),
-            title: "ព័ត៌មានមុខវិទ្យាតាមកំរិត",
+            title: "ព័ត៌មាន មុខវិទ្យា",
             "class": "sanfont-khmer",
             width: "30%",
             "align-center": "true",
@@ -1160,7 +1160,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     }),
                     _: 1 /* STABLE */
                   }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-                    label: "មេគុណ",
+                    label: "មធ្យមភាគ",
                     prop: "devide",
                     "class": "sanfont-khmer",
                     "label-width": $data.formLabelWidth

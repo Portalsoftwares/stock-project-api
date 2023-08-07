@@ -99,7 +99,7 @@
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
-						label="គោត្តនាម និងនាមជាភាសាឡាតាំង"
+						label="គោត្តនាម និងនាមជាអក្សរឡាតាំង"
 						width="320"
 					>
 						<template #default="scope">{{scope.row.first_name_en +" "+scope.row.last_name_en }}</template>
@@ -313,7 +313,7 @@
 
 						<div>
 							<el-form-item
-								label="ថ្ងៃកំណើត"
+								label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត"
 								prop="dobValue"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
@@ -355,7 +355,7 @@
 						</div>
 						<div>
 							<el-form-item
-								label="ថ្ងៃចូលបង្រៀន"
+								label="ថ្ងៃចូលបង្រៀនដំបូង"
 								prop="teachDate"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
@@ -372,7 +372,7 @@
 					<div class="flex flex-col space-y-1">
 						<div>
 							<el-form-item
-								label="កំរិត"
+								label="កម្រិត"
 								prop="teacher_level"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
@@ -393,7 +393,7 @@
 						</div>
 						<div>
 							<el-form-item
-								label="មុខវិជ្ជា"
+								label="មុខវិទ្យា"
 								prop="subject"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"

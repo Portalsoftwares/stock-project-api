@@ -85,14 +85,14 @@
 						<template #default="scope">{{scope.row.class_id }}</template>
 						</el-table-column>
 
-						<el-table-column label="ឈ្មោះ" >
+						<el-table-column label="ឈ្មោះថ្នាក់" >
 							<template #default="scope">{{ scope.row.class_name }}</template>
 						</el-table-column>
-						<el-table-column label="គ្រូ សរុប">
+						<el-table-column label="គ្រូសរុប">
 							<template #default="scope">{{ scope.row.get_teacher_in_class.length }} នាក់
 							</template>
 						</el-table-column>
-						<el-table-column label="សិស្ស សរុប">
+						<el-table-column label="សិស្សសរុប">
 							<template #default="scope">{{ scope.row.count_student_in_class.length }} នាក់
 							</template>
 
@@ -106,6 +106,7 @@
 						<el-table-column
 							fixed="right"
 							label="សកម្មភាព"
+							align="center"
 						>
 							<template #default="scope">
 								<router-link
@@ -194,7 +195,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item
-					label="កំរិតថ្នាក់"
+					label="កម្រិតថ្នាក់"
 					class="sanfont-khmer"
 					prop="grade_level_id"
 					:label-width="formLabelWidth"

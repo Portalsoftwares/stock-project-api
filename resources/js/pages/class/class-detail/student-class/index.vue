@@ -71,7 +71,7 @@
 				</span>
 			</template>
 		</el-table-column>
-		<el-table-column label="ឈ្មោះសិស្សជាភាសាឡាតាំង">
+		<el-table-column label="ឈ្មោះសិស្សជាអក្សរឡាតាំង">
 			<template #default="scope">
 				<span>
 					{{ scope.row.student_in_class.first_name_en }} {{ scope.row.student_in_class.last_name_en }}
@@ -94,7 +94,7 @@
 							>
 						</template>
 					</el-table-column>
-		<el-table-column label="ថ្ងៃខែឆ្នាំកំណើត">
+		<el-table-column label="ថ្ងៃ ខែ ឆ្នាំកំណើត">
 			<template #default="scope">
 				<span>
 					01-06-2020
@@ -281,7 +281,7 @@
 
 						<div>
 							<el-form-item
-								label="ថ្ងៃកំណើត"
+								label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត"
 								prop="dobValue"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
@@ -529,6 +529,23 @@ export default {
 					filterLabel: 'តាមទំហំផ្ទុក'
         	}],
 			filterSelectValue: "",
+
+			status: [{
+					statusValue: 'កំពុងសិក្សា',
+        			statusLabel: 'កំពុងសិក្សា'
+       				 }, {
+					statusValue: 'បញ្ឈប់ការសិក្សា',
+        			statusLabel: 'បញ្ឈប់ការសិក្សា'
+       				 }],
+			statusValue: "",
+
+			gender: [{
+				genderValue: 'ប្រុស',
+				genderLabel: 'ប្រុស'
+			}, {
+				genderValue: 'ស្រី',
+				genderLabel: 'ស្រី'
+			}],
 		}
 	},
 

@@ -3,7 +3,7 @@
 	<div class=" bg-white ">
 
 		<div class="pb-2 flex justify-between">
-			<div class="text-left text-md font-bold  ">វត្តមានសិស្សតាម មុខវិជ្ជា</div>
+			<div class="text-left text-md font-bold  ">វត្តមានសិស្សតាម មុខវិទ្យា</div>
 			<div class="text-right">
 				<el-button
 					type="primary"

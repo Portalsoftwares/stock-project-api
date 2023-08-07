@@ -757,7 +757,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         filterValue: 'តាមទំហំផ្ទុក',
         filterLabel: 'តាមទំហំផ្ទុក'
       }],
-      filterSelectValue: ""
+      filterSelectValue: "",
+      status: [{
+        statusValue: 'កំពុងសិក្សា',
+        statusLabel: 'កំពុងសិក្សា'
+      }, {
+        statusValue: 'បញ្ឈប់ការសិក្សា',
+        statusLabel: 'បញ្ឈប់ការសិក្សា'
+      }],
+      statusValue: "",
+      gender: [{
+        genderValue: 'ប្រុស',
+        genderLabel: 'ប្រុស'
+      }, {
+        genderValue: 'ស្រី',
+        genderLabel: 'ស្រី'
+      }]
     };
   },
   mounted: function mounted() {
@@ -1030,7 +1045,7 @@ var _hoisted_2 = {
 };
 var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-left text-md font-bold"
-}, "វត្តមានសិស្សតាម មុខវិជ្ជា", -1 /* HOISTED */);
+}, "វត្តមានសិស្សតាម មុខវិទ្យា", -1 /* HOISTED */);
 var _hoisted_4 = {
   "class": "text-right"
 };
@@ -1403,10 +1418,10 @@ var _hoisted_17 = {
 };
 var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-left text-md font-bold pb-2"
-}, "គ្រូ និង មុខវិជ្ជា", -1 /* HOISTED */);
+}, "ឈ្មោះគ្រូ និងមុខវិទ្យា", -1 /* HOISTED */);
 var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "mx-1 sanfont-khmer"
-}, " គ្រប់គ្រងគ្រូ និងមុខវិជ្ជា", -1 /* HOISTED */);
+}, " គ្រប់គ្រងគ្រូ និងមុខវិទ្យា", -1 /* HOISTED */);
 var _hoisted_20 = {
   "class": "grid grid-cols-3 gap-2"
 };
@@ -1603,7 +1618,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   "class": "text-left"
                 }, {
                   "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ឈ្មោះ : "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.first_name_kh) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.last_name_kh), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" មុខវិជ្ជា : "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_subject_in_class.subject.subject_name_kh), 1 /* TEXT */)]), data.role_id == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tag, null, {
+                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ឈ្មោះ :"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.first_name_kh) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.last_name_kh), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" មុខវិទ្យា : "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_subject_in_class.subject.subject_name_kh), 1 /* TEXT */)]), data.role_id == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tag, null, {
                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("គ្រូបន្ទុកថ្នាក់")];
                       }),
@@ -2129,7 +2144,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width", "error"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "មុខវិជ្ជា",
+            label: "មុខវិទ្យា",
             prop: "subject_grade_id",
             "class": "sanfont-khmer",
             error: $data.errors.subject_grade_id,
@@ -2141,7 +2156,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
                   return $data.ruleFormSchedule.subject_grade_id = $event;
                 }),
-                placeholder: "ជ្រើសរើស មុខវិជ្ជា",
+                placeholder: "ជ្រើសរើស មុខវិទ្យា",
                 "class": "text-left"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -2169,7 +2184,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
       return $data.dialogFormTeacher = $event;
     }),
-    title: "ព័ត៏មាន គ្រូបង្រៀន",
+    title: "ព័ត៏មានគ្រូបង្រៀន",
     "class": "sanfont-khmer",
     width: "50%",
     draggable: ""
@@ -2179,7 +2194,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[21] || (_cache[21] = function ($event) {
           return $options.closeForm();
         }),
-        "class": "sanfont-khmer"
+        "class": "sanfont-khmer",
+        type: "danger"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" បោះបង់")];
@@ -2245,7 +2261,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["error", "label-width"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "គ្រូ",
+            label: "ឈ្មោះគ្រូ",
             prop: "teacher_id",
             "class": "sanfont-khmer",
             error: $data.errors.teacher_id,
@@ -2257,7 +2273,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
                   return $data.ruleFormTeacher.teacher_id = $event;
                 }),
-                placeholder: "ជ្រើសរើស គ្រូ",
+                placeholder: "ជ្រើសរើសគ្រូ",
                 "class": "text-left"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -2275,7 +2291,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["error", "label-width"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "មុខវិជ្ជា",
+            label: "មុខវិទ្យា",
             error: $data.errors.subject_grade_id,
             "class": "sanfont-khmer",
             "label-width": $data.formLabelWidth
@@ -2286,7 +2302,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
                   return $data.ruleFormTeacher.subject_grade_id = $event;
                 }),
-                placeholder: "ជ្រើសរើស មុខវិជ្ជា",
+                placeholder: "ជ្រើសរើសមុខវិទ្យា",
                 "class": "text-left"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -2323,7 +2339,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     border: ""
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("គ្រូបន្ទុកថ្នាក់")];
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("បន្ទុកថ្នាក់")];
                     }),
                     _: 1 /* STABLE */
                   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_radio, {
@@ -2331,7 +2347,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     border: ""
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("មិនគ្រូបន្ទុកថ្នាក់")];
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("មិនមែនបន្ទុកថ្នាក់")];
                     }),
                     _: 1 /* STABLE */
                   })])];
@@ -2897,7 +2913,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-        label: "ឈ្មោះសិស្សជាភាសាឡាតាំង"
+        label: "ឈ្មោះសិស្សជាអក្សរឡាតាំង"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.first_name_en) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.last_name_en), 1 /* TEXT */)];
@@ -2919,7 +2935,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-        label: "ថ្ងៃខែឆ្នាំកំណើត"
+        label: "ថ្ងៃ ខែ ឆ្នាំកំណើត"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
           return [_hoisted_13];
@@ -3145,7 +3161,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 placeholder: "ជ្រើសរើស"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.gender, function (item) {
+                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.gender, function (item) {
                     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
                       key: item.genderValue,
                       label: item.genderLabel,
@@ -3159,7 +3175,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "ថ្ងៃកំណើត",
+            label: "ថ្ងៃ/ខែ/ឆ្នាំកំណើត",
             prop: "dobValue",
             "class": "sanfont-khmer",
             "label-width": $data.formLabelWidth
@@ -3310,7 +3326,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 placeholder: "ជ្រើសរើស"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.status, function (item) {
+                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.status, function (item) {
                     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
                       key: item.statusValue,
                       label: item.statusLabel,

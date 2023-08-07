@@ -1,6 +1,6 @@
 <template>
 	<el-tabs type="border-card">
-		<el-tab-pane label="មុខវិជ្ជាទូទៅ">
+		<el-tab-pane label="មុខវិទ្យាទូទៅ">
 			<div class="bg-white p-2 w-full flex justify-between">
 				<div class="flex space-x-2">
 					<div class="self-start">
@@ -37,7 +37,7 @@
 						<el-icon>
 							<CirclePlusFilled />
 						</el-icon>
-						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជា</span>
+						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិទ្យា</span>
 					</el-button>
 				</div>
 			</div>
@@ -87,13 +87,13 @@
 								<template #default="scope">{{scope.row.subject_id }}</template>
 							</el-table-column>
 
-							<el-table-column label="ឈ្មោះ">
+							<el-table-column label="មុខវិទ្យា">
 								<template #default="scope">{{ scope.row.subject_name_kh }}</template>
 							</el-table-column>
-							<el-table-column label="ឈ្មោះ អង់គ្លេស">
+							<el-table-column label="មុខវិទ្យា (អង់គ្លេស)">
 								<template #default="scope">{{ scope.row.subject_name_en }}</template>
 							</el-table-column>
-							<el-table-column label="ឈ្មោះកាត់">
+							<el-table-column label="មុខវិទ្យា (អក្សរកាត់)">
 								<template #default="scope">{{ scope.row.subject_sort_name_en }}</template>
 							</el-table-column>
 
@@ -178,7 +178,7 @@
 						</div>
 						<div>
 							<el-form-item
-								label="អក្សរកាត់នៃមុខវិជ្ជា"
+								label="ឈ្មោះមុខវិទ្យា (អក្សរកាត់)"
 								prop="subjectShortName"
 								class="sanfont-khmer "
 								:label-width="formLabelWidth"
@@ -267,7 +267,7 @@
 						<el-icon>
 							<CirclePlusFilled />
 						</el-icon>
-						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជាតាមកំរិត</span>
+						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជា</span>
 					</el-button>
 				</div>
 			</div>
@@ -317,10 +317,10 @@
 								<template #default="scope">{{scope.row.subject_grade_id }}</template>
 							</el-table-column>
 
-							<el-table-column label="ឈ្មោះ">
+							<el-table-column label="មុខវិទ្យា">
 								<template #default="scope">{{ scope.row.subject.subject_name_kh }}</template>
 							</el-table-column>
-							<el-table-column label="កំរិត">
+							<el-table-column label="កម្រិត">
 								<template #default="scope">{{ scope.row.grade_level.grade_level_name }}</template>
 							</el-table-column>
 							<el-table-column label="ប្រភេទថ្នាក់">
@@ -332,7 +332,7 @@
 							<el-table-column label="មេគុណ">
 								<template #default="scope">{{ scope.row.divide }}</template>
 							</el-table-column>
-							<el-table-column label="មធ្យម">
+							<el-table-column label="មធ្យមភាគ">
 								<template #default="scope">{{ scope.row.average }}</template>
 							</el-table-column>
 							<el-table-column
@@ -371,7 +371,7 @@
 			<!-- Dialog  -->
 			<el-dialog
 				v-model="dialogFormVisible"
-				title="ព័ត៌មានមុខវិទ្យាតាមកំរិត"
+				title="ព័ត៌មាន មុខវិទ្យា"
 				class="sanfont-khmer "
 				width="30%"
 				align-center="true"
@@ -486,7 +486,7 @@
 								</div>
 								<div>
 									<el-form-item
-										label="មេគុណ"
+										label="មធ្យមភាគ"
 										prop="devide"
 										class="sanfont-khmer"
 										:label-width="formLabelWidth"
