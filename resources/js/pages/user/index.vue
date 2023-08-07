@@ -100,9 +100,8 @@
 
 					<el-table-column label="លេខទូរស័ព្ទ">
 						<template #default="scope">
-							<div v-if="scope.row.id==1">011 999222</div>
-							<div v-if="scope.row.id==2">012 999222</div>
-							<div v-if="scope.row.id==3">077 999222</div>
+							<div>011 999222</div>
+
 						</template>
 					</el-table-column>
 

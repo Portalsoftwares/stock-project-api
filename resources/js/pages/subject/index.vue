@@ -13,7 +13,7 @@
 							<CirclePlusFilled class="el-input__icon" />
 						</el-input>
 					</div>
-					<div class="self-start  ">
+					<div class="self-start hidden ">
 						<el-select
 							v-model="filterSelectValue"
 							filterable
@@ -30,6 +30,13 @@
 					</div>
 				</div>
 				<div class="self-end">
+					<el-button type="info">
+						<el-icon>
+							<Document />
+						</el-icon>
+						<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+
+					</el-button>
 					<el-button
 						type="primary"
 						@click="AddUser"
@@ -87,13 +94,22 @@
 								<template #default="scope">{{scope.row.subject_id }}</template>
 							</el-table-column>
 
-							<el-table-column label="ឈ្មោះ">
+							<el-table-column
+								label="ឈ្មោះ"
+								sortable
+							>
 								<template #default="scope">{{ scope.row.subject_name_kh }}</template>
 							</el-table-column>
-							<el-table-column label="ឈ្មោះ អង់គ្លេស">
+							<el-table-column
+								label="ឈ្មោះ អង់គ្លេស"
+								sortable
+							>
 								<template #default="scope">{{ scope.row.subject_name_en }}</template>
 							</el-table-column>
-							<el-table-column label="ឈ្មោះកាត់">
+							<el-table-column
+								label="ឈ្មោះកាត់"
+								sortable
+							>
 								<template #default="scope">{{ scope.row.subject_sort_name_en }}</template>
 							</el-table-column>
 
@@ -121,8 +137,8 @@
 						<div class="py-2 flex justify-center">
 							<el-pagination
 								background
-								layout="prev, pager, next"
-								:total="1000"
+								layout="prev, pager, next, sizes"
+								:total="tableData.length"
 							>
 							</el-pagination>
 						</div>
@@ -242,21 +258,52 @@
 					</div>
 					<div class="self-start  ">
 						<el-select
-							v-model="filterSelectValue"
+							v-model="filterSelectValue "
 							filterable
-							placeholder="តម្រៀប"
+							clearable
+							multiple
+							placeholder="មុខវិជ្ជានៃកម្រិត"
 						>
 							<el-option
-								v-for="item in filter"
-								:key="item.filterValue"
-								:label="item.filterLabel"
-								:value="item.filterValue"
+								v-for="item in gradeLevel"
+								:key="item.gradeLevelValue"
+								:label="item.gradeLevelLabel"
+								:value="item.gradeLevelValue"
 							>
 							</el-option>
 						</el-select>
 					</div>
+					<div class="self-start  ">
+						<el-select
+							v-model="SelectValue "
+							filterable
+							clearable
+							multiple
+							placeholder="មុខវិជ្ជានៃកម្រិត"
+						>
+							<el-option
+								v-for="item in classType"
+								:key="item.classTypeValue"
+								:label="item.classTypeLabel"
+								:value="item.classTypeValue"
+							>
+							</el-option>
+						</el-select>
+					</div>
+					<el-button type="primary">
+						<el-icon>
+							<Search />
+						</el-icon>
+					</el-button>
 				</div>
 				<div class="self-end">
+					<el-button type="info">
+						<el-icon>
+							<Document />
+						</el-icon>
+						<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+
+					</el-button>
 					<el-button
 						type="primary"
 						@click="AddUser"
@@ -311,16 +358,24 @@
 								width="90"
 								label="ល.រ"
 							>
-								<template #default="scope">{{scope.row.subject_grade_id }}</template>
 							</el-table-column>
 
-							<el-table-column label="ឈ្មោះ">
+							<el-table-column
+								label="ឈ្មោះ"
+								sortable
+							>
 								<template #default="scope">{{ scope.row.subject.subject_name_kh }}</template>
 							</el-table-column>
-							<el-table-column label="កំរិត">
+							<el-table-column
+								label="កំរិត"
+								sortable
+							>
 								<template #default="scope">{{ scope.row.grade_level.grade_level_name }}</template>
 							</el-table-column>
-							<el-table-column label="ប្រភេទថ្នាក់">
+							<el-table-column
+								label="ប្រភេទថ្នាក់"
+								sortable
+							>
 								<template #default="scope">{{ scope.row.class_type.name }}</template>
 							</el-table-column>
 							<el-table-column label="ពិន្ទុពេញ">
@@ -356,8 +411,8 @@
 						<div class="py-2 flex justify-center">
 							<el-pagination
 								background
-								layout="prev, pager, next"
-								:total="1000"
+								layout="prev, pager, next, sizes"
+								:total="tableDataSubjectLevel.length"
 							>
 							</el-pagination>
 						</div>
@@ -608,14 +663,14 @@ export default {
 
 			gradeLevel: [{
 				gradeLevelValue: '10',
-				gradeLevelLabel: '10'
+				gradeLevelLabel: 'ទី10'
 			}, {
 				gradeLevelValue: '11',
-				gradeLevelLabel: '11'
+				gradeLevelLabel: 'ទី11'
 			},
 			{
 				gradeLevelValue: '12',
-				gradeLevelLabel: '12'
+				gradeLevelLabel: 'ទី12'
 			}],
 			gradeLevelValue: '',
 

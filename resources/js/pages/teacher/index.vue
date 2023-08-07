@@ -7,15 +7,15 @@
 					class="sanfont-khmer"
 					v-model="search"
 				>
-					<i class="el-input__icon el-icon-search"></i>
-					<CirclePlusFilled class="el-input__icon" />
 				</el-input>
 			</div>
-			<div class="self-start hidden ">
+			<div class="self-start  ">
 				<el-select
-					v-model="filterSelectValue"
+					v-model="filterSelectValue "
 					filterable
-					placeholder="តម្រៀប"
+					clearable
+					multiple
+					placeholder="ឯកទេស"
 				>
 					<el-option
 						v-for="item in filter"
@@ -26,6 +26,27 @@
 					</el-option>
 				</el-select>
 			</div>
+			<div class="self-start  ">
+				<el-select
+					v-model="teacher_levelSelectValue"
+					filterable
+					clearable
+					placeholder="កំរិត"
+				>
+					<el-option
+						v-for="item in teacher_level"
+						:key="item.filterValue"
+						:label="item.teacher_level_Label"
+						:value="item.teacher_level_value"
+					>
+					</el-option>
+				</el-select>
+			</div>
+			<el-button type="primary">
+				<el-icon>
+					<Search />
+				</el-icon>
+			</el-button>
 		</div>
 
 		<div class="self-end">
@@ -89,53 +110,83 @@
 						width="90"
 						label="ល.រ"
 					>
-						<template #default="scope">{{scope.row.teacher_id }}</template>
 					</el-table-column>
 					<el-table-column
-						width="250"
+						width="100"
+						align="start"
+						label="រូបភាព"
+					>
+						<template #default="scope">
+							<el-image
+								style="width: 40px; height: 40px"
+								:src="scope.row.profile_img?.file_path"
+								fit="cover"
+								:lazy="true"
+								class="rounded-full"
+							/>
+						</template>
+					</el-table-column>
+					<el-table-column
+						width="100"
+						align="start"
+						label="អត្តលេខ"
+						sortable
+					>
+						<template #default="scope">{{ "PK-T00"+ scope.row.teacher_id}}</template>
+					</el-table-column>
+					<el-table-column
+						width="180"
 						label="គោត្តនាម និងនាម"
+						sortable
 					>
 						<template #default="scope">{{scope.row.first_name_kh +" "+scope.row.last_name_kh }}</template>
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
-						label="គោត្តនាម និងនាមជាភាសាឡាតាំង"
-						width="320"
+						label="គោត្តនាម និងនាមឡាតាំង"
+						width="250"
+						sortable
 					>
 						<template #default="scope">{{scope.row.first_name_en +" "+scope.row.last_name_en }}</template>
 
 					</el-table-column>
 					<el-table-column
 						width="120"
+						label="តួនាទី"
+						sortable
+					>
+						<template #default="scope">
+							<div v-if="scope.row.gender_id == 1">គ្រូ</div>
+							<div v-else>គ្រូវិន័យ</div>
+						</template>
+					</el-table-column>
+					<el-table-column
+						width="120"
 						label="ភេទ"
+						sortable
 					>
 						<template #default="scope">
 							<div v-if="scope.row.gender_id == 1">ប្រុស</div>
 							<div v-else>ស្រី</div>
 						</template>
 					</el-table-column>
-
-					<el-table-column
-						property="profile"
-						label="រូបភាព"
-						width="200"
-					>
-						<template #default="scope">
-							<img
-								:src="scope.row.profile_img.file_path"
-								alt="profile"
-								title="profile"
-								class="h-[50px] w-[50px] rounded-full"
-							>
-						</template>
-					</el-table-column>
 					<el-table-column
 						label="ថ្ងៃ ខែ ឆ្នាំកំណើត"
-						width="232"
+						width="180"
 					>
 						<template #default="scope">
 							<div>
 								{{ scope.row.date_of_birth}}
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column
+						label="លេខទូរស័ព្ទ"
+						width="120"
+					>
+						<template #default="scope">
+							<div>
+								{{ scope.row.phone}}
 							</div>
 						</template>
 					</el-table-column>
@@ -605,16 +656,16 @@ export default {
 			search: '',
 			filter: [{
 				filterValue: 'តាមឈ្មោះ',
-				filterLabel: 'តាមឈ្មោះ'
+				filterLabel: 'ភាសាខ្មែរ'
 			}, {
 				filterValue: 'តាមលេខរៀង',
-				filterLabel: 'តាមលេខរៀង'
+				filterLabel: 'គណិតវិទ្យា'
 			}, {
 				filterValue: 'តាមកាលបរិច្ឆេត',
-				filterLabel: 'តាមកាលបរិច្ឆេត'
+				filterLabel: 'រូបវិទ្យា'
 			}, {
 				filterValue: 'តាមទំហំផ្ទុក',
-				filterLabel: 'តាមទំហំផ្ទុក'
+				filterLabel: 'គីមីវិទ្យា'
 			}],
 			filterSelectValue: "",
 
@@ -645,6 +696,7 @@ export default {
 			}],
 			generValue: '',
 			loading: false,
+			teacher_levelSelectValue: ''
 		}
 	},
 	mounted() {

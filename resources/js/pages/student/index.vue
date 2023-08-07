@@ -14,9 +14,11 @@
 			</div>
 			<div class="self-start  ">
 				<el-select
-					v-model="filterSelectValue"
+					v-model="filterSelectValue "
 					filterable
-					placeholder="តម្រៀប"
+					clearable
+					multiple
+					placeholder="សិស្សនៃកម្រិត"
 				>
 					<el-option
 						v-for="item in filter"
@@ -27,10 +29,37 @@
 					</el-option>
 				</el-select>
 			</div>
+			<div class="self-start  ">
+				<el-select
+					v-model="academicSelectValue"
+					filterable
+					clearable
+					placeholder="ឆ្នាំសិក្សា"
+				>
+					<el-option
+						v-for="item in academic"
+						:key="item.filterValue"
+						:label="item.filterLabel"
+						:value="item.filterValue"
+					>
+					</el-option>
+				</el-select>
+			</div>
+			<el-button type="primary">
+				<el-icon>
+					<Search />
+				</el-icon>
+			</el-button>
 		</div>
 
 		<div class="self-end">
+			<el-button type="info">
+				<el-icon>
+					<Document />
+				</el-icon>
+				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
+			</el-button>
 			<el-button
 				type="primary"
 				@click="AddUser"
@@ -45,26 +74,6 @@
 	<div class="grid grid-cols-1 gap-2 ">
 		<div class=" border rounded bg-gray-50">
 			<div class="flex flex-col  ">
-				<div
-					class="m-2"
-					v-if="showSuccess"
-				>
-					<el-alert
-						title="success alert"
-						type="success"
-						show-icon
-					/>
-				</div>
-				<div
-					class="m-2"
-					v-if="showInfo"
-				>
-					<el-alert
-						title="info alert"
-						type="info"
-						show-icon
-					/>
-				</div>
 				<!-- {{ tableData }} -->
 				<el-table
 					:data="tableData"
@@ -75,6 +84,7 @@
 					row-class-name="sanfont-khmer"
 					selectable
 					v-loading="loading"
+					highlight-current-row="true"
 				>
 
 					<el-table-column
@@ -87,20 +97,46 @@
 						width="90"
 						align="start"
 						label="ល.រ"
+						sortable
 					>
-						<template #default="scope">{{scope.row.student_id }}</template>
 					</el-table-column>
 
 					<el-table-column
-						width="250"
+						width="100"
+						align="start"
+						label="រូបភាព"
+					>
+						<template #default="scope">
+							<el-image
+								style="width: 40px; height: 40px"
+								:src="scope.row.profile_img?.file_path"
+								fit="cover"
+								:lazy="true"
+								class="rounded-full"
+							/>
+						</template>
+					</el-table-column>
+
+					<el-table-column
+						width="100"
+						align="start"
+						label="អត្តលេខ"
+						sortable
+					>
+						<template #default="scope">{{ "PK-S00"+ scope.row.student_id}}</template>
+					</el-table-column>
+					<el-table-column
+						width="180"
 						label="គោត្តនាម និងនាម"
+						sortable
 					>
 						<template #default="scope">{{scope.row.first_name_kh +" "+scope.row.last_name_kh }}</template>
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
-						label="គោត្តនាម និងនាមជាភាសាឡាតាំង"
-						width="320"
+						label="គោត្តនាម និងនាមឡាតាំង"
+						width="250"
+						sortable
 					>
 						<template #default="scope">{{scope.row.first_name_en +" "+scope.row.last_name_en }}</template>
 
@@ -108,6 +144,7 @@
 					<el-table-column
 						width="120"
 						label="ភេទ"
+						:filters="genders"
 					>
 						<template #default="scope">
 							<div v-if="scope.row.gender_id == 1">ប្រុស</div>
@@ -115,10 +152,9 @@
 						</template>
 					</el-table-column>
 					<el-table-column
-						width="180"
+						width="120"
 						label="ថ្នាក់រៀន"
 						sortable
-						:filters="classData"
 					>
 						<template #default="scope">
 							<div>
@@ -126,20 +162,20 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="រូបភាព">
-						<template #default="scope">
-							<img
-								:src="scope.row.profile_img.file_path"
-								alt="profile"
-								title="profile"
-								class="h-[50px] w-[50px] rounded-full"
-							>
-						</template>
-					</el-table-column>
 					<el-table-column label="ថ្ងៃ ខែ ឆ្នាំកំណើត">
 						<template #default="scope">
 							<div>
 								{{ scope.row.date_of_birth}}
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column
+						label="លេខទូរស័ព្ទ"
+						width="120"
+					>
+						<template #default="scope">
+							<div>
+								{{ scope.row.phone}}
 							</div>
 						</template>
 					</el-table-column>
@@ -167,8 +203,8 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
-						layout="prev, pager, next"
-						:total="1000"
+						layout="prev, pager, next, sizes"
+						:total="tableData.length"
 					>
 					</el-pagination>
 				</div>
@@ -601,6 +637,13 @@ export default {
 				genderValue: 'ស្រី',
 				genderLabel: 'ស្រី'
 			}],
+			genders: [{
+				value: 'ប្រុស',
+				text: 'ប្រុស'
+			}, {
+				value: 'ស្រី',
+				text: 'ស្រី'
+			}],
 
 
 			status: [{
@@ -613,18 +656,27 @@ export default {
 
 			filter: [{
 				filterValue: 'តាមឈ្មោះ',
-				filterLabel: 'តាមឈ្មោះ'
+				filterLabel: 'ទី១០'
 			}, {
 				filterValue: 'តាមលេខរៀង',
-				filterLabel: 'តាមលេខរៀង'
+				filterLabel: 'ទី១១'
 			}, {
 				filterValue: 'តាមកាលបរិច្ឆេត',
-				filterLabel: 'តាមកាលបរិច្ឆេត'
-			}, {
-				filterValue: 'តាមទំហំផ្ទុក',
-				filterLabel: 'តាមទំហំផ្ទុក'
+				filterLabel: 'ទី១២'
 			}],
+			academic: [{
+				filterValue: 'តាមឈ្មោះ',
+				filterLabel: 'ឆ្នាំ២០២១-២០២២'
+			}, {
+				filterValue: 'តាមលេខរៀង',
+				filterLabel: 'ឆ្នាំ២០២២-២០២៣'
+			}, {
+				filterValue: 'តាមកាលបរិច្ឆេត',
+				filterLabel: 'ឆ្នាំ២០២៣-២០២៤'
+			}
+			],
 			filterSelectValue: "",
+			academicSelectValue: "",
 			loading: false
 		}
 	},

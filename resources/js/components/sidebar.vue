@@ -322,7 +322,7 @@
 							<el-tooltip
 								class="box-item"
 								effect="dark"
-								content="កម្មសិទ្ធិ"
+								content="បង្កើតដោយ Copyright @ 2023 BIT14"
 								placement="right-start"
 							>
 								<!-- <el-icon>
@@ -334,7 +334,7 @@
 							<span
 								v-show="dataSibar"
 								class="sanfont-khmer text-sm"
-							> Copyright @ 2023 BIT14</span>
+							> បង្កើតដោយ @ 2023 BIT14</span>
 						</div>
 					</div>
 				</div>
