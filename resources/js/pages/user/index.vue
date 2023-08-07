@@ -95,60 +95,56 @@
 					<el-table-column
 						property="email"
 						label="សារអេឡិចត្រូនិច"
-						<<<<<<<
-						HEAD
 						width="300"
-						sortable=======width="250"
-					>>>>>>> 5c0b267258434d43ff299b8d8522b1fc74d8948a
-						/>
+					/>
 
-						<el-table-column label="លេខទូរស័ព្ទ">
-							<template #default="scope">
-								<div v-if="scope.row.id==1">011 999222</div>
-								<div v-if="scope.row.id==2">012 999222</div>
-								<div v-if="scope.row.id==3">077 999222</div>
-							</template>
-						</el-table-column>
+					<el-table-column label="លេខទូរស័ព្ទ">
+						<template #default="scope">
+							<div v-if="scope.row.id==1">011 999222</div>
+							<div v-if="scope.row.id==2">012 999222</div>
+							<div v-if="scope.row.id==3">077 999222</div>
+						</template>
+					</el-table-column>
 
-						<el-table-column
-							property="roles"
-							label="តួនាទី"
-							width="350"
-						>
-							<template #default="scope">
-								<div class="flex space-x-1 min-w-[200px]">
-									<div
-										v-for="data in scope.row.roles "
-										:key="data.id"
-									>
-										<el-tag
-											type="info"
-											disable-transitions
-										>{{ data.name }}</el-tag>
-									</div>
+					<el-table-column
+						property="roles"
+						label="តួនាទី"
+						width="350"
+					>
+						<template #default="scope">
+							<div class="flex space-x-1 min-w-[200px]">
+								<div
+									v-for="data in scope.row.roles "
+									:key="data.id"
+								>
+									<el-tag
+										type="info"
+										disable-transitions
+									>{{ data.name }}</el-tag>
 								</div>
-							</template>
-						</el-table-column>
+							</div>
+						</template>
+					</el-table-column>
 
-						<el-table-column
-							fixed="right"
-							align="center"
-							label="សកម្មភាព"
-						>
-							<template #default="scope">
-								<el-button
-									size="small"
-									class="sanfont-khmer"
-									@click="editUser(scope.row.id)"
-								>កែប្រែ</el-button>
-								<el-button
-									size="small"
-									type="danger"
-									class="sanfont-khmer"
-									@click="handleDelete(scope.$index, scope.row)"
-								>លុប</el-button>
-							</template>
-						</el-table-column>
+					<el-table-column
+						fixed="right"
+						align="center"
+						label="សកម្មភាព"
+					>
+						<template #default="scope">
+							<el-button
+								size="small"
+								class="sanfont-khmer"
+								@click="editUser(scope.row.id)"
+							>កែប្រែ</el-button>
+							<el-button
+								size="small"
+								type="danger"
+								class="sanfont-khmer"
+								@click="handleDelete(scope.$index, scope.row)"
+							>លុប</el-button>
+						</template>
+					</el-table-column>
 				</el-table>
 				<div class="py-2 flex justify-center">
 					<el-pagination
