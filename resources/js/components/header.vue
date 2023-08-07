@@ -10,26 +10,24 @@
 					class="h-full px-5 hover:bg-gray-100 flex items-center cursor-pointer"
 				>
 					<el-icon style="font-size: 1.2rem">
-						<Fold />  
+						<Fold />
 					</el-icon>
 				</div>
 				<div class="pt-[13px]">
-					<span class="text-[16px]">ប្រព័ន្ធគ្រប់គ្រងសិស្សានុសិស្ស ជំនាន់ ១.0</span>
+					<span class="text-[16px]"></span>
 				</div>
-						
+
 			</div>
-			
-	
+
 			<div class="flex space-x-6">
 
 				<div class="self-center">
 					<el-input
-					placeholder="ស្វែងរក"
-					class="sanfont-khmer"
-					v-model="a"
+						placeholder="ស្វែងរក ផ្ទាំងម៉ីនុយ"
+						class="sanfont-khmer"
+						v-model="menuSearch"
+						:prefix-icon="Search"
 					>
-					<i class="el-input__icon el-icon-search"></i>
-					<CirclePlusFilled class="el-input__icon" />
 					</el-input>
 				</div>
 				<div
@@ -87,6 +85,7 @@
 <script>
 import { ref } from 'vue'
 import { mapGetters } from 'vuex'
+import { Search } from '@element-plus/icons-vue'
 
 export default {
 	setup() {
@@ -108,7 +107,7 @@ export default {
 
 		}
 	},
-	components: { mapGetters },
+	components: { mapGetters, Search },
 	props: {
 		toggleSideBar: Function,
 	},
@@ -136,6 +135,7 @@ export default {
 				},
 			],
 			dropdown1: "",
+			menuSearch: ""
 		}
 	},
 	computed: {
@@ -165,6 +165,4 @@ export default {
 	display: flex;
 	align-items: center;
 }
-
-
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-white p-2 w-full flex justify-between">
+	<div class="bg-white p-2 w-full flex justify-between border rounded-t">
 		<div class="flex space-x-2">
 			<div class="self-start">
 				<el-input
@@ -11,7 +11,7 @@
 					<CirclePlusFilled class="el-input__icon" />
 				</el-input>
 			</div>
-			<div class="self-start  ">
+			<div class="self-start hidden ">
 				<el-select
 					v-model="filterSelectValue"
 					filterable
@@ -29,6 +29,13 @@
 		</div>
 
 		<div class="self-end">
+			<el-button type="info">
+				<el-icon>
+					<Document />
+				</el-icon>
+				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+
+			</el-button>
 			<el-button
 				type="primary"
 				@click="AddUser"
@@ -71,6 +78,7 @@
 					header-cell-class-name="header-table-font-khmer text-md"
 					row-class-name="sanfont-khmer"
 					selectable
+					v-loading="loading"
 				>
 					<el-table-column
 						type="selection"
@@ -155,8 +163,8 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
-						layout="prev, pager, next"
-						:total="1000"
+						layout="prev, pager, next, sizes"
+						:total="tableData.length"
 					>
 					</el-pagination>
 				</div>
@@ -167,8 +175,11 @@
 	<el-dialog
 		v-model="dialogFormVisible"
 		title="ព័ត៌មានគ្រូ"
+		titleClass="text-xl font-bold"
 		class="sanfont-khmer "
 		width="50%"
+		align-center="true"
+		draggable
 	>
 		<!-- 
 	<div class="flex justify-start item-start pl-[40px] space-y-[20px]">
@@ -633,6 +644,7 @@ export default {
 				genderLabel: 'ស្រី'
 			}],
 			generValue: '',
+			loading: false,
 		}
 	},
 	mounted() {
@@ -763,8 +775,10 @@ export default {
 			})
 		},
 		async getData() {
+			this.loading = true
 			await axios.get('/teacher/get').then(response => {
 				this.tableData = response.data.data
+				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")

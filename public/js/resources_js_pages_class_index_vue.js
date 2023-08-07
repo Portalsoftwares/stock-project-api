@@ -359,25 +359,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
-              _this7.isShowButtonUpdate = true;
-              _this7.isShowPassword = false;
-              _context6.next = 4;
-              return axios.get('/user/' + id + '/edit').then(function (response) {
-                var _response$data$user$i;
-                _this7.ruleForm.name = response.data.user.name;
-                _this7.ruleForm.userId = response.data.user.id;
-                _this7.ruleForm.roles = response.data.user_has_roles;
-                _this7.ruleForm.email = response.data.user.email;
-                _this7.imageUrl = (_response$data$user$i = response.data.user.img) === null || _response$data$user$i === void 0 ? void 0 : _response$data$user$i.file_path;
-                _this7.ruleForm.photo_id = response.data.user.id;
-                _this7.roles = response.data.roles;
-                _this7.dialogFormVisible = true;
-              })["catch"](function (error) {
-                if (error.response.status == 401) {
-                  _this7.$store.commit("auth/CLEAR_TOKEN");
-                }
-              });
-            case 4:
+              //this.isShowButtonUpdate = true;
+              //this.isShowPassword = false;
+              //await axios.get('/user/' + id + '/edit').then(response => {
+              //this.ruleForm.name = response.data.user.name
+              //this.ruleForm.userId = response.data.user.id
+              //this.ruleForm.roles = response.data.user_has_roles
+              //this.ruleForm.email = response.data.user.email
+              //this.imageUrl = response.data.user.img?.file_path
+              //this.ruleForm.photo_id = response.data.user.id
+              //this.roles = response.data.roles
+              _this7.dialogFormVisible = true;
+              //}).catch((error) => {
+              //if (error.response.status == 401) {
+              //	this.$store.commit("auth/CLEAR_TOKEN")
+              //}
+              //})
+            case 1:
             case "end":
               return _context6.stop();
           }
@@ -654,23 +652,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading_class]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
     background: "",
-    layout: "prev, pager, next",
-    total: 1000
-  })])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
+    layout: "prev, pager, next, sizes",
+    total: $data.tableData.length
+  }, null, 8 /* PROPS */, ["total"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisible,
     "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
       return $data.dialogFormVisible = $event;
     }),
     title: "ព័ត៏មានថ្នាក់រៀន",
     "class": "sanfont-khmer",
-    width: "50%"
+    width: "30%",
+    "align-center": "true",
+    draggable: ""
   }, {
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
         onClick: _cache[10] || (_cache[10] = function ($event) {
           return $options.cancelAction();
         }),
-        "class": "sanfont-khmer"
+        "class": "sanfont-khmer",
+        type: "danger"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" បោះបង់")];

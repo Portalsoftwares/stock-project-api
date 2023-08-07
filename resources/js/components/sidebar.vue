@@ -14,7 +14,7 @@
 					v-if="dataSibar"
 				>
 					<img
-						src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
+						src="../assets/moey-small.png"
 						class="w-[50px] h-[50px] ml-[-10px]"
 						alt="Avatar"
 					/>
@@ -25,7 +25,7 @@
 					v-if="!dataSibar"
 				>
 					<img
-						src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
+						src="../assets/moey-small.png"
 						class="p-[2px] w-[50px] h-[50px]  "
 						alt="Avatar"
 					/>
@@ -322,12 +322,13 @@
 							<el-tooltip
 								class="box-item"
 								effect="dark"
-								content="ការកំណត់"
+								content="កម្មសិទ្ធិ"
 								placement="right-start"
 							>
-								<el-icon style="font-size: 1.5rem">
+								<!-- <el-icon>
 									<InfoFilled />
-								</el-icon>
+								</el-icon> -->
+								<span style="font-size: 1.5rem"> &copy;</span>
 							</el-tooltip>
 
 							<span

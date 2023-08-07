@@ -11,6 +11,8 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\TimeController;
+use App\Http\Controllers\AcademicController;
 //Version 1 API
 Route::prefix('v1')->group(function () {
   // User 
@@ -97,6 +99,14 @@ Route::prefix('v1')->group(function () {
     Route::prefix('score')->group(function () {
       Route::post('/collect/{id}', [ScoreController::class, 'index']);
       Route::post('/collect/{id}/create', [ScoreController::class, 'create']);
+    });
+    //Time 
+    Route::prefix('time')->group(function () {
+      Route::get('/get', [TimeController::class, 'index']);
+    });
+    //Academic
+    Route::prefix('academic')->group(function () {
+      Route::get('/get', [AcademicController::class, 'index']);
     });
   });
 });

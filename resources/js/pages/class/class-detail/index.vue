@@ -367,6 +367,7 @@
 					</el-table-column>
 				</el-table-column>
 			</el-table>
+			
 		</div>
 		<template #footer>
 			<span class="dialog-footer">

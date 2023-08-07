@@ -3,26 +3,31 @@
 		<el-tab-pane label="មុខវិជ្ជាទូទៅ">
 			<div class="bg-white p-2 w-full flex justify-between">
 				<div class="flex space-x-2">
-				<div class="self-start">
-					<el-input
-						placeholder="ស្វែងរក"
-						class="sanfont-khmer"
-						v-model="search"
-					>
-						<i class="el-input__icon el-icon-search"></i>
-						<CirclePlusFilled class="el-input__icon" />
-					</el-input>
-				</div>
-				<div class="self-start  " >
-					<el-select v-model="filterSelectValue" filterable placeholder="តម្រៀប">
-    				<el-option
-    		  		v-for="item in filter"
-      				:key="item.filterValue"
-      				:label="item.filterLabel"
-      				:value="item.filterValue">
-    				</el-option>
-  					</el-select>
-				</div>
+					<div class="self-start">
+						<el-input
+							placeholder="ស្វែងរក"
+							class="sanfont-khmer"
+							v-model="search"
+						>
+							<i class="el-input__icon el-icon-search"></i>
+							<CirclePlusFilled class="el-input__icon" />
+						</el-input>
+					</div>
+					<div class="self-start  ">
+						<el-select
+							v-model="filterSelectValue"
+							filterable
+							placeholder="តម្រៀប"
+						>
+							<el-option
+								v-for="item in filter"
+								:key="item.filterValue"
+								:label="item.filterLabel"
+								:value="item.filterValue"
+							>
+							</el-option>
+						</el-select>
+					</div>
 				</div>
 				<div class="self-end">
 					<el-button
@@ -67,6 +72,7 @@
 							header-cell-class-name="header-table-font-khmer text-md"
 							row-class-name="sheader-table-font-khmer"
 							selectable
+							v-loading="loading"
 						>
 							<el-table-column
 								type="selection"
@@ -75,9 +81,9 @@
 
 							<el-table-column
 								type="index"
-      							width="90"
+								width="90"
 								label="ល.រ"
-								>
+							>
 								<template #default="scope">{{scope.row.subject_id }}</template>
 							</el-table-column>
 
@@ -115,9 +121,9 @@
 						<div class="py-2 flex justify-center">
 							<el-pagination
 								background
-								layout="prev, pager, next"
-								:total="1000"
-							>
+								layout="prev, pager, next, sizes"
+								:total="tableData.length"
+								>
 							</el-pagination>
 						</div>
 					</div>
@@ -125,21 +131,23 @@
 			</div>
 
 			<!-- Dialog  -->
-	<el-dialog
-		v-model="dialogFormVisible"
-		title="បន្ថែមមុខវិទ្យា"
-		class="sanfont-khmer"
-		width="50%"
-	>
-		<el-form
-			class="grid grid-cols-2"
-			:model="ruleForm"
-			:rules="rules"
-			ref="ruleForm"
-			id="fm"
-		>
-			
-		<div class="flex flex-col space-y-1">
+			<el-dialog
+				v-model="dialogFormVisible"
+				title="ព័ត៌មានមុខវិទ្យា"
+				class="sanfont-khmer"
+				width="30%"
+				align-center="true"
+				draggable
+			>
+				<el-form
+					class="grid grid-cols-2"
+					:model="ruleForm"
+					:rules="rules"
+					ref="ruleForm"
+					id="fm"
+				>
+				<div class="flex flex-row ">
+					<div class="flex flex-col space-y-1">
 						<div>
 							<el-form-item
 								label="ឈ្មោះមុខវិទ្យា (ខ្មែរ)"
@@ -182,70 +190,74 @@
 								></el-input>
 							</el-form-item>
 						</div>
-						
-						
+
+					</div>
 					</div>
 
-			
-		</el-form>
-		<el-dialog v-model="dialogVisible">
-			<img
-				w-full
-				:src="dialogImageUrl"
-				alt="Preview Image"
-			/>
-		</el-dialog>
-		<template #footer>
-			<span class="dialog-footer">
-				<el-button
-					@click="cancelAction()"
-					class="sanfont-khmer"
-					type="danger"
-				> បោះបង់</el-button>
-				<el-button
-					v-if="!isShowButtonUpdate"
-					type="primary"
-					class="sanfont-khmer"
-					@click="submitForm('ruleForm')"
-				>
-					រក្សាទុក
-				</el-button>
-				<el-button
-					v-if="isShowButtonUpdate"
-					type="primary"
-					class="sanfont-khmer"
-					@click="updateData('ruleForm')"
-				>
-					រក្សាទុក
-				</el-button>
-			</span>
-		</template>
-	</el-dialog>
-	<!-- Dialog user  -->
+				</el-form>
+				<el-dialog v-model="dialogVisible">
+					<img
+						w-full
+						:src="dialogImageUrl"
+						alt="Preview Image"
+					/>
+				</el-dialog>
+				<template #footer>
+					<span class="dialog-footer">
+						<el-button
+							@click="cancelAction()"
+							class="sanfont-khmer"
+							type="danger"
+						> បោះបង់</el-button>
+						<el-button
+							v-if="!isShowButtonUpdate"
+							type="primary"
+							class="sanfont-khmer"
+							@click="submitForm('ruleForm')"
+						>
+							រក្សាទុក
+						</el-button>
+						<el-button
+							v-if="isShowButtonUpdate"
+							type="primary"
+							class="sanfont-khmer"
+							@click="updateData('ruleForm')"
+						>
+							រក្សាទុក
+						</el-button>
+					</span>
+				</template>
+			</el-dialog>
+			<!-- Dialog user  -->
 		</el-tab-pane>
 		<el-tab-pane label="មុខវិជ្ជាតាមកំរិត">
 			<div class="bg-white p-2 w-full flex justify-between">
 				<div class="flex space-x-2">
-				<div class="self-start">
-					<el-input
-						placeholder="ស្វែងរក"
-						class="sanfont-khmer"
-						v-model="search"
-					>
-						<i class="el-input__icon el-icon-search"></i>
-						<CirclePlusFilled class="el-input__icon" />
-					</el-input>
-				</div>
-				<div class="self-start  " >
-					<el-select v-model="filterSelectValue" filterable placeholder="តម្រៀប">
-    				<el-option
-    		  		v-for="item in filter"
-      				:key="item.filterValue"
-      				:label="item.filterLabel"
-      				:value="item.filterValue">
-    				</el-option>
-  					</el-select>
-				</div>
+					<div class="self-start">
+						<el-input
+							placeholder="ស្វែងរក"
+							class="sanfont-khmer"
+							v-model="search"
+						>
+							<i class="el-input__icon el-icon-search"></i>
+							<CirclePlusFilled class="el-input__icon" />
+						</el-input>
+					</div>
+					<div class="self-start  ">
+						<el-select
+							v-model="filterSelectValue"
+							filterable
+							placeholder="តម្រៀប"
+						>
+							<el-option
+								v-for="item in filter"
+								:key="item.filterValue"
+								:label="item.filterLabel"
+								:value="item.filterValue"
+							>
+							</el-option>
+						</el-select>
+					</div>
 				</div>
 				<div class="self-end">
 					<el-button
@@ -290,6 +302,7 @@
 							header-cell-class-name="header-table-font-khmer text-md"
 							row-class-name="sanfont-khmer"
 							selectable
+							v-loading="loading"
 						>
 							<el-table-column
 								type="selection"
@@ -298,9 +311,9 @@
 
 							<el-table-column
 								type="index"
-      							width="90"
+								width="90"
 								label="ល.រ"
-								>
+							>
 								<template #default="scope">{{scope.row.subject_grade_id }}</template>
 							</el-table-column>
 
@@ -345,10 +358,10 @@
 						</el-table>
 						<div class="py-2 flex justify-center">
 							<el-pagination
-								background
-								layout="prev, pager, next"
-								:total="1000"
-							>
+							background
+							layout="prev, pager, next, sizes"
+							:total="tableData.length"
+								>
 							</el-pagination>
 						</div>
 					</div>
@@ -356,175 +369,177 @@
 			</div>
 
 			<!-- Dialog  -->
-	<el-dialog
-		v-model="dialogFormVisible"
-		title="បន្ថែមមុខវិទ្យាតាមកំរិត"
-		class="sanfont-khmer "
-		width="50%"
-	>
-		<!-- 
+			<el-dialog
+				v-model="dialogFormVisible"
+				title="ព័ត៌មានមុខវិទ្យាតាមកំរិត"
+				class="sanfont-khmer "
+				width="30%"
+				align-center="true"
+				draggable
+			>
+				<!-- 
 	<div class="flex justify-start item-start pl-[40px] space-y-[20px]">
 	<h1 class= "font-bold text-[20px]">ព័ត៌មានគ្រូ</h1>
 	</div>-->
-		<el-form
-			class="grid grid-cols-2"
-			:model="ruleForm"
-			:rules="rules"
-			ref="ruleForm"
-			id="fm"
-		>
-			<div class="flex flex-col">
-				<div class=" item-start ">
-					
-				</div>
-				<div class="flex flex-row ">
-					<div class="flex flex-col space-y-1">
-						<div>
+				<el-form
+					class="grid grid-cols-2"
+					:model="ruleForm"
+					:rules="rules"
+					ref="ruleForm"
+					id="fm"
+				>
+					<div class="flex flex-col">
+						<div class=" item-start ">
 
-							<el-form-item
-								label="ឈ្មោះមុខវិទ្យា (ខ្មែរ)"
-								prop="subjectKhName"
-								class="sanfont-khmer "
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.firstNameKh"
-									name="firstNameKh1"
-									clearable
-								></el-input>
-							</el-form-item>
 						</div>
-						<div>
-							<el-form-item
-								label="កំរិតថ្នាក់"
-								prop="gradeLevel"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-select
-									v-model="ruleForm.gradeLevelalue"
-									placeholder="ជ្រើសរើស"
-								>
-									<el-option
-										v-for="item in gradeLevel"
-										:key="item.gradeLevelValue"
-										:label="item.gradeLevelLabel"
-										:value="item.gradeLevelValue"
+						<div class="flex flex-row ">
+							<div class="flex flex-col space-y-1">
+								<div>
+
+									<el-form-item
+										label="ឈ្មោះមុខវិទ្យា (ខ្មែរ)"
+										prop="subjectKhName"
+										class="sanfont-khmer "
+										:label-width="formLabelWidth"
 									>
-									</el-option>
-								</el-select>
-							</el-form-item>
-						</div>
-						<div>
-							<el-form-item
-								label="ប្រភេទថ្នាក់"
-								prop="classType"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-select
-									v-model="ruleForm.classTypeValue"
-									placeholder="ជ្រើសរើស"
-								>
-									<el-option
-										v-for="item in classType"
-										:key="item.classTypeValue"
-										:label="item.classTypeLabel"
-										:value="item.classTypeValue"
+										<el-input
+											v-model="ruleForm.firstNameKh"
+											name="firstNameKh1"
+											clearable
+										></el-input>
+									</el-form-item>
+								</div>
+								<div>
+									<el-form-item
+										label="កំរិតថ្នាក់"
+										prop="gradeLevel"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
 									>
-									</el-option>
-								</el-select>
-							</el-form-item>
+										<el-select
+											v-model="ruleForm.gradeLevelalue"
+											placeholder="ជ្រើសរើស"
+										>
+											<el-option
+												v-for="item in gradeLevel"
+												:key="item.gradeLevelValue"
+												:label="item.gradeLevelLabel"
+												:value="item.gradeLevelValue"
+											>
+											</el-option>
+										</el-select>
+									</el-form-item>
+								</div>
+								<div>
+									<el-form-item
+										label="ប្រភេទថ្នាក់"
+										prop="classType"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-select
+											v-model="ruleForm.classTypeValue"
+											placeholder="ជ្រើសរើស"
+										>
+											<el-option
+												v-for="item in classType"
+												:key="item.classTypeValue"
+												:label="item.classTypeLabel"
+												:value="item.classTypeValue"
+											>
+											</el-option>
+										</el-select>
+									</el-form-item>
+								</div>
+								<div>
+									<el-form-item
+										label="ពិន្ទុពេញ"
+										prop="fullScore"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.fullScore"
+											autocomplete="off"
+											type="number"
+											name="fullScore"
+											clearable
+										/>
+									</el-form-item>
+								</div>
+
+								<div>
+									<el-form-item
+										label="មេគុណ"
+										prop="devide"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.devide"
+											autocomplete="off"
+											type="number"
+											name="devide"
+											clearable
+										/>
+									</el-form-item>
+								</div>
+								<div>
+									<el-form-item
+										label="មេគុណ"
+										prop="devide"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.devide"
+											autocomplete="off"
+											type="number"
+											name="devide"
+											clearable
+										/>
+									</el-form-item>
+								</div>
+
+							</div>
 						</div>
-						<div>
-							<el-form-item
-								label="ពិន្ទុពេញ"
-								prop="fullScore"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.fullScore"
-									autocomplete="off"
-									type="number"
-									name="fullScore"
-									clearable
-								/>
-							</el-form-item>
-						</div>
-						
-						<div>
-							<el-form-item
-								label="មេគុណ"
-								prop="devide"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.devide"
-									autocomplete="off"
-									type="number"
-									name="devide"
-									clearable
-								/>
-							</el-form-item>
-						</div>
-						<div>
-							<el-form-item
-								label="មេគុណ"
-								prop="devide"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.devide"
-									autocomplete="off"
-									type="number"
-									name="devide"
-									clearable
-								/>
-							</el-form-item>
-						</div>
-						
 					</div>
-				</div>
-			</div>
 
-		</el-form>
-		<el-dialog v-model="dialogVisible">
-			<img
-				w-full
-				:src="dialogImageUrl"
-				alt="Preview Image"
-			/>
-		</el-dialog>
-		<template #footer>
-			<span class="dialog-footer">
-				<el-button
-					@click="cancelAction()"
-					class="sanfont-khmer "
-					type="danger"
-				> បោះបង់</el-button>
-				<el-button
-					v-if="!isShowButtonUpdate"
-					type="primary"
-					class="sanfont-khmer"
-					@click="submitForm('ruleForm')"
-				>
-					រក្សាទុក
-				</el-button>
-				<el-button
-					v-if="isShowButtonUpdate"
-					type="primary"
-					class="sanfont-khmer"
-					@click="updateData('ruleForm')"
-				>
-					រក្សាទុក
-				</el-button>
-			</span>
-		</template>
-	</el-dialog>
-	<!-- Dialog user  -->
+				</el-form>
+				<el-dialog v-model="dialogVisible">
+					<img
+						w-full
+						:src="dialogImageUrl"
+						alt="Preview Image"
+					/>
+				</el-dialog>
+				<template #footer>
+					<span class="dialog-footer">
+						<el-button
+							@click="cancelAction()"
+							class="sanfont-khmer "
+							type="danger"
+						> បោះបង់</el-button>
+						<el-button
+							v-if="!isShowButtonUpdate"
+							type="primary"
+							class="sanfont-khmer"
+							@click="submitForm('ruleForm')"
+						>
+							រក្សាទុក
+						</el-button>
+						<el-button
+							v-if="isShowButtonUpdate"
+							type="primary"
+							class="sanfont-khmer"
+							@click="updateData('ruleForm')"
+						>
+							រក្សាទុក
+						</el-button>
+					</span>
+				</template>
+			</el-dialog>
+			<!-- Dialog user  -->
 
 		</el-tab-pane>
 	</el-tabs>
@@ -550,6 +565,7 @@ export default {
 			imageUrl: '',
 			isShowPassword: true,
 			isShowButtonUpdate: false,
+			
 
 			ruleForm: {
 				name: null,
@@ -582,18 +598,18 @@ export default {
 			search: '',
 
 			filter: [{
-					filterValue: 'តាមឈ្មោះ',
-        			filterLabel: 'តាមឈ្មោះ'
-       				 }, {
-					filterValue: 'តាមលេខរៀង',
-        			filterLabel: 'តាមលេខរៀង'
-       				 },{
-					filterValue: 'តាមកាលបរិច្ឆេត',
-        			filterLabel: 'តាមកាលបរិច្ឆេត'
-       				 }, {
-					filterValue: 'តាមទំហំផ្ទុក',
-					filterLabel: 'តាមទំហំផ្ទុក'
-        	}],
+				filterValue: 'តាមឈ្មោះ',
+				filterLabel: 'តាមឈ្មោះ'
+			}, {
+				filterValue: 'តាមលេខរៀង',
+				filterLabel: 'តាមលេខរៀង'
+			}, {
+				filterValue: 'តាមកាលបរិច្ឆេត',
+				filterLabel: 'តាមកាលបរិច្ឆេត'
+			}, {
+				filterValue: 'តាមទំហំផ្ទុក',
+				filterLabel: 'តាមទំហំផ្ទុក'
+			}],
 			filterSelectValue: "",
 
 			gradeLevel: [{
@@ -746,14 +762,16 @@ export default {
 			//this.isShowPassword = true;
 
 			//await axios.get('/user/create').then(response => {
-				//this.roles = response.data.roles
+			//this.roles = response.data.roles
 			//}).catch((error) => {
-				//console.log(error)
+			//console.log(error)
 			//})
 		},
 		async getData() {
+			this.loading = true
 			await axios.get('/subject/get').then(response => {
 				this.tableData = response.data.data
+				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
@@ -761,8 +779,11 @@ export default {
 			})
 		},
 		async getDataSubjectLevel() {
+			this.loading = true
+
 			await axios.get('/subject/get_subject_level').then(response => {
 				this.tableDataSubjectLevel = response.data.data
+				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
@@ -774,18 +795,18 @@ export default {
 			//this.isShowButtonUpdate = true;
 			//this.isShowPassword = false;
 			//await axios.get('/user/' + id + '/edit').then(response => {
-				//this.ruleForm.name = response.data.user.name
-				//this.ruleForm.userId = response.data.user.id
-				//this.ruleForm.roles = response.data.user_has_roles
-				//this.ruleForm.email = response.data.user.email
-				//this.imageUrl = response.data.user.img?.file_path
-				//this.ruleForm.photo_id = response.data.user.id
-				//this.roles = response.data.roles
-				
+			//this.ruleForm.name = response.data.user.name
+			//this.ruleForm.userId = response.data.user.id
+			//this.ruleForm.roles = response.data.user_has_roles
+			//this.ruleForm.email = response.data.user.email
+			//this.imageUrl = response.data.user.img?.file_path
+			//this.ruleForm.photo_id = response.data.user.id
+			//this.roles = response.data.roles
+
 			//}).catch((error) => {
 			//	if (error.response.status == 401) {
-					//this.$store.commit("auth/CLEAR_TOKEN")
-				//}
+			//this.$store.commit("auth/CLEAR_TOKEN")
+			//}
 			//})
 		},
 		notification() {

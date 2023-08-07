@@ -135,13 +135,13 @@
 					</el-table>
 				</div>
 				<div class="py-2 flex justify-center">
-					<el-pagination
-						background
-						layout="prev, pager, next"
-						:total="1000"
-					>
-					</el-pagination>
-				</div>
+							<el-pagination
+								background
+								layout="prev, pager, next, sizes"
+								:total="tableData.length"
+								>
+							</el-pagination>
+						</div>
 			</div>
 		</div>
 	</div>
@@ -150,7 +150,9 @@
 		v-model="dialogFormVisible"
 		title="ព័ត៏មានថ្នាក់រៀន"
 		class="sanfont-khmer"
-		width="50%"
+		width="30%"
+		align-center="true"
+		draggable
 	>
 		<el-form
 			class="grid grid-cols-2"
@@ -267,6 +269,7 @@
 				<el-button
 					@click="cancelAction()"
 					class="sanfont-khmer"
+					type="danger"
 				> បោះបង់</el-button>
 				<el-button
 					v-if="!isShowButtonUpdate"
@@ -576,22 +579,22 @@ export default {
 			})
 		},
 		async editUser(id) {
-			this.isShowButtonUpdate = true;
-			this.isShowPassword = false;
-			await axios.get('/user/' + id + '/edit').then(response => {
-				this.ruleForm.name = response.data.user.name
-				this.ruleForm.userId = response.data.user.id
-				this.ruleForm.roles = response.data.user_has_roles
-				this.ruleForm.email = response.data.user.email
-				this.imageUrl = response.data.user.img?.file_path
-				this.ruleForm.photo_id = response.data.user.id
-				this.roles = response.data.roles
+			//this.isShowButtonUpdate = true;
+			//this.isShowPassword = false;
+			//await axios.get('/user/' + id + '/edit').then(response => {
+				//this.ruleForm.name = response.data.user.name
+				//this.ruleForm.userId = response.data.user.id
+				//this.ruleForm.roles = response.data.user_has_roles
+				//this.ruleForm.email = response.data.user.email
+				//this.imageUrl = response.data.user.img?.file_path
+				//this.ruleForm.photo_id = response.data.user.id
+				//this.roles = response.data.roles
 				this.dialogFormVisible = true;
-			}).catch((error) => {
-				if (error.response.status == 401) {
-					this.$store.commit("auth/CLEAR_TOKEN")
-				}
-			})
+			//}).catch((error) => {
+				//if (error.response.status == 401) {
+				//	this.$store.commit("auth/CLEAR_TOKEN")
+			//}
+			//})
 		},
 		notification() {
 			this.showSuccess = !this.showSuccess
