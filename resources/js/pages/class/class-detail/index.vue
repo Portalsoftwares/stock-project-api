@@ -3,11 +3,11 @@
 		<div class="bg-white p-2 w-full flex-col justify-between">
 			<div class="flex justify-between py-2">
 				<el-page-header @back="Back">
-					<template #title>	
+					<template #title>
 						<span class="sanfont-khmer text-sm"> ថយក្រោយ</span>
-					</template> 
+					</template>
 					<template #content>
-						<span class="text-large font-600 mr-3 sanfont-khmer text-xl "> ថ្នាក់​ទី {{ classData.class_name }} </span> 
+						<span class="text-large font-600 mr-3 sanfont-khmer text-xl "> ថ្នាក់​ទី {{ classData.class_name }} </span>
 					</template>
 				</el-page-header>
 				<div class="self-end">
@@ -27,17 +27,26 @@
 					<div class="grid grid-cols-2 gap-5 ">
 						<div class=" ">
 							<div class="flex justify-between items-center">
-								<div class="text-left text-md font-bold pb-2 ">កាលវិភាគប្រចាំសប្តាហ៍</div>
-								<el-button
-									type="primary"
-									size="medium"
-									@click="addNewSchedule"
-								>
-									<el-icon>
-										<Setting />
-									</el-icon>
-									<span class="mx-1 sanfont-khmer "> គ្រប់គ្រងកាលវិភាគ</span>
-								</el-button>
+								<div class="text-left text-xl  pb-2 ">កាលវិភាគប្រចាំសប្តាហ៍</div>
+								<div>
+									<el-button type="info">
+										<el-icon>
+											<Document />
+										</el-icon>
+										<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+
+									</el-button>
+									<el-button
+										type="primary"
+										size="medium"
+										@click="addNewSchedule"
+									>
+										<el-icon>
+											<Setting />
+										</el-icon>
+										<span class="mx-1 sanfont-khmer "> បន្ថែមកាលវិភាគ</span>
+									</el-button>
+								</div>
 							</div>
 							<div class="py-2">
 								<el-table
@@ -52,11 +61,17 @@
 								>
 									<el-table-column
 										label="ម៉ោង"
+										min-width="150px"
 										fixed
+										align="center"
 									>
 										<template #default="scope">
-											<span>
-												{{ scope.row.name }}
+											<span class="text-center">
+												<div>{{ scope.row.name }}</div>
+												<div>
+													<span>{{ scope.row.start_date }}</span>-
+													<span>{{ scope.row.end_date }}</span>
+												</div>
 											</span>
 										</template>
 									</el-table-column>
@@ -65,6 +80,7 @@
 										:key="day"
 										:prop="day"
 										:label="day.day_name_kh"
+										width="110px"
 									>
 										<template #default="scope">
 											<div
@@ -98,7 +114,7 @@
 						</div>
 						<div class="">
 							<div class="flex justify-between py-2 items-center">
-								<div class="text-left text-md font-bold pb-2 ">គ្រូ និង មុខវិជ្ជា</div>
+								<div class="text-left text-xl  pb-2 ">គ្រូ និងមុខវិជ្ជា</div>
 								<el-button
 									type="primary"
 									size="medium"
@@ -107,7 +123,7 @@
 									<el-icon>
 										<Setting />
 									</el-icon>
-									<span class="mx-1 sanfont-khmer"> គ្រប់គ្រងគ្រូ និងមុខវិជ្ជា</span>
+									<span class="mx-1 sanfont-khmer"> បន្ថែមគ្រូ និងមុខវិជ្ជា</span>
 								</el-button>
 							</div>
 							<div class="grid grid-cols-3 gap-2">
@@ -119,18 +135,25 @@
 										shadow="hover"
 										class="text-left"
 									>
-										<div>
-											ឈ្មោះ : <span class="font-bold">{{ data.teacher_in_class.first_name_kh }} {{ data.teacher_in_class.last_name_kh }}</span>
+										<div class="flex items-center space-x-2 justify-start">
+											<div>
+
+												<div>
+													ឈ្មោះ : <span class="font-bold">{{ data.teacher_in_class.first_name_kh }} {{ data.teacher_in_class.last_name_kh }}</span>
+												</div>
+												<div>
+													មុខវិជ្ជា : <span class="font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span>
+												</div>
+											</div>
+
+											<div
+												v-if="data.role_id==1"
+												class="py-2 "
+											>
+												<el-tag>គ្រូបន្ទុកថ្នាក់</el-tag>
+											</div>
 										</div>
-										<div>
-											មុខវិជ្ជា : <span class="font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span>
-										</div>
-										<div
-											v-if="data.role_id==1"
-											class="py-2 "
-										>
-											<el-tag>គ្រូបន្ទុកថ្នាក់</el-tag>
-										</div>
+
 									</el-card>
 								</el-col>
 							</div>
@@ -367,6 +390,7 @@
 					</el-table-column>
 				</el-table-column>
 			</el-table>
+
 		</div>
 		<template #footer>
 			<span class="dialog-footer">
@@ -388,7 +412,7 @@
 	<!-- Dialog Form Schedule  -->
 	<el-dialog
 		v-model="dialogFormSchedule"
-		title="ព័ត៏មាន កាលវិភាគ"
+		title="ព័ត៌មាន កាលវិភាគ"
 		class="sanfont-khmer"
 		width="50%"
 		draggable
@@ -513,7 +537,7 @@
 	<!-- Dialog Form Teacher Subject  -->
 	<el-dialog
 		v-model="dialogFormTeacher"
-		title="ព័ត៏មាន គ្រូបង្រៀន"
+		title="ព័ត៌មាន គ្រូបង្រៀន"
 		class="sanfont-khmer"
 		width="50%"
 		draggable

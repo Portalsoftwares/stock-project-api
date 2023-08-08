@@ -13,6 +13,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\TimeController;
 use App\Http\Controllers\AcademicController;
+use App\Http\Controllers\ScoreTypeController;
 //Version 1 API
 Route::prefix('v1')->group(function () {
   // User 
@@ -107,6 +108,10 @@ Route::prefix('v1')->group(function () {
     //Academic
     Route::prefix('academic')->group(function () {
       Route::get('/get', [AcademicController::class, 'index']);
+    });
+    //Score Type
+    Route::prefix('score-type')->group(function () {
+      Route::get('/get', [ScoreTypeController::class, 'index']);
     });
   });
 });

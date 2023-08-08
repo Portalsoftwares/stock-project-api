@@ -78,7 +78,7 @@
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
-						label="ម៉ោងចាប់ផ្ដើម"
+						label="​ថ្ងៃចាប់ផ្ដើម"
 						width="320"
 					>
 						<template #default="scope">{{scope.row.start_date  }}</template>
@@ -86,7 +86,7 @@
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
-						label="ម៉ោងបញ្ចប់"
+						label="​ថ្ងៃបញ្ចប់"
 						width="320"
 					>
 						<template #default="scope">{{scope.row.end_date  }}</template>

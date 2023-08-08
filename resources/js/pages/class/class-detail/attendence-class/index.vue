@@ -3,8 +3,21 @@
 	<div class=" bg-white ">
 
 		<div class="pb-2 flex justify-between">
-			<div class="text-left text-md font-bold  ">វត្តមានសិស្សតាម មុខវិជ្ជា</div>
+			<div class="text-left text-xl  ">វត្តមានសិស្សតាម មុខវិជ្ជា</div>
 			<div class="text-right">
+				<el-button
+					type="primary"
+					class="sanfont-khmer"
+					@click="addScore('ruleForm')"
+				>
+
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1">
+						របាយការណ៍វត្តមានសិស្ស
+					</span>
+				</el-button>
 				<el-button
 					type="primary"
 					class="sanfont-khmer"

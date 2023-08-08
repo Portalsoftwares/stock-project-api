@@ -46,6 +46,13 @@ export default [
             },
             {
 
+                name: "score-type",
+                component: import('./../pages/score-type'),
+                path: "/score-type",
+
+            },
+            {
+
                 name: "time",
                 component: import('./../pages/time'),
                 path: "/time",

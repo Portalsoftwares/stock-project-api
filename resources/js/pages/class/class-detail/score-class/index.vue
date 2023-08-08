@@ -1,8 +1,21 @@
 <template>
 	<div class="bg-white">
 		<div class="pb-2 flex justify-between">
-			<div class="text-left text-md font-bold  ">ពិន្ទុសិស្សតាម មុខវិជ្ជា</div>
+			<div class="text-left text-xl  ">ពិន្ទុសិស្សតាម មុខវិជ្ជា</div>
 			<div class="text-right">
+				<el-button
+					type="primary"
+					class="sanfont-khmer"
+					@click="addScore('ruleForm')"
+				>
+
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1">
+						របាយការណ៍ពិន្ទុសិស្ស
+					</span>
+				</el-button>
 				<el-button
 					type="primary"
 					class="sanfont-khmer"

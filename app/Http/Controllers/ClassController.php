@@ -33,7 +33,7 @@ class ClassController extends Controller
     {
         $teacher = TeacherClass::where('class_id', $id)->with(['teacher_subject_in_class.subject', 'teacher_in_class'])->get();
         $class = Classes::where('class_id', $id)->first();
-        $student = StudentClass::where('class_id', $id)->with(['student_in_class'])->get();
+        $student = StudentClass::where('class_id', $id)->with(['student_in_class.profile_img'])->get();
         $response = [
             'teacher' => $teacher,
             'student' => $student,

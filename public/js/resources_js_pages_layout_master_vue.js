@@ -396,6 +396,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _assets_moey_small_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../assets/moey-small.png */ "./resources/js/assets/moey-small.png");
+
 
 var _hoisted_1 = {
   style: {
@@ -411,7 +413,7 @@ var _hoisted_3 = {
   "class": "font-semibold uppercase text-md px-2 whitespace-nowrap sanfont-khmer flex py-2 items-center"
 };
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: "https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png",
+  src: _assets_moey_small_png__WEBPACK_IMPORTED_MODULE_1__["default"],
   "class": "w-[50px] h-[50px] ml-[-10px]",
   alt: "Avatar"
 }, null, -1 /* HOISTED */);
@@ -422,7 +424,7 @@ var _hoisted_7 = {
   "class": "text-center flex justify-center items-center h-full"
 };
 var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: "https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png",
+  src: _assets_moey_small_png__WEBPACK_IMPORTED_MODULE_1__["default"],
   "class": "p-[2px] w-[50px] h-[50px]",
   alt: "Avatar"
 }, null, -1 /* HOISTED */);
@@ -461,20 +463,23 @@ var _hoisted_20 = {
   "class": "sanfont-khmer text-sm"
 };
 var _hoisted_21 = {
-  "class": "menu-man text-left whitespace-nowrap flex flex-col space-y-2"
-};
-var _hoisted_22 = {
   "class": "sanfont-khmer text-sm"
 };
+var _hoisted_22 = {
+  "class": "menu-man text-left whitespace-nowrap flex flex-col space-y-2"
+};
 var _hoisted_23 = {
+  "class": "sanfont-khmer text-sm"
+};
+var _hoisted_24 = {
   "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 };
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   style: {
     "font-size": "1.5rem"
   }
 }, " ©", -1 /* HOISTED */);
-var _hoisted_25 = {
+var _hoisted_26 = {
   "class": "sanfont-khmer text-sm"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -487,6 +492,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_UserFilled = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("UserFilled");
   var _component_Reading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Reading");
   var _component_OfficeBuilding = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("OfficeBuilding");
+  var _component_List = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("List");
   var _component_Clock = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Clock");
   var _component_CollectionTag = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("CollectionTag");
   var _component_PieChart = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("PieChart");
@@ -666,6 +672,36 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, 8 /* PROPS */, ["class"])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: "/score-type",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([[$options.activeMenuNameRoute('score-type') ? 'router-link-exact-active' : ''], "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"])
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
+        "class": "box-item",
+        effect: "dark",
+        content: "ប្រភេទពិន្ទុ",
+        placement: "right-start"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+            style: {
+              "font-size": "1.5rem"
+            }
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_List)];
+            }),
+            _: 1 /* STABLE */
+          })];
+        }),
+
+        _: 1 /* STABLE */
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, " ប្រភេទពិន្ទុ", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+    }),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["class"])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/time",
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([[$options.activeMenuNameRoute('time') ? 'router-link-exact-active' : ''], "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"])
   }, {
@@ -690,7 +726,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
 
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, " ម៉ោងសិក្សា", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, " ម៉ោងសិក្សា", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
     }),
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["class"])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -720,7 +756,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
 
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, " ឆ្នាំសិក្សា", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, " ឆ្នាំសិក្សា", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
     }),
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["class"])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -750,10 +786,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
 
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, " របាយការណ៍", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, " របាយការណ៍", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
     }),
     _: 1 /* STABLE */
-  })], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/setting",
@@ -780,22 +816,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
 
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, " ការកំណត់", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, " ការកំណត់", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
     "class": "box-item",
     effect: "dark",
     content: "បង្កើតដោយ Copyright @ 2023 BIT14",
     placement: "right-start"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-icon>\r\n\t\t\t\t\t\t\t\t\t<InfoFilled />\r\n\t\t\t\t\t\t\t\t</el-icon> "), _hoisted_24];
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-icon>\r\n\t\t\t\t\t\t\t\t\t<InfoFilled />\r\n\t\t\t\t\t\t\t\t</el-icon> "), _hoisted_25];
     }),
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, " បង្កើតដោយ @ 2023 BIT14", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])], 2 /* CLASS */)])])])], 2 /* CLASS */);
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, " បង្កើតដោយ @ 2023 BIT14", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])], 2 /* CLASS */)])])])], 2 /* CLASS */);
 }
 
 /***/ }),
@@ -882,6 +918,20 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.p-tooltip-text {\r\n\tfont-size: 10
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
+
+/***/ }),
+
+/***/ "./resources/js/assets/moey-small.png":
+/*!********************************************!*\
+  !*** ./resources/js/assets/moey-small.png ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/moey-small.png?6feb0dfe49efaf1f08283c185ab02dad");
 
 /***/ }),
 

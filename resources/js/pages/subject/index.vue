@@ -149,9 +149,11 @@
 			<!-- Dialog  -->
 			<el-dialog
 				v-model="dialogFormVisible"
-				title="បន្ថែមមុខវិទ្យា"
+				title="ព័ត៌មានមុខវិទ្យា"
 				class="sanfont-khmer"
-				width="50%"
+				width="30%"
+				align-center="true"
+				draggable
 			>
 				<el-form
 					class="grid grid-cols-2"
@@ -160,51 +162,52 @@
 					ref="ruleForm"
 					id="fm"
 				>
+					<div class="flex flex-row ">
+						<div class="flex flex-col space-y-1">
+							<div>
+								<el-form-item
+									label="ឈ្មោះមុខវិទ្យា (ខ្មែរ)"
+									prop="subjectKhName"
+									class="sanfont-khmer "
+									:label-width="formLabelWidth"
+								>
+									<el-input
+										v-model="ruleForm.firstNameKh"
+										name="firstNameKh1"
+										clearable
+									></el-input>
+								</el-form-item>
+							</div>
+							<div>
+								<el-form-item
+									label="ឈ្មោះមុខវិទ្យា (អង់គ្លេស)"
+									prop="subjectEngName"
+									class="sanfont-khmer "
+									:label-width="formLabelWidth"
+								>
+									<el-input
+										v-model="ruleForm.subjectEngName"
+										name="subjectEngName"
+										clearable
+									></el-input>
+								</el-form-item>
+							</div>
+							<div>
+								<el-form-item
+									label="អក្សរកាត់នៃមុខវិជ្ជា"
+									prop="subjectShortName"
+									class="sanfont-khmer "
+									:label-width="formLabelWidth"
+								>
+									<el-input
+										v-model="ruleForm.subjectShortName"
+										name="subjectShortName"
+										clearable
+									></el-input>
+								</el-form-item>
+							</div>
 
-					<div class="flex flex-col space-y-1">
-						<div>
-							<el-form-item
-								label="ឈ្មោះមុខវិទ្យា (ខ្មែរ)"
-								prop="subjectKhName"
-								class="sanfont-khmer "
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.firstNameKh"
-									name="firstNameKh1"
-									clearable
-								></el-input>
-							</el-form-item>
 						</div>
-						<div>
-							<el-form-item
-								label="ឈ្មោះមុខវិទ្យា (អង់គ្លេស)"
-								prop="subjectEngName"
-								class="sanfont-khmer "
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.subjectEngName"
-									name="subjectEngName"
-									clearable
-								></el-input>
-							</el-form-item>
-						</div>
-						<div>
-							<el-form-item
-								label="អក្សរកាត់នៃមុខវិជ្ជា"
-								prop="subjectShortName"
-								class="sanfont-khmer "
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.subjectShortName"
-									name="subjectShortName"
-									clearable
-								></el-input>
-							</el-form-item>
-						</div>
-
 					</div>
 
 				</el-form>
@@ -243,7 +246,7 @@
 			</el-dialog>
 			<!-- Dialog user  -->
 		</el-tab-pane>
-		<el-tab-pane label="មុខវិជ្ជាតាមកំរិត">
+		<el-tab-pane label="មុខវិជ្ជាតាមកម្រិត">
 			<div class="bg-white p-2 w-full flex justify-between">
 				<div class="flex space-x-2">
 					<div class="self-start">
@@ -279,7 +282,7 @@
 							filterable
 							clearable
 							multiple
-							placeholder="មុខវិជ្ជានៃកម្រិត"
+							placeholder="ប្រភេទថ្នាក់"
 						>
 							<el-option
 								v-for="item in classType"
@@ -311,7 +314,7 @@
 						<el-icon>
 							<CirclePlusFilled />
 						</el-icon>
-						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជាតាមកំរិត</span>
+						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជាតាមកម្រិត</span>
 					</el-button>
 				</div>
 			</div>
@@ -367,7 +370,7 @@
 								<template #default="scope">{{ scope.row.subject.subject_name_kh }}</template>
 							</el-table-column>
 							<el-table-column
-								label="កំរិត"
+								label="កម្រិត"
 								sortable
 							>
 								<template #default="scope">{{ scope.row.grade_level.grade_level_name }}</template>
@@ -423,9 +426,11 @@
 			<!-- Dialog  -->
 			<el-dialog
 				v-model="dialogFormVisible"
-				title="បន្ថែមមុខវិទ្យាតាមកំរិត"
+				title="ព័ត៌មានមុខវិទ្យាតាមកំរិត"
 				class="sanfont-khmer "
-				width="50%"
+				width="30%"
+				align-center="true"
+				draggable
 			>
 				<!-- 
 	<div class="flex justify-start item-start pl-[40px] space-y-[20px]">
@@ -461,7 +466,7 @@
 								</div>
 								<div>
 									<el-form-item
-										label="កំរិតថ្នាក់"
+										label="កម្រិតថ្នាក់"
 										prop="gradeLevel"
 										class="sanfont-khmer"
 										:label-width="formLabelWidth"
@@ -615,6 +620,7 @@ export default {
 			imageUrl: '',
 			isShowPassword: true,
 			isShowButtonUpdate: false,
+
 
 			ruleForm: {
 				name: null,

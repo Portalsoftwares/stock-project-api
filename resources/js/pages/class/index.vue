@@ -1,29 +1,82 @@
 <template>
-	<div class="bg-white p-2 flex justify-between">
+	<div class="bg-white p-2 flex justify-between border rounded-t">
 		<div class="flex space-x-2">
-		<div class="self-start">
-			<el-input
-				placeholder="ស្វែងរក"
-				class="sanfont-khmer"
-				v-model="search"
-			>
-				<i class="el-input__icon el-icon-search"></i>
-				<CirclePlusFilled class="el-input__icon" />
-			</el-input>
-		</div>
-		<div class="self-start  " >
-			<el-select v-model="filterSelectValue" filterable placeholder="តម្រៀប">
-    		<el-option
-    		  	v-for="item in filter"
-      			:key="item.filterValue"
-      			:label="item.filterLabel"
-      			:value="item.filterValue">
-    		</el-option>
-  			</el-select>
-		</div>
+			<div class="self-start ">
+				<el-input
+					placeholder="ស្វែងរក"
+					class="sanfont-khmer"
+					v-model="search"
+				>
+					<i class="el-input__icon el-icon-search"></i>
+					<CirclePlusFilled class="el-input__icon" />
+				</el-input>
+			</div>
+			<div class="self-start  ">
+				<el-select
+					v-model="filterSelectValue "
+					filterable
+					clearable
+					multiple
+					placeholder="កម្រិត"
+				>
+					<el-option
+						v-for="item in filter"
+						:key="item.filterValue"
+						:label="item.filterLabel"
+						:value="item.filterValue"
+					>
+					</el-option>
+				</el-select>
+			</div>
+			<div class="self-start  ">
+				<el-select
+					v-model="filterSelectValue "
+					filterable
+					clearable
+					multiple
+					placeholder="ប្រភេទថ្នាក់"
+				>
+					<el-option
+						v-for="item in classType"
+						:key="item.id"
+						:label="item.name"
+						:value="item.id"
+					>
+					</el-option>
+				</el-select>
+			</div>
+			<div class="self-start  ">
+				<el-select
+					v-model="academicSelectValue"
+					filterable
+					clearable
+					placeholder="ឆ្នាំសិក្សា"
+				>
+					<el-option
+						v-for="item in academic"
+						:key="item.id"
+						:label="item.name"
+						:value="item.id"
+					>
+					</el-option>
+				</el-select>
+			</div>
+			<el-button type="primary">
+				<el-icon>
+					<Search />
+				</el-icon>
+			</el-button>
 		</div>
 		<div class="self-end">
+
 			<div class="flex space-x-2">
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+
+				</el-button>
 				<el-button
 					type="primary"
 					@click="AddUser"
@@ -78,14 +131,14 @@
 						/>
 
 						<el-table-column
-						type="index"
-      					width="90"
-						label="ល.រ"
+							type="index"
+							width="90"
+							label="ល.រ"
 						>
-						<template #default="scope">{{scope.row.class_id }}</template>
+							<template #default="scope">{{scope.row.class_id }}</template>
 						</el-table-column>
 
-						<el-table-column label="ឈ្មោះ" >
+						<el-table-column label="ឈ្មោះ">
 							<template #default="scope">{{ scope.row.class_name }}</template>
 						</el-table-column>
 						<el-table-column label="គ្រូ សរុប">
@@ -137,8 +190,8 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
-						layout="prev, pager, next"
-						:total="1000"
+						layout="prev, pager, next, sizes"
+						:total="tableData.length"
 					>
 					</el-pagination>
 				</div>
@@ -148,9 +201,11 @@
 	<!-- Dialog  -->
 	<el-dialog
 		v-model="dialogFormVisible"
-		title="ព័ត៏មានថ្នាក់រៀន"
+		title="ព័ត៌មានថ្នាក់រៀន"
 		class="sanfont-khmer"
-		width="50%"
+		width="30%"
+		align-center="true"
+		draggable
 	>
 		<el-form
 			class="grid grid-cols-2"
@@ -180,7 +235,7 @@
 				>
 					<el-select
 						v-model="ruleForm.academic_id"
-						placeholder="Select roles"
+						placeholder="ជ្រើសរើស"
 						class="text-left "
 					>
 						<el-option
@@ -192,7 +247,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item
-					label="កំរិតថ្នាក់"
+					label="កម្រិតថ្នាក់"
 					class="sanfont-khmer"
 					prop="grade_level_id"
 					:label-width="formLabelWidth"
@@ -200,7 +255,7 @@
 					<el-select
 						v-model="gradeLevelId"
 						value-key="id"
-						placeholder="Select roles"
+						placeholder="ជ្រើសរើស"
 						class="text-left "
 						@change="getNameClass()"
 					>
@@ -214,14 +269,14 @@
 				</el-form-item>
 
 				<el-form-item
-					label="និមិត្ត"
+					label="អក្សរសម្គាល់"
 					class="sanfont-khmer"
 					prop="class_symbol"
 					:label-width="formLabelWidth"
 				>
 					<el-select
 						v-model="ruleForm.class_symbol"
-						placeholder="Select roles"
+						placeholder="ជ្រើសរើស"
 						class="text-left "
 						@change="getNameClass()"
 					>
@@ -241,7 +296,7 @@
 				>
 					<el-select
 						v-model="ruleForm.class_type_id"
-						placeholder="Select roles"
+						placeholder="ជ្រើសរើស"
 						class="text-left"
 					>
 						<el-option
@@ -267,6 +322,7 @@
 				<el-button
 					@click="cancelAction()"
 					class="sanfont-khmer"
+					type="danger"
 				> បោះបង់</el-button>
 				<el-button
 					v-if="!isShowButtonUpdate"
@@ -328,7 +384,7 @@ export default {
 					{ required: true, message: 'សូមបញ្ចូលប្រភេទថ្នាក់', trigger: 'change' }
 				],
 				grade_level_id: [
-					{ required: true, message: 'សូមបញ្ចូលកំរិតថ្នាក់', trigger: 'change' },
+					{ required: true, message: 'សូមបញ្ចូលកម្រិតថ្នាក់', trigger: 'change' },
 				],
 				academic_id: [
 					{ required: true, message: 'សូមបញ្ចូលឆ្នាំសិក្សា', trigger: 'change' },
@@ -407,18 +463,18 @@ export default {
 			nameClass: '',
 
 			filter: [{
-					filterValue: 'តាមឈ្មោះ',
-        			filterLabel: 'តាមឈ្មោះ'
-       				 }, {
-					filterValue: 'តាមលេខរៀង',
-        			filterLabel: 'តាមលេខរៀង'
-       				 },{
-					filterValue: 'តាមកាលបរិច្ឆេត',
-        			filterLabel: 'តាមកាលបរិច្ឆេត'
-       				 }, {
-					filterValue: 'តាមទំហំផ្ទុក',
-					filterLabel: 'តាមទំហំផ្ទុក'
-        	}],
+				filterValue: 'តាមឈ្មោះ',
+				filterLabel: 'តាមឈ្មោះ'
+			}, {
+				filterValue: 'តាមលេខរៀង',
+				filterLabel: 'តាមលេខរៀង'
+			}, {
+				filterValue: 'តាមកាលបរិច្ឆេត',
+				filterLabel: 'តាមកាលបរិច្ឆេត'
+			}, {
+				filterValue: 'តាមទំហំផ្ទុក',
+				filterLabel: 'តាមទំហំផ្ទុក'
+			}],
 			filterSelectValue: "",
 		}
 	},
@@ -428,7 +484,7 @@ export default {
 	methods: {
 		getNameClass() {
 			this.ruleForm.grade_level_id = this.gradeLevelId?.id
-			this.ruleForm.class_name = (this.gradeLevelId?.name ?? '') + " " + this.ruleForm.class_symbol;
+			this.ruleForm.class_name = (this.gradeLevelId?.name ?? '') + " " + (this.ruleForm.class_symbol ?? '');
 		},
 		handleAvatarSuccess(file) {
 			if (file) {
@@ -576,22 +632,22 @@ export default {
 			})
 		},
 		async editUser(id) {
-			this.isShowButtonUpdate = true;
-			this.isShowPassword = false;
-			await axios.get('/user/' + id + '/edit').then(response => {
-				this.ruleForm.name = response.data.user.name
-				this.ruleForm.userId = response.data.user.id
-				this.ruleForm.roles = response.data.user_has_roles
-				this.ruleForm.email = response.data.user.email
-				this.imageUrl = response.data.user.img?.file_path
-				this.ruleForm.photo_id = response.data.user.id
-				this.roles = response.data.roles
-				this.dialogFormVisible = true;
-			}).catch((error) => {
-				if (error.response.status == 401) {
-					this.$store.commit("auth/CLEAR_TOKEN")
-				}
-			})
+			//this.isShowButtonUpdate = true;
+			//this.isShowPassword = false;
+			//await axios.get('/user/' + id + '/edit').then(response => {
+			//this.ruleForm.name = response.data.user.name
+			//this.ruleForm.userId = response.data.user.id
+			//this.ruleForm.roles = response.data.user_has_roles
+			//this.ruleForm.email = response.data.user.email
+			//this.imageUrl = response.data.user.img?.file_path
+			//this.ruleForm.photo_id = response.data.user.id
+			//this.roles = response.data.roles
+			this.dialogFormVisible = true;
+			//}).catch((error) => {
+			//if (error.response.status == 401) {
+			//	this.$store.commit("auth/CLEAR_TOKEN")
+			//}
+			//})
 		},
 		notification() {
 			this.showSuccess = !this.showSuccess

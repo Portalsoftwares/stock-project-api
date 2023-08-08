@@ -14,7 +14,7 @@
 					v-if="dataSibar"
 				>
 					<img
-						src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
+						src="../assets/moey-small.png"
 						class="w-[50px] h-[50px] ml-[-10px]"
 						alt="Avatar"
 					/>
@@ -25,7 +25,7 @@
 					v-if="!dataSibar"
 				>
 					<img
-						src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
+						src="../assets/moey-small.png"
 						class="p-[2px] w-[50px] h-[50px]  "
 						alt="Avatar"
 					/>
@@ -209,6 +209,32 @@
 								v-show="dataSibar"
 								class="sanfont-khmer  text-sm"
 							> ថ្នាក់រៀន</span>
+						</router-link>
+					</div>
+					<div
+						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
+						:class="dataSibar == true ? ' ' : ''"
+					>
+						<router-link
+							to="/score-type"
+							:class="[activeMenuNameRoute('score-type')?'router-link-exact-active':'']"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
+						>
+							<el-tooltip
+								class="box-item"
+								effect="dark"
+								content="ប្រភេទពិន្ទុ"
+								placement="right-start"
+							>
+
+								<el-icon style="font-size: 1.5rem">
+									<List />
+								</el-icon>
+							</el-tooltip>
+							<span
+								v-show="dataSibar"
+								class="sanfont-khmer  text-sm"
+							> ប្រភេទពិន្ទុ</span>
 						</router-link>
 					</div>
 					<div
