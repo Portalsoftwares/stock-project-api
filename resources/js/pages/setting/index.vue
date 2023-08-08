@@ -117,7 +117,7 @@
 							<el-table-column label="ទំហំផ្ទុក">
 								<template #default="scope">
 									<div v-if="scope.row.subject_id%2==0">10.60 MB </div>
-									<div v-else>600.30 KB</div>
+									<div v-else>10.30 MB</div>
 								</template>
 							</el-table-column>
 							<el-table-column label="ប្រភេទ">

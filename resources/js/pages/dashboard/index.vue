@@ -141,6 +141,163 @@
 		</div>
 
 	</div>
+
+	<!-- Dialog  -->
+	<el-dialog
+		v-model="dialogFormVisible"
+		title="ព័ត៌មានអ្នកប្រើប្រាស់"
+		class="sanfont-khmer"
+		width="50%"
+	>
+		<el-form
+			class="grid grid-cols-2"
+			:model="ruleForm"
+			:rules="rules"
+			ref="ruleForm"
+			id="fm"
+		>
+			<div>
+				<el-form-item
+					label="ឈ្មោះ"
+					prop="name"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.name"
+						autocomplete="off"
+						name="name"
+						clearable
+					></el-input>
+				</el-form-item>
+				<el-form-item
+					label="លេខទូរស័ព្ទ"
+					prop="phone"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.phone"
+						autocomplete="off"
+						name="phone"
+						clearable
+					/>
+				</el-form-item>
+				<el-form-item
+					label="សារអេឡិចត្រូនិច"
+					prop="email"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.email"
+						autocomplete="off"
+						name="email"
+						clearable
+					/>
+				</el-form-item>
+				<el-form-item
+					v-if="isShowPassword"
+					label="ពាក្យសម្ងាត់"
+					prop="password"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.password"
+						autocomplete="off"
+						name="password"
+						show-password
+					/>
+				</el-form-item>
+				<el-form-item
+					label="តួនាទី"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-select
+						v-model="ruleForm.roles"
+						placeholder="ជ្រើសរើស"
+						class="text-left"
+						name="roles"
+						multiple
+					>
+						<el-option
+							v-for="data in roles"
+							:key="data"
+							:label="data.name"
+							:value="data.name"
+						/>
+					</el-select>
+				</el-form-item>
+			</div>
+			<el-form-item
+				label="រូបភាព"
+				class="sanfont-khmer"
+				:label-width="formLabelWidth"
+			>
+				<div>
+					<el-upload
+						class="avatar-uploader"
+						action="#"
+						name="file"
+						:show-file-list="true"
+						:auto-upload="false"
+						:on-change="handleAvatarSuccess"
+						:before-upload="beforeAvatarUpload"
+					>
+						<img
+							v-if="imageUrl"
+							:src="imageUrl"
+							class="avatar 	object-contain "
+						>
+						<i
+							v-else
+							class="el-icon-plus avatar-uploader-icon"
+						></i>
+					</el-upload>
+					<input
+						type="hidden"
+						name="photo_id"
+						v-model="ruleForm.photo_id"
+					>
+				</div>
+			</el-form-item>
+		</el-form>
+		<el-dialog v-model="dialogVisible">
+			<img
+				w-full
+				:src="dialogImageUrl"
+				alt="Preview Image"
+			/>
+		</el-dialog>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button
+					@click="cancelAction()"
+					class="sanfont-khmer"
+				> បោះបង់</el-button>
+				<el-button
+					v-if="!isShowButtonUpdate"
+					type="primary"
+					class="sanfont-khmer"
+					@click="submitForm('ruleForm')"
+				>
+					រក្សាទុក
+				</el-button>
+				<el-button
+					v-if="isShowButtonUpdate"
+					type="primary"
+					class="sanfont-khmer"
+					@click="updateData('ruleForm')"
+				>
+					រក្សាទុក
+				</el-button>
+			</span>
+		</template>
+	</el-dialog>
+	<!-- Dialog user  -->
+
 </template>
 <script>
 
