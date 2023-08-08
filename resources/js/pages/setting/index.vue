@@ -93,16 +93,16 @@
 
 							<el-table-column label="ឈ្មោះ">
 								<template #default="scope">
-									<div v-if="scope.row.subject_id%2==0 && scope.row.subject_id>=4">backup-25jul23.bac</div>
+									<div v-if="scope.row.subject_id%2==0 && scope.row.subject_id>=4">backup-25jul23.tar</div>
 									<div
 										type="success"
 										v-if="scope.row.subject_id%2!=0 && scope.row.subject_id>=4"
-									>restore-25jul23.res</div>
-									<div v-if="scope.row.subject_id%2==0 && scope.row.subject_id<4">backup-26jul23.bac</div>
+									>restore-25jul23.tar</div>
+									<div v-if="scope.row.subject_id%2==0 && scope.row.subject_id<4">backup-26jul23.tar</div>
 									<div
 										type="success"
 										v-if="scope.row.subject_id%2!=0 && scope.row.subject_id<4"
-									>restore-26jul23.res</div>
+									>restore-26jul23.tar</div>
 								</template>
 							</el-table-column>
 							<el-table-column
@@ -120,13 +120,10 @@
 									<div v-else>600.30 KB</div>
 								</template>
 							</el-table-column>
-							<el-table-column label="ប្រភេទ File">
+							<el-table-column label="ប្រភេទ">
 								<template #default="scope">
-									<el-tag v-if="scope.row.subject_id%2==0">Backup File</el-tag>
-									<el-tag
-										type="success"
-										v-else
-									>Restore File</el-tag>
+									<el-tag >File</el-tag>
+									
 								</template>
 							</el-table-column>
 
@@ -137,30 +134,11 @@
 							>
 								<template #default="scope">
 									<el-button
-										v-if="scope.row.subject_id%2==0"
 										size="small"
 										class="sanfont-khmer "
-										@click="editUser()"
 									>ស្ដារទិន្នន័យ</el-button>
 
 									<el-button
-										v-if="scope.row.subject_id%2==0"
-										size="small"
-										type="danger"
-										class="sanfont-khmer"
-										@click="handleDelete(scope.$index, scope.row)"
-									>លុប</el-button>
-
-									<el-button
-										v-if="scope.row.subject_id%2!=0"
-										disabled
-										size="small"
-										class="sanfont-khmer "
-										@click="editUser()"
-									>ស្ដារទិន្នន័យ</el-button>
-
-									<el-button
-										v-if="scope.row.subject_id%2!=0"
 										size="small"
 										type="danger"
 										class="sanfont-khmer"
