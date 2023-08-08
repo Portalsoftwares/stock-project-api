@@ -127,14 +127,14 @@
 					</el-table-column>
 					<el-table-column
 						width="180"
-						label="គោត្តនាម និងនាម"
+						label="ឈ្មោះភាសាខ្មែរ"
 						sortable
 					>
 						<template #default="scope">{{scope.row.first_name_kh +" "+scope.row.last_name_kh }}</template>
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
-						label="គោត្តនាម និងនាមឡាតាំង"
+						label="ឈ្មោះឡាតាំង"
 						width="250"
 						sortable
 					>
@@ -162,7 +162,7 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="ថ្ងៃ ខែ ឆ្នាំកំណើត">
+					<el-table-column label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត">
 						<template #default="scope">
 							<div>
 								{{ scope.row.date_of_birth}}

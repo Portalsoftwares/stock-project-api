@@ -690,7 +690,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         width: "180",
-        label: "គោត្តនាម និងនាម",
+        label: "ឈ្មោះភាសាខ្មែរ",
         sortable: ""
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
@@ -700,7 +700,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         property: "first_name_en",
-        label: "គោត្តនាម និងនាមឡាតាំង",
+        label: "ឈ្មោះឡាតាំង",
         width: "250",
         sortable: ""
       }, {
@@ -730,7 +730,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-        label: "ថ្ងៃ ខែ ឆ្នាំកំណើត"
+        label: "ថ្ងៃ/ខែ/ឆ្នាំកំណើត"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.date_of_birth), 1 /* TEXT */)];
