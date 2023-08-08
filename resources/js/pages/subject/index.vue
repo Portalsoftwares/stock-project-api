@@ -1,6 +1,6 @@
 <template>
 	<el-tabs type="border-card">
-		<el-tab-pane label="មុខវិទ្យាទូទៅ">
+		<el-tab-pane label="មុខវិជ្ជាទូទៅ">
 			<div class="bg-white p-2 w-full flex justify-between">
 				<div class="flex space-x-2">
 					<div class="self-start">
@@ -44,7 +44,7 @@
 						<el-icon>
 							<CirclePlusFilled />
 						</el-icon>
-						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិទ្យា</span>
+						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជា</span>
 					</el-button>
 				</div>
 			</div>
@@ -95,19 +95,19 @@
 							</el-table-column>
 
 							<el-table-column
-								label="មុខវិទ្យា"
+								label="មុខវិជ្ជា"
 								sortable
 							>
 								<template #default="scope">{{ scope.row.subject_name_kh }}</template>
 							</el-table-column>
 							<el-table-column
-								label="មុខវិទ្យា (អង់គ្លេស)"
+								label="មុខវិជ្ជា (អង់គ្លេស)"
 								sortable
 							>
 								<template #default="scope">{{ scope.row.subject_name_en }}</template>
 							</el-table-column>
 							<el-table-column
-								label="មុខវិទ្យា (អក្សរកាត់)"
+								label="មុខវិជ្ជា (អក្សរកាត់)"
 								sortable
 							>
 								<template #default="scope">{{ scope.row.subject_sort_name_en }}</template>
@@ -149,7 +149,7 @@
 			<!-- Dialog  -->
 			<el-dialog
 				v-model="dialogFormVisible"
-				title="ព័ត៌មានមុខវិទ្យា"
+				title="ព័ត៌មានមុខវិជ្ជា"
 				class="sanfont-khmer"
 				width="30%"
 				align-center="true"
@@ -167,7 +167,7 @@
 						<div class="flex flex-col space-y-1">
 							<div>
 								<el-form-item
-									label="ឈ្មោះមុខវិទ្យា (ខ្មែរ)"
+									label="ឈ្មោះមុខវិជ្ជា (ខ្មែរ)"
 									prop="subjectKhName"
 									class="sanfont-khmer "
 									:label-width="formLabelWidth"
@@ -181,7 +181,7 @@
 							</div>
 							<div>
 								<el-form-item
-									label="ឈ្មោះមុខវិទ្យា (អង់គ្លេស)"
+									label="ឈ្មោះមុខវិជ្ជា (អង់គ្លេស)"
 									prop="subjectEngName"
 									class="sanfont-khmer "
 									:label-width="formLabelWidth"
@@ -195,7 +195,7 @@
 							</div>
 							<div>
 								<el-form-item
-									label="ឈ្មោះមុខវិទ្យា (អក្សរកាត់)"
+									label="ឈ្មោះមុខវិជ្ជា (អក្សរកាត់)"
 									prop="subjectShortName"
 									class="sanfont-khmer "
 									:label-width="formLabelWidth"
@@ -366,7 +366,7 @@
 							>
 							</el-table-column>
 
-							<el-table-column label="មុខវិទ្យា">
+							<el-table-column label="មុខវិជ្ជា">
 								<template #default="scope">{{ scope.row.subject.subject_name_kh }}</template>
 							</el-table-column>
 							<el-table-column label="កម្រិត">
@@ -424,7 +424,7 @@
 			<!-- Dialog  -->
 			<el-dialog
 				v-model="dialogFormVisible"
-				title="ព័ត៌មានមុខវិទ្យាតាមកម្រិត"
+				title="ព័ត៌មានមុខវិជ្ជាតាមកម្រិត"
 				class="sanfont-khmer "
 				width="30%"
 				align-center="true"
@@ -450,7 +450,7 @@
 								<div>
 
 									<el-form-item
-										label="ឈ្មោះមុខវិទ្យា (ខ្មែរ)"
+										label="ឈ្មោះមុខវិជ្ជា (ខ្មែរ)"
 										prop="subjectKhName"
 										class="sanfont-khmer "
 										:label-width="formLabelWidth"
@@ -683,12 +683,12 @@ export default {
 				classTypeValue: 'ធម្មតា',
 				classTypeLabel: 'ធម្មតា'
 			}, {
-				classTypeValue: 'វិទ្យាសាស្រ្តពិក',
-				classTypeLabel: 'វិទ្យាសាស្រ្តពិក'
+				classTypeValue: 'វិជ្ជាសាស្រ្តពិក',
+				classTypeLabel: 'វិជ្ជាសាស្រ្តពិក'
 			},
 			{
-				classTypeValue: 'វិទ្យាសាស្រ្តសង្គម',
-				classTypeLabel: 'វិទ្យាសាស្រ្តសង្គម'
+				classTypeValue: 'វិជ្ជាសាស្រ្តសង្គម',
+				classTypeLabel: 'វិជ្ជាសាស្រ្តសង្គម'
 			}],
 			classTypeValue: '',
 		}

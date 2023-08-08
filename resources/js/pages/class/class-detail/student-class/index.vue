@@ -88,7 +88,7 @@
 		>
 			<template #default="scope">{{ "PK-S00"+ scope.row.student_in_class.student_id}}</template>
 		</el-table-column>
-		<el-table-column label="ឈ្មោះសិស្ស">
+		<el-table-column label="ឈ្មោះភាសាខ្មែរ">
 			<template #default="scope">
 				<span>
 					{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}
@@ -96,7 +96,7 @@
 			</template>
 		</el-table-column>
 
-		<el-table-column label="ឈ្មោះសិស្សឡាតាំង">
+		<el-table-column label="ឈ្មោះឡាតាំង">
 			<template #default="scope">
 				<span>
 					{{ scope.row.student_in_class.first_name_en }} {{ scope.row.student_in_class.last_name_en }}
@@ -109,7 +109,7 @@
 				<div v-else>ស្រី </div>
 			</template>
 		</el-table-column>
-		<el-table-column label="ថ្ងៃខែឆ្នាំកំណើត">
+		<el-table-column label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត">
 			<template #default="scope">
 				<span>
 					{{ scope.row.student_in_class.date_of_birth }}
@@ -370,21 +370,6 @@
 									autocomplete="off"
 									name="email"
 									clearable
-								/>
-							</el-form-item>
-						</div>
-						<div>
-							<el-form-item
-								v-if="isShowPassword"
-								label="ពាក្យសម្ងាត់"
-								prop="password"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.password"
-									name="password"
-									show-password
 								/>
 							</el-form-item>
 						</div>

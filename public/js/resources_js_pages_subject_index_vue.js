@@ -113,11 +113,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         classTypeValue: 'ធម្មតា',
         classTypeLabel: 'ធម្មតា'
       }, {
-        classTypeValue: 'វិទ្យាសាស្រ្តពិក',
-        classTypeLabel: 'វិទ្យាសាស្រ្តពិក'
+        classTypeValue: 'វិជ្ជាសាស្រ្តពិក',
+        classTypeLabel: 'វិជ្ជាសាស្រ្តពិក'
       }, {
-        classTypeValue: 'វិទ្យាសាស្រ្តសង្គម',
-        classTypeLabel: 'វិទ្យាសាស្រ្តសង្គម'
+        classTypeValue: 'វិជ្ជាសាស្រ្តសង្គម',
+        classTypeLabel: 'វិជ្ជាសាស្រ្តសង្គម'
       }],
       classTypeValue: ''
     };
@@ -404,7 +404,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */   "render": () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
@@ -431,7 +431,7 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 }, " ទាញ Excel", -1 /* HOISTED */);
 var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "mx-1 sanfont-khmer"
-}, " បន្ថែមមុខវិទ្យា", -1 /* HOISTED */);
+}, " បន្ថែមមុខវិជ្ជា", -1 /* HOISTED */);
 var _hoisted_9 = {
   "class": "grid grid-cols-1 gap-2"
 };
@@ -550,7 +550,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tab_pane, {
-        label: "មុខវិទ្យាទូទៅ"
+        label: "មុខវិជ្ជាទូទៅ"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
@@ -645,7 +645,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                label: "មុខវិទ្យា",
+                label: "មុខវិជ្ជា",
                 sortable: ""
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
@@ -654,7 +654,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                label: "មុខវិទ្យា (អង់គ្លេស)",
+                label: "មុខវិជ្ជា (អង់គ្លេស)",
                 sortable: ""
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
@@ -663,7 +663,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                label: "មុខវិទ្យា (អក្សរកាត់)",
+                label: "មុខវិជ្ជា (អក្សរកាត់)",
                 sortable: ""
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
@@ -717,7 +717,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
               return $data.dialogFormVisible = $event;
             }),
-            title: "ព័ត៌មានមុខវិទ្យា",
+            title: "ព័ត៌មានមុខវិជ្ជា",
             "class": "sanfont-khmer",
             width: "30%",
             "align-center": "true",
@@ -771,7 +771,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-                    label: "ឈ្មោះមុខវិទ្យា (ខ្មែរ)",
+                    label: "ឈ្មោះមុខវិជ្ជា (ខ្មែរ)",
                     prop: "subjectKhName",
                     "class": "sanfont-khmer",
                     "label-width": $data.formLabelWidth
@@ -788,7 +788,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     }),
                     _: 1 /* STABLE */
                   }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-                    label: "ឈ្មោះមុខវិទ្យា (អង់គ្លេស)",
+                    label: "ឈ្មោះមុខវិជ្ជា (អង់គ្លេស)",
                     prop: "subjectEngName",
                     "class": "sanfont-khmer",
                     "label-width": $data.formLabelWidth
@@ -805,7 +805,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     }),
                     _: 1 /* STABLE */
                   }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-                    label: "ឈ្មោះមុខវិទ្យា (អក្សរកាត់)",
+                    label: "ឈ្មោះមុខវិជ្ជា (អក្សរកាត់)",
                     prop: "subjectShortName",
                     "class": "sanfont-khmer",
                     "label-width": $data.formLabelWidth
@@ -970,7 +970,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 width: "90",
                 label: "ល.រ"
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                label: "មុខវិទ្យា"
+                label: "មុខវិជ្ជា"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.subject.subject_name_kh), 1 /* TEXT */)];
@@ -1064,7 +1064,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
               return $data.dialogFormVisible = $event;
             }),
-            title: "ព័ត៌មានមុខវិទ្យាតាមកម្រិត",
+            title: "ព័ត៌មានមុខវិជ្ជាតាមកម្រិត",
             "class": "sanfont-khmer",
             width: "30%",
             "align-center": "true",
@@ -1118,7 +1118,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-                    label: "ឈ្មោះមុខវិទ្យា (ខ្មែរ)",
+                    label: "ឈ្មោះមុខវិជ្ជា (ខ្មែរ)",
                     prop: "subjectKhName",
                     "class": "sanfont-khmer",
                     "label-width": $data.formLabelWidth
@@ -1343,7 +1343,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=659f27d4 */ "./resources/js/pages/subject/index.vue?vue&type=template&id=659f27d4");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/subject/index.vue?vue&type=script&lang=js");
 /* harmony import */ var _index_vue_vue_type_style_index_0_id_659f27d4_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=659f27d4&lang=css */ "./resources/js/pages/subject/index.vue?vue&type=style&index=0&id=659f27d4&lang=css");
-/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -1351,7 +1351,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/subject/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/subject/index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -1383,7 +1383,7 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./index.vue?vue&type=template&id=659f27d4 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/subject/index.vue?vue&type=template&id=659f27d4");
 

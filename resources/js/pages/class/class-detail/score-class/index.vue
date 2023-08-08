@@ -699,7 +699,7 @@
 				>
 					<template #default="scope">
 						<div class="text-center items-center">
-							<span>{{  scope.row.student_id  }}st</span>
+							<span>{{  scope.row.student_id  }}</span>
 						</div>
 					</template>
 				</el-table-column>

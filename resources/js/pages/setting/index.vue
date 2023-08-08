@@ -30,17 +30,14 @@
 					</div>
 				</div>
 				<div class="self-end">
-					<el-button >
+					<el-button>
 						<el-icon>
 							<Document />
 						</el-icon>
 						<span class="mx-1 sanfont-khmer"> ស្តារទិន្នន័យពីម៉ាសុីន</span>
 
 					</el-button>
-					<el-button
-						type="primary"
-						@click=""
-					>
+					<el-button type="primary">
 						<el-icon>
 							<CirclePlusFilled />
 						</el-icon>
@@ -94,103 +91,99 @@
 								<template #default="scope">{{scope.row.subject_id }}</template>
 							</el-table-column>
 
-							<el-table-column
-								label="ឈ្មោះ"
-								
-							>
+							<el-table-column label="ឈ្មោះ">
 								<template #default="scope">
-								<div v-if="scope.row.subject_id%2==0 && scope.row.subject_id>=4">backup-25jul23.bac</div>
-								<div type="success" v-if="scope.row.subject_id%2!=0 && scope.row.subject_id>=4">restore-25jul23.res</div>
-								<div v-if="scope.row.subject_id%2==0 && scope.row.subject_id<4">backup-26jul23.bac</div>
-								<div type="success" v-if="scope.row.subject_id%2!=0 && scope.row.subject_id<4">restore-26jul23.res</div>
+									<div v-if="scope.row.subject_id%2==0 && scope.row.subject_id>=4">backup-25jul23.bac</div>
+									<div
+										type="success"
+										v-if="scope.row.subject_id%2!=0 && scope.row.subject_id>=4"
+									>restore-25jul23.res</div>
+									<div v-if="scope.row.subject_id%2==0 && scope.row.subject_id<4">backup-26jul23.bac</div>
+									<div
+										type="success"
+										v-if="scope.row.subject_id%2!=0 && scope.row.subject_id<4"
+									>restore-26jul23.res</div>
 								</template>
 							</el-table-column>
 							<el-table-column
 								label="ថ្ងៃទទួលបាន"
 								sortable
-								
 							>
 								<template #default="scope">
-								<div v-if="scope.row.subject_id>=4">25 July 2023 </div>
-								<div v-else >26 July 2023</div>
+									<div v-if="scope.row.subject_id>=4">25 July 2023 </div>
+									<div v-else>26 July 2023</div>
 								</template>
 							</el-table-column>
-							<el-table-column
-								label="ទំហំផ្ទុក"
-								
-							>
+							<el-table-column label="ទំហំផ្ទុក">
 								<template #default="scope">
-								<div v-if="scope.row.subject_id%2==0">10.60 MB </div>
-								<div v-else >600.30 KB</div>
+									<div v-if="scope.row.subject_id%2==0">10.60 MB </div>
+									<div v-else>600.30 KB</div>
 								</template>
 							</el-table-column>
-							<el-table-column
-								label="ប្រភេទ File"
-								
-							>
+							<el-table-column label="ប្រភេទ File">
 								<template #default="scope">
-								<el-tag v-if="scope.row.subject_id%2==0">Backup File</el-tag>
-								<el-tag type="success" v-else>Restore File</el-tag>
-							</template>
+									<el-tag v-if="scope.row.subject_id%2==0">Backup File</el-tag>
+									<el-tag
+										type="success"
+										v-else
+									>Restore File</el-tag>
+								</template>
 							</el-table-column>
 
 							<el-table-column
 								align="center"
 								fixed="right"
 								label="សកម្មភាព"
-								>
-							<template #default="scope">
-							<el-button
-								v-if="scope.row.subject_id%2==0"
-								size="small"
-								class="sanfont-khmer "
-								@click="editUser()"
-								>ស្ដារទិន្នន័យ</el-button>
+							>
+								<template #default="scope">
+									<el-button
+										v-if="scope.row.subject_id%2==0"
+										size="small"
+										class="sanfont-khmer "
+										@click="editUser()"
+									>ស្ដារទិន្នន័យ</el-button>
 
-							<el-button
-								v-if="scope.row.subject_id%2==0"
-								size="small"
-								type="danger"
-								class="sanfont-khmer"
-								@click="handleDelete(scope.$index, scope.row)"
-								>លុប</el-button>
+									<el-button
+										v-if="scope.row.subject_id%2==0"
+										size="small"
+										type="danger"
+										class="sanfont-khmer"
+										@click="handleDelete(scope.$index, scope.row)"
+									>លុប</el-button>
 
-								<el-button
-								v-if="scope.row.subject_id%2!=0"
-								disabled
-								size="small"
-								class="sanfont-khmer "
-								@click="editUser()"
-								>ស្ដារទិន្នន័យ</el-button>
+									<el-button
+										v-if="scope.row.subject_id%2!=0"
+										disabled
+										size="small"
+										class="sanfont-khmer "
+										@click="editUser()"
+									>ស្ដារទិន្នន័យ</el-button>
 
-								<el-button
-								v-if="scope.row.subject_id%2!=0"
-								size="small"
-								type="danger"
-								class="sanfont-khmer"
-								@click="handleDelete(scope.$index, scope.row)"
-								>លុប</el-button>
-									
-							</template>
+									<el-button
+										v-if="scope.row.subject_id%2!=0"
+										size="small"
+										type="danger"
+										class="sanfont-khmer"
+										@click="handleDelete(scope.$index, scope.row)"
+									>លុប</el-button>
+
+								</template>
 							</el-table-column>
 
 							<el-empty description="description"></el-empty>
 						</el-table>
 
-						
-
-						
 					</div>
 				</div>
 
 				<div class="py-2 flex justify-center">
-							<el-pagination
-								background
-								layout="prev, pager, next, sizes"
-								:total="tableData.length"
-							>
-							</el-pagination>
-						</div>
+					<el-pagination
+						background
+						layout="prev, pager, next, sizes"
+						:total="tableData.length"
+					>
+					</el-pagination>
+				</div>
 
 			</div>
 
@@ -294,355 +287,6 @@
 				</template>
 			</el-dialog>
 			<!-- Dialog user  -->
-		</el-tab-pane>
-		<el-tab-pane label="មុខវិជ្ជាតាមកម្រិត">
-			<div class="bg-white p-2 w-full flex justify-between">
-				<div class="flex space-x-2">
-					<div class="self-start">
-						<el-input
-							placeholder="ស្វែងរក"
-							class="sanfont-khmer"
-							v-model="search"
-						>
-							<i class="el-input__icon el-icon-search"></i>
-							<CirclePlusFilled class="el-input__icon" />
-						</el-input>
-					</div>
-					<div class="self-start  ">
-						<el-select
-							v-model="filterSelectValue "
-							filterable
-							clearable
-							multiple
-							placeholder="មុខវិជ្ជានៃកម្រិត"
-						>
-							<el-option
-								v-for="item in gradeLevel"
-								:key="item.gradeLevelValue"
-								:label="item.gradeLevelLabel"
-								:value="item.gradeLevelValue"
-							>
-							</el-option>
-						</el-select>
-					</div>
-					<div class="self-start  ">
-						<el-select
-							v-model="SelectValue "
-							filterable
-							clearable
-							multiple
-							placeholder="ប្រភេទថ្នាក់"
-						>
-							<el-option
-								v-for="item in classType"
-								:key="item.classTypeValue"
-								:label="item.classTypeLabel"
-								:value="item.classTypeValue"
-							>
-							</el-option>
-						</el-select>
-					</div>
-					<el-button type="primary">
-						<el-icon>
-							<Search />
-						</el-icon>
-					</el-button>
-				</div>
-				<div class="self-end">
-					<el-button type="info">
-						<el-icon>
-							<Document />
-						</el-icon>
-						<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
-
-					</el-button>
-					<el-button
-						type="primary"
-						@click="AddUser"
-					>
-						<el-icon>
-							<CirclePlusFilled />
-						</el-icon>
-
-						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជាតាមកម្រិត</span>
-
-					</el-button>
-				</div>
-			</div>
-			<div class="grid grid-cols-1 gap-2 ">
-				<div class=" border rounded bg-gray-50">
-					<div class="flex flex-col  ">
-						<div
-							class="m-2"
-							v-if="showSuccess"
-						>
-							<el-alert
-								title="success alert"
-								type="success"
-								show-icon
-							/>
-						</div>
-						<div
-							class="m-2"
-							v-if="showInfo"
-						>
-							<el-alert
-								title="info alert"
-								type="info"
-								show-icon
-							/>
-						</div>
-						<el-table
-							:data="tableDataSubjectLevel"
-							height="690"
-							style="width: 100%"
-							resizable="true"
-							header-cell-class-name="header-table-font-khmer text-md"
-							row-class-name="sanfont-khmer"
-							selectable
-							v-loading="loading"
-						>
-							<el-table-column
-								type="selection"
-								width="55"
-							/>
-
-							<el-table-column
-								type="index"
-								width="90"
-								label="ល.រ"
-							>
-							</el-table-column>
-
-							<el-table-column label="មុខវិទ្យា">
-								<template #default="scope">{{ scope.row.subject.subject_name_kh }}</template>
-							</el-table-column>
-							<el-table-column label="កម្រិត">
-
-								<template #default="scope">{{ scope.row.grade_level.grade_level_name }}</template>
-							</el-table-column>
-							<el-table-column
-								label="ប្រភេទថ្នាក់"
-								sortable
-							>
-								<template #default="scope">{{ scope.row.class_type.name }}</template>
-							</el-table-column>
-							<el-table-column label="ពិន្ទុពេញ">
-								<template #default="scope">{{ scope.row.full_score }}</template>
-							</el-table-column>
-							<el-table-column label="មេគុណ">
-								<template #default="scope">{{ scope.row.divide }}</template>
-							</el-table-column>
-							<el-table-column label="មធ្យមភាគ">
-								<template #default="scope">{{ scope.row.average }}</template>
-							</el-table-column>
-							<el-table-column
-								fixed="right"
-								align="center"
-								label="សកម្មភាព"
-							>
-								<template #default="scope">
-									<el-button
-										size="small"
-										class="sanfont-khmer"
-										@click="editUser(scope.row.id)"
-									>កែប្រែ</el-button>
-									<el-button
-										size="small"
-										type="danger"
-										class="sanfont-khmer"
-										@click="handleDelete(scope.$index, scope.row)"
-									>លុប</el-button>
-								</template>
-							</el-table-column>
-							<el-empty description="description"></el-empty>
-						</el-table>
-						<div class="py-2 flex justify-center">
-							<el-pagination
-								background
-								layout="prev, pager, next, sizes"
-								:total="tableDataSubjectLevel.length"
-							>
-							</el-pagination>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Dialog  -->
-			<el-dialog
-				v-model="dialogFormVisible"
-				title="ព័ត៌មានមុខវិទ្យាតាមកម្រិត"
-				class="sanfont-khmer "
-				width="30%"
-				align-center="true"
-				draggable
-			>
-				<!-- 
-	<div class="flex justify-start item-start pl-[40px] space-y-[20px]">
-	<h1 class= "font-bold text-[20px]">ព័ត៌មានគ្រូ</h1>
-	</div>-->
-				<el-form
-					class="grid grid-cols-2"
-					:model="ruleForm"
-					:rules="rules"
-					ref="ruleForm"
-					id="fm"
-				>
-					<div class="flex flex-col">
-						<div class=" item-start ">
-
-						</div>
-						<div class="flex flex-row ">
-							<div class="flex flex-col space-y-1">
-								<div>
-
-									<el-form-item
-										label="ឈ្មោះមុខវិទ្យា (ខ្មែរ)"
-										prop="subjectKhName"
-										class="sanfont-khmer "
-										:label-width="formLabelWidth"
-									>
-										<el-select
-											v-model="ruleForm.firstNameKh"
-											placeholder="ជ្រើសរើស"
-										>
-
-										</el-select>
-									</el-form-item>
-								</div>
-								<div>
-									<el-form-item
-										label="កម្រិតថ្នាក់"
-										prop="gradeLevel"
-										class="sanfont-khmer"
-										:label-width="formLabelWidth"
-									>
-										<el-select
-											v-model="ruleForm.gradeLevelalue"
-											placeholder="ជ្រើសរើស"
-										>
-											<el-option
-												v-for="item in gradeLevel"
-												:key="item.gradeLevelValue"
-												:label="item.gradeLevelLabel"
-												:value="item.gradeLevelValue"
-											>
-											</el-option>
-										</el-select>
-									</el-form-item>
-								</div>
-								<div>
-									<el-form-item
-										label="ប្រភេទថ្នាក់"
-										prop="classType"
-										class="sanfont-khmer"
-										:label-width="formLabelWidth"
-									>
-										<el-select
-											v-model="ruleForm.classTypeValue"
-											placeholder="ជ្រើសរើស"
-										>
-											<el-option
-												v-for="item in classType"
-												:key="item.classTypeValue"
-												:label="item.classTypeLabel"
-												:value="item.classTypeValue"
-											>
-											</el-option>
-										</el-select>
-									</el-form-item>
-								</div>
-								<div>
-									<el-form-item
-										label="ពិន្ទុពេញ"
-										prop="fullScore"
-										class="sanfont-khmer"
-										:label-width="formLabelWidth"
-									>
-										<el-input
-											v-model="ruleForm.fullScore"
-											autocomplete="off"
-											type="number"
-											name="fullScore"
-											clearable
-										/>
-									</el-form-item>
-								</div>
-
-								<div>
-									<el-form-item
-										label="មេគុណ"
-										prop="devide"
-										class="sanfont-khmer"
-										:label-width="formLabelWidth"
-									>
-										<el-input
-											v-model="ruleForm.devide"
-											autocomplete="off"
-											type="number"
-											name="devide"
-											clearable
-										/>
-									</el-form-item>
-								</div>
-								<div>
-									<el-form-item
-										label="មធ្យមភាគ"
-										prop="devide"
-										class="sanfont-khmer"
-										:label-width="formLabelWidth"
-									>
-										<el-input
-											v-model="ruleForm.devide"
-											autocomplete="off"
-											type="number"
-											name="devide"
-											clearable
-										/>
-									</el-form-item>
-								</div>
-
-							</div>
-						</div>
-					</div>
-
-				</el-form>
-				<el-dialog v-model="dialogVisible">
-					<img
-						w-full
-						:src="dialogImageUrl"
-						alt="Preview Image"
-					/>
-				</el-dialog>
-				<template #footer>
-					<span class="dialog-footer">
-						<el-button
-							@click="cancelAction()"
-							class="sanfont-khmer "
-							type="danger"
-						> បោះបង់</el-button>
-						<el-button
-							v-if="!isShowButtonUpdate"
-							type="primary"
-							class="sanfont-khmer"
-							@click="submitForm('ruleForm')"
-						>
-							រក្សាទុក
-						</el-button>
-						<el-button
-							v-if="isShowButtonUpdate"
-							type="primary"
-							class="sanfont-khmer"
-							@click="updateData('ruleForm')"
-						>
-							រក្សាទុក
-						</el-button>
-					</span>
-				</template>
-			</el-dialog>
-			<!-- Dialog user  -->
-
 		</el-tab-pane>
 	</el-tabs>
 
