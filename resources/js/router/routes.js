@@ -72,6 +72,14 @@ export default [
                 path: "/reports",
                 meta: { transition: 'fade' }
 
+            },
+            {
+
+                name: "setting",
+                component: import('./../pages/setting'),
+                path: "/setting",
+                meta: { transition: 'fade' }
+
             }
         ]
     },
