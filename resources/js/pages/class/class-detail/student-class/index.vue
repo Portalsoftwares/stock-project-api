@@ -28,7 +28,7 @@
 			</el-button>
 			<el-button
 				type="primary"
-				@click="AddUser"
+				@click="AddStudentToClass"
 			>
 				<el-icon>
 					<CirclePlusFilled />
@@ -160,7 +160,7 @@
 		</el-pagination>
 	</div>
 
-	<!--Dialog-->
+	<!--Dialog New Student-->
 	<el-dialog
 		v-model="dialogFormVisible"
 		title="ព័ត៌មានសិស្ស"
@@ -169,10 +169,6 @@
 		align-center="true"
 		draggable
 	>
-		<!-- 
-	<div class="flex justify-start item-start pl-[40px] space-y-[20px]">
-	<h1 class= "font-bold text-[20px]">ព័ត៍មានអ្នកប្រើប្រាស់</h1>
-	</div>-->
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleForm"
@@ -488,7 +484,183 @@
 			</span>
 		</template>
 	</el-dialog>
-	<!--</div>-->
+	<!--Dialog Student to class-->
+	<el-dialog
+		v-model="dialogVisibleAdd"
+		title="បន្ថែមសិស្សក្នុងថ្នាក់"
+		class="sanfont-khmer "
+		width="70%"
+		align-center="true"
+		draggable
+	>
+		<el-form
+			class="grid"
+			:model="ruleForm"
+			:rules="rules"
+			ref="ruleForm"
+			id="fm"
+		>
+
+			<div>
+				<div class="flex flex-col space-y-1">
+					<div>
+						<el-form-item
+							label="ថ្នាក់"
+							prop="roles"
+							class="sanfont-khmer"
+							:label-width="formLabelWidth"
+						>
+							<el-select
+								v-model="ruleForm.roles"
+								placeholder="ជ្រើសរើស"
+								class="text-left "
+							>
+								<el-option
+									label="១០​ A"
+									value="1"
+								></el-option>
+
+							</el-select>
+						</el-form-item>
+					</div>
+
+				</div>
+				<div class=" border rounded bg-gray-50">
+					<div class="flex flex-col  ">
+						<!-- {{ tableData }} -->
+						<el-table
+							:data="tableData"
+							height="350"
+							style="width: 100%"
+							resizable="true"
+							header-cell-class-name="header-table-font-khmer text-md"
+							row-class-name="sanfont-khmer"
+							selectable
+							v-loading="loading"
+							highlight-current-row="true"
+						>
+
+							<el-table-column
+								type="selection"
+								width="55"
+							/>
+
+							<el-table-column
+								type="index"
+								width="90"
+								align="start"
+								label="ល.រ"
+								sortable
+							>
+							</el-table-column>
+
+							<el-table-column
+								width="100"
+								align="start"
+								label="រូបភាព"
+							>
+								<template #default="scope">
+									<el-image
+										style="width: 40px; height: 40px"
+										:src="scope.row.profile_img?.file_path"
+										fit="cover"
+										:lazy="true"
+										class="rounded-full"
+									/>
+								</template>
+							</el-table-column>
+
+							<el-table-column
+								width="100"
+								align="start"
+								label="អត្តលេខ"
+								sortable
+							>
+								<template #default="scope">{{ "PK-S00"+ scope.row.student_id}}</template>
+							</el-table-column>
+							<el-table-column
+								width="180"
+								label="គោត្តនាម និងនាម"
+								sortable
+							>
+								<template #default="scope">{{scope.row.first_name_kh +" "+scope.row.last_name_kh }}</template>
+							</el-table-column>
+							<el-table-column
+								property="first_name_en"
+								label="គោត្តនាម និងនាមឡាតាំង"
+								width="250"
+								sortable
+							>
+								<template #default="scope">{{scope.row.first_name_en +" "+scope.row.last_name_en }}</template>
+
+							</el-table-column>
+							<el-table-column
+								width="120"
+								label="ភេទ"
+								:filters="genders"
+							>
+								<template #default="scope">
+									<div v-if="scope.row.gender_id == 1">ប្រុស</div>
+									<div v-else>ស្រី</div>
+								</template>
+							</el-table-column>
+
+							<el-table-column
+								label="ថ្ងៃ ខែ ឆ្នាំកំណើត "
+								width="150"
+							>
+								<template #default="scope">
+									<div>
+										{{ scope.row.date_of_birth}}
+									</div>
+								</template>
+							</el-table-column>
+							<el-table-column label="លេខទូរស័ព្ទ">
+								<template #default="scope">
+									<div>
+										{{ scope.row.phone}}
+									</div>
+								</template>
+							</el-table-column>
+
+						</el-table>
+						<div class="py-2 flex justify-center">
+							<el-pagination
+								background
+								layout="prev, pager, next, sizes"
+								:total="tableData.length"
+							>
+							</el-pagination>
+						</div>
+					</div>
+				</div>
+			</div>
+		</el-form>
+		<el-dialog v-model="dialogVisible">
+			<img
+				w-full
+				:src="dialogImageUrl"
+				alt="Preview Image"
+			/>
+		</el-dialog>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button
+					@click="cancelAction()"
+					class="sanfont-khmer "
+					type="danger"
+				> បោះបង់</el-button>
+				<el-button
+					type="primary"
+					class="sanfont-khmer"
+					@click="submitForm('ruleForm')"
+				>
+					បន្ថែមសិស្ស
+				</el-button>
+			</span>
+		</template>
+	</el-dialog>
+
 </template>
 <script>
 export default {
@@ -512,6 +684,7 @@ export default {
 			formLabelWidth: "150px",
 			dialogImageUrl: "",
 			dialogVisible: false,
+			dialogVisibleAdd: false,
 			files: {},
 			form: {},
 			imageUrl: '',
@@ -675,7 +848,9 @@ export default {
 		handleRemove(UploadFile) {
 			console.log(UploadFile)
 		},
-
+		AddStudentToClass() {
+			this.dialogVisibleAdd = true
+		},
 		async AddUser() {
 			// this.cancelAction()
 			// this.resetForm('ruleForm');

@@ -262,6 +262,14 @@
 								/>
 							</el-select>
 						</el-form-item>
+						<el-form-item label="កាលបរិច្ចេទ">
+
+							<el-date-picker
+								v-model="date"
+								type="date"
+							>
+							</el-date-picker>
+						</el-form-item>
 					</div>
 				</el-form>
 				<div>
@@ -285,16 +293,7 @@
 					<template #default="scope">
 
 						<div>
-							<span class="w-[10px]">
-								<span v-if="scope.row.student_in_class.gender_id ==2">
-									ក. &nbsp;
-								</span>
-								<span v-else>
-									&nbsp;
-									&nbsp;
-									&nbsp;
-								</span>
-							</span>
+
 							<span>{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}</span>
 						</div>
 					</template>
@@ -318,12 +317,17 @@
 					align="center"
 					:label="dataTimeObj.name +' : ' + dataTimeObj.start_date +' - ' + dataTimeObj.end_date"
 				>
-					<el-table-column width="120">
+					<el-table-column
+						width="60"
+						align="center"
+					>
 						<template #header>
 							<div class="text-green-600">PS</div>
 						</template>
 						<template #default="scope">
-							<el-radio-group
+							<el-checkbox v-model="checked"></el-checkbox>
+
+							<!-- <el-radio-group
 								v-model="scope.row.attendance_type_id"
 								fill="#67C23A"
 								size="small"
@@ -333,15 +337,20 @@
 									class="bg-green-50 border border-green-50"
 									border
 								>វត្តមាន</el-radio>
-							</el-radio-group>
+							</el-radio-group> -->
 						</template>
 					</el-table-column>
-					<el-table-column width="120">
+					<el-table-column
+						width="60"
+						align="center"
+					>
 						<template #header>
 							<div class="text-yellow-600">PM</div>
 						</template>
 						<template #default="scope">
-							<el-radio-group
+							<el-checkbox v-model="checked"></el-checkbox>
+
+							<!-- <el-radio-group
 								v-model="scope.row.attendance_type_id"
 								size="small"
 							>
@@ -350,15 +359,20 @@
 									class="bg-yellow-50 border border-yellow-50"
 									border
 								>ច្បាប់</el-radio>
-							</el-radio-group>
+							</el-radio-group> -->
 						</template>
 					</el-table-column>
-					<el-table-column width="120">
+					<el-table-column
+						width="60"
+						align="center"
+					>
 						<template #header>
 							<div class="text-blue-600">AL</div>
 						</template>
 						<template #default="scope">
-							<el-radio-group
+							<el-checkbox v-model="checked"></el-checkbox>
+
+							<!-- <el-radio-group
 								v-model="scope.row.attendance_type_id"
 								size="small"
 								text-color="#2563eb"
@@ -369,15 +383,19 @@
 									class="bg-blue-50 border border-blue-50"
 									border
 								>យឺត</el-radio>
-							</el-radio-group>
+							</el-radio-group> -->
 						</template>
 					</el-table-column>
-					<el-table-column width="120">
+					<el-table-column
+						width="60"
+						align="center"
+					>
 						<template #header>
 							<div class="text-red-600">A</div>
 						</template>
 						<template #default="scope">
-							<el-radio-group
+							<el-checkbox v-model="checked"></el-checkbox>
+							<!-- <el-radio-group
 								class=""
 								v-model="scope.row.attendance_type_id"
 								size="small"
@@ -387,8 +405,8 @@
 									class="bg-red-50 border border-red-50"
 									label="4"
 									border
-								>អវត្តមាន</el-radio>
-							</el-radio-group>
+								></el-radio>
+							</el-radio-group> -->
 						</template>
 					</el-table-column>
 				</el-table-column>
@@ -735,7 +753,8 @@ export default {
 			},
 			errors: {},
 			activeDay: '',
-			fullscreenLoading: false
+			fullscreenLoading: false,
+			date: ''
 		}
 	},
 	mounted() {

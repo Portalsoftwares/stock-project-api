@@ -77,7 +77,7 @@
 				<!-- {{ tableData }} -->
 				<el-table
 					:data="tableData"
-					height="770"
+					height="750"
 					style="width: 100%"
 					resizable="true"
 					header-cell-class-name="header-table-font-khmer text-md"
@@ -203,8 +203,8 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
-						layout="prev, pager, next"
-						:total="1000"
+						layout="prev, pager, next, sizes"
+						:total="tableData.length"
 					>
 					</el-pagination>
 				</div>
@@ -384,8 +384,22 @@
 					<div class="flex flex-col space-y-1">
 						<div>
 							<el-form-item
+								label="អត្តលេខ"
+								prop="subject"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.address"
+									autocomplete="off"
+									name="email"
+									clearable
+								/>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
 								label="អាស័យដ្ឋានបច្ចុប្បន្ន"
-								prop="address"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
@@ -400,7 +414,6 @@
 						<div>
 							<el-form-item
 								label="លេខទូរស័ព្ទ"
-								prop="phoneNum"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
@@ -416,7 +429,6 @@
 						<div>
 							<el-form-item
 								label="សារអេឡិចត្រូនិច"
-								prop="email"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
@@ -428,43 +440,7 @@
 								/>
 							</el-form-item>
 						</div>
-						<div>
-							<el-form-item
-								v-if="isShowPassword"
-								label="ពាក្យសម្ងាត់"
-								prop="password"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.password"
-									name="password"
-									show-password
-								/>
-							</el-form-item>
-						</div>
-						<div>
-							<el-form-item
-								label="តួនាទី"
-								prop="roles"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-select
-									v-model="ruleForm.roles"
-									placeholder="ជ្រើសរើស"
-									class="text-left "
-									multiple
-								>
-									<el-option
-										v-for="data in roles"
-										:key="data"
-										:label="data.name"
-										:value="data.name"
-									/>
-								</el-select>
-							</el-form-item>
-						</div>
+
 						<div>
 							<el-form-item
 								label="ស្ថានភាព"

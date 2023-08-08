@@ -52,7 +52,7 @@
 			<div class="flex flex-col  ">
 				<el-table
 					:data="tableData"
-					height="770"
+					height="750"
 					style="width: 100%"
 					resizable="true"
 					header-cell-class-name="header-table-font-khmer text-md"
@@ -159,7 +159,7 @@
 	<!-- Dialog  -->
 	<el-dialog
 		v-model="dialogFormVisible"
-		title="ព័ត៍មានអ្នកប្រើប្រាស់"
+		title="ព័ត៌មានអ្នកប្រើប្រាស់"
 		class="sanfont-khmer"
 		width="50%"
 	>
@@ -183,6 +183,19 @@
 						name="name"
 						clearable
 					></el-input>
+				</el-form-item>
+				<el-form-item
+					label="លេខទូរស័ព្ទ"
+					prop="phone"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.phone"
+						autocomplete="off"
+						name="phone"
+						clearable
+					/>
 				</el-form-item>
 				<el-form-item
 					label="សារអេឡិចត្រូនិច"
@@ -218,8 +231,9 @@
 				>
 					<el-select
 						v-model="ruleForm.roles"
-						placeholder="Select roles"
+						placeholder="ជ្រើសរើស"
 						class="text-left"
+						name="roles"
 						multiple
 					>
 						<el-option

@@ -52,7 +52,7 @@
 			<div class="flex flex-col  ">
 				<el-table
 					:data="tableData"
-					height="770"
+					height="750"
 					style="width: 100%"
 					resizable="true"
 					header-cell-class-name="header-table-font-khmer text-md"

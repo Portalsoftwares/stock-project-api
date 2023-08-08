@@ -31,7 +31,7 @@
 					v-model="teacher_levelSelectValue"
 					filterable
 					clearable
-					placeholder="កំរិត"
+					placeholder="កម្រិត"
 				>
 					<el-option
 						v-for="item in teacher_level"
@@ -71,29 +71,9 @@
 	<div class="grid grid-cols-1 gap-2 ">
 		<div class=" border rounded bg-gray-50">
 			<div class="flex flex-col  ">
-				<div
-					class="m-2"
-					v-if="showSuccess"
-				>
-					<el-alert
-						title="success alert"
-						type="success"
-						show-icon
-					/>
-				</div>
-				<div
-					class="m-2"
-					v-if="showInfo"
-				>
-					<el-alert
-						title="info alert"
-						type="info"
-						show-icon
-					/>
-				</div>
 				<el-table
 					:data="tableData"
-					height="770"
+					height="750"
 					style="width: 100%"
 					resizable="true"
 					header-cell-class-name="header-table-font-khmer text-md"
@@ -287,7 +267,7 @@
 
 							<el-form-item
 								label="នាមត្រកូល (ខ្មែរ)"
-								prop="firstNameKh"
+								prop="email"
 								class="sanfont-khmer "
 								:label-width="formLabelWidth"
 							>
@@ -301,7 +281,7 @@
 						<div>
 							<el-form-item
 								label="នាមខ្លួន (ខ្មែរ)"
-								prop="LastNameKh"
+								prop="email"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
@@ -315,7 +295,7 @@
 						<div>
 							<el-form-item
 								label="នាមត្រកូល(អង់គ្លេស)"
-								prop="firstNameEng"
+								prop="email"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
@@ -329,7 +309,7 @@
 						<div>
 							<el-form-item
 								label="នាមខ្លួន (អង់គ្លេស)"
-								prop="LastNameEng"
+								prop="email"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
@@ -343,7 +323,7 @@
 						<div>
 							<el-form-item
 								label="ភេទ"
-								prop="gender"
+								prop="email"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
@@ -365,7 +345,7 @@
 						<div>
 							<el-form-item
 								label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត"
-								prop="dobValue"
+								prop="email"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
@@ -379,7 +359,7 @@
 						<div>
 							<el-form-item
 								label="ទីកន្លែងកំណើត"
-								prop="birsthAddress"
+								prop="email"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
@@ -423,8 +403,23 @@
 					<div class="flex flex-col space-y-1">
 						<div>
 							<el-form-item
+								label="អត្តលេខ"
+								prop="subject"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.address"
+									autocomplete="off"
+									name="email"
+									clearable
+								/>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
 								label="កម្រិត"
-								prop="teacher_level"
+								prop="email"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
@@ -444,17 +439,24 @@
 						</div>
 						<div>
 							<el-form-item
-								label="មុខវិទ្យា"
-								prop="subject"
+								label="ឯកទេស"
+								prop="email"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
-								<el-input
-									v-model="ruleForm.address"
-									autocomplete="off"
-									name="email"
-									clearable
-								/>
+
+								<el-select
+									v-model="ruleForm.teacher_level_value"
+									placeholder="ជ្រើសរើស"
+								>
+									<el-option
+										v-for="item in teacher_level"
+										:key="item.teacher_level_value"
+										:label="item.teacher_level_Label"
+										:value="item.teacher_level_value"
+									>
+									</el-option>
+								</el-select>
 							</el-form-item>
 						</div>
 						<div>
@@ -488,22 +490,6 @@
 								/>
 							</el-form-item>
 						</div>
-
-						<div>
-							<el-form-item
-								v-if="isShowPassword"
-								label="ពាក្យសម្ងាត់"
-								prop="password"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.password"
-									name="password"
-									show-password
-								/>
-							</el-form-item>
-						</div>
 						<div>
 							<el-form-item
 								label="តួនាទី"
@@ -529,7 +515,7 @@
 						<div>
 							<el-form-item
 								label="ស្ថានភាព"
-								prop="status"
+								prop="email"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
