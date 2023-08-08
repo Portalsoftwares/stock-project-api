@@ -14,7 +14,7 @@
 					</el-icon>
 				</div>
 				<div class="pt-[13px]">
-					<span class="text-[16px]"></span>
+					<span class="text-[16px]"> {{ menu?.name }}</span>
 				</div>
 
 			</div>
@@ -111,7 +111,7 @@ export default {
 		return {
 			handleVisible2,
 			showClick,
-			dropdown1
+			dropdown1,
 
 		}
 	},
@@ -149,9 +149,16 @@ export default {
 	computed: {
 		...mapGetters({
 			user: 'auth/user',
+			menu: 'menu/activeMenu',
 		})
 	},
 	methods: {
+
+
+		getMenuURL() {
+
+			console.log(this.$route.path);
+		},
 		toggle(event) {
 			this.$refs.menu.toggle(event);
 		},

@@ -8,53 +8,42 @@
 			style="height: 3rem"
 			class="w-full"
 		>
-			<div class="h-full flex justify-center items-center shadow-md bg-blue-900">
-				<div
-					class="font-semibold uppercase text-md px-2 whitespace-nowrap sanfont-khmer flex py-2 items-center "
-					v-if="dataSibar"
-				>
-					<img
-						src="../assets/moey-small.png"
-						class="w-[50px] h-[50px] ml-[-10px]"
-						alt="Avatar"
-					/>
-					<span>វិ.ចំណេះទូទៅនិង បច្ចេកទេសពួក</span>
-				</div>
-				<div
-					class="text-center flex justify-center items-center h-full"
-					v-if="!dataSibar"
-				>
-					<img
-						src="../assets/moey-small.png"
-						class="p-[2px] w-[50px] h-[50px]  "
-						alt="Avatar"
-					/>
-				</div>
-			</div>
-			<div class="flex flex-col justify-between h-[calc(100vh-3rem)] w-full bg-blue-900 py-4">
+			<div class="flex flex-col justify-between h-[100vh] w-full bg-blue-900 ">
 				<div class="menu-man text-left  whitespace-nowrap flex flex-col space-y-2 ">
-					<!-- <div
-						class="profile flex justify-center items-center text-center p-5 "
-						v-show="dataSibar"
-					> -->
-					<!-- <div
+					<div
+						class="profile flex justify-center items-center text-center "
+						v-show="!dataSibar"
+					>
+						<div
 							class="text-center flex-col flex justify-center items-center h-full"
 							v-if="user"
-						> -->
+						>
 
-					<!-- <img
+							<img
 								src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
-								class="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4"
+								class="p-1 w-[50px] h-[50px] "
 								alt="Avatar"
-							/> -->
-					<!-- <img
-								:src="user.img!=null ? user.img.file_path: 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'"
-								class="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4"
+							/>
+						</div>
+					</div>
+					<div
+						class="profile flex justify-center items-center text-center "
+						v-show="dataSibar"
+					>
+						<div
+							class="text-center flex-col flex justify-center items-center h-full"
+							v-if="user"
+						>
+
+							<img
+								src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
+								class="p-1 w-24 h-24"
 								alt="Avatar"
-							/> -->
-					<!-- <div class="text-xl font-medium leading-tight mb-2 sanfont-khmer">{{ user.roles[0].name }}</div> -->
-					<!-- </div> -->
-					<!-- </div> -->
+							/>
+
+							<div class="text-lg  mb-2 sanfont-khmer">វិ.ចំណេះទូទៅ និងបច្ចេកទេសពួក</div>
+						</div>
+					</div>
 					<div
 						class="    rounded-sm cursor-pointer text-gray-300 hover:text-white"
 						:class="dataSibar == true ? ' ' : ''"
