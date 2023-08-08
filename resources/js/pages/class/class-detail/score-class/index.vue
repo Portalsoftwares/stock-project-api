@@ -504,38 +504,41 @@
 					label-width="50px"
 					model="top"
 				>
-					<div class="flex space-x-2">
-						<el-form-item label="ថ្នាក់រៀន">
-							<el-select
-								v-model="classData.class_name"
-								disabled
-							>
-								<el-option
-									label="classData.class_name"
-									value="classData.class_name"
-								/>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="ប្រភេទពិន្ទុ">
-							<el-select v-model="scoreTypeId">
-								<el-option
-									v-for="data in scoreTypeObj"
-									:key="data"
-									:label="data.name"
-									:value="data.score_type_id"
-								/>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="កំណត់">
-							<el-button
-								type="primary"
-								class="sanfont-khmer"
-								@click="showInfomationStudentScore()"
-								v-loading.fullscreen.lock="fullscreenLoading"
-							>
-								យល់ព្រម
-							</el-button>
-						</el-form-item>
+					<div class="flex justify-between items-center">
+						<div class="self-start flex space-x-2">
+							<el-form-item label="ថ្នាក់រៀន">
+								<el-select
+									v-model="classData.class_name"
+									disabled
+								>
+									<el-option
+										label="classData.class_name"
+										value="classData.class_name"
+									/>
+								</el-select>
+							</el-form-item>
+							<el-form-item label="ប្រភេទពិន្ទុ">
+								<el-select v-model="scoreTypeId">
+									<el-option
+										v-for="data in scoreTypeObj"
+										:key="data"
+										:label="data.name"
+										:value="data.score_type_id"
+									/>
+								</el-select>
+							</el-form-item>
+							<el-form-item label="កំណត់">
+								<el-button
+									type="primary"
+									class="sanfont-khmer"
+									@click="showInfomationStudentScore()"
+									v-loading.fullscreen.lock="fullscreenLoading"
+								>
+									យល់ព្រម
+								</el-button>
+							</el-form-item>
+						</div>
+
 					</div>
 				</el-form>
 				<div>
@@ -604,7 +607,7 @@
 						</span>
 					</template>
 				</el-table-column>
-				<el-table-column
+				<!-- <el-table-column
 					fixed="right"
 					label="ប្រចាំខែ មករា"
 					align="center"
@@ -663,49 +666,40 @@
 							/>
 						</div>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<el-table-column
 					fixed="right"
-					label="ប្រចាំខែ​​ ឆមាស១"
+					label="ពិន្ទុសរុប"
 					align="center"
 					min-width="100"
 				>
 					<template #default="scope">
-						<div class="flex space-x-4 ">
-							<el-input
-								v-model="scope.row.mark"
-								placeholder="0.00"
-							/>
+						<div class="text-center items-center w-full">
+							<span>{{ 545- scope.row.student_id }}.00</span>
 						</div>
 					</template>
 				</el-table-column>
 				<el-table-column
 					fixed="right"
-					label="ប្រចាំខែ​​ ឆមាស២"
+					label="មធ្យមភាគ"
 					align="center"
 					min-width="100"
 				>
 					<template #default="scope">
-						<div class="flex space-x-4 ">
-							<el-input
-								v-model="scope.row.mark"
-								placeholder="0.00"
-							/>
+						<div class=" text-center items-center">
+							<span>{{ 45- scope.row.student_id }}.00</span>
 						</div>
 					</template>
 				</el-table-column>
 				<el-table-column
 					fixed="right"
-					label="ប្រចាំឆ្នាំ"
+					label="ចំណាត់ថ្នាក់"
 					align="center"
 					min-width="100"
 				>
 					<template #default="scope">
-						<div class="flex space-x-4 ">
-							<el-input
-								v-model="scope.row.mark"
-								placeholder="0.00"
-							/>
+						<div class="text-center items-center">
+							<span>{{  scope.row.student_id  }}st</span>
 						</div>
 					</template>
 				</el-table-column>
@@ -723,8 +717,17 @@
 					@click="collectScore()"
 					v-loading.fullscreen.lock="fullscreenLoading"
 				>
-					រក្សាទុក
+					បោះពុម្ភ
 				</el-button>
+
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+
+				</el-button>
+
 			</span>
 		</template>
 	</el-dialog>
