@@ -140,16 +140,6 @@
 					>
 						<template #default="scope">
 							<div>
-								<span class="w-[10px]">
-									<span v-if="scope.row.student_in_class.gender_id ==2">
-										ក. &nbsp;
-									</span>
-									<span v-else>
-										&nbsp;
-										&nbsp;
-										&nbsp;
-									</span>
-								</span>
 								<span>{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}</span>
 							</div>
 						</template>
