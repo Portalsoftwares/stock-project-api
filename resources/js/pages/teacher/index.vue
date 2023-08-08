@@ -364,7 +364,7 @@
 
 						<div>
 							<el-form-item
-								label="ថ្ងៃកំណើត"
+								label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត"
 								prop="dobValue"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
@@ -406,7 +406,7 @@
 						</div>
 						<div>
 							<el-form-item
-								label="ថ្ងៃចូលបង្រៀន"
+								label="ថ្ងៃចូលបង្រៀនដំបូង"
 								prop="teachDate"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
@@ -423,7 +423,7 @@
 					<div class="flex flex-col space-y-1">
 						<div>
 							<el-form-item
-								label="កំរិត"
+								label="កម្រិត"
 								prop="teacher_level"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
@@ -444,7 +444,7 @@
 						</div>
 						<div>
 							<el-form-item
-								label="មុខវិជ្ជា"
+								label="មុខវិទ្យា"
 								prop="subject"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"

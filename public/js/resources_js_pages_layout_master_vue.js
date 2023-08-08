@@ -333,7 +333,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Avatar)];
                 }),
                 _: 1 /* STABLE */
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Profile ")];
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ប្រវត្តិរូប ")];
             }),
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dropdown_item, {
@@ -345,7 +345,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_EditPen)];
                 }),
                 _: 1 /* STABLE */
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Change Password ")];
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ប្ដូរលេខសម្ងាត់ ")];
             }),
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dropdown_item, {
@@ -358,7 +358,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SwitchButton)];
                 }),
                 _: 1 /* STABLE */
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Logout ")];
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ចាកចេញពីគណនី ")];
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["onClick"])];

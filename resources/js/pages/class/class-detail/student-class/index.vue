@@ -95,6 +95,7 @@
 				</span>
 			</template>
 		</el-table-column>
+
 		<el-table-column label="ឈ្មោះសិស្សឡាតាំង">
 			<template #default="scope">
 				<span>
@@ -300,7 +301,7 @@
 
 						<div>
 							<el-form-item
-								label="ថ្ងៃកំណើត"
+								label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត"
 								prop="dobValue"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
@@ -548,6 +549,23 @@ export default {
 				filterLabel: 'តាមទំហំផ្ទុក'
 			}],
 			filterSelectValue: "",
+
+			status: [{
+				statusValue: 'កំពុងសិក្សា',
+				statusLabel: 'កំពុងសិក្សា'
+			}, {
+				statusValue: 'បញ្ឈប់ការសិក្សា',
+				statusLabel: 'បញ្ឈប់ការសិក្សា'
+			}],
+			statusValue: "",
+
+			gender: [{
+				genderValue: 'ប្រុស',
+				genderLabel: 'ប្រុស'
+			}, {
+				genderValue: 'ស្រី',
+				genderLabel: 'ស្រី'
+			}],
 		}
 	},
 

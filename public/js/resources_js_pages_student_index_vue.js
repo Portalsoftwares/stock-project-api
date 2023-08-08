@@ -973,7 +973,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "ថ្ងៃកំណើត",
+            label: "ថ្ងៃ/ខែ/ឆ្នាំកំណើត",
             prop: "dobValue",
             "class": "sanfont-khmer",
             "label-width": $data.formLabelWidth

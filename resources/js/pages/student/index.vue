@@ -352,7 +352,7 @@
 
 						<div>
 							<el-form-item
-								label="ថ្ងៃកំណើត"
+								label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត"
 								prop="dobValue"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"

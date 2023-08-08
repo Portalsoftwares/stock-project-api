@@ -114,7 +114,9 @@
 						</div>
 						<div class="">
 							<div class="flex justify-between py-2 items-center">
-								<div class="text-left text-xl  pb-2 ">គ្រូ និងមុខវិជ្ជា</div>
+								<div class="text-left text-xl  pb-2 ">គ្រូ និងមុខវិជ្ជា
+								</div>
+
 								<el-button
 									type="primary"
 									size="medium"
@@ -123,6 +125,7 @@
 									<el-icon>
 										<Setting />
 									</el-icon>
+
 									<span class="mx-1 sanfont-khmer"> បន្ថែមគ្រូ និងមុខវិជ្ជា</span>
 								</el-button>
 							</div>
@@ -478,7 +481,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item
-					label="មុខវិជ្ជា"
+					label="មុខវិទ្យា"
 					prop="subject_grade_id"
 					class="sanfont-khmer"
 					:error="errors.subject_grade_id"
@@ -486,7 +489,7 @@
 				>
 					<el-select
 						v-model="ruleFormSchedule.subject_grade_id"
-						placeholder="ជ្រើសរើស មុខវិជ្ជា"
+						placeholder="ជ្រើសរើស មុខវិទ្យា"
 						class="text-left "
 					>
 						<el-option
@@ -564,7 +567,7 @@
 					></el-input>
 				</el-form-item>
 				<el-form-item
-					label="គ្រូ"
+					label="ឈ្មោះគ្រូ"
 					prop="teacher_id"
 					class="sanfont-khmer"
 					:error="errors.teacher_id"
@@ -572,7 +575,7 @@
 				>
 					<el-select
 						v-model="ruleFormTeacher.teacher_id"
-						placeholder="ជ្រើសរើស គ្រូ"
+						placeholder="ជ្រើសរើសគ្រូ"
 						class="text-left "
 					>
 						<el-option
@@ -584,14 +587,14 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item
-					label="មុខវិជ្ជា"
+					label="មុខវិទ្យា"
 					:error="errors.subject_grade_id"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
 				>
 					<el-select
 						v-model="ruleFormTeacher.subject_grade_id"
-						placeholder="ជ្រើសរើស មុខវិជ្ជា"
+						placeholder="ជ្រើសរើសមុខវិទ្យា"
 						class="text-left "
 					>
 						<el-option
@@ -614,11 +617,11 @@
 							<el-radio
 								label="1"
 								border
-							>គ្រូបន្ទុកថ្នាក់</el-radio>
+							>បន្ទុកថ្នាក់</el-radio>
 							<el-radio
 								label="0"
 								border
-							>មិនគ្រូបន្ទុកថ្នាក់</el-radio>
+							>មិនមែនបន្ទុកថ្នាក់</el-radio>
 						</div>
 					</el-radio-group>
 				</el-form-item>
@@ -629,6 +632,7 @@
 				<el-button
 					@click="closeForm()"
 					class="sanfont-khmer"
+					type="danger"
 				> បោះបង់</el-button>
 				<el-button
 					v-if="!isShowButtonUpdate"

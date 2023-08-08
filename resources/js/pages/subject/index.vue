@@ -1,6 +1,6 @@
 <template>
 	<el-tabs type="border-card">
-		<el-tab-pane label="មុខវិជ្ជាទូទៅ">
+		<el-tab-pane label="មុខវិទ្យាទូទៅ">
 			<div class="bg-white p-2 w-full flex justify-between">
 				<div class="flex space-x-2">
 					<div class="self-start">
@@ -44,7 +44,7 @@
 						<el-icon>
 							<CirclePlusFilled />
 						</el-icon>
-						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជា</span>
+						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិទ្យា</span>
 					</el-button>
 				</div>
 			</div>
@@ -95,19 +95,19 @@
 							</el-table-column>
 
 							<el-table-column
-								label="ឈ្មោះ"
+								label="មុខវិទ្យា"
 								sortable
 							>
 								<template #default="scope">{{ scope.row.subject_name_kh }}</template>
 							</el-table-column>
 							<el-table-column
-								label="ឈ្មោះ អង់គ្លេស"
+								label="មុខវិទ្យា (អង់គ្លេស)"
 								sortable
 							>
 								<template #default="scope">{{ scope.row.subject_name_en }}</template>
 							</el-table-column>
 							<el-table-column
-								label="ឈ្មោះកាត់"
+								label="មុខវិទ្យា (អក្សរកាត់)"
 								sortable
 							>
 								<template #default="scope">{{ scope.row.subject_sort_name_en }}</template>
@@ -162,7 +162,11 @@
 					ref="ruleForm"
 					id="fm"
 				>
-					<div class="flex flex-row ">
+					<<<<<<<
+						HEAD
+						<div
+						class="flex flex-row "
+					>
 						<div class="flex flex-col space-y-1">
 							<div>
 								<el-form-item
@@ -206,9 +210,55 @@
 									></el-input>
 								</el-form-item>
 							</div>
+							=======
+							<div class="flex flex-row ">
+								<div class="flex flex-col space-y-1">
+									<div>
+										<el-form-item
+											label="ឈ្មោះមុខវិទ្យា (ខ្មែរ)"
+											prop="subjectKhName"
+											class="sanfont-khmer "
+											:label-width="formLabelWidth"
+										>
+											<el-input
+												v-model="ruleForm.firstNameKh"
+												name="firstNameKh1"
+												clearable
+											></el-input>
+										</el-form-item>
+									</div>
+									<div>
+										<el-form-item
+											label="ឈ្មោះមុខវិទ្យា (អង់គ្លេស)"
+											prop="subjectEngName"
+											class="sanfont-khmer "
+											:label-width="formLabelWidth"
+										>
+											<el-input
+												v-model="ruleForm.subjectEngName"
+												name="subjectEngName"
+												clearable
+											></el-input>
+										</el-form-item>
+									</div>
+									<div>
+										<el-form-item
+											label="ឈ្មោះមុខវិទ្យា (អក្សរកាត់)"
+											prop="subjectShortName"
+											class="sanfont-khmer "
+											:label-width="formLabelWidth"
+										>
+											<el-input
+												v-model="ruleForm.subjectShortName"
+												name="subjectShortName"
+												clearable
+											></el-input>
+										</el-form-item>
+									</div>
+									>>>>>>> 1b85e5dcd17c83893ed0a00e1919ae4aa6c16d87
 
-						</div>
-					</div>
+								</div>
+							</div>
 
 				</el-form>
 				<el-dialog v-model="dialogVisible">
@@ -314,7 +364,14 @@
 						<el-icon>
 							<CirclePlusFilled />
 						</el-icon>
-						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជាតាមកម្រិត</span>
+						<<<<<<<
+							HEAD
+							<span
+							class="mx-1 sanfont-khmer"
+						> បន្ថែមមុខវិជ្ជាតាមកម្រិត</span>
+							=======
+							<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជា</span>
+							>>>>>>> 1b85e5dcd17c83893ed0a00e1919ae4aa6c16d87
 					</el-button>
 				</div>
 			</div>
@@ -363,53 +420,61 @@
 							>
 							</el-table-column>
 
-							<el-table-column
+							<<<<<<<
+								HEAD
+								<el-table-column
 								label="ឈ្មោះ"
 								sortable
 							>
 								<template #default="scope">{{ scope.row.subject.subject_name_kh }}</template>
-							</el-table-column>
-							<el-table-column
-								label="កម្រិត"
-								sortable
-							>
-								<template #default="scope">{{ scope.row.grade_level.grade_level_name }}</template>
-							</el-table-column>
-							<el-table-column
-								label="ប្រភេទថ្នាក់"
-								sortable
-							>
-								<template #default="scope">{{ scope.row.class_type.name }}</template>
-							</el-table-column>
-							<el-table-column label="ពិន្ទុពេញ">
-								<template #default="scope">{{ scope.row.full_score }}</template>
-							</el-table-column>
-							<el-table-column label="មេគុណ">
-								<template #default="scope">{{ scope.row.divide }}</template>
-							</el-table-column>
-							<el-table-column label="មធ្យម">
-								<template #default="scope">{{ scope.row.average }}</template>
-							</el-table-column>
-							<el-table-column
-								fixed="right"
-								align="center"
-								label="សកម្មភាព"
-							>
-								<template #default="scope">
-									<el-button
-										size="small"
-										class="sanfont-khmer"
-										@click="editUser(scope.row.id)"
-									>កែប្រែ</el-button>
-									<el-button
-										size="small"
-										type="danger"
-										class="sanfont-khmer"
-										@click="handleDelete(scope.$index, scope.row)"
-									>លុប</el-button>
-								</template>
-							</el-table-column>
-							<el-empty description="description"></el-empty>
+								</el-table-column>
+								<el-table-column
+									label="កម្រិត"
+									sortable
+								>
+									=======
+									<el-table-column label="មុខវិទ្យា">
+										<template #default="scope">{{ scope.row.subject.subject_name_kh }}</template>
+									</el-table-column>
+									<el-table-column label="កម្រិត">
+										>>>>>>> 1b85e5dcd17c83893ed0a00e1919ae4aa6c16d87
+										<template #default="scope">{{ scope.row.grade_level.grade_level_name }}</template>
+									</el-table-column>
+									<el-table-column
+										label="ប្រភេទថ្នាក់"
+										sortable
+									>
+										<template #default="scope">{{ scope.row.class_type.name }}</template>
+									</el-table-column>
+									<el-table-column label="ពិន្ទុពេញ">
+										<template #default="scope">{{ scope.row.full_score }}</template>
+									</el-table-column>
+									<el-table-column label="មេគុណ">
+										<template #default="scope">{{ scope.row.divide }}</template>
+									</el-table-column>
+									<el-table-column label="មធ្យមភាគ">
+										<template #default="scope">{{ scope.row.average }}</template>
+									</el-table-column>
+									<el-table-column
+										fixed="right"
+										align="center"
+										label="សកម្មភាព"
+									>
+										<template #default="scope">
+											<el-button
+												size="small"
+												class="sanfont-khmer"
+												@click="editUser(scope.row.id)"
+											>កែប្រែ</el-button>
+											<el-button
+												size="small"
+												type="danger"
+												class="sanfont-khmer"
+												@click="handleDelete(scope.$index, scope.row)"
+											>លុប</el-button>
+										</template>
+									</el-table-column>
+									<el-empty description="description"></el-empty>
 						</el-table>
 						<div class="py-2 flex justify-center">
 							<el-pagination
@@ -426,7 +491,7 @@
 			<!-- Dialog  -->
 			<el-dialog
 				v-model="dialogFormVisible"
-				title="ព័ត៌មានមុខវិទ្យាតាមកំរិត"
+				title="ព័ត៌មាន មុខវិទ្យា"
 				class="sanfont-khmer "
 				width="30%"
 				align-center="true"
@@ -541,7 +606,7 @@
 								</div>
 								<div>
 									<el-form-item
-										label="មេគុណ"
+										label="មធ្យមភាគ"
 										prop="devide"
 										class="sanfont-khmer"
 										:label-width="formLabelWidth"

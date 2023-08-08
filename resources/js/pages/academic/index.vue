@@ -72,7 +72,7 @@
 					</el-table-column>
 					<el-table-column
 						width="250"
-						label="ឈ្មោះ"
+						label="ឆ្នាំសិក្សា"
 					>
 						<template #default="scope">{{ scope.row.academic_name }}</template>
 					</el-table-column>

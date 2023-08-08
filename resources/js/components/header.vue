@@ -64,13 +64,13 @@
 								<el-dropdown-item>
 									<el-icon>
 										<Avatar />
-									</el-icon> Profile
+									</el-icon> ប្រវត្តិរូប
 								</el-dropdown-item>
 
 								<el-dropdown-item disabled>
 									<el-icon>
 										<EditPen />
-									</el-icon> Change Password
+									</el-icon> ប្ដូរលេខសម្ងាត់
 								</el-dropdown-item>
 								<el-dropdown-item
 									divided
@@ -78,7 +78,7 @@
 								>
 									<el-icon>
 										<SwitchButton />
-									</el-icon> Logout
+									</el-icon> ចាកចេញពីគណនី
 								</el-dropdown-item>
 							</el-dropdown-menu>
 						</template>
