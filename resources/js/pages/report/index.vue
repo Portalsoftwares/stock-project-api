@@ -433,6 +433,8 @@
 		class="sanfont-khmer"
 		width="35%"
 		
+
+		
 	>
 		<el-form
 			class="grid grid-cols-2 "
