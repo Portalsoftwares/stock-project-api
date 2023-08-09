@@ -431,24 +431,67 @@
 		v-model="dialogFormVisible"
 		title="ប្រវត្តិរូប"
 		class="sanfont-khmer"
-		width="35%"
+		width="28%"
+		
+
 		
 	>
 		<el-form
-			class="grid grid-cols-2 "
+			class="grid grid-cols-2 flex border border-indigo-60"
+			
 			id="fm"
 		>	
-			
-			<div class="flex flex-col">
-				<el-form-item
-					label="ឈ្មោះ"
-					prop="name"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-					
+			<div class="flex flex-row justify-center">
+			<div class="flex flex-col ">
+
+			<div class="flex justify-center">
+			<el-form-item
+				:label-width="265"
+				class="sanfont-khmer mt-[20px]"
+				
 				>
-					<span >សោភា សុីវមុី</span>
+				<img
+				src="../../assets/teacher1.jpg"
+				class="w-[150px] rounded-full"
+				/>
+				<el-button circle style="margin-top: 80px;">
+					<el-icon>
+					<Camera />
+					</el-icon>
+				
+				</el-button>	
+			</el-form-item>
+			</div>
+				<div >
+				
+				<div
+					prop="name"
+					class="sanfont-khmer flex justify-center"
+					style="margin-left:230px"
+					
+				>	
+					<div class="flex flex-col justify-center">
+					<h1 class="font-bold text-[20px]">សោភា សុីវមុី</h1>
+					<h1 >@sievmey</h1>
+					
+					</div>
+				</div>
+				
+				<div class="pt-[20px] flex justify-center" style="margin-left:230px">
+				<el-form-item
+					class="sanfont-khmer"
+				> 
+				<el-button size="medium" round>
+					<el-icon >
+					<EditPen />
+					</el-icon>
+					<span>កែប្រែ</span>
+				</el-button>	
 				</el-form-item>
+				</div>
+				
+				
+				
 				<el-form-item
 					label="លេខទូរស័ព្ទ"
 					prop="phone"
@@ -476,17 +519,9 @@
 				<el-tag type="info">role-editor</el-tag>
 				</div>
 				</el-form-item>
+				</div>
 			</div>
-			<div class="flex justify-center">
-			<el-form-item
-				class="sanfont-khmer"
-				
-			>
-			<img
-				src="../../assets/teacher1.jpg"
-				class="w-[150px]"
-			/>
-			</el-form-item>
+			
 			</div>
 		
 			
@@ -513,7 +548,7 @@ export default {
 	data() {
 		return {
 			dialogFormVisible: false,
-			formLabelWidth: "150px",
+			formLabelWidth: "350px",
 
 			ruleForm: {
 			},

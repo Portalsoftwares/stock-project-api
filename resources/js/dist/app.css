@@ -653,6 +653,10 @@ header.el-dialog__header {
   margin-top: 2rem;
 }
 
+.mt-\[20px\] {
+  margin-top: 20px;
+}
+
 .block {
   display: block;
 }
@@ -1399,6 +1403,10 @@ header.el-dialog__header {
   padding-top: 25px;
 }
 
+.pt-\[20px\] {
+  padding-top: 20px;
+}
+
 .text-left {
   text-align: left;
 }
@@ -1409,6 +1417,10 @@ header.el-dialog__header {
 
 .text-right {
   text-align: right;
+}
+
+.text-justify {
+  text-align: justify;
 }
 
 .text-2xl {
