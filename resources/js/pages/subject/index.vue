@@ -136,11 +136,11 @@
 						</el-table>
 						<div class="py-2 flex justify-center">
 							<el-pagination
-								background
-								layout="prev, pager, next, sizes"
-								:total="tableData.length"
+							background
+							layout="total, prev, pager, next, sizes"
+							:total="tableData.length"
 							>
-							</el-pagination>
+					</el-pagination>
 						</div>
 					</div>
 				</div>

@@ -85,6 +85,7 @@
 					selectable
 					v-loading="loading"
 					highlight-current-row="true"
+					stripe
 				>
 
 					<el-table-column
@@ -127,14 +128,14 @@
 					</el-table-column>
 					<el-table-column
 						width="180"
-						label="គោត្តនាម និងនាម"
+						label="ឈ្មោះភាសាខ្មែរ"
 						sortable
 					>
 						<template #default="scope">{{scope.row.first_name_kh +" "+scope.row.last_name_kh }}</template>
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
-						label="គោត្តនាម និងនាមឡាតាំង"
+						label="ឈ្មោះឡាតាំង"
 						width="250"
 						sortable
 					>
@@ -162,7 +163,7 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="ថ្ងៃ ខែ ឆ្នាំកំណើត">
+					<el-table-column label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត">
 						<template #default="scope">
 							<div>
 								{{ scope.row.date_of_birth}}
@@ -203,10 +204,11 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
-						layout="prev, pager, next, sizes"
+						layout="total, prev, pager, next, sizes"
 						:total="tableData.length"
 					>
 					</el-pagination>
+
 				</div>
 			</div>
 		</div>
@@ -220,10 +222,11 @@
 		align-center="true"
 		draggable
 	>
-		<!-- 
-	<div class="flex justify-start item-start pl-[40px] space-y-[20px]">
-	<h1 class= "font-bold text-[20px]">ព័ត៍មានអ្នកប្រើប្រាស់</h1>
-	</div>-->
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានសិស្ស</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleForm"

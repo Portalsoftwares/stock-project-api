@@ -79,6 +79,8 @@
 					header-cell-class-name="header-table-font-khmer text-md"
 					row-class-name="sanfont-khmer"
 					selectable
+					stripe
+					highlight-current-row="true"
 					v-loading="loading"
 				>
 					<el-table-column
@@ -116,14 +118,14 @@
 					</el-table-column>
 					<el-table-column
 						width="180"
-						label="គោត្តនាម និងនាម"
+						label="ឈ្មោះភាសាខ្មែរ"
 						sortable
 					>
 						<template #default="scope">{{scope.row.first_name_kh +" "+scope.row.last_name_kh }}</template>
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
-						label="គោត្តនាម និងនាមឡាតាំង"
+						label="ឈ្មោះឡាតាំង"
 						width="250"
 						sortable
 					>
@@ -151,7 +153,7 @@
 						</template>
 					</el-table-column>
 					<el-table-column
-						label="ថ្ងៃ ខែ ឆ្នាំកំណើត"
+						label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត"
 						width="180"
 					>
 						<template #default="scope">
@@ -194,7 +196,7 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
-						layout="prev, pager, next, sizes"
+						layout="total, prev, pager, next, sizes"
 						:total="tableData.length"
 					>
 					</el-pagination>
@@ -212,10 +214,11 @@
 		align-center="true"
 		draggable
 	>
-		<!-- 
-	<div class="flex justify-start item-start pl-[40px] space-y-[20px]">
-	<h1 class= "font-bold text-[20px]">ព័ត៌មានគ្រូ</h1>
-	</div>-->
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានគ្រូ</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleForm"

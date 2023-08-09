@@ -117,7 +117,7 @@
 					<el-table
 						v-loading="loading_class"
 						:data="tableData"
-						height="770"
+						height="750"
 						style="width: 100%"
 						resizable="true"
 						fit
@@ -191,7 +191,7 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
-						layout="prev, pager, next, sizes"
+						layout="total, prev, pager, next, sizes"
 						:total="tableData.length"
 					>
 					</el-pagination>

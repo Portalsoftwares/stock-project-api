@@ -42,7 +42,16 @@
 					<div class="self-end">
 						<el-button
 							type="primary"
-							@click="AddUser"
+							@click="popUpProfile"
+						>
+							<el-icon>
+								<Tools />
+							</el-icon>
+							<span class="mx-1 sanfont-khmer">TEST PROFILE</span>
+						</el-button>
+						<el-button
+							type="primary"
+							@click=""
 						>
 							<el-icon>
 								<Tools />
@@ -185,14 +194,7 @@
 						</template> -->
 					</el-table-column>
 				</el-table>
-				<div class="py-2 flex justify-center">
-					<el-pagination
-						background
-						layout="prev, pager, next, sizes"
-						:total="0"
-					>
-					</el-pagination>
-				</div>
+				
 
 			</el-tab-pane>
 			<el-tab-pane label="របាយការណ៏ពិន្ទុសិស្ស">
@@ -386,7 +388,7 @@
 						fixed="right"
 						label="ពិន្ទុសរុប"
 						align="center"
-						min-width="100"
+						width="100"
 					>
 						<template #default="scope">
 							<div class="text-center items-center w-full">
@@ -423,11 +425,99 @@
 			</el-tab-pane>
 		</el-tabs>
 	</div>
+
+	<!-- Dialog  -->
+	<el-dialog
+		v-model="dialogFormVisible"
+		title="ប្រវត្តិរូប"
+		class="sanfont-khmer"
+		width="35%"
+		
+	>
+		<el-form
+			class="grid grid-cols-2 "
+			id="fm"
+		>	
+			
+			<div class="flex flex-col">
+				<el-form-item
+					label="ឈ្មោះ"
+					prop="name"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+					
+				>
+					<span >សោភា សុីវមុី</span>
+				</el-form-item>
+				<el-form-item
+					label="លេខទូរស័ព្ទ"
+					prop="phone"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+				<span >011 999222</span>	
+				</el-form-item>
+				<el-form-item
+					label="សារអេឡិចត្រូនិច"
+					prop="email"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+				<span >www.sievmey@gmail.com</span>
+				</el-form-item>
+				
+				<el-form-item
+					label="តួនាទី"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+				<div class="flex space-x-2">
+				<el-tag type="info">super-admin</el-tag>
+				<el-tag type="info">role-editor</el-tag>
+				</div>
+				</el-form-item>
+			</div>
+			<div class="flex justify-center">
+			<el-form-item
+				class="sanfont-khmer"
+				
+			>
+			<img
+				src="../../assets/teacher1.jpg"
+				class="w-[150px]"
+			/>
+			</el-form-item>
+			</div>
+		
+			
+		
+		</el-form>
+		
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button
+					@click="cancelAction()"
+					class="sanfont-khmer"
+					type="danger"
+				> បោះបង់</el-button>
+				
+			</span>
+		</template>
+	
+	</el-dialog>
+	<!-- Dialog user  -->
+
 </template>
 <script>
 export default {
 	data() {
 		return {
+			dialogFormVisible: false,
+			formLabelWidth: "150px",
+
+			ruleForm: {
+			},
+
 			filter: [{
 				filterValue: 'តាមឈ្មោះ',
 				filterLabel: 'ទី១០ A'
@@ -452,6 +542,14 @@ export default {
 			filterSelectValue: "",
 			academicSelectValue: "",
 		}
+	},
+	methods: {
+
+		async popUpProfile() {
+			this.dialogFormVisible = true
+			
+		},
+
 	}
 }
 </script>

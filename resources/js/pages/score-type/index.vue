@@ -109,7 +109,7 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
-						layout="prev, pager, next, sizes"
+						layout="total, prev, pager, next, sizes"
 						:total="tableData.length"
 					>
 					</el-pagination>
