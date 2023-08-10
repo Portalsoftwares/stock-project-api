@@ -637,6 +637,10 @@ header.el-dialog__header {
   margin-top: 2.5rem;
 }
 
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
 }
@@ -651,10 +655,6 @@ header.el-dialog__header {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.mt-\[20px\] {
-  margin-top: 20px;
 }
 
 .block {
@@ -1341,6 +1341,11 @@ header.el-dialog__header {
   padding-bottom: 1rem;
 }
 
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -1399,12 +1404,12 @@ header.el-dialog__header {
   padding-top: 13px;
 }
 
-.pt-\[25px\] {
-  padding-top: 25px;
-}
-
 .pt-\[20px\] {
   padding-top: 20px;
+}
+
+.pt-\[25px\] {
+  padding-top: 25px;
 }
 
 .text-left {

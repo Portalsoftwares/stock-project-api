@@ -59,6 +59,8 @@
 					row-class-name="sanfont-khmer"
 					selectable
 					v-loading="loading"
+					stripe
+					highlight-current-row="true"
 				>
 					<el-table-column
 						type="selection"
@@ -126,6 +128,11 @@
 		align-center="true"
 		draggable
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានប្រភេទពិន្ទុ</h4>
+			</div>
+		</template>
 		<el-form
 			class=""
 			:model="ruleForm"

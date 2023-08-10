@@ -464,8 +464,13 @@ var _hoisted_16 = {
 var _hoisted_17 = {
   "class": "py-2 flex justify-center"
 };
-var _hoisted_18 = ["src"];
-var _hoisted_19 = {
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "my-header"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  "class": "text-lg font-semibold text-white"
+}, "ព័ត៌មានថ្នាក់រៀន")], -1 /* HOISTED */);
+var _hoisted_19 = ["src"];
+var _hoisted_20 = {
   "class": "dialog-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -619,7 +624,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     fit: "",
     "header-cell-class-name": "header-table-font-khmer text-md",
     "row-class-name": "sanfont-khmer",
-    selectable: ""
+    selectable: "",
+    stripe: "",
+    "highlight-current-row": "true"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
@@ -745,8 +752,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "align-center": "true",
     draggable: ""
   }, {
+    header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_18];
+    }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
         onClick: _cache[12] || (_cache[12] = function ($event) {
           return $options.cancelAction();
         }),
@@ -948,7 +958,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "w-full": "",
             src: $data.dialogImageUrl,
             alt: "Preview Image"
-          }, null, 8 /* PROPS */, _hoisted_18)];
+          }, null, 8 /* PROPS */, _hoisted_19)];
         }),
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["modelValue"])];

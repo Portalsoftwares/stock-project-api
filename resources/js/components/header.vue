@@ -61,7 +61,7 @@
 						</button>
 						<template #dropdown>
 							<el-dropdown-menu>
-								<el-dropdown-item>
+								<el-dropdown-item @click="dialogFormVisible=true">
 									<el-icon>
 										<Avatar />
 									</el-icon> ប្រវត្តិរូប
@@ -88,6 +88,118 @@
 		</div>
 		<div></div>
 	</div>
+	<!-- Dialog  -->
+	<el-dialog
+		v-model="dialogFormVisible"
+		title="ប្រវត្តិរូប"
+		class="sanfont-khmer"
+		width="28%"
+		draggable
+	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ប្រវត្តិរូប</h4>
+			</div>
+		</template>
+		<el-form
+			class="grid border rounded"
+			id="fm"
+		>
+			<div class="flex flex-col items-center py-5 ">
+				<div class="flex justify-center">
+					<img
+						src="/storage/uploads/1691209976_student8.jpg"
+						class="w-[150px] rounded-full border"
+					/>
+					<el-button circle>
+						<el-icon>
+							<Camera />
+						</el-icon>
+
+					</el-button>
+
+				</div>
+				<div>
+
+					<div
+						prop="name"
+						class="sanfont-khmer flex justify-center"
+					>
+						<div class="flex flex-col justify-center">
+							<h1 class="font-bold text-[20px] mt-5">វ៉ាន់ សុីវមុី</h1>
+							<!-- <h1>@sievmey</h1> -->
+						</div>
+					</div>
+
+					<div class="pt-[20px] flex justify-center space-x-2">
+						<el-form-item class="sanfont-khmer">
+							<el-button
+								size="medium"
+								round
+							>
+								<el-icon>
+									<EditPen />
+								</el-icon>
+								<span>កែប្រែ</span>
+							</el-button>
+						</el-form-item>
+						<el-form-item class="sanfont-khmer">
+							<el-button
+								size="medium"
+								round
+							>
+								<el-icon>
+									<EditPen />
+								</el-icon>
+								<span>ប្ដូរលេខសម្ងាត់</span>
+							</el-button>
+						</el-form-item>
+					</div>
+
+					<el-form-item
+						label="លេខទូរស័ព្ទ"
+						prop="phone"
+						class="sanfont-khmer"
+						:label-width="formLabelWidth"
+					>
+						<span>011 999222</span>
+					</el-form-item>
+					<el-form-item
+						label="សារអេឡិចត្រូនិច"
+						prop="email"
+						class="sanfont-khmer"
+						:label-width="formLabelWidth"
+					>
+						<span>sievmey@gmail.com</span>
+					</el-form-item>
+
+					<el-form-item
+						label="តួនាទី"
+						class="sanfont-khmer"
+						:label-width="formLabelWidth"
+					>
+						<div class="flex space-x-2">
+
+							<el-tag type="info">super-admin</el-tag>
+							<el-tag type="info">role-editor</el-tag>
+						</div>
+					</el-form-item>
+				</div>
+			</div>
+		</el-form>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button
+					@click="cancelAction()"
+					class="sanfont-khmer"
+					type="danger"
+				> បោះបង់</el-button>
+
+			</span>
+		</template>
+
+	</el-dialog>
+	<!-- Dialog user  -->
 </template>
 
 <script>
@@ -143,7 +255,8 @@ export default {
 				},
 			],
 			dropdown1: "",
-			menuSearch: ""
+			menuSearch: "",
+			dialogFormVisible: false
 		}
 	},
 	computed: {

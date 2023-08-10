@@ -59,6 +59,8 @@
 					row-class-name="sanfont-khmer"
 					selectable
 					v-loading="loading"
+					stripe
+					highlight-current-row="true"
 				>
 					<el-table-column
 						type="selection"
@@ -128,12 +130,17 @@
 	<!-- Dialog  -->
 	<el-dialog
 		v-model="dialogFormVisible"
-		title="ព័ត៌មាន ម៉ោង"
+		title="ព័ត៌មានម៉ោង"
 		class="sanfont-khmer "
 		width="30%"
 		align-center="true"
 		draggable
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានម៉ោង</h4>
+			</div>
+		</template>
 		<el-form
 			class=""
 			:model="ruleForm"

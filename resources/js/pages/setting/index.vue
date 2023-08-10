@@ -77,6 +77,7 @@
 							row-class-name="sheader-table-font-khmer"
 							selectable
 							v-loading="loading"
+							stripe
 						>
 							<el-table-column
 								type="selection"
@@ -122,8 +123,8 @@
 							</el-table-column>
 							<el-table-column label="ប្រភេទ">
 								<template #default="scope">
-									<el-tag >File</el-tag>
-									
+									<el-tag>File</el-tag>
+
 								</template>
 							</el-table-column>
 

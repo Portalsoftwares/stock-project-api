@@ -66,7 +66,7 @@
 					<el-statistic :value="5">
 						<template #title>
 							<div style="display: inline-flex; align-items: center">
-								<div class="text-xl">អ្នកប្រើប្រាស់</div>
+								<div class="text-xl">អ្នកប្រើប្រាស់សរុប</div>
 
 							</div>
 						</template>
@@ -113,7 +113,7 @@
 		<div class="col-span-2 border rounded  bg-gray-50">
 			<div class="flex flex-col  ">
 				<div class="py-2 text-xl">
-					របាយការណ៍អត្រាសិស្សានុសិស្សតាមថ្នាក់
+					ទិន្នន័យអត្រាសិស្សានុសិស្សតាមថ្នាក់
 				</div>
 				<div>
 					<apexchart
@@ -128,7 +128,7 @@
 		</div>
 		<div class="border rounded  bg-gray-50">
 			<div class="py-2 text-xl">
-				របាយការណ៍វត្តមាន
+				ទិន្នន័យវត្តមាន
 			</div>
 			<div id="chartAttendace">
 				<apexchart

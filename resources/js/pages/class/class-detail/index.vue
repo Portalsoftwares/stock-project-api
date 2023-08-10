@@ -69,8 +69,9 @@
 											<span class="text-center">
 												<div>{{ scope.row.name }}</div>
 												<div>
-													<span>{{ scope.row.start_date }}</span>-
-													<span>{{ scope.row.end_date }}</span>
+													<span>{{ formatTime(scope.row.start_date) }}</span>
+													-
+													<span>{{ formatTime(scope.row.end_date) }}</span>
 												</div>
 											</span>
 										</template>
@@ -208,6 +209,11 @@
 		class="sanfont-khmer"
 		width="50%"
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">គ្រប់គ្រងអវត្តមាន</h4>
+			</div>
+		</template>
 		<div class="bg-white px-5">
 			<div class="flex justify-between py-2">
 				<el-form
@@ -433,11 +439,16 @@
 	<!-- Dialog Form Schedule  -->
 	<el-dialog
 		v-model="dialogFormSchedule"
-		title="ព័ត៌មាន កាលវិភាគ"
+		title="ព័ត៌មានកាលវិភាគ"
 		class="sanfont-khmer"
 		width="50%"
 		draggable
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានកាលវិភាគ</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleFormSchedule"
@@ -558,11 +569,16 @@
 	<!-- Dialog Form Teacher Subject  -->
 	<el-dialog
 		v-model="dialogFormTeacher"
-		title="ព័ត៌មាន គ្រូបង្រៀន"
+		title="ព័ត៌មានគ្រូបង្រៀន"
 		class="sanfont-khmer"
 		width="50%"
 		draggable
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានគ្រូបង្រៀន</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleFormTeacher"
@@ -684,6 +700,7 @@
 import studentClass from './student-class/index.vue'
 import attendanceClass from './attendence-class/index.vue'
 import scoreClass from './score-class/index.vue'
+import moment from 'moment'
 export default {
 	components: { studentClass, attendanceClass, scoreClass },
 	data() {
@@ -766,6 +783,9 @@ export default {
 		this.tabClassDetail = localStorage.getItem('tab-class-detail') ?? 'tab-class-detail-1';
 	},
 	methods: {
+		formatTime(time) {
+			return time?.slice(0, 5)
+		},
 		//tap funtion
 		changeTap(name) {
 			localStorage.setItem('tab-class-detail', name);

@@ -14,8 +14,11 @@ class Teacher extends Model
     // protected $dates = ['deleted_at'];
     protected $fillable = [
         'teacher_id',
+        'tid',
+        'full_name_kh',
         'first_name_kh',
         'last_name_kh',
+        'full_name_en',
         'first_name_en',
         'last_name_en',
         'date_of_birth',

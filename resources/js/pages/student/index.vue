@@ -236,40 +236,6 @@
 		>
 			<div class="flex flex-col">
 				<div class=" item-start ">
-					<div>
-						<el-form-item
-							label="រូបភាព"
-							class="sanfont-khmer"
-							:label-width="formLabelWidth"
-						>
-							<div>
-								<el-upload
-									class="avatar-uploader"
-									action="#"
-									name="file"
-									:show-file-list="true"
-									:auto-upload="false"
-									:on-change="handleAvatarSuccess"
-									:before-upload="beforeAvatarUpload"
-								>
-									<img
-										v-if="imageUrl"
-										:src="imageUrl"
-										class="avatar 	object-contain "
-									>
-									<i
-										v-else
-										class="el-icon-plus avatar-uploader-icon"
-									></i>
-								</el-upload>
-								<input
-									type="hidden"
-									name="photo_id"
-									v-model="ruleForm.photo_id"
-								>
-							</div>
-						</el-form-item>
-					</div>
 
 				</div>
 				<div class="flex flex-row ">
@@ -333,6 +299,21 @@
 						</div>
 						<div>
 							<el-form-item
+								label="អត្តលេខ"
+								prop="subject"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="IDn"
+									autocomplete="off"
+									name="email"
+									clearable
+								/>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
 								label="ភេទ"
 								prop="gender"
 								class="sanfont-khmer"
@@ -383,23 +364,6 @@
 							</el-form-item>
 						</div>
 
-					</div>
-					<div class="flex flex-col space-y-1">
-						<div>
-							<el-form-item
-								label="អត្តលេខ"
-								prop="subject"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.address"
-									autocomplete="off"
-									name="email"
-									clearable
-								/>
-							</el-form-item>
-						</div>
 						<div>
 							<el-form-item
 								label="អាស័យដ្ឋានបច្ចុប្បន្ន"
@@ -414,6 +378,44 @@
 								/>
 							</el-form-item>
 						</div>
+
+					</div>
+					<div class="flex flex-col space-y-1">
+						<div>
+							<el-form-item
+								label="រូបភាព"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<div>
+									<el-upload
+										class="avatar-uploader"
+										action="#"
+										name="file"
+										:show-file-list="true"
+										:auto-upload="false"
+										:on-change="handleAvatarSuccess"
+										:before-upload="beforeAvatarUpload"
+									>
+										<img
+											v-if="imageUrl"
+											:src="imageUrl"
+											class="avatar 	object-contain "
+										>
+										<i
+											v-else
+											class="el-icon-plus avatar-uploader-icon"
+										></i>
+									</el-upload>
+									<input
+										type="hidden"
+										name="photo_id"
+										v-model="ruleForm.photo_id"
+									>
+								</div>
+							</el-form-item>
+						</div>
+
 						<div>
 							<el-form-item
 								label="លេខទូរស័ព្ទ"
@@ -474,7 +476,7 @@
 							>
 								<el-input
 									type="textarea"
-									:rows="2"
+									:rows="5"
 									v-model="ruleForm.studentOtherText"
 								>
 								</el-input>
@@ -525,6 +527,7 @@ export default {
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
 		return {
+			IDn: 'PK-S0038',
 			tableData: [],
 			classData: [],
 			showSuccess: false,

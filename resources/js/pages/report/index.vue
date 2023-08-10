@@ -40,19 +40,8 @@
 
 					</div>
 					<div class="self-end">
-						<el-button
-							type="primary"
-							@click="popUpProfile"
-						>
-							<el-icon>
-								<Tools />
-							</el-icon>
-							<span class="mx-1 sanfont-khmer">TEST PROFILE</span>
-						</el-button>
-						<el-button
-							type="primary"
-							@click=""
-						>
+
+						<el-button type="primary">
 							<el-icon>
 								<Tools />
 							</el-icon>
@@ -194,7 +183,6 @@
 						</template> -->
 					</el-table-column>
 				</el-table>
-				
 
 			</el-tab-pane>
 			<el-tab-pane label="របាយការណ៏ពិន្ទុសិស្ស">
@@ -426,122 +414,6 @@
 		</el-tabs>
 	</div>
 
-	<!-- Dialog  -->
-	<el-dialog
-		v-model="dialogFormVisible"
-		title="ប្រវត្តិរូប"
-		class="sanfont-khmer"
-		width="28%"
-		
-
-		
-	>
-		<el-form
-			class="grid grid-cols-2 flex border border-indigo-60"
-			
-			id="fm"
-		>	
-			<div class="flex flex-row justify-center">
-			<div class="flex flex-col ">
-
-			<div class="flex justify-center">
-			<el-form-item
-				:label-width="265"
-				class="sanfont-khmer mt-[20px]"
-				
-				>
-				<img
-				src="../../assets/teacher1.jpg"
-				class="w-[150px] rounded-full"
-				/>
-				<el-button circle style="margin-top: 80px;">
-					<el-icon>
-					<Camera />
-					</el-icon>
-				
-				</el-button>	
-			</el-form-item>
-			</div>
-				<div >
-				
-				<div
-					prop="name"
-					class="sanfont-khmer flex justify-center"
-					style="margin-left:230px"
-					
-				>	
-					<div class="flex flex-col justify-center">
-					<h1 class="font-bold text-[20px]">សោភា សុីវមុី</h1>
-					<h1 >@sievmey</h1>
-					
-					</div>
-				</div>
-				
-				<div class="pt-[20px] flex justify-center" style="margin-left:230px">
-				<el-form-item
-					class="sanfont-khmer"
-				> 
-				<el-button size="medium" round>
-					<el-icon >
-					<EditPen />
-					</el-icon>
-					<span>កែប្រែ</span>
-				</el-button>	
-				</el-form-item>
-				</div>
-				
-				
-				
-				<el-form-item
-					label="លេខទូរស័ព្ទ"
-					prop="phone"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-				<span >011 999222</span>	
-				</el-form-item>
-				<el-form-item
-					label="សារអេឡិចត្រូនិច"
-					prop="email"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-				<span >www.sievmey@gmail.com</span>
-				</el-form-item>
-				
-				<el-form-item
-					label="តួនាទី"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-				<div class="flex space-x-2">
-				<el-tag type="info">super-admin</el-tag>
-				<el-tag type="info">role-editor</el-tag>
-				</div>
-				</el-form-item>
-				</div>
-			</div>
-			
-			</div>
-		
-			
-		
-		</el-form>
-		
-		<template #footer>
-			<span class="dialog-footer">
-				<el-button
-					@click="cancelAction()"
-					class="sanfont-khmer"
-					type="danger"
-				> បោះបង់</el-button>
-				
-			</span>
-		</template>
-	
-	</el-dialog>
-	<!-- Dialog user  -->
-
 </template>
 <script>
 export default {
@@ -582,7 +454,7 @@ export default {
 
 		async popUpProfile() {
 			this.dialogFormVisible = true
-			
+
 		},
 
 	}
