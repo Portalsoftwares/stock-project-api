@@ -13,12 +13,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _element_plus_icons_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @element-plus/icons-vue */ "./node_modules/@element-plus/icons-vue/dist/index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -41,7 +43,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     };
   },
   components: {
-    mapGetters: vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters
+    mapGetters: vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters,
+    Search: _element_plus_icons_vue__WEBPACK_IMPORTED_MODULE_2__.Search
   },
   props: {
     toggleSideBar: Function
@@ -71,13 +74,19 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           }
         }]
       }],
-      dropdown1: ""
+      dropdown1: "",
+      menuSearch: "",
+      dialogFormVisible: false
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)({
-    user: 'auth/user'
+    user: 'auth/user',
+    menu: 'menu/activeMenu'
   })),
   methods: {
+    getMenuURL: function getMenuURL() {
+      console.log(this.$route.path);
+    },
     toggle: function toggle(event) {
       this.$refs.menu.toggle(event);
     },
@@ -88,6 +97,48 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           _this2.$router.push('/login');
         }
       });
+    },
+    cancelFullScreen: function cancelFullScreen() {
+      var el = document;
+      var requestMethod = el.cancelFullScreen || el.webkitCancelFullScreen || el.mozCancelFullScreen || el.exitFullscreen || el.webkitExitFullscreen;
+      if (requestMethod) {
+        // cancel full screen.
+        requestMethod.call(el);
+      } else if (typeof window.ActiveXObject !== "undefined") {
+        // Older IE.
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+          wscript.SendKeys("{F11}");
+        }
+      }
+    },
+    requestFullScreen: function requestFullScreen(el) {
+      // Supports most browsers and their versions.
+      var requestMethod = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+      if (requestMethod) {
+        // Native full screen.
+        requestMethod.call(el);
+      } else if (typeof window.ActiveXObject !== "undefined") {
+        // Older IE.
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+          wscript.SendKeys("{F11}");
+        }
+      }
+      return false;
+    },
+    toggleFullScreen: function toggleFullScreen(el) {
+      if (!el) {
+        el = document.body; // Make the body go full screen.
+      }
+
+      var isInFullScreen = document.fullScreenElement && document.fullScreenElement !== null || document.mozFullScreen || document.webkitIsFullScreen;
+      if (isInFullScreen) {
+        this.cancelFullScreen();
+      } else {
+        this.requestFullScreen(el);
+      }
+      return false;
     }
   }
 });
@@ -123,7 +174,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
     user: 'auth/user'
-  }))
+  })),
+  methods: {
+    activeMenuNameRoute: function activeMenuNameRoute(name) {
+      return this.$route.name.includes(name);
+    }
+  }
 });
 
 /***/ }),
@@ -177,7 +233,7 @@ var _withScopeId = function _withScopeId(n) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-798ca618"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
 };
 var _hoisted_1 = {
-  "class": "border-b flex justify-between shadow-sm",
+  "class": "border-b flex justify-between shadow-sm bg-white",
   style: {
     "height": "3rem"
   }
@@ -186,27 +242,93 @@ var _hoisted_2 = {
   "class": "flex items-center justify-between w-full p-button-sm"
 };
 var _hoisted_3 = {
-  "class": "flex space-x-2 h-full"
+  "class": "flex space-x-1 h-full"
 };
-var _hoisted_4 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "py-1"
-  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <InputText placeholder=\"Search Menu\" type=\"text\" class=\"min-w-[300px]\" /> ")], -1 /* HOISTED */);
-});
+var _hoisted_4 = {
+  "class": "pt-[13px]"
+};
 var _hoisted_5 = {
+  "class": "text-[16px]"
+};
+var _hoisted_6 = {
+  "class": "flex space-x-6"
+};
+var _hoisted_7 = {
+  "class": "self-center"
+};
+var _hoisted_8 = {
+  "class": "self-center"
+};
+var _hoisted_9 = {
   key: 0,
   "class": "px-4 flex justify-center items-center space-x-4"
 };
-var _hoisted_6 = {
+var _hoisted_10 = {
   "class": "text-gray-600 text-[14px]"
 };
-var _hoisted_7 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_11 = {
+  "class": "font-semibold"
+};
+var _hoisted_12 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, null, -1 /* HOISTED */);
 });
-
+var _hoisted_13 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "my-header"
+  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "text-lg font-semibold text-white"
+  }, "ប្រវត្តិរូប")], -1 /* HOISTED */);
+});
+var _hoisted_14 = {
+  "class": "flex flex-col items-center py-5"
+};
+var _hoisted_15 = {
+  "class": "flex justify-center"
+};
+var _hoisted_16 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/storage/uploads/1691209976_student8.jpg",
+    "class": "w-[150px] rounded-full border"
+  }, null, -1 /* HOISTED */);
+});
+var _hoisted_17 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    prop: "name",
+    "class": "sanfont-khmer flex justify-center"
+  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "flex flex-col justify-center"
+  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "font-bold text-[20px] mt-5"
+  }, "វ៉ាន់ សុីវមុី"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h1>@sievmey</h1> ")])], -1 /* HOISTED */);
+});
+var _hoisted_18 = {
+  "class": "pt-[20px] flex justify-center space-x-2"
+};
+var _hoisted_19 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "កែប្រែ", -1 /* HOISTED */);
+});
+var _hoisted_20 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "ប្ដូរលេខសម្ងាត់", -1 /* HOISTED */);
+});
+var _hoisted_21 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "011 999222", -1 /* HOISTED */);
+});
+var _hoisted_22 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "sievmey@gmail.com", -1 /* HOISTED */);
+});
+var _hoisted_23 = {
+  "class": "flex space-x-2"
+};
+var _hoisted_24 = {
+  "class": "dialog-footer"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _ctx$menu;
   var _component_Fold = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Fold");
   var _component_el_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-icon");
+  var _component_FullScreen = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("FullScreen");
+  var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
+  var _component_el_input = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-input");
   var _component_el_avatar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-avatar");
   var _component_Avatar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Avatar");
   var _component_el_dropdown_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-dropdown-item");
@@ -214,7 +336,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SwitchButton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("SwitchButton");
   var _component_el_dropdown_menu = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-dropdown-menu");
   var _component_el_dropdown = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-dropdown");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  var _component_Camera = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Camera");
+  var _component_el_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-button");
+  var _component_el_form_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-form-item");
+  var _component_el_tag = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-tag");
+  var _component_el_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-form");
+  var _component_el_dialog = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-dialog");
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     onClick: _cache[0] || (_cache[0] = function () {
       return $props.toggleSideBar && $props.toggleSideBar.apply($props, arguments);
     }),
@@ -228,21 +356,48 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Fold)];
     }),
     _: 1 /* STABLE */
-  })])]), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_ctx.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.user.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dropdown, {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$menu = _ctx.menu) === null || _ctx$menu === void 0 ? void 0 : _ctx$menu.name), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $options.toggleFullScreen();
+    })
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FullScreen)];
+        }),
+        _: 1 /* STABLE */
+      })];
+    }),
+
+    _: 1 /* STABLE */
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+    placeholder: "ស្វែងរក ផ្ទាំងម៉ីនុយ",
+    "class": "sanfont-khmer",
+    modelValue: $data.menuSearch,
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $data.menuSearch = $event;
+    }),
+    "prefix-icon": _ctx.Search
+  }, null, 8 /* PROPS */, ["modelValue", "prefix-icon"])]), _ctx.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" សួស្ដី, "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.user.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dropdown, {
     ref: "dropdown1",
     trigger: "contextmenu"
   }, {
     dropdown: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dropdown_menu, null, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dropdown_item, null, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dropdown_item, {
+            onClick: _cache[4] || (_cache[4] = function ($event) {
+              return $data.dialogFormVisible = true;
+            })
+          }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Avatar)];
                 }),
                 _: 1 /* STABLE */
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Profile ")];
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ប្រវត្តិរូប ")];
             }),
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dropdown_item, {
@@ -254,7 +409,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_EditPen)];
                 }),
                 _: 1 /* STABLE */
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Change Password ")];
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ប្ដូរលេខសម្ងាត់ ")];
             }),
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dropdown_item, {
@@ -267,7 +422,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SwitchButton)];
                 }),
                 _: 1 /* STABLE */
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Logout ")];
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ចាកចេញពីគណនី ")];
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["onClick"])];
@@ -279,7 +434,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "p-panel-header-icon p-link mr-2",
-        onClick: _cache[1] || (_cache[1] = function () {
+        onClick: _cache[3] || (_cache[3] = function () {
           return $setup.showClick && $setup.showClick.apply($setup, arguments);
         })
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_avatar, {
@@ -289,7 +444,147 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8 /* PROPS */, ["src"])])];
     }),
     _: 1 /* STABLE */
-  }, 512 /* NEED_PATCH */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_7]);
+  }, 512 /* NEED_PATCH */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), _hoisted_12]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
+    modelValue: $data.dialogFormVisible,
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+      return $data.dialogFormVisible = $event;
+    }),
+    title: "ប្រវត្តិរូប",
+    "class": "sanfont-khmer",
+    width: "28%",
+    draggable: ""
+  }, {
+    header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_13];
+    }),
+    footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+        onClick: _cache[5] || (_cache[5] = function ($event) {
+          return _ctx.cancelAction();
+        }),
+        "class": "sanfont-khmer",
+        type: "danger"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" បោះបង់")];
+        }),
+        _: 1 /* STABLE */
+      })])];
+    }),
+
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
+        "class": "grid border rounded",
+        id: "fm"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+            circle: ""
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Camera)];
+                }),
+                _: 1 /* STABLE */
+              })];
+            }),
+
+            _: 1 /* STABLE */
+          })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+            "class": "sanfont-khmer"
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+                size: "medium",
+                round: ""
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_EditPen)];
+                    }),
+                    _: 1 /* STABLE */
+                  }), _hoisted_19];
+                }),
+                _: 1 /* STABLE */
+              })];
+            }),
+
+            _: 1 /* STABLE */
+          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+            "class": "sanfont-khmer"
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+                size: "medium",
+                round: ""
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_EditPen)];
+                    }),
+                    _: 1 /* STABLE */
+                  }), _hoisted_20];
+                }),
+                _: 1 /* STABLE */
+              })];
+            }),
+
+            _: 1 /* STABLE */
+          })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+            label: "លេខទូរស័ព្ទ",
+            prop: "phone",
+            "class": "sanfont-khmer",
+            "label-width": _ctx.formLabelWidth
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [_hoisted_21];
+            }),
+            _: 1 /* STABLE */
+          }, 8 /* PROPS */, ["label-width"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+            label: "សារអេឡិចត្រូនិច",
+            prop: "email",
+            "class": "sanfont-khmer",
+            "label-width": _ctx.formLabelWidth
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [_hoisted_22];
+            }),
+            _: 1 /* STABLE */
+          }, 8 /* PROPS */, ["label-width"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+            label: "តួនាទី",
+            "class": "sanfont-khmer",
+            "label-width": _ctx.formLabelWidth
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tag, {
+                type: "info"
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("super-admin")];
+                }),
+                _: 1 /* STABLE */
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tag, {
+                type: "info"
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("role-editor")];
+                }),
+                _: 1 /* STABLE */
+              })])];
+            }),
+
+            _: 1 /* STABLE */
+          }, 8 /* PROPS */, ["label-width"])])])];
+        }),
+        _: 1 /* STABLE */
+      })];
+    }),
+
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog user  ")], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
@@ -313,39 +608,40 @@ var _hoisted_1 = {
   "class": "w-full"
 };
 var _hoisted_2 = {
-  "class": "h-full flex justify-center items-center"
+  "class": "flex flex-col justify-between h-[100vh] w-full bg-blue-900"
 };
 var _hoisted_3 = {
-  key: 0,
-  "class": "font-semibold uppercase text-xl px-6 whitespace-nowrap sanfont-khmer"
+  "class": "menu-man text-left whitespace-nowrap flex flex-col space-y-2"
 };
 var _hoisted_4 = {
-  key: 1,
-  "class": "text-center flex justify-center items-center h-full"
+  "class": "profile flex justify-center items-center text-center"
 };
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: "https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png",
-  "class": "p-[2px] w-8 h-8 rounded-full ring-1 ring-gray-300 dark:ring-gray-500",
-  alt: "Avatar"
-}, null, -1 /* HOISTED */);
-var _hoisted_6 = [_hoisted_5];
-var _hoisted_7 = {
-  "class": "flex flex-col justify-between h-[calc(100vh-3rem)] w-full bg-gray-900"
-};
-var _hoisted_8 = {
-  "class": "menu-man text-left px-2 whitespace-nowrap flex flex-col space-y-2"
-};
-var _hoisted_9 = {
-  "class": "profile flex justify-center items-center text-center p-5"
-};
-var _hoisted_10 = {
+var _hoisted_5 = {
   key: 0,
   "class": "text-center flex-col flex justify-center items-center h-full"
 };
-var _hoisted_11 = ["src"];
-var _hoisted_12 = {
-  "class": "text-xl font-medium leading-tight mb-2 sanfont-khmer"
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png",
+  "class": "p-1 w-[50px] h-[50px]",
+  alt: "Avatar"
+}, null, -1 /* HOISTED */);
+var _hoisted_7 = [_hoisted_6];
+var _hoisted_8 = {
+  "class": "profile flex justify-center items-center text-center"
 };
+var _hoisted_9 = {
+  key: 0,
+  "class": "text-center flex-col flex justify-center items-center h-full"
+};
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png",
+  "class": "p-1 w-24 h-24",
+  alt: "Avatar"
+}, null, -1 /* HOISTED */);
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "text-lg mb-2 sanfont-khmer"
+}, "វិ.ចំណេះទូទៅ និងបច្ចេកទេសពួក", -1 /* HOISTED */);
+var _hoisted_12 = [_hoisted_10, _hoisted_11];
 var _hoisted_13 = {
   "class": "sanfont-khmer text-sm"
 };
@@ -368,61 +664,73 @@ var _hoisted_19 = {
   "class": "sanfont-khmer text-sm"
 };
 var _hoisted_20 = {
-  "class": "menu-man text-left px-2 justify-self-end whitespace-nowrap"
+  "class": "sanfont-khmer text-sm"
 };
 var _hoisted_21 = {
   "class": "sanfont-khmer text-sm"
 };
 var _hoisted_22 = {
-  href: "https://website-nuxt-front.vercel.app/",
-  target: "_blank",
-  "class": "px-2 flex space-x-2"
+  "class": "sanfont-khmer text-sm"
 };
 var _hoisted_23 = {
+  "class": "menu-man text-left whitespace-nowrap flex flex-col space-y-2"
+};
+var _hoisted_24 = {
+  "class": "sanfont-khmer text-sm"
+};
+var _hoisted_25 = {
+  "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
+};
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  style: {
+    "font-size": "1.5rem"
+  }
+}, " ©", -1 /* HOISTED */);
+var _hoisted_27 = {
   "class": "sanfont-khmer text-sm"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Menu = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Menu");
+  var _component_Eleme = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Eleme");
   var _component_el_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-icon");
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
-  var _component_Avatar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Avatar");
-  var _component_el_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-tooltip");
-  var _component_Suitcase = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Suitcase");
   var _component_User = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("User");
-  var _component_CircleCheck = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("CircleCheck");
-  var _component_Setting = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Setting");
-  var _component_Warning = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Warning");
+  var _component_el_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-tooltip");
+  var _component_Avatar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Avatar");
+  var _component_UserFilled = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("UserFilled");
+  var _component_Reading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Reading");
+  var _component_OfficeBuilding = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("OfficeBuilding");
+  var _component_List = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("List");
+  var _component_Clock = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Clock");
+  var _component_CollectionTag = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("CollectionTag");
+  var _component_PieChart = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("PieChart");
+  var _component_Tools = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Tools");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bg-gray-800 text-white overflow-hidden", $props.dataSibar == true ? 'side-bar-visible' : 'side-bar-close']),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["text-white", $props.dataSibar == true ? 'side-bar-visible' : 'side-bar-close']),
     id: "side-bar"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [$props.dataSibar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_3, "ប្រព័ន្ធ. វិទ្យាល័យ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$props.dataSibar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, _hoisted_6)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_ctx.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img\r\n\t\t\t\t\t\t\t\tsrc=\"https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png\"\r\n\t\t\t\t\t\t\t\tclass=\"p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4\"\r\n\t\t\t\t\t\t\t\talt=\"Avatar\"\r\n\t\t\t\t\t\t\t/> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: _ctx.user.img != null ? _ctx.user.img.file_path : 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1',
-    "class": "p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4",
-    alt: "Avatar"
-  }, null, 8 /* PROPS */, _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.user.roles[0].name), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-sm cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_ctx.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, _hoisted_7)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$props.dataSibar]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_ctx.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, _hoisted_12)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-sm cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/dashboard",
-    "class": "py-2 px-2 flex space-x-2 items-center"
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
         style: {
-          "font-size": "1.2rem"
+          "font-size": "1.5rem"
         }
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Menu)];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Eleme)];
         }),
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, "ដាសបត", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/user",
-    "class": "py-2 px-2 flex space-x-2 items-center"
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
@@ -432,69 +740,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         placement: "right-start"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-icon style=\"font-size: 1.2rem\">\r\n\t\t\t\t\t\t\t\t\t<Avatar />\r\n\t\t\t\t\t\t\t\t</el-icon> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
             style: {
-              "font-size": "1.2rem"
-            }
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Avatar)];
-            }),
-            _: 1 /* STABLE */
-          })];
-        }),
-
-        _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, "អ្នកប្រើប្រាស់ ", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
-    }),
-    _: 1 /* STABLE */
-  })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-    to: "/teacher",
-    "class": "py-2 px-2 flex space-x-2 items-center"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
-        "class": "box-item",
-        effect: "dark",
-        content: "គ្រូបង្រៀន",
-        placement: "right-start"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
-            style: {
-              "font-size": "1.2rem"
-            }
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Suitcase)];
-            }),
-            _: 1 /* STABLE */
-          })];
-        }),
-
-        _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, " គ្រូបង្រៀន", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
-    }),
-    _: 1 /* STABLE */
-  })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-    to: "/student",
-    "class": "py-2 px-2 flex space-x-2 items-center"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
-        "class": "box-item",
-        effect: "dark",
-        content: "សិស្សានុសិស្ស",
-        placement: "right-start"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
-            style: {
-              "font-size": "1.2rem"
+              "font-size": "1.5rem"
             }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -505,14 +753,74 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
 
         _: 1 /* STABLE */
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, "អ្នកប្រើប្រាស់ ", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+    }),
+    _: 1 /* STABLE */
+  })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: "/teacher",
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
+        "class": "box-item",
+        effect: "dark",
+        content: "គ្រូបង្រៀន",
+        placement: "right-start"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-icon style=\"font-size: 1.2rem\">\r\n\t\t\t\t\t\t\t\t\t<Suitcase />\r\n\t\t\t\t\t\t\t\t</el-icon> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+            style: {
+              "font-size": "1.5rem"
+            }
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Avatar)];
+            }),
+            _: 1 /* STABLE */
+          })];
+        }),
+
+        _: 1 /* STABLE */
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, " គ្រូបង្រៀន", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+    }),
+    _: 1 /* STABLE */
+  })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: "/student",
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
+        "class": "box-item",
+        effect: "dark",
+        content: "សិស្សានុសិស្ស",
+        placement: "right-start"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-icon style=\"font-size: 1.2rem\">\r\n\t\t\t\t\t\t\t\t\t<User />\r\n\t\t\t\t\t\t\t\t</el-icon> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+            style: {
+              "font-size": "1.5rem"
+            }
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_UserFilled)];
+            }),
+            _: 1 /* STABLE */
+          })];
+        }),
+
+        _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, " សិស្សានុសិស្ស", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/subject",
-    "class": "py-2 px-2 flex space-x-2 items-center"
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
@@ -522,13 +830,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         placement: "right-start"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-icon style=\"font-size: 1.2rem\">\r\n\t\t\t\t\t\t\t\t\t<Suitcase />\r\n\t\t\t\t\t\t\t\t</el-icon> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
             style: {
-              "font-size": "1.2rem"
+              "font-size": "1.5rem"
             }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Suitcase)];
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Reading)];
             }),
             _: 1 /* STABLE */
           })];
@@ -539,10 +847,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/class",
-    "class": "py-2 px-2 flex space-x-2 items-center"
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([[$options.activeMenuNameRoute('class') ? 'router-link-exact-active' : ''], "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"])
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
@@ -554,11 +862,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
             style: {
-              "font-size": "1.2rem"
+              "font-size": "1.5rem"
             }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CircleCheck)];
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_OfficeBuilding)];
             }),
             _: 1 /* STABLE */
           })];
@@ -568,41 +876,131 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, " ថ្នាក់រៀន", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
     }),
     _: 1 /* STABLE */
-  })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+  }, 8 /* PROPS */, ["class"])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-    to: "/attendentp",
-    "class": "py-2 px-2 flex space-x-2 items-center"
+    to: "/score-type",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([[$options.activeMenuNameRoute('score-type') ? 'router-link-exact-active' : ''], "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"])
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
         "class": "box-item",
         effect: "dark",
-        content: "វត្តមានសិស្ស",
+        content: "ប្រភេទពិន្ទុ",
         placement: "right-start"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
             style: {
-              "font-size": "1.2rem"
+              "font-size": "1.5rem"
             }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CircleCheck)];
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_List)];
             }),
             _: 1 /* STABLE */
           })];
         }),
 
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, " វត្តមានសិស្ស", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, " ប្រភេទពិន្ទុ", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
     }),
     _: 1 /* STABLE */
-  })], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["py-3 rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
+  }, 8 /* PROPS */, ["class"])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: "/time",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([[$options.activeMenuNameRoute('time') ? 'router-link-exact-active' : ''], "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"])
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
+        "class": "box-item",
+        effect: "dark",
+        content: "ម៉ោងពេល",
+        placement: "right-start"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+            style: {
+              "font-size": "1.5rem"
+            }
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Clock)];
+            }),
+            _: 1 /* STABLE */
+          })];
+        }),
+
+        _: 1 /* STABLE */
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, " ម៉ោងសិក្សា", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+    }),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["class"])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: "/academic",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([[$options.activeMenuNameRoute('academic') ? 'router-link-exact-active' : ''], "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"])
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
+        "class": "box-item",
+        effect: "dark",
+        content: "ឆ្នាំសិក្សា",
+        placement: "right-start"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+            style: {
+              "font-size": "1.5rem"
+            }
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CollectionTag)];
+            }),
+            _: 1 /* STABLE */
+          })];
+        }),
+
+        _: 1 /* STABLE */
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, " ឆ្នាំសិក្សា", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+    }),
+    _: 1 /* STABLE */
+  }, 8 /* PROPS */, ["class"])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: "/reports",
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
+        "class": "box-item",
+        effect: "dark",
+        content: "របាយការណ៍",
+        placement: "right-start"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
+            style: {
+              "font-size": "1.5rem"
+            }
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_PieChart)];
+            }),
+            _: 1 /* STABLE */
+          })];
+        }),
+
+        _: 1 /* STABLE */
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, " របាយការណ៍", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+    }),
+    _: 1 /* STABLE */
+  })], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/setting",
-    "class": "py-2 px-2 flex space-x-2 items-center"
+    "class": "py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
@@ -614,43 +1012,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
             style: {
-              "font-size": "1.2rem"
+              "font-size": "1.5rem"
             }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Setting)];
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Tools)];
             }),
             _: 1 /* STABLE */
           })];
         }),
 
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, "ការកំណត់ ", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, " ការកំណត់", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])];
     }),
     _: 1 /* STABLE */
   })], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["py-3 rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? 'px-2' : ''])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-md cursor-pointer text-gray-300 hover:text-white", $props.dataSibar == true ? ' ' : ''])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tooltip, {
     "class": "box-item",
     effect: "dark",
-    content: "អំពីយើង",
+    content: "បង្កើតដោយ Copyright @ 2023 BIT14",
     placement: "right-start"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, {
-        style: {
-          "font-size": "1.2rem"
-        }
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Warning)];
-        }),
-        _: 1 /* STABLE */
-      })];
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-icon>\r\n\t\t\t\t\t\t\t\t\t<InfoFilled />\r\n\t\t\t\t\t\t\t\t</el-icon> "), _hoisted_26];
     }),
-
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, "អំពីយើង ", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])], 2 /* CLASS */)])])])], 2 /* CLASS */);
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, " បង្កើតដោយ @ 2023 BIT14", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])], 2 /* CLASS */)])])])], 2 /* CLASS */);
 }
 
 /***/ }),

@@ -1,5 +1,6 @@
 {
     "private": true,
+    "name": "USEA THESIS BIT14",
     "scripts": {
         "dev": "npm run --max_old_space_size=8192 development",
         "development": "mix",
@@ -20,11 +21,13 @@
     },
     "dependencies": {
         "@element-plus/icons-vue": "^2.0.10",
+        "apexcharts": "^3.41.1",
         "element-plus": "^2.2.30",
         "file-saver": "^2.0.5",
         "moment": "^2.29.4",
         "vue": "^3.2.36",
         "vue-router": "^4.0.16",
+        "vue3-apexcharts": "^1.4.4",
         "vuex": "^4.0.2",
         "xlsx-js-style": "^1.2.0",
         "yup": "^0.32.11"

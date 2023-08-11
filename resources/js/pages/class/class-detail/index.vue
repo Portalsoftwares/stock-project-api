@@ -27,17 +27,26 @@
 					<div class="grid grid-cols-2 gap-5 ">
 						<div class=" ">
 							<div class="flex justify-between items-center">
-								<div class="text-left text-md font-bold pb-2 ">កាលវិភាគប្រចាំសប្តាហ៍</div>
-								<el-button
-									type="primary"
-									size="medium"
-									@click="addNewSchedule"
-								>
-									<el-icon>
-										<Setting />
-									</el-icon>
-									<span class="mx-1 sanfont-khmer "> គ្រប់គ្រងកាលវិភាគ</span>
-								</el-button>
+								<div class="text-left text-xl  pb-2 ">កាលវិភាគប្រចាំសប្តាហ៍</div>
+								<div>
+									<el-button type="info">
+										<el-icon>
+											<Document />
+										</el-icon>
+										<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+
+									</el-button>
+									<el-button
+										type="primary"
+										size="medium"
+										@click="addNewSchedule"
+									>
+										<el-icon>
+											<Setting />
+										</el-icon>
+										<span class="mx-1 sanfont-khmer "> បន្ថែមកាលវិភាគ</span>
+									</el-button>
+								</div>
 							</div>
 							<div class="py-2">
 								<el-table
@@ -52,11 +61,18 @@
 								>
 									<el-table-column
 										label="ម៉ោង"
+										min-width="150px"
 										fixed
+										align="center"
 									>
 										<template #default="scope">
-											<span>
-												{{ scope.row.name }}
+											<span class="text-center">
+												<div>{{ scope.row.name }}</div>
+												<div>
+													<span>{{ formatTime(scope.row.start_date) }}</span>
+													-
+													<span>{{ formatTime(scope.row.end_date) }}</span>
+												</div>
 											</span>
 										</template>
 									</el-table-column>
@@ -65,6 +81,7 @@
 										:key="day"
 										:prop="day"
 										:label="day.day_name_kh"
+										width="110px"
 									>
 										<template #default="scope">
 											<div
@@ -98,7 +115,9 @@
 						</div>
 						<div class="">
 							<div class="flex justify-between py-2 items-center">
-								<div class="text-left text-md font-bold pb-2 ">គ្រូ និង មុខវិជ្ជា</div>
+								<div class="text-left text-xl  pb-2 ">គ្រូ និងមុខវិជ្ជា
+								</div>
+
 								<el-button
 									type="primary"
 									size="medium"
@@ -107,7 +126,8 @@
 									<el-icon>
 										<Setting />
 									</el-icon>
-									<span class="mx-1 sanfont-khmer"> គ្រប់គ្រងគ្រូ និងមុខវិជ្ជា</span>
+
+									<span class="mx-1 sanfont-khmer"> បន្ថែមគ្រូ និងមុខវិជ្ជា</span>
 								</el-button>
 							</div>
 							<div class="grid grid-cols-3 gap-2">
@@ -119,18 +139,25 @@
 										shadow="hover"
 										class="text-left"
 									>
-										<div>
-											ឈ្មោះ : <span class="font-bold">{{ data.teacher_in_class.first_name_kh }} {{ data.teacher_in_class.last_name_kh }}</span>
+										<div class="flex items-center space-x-2 justify-start">
+											<div>
+
+												<div>
+													ឈ្មោះ : <span class="font-bold">{{ data.teacher_in_class.first_name_kh }} {{ data.teacher_in_class.last_name_kh }}</span>
+												</div>
+												<div>
+													មុខវិជ្ជា : <span class="font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span>
+												</div>
+											</div>
+
+											<div
+												v-if="data.role_id==1"
+												class="py-2 "
+											>
+												<el-tag>គ្រូបន្ទុកថ្នាក់</el-tag>
+											</div>
 										</div>
-										<div>
-											មុខវិជ្ជា : <span class="font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span>
-										</div>
-										<div
-											v-if="data.role_id==1"
-											class="py-2 "
-										>
-											<el-tag>គ្រូបន្ទុកថ្នាក់</el-tag>
-										</div>
+
 									</el-card>
 								</el-col>
 							</div>
@@ -182,6 +209,11 @@
 		class="sanfont-khmer"
 		width="50%"
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">គ្រប់គ្រងអវត្តមាន</h4>
+			</div>
+		</template>
 		<div class="bg-white px-5">
 			<div class="flex justify-between py-2">
 				<el-form
@@ -236,6 +268,14 @@
 								/>
 							</el-select>
 						</el-form-item>
+						<el-form-item label="កាលបរិច្ចេទ">
+
+							<el-date-picker
+								v-model="date"
+								type="date"
+							>
+							</el-date-picker>
+						</el-form-item>
 					</div>
 				</el-form>
 				<div>
@@ -259,16 +299,7 @@
 					<template #default="scope">
 
 						<div>
-							<span class="w-[10px]">
-								<span v-if="scope.row.student_in_class.gender_id ==2">
-									ក. &nbsp;
-								</span>
-								<span v-else>
-									&nbsp;
-									&nbsp;
-									&nbsp;
-								</span>
-							</span>
+
 							<span>{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}</span>
 						</div>
 					</template>
@@ -292,12 +323,17 @@
 					align="center"
 					:label="dataTimeObj.name +' : ' + dataTimeObj.start_date +' - ' + dataTimeObj.end_date"
 				>
-					<el-table-column width="120">
+					<el-table-column
+						width="60"
+						align="center"
+					>
 						<template #header>
 							<div class="text-green-600">PS</div>
 						</template>
 						<template #default="scope">
-							<el-radio-group
+							<el-checkbox v-model="checked"></el-checkbox>
+
+							<!-- <el-radio-group
 								v-model="scope.row.attendance_type_id"
 								fill="#67C23A"
 								size="small"
@@ -307,15 +343,20 @@
 									class="bg-green-50 border border-green-50"
 									border
 								>វត្តមាន</el-radio>
-							</el-radio-group>
+							</el-radio-group> -->
 						</template>
 					</el-table-column>
-					<el-table-column width="120">
+					<el-table-column
+						width="60"
+						align="center"
+					>
 						<template #header>
 							<div class="text-yellow-600">PM</div>
 						</template>
 						<template #default="scope">
-							<el-radio-group
+							<el-checkbox v-model="checked"></el-checkbox>
+
+							<!-- <el-radio-group
 								v-model="scope.row.attendance_type_id"
 								size="small"
 							>
@@ -324,15 +365,20 @@
 									class="bg-yellow-50 border border-yellow-50"
 									border
 								>ច្បាប់</el-radio>
-							</el-radio-group>
+							</el-radio-group> -->
 						</template>
 					</el-table-column>
-					<el-table-column width="120">
+					<el-table-column
+						width="60"
+						align="center"
+					>
 						<template #header>
 							<div class="text-blue-600">AL</div>
 						</template>
 						<template #default="scope">
-							<el-radio-group
+							<el-checkbox v-model="checked"></el-checkbox>
+
+							<!-- <el-radio-group
 								v-model="scope.row.attendance_type_id"
 								size="small"
 								text-color="#2563eb"
@@ -343,15 +389,19 @@
 									class="bg-blue-50 border border-blue-50"
 									border
 								>យឺត</el-radio>
-							</el-radio-group>
+							</el-radio-group> -->
 						</template>
 					</el-table-column>
-					<el-table-column width="120">
+					<el-table-column
+						width="60"
+						align="center"
+					>
 						<template #header>
 							<div class="text-red-600">A</div>
 						</template>
 						<template #default="scope">
-							<el-radio-group
+							<el-checkbox v-model="checked"></el-checkbox>
+							<!-- <el-radio-group
 								class=""
 								v-model="scope.row.attendance_type_id"
 								size="small"
@@ -361,12 +411,13 @@
 									class="bg-red-50 border border-red-50"
 									label="4"
 									border
-								>អវត្តមាន</el-radio>
-							</el-radio-group>
+								></el-radio>
+							</el-radio-group> -->
 						</template>
 					</el-table-column>
 				</el-table-column>
 			</el-table>
+
 		</div>
 		<template #footer>
 			<span class="dialog-footer">
@@ -378,6 +429,7 @@
 					type="primary"
 					class="sanfont-khmer"
 					@click="submitFormAttendance('ruleFormSchedule')"
+					v-loading.fullscreen.lock="fullscreenLoading"
 				>
 					រក្សាទុក
 				</el-button>
@@ -387,11 +439,16 @@
 	<!-- Dialog Form Schedule  -->
 	<el-dialog
 		v-model="dialogFormSchedule"
-		title="ព័ត៏មាន កាលវិភាគ"
+		title="ព័ត៌មានកាលវិភាគ"
 		class="sanfont-khmer"
 		width="50%"
 		draggable
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានកាលវិភាគ</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleFormSchedule"
@@ -453,7 +510,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item
-					label="មុខវិជ្ជា"
+					label="មុខវិទ្យា"
 					prop="subject_grade_id"
 					class="sanfont-khmer"
 					:error="errors.subject_grade_id"
@@ -461,7 +518,7 @@
 				>
 					<el-select
 						v-model="ruleFormSchedule.subject_grade_id"
-						placeholder="ជ្រើសរើស មុខវិជ្ជា"
+						placeholder="ជ្រើសរើស មុខវិទ្យា"
 						class="text-left "
 					>
 						<el-option
@@ -512,11 +569,16 @@
 	<!-- Dialog Form Teacher Subject  -->
 	<el-dialog
 		v-model="dialogFormTeacher"
-		title="ព័ត៏មាន គ្រូបង្រៀន"
+		title="ព័ត៌មានគ្រូបង្រៀន"
 		class="sanfont-khmer"
 		width="50%"
 		draggable
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានគ្រូបង្រៀន</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleFormTeacher"
@@ -539,7 +601,7 @@
 					></el-input>
 				</el-form-item>
 				<el-form-item
-					label="គ្រូ"
+					label="ឈ្មោះគ្រូ"
 					prop="teacher_id"
 					class="sanfont-khmer"
 					:error="errors.teacher_id"
@@ -547,7 +609,7 @@
 				>
 					<el-select
 						v-model="ruleFormTeacher.teacher_id"
-						placeholder="ជ្រើសរើស គ្រូ"
+						placeholder="ជ្រើសរើសគ្រូ"
 						class="text-left "
 					>
 						<el-option
@@ -559,14 +621,14 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item
-					label="មុខវិជ្ជា"
+					label="មុខវិទ្យា"
 					:error="errors.subject_grade_id"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
 				>
 					<el-select
 						v-model="ruleFormTeacher.subject_grade_id"
-						placeholder="ជ្រើសរើស មុខវិជ្ជា"
+						placeholder="ជ្រើសរើសមុខវិទ្យា"
 						class="text-left "
 					>
 						<el-option
@@ -589,11 +651,11 @@
 							<el-radio
 								label="1"
 								border
-							>គ្រូបន្ទុកថ្នាក់</el-radio>
+							>បន្ទុកថ្នាក់</el-radio>
 							<el-radio
 								label="0"
 								border
-							>មិនគ្រូបន្ទុកថ្នាក់</el-radio>
+							>មិនមែនបន្ទុកថ្នាក់</el-radio>
 						</div>
 					</el-radio-group>
 				</el-form-item>
@@ -604,6 +666,7 @@
 				<el-button
 					@click="closeForm()"
 					class="sanfont-khmer"
+					type="danger"
 				> បោះបង់</el-button>
 				<el-button
 					v-if="!isShowButtonUpdate"
@@ -637,6 +700,7 @@
 import studentClass from './student-class/index.vue'
 import attendanceClass from './attendence-class/index.vue'
 import scoreClass from './score-class/index.vue'
+import moment from 'moment'
 export default {
 	components: { studentClass, attendanceClass, scoreClass },
 	data() {
@@ -706,6 +770,8 @@ export default {
 			},
 			errors: {},
 			activeDay: '',
+			fullscreenLoading: false,
+			date: ''
 		}
 	},
 	mounted() {
@@ -717,6 +783,9 @@ export default {
 		this.tabClassDetail = localStorage.getItem('tab-class-detail') ?? 'tab-class-detail-1';
 	},
 	methods: {
+		formatTime(time) {
+			return time?.slice(0, 5)
+		},
 		//tap funtion
 		changeTap(name) {
 			localStorage.setItem('tab-class-detail', name);
@@ -832,7 +901,7 @@ export default {
 		async getTeacher() {
 			this.loading_student = true;
 			const class_id = this.$route.query.id;
-			await axios.get('/grade_level/teacher/' + class_id + '/get').then(response => {
+			await axios.get('/class/teacher/' + class_id + '/get').then(response => {
 				this.teacherData = response.data.teacher
 				this.studentData = response.data.student
 				this.classData = response.data.class
@@ -877,6 +946,7 @@ export default {
 		*  Function create attendace
 		*/
 		async submitFormAttendance() {
+			this.fullscreenLoading = true;
 			const attendanceInfo = {
 				'class_id': this.attendanceClassId,
 				'time_id': this.attendanceTimeId,
@@ -889,11 +959,19 @@ export default {
 			}
 			await axios.post('/attendance/create', attendanceInfo, config).then(response => {
 				this.getScheduleData();
-				this.$message({
-					message: 'Successfully , this is a success message.',
-					type: 'success'
+				this.fullscreenLoading = false;
+				this.$notify.success({
+					title: 'រួចរាល់',
+					message: 'បញ្ចូលវត្តមានបានជោគជ័យ 😊',
+					showClose: true
 				});
 			}).catch((error) => {
+				this.fullscreenLoading = false;
+				this.$notify.error({
+					title: 'កំហុស',
+					message: 'បញ្ចូលវត្តមានមិនបានជោគជ័យទេ 😓',
+					showClose: true
+				});
 				if (error.response.status == 400) {
 					this.errors = error.response.data.errors;
 					this.$message({
@@ -904,6 +982,7 @@ export default {
 			})
 		},
 		async callAttenance(day_id, time_id, subject_id) {
+			this.fullscreenLoading = true;
 			const class_id = this.$route.query.id;
 			this.attendanceTimeId = time_id;
 			this.attendanceDayId = day_id;
@@ -924,7 +1003,13 @@ export default {
 				this.dataTimeObj = response.data.time
 				this.dataSubjectGradeObj = response.data.subject
 				this.dialogFormVisible = true;
+				setTimeout(() => {
+					this.fullscreenLoading = false;
+				}, 2000)
+
 			}).catch((error) => {
+				this.fullscreenLoading = false;
+
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}

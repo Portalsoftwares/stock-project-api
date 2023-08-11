@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="bg-gray-800  text-white overflow-hidden"
+		class=" text-white  "
 		id="side-bar"
 		:class="dataSibar == true ? 'side-bar-visible' : 'side-bar-close'"
 	>
@@ -8,26 +8,26 @@
 			style="height: 3rem"
 			class="w-full"
 		>
-			<div class="h-full flex justify-center items-center  ">
-				<span
-					class="font-semibold uppercase text-xl px-6 whitespace-nowrap sanfont-khmer"
-					v-if="dataSibar"
-				>ប្រព័ន្ធ. វិទ្យាល័យ</span>
-				<div
-					class="text-center flex justify-center items-center h-full"
-					v-if="!dataSibar"
-				>
-					<img
-						src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
-						class="p-[2px] w-8 h-8 rounded-full ring-1 ring-gray-300 dark:ring-gray-500 "
-						alt="Avatar"
-					/>
-				</div>
-			</div>
-			<div class="flex flex-col justify-between h-[calc(100vh-3rem)] w-full bg-gray-900">
-				<div class="menu-man text-left px-2 whitespace-nowrap flex flex-col space-y-2 ">
+			<div class="flex flex-col justify-between h-[100vh] w-full bg-blue-900 ">
+				<div class="menu-man text-left  whitespace-nowrap flex flex-col space-y-2 ">
 					<div
-						class="profile flex justify-center items-center text-center p-5 "
+						class="profile flex justify-center items-center text-center "
+						v-show="!dataSibar"
+					>
+						<div
+							class="text-center flex-col flex justify-center items-center h-full"
+							v-if="user"
+						>
+
+							<img
+								src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
+								class="p-1 w-[50px] h-[50px] "
+								alt="Avatar"
+							/>
+						</div>
+					</div>
+					<div
+						class="profile flex justify-center items-center text-center "
 						v-show="dataSibar"
 					>
 						<div
@@ -35,29 +35,26 @@
 							v-if="user"
 						>
 
-							<!-- <img
-								src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
-								class="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4"
-								alt="Avatar"
-							/> -->
 							<img
-								:src="user.img!=null ? user.img.file_path: 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'"
-								class="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mb-4"
+								src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
+								class="p-1 w-24 h-24"
 								alt="Avatar"
 							/>
-							<div class="text-xl font-medium leading-tight mb-2 sanfont-khmer">{{ user.roles[0].name }}</div>
+
+							<div class="text-lg  mb-2 sanfont-khmer">វិ.ចំណេះទូទៅ និងបច្ចេកទេសពួក</div>
 						</div>
 					</div>
 					<div
 						class="    rounded-sm cursor-pointer text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/dashboard"
-							class="py-2 px-2 flex space-x-2 items-center"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
-							<el-icon style="font-size: 1.2rem">
-								<Menu />
+							<el-icon style="font-size: 1.5rem">
+
+								<Eleme />
 							</el-icon> <span
 								v-show="dataSibar"
 								class="sanfont-khmer text-sm"
@@ -66,11 +63,11 @@
 					</div>
 					<div
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/user"
-							class="py-2 px-2 flex space-x-2 items-center"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
@@ -78,8 +75,11 @@
 								content="អ្នកប្រើប្រាស់ "
 								placement="right-start"
 							>
-								<el-icon style="font-size: 1.2rem">
+								<!-- <el-icon style="font-size: 1.2rem">
 									<Avatar />
+								</el-icon> -->
+								<el-icon style="font-size: 1.5rem">
+									<User />
 								</el-icon>
 							</el-tooltip>
 
@@ -91,11 +91,11 @@
 					</div>
 					<div
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/teacher"
-							class="py-2 px-2 flex space-x-2 items-center"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
@@ -103,8 +103,11 @@
 								content="គ្រូបង្រៀន"
 								placement="right-start"
 							>
-								<el-icon style="font-size: 1.2rem">
+								<!-- <el-icon style="font-size: 1.2rem">
 									<Suitcase />
+								</el-icon> -->
+								<el-icon style="font-size: 1.5rem">
+									<Avatar />
 								</el-icon>
 							</el-tooltip>
 
@@ -116,11 +119,11 @@
 					</div>
 					<div
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/student"
-							class="py-2 px-2 flex space-x-2 items-center"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
@@ -128,8 +131,11 @@
 								content="សិស្សានុសិស្ស"
 								placement="right-start"
 							>
-								<el-icon style="font-size: 1.2rem">
+								<!-- <el-icon style="font-size: 1.2rem">
 									<User />
+								</el-icon> -->
+								<el-icon style="font-size: 1.5rem">
+									<UserFilled />
 								</el-icon>
 							</el-tooltip>
 
@@ -142,11 +148,11 @@
 
 					<div
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/subject"
-							class="py-2 px-2 flex space-x-2 items-center"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
@@ -154,8 +160,11 @@
 								content="មុខវិជ្ជា"
 								placement="right-start"
 							>
-								<el-icon style="font-size: 1.2rem">
+								<!-- <el-icon style="font-size: 1.2rem">
 									<Suitcase />
+								</el-icon> -->
+								<el-icon style="font-size: 1.5rem">
+									<Reading />
 								</el-icon>
 							</el-tooltip>
 
@@ -167,11 +176,12 @@
 					</div>
 					<div
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/class"
-							class="py-2 px-2 flex space-x-2 items-center"
+							:class="[activeMenuNameRoute('class')?'router-link-exact-active':'']"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
@@ -179,8 +189,9 @@
 								content="ថ្នាក់រៀន"
 								placement="right-start"
 							>
-								<el-icon style="font-size: 1.2rem">
-									<CircleCheck />
+
+								<el-icon style="font-size: 1.5rem">
+									<OfficeBuilding />
 								</el-icon>
 							</el-tooltip>
 							<span
@@ -191,37 +202,115 @@
 					</div>
 					<div
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
-							to="/attendentp"
-							class="py-2 px-2 flex space-x-2 items-center"
+							to="/score-type"
+							:class="[activeMenuNameRoute('score-type')?'router-link-exact-active':'']"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
 								effect="dark"
-								content="វត្តមានសិស្ស"
+								content="ប្រភេទពិន្ទុ"
 								placement="right-start"
 							>
-								<el-icon style="font-size: 1.2rem">
-									<CircleCheck />
+
+								<el-icon style="font-size: 1.5rem">
+									<List />
 								</el-icon>
 							</el-tooltip>
 							<span
 								v-show="dataSibar"
 								class="sanfont-khmer  text-sm"
-							> វត្តមានសិស្ស</span>
+							> ប្រភេទពិន្ទុ</span>
+						</router-link>
+					</div>
+					<div
+						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
+						:class="dataSibar == true ? ' ' : ''"
+					>
+						<router-link
+							to="/time"
+							:class="[activeMenuNameRoute('time')?'router-link-exact-active':'']"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
+						>
+							<el-tooltip
+								class="box-item"
+								effect="dark"
+								content="ម៉ោងពេល"
+								placement="right-start"
+							>
+
+								<el-icon style="font-size: 1.5rem">
+									<Clock />
+								</el-icon>
+							</el-tooltip>
+							<span
+								v-show="dataSibar"
+								class="sanfont-khmer  text-sm"
+							> ម៉ោងសិក្សា</span>
+						</router-link>
+					</div>
+					<div
+						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
+						:class="dataSibar == true ? ' ' : ''"
+					>
+						<router-link
+							to="/academic"
+							:class="[activeMenuNameRoute('academic')?'router-link-exact-active':'']"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
+						>
+							<el-tooltip
+								class="box-item"
+								effect="dark"
+								content="ឆ្នាំសិក្សា"
+								placement="right-start"
+							>
+
+								<el-icon style="font-size: 1.5rem">
+									<CollectionTag />
+								</el-icon>
+							</el-tooltip>
+							<span
+								v-show="dataSibar"
+								class="sanfont-khmer  text-sm"
+							> ឆ្នាំសិក្សា</span>
+						</router-link>
+					</div>
+					<div
+						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white  "
+						:class="dataSibar == true ? ' ' : ''"
+					>
+						<router-link
+							to="/reports"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
+						>
+							<el-tooltip
+								class="box-item"
+								effect="dark"
+								content="របាយការណ៍"
+								placement="right-start"
+							>
+								<el-icon style="font-size: 1.5rem">
+									<PieChart />
+								</el-icon>
+							</el-tooltip>
+							<span
+								v-show="dataSibar"
+								class="sanfont-khmer  text-sm"
+							> របាយការណ៍</span>
 						</router-link>
 					</div>
 				</div>
-				<div class="menu-man text-left px-2 justify-self-end whitespace-nowrap">
+				<div class="menu-man text-left  whitespace-nowrap flex flex-col space-y-2">
 					<div
-						class="   py-3 rounded-md cursor-pointer text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
+						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
 							to="/setting"
-							class="py-2 px-2 flex space-x-2 items-center"
+							class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900"
 						>
 							<el-tooltip
 								class="box-item"
@@ -229,42 +318,39 @@
 								content="ការកំណត់"
 								placement="right-start"
 							>
-								<el-icon style="font-size: 1.2rem">
-									<Setting />
+								<el-icon style="font-size: 1.5rem">
+									<Tools />
 								</el-icon>
 							</el-tooltip>
 
 							<span
 								v-show="dataSibar"
 								class="sanfont-khmer text-sm"
-							>ការកំណត់ </span>
+							> ការកំណត់</span>
 						</router-link>
 					</div>
 					<div
-						class="   py-3 rounded-md cursor-pointer text-gray-300 hover:text-white"
-						:class="dataSibar == true ? 'px-2' : ''"
+						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
+						:class="dataSibar == true ? ' ' : ''"
 					>
-						<a
-							href="https://website-nuxt-front.vercel.app/"
-							target="_blank"
-							class="px-2 flex space-x-2"
-						>
+						<div class="py-2 px-2 flex space-x-2 items-center border-l-[4px] border-blue-900">
 							<el-tooltip
 								class="box-item"
 								effect="dark"
-								content="អំពីយើង"
+								content="បង្កើតដោយ Copyright @ 2023 BIT14"
 								placement="right-start"
 							>
-								<el-icon style="font-size: 1.2rem">
-									<Warning />
-								</el-icon>
+								<!-- <el-icon>
+									<InfoFilled />
+								</el-icon> -->
+								<span style="font-size: 1.5rem"> &copy;</span>
 							</el-tooltip>
 
 							<span
 								v-show="dataSibar"
 								class="sanfont-khmer text-sm"
-							>អំពីយើង </span>
-						</a>
+							> បង្កើតដោយ @ 2023 BIT14</span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -288,6 +374,11 @@ export default {
 			user: 'auth/user',
 		})
 	},
+	methods: {
+		activeMenuNameRoute(name) {
+			return this.$route.name.includes(name);
+		}
+	}
 };
 </script>
 

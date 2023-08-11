@@ -35,12 +35,51 @@ export default [
                 name: "class",
                 component: import('./../pages/class'),
                 path: "/class",
+                exact: false,
             },
             {
 
-                name: "class-detail",
+                name: "class.detail",
                 component: import('./../pages/class/class-detail'),
                 path: "/class-detail",
+
+            },
+            {
+
+                name: "score-type",
+                component: import('./../pages/score-type'),
+                path: "/score-type",
+
+            },
+            {
+
+                name: "time",
+                component: import('./../pages/time'),
+                path: "/time",
+
+            },
+            {
+
+                name: "academic",
+                component: import('./../pages/academic'),
+                path: "/academic",
+
+            },
+            {
+
+                name: "reports",
+                component: import('./../pages/report'),
+                path: "/reports",
+                meta: { transition: 'fade' }
+
+            },
+            {
+
+                name: "setting",
+                component: import('./../pages/setting'),
+                path: "/setting",
+                meta: { transition: 'fade' }
+
             }
         ]
     },

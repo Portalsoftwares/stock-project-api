@@ -18,9 +18,9 @@ class TeacherSeeder extends Seeder
     {
         Teacher::create(
             [
-                'first_name_kh' => 'សោភា',
+                'first_name_kh' => 'វាន់',
                 'last_name_kh' => 'ស៊ីវម៉ី',
-                'first_name_en' => 'Sopea',
+                'first_name_en' => 'Van',
                 'last_name_en' => 'Sivmey',
                 'date_of_birth' => '01-01-2003',
                 'gender_id' =>  "1",

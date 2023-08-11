@@ -1,16 +1,40 @@
 <template>
-	<div class="bg-white p-2 w-full flex justify-between">
-		<div class="self-start">
-			<el-input
-				placeholder="ស្វែងរក"
-				class="sanfont-khmer"
-				v-model="search"
-			>
-				<i class="el-input__icon el-icon-search"></i>
-				<CirclePlusFilled class="el-input__icon" />
-			</el-input>
+	<div class="bg-white p-2 w-full flex justify-between border rounded-t">
+		<div class="flex space-x-2">
+			<div class="self-start">
+				<el-input
+					placeholder="ស្វែងរក"
+					class="sanfont-khmer"
+					v-model="search"
+				>
+				</el-input>
+			</div>
+			<div class="hidden">
+				<el-select
+					v-model="filterSelectValue"
+					filterable
+					placeholder="តម្រៀប"
+				>
+					<el-option
+						v-for="item in filter"
+						:key="item.filterValue"
+						:label="item.filterLabel"
+						:value="item.filterValue"
+					>
+					</el-option>
+				</el-select>
+			</div>
 		</div>
 		<div class="self-end">
+
+			<el-button type="info">
+				<el-icon>
+					<Document />
+				</el-icon>
+				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+
+			</el-button>
+
 			<el-button
 				type="primary"
 				@click="AddUser"
@@ -18,60 +42,56 @@
 				<el-icon>
 					<CirclePlusFilled />
 				</el-icon>
-				<span class="mx-1 sanfont-khmer"> បន្ថែម អ្នកប្រើប្រាស់</span>
+				<span class="mx-1 sanfont-khmer"> បន្ថែមអ្នកប្រើប្រាស់</span>
 			</el-button>
 		</div>
+
 	</div>
 	<div class="grid grid-cols-1 gap-2 ">
 		<div class=" border rounded bg-gray-50">
 			<div class="flex flex-col  ">
-				<div
-					class="m-2"
-					v-if="showSuccess"
-				>
-					<el-alert
-						title="success alert"
-						type="success"
-						show-icon
-					/>
-				</div>
-				<div
-					class="m-2"
-					v-if="showInfo"
-				>
-					<el-alert
-						title="info alert"
-						type="info"
-						show-icon
-					/>
-				</div>
 				<el-table
 					:data="tableData"
-					height="840"
+					height="750"
 					style="width: 100%"
 					resizable="true"
-					header-cell-class-name="sanfont-khmer text-md"
+					header-cell-class-name="header-table-font-khmer text-md"
 					row-class-name="sanfont-khmer"
 					selectable
+					stripe
+					highlight-current-row="true"
+					v-loading="loading"
 				>
 					<el-table-column
 						type="selection"
 						width="55"
 					/>
 					<el-table-column
+						type="index"
+						width="90"
+						label="ល.រ"
+					>
+						<template #default="scope">{{scope.row.id }}</template>
+					</el-table-column>
+					<el-table-column
 						property="profile"
 						label="រូបភាព"
-						width="300"
+						width="100"
 					>
 						<template #default="scope">
-							<img
+							<el-image
+								style="width: 40px; height: 40px"
 								:src="scope.row.img?.file_path"
-								alt=""
-								class="h-[50px] w-[50px] rounded-full"
-							>
+								fit="cover"
+								:lazy="true"
+								class="rounded-full"
+							/>
 						</template>
 					</el-table-column>
-					<el-table-column label="ឈ្មោះ">
+					<el-table-column
+						label="ឈ្មោះ"
+						sortable
+					>
 						<template #default="scope">{{ scope.row.name }}</template>
 					</el-table-column>
 					<el-table-column
@@ -79,10 +99,18 @@
 						label="សារអេឡិចត្រូនិច"
 						width="300"
 					/>
+
+					<el-table-column label="លេខទូរស័ព្ទ">
+						<template #default="scope">
+							<div>011 999222</div>
+
+						</template>
+					</el-table-column>
+
 					<el-table-column
 						property="roles"
 						label="តួនាទី"
-						width="400"
+						width="350"
 					>
 						<template #default="scope">
 							<div class="flex space-x-1 min-w-[200px]">
@@ -98,8 +126,10 @@
 							</div>
 						</template>
 					</el-table-column>
+
 					<el-table-column
 						fixed="right"
+						align="center"
 						label="សកម្មភាព"
 					>
 						<template #default="scope">
@@ -117,16 +147,30 @@
 						</template>
 					</el-table-column>
 				</el-table>
+				<div class="py-2 flex justify-center">
+					<el-pagination
+						background
+						layout="total, prev, pager, next, sizes"
+						:total="tableData.length"
+					>
+					</el-pagination>
+				</div>
 			</div>
 		</div>
 	</div>
 	<!-- Dialog  -->
 	<el-dialog
 		v-model="dialogFormVisible"
-		title="ព័ត៍មានអ្នកប្រើប្រាស់"
+		title="ព័ត៌មានអ្នកប្រើប្រាស់"
 		class="sanfont-khmer"
 		width="50%"
+		draggable
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានអ្នកប្រើប្រាស់</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleForm"
@@ -147,6 +191,19 @@
 						name="name"
 						clearable
 					></el-input>
+				</el-form-item>
+				<el-form-item
+					label="លេខទូរស័ព្ទ"
+					prop="phone"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						v-model="ruleForm.phone"
+						autocomplete="off"
+						name="phone"
+						clearable
+					/>
 				</el-form-item>
 				<el-form-item
 					label="សារអេឡិចត្រូនិច"
@@ -182,8 +239,9 @@
 				>
 					<el-select
 						v-model="ruleForm.roles"
-						placeholder="Select roles"
+						placeholder="ជ្រើសរើស"
 						class="text-left"
+						name="roles"
 						multiple
 					>
 						<el-option
@@ -310,7 +368,24 @@ export default {
 					{ required: true, message: 'Please add photo', trigger: 'change' }
 				],
 			},
-			search: ''
+			search: '',
+
+			filter: [{
+				filterValue: 'តាមឈ្មោះ',
+				filterLabel: 'តាមឈ្មោះ'
+			}, {
+				filterValue: 'តាមលេខរៀង',
+				filterLabel: 'តាមលេខរៀង'
+			}, {
+				filterValue: 'តាមកាលបរិច្ឆេត',
+				filterLabel: 'តាមកាលបរិច្ឆេត'
+			}, {
+				filterValue: 'តាមទំហំផ្ទុក',
+				filterLabel: 'តាមទំហំផ្ទុក'
+			}],
+			filterSelectValue: "",
+			loading: false
+
 		}
 	},
 	mounted() {
@@ -439,8 +514,10 @@ export default {
 			})
 		},
 		async getData() {
+			this.loading = true
 			await axios.get('/user/get').then(response => {
 				this.tableData = response.data.users
+				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
@@ -562,5 +639,9 @@ export default {
 
 .red {
 	color: var(--el-color-error);
+}
+
+.mr-820 {
+	margin-right: 820px;
 }
 </style>

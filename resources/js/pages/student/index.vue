@@ -1,17 +1,65 @@
 <template>
-	<div class="bg-white p-2 w-full flex justify-between">
-		<div class="self-start">
-			<el-input
-				placeholder="ស្វែងរក"
-				class="sanfont-khmer"
-				v-model="search"
-			>
-				<i class="el-input__icon el-icon-search"></i>
-				<CirclePlusFilled class="el-input__icon" />
-			</el-input>
-		</div>
-		<div class="self-end">
 
+	<div class="bg-white p-2 w-full flex justify-between border rounded-t">
+		<div class="flex space-x-2">
+			<div class="self-start">
+				<el-input
+					placeholder="ស្វែងរក"
+					class="sanfont-khmer"
+					v-model="search"
+				>
+					<i class="el-input__icon el-icon-search"></i>
+					<CirclePlusFilled class="el-input__icon" />
+				</el-input>
+			</div>
+			<div class="self-start  ">
+				<el-select
+					v-model="filterSelectValue "
+					filterable
+					clearable
+					multiple
+					placeholder="សិស្សនៃកម្រិត"
+				>
+					<el-option
+						v-for="item in filter"
+						:key="item.filterValue"
+						:label="item.filterLabel"
+						:value="item.filterValue"
+					>
+					</el-option>
+				</el-select>
+			</div>
+			<div class="self-start  ">
+				<el-select
+					v-model="academicSelectValue"
+					filterable
+					clearable
+					placeholder="ឆ្នាំសិក្សា"
+				>
+					<el-option
+						v-for="item in academic"
+						:key="item.filterValue"
+						:label="item.filterLabel"
+						:value="item.filterValue"
+					>
+					</el-option>
+				</el-select>
+			</div>
+			<el-button type="primary">
+				<el-icon>
+					<Search />
+				</el-icon>
+			</el-button>
+		</div>
+
+		<div class="self-end">
+			<el-button type="info">
+				<el-icon>
+					<Document />
+				</el-icon>
+				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+
+			</el-button>
 			<el-button
 				type="primary"
 				@click="AddUser"
@@ -19,92 +67,131 @@
 				<el-icon>
 					<CirclePlusFilled />
 				</el-icon>
-				<span class="mx-1 sanfont-khmer"> បន្ថែម សិស្ស</span>
+				<span class="mx-1 sanfont-khmer"> បន្ថែមសិស្ស</span>
 			</el-button>
 		</div>
 	</div>
 	<div class="grid grid-cols-1 gap-2 ">
 		<div class=" border rounded bg-gray-50">
 			<div class="flex flex-col  ">
-				<div
-					class="m-2"
-					v-if="showSuccess"
-				>
-					<el-alert
-						title="success alert"
-						type="success"
-						show-icon
-					/>
-				</div>
-				<div
-					class="m-2"
-					v-if="showInfo"
-				>
-					<el-alert
-						title="info alert"
-						type="info"
-						show-icon
-					/>
-				</div>
 				<!-- {{ tableData }} -->
 				<el-table
 					:data="tableData"
-					height="800"
+					height="750"
 					style="width: 100%"
 					resizable="true"
-					header-cell-class-name="sanfont-khmer text-md"
+					header-cell-class-name="header-table-font-khmer text-md"
 					row-class-name="sanfont-khmer"
 					selectable
+					v-loading="loading"
+					highlight-current-row="true"
+					stripe
 				>
+
 					<el-table-column
 						type="selection"
 						width="55"
 					/>
 
 					<el-table-column
+						type="index"
+						width="90"
+						align="start"
+						label="ល.រ"
 						sortable
-						label="គោត្តនាម និងនាម"
+					>
+					</el-table-column>
+
+					<el-table-column
+						width="100"
+						align="start"
+						label="រូបភាព"
+					>
+						<template #default="scope">
+							<el-image
+								style="width: 40px; height: 40px"
+								:src="scope.row.profile_img?.file_path"
+								fit="cover"
+								:lazy="true"
+								class="rounded-full"
+							/>
+						</template>
+					</el-table-column>
+
+					<el-table-column
+						width="100"
+						align="start"
+						label="អត្តលេខ"
+						sortable
+					>
+						<template #default="scope">{{ "PK-S00"+ scope.row.student_id}}</template>
+					</el-table-column>
+					<el-table-column
+						width="180"
+						label="ឈ្មោះភាសាខ្មែរ"
+						sortable
 					>
 						<template #default="scope">{{scope.row.first_name_kh +" "+scope.row.last_name_kh }}</template>
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
-						label="គោត្តនាម និងនាម ឡាតាំង"
+						label="ឈ្មោះឡាតាំង"
+						width="250"
+						sortable
 					>
 						<template #default="scope">{{scope.row.first_name_en +" "+scope.row.last_name_en }}</template>
 
 					</el-table-column>
 					<el-table-column
-						label="ថ្នាក់រៀន"
-						sortable
-						:filters="classData"
+						width="120"
+						label="ភេទ"
+						:filters="genders"
 					>
 						<template #default="scope">
-							<div>
-								{{ scope.row.current_class?.class.grade_name }}
-							</div>
-						</template>
-					</el-table-column>
-					<el-table-column label="រូបភាព">
-						<template #default="scope">
-							<img
-								:src="scope.row.profile_img.file_path"
-								alt="profile"
-								title="profile"
-								class="h-[50px] w-[50px] rounded-full"
-							>
+							<div v-if="scope.row.gender_id == 1">ប្រុស</div>
+							<div v-else>ស្រី</div>
 						</template>
 					</el-table-column>
 					<el-table-column
+						width="120"
+						label="ថ្នាក់រៀន"
+						sortable
+					>
+						<template #default="scope">
+							<div>
+								{{ scope.row.current_class?.class.class_name}}
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត">
+						<template #default="scope">
+							<div>
+								{{ scope.row.date_of_birth}}
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column
+						label="លេខទូរស័ព្ទ"
+						width="120"
+					>
+						<template #default="scope">
+							<div>
+								{{ scope.row.phone}}
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column
+						align="center"
 						fixed="right"
 						label="សកម្មភាព"
 					>
 						<template #default="scope">
 							<el-button
 								size="small"
-								class="sanfont-khmer"
+								class="sanfont-khmer "
 								@click="editUser()"
 							>កែប្រែ</el-button>
+
 							<el-button
 								size="small"
 								type="danger"
@@ -113,15 +200,15 @@
 							>លុប</el-button>
 						</template>
 					</el-table-column>
-
 				</el-table>
-				<div class="py-2">
+				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
-						layout="prev, pager, next"
-						:total="1000"
+						layout="total, prev, pager, next, sizes"
+						:total="tableData.length"
 					>
 					</el-pagination>
+
 				</div>
 			</div>
 		</div>
@@ -129,10 +216,17 @@
 	<!-- Dialog  -->
 	<el-dialog
 		v-model="dialogFormVisible"
-		title="ព័ត៍មានអ្នកប្រើប្រាស់"
-		class="sanfont-khmer"
+		title="ព័ត៌មានសិស្ស"
+		class="sanfont-khmer "
 		width="50%"
+		align-center="true"
+		draggable
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានសិស្ស</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleForm"
@@ -140,98 +234,258 @@
 			ref="ruleForm"
 			id="fm"
 		>
-			<div>
-				<el-form-item
-					label="ឈ្មោះ"
-					prop="name"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.name"
-						name="name"
-						clearable
-					></el-input>
-				</el-form-item>
-				<el-form-item
-					label="សារអេឡិចត្រូនិច"
-					prop="email"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.email"
-						autocomplete="off"
-						name="email"
-						clearable
-					/>
-				</el-form-item>
-				<el-form-item
-					v-if="isShowPassword"
-					label="ពាក្យសម្ងាត់"
-					prop="password"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.password"
-						name="password"
-						show-password
-					/>
-				</el-form-item>
-				<el-form-item
-					label="តួនាទី"
-					prop="roles"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-select
-						v-model="ruleForm.roles"
-						placeholder="Select roles"
-						class="text-left "
-						multiple
-					>
-						<el-option
-							v-for="data in roles"
-							:key="data"
-							:label="data.name"
-							:value="data.name"
-						/>
-					</el-select>
-				</el-form-item>
-			</div>
-			<el-form-item
-				label="រូបភាព"
-				class="sanfont-khmer"
-				:label-width="formLabelWidth"
-			>
-				<div>
-					<el-upload
-						class="avatar-uploader"
-						action="#"
-						name="file"
-						:show-file-list="true"
-						:auto-upload="false"
-						:on-change="handleAvatarSuccess"
-						:before-upload="beforeAvatarUpload"
-					>
-						<img
-							v-if="imageUrl"
-							:src="imageUrl"
-							class="avatar 	object-contain "
-						>
-						<i
-							v-else
-							class="el-icon-plus avatar-uploader-icon"
-						></i>
-					</el-upload>
-					<input
-						type="hidden"
-						name="photo_id"
-						v-model="ruleForm.photo_id"
-					>
+			<div class="flex flex-col">
+				<div class=" item-start ">
+
 				</div>
-			</el-form-item>
+				<div class="flex flex-row ">
+					<div class="flex flex-col space-y-1">
+						<div>
+
+							<el-form-item
+								label="នាមត្រកូល (ខ្មែរ)"
+								prop="firstNameKh"
+								class="sanfont-khmer "
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.firstNameKh"
+									name="firstNameKh1"
+									clearable
+								></el-input>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="នាមខ្លួន (ខ្មែរ)"
+								prop="LastNameKh"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.LastNameKh"
+									name="LastNameKh1"
+									clearable
+								></el-input>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="នាមត្រកូល(អង់គ្លេស)"
+								prop="firstNameEng"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.firstNameEng"
+									name="firstNameEng1"
+									clearable
+								></el-input>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="នាមខ្លួន (អង់គ្លេស)"
+								prop="LastNameEng"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.LastNameEng"
+									name="LastNameEng1"
+									clearable
+								></el-input>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="អត្តលេខ"
+								prop="subject"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="IDn"
+									autocomplete="off"
+									name="email"
+									clearable
+								/>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="ភេទ"
+								prop="gender"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-select
+									v-model="ruleForm.genderValue"
+									placeholder="ជ្រើសរើស"
+								>
+									<el-option
+										v-for="item in gender"
+										:key="item.genderValue"
+										:label="item.genderLabel"
+										:value="item.genderValue"
+									>
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</div>
+
+						<div>
+							<el-form-item
+								label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត"
+								prop="dobValue"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-date-picker
+									v-model="ruleForm.dobValue"
+									type="date"
+								>
+								</el-date-picker>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="ទីកន្លែងកំណើត"
+								prop="address"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.birsthAddress"
+									autocomplete="off"
+									name="email"
+									clearable
+								/>
+							</el-form-item>
+						</div>
+
+						<div>
+							<el-form-item
+								label="អាស័យដ្ឋានបច្ចុប្បន្ន"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.address"
+									autocomplete="off"
+									name="email"
+									clearable
+								/>
+							</el-form-item>
+						</div>
+
+					</div>
+					<div class="flex flex-col space-y-1">
+						<div>
+							<el-form-item
+								label="រូបភាព"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<div>
+									<el-upload
+										class="avatar-uploader"
+										action="#"
+										name="file"
+										:show-file-list="true"
+										:auto-upload="false"
+										:on-change="handleAvatarSuccess"
+										:before-upload="beforeAvatarUpload"
+									>
+										<img
+											v-if="imageUrl"
+											:src="imageUrl"
+											class="avatar 	object-contain "
+										>
+										<i
+											v-else
+											class="el-icon-plus avatar-uploader-icon"
+										></i>
+									</el-upload>
+									<input
+										type="hidden"
+										name="photo_id"
+										v-model="ruleForm.photo_id"
+									>
+								</div>
+							</el-form-item>
+						</div>
+
+						<div>
+							<el-form-item
+								label="លេខទូរស័ព្ទ"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.phoneNum"
+									autocomplete="off"
+									type="number"
+									name="phoneNum"
+									clearable
+								/>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="សារអេឡិចត្រូនិច"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.email"
+									autocomplete="off"
+									name="email"
+									clearable
+								/>
+							</el-form-item>
+						</div>
+
+						<div>
+							<el-form-item
+								label="ស្ថានភាព"
+								prop="status"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-select
+									v-model="ruleForm.statusValue"
+									placeholder="ជ្រើសរើស"
+								>
+									<el-option
+										v-for="item in status"
+										:key="item.statusValue"
+										:label="item.statusLabel"
+										:value="item.statusValue"
+									>
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="ផ្សេងៗ"
+								prop="studentOtherText"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									type="textarea"
+									:rows="5"
+									v-model="ruleForm.studentOtherText"
+								>
+								</el-input>
+							</el-form-item>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</el-form>
 		<el-dialog v-model="dialogVisible">
 			<img
@@ -244,7 +498,8 @@
 			<span class="dialog-footer">
 				<el-button
 					@click="cancelAction()"
-					class="sanfont-khmer"
+					class="sanfont-khmer "
+					type="danger"
 				> បោះបង់</el-button>
 				<el-button
 					v-if="!isShowButtonUpdate"
@@ -272,6 +527,7 @@ export default {
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
 		return {
+			IDn: 'PK-S0038',
 			tableData: [],
 			classData: [],
 			showSuccess: false,
@@ -289,34 +545,121 @@ export default {
 			isShowButtonUpdate: false,
 
 			ruleForm: {
-				name: null,
+				firstNameKh: null,
+				LastNameKh: null,
+				firstNameEng: null,
+				LastNameEng: null,
 				roles: null,
 				password: null,
 				email: null,
 				photo_id: null,
-				userId: null
+				userId: null,
+				genderValue: null,
+				dobValue: null,
+				address: null,
+				phoneNum: null,
+				studentOtherText: null,
+				statusValue: null,
 			},
 			rules: {
-				name: [
-					{ required: true, message: 'Please input Activity name', trigger: 'blur' },
-					{ min: 3, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
+				firstNameKh: [
+					{ required: true, message: 'សូមបញ្ជូលនាមត្រកូល (ខ្មែរ)', trigger: 'blur' },
+					{ min: 3, max: 15, message: 'ចំនួនពីចាប់៣រតួហូតដល់១៥តួ', trigger: 'blur' }
+				],
+				LastNameKh: [
+					{ required: true, message: 'សូមបញ្ជូលនាមខខ្លួន (ខ្មែរ)', trigger: 'blur' },
+					{ min: 3, max: 15, message: 'ចំនួនពីចាប់៣រតួហូតដល់១៥តួ', trigger: 'blur' }
+				],
+				firstNameEng: [
+					{ required: true, message: 'សូមបញ្ជូលនាមត្រកូល (អង់គ្លេស)', trigger: 'blur' },
+					{ min: 3, max: 15, message: 'ចំនួនពីចាប់៣រតួហូតដល់១៥តួ', trigger: 'blur' }
+				],
+				LastNameEng: [
+					{ required: true, message: 'សូមបញ្ជូលនាមខ្លួន (អង់គ្លេស)', trigger: 'blur' },
+					{ min: 3, max: 15, message: 'ចំនួនពីចាប់៣រតួហូតដល់១៥តួ', trigger: 'blur' }
+				],
+				gender: [
+					{ required: true, message: 'សូមជ្រើសរើសភេទ', trigger: 'blur' },
+				],
+				dobValue: [
+					{ required: true, message: 'សូមបញ្ជូលថ្ងៃខែឆ្នាំកំណើត', trigger: 'blur' },
 				],
 				roles: [
-					{ required: true, message: 'Please select role', trigger: 'change' }
+					{ required: true, message: 'សូមបញ្ជូលតួនាទី', trigger: 'blur' }
 				],
 				email: [
-					{ required: true, message: 'Please input email address', trigger: 'blur' },
-					{ type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
+					{ required: true, message: 'សូមបញ្ជូលសារអេឡិចត្រូនិច', trigger: 'blur' },
+					{ type: 'email', message: 'សូមបញ្ជូលសារអេឡិចត្រូនិចឲបានត្រឹមត្រូវ (name@mail.com)', trigger: ['blur', 'change'] }
 				],
 				password: [
-					{ required: true, message: 'Please set password', trigger: 'blur' },
-					{ min: 8, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
+					{ required: true, message: 'សូមបញ្ជូលលេខសម្ងាត់', trigger: 'blur' },
+					{ min: 8, max: 15, message: 'ចំនួនពីចាប់៣រតួហូតដល់១៥តួ', trigger: 'blur' }
 				],
-				photo_id: [
-					{ required: true, message: 'Please add photo', trigger: 'change' }
+				status: [
+					{ required: true, message: 'សូមបញ្ជូលស្ថានភាព', trigger: 'blur' },
 				],
+
+				address: [
+					{ required: true, message: 'សូមបញ្ជូលអាស័យដ្ឋាន', trigger: 'blur' },
+
+				],
+				phoneNum: [
+					{ required: true, message: 'សូមបញ្ជូលលេខទូរស័ព្ទ', trigger: 'blur' },
+					{ min: 8, message: 'យ៉ាងតិចឲបាន៨តួ', trigger: 'blur' },
+
+				],
+
 			},
-			search: ''
+			search: '',
+
+			gender: [{
+				genderValue: 'ប្រុស',
+				genderLabel: 'ប្រុស'
+			}, {
+				genderValue: 'ស្រី',
+				genderLabel: 'ស្រី'
+			}],
+			genders: [{
+				value: 'ប្រុស',
+				text: 'ប្រុស'
+			}, {
+				value: 'ស្រី',
+				text: 'ស្រី'
+			}],
+
+
+			status: [{
+				statusValue: 'កំពុងសិក្សា',
+				statusLabel: 'កំពុងសិក្សា'
+			}, {
+				statusValue: 'បញ្ឈប់ការសិក្សា',
+				statusLabel: 'បញ្ឈប់ការសិក្សា'
+			}],
+
+			filter: [{
+				filterValue: 'តាមឈ្មោះ',
+				filterLabel: 'ទី១០'
+			}, {
+				filterValue: 'តាមលេខរៀង',
+				filterLabel: 'ទី១១'
+			}, {
+				filterValue: 'តាមកាលបរិច្ឆេត',
+				filterLabel: 'ទី១២'
+			}],
+			academic: [{
+				filterValue: 'តាមឈ្មោះ',
+				filterLabel: 'ឆ្នាំ២០២១-២០២២'
+			}, {
+				filterValue: 'តាមលេខរៀង',
+				filterLabel: 'ឆ្នាំ២០២២-២០២៣'
+			}, {
+				filterValue: 'តាមកាលបរិច្ឆេត',
+				filterLabel: 'ឆ្នាំ២០២៣-២០២៤'
+			}
+			],
+			filterSelectValue: "",
+			academicSelectValue: "",
+			loading: false
 		}
 	},
 	mounted() {
@@ -447,9 +790,11 @@ export default {
 			})
 		},
 		async getData() {
+			this.loading = true
 			await axios.get('/student/get').then(response => {
 				this.tableData = response.data.data
 				this.classData = response.data.class
+				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")

@@ -13,6 +13,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 // collapse
 import { ElNotification, ElMessage, ElCollapseTransition, ElTable, ElPopover } from 'element-plus'
 // fade/zoom
+import VueApexCharts from "vue3-apexcharts";
 //IMPORT COMPONENTS
 import store from "./store/index"
 import router from "./router"
@@ -21,6 +22,7 @@ const app = createApp(App)
 //COMPONENTS
 app.use(ElNotification)
 app.use(ElMessage)
+app.use(VueApexCharts)
 app.use(moment)
 app.component(ElTable)
 app.component(ElPopover)

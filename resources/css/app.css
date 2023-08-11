@@ -1,11 +1,11 @@
 
-@font-face {
+/* @font-face {
     src: url("/font/Kantumruy-Regular.woff") format("woff");
     font-family: "Kantumruy";
-}
+} */
 
 body {
-   font-family: 'Kantumruy', sans-serif !important;
+   font-family: 'Khmer OS Siemreap', sans-serif !important;
     font-weight: 500;
     font-size: 16px;
 }
@@ -21,7 +21,9 @@ body {
 .side-bar-visible {
 	width: 250px !important;
 }
-
 .side-bar-close {
 	width: 50px !important;
+}
+.btn{
+	text-transform: capitalize;
 }

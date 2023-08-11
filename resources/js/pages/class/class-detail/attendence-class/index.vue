@@ -1,14 +1,25 @@
 
 <template>
 	<div class=" bg-white ">
-
 		<div class="pb-2 flex justify-between">
-			<div class="text-left text-md font-bold  ">វត្តមានសិស្សតាម មុខវិជ្ជា</div>
+			<div class="text-left text-xl  ">វត្តមានសិស្សតាម មុខវិជ្ជា</div>
 			<div class="text-right">
 				<el-button
 					type="primary"
 					class="sanfont-khmer"
-					@click="addScore('ruleForm')"
+				>
+
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1">
+						របាយការណ៍វត្តមានសិស្ស
+					</span>
+				</el-button>
+				<el-button
+					type="primary"
+					class="sanfont-khmer"
+					@click="addScore()"
 				>
 
 					<el-icon>
@@ -70,10 +81,15 @@
 		<el-dialog
 			v-model="dialogFormVisible"
 			fullscreen="true"
-			title="របាយការណ៍វត្តមាន សិស្ស"
+			title="របាយការណ៍វត្តមានសិស្ស"
 			class="sanfont-khmer text-xl"
 			width="50%"
 		>
+			<template #header>
+				<div class="my-header">
+					<h4 class="text-lg font-semibold text-white">របាយការណ៍វត្តមានសិស្ស</h4>
+				</div>
+			</template>
 			<div class="bg-white px-5">
 				<div class="flex justify-between py-2">
 					<el-form
@@ -128,16 +144,6 @@
 					>
 						<template #default="scope">
 							<div>
-								<span class="w-[10px]">
-									<span v-if="scope.row.student_in_class.gender_id ==2">
-										ក. &nbsp;
-									</span>
-									<span v-else>
-										&nbsp;
-										&nbsp;
-										&nbsp;
-									</span>
-								</span>
 								<span>{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}</span>
 							</div>
 						</template>
@@ -189,23 +195,55 @@
 						<el-table-column
 							prop="state"
 							label="PS"
+							value="10"
 							width="50"
-						/>
+							class="text-green-600"
+						>
+							<template #default="scope">
+								<span class="text-green-600">
+									12
+								</span>
+							</template>
+						</el-table-column>
 						<el-table-column
 							prop="city"
 							label="PM"
+							value="0"
 							width="50"
-						/>
+							class="text-yellow-600"
+						>
+							<template #default="scope">
+								<span class="text-yellow-600">
+									12
+								</span>
+							</template>
+						</el-table-column>
 						<el-table-column
 							prop="address"
 							label="AL"
+							value="5"
 							width="50"
-						/>
+							class="text-blue-600"
+						>
+							<template #default="scope">
+								<span class="text-blue-600">
+									12
+								</span>
+							</template>
+						</el-table-column>
 						<el-table-column
 							prop="address"
 							label="A"
+							value="10"
 							width="50"
-						/>
+							class="text-red-600"
+						>
+							<template #default="scope">
+								<span class="text-red-600">
+									12
+								</span>
+							</template>
+						</el-table-column>
 
 						<!-- <template #default="scope">
 							<div class="flex space-x-4 ">
@@ -240,6 +278,232 @@
 			Loading...
 		</template>
 	</Suspense>
+	<!-- Dialog  Manage Attendance list -->
+	<el-dialog
+		v-model="dialogFormVisibleAdd"
+		fullscreen="true"
+		title="គ្រប់គ្រងអវត្តមាន"
+		class="sanfont-khmer"
+		width="50%"
+	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">គ្រប់គ្រងអវត្តមាន</h4>
+			</div>
+		</template>
+		<div class="bg-white px-5">
+			<div class="flex justify-between py-2">
+				<el-form
+					label-position="top"
+					label-width="50px"
+					model="top"
+				>
+					<div class="flex space-x-2">
+						<el-form-item label="ថ្នាក់រៀន">
+							<el-select
+								v-model="classData.class_name"
+								disabled
+							>
+								<el-option
+									label="classData.class_name"
+									value="classData.class_name"
+								/>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="ថ្ងៃ">
+							<el-select v-model="dataDayObj.day_name_kh">
+								<el-option
+									label="dataDay"
+									value="dataDay"
+								/>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="ម៉ោង">
+							<el-select v-model="dataTimeObj.name">
+								<el-option
+									label="dataDay"
+									value="dataDay"
+								/>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="មុខវិទ្យា">
+
+							<el-select v-model="subjectAttendance">
+								<el-option
+									selected
+									label="ភាសាខ្មែរ"
+									value="ភាសាខ្មែរ"
+								/>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="កាលបរិច្ចេទ">
+
+							<el-date-picker
+								v-model="ruleForm"
+								type="date"
+							>
+							</el-date-picker>
+						</el-form-item>
+					</div>
+				</el-form>
+				<div>
+				</div>
+			</div>
+			<el-table
+				v-loading="loading_schedule"
+				:data="studentCallAttendance"
+				resizable="false"
+				header-cell-class-name="sanfont-khmer text-md"
+				row-class-name="sanfont-khmer"
+				style="width: 100%"
+				stripe
+				border
+			>
+				<el-table-column
+					label="ID"
+					type="index"
+				></el-table-column>
+				<el-table-column label="ឈ្មោះសិស្ស">
+					<template #default="scope">
+
+						<div>
+
+							<span>{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}</span>
+						</div>
+					</template>
+				</el-table-column>
+				<el-table-column label="ថ្ងៃខែឆ្នាំកំណើត">
+					<template #default="scope">
+						<span>
+							{{ scope.row.student_in_class.date_of_birth }}
+						</span>
+					</template>
+				</el-table-column>
+				<el-table-column label="ស្ថានភាព">
+					<template #default="scope">
+						<span :style="'color:'+scope.row.student_in_class.status.color">
+							{{ scope.row.student_in_class.status.status_kh }}
+						</span>
+					</template>
+				</el-table-column>
+
+				<el-table-column
+					align="center"
+					:label="dataTimeObj.name +' : ' + dataTimeObj.start_date +' - ' + dataTimeObj.end_date"
+				>
+					<el-table-column
+						width="60"
+						align="center"
+					>
+						<template #header>
+							<div class="text-green-600">PS</div>
+						</template>
+						<template #default="scope">
+							<el-checkbox v-model="checked"></el-checkbox>
+
+							<!-- <el-radio-group
+								v-model="scope.row.attendance_type_id"
+								fill="#67C23A"
+								size="small"
+							>
+								<el-radio
+									label="1"
+									class="bg-green-50 border border-green-50"
+									border
+								>វត្តមាន</el-radio>
+							</el-radio-group> -->
+						</template>
+					</el-table-column>
+					<el-table-column
+						width="60"
+						align="center"
+					>
+						<template #header>
+							<div class="text-yellow-600">PM</div>
+						</template>
+						<template #default="scope">
+							<el-checkbox v-model="checked"></el-checkbox>
+
+							<!-- <el-radio-group
+								v-model="scope.row.attendance_type_id"
+								size="small"
+							>
+								<el-radio
+									label="2"
+									class="bg-yellow-50 border border-yellow-50"
+									border
+								>ច្បាប់</el-radio>
+							</el-radio-group> -->
+						</template>
+					</el-table-column>
+					<el-table-column
+						width="60"
+						align="center"
+					>
+						<template #header>
+							<div class="text-blue-600">AL</div>
+						</template>
+						<template #default="scope">
+							<el-checkbox v-model="checked"></el-checkbox>
+
+							<!-- <el-radio-group
+								v-model="scope.row.attendance_type_id"
+								size="small"
+								text-color="#2563eb"
+								fill="#2563eb"
+							>
+								<el-radio
+									label="3"
+									class="bg-blue-50 border border-blue-50"
+									border
+								>យឺត</el-radio>
+							</el-radio-group> -->
+						</template>
+					</el-table-column>
+					<el-table-column
+						width="60"
+						align="center"
+					>
+						<template #header>
+							<div class="text-red-600">A</div>
+						</template>
+						<template #default="scope">
+							<el-checkbox v-model="checked"></el-checkbox>
+							<!-- <el-radio-group
+								class=""
+								v-model="scope.row.attendance_type_id"
+								size="small"
+								text-color="#dc2626"
+							>
+								<el-radio
+									class="bg-red-50 border border-red-50"
+									label="4"
+									border
+								></el-radio>
+							</el-radio-group> -->
+						</template>
+					</el-table-column>
+				</el-table-column>
+			</el-table>
+
+		</div>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button
+					@click="closeFormAttendance()"
+					class="sanfont-khmer"
+				> បោះបង់</el-button>
+				<el-button
+					type="primary"
+					class="sanfont-khmer"
+					@click="submitFormAttendance('ruleFormSchedule')"
+					v-loading.fullscreen.lock="fullscreenLoading"
+				>
+					រក្សាទុក
+				</el-button>
+			</span>
+		</template>
+	</el-dialog>
 	<div class="hidden text-blue-600 text-red-600 text-green-600 text-yellow-600"></div>
 </template>
 <script>
@@ -257,6 +521,7 @@ export default {
 	data() {
 		return {
 			dialogFormVisible: false,
+			dialogFormVisibleAdd: false,
 			attendanceTimeId: '1',
 			attendanceDayId: '1',
 			attendanceClassId: '1',
@@ -264,11 +529,15 @@ export default {
 			//
 			attendanceObj: [],
 			studentObj: [],
-			dataSubjectGradeObj: []
+			dataSubjectGradeObj: [],
+			subjectAttendance: 'ភាសាខ្មែរ'
 
 		}
 	},
 	methods: {
+		addScore() {
+			this.dialogFormVisibleAdd = true
+		},
 		geColor(type) {
 			const typeinput = type.replace(/[\u200B-\u200D\uFEFF]/g, '');
 			switch (typeinput) {
