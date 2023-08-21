@@ -12,6 +12,7 @@ class Teacher extends Model
     // use SoftDeletes;
     protected $table = 'teacher';
     // protected $dates = ['deleted_at'];
+    protected $primaryKey = "teacher_id";
     protected $fillable = [
         'teacher_id',
         'tid',

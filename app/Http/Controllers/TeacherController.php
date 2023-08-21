@@ -16,9 +16,9 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teacher =  Teacher::with('profile_img')->get();
+        $items =  Teacher::with('profile_img')->get();
         $response = [
-            'data' => $teacher,
+            'data' => $items,
         ];
         return  response($response, 200);
     }
@@ -47,21 +47,85 @@ class TeacherController extends Controller
             return  response($response, 400);
         }
         DB::transaction(function () use ($validator, $request) {
-            $teacher = new Teacher();
-            $teacher->fill($validator->validated());
-            $teacher->tid       = $request->tid;
-            $teacher->join_date = $request->join_date;
-            $teacher->address   = $request->address;
-            $teacher->file_upload_id    = $request->file_upload_id;
-            $teacher->phone     = $request->phone;
-            $teacher->email     = $request->email;
-            $teacher->is_enable_account = $request->is_enable_account;
-            $teacher->other     = $request->other;
-            $teacher->save();
+            $items = new Teacher();
+            $items->fill($validator->validated());
+            $items->tid       = $request->tid;
+            $items->join_date = $request->join_date;
+            $items->address   = $request->address;
+            $items->file_upload_id    = $request->file_upload_id;
+            $items->phone     = $request->phone;
+            $items->email     = $request->email;
+            $items->is_enable_account = $request->is_enable_account;
+            $items->other     = $request->other;
+            $items->save();
         });
 
         $response = [
-            'data' => 'successfull',
+            'data' => ' Create successfull',
+        ];
+        return  response($response, 200);
+    }
+
+    public function edit($id)
+    {
+        $items = Teacher::find($id);
+        $response = [
+            'data' => $items,
+        ];
+        return  response($response, 200);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'full_name_kh' => 'required|string',
+            'first_name_kh' => 'required|string',
+            'last_name_kh' => 'required|string',
+            'full_name_en' => 'required|string',
+            'first_name_en' => 'required|string',
+            'teacher_level' => 'required|integer',
+            'profession' => 'required|string',
+            'gender_id' => 'required',
+            'date_of_birth' => 'required',
+            'place_of_birth' => 'required',
+            'role' => 'required',
+            'status_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            $response = [
+                'errors' => $validator->messages(),
+            ];
+            return  response($response, 400);
+        }
+        DB::transaction(function () use ($validator, $request, $id) {
+            $items = Teacher::find($id);
+            $items->fill($validator->validated());
+            $items->tid       = $request->tid;
+            $items->join_date = $request->join_date;
+            $items->address   = $request->address;
+            $items->file_upload_id    = $request->file_upload_id;
+            $items->phone     = $request->phone;
+            $items->email     = $request->email;
+            $items->is_enable_account = $request->is_enable_account;
+            $items->other     = $request->other;
+            $items->save();
+        });
+
+        $response = [
+            'data' => 'Update successfull',
+        ];
+        return  response($response, 200);
+    }
+
+    public function delete($id)
+    {
+        DB::transaction(function () use ($id) {
+            $items = Teacher::find($id)->delete();
+        });
+
+        $response = [
+            'data' => 'Delete successfull',
         ];
         return  response($response, 200);
     }
