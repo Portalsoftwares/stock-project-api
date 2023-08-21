@@ -58,11 +58,18 @@ Route::prefix('v1')->group(function () {
     //Student
     Route::prefix('student')->group(function () {
       Route::get('/get', [StudentController::class, 'index']);
+      Route::post('/create', [StudentController::class, 'create']);
+      Route::get('/edit/{id}', [StudentController::class, 'edit']);
+      Route::post('/update/{id}', [StudentController::class, 'update']);
+      Route::delete('/delete/{id}', [StudentController::class, 'delete']);
     });
     //Teacher
     Route::prefix('teacher')->group(function () {
       Route::get('/get', [TeacherController::class, 'index']);
       Route::post('/create', [TeacherController::class, 'create']);
+      Route::get('/edit/{id}', [TeacherController::class, 'edit']);
+      Route::post('/update/{id}', [TeacherController::class, 'update']);
+      Route::delete('/delete/{id}', [TeacherController::class, 'delete']);
     });
     //Subject
     Route::prefix('subject')->group(function () {

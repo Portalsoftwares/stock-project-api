@@ -6,14 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 class Student extends Model
 {
     use HasFactory;
     // use SoftDeletes;
     protected $table = 'student';
     // protected $dates = ['deleted_at'];
+    protected $primaryKey = "student_id";
     protected $fillable = [
         'student_id',
+        'sid',
+        'full_name_kh',
+        'full_name_en',
         'first_name_kh',
         'last_name_kh',
         'first_name_en',
@@ -26,6 +31,11 @@ class Student extends Model
         'email',
         'address',
         'place_of_birth',
+        'from_secondary_high_school',
+        'secondary_exam_date',
+        'secondary_exam_place',
+        'secondary_exam_room',
+        'secondary_exam_desk',
         'other',
     ];
     public function current_class()
