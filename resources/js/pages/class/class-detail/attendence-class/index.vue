@@ -1,7 +1,6 @@
 
 <template>
 	<div class=" bg-white ">
-
 		<div class="pb-2 flex justify-between">
 			<div class="text-left text-xl  ">វត្តមានសិស្សតាម មុខវិជ្ជា</div>
 			<div class="text-right">
@@ -82,10 +81,15 @@
 		<el-dialog
 			v-model="dialogFormVisible"
 			fullscreen="true"
-			title="របាយការណ៍វត្តមាន សិស្ស"
+			title="របាយការណ៍វត្តមានសិស្ស"
 			class="sanfont-khmer text-xl"
 			width="50%"
 		>
+			<template #header>
+				<div class="my-header">
+					<h4 class="text-lg font-semibold text-white">របាយការណ៍វត្តមានសិស្ស</h4>
+				</div>
+			</template>
 			<div class="bg-white px-5">
 				<div class="flex justify-between py-2">
 					<el-form
@@ -282,6 +286,11 @@
 		class="sanfont-khmer"
 		width="50%"
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">គ្រប់គ្រងអវត្តមាន</h4>
+			</div>
+		</template>
 		<div class="bg-white px-5">
 			<div class="flex justify-between py-2">
 				<el-form

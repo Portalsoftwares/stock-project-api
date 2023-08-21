@@ -10,4 +10,8 @@
     font-weight: 600;
     font-size: 15px;
   }
+  header.el-dialog__header {
+    background: #1e40af;
+    margin-right: 0px !important;
+}
 @tailwind utilities;

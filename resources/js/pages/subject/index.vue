@@ -80,6 +80,8 @@
 							row-class-name="sheader-table-font-khmer"
 							selectable
 							v-loading="loading"
+							stripe
+							highlight-current-row="true"
 						>
 							<el-table-column
 								type="selection"
@@ -136,11 +138,11 @@
 						</el-table>
 						<div class="py-2 flex justify-center">
 							<el-pagination
-							background
-							layout="total, prev, pager, next, sizes"
-							:total="tableData.length"
+								background
+								layout="total, prev, pager, next, sizes"
+								:total="tableData.length"
 							>
-					</el-pagination>
+							</el-pagination>
 						</div>
 					</div>
 				</div>
@@ -155,6 +157,11 @@
 				align-center="true"
 				draggable
 			>
+				<template #header>
+					<div class="my-header">
+						<h4 class="text-lg font-semibold text-white">ព័ត៌មានមុខវិជ្ជា</h4>
+					</div>
+				</template>
 				<el-form
 					class="grid grid-cols-2"
 					:model="ruleForm"
@@ -353,6 +360,8 @@
 							row-class-name="sanfont-khmer"
 							selectable
 							v-loading="loading"
+							stripe
+							highlight-current-row="true"
 						>
 							<el-table-column
 								type="selection"
@@ -430,10 +439,12 @@
 				align-center="true"
 				draggable
 			>
-				<!-- 
-	<div class="flex justify-start item-start pl-[40px] space-y-[20px]">
-	<h1 class= "font-bold text-[20px]">ព័ត៌មានគ្រូ</h1>
-	</div>-->
+
+				<template #header>
+					<div class="my-header">
+						<h4 class="text-lg font-semibold text-white">ព័ត៌មានមុខវិជ្ជាតាមកម្រិត</h4>
+					</div>
+				</template>
 				<el-form
 					class="grid grid-cols-2"
 					:model="ruleForm"

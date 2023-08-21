@@ -85,6 +85,7 @@
 					selectable
 					v-loading="loading"
 					highlight-current-row="true"
+					stripe
 				>
 
 					<el-table-column
@@ -207,7 +208,7 @@
 						:total="tableData.length"
 					>
 					</el-pagination>
-					
+
 				</div>
 			</div>
 		</div>
@@ -221,10 +222,11 @@
 		align-center="true"
 		draggable
 	>
-		<!-- 
-	<div class="flex justify-start item-start pl-[40px] space-y-[20px]">
-	<h1 class= "font-bold text-[20px]">ព័ត៍មានអ្នកប្រើប្រាស់</h1>
-	</div>-->
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានសិស្ស</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleForm"
@@ -234,40 +236,6 @@
 		>
 			<div class="flex flex-col">
 				<div class=" item-start ">
-					<div>
-						<el-form-item
-							label="រូបភាព"
-							class="sanfont-khmer"
-							:label-width="formLabelWidth"
-						>
-							<div>
-								<el-upload
-									class="avatar-uploader"
-									action="#"
-									name="file"
-									:show-file-list="true"
-									:auto-upload="false"
-									:on-change="handleAvatarSuccess"
-									:before-upload="beforeAvatarUpload"
-								>
-									<img
-										v-if="imageUrl"
-										:src="imageUrl"
-										class="avatar 	object-contain "
-									>
-									<i
-										v-else
-										class="el-icon-plus avatar-uploader-icon"
-									></i>
-								</el-upload>
-								<input
-									type="hidden"
-									name="photo_id"
-									v-model="ruleForm.photo_id"
-								>
-							</div>
-						</el-form-item>
-					</div>
 
 				</div>
 				<div class="flex flex-row ">
@@ -331,6 +299,21 @@
 						</div>
 						<div>
 							<el-form-item
+								label="អត្តលេខ"
+								prop="subject"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="IDn"
+									autocomplete="off"
+									name="email"
+									clearable
+								/>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
 								label="ភេទ"
 								prop="gender"
 								class="sanfont-khmer"
@@ -381,23 +364,6 @@
 							</el-form-item>
 						</div>
 
-					</div>
-					<div class="flex flex-col space-y-1">
-						<div>
-							<el-form-item
-								label="អត្តលេខ"
-								prop="subject"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.address"
-									autocomplete="off"
-									name="email"
-									clearable
-								/>
-							</el-form-item>
-						</div>
 						<div>
 							<el-form-item
 								label="អាស័យដ្ឋានបច្ចុប្បន្ន"
@@ -412,6 +378,44 @@
 								/>
 							</el-form-item>
 						</div>
+
+					</div>
+					<div class="flex flex-col space-y-1">
+						<div>
+							<el-form-item
+								label="រូបភាព"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<div>
+									<el-upload
+										class="avatar-uploader"
+										action="#"
+										name="file"
+										:show-file-list="true"
+										:auto-upload="false"
+										:on-change="handleAvatarSuccess"
+										:before-upload="beforeAvatarUpload"
+									>
+										<img
+											v-if="imageUrl"
+											:src="imageUrl"
+											class="avatar 	object-contain "
+										>
+										<i
+											v-else
+											class="el-icon-plus avatar-uploader-icon"
+										></i>
+									</el-upload>
+									<input
+										type="hidden"
+										name="photo_id"
+										v-model="ruleForm.photo_id"
+									>
+								</div>
+							</el-form-item>
+						</div>
+
 						<div>
 							<el-form-item
 								label="លេខទូរស័ព្ទ"
@@ -472,7 +476,7 @@
 							>
 								<el-input
 									type="textarea"
-									:rows="2"
+									:rows="5"
 									v-model="ruleForm.studentOtherText"
 								>
 								</el-input>
@@ -523,6 +527,7 @@ export default {
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
 		return {
+			IDn: 'PK-S0038',
 			tableData: [],
 			classData: [],
 			showSuccess: false,

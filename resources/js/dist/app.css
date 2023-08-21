@@ -525,6 +525,11 @@ video {
   font-size: 15px;
 }
 
+header.el-dialog__header {
+  background: #1e40af;
+  margin-right: 0px !important;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -632,6 +637,10 @@ video {
   margin-top: 2.5rem;
 }
 
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
 }
@@ -646,10 +655,6 @@ video {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.mt-\[20px\] {
-  margin-top: 20px;
 }
 
 .block {
@@ -1336,6 +1341,11 @@ video {
   padding-bottom: 1rem;
 }
 
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -1509,6 +1519,16 @@ video {
 .text-gray-300 {
   --tw-text-opacity: 1;
   color: rgb(209 213 219 / var(--tw-text-opacity));
+}
+
+.text-gray-400 {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+
+.text-gray-500 {
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
 }
 
 .text-gray-600 {

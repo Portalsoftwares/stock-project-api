@@ -19,11 +19,6 @@ return new class extends Migration
             $table->integer('class_id');
             $table->integer('from_class_id');
             $table->boolean('is_duplicate');
-            $table->string('from_secondary_high_school');
-            $table->dateTime('secondary_exam_date');
-            $table->string('secondary_exam_place');
-            $table->integer('secondary_exam_room');
-            $table->integer('secondary_exam_desk');
             $table->integer('role_id');
             $table->timestamps();
         });

@@ -58,6 +58,8 @@
 					header-cell-class-name="header-table-font-khmer text-md"
 					row-class-name="sanfont-khmer"
 					selectable
+					stripe
+					highlight-current-row="true"
 					v-loading="loading"
 				>
 					<el-table-column
@@ -162,7 +164,13 @@
 		title="ព័ត៌មានអ្នកប្រើប្រាស់"
 		class="sanfont-khmer"
 		width="50%"
+		draggable
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានអ្នកប្រើប្រាស់</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleForm"

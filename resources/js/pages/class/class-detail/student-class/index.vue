@@ -169,6 +169,11 @@
 		align-center="true"
 		draggable
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានសិស្ស</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleForm"
@@ -478,6 +483,11 @@
 		align-center="true"
 		draggable
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">បន្ថែមសិស្សក្នុងថ្នាក់</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid"
 			:model="ruleForm"
@@ -611,11 +621,11 @@
 						</el-table>
 						<div class="py-2 flex justify-center">
 							<el-pagination
-						background
-						layout="total, prev, pager, next, sizes"
-						:total="tableData.length"
-					>
-					</el-pagination>
+								background
+								layout="total, prev, pager, next, sizes"
+								:total="tableData.length"
+							>
+							</el-pagination>
 						</div>
 					</div>
 				</div>

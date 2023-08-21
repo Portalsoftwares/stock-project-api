@@ -62,6 +62,7 @@ Route::prefix('v1')->group(function () {
     //Teacher
     Route::prefix('teacher')->group(function () {
       Route::get('/get', [TeacherController::class, 'index']);
+      Route::post('/create', [TeacherController::class, 'create']);
     });
     //Subject
     Route::prefix('subject')->group(function () {

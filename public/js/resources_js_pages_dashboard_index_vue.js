@@ -327,7 +327,7 @@ var _hoisted_16 = /*#__PURE__*/_withScopeId(function () {
     }
   }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-xl"
-  }, "អ្នកប្រើប្រាស់")], -1 /* HOISTED */);
+  }, "អ្នកប្រើប្រាស់សរុប")], -1 /* HOISTED */);
 });
 var _hoisted_17 = {
   "class": "statistic-footer"
@@ -382,7 +382,7 @@ var _hoisted_29 = {
 var _hoisted_30 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "py-2 text-xl"
-  }, " របាយការណ៍អត្រាសិស្សានុសិស្សតាមថ្នាក់ ", -1 /* HOISTED */);
+  }, " ទិន្នន័យអត្រាសិស្សានុសិស្សតាមថ្នាក់ ", -1 /* HOISTED */);
 });
 var _hoisted_31 = {
   "class": "border rounded bg-gray-50"
@@ -390,7 +390,7 @@ var _hoisted_31 = {
 var _hoisted_32 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "py-2 text-xl"
-  }, " របាយការណ៍វត្តមាន ", -1 /* HOISTED */);
+  }, " ទិន្នន័យវត្តមាន ", -1 /* HOISTED */);
 });
 var _hoisted_33 = {
   id: "chartAttendace"

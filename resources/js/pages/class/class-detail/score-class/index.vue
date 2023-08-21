@@ -97,6 +97,11 @@
 		class="sanfont-khmer text-xl"
 		width="50%"
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ស្រង់ពិន្ទុសិស្ស</h4>
+			</div>
+		</template>
 		<div class="bg-white px-5">
 			<div class="flex justify-between py-2">
 				<el-form
@@ -257,6 +262,11 @@
 		class="sanfont-khmer text-xl"
 		width="50%"
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ស្រង់ពិន្ទុសិស្សគ្រប់មុខវិជ្ជា</h4>
+			</div>
+		</template>
 		<div class="bg-white px-5">
 			<div class="flex justify-between py-2">
 				<el-form
@@ -497,6 +507,11 @@
 		class="sanfont-khmer text-xl"
 		width="50%"
 	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">របាយការណ៍ពិន្ទុសិស្ស</h4>
+			</div>
+		</template>
 		<div class="bg-white px-5">
 			<div class="flex justify-between py-2">
 				<el-form

@@ -79,6 +79,8 @@
 					header-cell-class-name="header-table-font-khmer text-md"
 					row-class-name="sanfont-khmer"
 					selectable
+					stripe
+					highlight-current-row="true"
 					v-loading="loading"
 				>
 					<el-table-column
@@ -212,10 +214,11 @@
 		align-center="true"
 		draggable
 	>
-		<!-- 
-	<div class="flex justify-start item-start pl-[40px] space-y-[20px]">
-	<h1 class= "font-bold text-[20px]">ព័ត៌មានគ្រូ</h1>
-	</div>-->
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានគ្រូ</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleForm"
@@ -224,73 +227,42 @@
 			id="fm"
 		>
 			<div class="flex flex-col">
+
 				<div class=" item-start ">
-					<div>
-						<el-form-item
-							label="រូបភាព"
-							class="sanfont-khmer"
-							:label-width="formLabelWidth"
-						>
-							<div>
-								<el-upload
-									class="avatar-uploader"
-									action="#"
-									name="file"
-									:show-file-list="true"
-									:auto-upload="false"
-									:on-change="handleAvatarSuccess"
-									:before-upload="beforeAvatarUpload"
-								>
-									<img
-										v-if="imageUrl"
-										:src="imageUrl"
-										class="avatar 	object-contain "
-									>
-									<i
-										v-else
-										class="el-icon-plus avatar-uploader-icon"
-									></i>
-								</el-upload>
-								<input
-									type="hidden"
-									name="photo_id"
-									v-model="ruleForm.photo_id"
-								>
-							</div>
-						</el-form-item>
-					</div>
 
 				</div>
 				<div class="flex flex-row ">
 					<div class="flex flex-col space-y-1">
 						<div>
+							<div>
 
-							<el-form-item
-								label="នាមត្រកូល (ខ្មែរ)"
-								prop="email"
-								class="sanfont-khmer "
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.firstNameKh"
-									name="firstNameKh1"
-									clearable
-								></el-input>
-							</el-form-item>
-						</div>
-						<div>
-							<el-form-item
-								label="នាមខ្លួន (ខ្មែរ)"
-								prop="email"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.LastNameKh"
-									name="LastNameKh1"
-									clearable
-								></el-input>
-							</el-form-item>
+								<el-form-item
+									label="នាមត្រកូល (ខ្មែរ)"
+									prop="email"
+									class="sanfont-khmer "
+									:label-width="formLabelWidth"
+								>
+									<el-input
+										v-model="ruleForm.firstNameKh"
+										name="firstNameKh1"
+										clearable
+									></el-input>
+								</el-form-item>
+							</div>
+							<div>
+								<el-form-item
+									label="នាមខ្លួន (ខ្មែរ)"
+									prop="email"
+									class="sanfont-khmer"
+									:label-width="formLabelWidth"
+								>
+									<el-input
+										v-model="ruleForm.LastNameKh"
+										name="LastNameKh1"
+										clearable
+									></el-input>
+								</el-form-item>
+							</div>
 						</div>
 						<div>
 							<el-form-item
@@ -318,6 +290,66 @@
 									name="LastNameEng1"
 									clearable
 								></el-input>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="អត្តលេខ"
+								prop="subject"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="IDn"
+									autocomplete="off"
+									name="email"
+									clearable
+								/>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="កម្រិត"
+								prop="email"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-select
+									v-model="ruleForm.teacher_level_value"
+									placeholder="ជ្រើសរើស"
+									clearable
+								>
+									<el-option
+										v-for="item in teacher_level"
+										:key="item.teacher_level_value"
+										:label="item.teacher_level_Label"
+										:value="item.teacher_level_value"
+									>
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="ឯកទេស"
+								prop="email"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+								clearable
+							>
+
+								<el-select
+									v-model="profession"
+									placeholder="ជ្រើសរើស"
+								>
+									<el-option
+										v-for="item in teacher_level"
+										:key="item.teacher_level_value"
+										:label="item.teacher_level_Label"
+										:value="item.teacher_level_value"
+									>
+									</el-option>
+								</el-select>
 							</el-form-item>
 						</div>
 						<div>
@@ -384,6 +416,43 @@
 								/>
 							</el-form-item>
 						</div>
+
+					</div>
+					<div class="flex flex-col space-y-1">
+						<div>
+							<el-form-item
+								label="រូបភាព"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<div>
+									<el-upload
+										class="avatar-uploader"
+										action="#"
+										name="file"
+										:show-file-list="true"
+										:auto-upload="false"
+										:on-change="handleAvatarSuccess"
+										:before-upload="beforeAvatarUpload"
+									>
+										<img
+											v-if="imageUrl"
+											:src="imageUrl"
+											class="avatar 	object-contain "
+										>
+										<i
+											v-else
+											class="el-icon-plus avatar-uploader-icon"
+										></i>
+									</el-upload>
+									<input
+										type="hidden"
+										name="photo_id"
+										v-model="ruleForm.photo_id"
+									>
+								</div>
+							</el-form-item>
+						</div>
 						<div>
 							<el-form-item
 								label="ថ្ងៃចូលបង្រៀនដំបូង"
@@ -396,67 +465,6 @@
 									type="date"
 								>
 								</el-date-picker>
-							</el-form-item>
-						</div>
-
-					</div>
-					<div class="flex flex-col space-y-1">
-						<div>
-							<el-form-item
-								label="អត្តលេខ"
-								prop="subject"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.address"
-									autocomplete="off"
-									name="email"
-									clearable
-								/>
-							</el-form-item>
-						</div>
-						<div>
-							<el-form-item
-								label="កម្រិត"
-								prop="email"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-select
-									v-model="ruleForm.teacher_level_value"
-									placeholder="ជ្រើសរើស"
-								>
-									<el-option
-										v-for="item in teacher_level"
-										:key="item.teacher_level_value"
-										:label="item.teacher_level_Label"
-										:value="item.teacher_level_value"
-									>
-									</el-option>
-								</el-select>
-							</el-form-item>
-						</div>
-						<div>
-							<el-form-item
-								label="ឯកទេស"
-								prop="email"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-
-								<el-select
-									v-model="ruleForm.teacher_level_value"
-									placeholder="ជ្រើសរើស"
-								>
-									<el-option
-										v-for="item in teacher_level"
-										:key="item.teacher_level_value"
-										:label="item.teacher_level_Label"
-										:value="item.teacher_level_value"
-									>
-									</el-option>
-								</el-select>
 							</el-form-item>
 						</div>
 						<div>
@@ -542,7 +550,7 @@
 							>
 								<el-input
 									type="textarea"
-									:rows="2"
+									:rows="4"
 									v-model="ruleForm.studentOtherText"
 								>
 								</el-input>
@@ -593,6 +601,8 @@ export default {
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
 		return {
+			profession: "គណិតវិទ្យា, រូបវិទ្យា",
+			IDn: "PK-T032",
 			tableData: [],
 			showSuccess: false,
 			showInfo: false,
@@ -665,7 +675,7 @@ export default {
 			teacher_level_Value: "",
 
 			status: [{
-				statusValue: 'កំពុងសិក្សា',
+				statusValue: 'កំពុងបង្រៀន',
 				statusLabel: 'កំពុងសិក្សា'
 			}, {
 				statusValue: 'បញ្ឈប់ការសិក្សា',

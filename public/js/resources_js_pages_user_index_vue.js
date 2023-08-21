@@ -399,13 +399,18 @@ var _hoisted_12 = {
 var _hoisted_13 = {
   "class": "py-2 flex justify-center"
 };
-var _hoisted_14 = ["src"];
-var _hoisted_15 = {
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "my-header"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  "class": "text-lg font-semibold text-white"
+}, "ព័ត៌មានអ្នកប្រើប្រាស់")], -1 /* HOISTED */);
+var _hoisted_15 = ["src"];
+var _hoisted_16 = {
   key: 1,
   "class": "el-icon-plus avatar-uploader-icon"
 };
-var _hoisted_16 = ["src"];
-var _hoisted_17 = {
+var _hoisted_17 = ["src"];
+var _hoisted_18 = {
   "class": "dialog-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -486,7 +491,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     resizable: "true",
     "header-cell-class-name": "header-table-font-khmer text-md",
     "row-class-name": "sanfont-khmer",
-    selectable: ""
+    selectable: "",
+    stripe: "",
+    "highlight-current-row": "true"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
@@ -611,10 +618,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     title: "ព័ត៌មានអ្នកប្រើប្រាស់",
     "class": "sanfont-khmer",
-    width: "50%"
+    width: "50%",
+    draggable: ""
   }, {
+    header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_14];
+    }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
         onClick: _cache[9] || (_cache[9] = function ($event) {
           return $options.cancelAction();
         }),
@@ -782,7 +793,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     key: 0,
                     src: $data.imageUrl,
                     "class": "avatar object-contain"
-                  }, null, 8 /* PROPS */, _hoisted_14)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_15))];
+                  }, null, 8 /* PROPS */, _hoisted_15)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_16))];
                 }),
                 _: 1 /* STABLE */
               }, 8 /* PROPS */, ["on-change", "before-upload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -808,7 +819,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "w-full": "",
             src: $data.dialogImageUrl,
             alt: "Preview Image"
-          }, null, 8 /* PROPS */, _hoisted_16)];
+          }, null, 8 /* PROPS */, _hoisted_17)];
         }),
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["modelValue"])];

@@ -117,13 +117,15 @@
 					<el-table
 						v-loading="loading_class"
 						:data="tableData"
-						height="770"
+						height="750"
 						style="width: 100%"
 						resizable="true"
 						fit
 						header-cell-class-name="header-table-font-khmer text-md"
 						row-class-name="sanfont-khmer"
 						selectable
+						stripe
+						highlight-current-row="true"
 					>
 						<el-table-column
 							type="selection"
@@ -208,6 +210,12 @@
 		align-center="true"
 		draggable
 	>
+
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានថ្នាក់រៀន</h4>
+			</div>
+		</template>
 		<el-form
 			class="grid grid-cols-2"
 			:model="ruleForm"
