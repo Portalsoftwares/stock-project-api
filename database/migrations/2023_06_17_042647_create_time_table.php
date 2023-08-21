@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->time('start_date');
             $table->time('end_date');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

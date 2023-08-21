@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('schedule', function (Blueprint $table) {
             $table->bigIncrements('schedule_id');
             $table->integer('class_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

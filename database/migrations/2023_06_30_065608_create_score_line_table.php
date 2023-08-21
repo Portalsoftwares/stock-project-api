@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('score_id');
             $table->integer('student_id');
             $table->decimal('mark');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

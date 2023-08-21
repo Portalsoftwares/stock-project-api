@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('class_id');
             $table->integer('subject_grade_id');
             $table->integer('role_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

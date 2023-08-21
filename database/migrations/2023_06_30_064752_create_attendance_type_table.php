@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigIncrements('attendance_type_id');
             $table->string('attendance_name');
             $table->string('attendance_sort_name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

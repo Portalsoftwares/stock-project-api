@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('gender_name_en');
             $table->string('gender_sort_name_kh');
             $table->string('gender_sort_name_en');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

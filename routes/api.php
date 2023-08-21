@@ -74,6 +74,10 @@ Route::prefix('v1')->group(function () {
     //Subject
     Route::prefix('subject')->group(function () {
       Route::get('/get', [SubjectController::class, 'index']);
+      Route::post('/create', [SubjectController::class, 'create']);
+      Route::get('/edit/{id}', [SubjectController::class, 'edit']);
+      Route::post('/update/{id}', [SubjectController::class, 'update']);
+      Route::delete('/delete/{id}', [SubjectController::class, 'delete']);
       // Level
       Route::get('/get_subject_level', [SubjectController::class, 'getSubjectLevel']);
     });

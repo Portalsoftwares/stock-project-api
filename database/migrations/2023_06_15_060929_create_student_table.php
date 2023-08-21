@@ -36,6 +36,7 @@ return new class extends Migration
             $table->integer('secondary_exam_room')->nullable();
             $table->integer('secondary_exam_desk')->nullable();
             $table->string('other')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

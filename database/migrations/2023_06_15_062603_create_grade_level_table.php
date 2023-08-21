@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('grade_level', function (Blueprint $table) {
             $table->bigIncrements('grade_level_id');
             $table->string('grade_level_name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

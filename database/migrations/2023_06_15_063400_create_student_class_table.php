@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('from_class_id');
             $table->boolean('is_duplicate');
             $table->integer('role_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

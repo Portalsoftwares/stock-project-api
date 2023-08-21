@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('time_id');
             $table->integer('day_id');
             $table->integer('subject_grade_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

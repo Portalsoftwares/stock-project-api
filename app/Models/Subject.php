@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subject extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     // use SoftDeletes;
     protected $table = 'subject';
-    // protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at'];
+    protected $primaryKey = "subject_id";
     protected $fillable = [
         'subject_id',
         'subject_name_kh',

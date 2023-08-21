@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('subject_name_kh');
             $table->string('subject_name_en');
             $table->string('subject_sort_name_en');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
