@@ -48,7 +48,7 @@ class TeacherController extends Controller
         $data = $items->with('profile_img')
             ->orderBy($sort_by, $order_by)
             ->orderBy('tid', $order_by)
-            ->paginate($per_page);
+            ->paginate(5);
 
         $response = [
             'data' => $data,

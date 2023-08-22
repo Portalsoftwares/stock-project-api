@@ -72,7 +72,7 @@
 		<div class=" border rounded bg-gray-50">
 			<div class="flex flex-col  ">
 				<el-table
-					:data="tableData"
+					:data="tableData.data"
 					height="750"
 					style="width: 100%"
 					resizable="true"
@@ -196,8 +196,13 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
+						v-model:current-page="tableData.current_page"
+						v-model:page-size="pageSize"
+						:page-count="tableData.last_page"
 						layout="total, prev, pager, next, sizes"
-						:total="tableData.length"
+						:total="tableData.total"
+						@current-change="changePage"
+						@size-change="changePage"
 					>
 					</el-pagination>
 				</div>
@@ -699,6 +704,20 @@ export default {
 		this.getData()
 	},
 	methods: {
+		async getData() {
+			this.loading = true
+			await axios.get('/teacher/get').then(response => {
+				this.tableData = response.data.data
+				this.loading = false
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		changePage(event) {
+			console.log(event)
+		},
 		handleAvatarSuccess(file) {
 			if (file) {
 				this.ruleForm.profile_img = file
@@ -784,7 +803,7 @@ export default {
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/user/' + this.ruleForm.userId + '/update', form, config).then(response => {
+			await axios.post('/teacher/' + this.ruleForm.userId + '/update', form, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
@@ -822,17 +841,7 @@ export default {
 				console.log(error)
 			})
 		},
-		async getData() {
-			this.loading = true
-			await axios.get('/teacher/get').then(response => {
-				this.tableData = response.data.data
-				this.loading = false
-			}).catch((error) => {
-				if (error.response.status == 401) {
-					this.$store.commit("auth/CLEAR_TOKEN")
-				}
-			})
-		},
+
 		async editUser(id) {
 			this.dialogFormVisible = true;
 			//this.isShowButtonUpdate = true;
