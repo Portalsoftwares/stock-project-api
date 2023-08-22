@@ -14,11 +14,44 @@ class TeacherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $items =  Teacher::with('profile_img')->get();
+        $items =  Teacher::query();
+
+        $sort_by = $request->sort_by;
+        $order_by = $request->order_by;
+        $per_page = $request->per_page ?: 50;
+        $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
+        $sort_by = $request->sort_by ?: 'tid';
+        if ($per_page == -1) {
+            $per_page = DB::table('teachers')->count() > 0 ? DB::table('teachers')->count() : $per_page;
+        }
+
+
+        if (!empty($request->filter_profession)) {
+            $items->whereIn('profession', 'like', $request->filter_profession);
+        }
+        if (!empty($request->filter_teacher_level)) {
+            $items->whereIn('teacher_level', $request->filter_teacher_level);
+        }
+        if (!empty($request->search)) {
+            $items->where('tid', 'like', "%" . $request->search . "%");
+            $items->orWhere('first_name_kh', 'like', "%" . $request->search . "%");
+            $items->orWhere('last_name_kh', 'like', "%" . $request->search . "%");
+            $items->orWhere('first_name_en', 'like', "%" . $request->search . "%");
+            $items->orWhere('last_name_en', 'like', "%" . $request->search . "%");
+            $items->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
+            $items->orWhere('full_name_en', 'like', "%" . $request->search . "%");
+            $items->orWhere('email', 'like', "%" . $request->search . "%");
+            $items->orWhere('phone', 'like', "%" . $request->search . "%");
+        }
+        $data = $items->with('profile_img')
+            ->orderBy($sort_by, $order_by)
+            ->orderBy('tid', $order_by)
+            ->paginate($per_page);
+
         $response = [
-            'data' => $items,
+            'data' => $data,
         ];
         return  response($response, 200);
     }
