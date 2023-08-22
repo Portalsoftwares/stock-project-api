@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('student_role', function (Blueprint $table) {
             $table->bigIncrements('role_id');
             $table->string('name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

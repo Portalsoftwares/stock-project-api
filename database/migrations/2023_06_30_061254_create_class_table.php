@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('grade_level_id');
             $table->integer('academic_id');
             $table->string('other');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

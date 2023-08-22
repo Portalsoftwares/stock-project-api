@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigIncrements('class_type_id');
             $table->string('name');
             $table->string('note');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('academic_name');
             $table->date('start_date');
             $table->date('end_date');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

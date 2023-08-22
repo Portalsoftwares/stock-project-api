@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('attendance_id');
             $table->integer('student_id');
             $table->integer('attendance_type_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

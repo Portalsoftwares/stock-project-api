@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('status_kh');
             $table->string('status_en');
             $table->string('color');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

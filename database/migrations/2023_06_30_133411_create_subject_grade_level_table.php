@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('full_score');
             $table->decimal('divide');
             $table->decimal('average');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

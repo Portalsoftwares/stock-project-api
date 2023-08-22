@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigIncrements('day_id');
             $table->string('day_name_kh');
             $table->string('day_name_en');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

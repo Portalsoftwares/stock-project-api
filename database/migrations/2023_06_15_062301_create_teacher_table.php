@@ -36,6 +36,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->boolean('is_enable_account')->default(0);
             $table->string('other');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
