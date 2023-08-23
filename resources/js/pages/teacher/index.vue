@@ -51,11 +51,28 @@
 		</div>
 
 		<div class="self-end">
+			<el-switch
+				v-model="is_show_trust"
+				@change="clickShowwTrush"
+				class="px-2"
+				width="40"
+				active-text="បង្ហាញទិន្នន័យបានលុប"
+				inactive-text=""
+				active-value="1"
+				inactive-value="0"
+			/>
 			<el-button type="info">
 				<el-icon>
 					<Document />
 				</el-icon>
 				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+
+			</el-button>
+			<el-button type="info">
+				<el-icon>
+					<Document />
+				</el-icon>
+				<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
 
 			</el-button>
 			<el-button
@@ -165,7 +182,7 @@
 					</el-table-column>
 					<el-table-column
 						label="លេខទូរស័ព្ទ"
-						width="120"
+						min-width="130"
 					>
 						<template #default="scope">
 							<div>
@@ -174,22 +191,39 @@
 						</template>
 					</el-table-column>
 					<el-table-column
+						width="230"
 						fixed="right"
 						align="center"
 						label="សកម្មភាព"
 					>
 						<template #default="scope">
-							<el-button
-								size="small"
-								class="sanfont-khmer"
-								@click="editUser(scope.row.id)"
-							>កែប្រែ</el-button>
-							<el-button
-								size="small"
-								type="danger"
-								class="sanfont-khmer"
-								@click="handleDelete(scope.$index, scope.row)"
-							>លុប</el-button>
+							<div v-if="is_show_trust==1 &&!loading">
+								<el-button
+									size="small"
+									class="sanfont-khmer"
+									@click="restoreData(scope.row.id)"
+								>ស្ដារឡើងវិញ</el-button>
+								<el-button
+									size="small"
+									type="danger"
+									class="sanfont-khmer"
+									@click="handleDelete(scope.$index, scope.row)"
+								>លុបជាអចិន្ត្រៃយ៍
+								</el-button>
+							</div>
+							<div v-if="is_show_trust==0&&!loading">
+								<el-button
+									size="small"
+									class="sanfont-khmer"
+									@click="editUser(scope.row.id)"
+								>កែប្រែ</el-button>
+								<el-button
+									size="small"
+									type="danger"
+									class="sanfont-khmer"
+									@click="handleDelete(scope.$index, scope.row)"
+								>លុប</el-button>
+							</div>
 						</template>
 					</el-table-column>
 					<el-empty description="description"></el-empty>
@@ -198,7 +232,7 @@
 					<el-pagination
 						background
 						v-model:current-page="page"
-						v-model:page-size="pageSize"
+						v-model:page-size="per_page"
 						:page-count="tableData.last_page"
 						layout="total, prev, pager, next, sizes"
 						:total="tableData.total"
@@ -707,7 +741,8 @@ export default {
 			filter_profession: [],
 			filter_teacher_level: 1,
 			search: '',
-			tSearch: null
+			tSearch: null,
+			is_show_trust: 0
 			//Data Page filter
 		}
 	},
@@ -717,16 +752,7 @@ export default {
 	methods: {
 		async getData() {
 			this.loading = true;
-			const pageData = {
-				'page': 1,
-				'per_page': 10,
-				'search': '',
-				'sort_by': '',
-				'order_by': '',
-				'filter_profession': '',
-				'filter_teacher_level': ''
-			}
-			await axios.get(`/teacher/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}`, pageData).then(response => {
+			await axios.get(`/teacher/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`).then(response => {
 				this.tableData = response.data.data
 				this.loading = false
 			}).catch((error) => {
@@ -737,7 +763,7 @@ export default {
 		},
 		//Change Per Page
 		changePageSize(event) {
-			this.pageSize = event;
+			this.per_page = event;
 			this.getData();
 
 		},
@@ -758,7 +784,10 @@ export default {
 				}
 			}, 1000);
 		},
-
+		clickShowwTrush() {
+			this.getData();
+			console.log(this.is_show_trust)
+		},
 		handleAvatarSuccess(file) {
 			if (file) {
 				this.ruleForm.profile_img = file

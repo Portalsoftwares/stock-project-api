@@ -38,6 +38,9 @@ class TeacherController extends Controller
             $items->orWhere('email', 'like', "%" . $request->search . "%");
             $items->orWhere('phone', 'like', "%" . $request->search . "%");
         }
+        if (!empty($request->is_show_trust)) {
+            $items->onlyTrashed();
+        }
         $data = $items->with('profile_img')
             ->orderBy($sort_by, $order_by)
             ->orderBy('tid', $order_by)
@@ -88,6 +91,15 @@ class TeacherController extends Controller
 
         $response = [
             'data' => ' Create successfull',
+        ];
+        return  response($response, 200);
+    }
+
+    public function restore($id)
+    {
+        $items = Teacher::withTrashed()->where('teacher_id', $id)->restore();
+        $response = [
+            'data' => 'Restore successfull',
         ];
         return  response($response, 200);
     }

@@ -70,6 +70,7 @@ Route::prefix('v1')->group(function () {
       Route::get('/edit/{id}', [TeacherController::class, 'edit']);
       Route::post('/update/{id}', [TeacherController::class, 'update']);
       Route::delete('/delete/{id}', [TeacherController::class, 'delete']);
+      Route::post('/restore/{id}', [TeacherController::class, 'restore']);
     });
     //Subject
     Route::prefix('subject')->group(function () {
