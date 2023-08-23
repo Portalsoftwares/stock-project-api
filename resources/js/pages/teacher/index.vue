@@ -6,6 +6,7 @@
 					placeholder="ស្វែងរក"
 					class="sanfont-khmer"
 					v-model="search"
+					@input="clickSearch"
 				>
 				</el-input>
 			</div>
@@ -196,13 +197,13 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
-						v-model:current-page="tableData.current_page"
+						v-model:current-page="page"
 						v-model:page-size="pageSize"
 						:page-count="tableData.last_page"
 						layout="total, prev, pager, next, sizes"
 						:total="tableData.total"
 						@current-change="changePage"
-						@size-change="changePage"
+						@size-change="changePageSize"
 					>
 					</el-pagination>
 				</div>
@@ -654,7 +655,6 @@ export default {
 					{ required: true, message: 'Please add photo', trigger: 'change' }
 				],
 			},
-			search: '',
 			filter: [{
 				filterValue: 'តាមឈ្មោះ',
 				filterLabel: 'ភាសាខ្មែរ'
@@ -697,7 +697,18 @@ export default {
 			}],
 			generValue: '',
 			loading: false,
-			teacher_levelSelectValue: ''
+			teacher_levelSelectValue: '',
+
+			//Data Page filter
+			page: 1,
+			per_page: 10,
+			sort_by: 'tid',
+			order_by: 1,
+			filter_profession: [],
+			filter_teacher_level: 1,
+			search: '',
+			tSearch: null
+			//Data Page filter
 		}
 	},
 	mounted() {
@@ -705,8 +716,17 @@ export default {
 	},
 	methods: {
 		async getData() {
-			this.loading = true
-			await axios.get('/teacher/get').then(response => {
+			this.loading = true;
+			const pageData = {
+				'page': 1,
+				'per_page': 10,
+				'search': '',
+				'sort_by': '',
+				'order_by': '',
+				'filter_profession': '',
+				'filter_teacher_level': ''
+			}
+			await axios.get(`/teacher/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}`, pageData).then(response => {
 				this.tableData = response.data.data
 				this.loading = false
 			}).catch((error) => {
@@ -715,9 +735,30 @@ export default {
 				}
 			})
 		},
-		changePage(event) {
-			console.log(event)
+		//Change Per Page
+		changePageSize(event) {
+			this.pageSize = event;
+			this.getData();
+
 		},
+		//Chnage Page 
+		changePage(event) {
+			this.page = event;
+			this.getData();
+		},
+
+		// ស្វែងរក ទិន្នន័យ
+		clickSearch() {
+			clearTimeout(this.tSearch);
+			this.tSearch = setTimeout(() => {
+				if (this.search != null) {
+					if (this.search.replace(/\s/g, '') !== '') {
+					}
+					this.getData();
+				}
+			}, 1000);
+		},
+
 		handleAvatarSuccess(file) {
 			if (file) {
 				this.ruleForm.profile_img = file

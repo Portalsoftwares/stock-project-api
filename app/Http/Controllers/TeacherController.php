@@ -17,10 +17,7 @@ class TeacherController extends Controller
     public function index(Request $request)
     {
         $items =  Teacher::query();
-
-        $sort_by = $request->sort_by;
-        $order_by = $request->order_by;
-        $per_page = $request->per_page ?: 50;
+        $per_page = $request->per_page ?? 10;
         $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
         $sort_by = $request->sort_by ?: 'tid';
         if ($per_page == -1) {
@@ -36,10 +33,6 @@ class TeacherController extends Controller
         }
         if (!empty($request->search)) {
             $items->where('tid', 'like', "%" . $request->search . "%");
-            $items->orWhere('first_name_kh', 'like', "%" . $request->search . "%");
-            $items->orWhere('last_name_kh', 'like', "%" . $request->search . "%");
-            $items->orWhere('first_name_en', 'like', "%" . $request->search . "%");
-            $items->orWhere('last_name_en', 'like', "%" . $request->search . "%");
             $items->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
             $items->orWhere('full_name_en', 'like', "%" . $request->search . "%");
             $items->orWhere('email', 'like', "%" . $request->search . "%");
@@ -48,7 +41,7 @@ class TeacherController extends Controller
         $data = $items->with('profile_img')
             ->orderBy($sort_by, $order_by)
             ->orderBy('tid', $order_by)
-            ->paginate(5);
+            ->paginate($per_page);
 
         $response = [
             'data' => $data,
@@ -116,6 +109,7 @@ class TeacherController extends Controller
             'last_name_kh' => 'required|string',
             'full_name_en' => 'required|string',
             'first_name_en' => 'required|string',
+            'last_name_en' => 'required|string',
             'teacher_level' => 'required|integer',
             'profession' => 'required|string',
             'gender_id' => 'required',

@@ -86,7 +86,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           trigger: 'change'
         }]
       },
-      search: '',
       filter: [{
         filterValue: 'តាមឈ្មោះ',
         filterLabel: 'ភាសាខ្មែរ'
@@ -126,7 +125,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       generValue: '',
       loading: false,
-      teacher_levelSelectValue: ''
+      teacher_levelSelectValue: '',
+      //Data Page filter
+      page: 1,
+      per_page: 10,
+      sort_by: 'tid',
+      order_by: 1,
+      filter_profession: [],
+      filter_teacher_level: 1,
+      search: '',
+      tSearch: null
+      //Data Page filter
     };
   },
   mounted: function mounted() {
@@ -136,12 +145,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getData: function getData() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var pageData;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               _this.loading = true;
-              _context.next = 3;
-              return axios.get('/teacher/get').then(function (response) {
+              pageData = {
+                'page': 1,
+                'per_page': 10,
+                'search': '',
+                'sort_by': '',
+                'order_by': '',
+                'filter_profession': '',
+                'filter_teacher_level': ''
+              };
+              _context.next = 4;
+              return axios.get("/teacher/get?page=".concat(_this.page, "&per_page=").concat(_this.per_page, "&sort_by=").concat(_this.sort_by, "&order_by=").concat(_this.order_by, "&search=").concat(_this.search), pageData).then(function (response) {
                 _this.tableData = response.data.data;
                 _this.loading = false;
               })["catch"](function (error) {
@@ -149,15 +168,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 3:
+            case 4:
             case "end":
               return _context.stop();
           }
         }, _callee);
       }))();
     },
+    //Change Per Page
+    changePageSize: function changePageSize(event) {
+      this.pageSize = event;
+      this.getData();
+    },
+    //Chnage Page 
     changePage: function changePage(event) {
-      console.log(event);
+      this.page = event;
+      this.getData();
+    },
+    // ស្វែងរក ទិន្នន័យ
+    clickSearch: function clickSearch() {
+      var _this2 = this;
+      clearTimeout(this.tSearch);
+      this.tSearch = setTimeout(function () {
+        if (_this2.search != null) {
+          if (_this2.search.replace(/\s/g, '') !== '') {}
+          _this2.getData();
+        }
+      }, 1000);
     },
     handleAvatarSuccess: function handleAvatarSuccess(file) {
       if (file) {
@@ -178,11 +215,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return isJPG && isLt2M;
     },
     submitForm: function submitForm(formName) {
-      var _this2 = this;
+      var _this3 = this;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          _this2.submitData();
-          _this2.resetForm('ruleForm');
+          _this3.submitData();
+          _this3.resetForm('ruleForm');
         } else {
           console.log('error submit!!');
           return false;
@@ -203,7 +240,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function upload image 
     */
     submitUplaod: function submitUplaod() {
-      var _this3 = this;
+      var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var form, config;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
@@ -217,8 +254,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _context2.next = 4;
               return axios.post('/files/create/upload', form, config).then(function (response) {
-                _this3.ruleForm.photo_id = response.data.file.id;
-                _this3.$message({
+                _this4.ruleForm.photo_id = response.data.file.id;
+                _this4.$message({
                   message: 'Congrats, this is a success message.',
                   type: 'success'
                 });
@@ -234,14 +271,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function create new user  
     */
     submitData: function submitData() {
-      var _this4 = this;
+      var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var form, config;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               form = new FormData(document.getElementById('fm'));
-              form.append('role', _this4.ruleForm.roles);
+              form.append('role', _this5.ruleForm.roles);
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
@@ -249,9 +286,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _context3.next = 5;
               return axios.post('/user/store', form, config).then(function (response) {
-                _this4.getData();
-                _this4.dialogFormVisible = false;
-                _this4.$message({
+                _this5.getData();
+                _this5.dialogFormVisible = false;
+                _this5.$message({
                   message: 'Congrats, this is a success message.',
                   type: 'success'
                 });
@@ -267,24 +304,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function update new user  
     */
     updateData: function updateData() {
-      var _this5 = this;
+      var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var form, config;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
               form = new FormData(document.getElementById('fm'));
-              form.append('role', _this5.ruleForm.roles);
+              form.append('role', _this6.ruleForm.roles);
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
               _context4.next = 5;
-              return axios.post('/teacher/' + _this5.ruleForm.userId + '/update', form, config).then(function (response) {
-                _this5.getData();
-                _this5.dialogFormVisible = false;
-                _this5.$message({
+              return axios.post('/teacher/' + _this6.ruleForm.userId + '/update', form, config).then(function (response) {
+                _this6.getData();
+                _this6.dialogFormVisible = false;
+                _this6.$message({
                   message: 'Congrats, this is a success message.',
                   type: 'success'
                 });
@@ -304,26 +341,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       console.log(UploadFile);
     },
     AddUser: function AddUser() {
-      var _this6 = this;
+      var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
               // this.cancelAction()
               // this.resetForm('ruleForm');
-              _this6.ruleForm.name = '';
-              _this6.ruleForm.userId = '';
-              _this6.ruleForm.roles = '';
-              _this6.ruleForm.email = '';
-              _this6.imageUrl = '';
-              _this6.ruleForm.photo_id = '';
-              _this6.roles = null;
-              _this6.dialogFormVisible = true;
-              _this6.isShowButtonUpdate = false;
-              _this6.isShowPassword = true;
+              _this7.ruleForm.name = '';
+              _this7.ruleForm.userId = '';
+              _this7.ruleForm.roles = '';
+              _this7.ruleForm.email = '';
+              _this7.imageUrl = '';
+              _this7.ruleForm.photo_id = '';
+              _this7.roles = null;
+              _this7.dialogFormVisible = true;
+              _this7.isShowButtonUpdate = false;
+              _this7.isShowPassword = true;
               _context5.next = 12;
               return axios.get('/user/create').then(function (response) {
-                _this6.roles = response.data.roles;
+                _this7.roles = response.data.roles;
               })["catch"](function (error) {
                 console.log(error);
               });
@@ -335,12 +372,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     editUser: function editUser(id) {
-      var _this7 = this;
+      var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
-              _this7.dialogFormVisible = true;
+              _this8.dialogFormVisible = true;
               //this.isShowButtonUpdate = true;
               //this.isShowPassword = false;
               //await axios.get('/user/' + id + '/edit').then(response => {
@@ -496,8 +533,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     modelValue: $data.search,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.search = $event;
-    })
-  }, null, 8 /* PROPS */, ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
+    }),
+    onInput: $options.clickSearch
+  }, null, 8 /* PROPS */, ["modelValue", "onInput"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
     modelValue: $data.filterSelectValue,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.filterSelectValue = $event;
@@ -723,9 +761,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
     background: "",
-    "current-page": $data.tableData.current_page,
+    "current-page": $data.page,
     "onUpdate:currentPage": _cache[3] || (_cache[3] = function ($event) {
-      return $data.tableData.current_page = $event;
+      return $data.page = $event;
     }),
     "page-size": _ctx.pageSize,
     "onUpdate:pageSize": _cache[4] || (_cache[4] = function ($event) {
@@ -735,7 +773,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     layout: "total, prev, pager, next, sizes",
     total: $data.tableData.total,
     onCurrentChange: $options.changePage,
-    onSizeChange: $options.changePage
+    onSizeChange: $options.changePageSize
   }, null, 8 /* PROPS */, ["current-page", "page-size", "page-count", "total", "onCurrentChange", "onSizeChange"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisible,
     "onUpdate:modelValue": _cache[27] || (_cache[27] = function ($event) {
