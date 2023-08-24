@@ -48,7 +48,7 @@ class TeacherController extends Controller
         $data = $items->with('profile_img')
             ->orderBy($sort_by, $order_by)
             ->orderBy('tid', $order_by)
-            ->paginate(5);
+            ->paginate($per_page);
 
         $response = [
             'data' => $data,
@@ -64,7 +64,8 @@ class TeacherController extends Controller
             'last_name_kh' => 'required|string',
             'full_name_en' => 'required|string',
             'first_name_en' => 'required|string',
-            'teacher_level' => 'required|integer',
+            'last_name_en' => 'required|string',
+            'teacher_level' => 'required',
             'profession' => 'required|string',
             'gender_id' => 'required',
             'date_of_birth' => 'required',
@@ -82,14 +83,14 @@ class TeacherController extends Controller
         DB::transaction(function () use ($validator, $request) {
             $items = new Teacher();
             $items->fill($validator->validated());
-            $items->tid       = $request->tid;
-            $items->join_date = $request->join_date;
+            $items->tid       = $request->tid??"BBB";
+            $items->join_date = $request->join_date??"798989";
             $items->address   = $request->address;
             $items->file_upload_id    = $request->file_upload_id;
             $items->phone     = $request->phone;
             $items->email     = $request->email;
-            $items->is_enable_account = $request->is_enable_account;
-            $items->other     = $request->other;
+            $items->is_enable_account = $request->is_enable_account??0;
+            $items->other     = $request->other??"test";
             $items->save();
         });
 
@@ -101,7 +102,7 @@ class TeacherController extends Controller
 
     public function edit($id)
     {
-        $items = Teacher::find($id);
+        $items = Teacher::with('profile_img')->find($id);
         $response = [
             'data' => $items,
         ];
@@ -116,7 +117,7 @@ class TeacherController extends Controller
             'last_name_kh' => 'required|string',
             'full_name_en' => 'required|string',
             'first_name_en' => 'required|string',
-            'teacher_level' => 'required|integer',
+            'teacher_level' => 'required',
             'profession' => 'required|string',
             'gender_id' => 'required',
             'date_of_birth' => 'required',
@@ -155,6 +156,7 @@ class TeacherController extends Controller
     {
         DB::transaction(function () use ($id) {
             $items = Teacher::find($id)->delete();
+      
         });
 
         $response = [
