@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Teacher;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -60,8 +61,9 @@ class TeacherController extends Controller
             'last_name_kh' => 'required|string',
             'full_name_en' => 'required|string',
             'first_name_en' => 'required|string',
-            'teacher_level' => 'required|integer',
-            'profession' => 'required|string',
+            'last_name_en' => 'required|string',
+            'teacher_level' => 'required',
+            'profession' => 'required',
             'gender_id' => 'required',
             'date_of_birth' => 'required',
             'place_of_birth' => 'required',
@@ -122,8 +124,8 @@ class TeacherController extends Controller
             'full_name_en' => 'required|string',
             'first_name_en' => 'required|string',
             'last_name_en' => 'required|string',
-            'teacher_level' => 'required|integer',
-            'profession' => 'required|string',
+            'teacher_level' => 'required',
+            'profession' => 'required',
             'gender_id' => 'required',
             'date_of_birth' => 'required',
             'place_of_birth' => 'required',
@@ -160,7 +162,18 @@ class TeacherController extends Controller
     public function delete($id)
     {
         DB::transaction(function () use ($id) {
-            $items = Teacher::find($id)->delete();
+            //Delete soft
+            $items = Teacher::find($id);
+            if (!empty($items)) {
+                $items->delete();
+            }
+            //Hard Delete
+            if (empty($items)) {
+                $items = Teacher::onlyTrashed()->where('teacher_id', $id);
+                if (!empty($items)) {
+                    $items->forceDelete();
+                }
+            }
         });
 
         $response = [

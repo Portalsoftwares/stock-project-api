@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Classes extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = 'class';
-    // protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at'];
+    protected $primaryKey = 'class_id';
     protected $fillable = [
         'class_id',
         'class_name',
