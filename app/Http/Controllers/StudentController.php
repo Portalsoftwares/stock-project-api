@@ -105,8 +105,10 @@ class StudentController extends Controller
             ];
             return  response($response, 400);
         }
+
         DB::transaction(function () use ($validator, $request, $id) {
             $items = Student::find($id);
+            $items->fill($validator->validated());
             $items->sid       = $request->sid;
             $items->address   = $request->address;
             $items->file_upload_id    = $request->file_upload_id;
