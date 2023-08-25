@@ -17,10 +17,7 @@ class TeacherController extends Controller
     public function index(Request $request)
     {
         $items =  Teacher::query();
-
-        $sort_by = $request->sort_by;
-        $order_by = $request->order_by;
-        $per_page = $request->per_page ?: 50;
+        $per_page = $request->per_page ?? 10;
         $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
         $sort_by = $request->sort_by ?: 'tid';
         if ($per_page == -1) {
@@ -36,19 +33,18 @@ class TeacherController extends Controller
         }
         if (!empty($request->search)) {
             $items->where('tid', 'like', "%" . $request->search . "%");
-            $items->orWhere('first_name_kh', 'like', "%" . $request->search . "%");
-            $items->orWhere('last_name_kh', 'like', "%" . $request->search . "%");
-            $items->orWhere('first_name_en', 'like', "%" . $request->search . "%");
-            $items->orWhere('last_name_en', 'like', "%" . $request->search . "%");
             $items->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
             $items->orWhere('full_name_en', 'like', "%" . $request->search . "%");
             $items->orWhere('email', 'like', "%" . $request->search . "%");
             $items->orWhere('phone', 'like', "%" . $request->search . "%");
         }
+        if (!empty($request->is_show_trust)) {
+            $items->onlyTrashed();
+        }
         $data = $items->with('profile_img')
             ->orderBy($sort_by, $order_by)
             ->orderBy('tid', $order_by)
-            ->paginate($per_page);
+            ->paginate(5);
 
         $response = [
             'data' => $data,
@@ -96,6 +92,15 @@ class TeacherController extends Controller
 
         $response = [
             'data' => ' Create successfull',
+        ];
+        return  response($response, 200);
+    }
+
+    public function restore($id)
+    {
+        $items = Teacher::withTrashed()->where('teacher_id', $id)->restore();
+        $response = [
+            'data' => 'Restore successfull',
         ];
         return  response($response, 200);
     }

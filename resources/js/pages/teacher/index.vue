@@ -6,6 +6,7 @@
 					placeholder="ស្វែងរក"
 					class="sanfont-khmer"
 					v-model="search"
+					@input="clickSearch"
 				>
 				</el-input>
 			</div>
@@ -51,11 +52,28 @@
 		</div>
 
 		<div class="self-end">
+			<el-switch
+				v-model="is_show_trust"
+				@change="clickShowwTrush"
+				class="px-2"
+				width="40"
+				active-text="បង្ហាញទិន្នន័យបានលុប"
+				inactive-text=""
+				active-value="1"
+				inactive-value="0"
+			/>
 			<el-button type="info">
 				<el-icon>
 					<Document />
 				</el-icon>
 				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+
+			</el-button>
+			<el-button type="info">
+				<el-icon>
+					<Document />
+				</el-icon>
+				<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
 
 			</el-button>
 			<el-button
@@ -165,7 +183,7 @@
 					</el-table-column>
 					<el-table-column
 						label="លេខទូរស័ព្ទ"
-						width="120"
+						min-width="130"
 					>
 						<template #default="scope">
 							<div>
@@ -174,6 +192,7 @@
 						</template>
 					</el-table-column>
 					<el-table-column
+						width="230"
 						fixed="right"
 						align="center"
 						label="សកម្មភាព"
@@ -211,13 +230,13 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
-						v-model:current-page="tableData.current_page"
-						v-model:page-size="pageSize"
+						v-model:current-page="page"
+						v-model:page-size="per_page"
 						:page-count="tableData.last_page"
 						layout="total, prev, pager, next, sizes"
 						:total="tableData.total"
 						@current-change="changePage"
-						@size-change="changePage"
+						@size-change="changePageSize"
 					>
 					</el-pagination>
 				</div>
@@ -758,7 +777,6 @@ export default {
 					{ required: true, message: 'Please add photo', trigger: 'change' }
 				],
 			},
-			search: '',
 			filter: [{
 				filterValue: 'តាមឈ្មោះ',
 				filterLabel: 'ភាសាខ្មែរ'
@@ -830,7 +848,19 @@ export default {
 			],
 			professionValue: '',
 			loading: false,
-			teacher_levelSelectValue: ''
+			teacher_levelSelectValue: '',
+
+			//Data Page filter
+			page: 1,
+			per_page: 10,
+			sort_by: 'tid',
+			order_by: 1,
+			filter_profession: [],
+			filter_teacher_level: 1,
+			search: '',
+			tSearch: null,
+			is_show_trust: 0
+			//Data Page filter
 		}
 	},
 	mounted() {
@@ -838,8 +868,8 @@ export default {
 	},
 	methods: {
 		async getData() {
-			this.loading = true
-			await axios.get('/teacher/get').then(response => {
+			this.loading = true;
+			await axios.get(`/teacher/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`).then(response => {
 				this.tableData = response.data.data
 				this.loading = false
 			}).catch((error) => {
@@ -848,8 +878,32 @@ export default {
 				}
 			})
 		},
+		//Change Per Page
+		changePageSize(event) {
+			this.per_page = event;
+			this.getData();
+
+		},
+		//Chnage Page 
 		changePage(event) {
-			console.log(event)
+			this.page = event;
+			this.getData();
+		},
+
+		// ស្វែងរក ទិន្នន័យ
+		clickSearch() {
+			clearTimeout(this.tSearch);
+			this.tSearch = setTimeout(() => {
+				if (this.search != null) {
+					if (this.search.replace(/\s/g, '') !== '') {
+					}
+					this.getData();
+				}
+			}, 1000);
+		},
+		clickShowwTrush() {
+			this.getData();
+			console.log(this.is_show_trust)
 		},
 		handleAvatarSuccess(file) {
 			if (file) {

@@ -40,6 +40,7 @@ class StudentController extends Controller
             'last_name_kh' => 'required|string',
             'full_name_en' => 'required|string',
             'first_name_en' => 'required|string',
+            'last_name_en' => 'required|string',
             'gender_id' => 'required',
             'date_of_birth' => 'required',
             'place_of_birth' => 'required',

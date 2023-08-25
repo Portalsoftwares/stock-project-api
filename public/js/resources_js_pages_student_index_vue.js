@@ -15,11 +15,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   // components: { Delete, Edit, Search, Share, Upload },
   data: function data() {
+    var _ruleForm;
     return {
-      IDn: 'PK-S0038',
       tableData: [],
       classData: [],
       showSuccess: false,
@@ -35,23 +38,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       imageUrl: '',
       isShowPassword: true,
       isShowButtonUpdate: false,
-      ruleForm: {
+      ruleForm: (_ruleForm = {
+        student_id: null,
         firstNameKh: null,
         LastNameKh: null,
+        fullNameKh: null,
         firstNameEng: null,
         LastNameEng: null,
+        fullNameEng: null,
         roles: null,
         password: null,
         email: null,
-        photo_id: null,
-        userId: null,
-        genderValue: null,
-        dobValue: null,
-        address: null,
-        phoneNum: null,
-        studentOtherText: null,
-        statusValue: null
-      },
+        file_upload_id: null
+      }, _defineProperty(_ruleForm, "student_id", null), _defineProperty(_ruleForm, "genderValue", null), _defineProperty(_ruleForm, "dobValue", null), _defineProperty(_ruleForm, "address", null), _defineProperty(_ruleForm, "phoneNum", null), _defineProperty(_ruleForm, "studentOtherText", null), _defineProperty(_ruleForm, "statusValue", null), _defineProperty(_ruleForm, "IDn", 'PK-S0038'), _ruleForm),
       rules: {
         firstNameKh: [{
           required: true,
@@ -93,7 +92,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           message: 'ចំនួនពីចាប់៣រតួហូតដល់១៥តួ',
           trigger: 'blur'
         }],
-        gender: [{
+        genderValue: [{
           required: true,
           message: 'សូមជ្រើសរើសភេទ',
           trigger: 'blur'
@@ -127,7 +126,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           message: 'ចំនួនពីចាប់៣រតួហូតដល់១៥តួ',
           trigger: 'blur'
         }],
-        status: [{
+        statusValue: [{
           required: true,
           message: 'សូមបញ្ជូលស្ថានភាព',
           trigger: 'blur'
@@ -149,12 +148,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       search: '',
       gender: [{
-        genderValue: 'ប្រុស',
+        genderValue: '1',
         genderLabel: 'ប្រុស'
       }, {
-        genderValue: 'ស្រី',
+        genderValue: '2',
         genderLabel: 'ស្រី'
       }],
+      genderValue: '',
       genders: [{
         value: 'ប្រុស',
         text: 'ប្រុស'
@@ -163,12 +163,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         text: 'ស្រី'
       }],
       status: [{
-        statusValue: 'កំពុងសិក្សា',
+        statusValue: '1',
         statusLabel: 'កំពុងសិក្សា'
       }, {
-        statusValue: 'បញ្ឈប់ការសិក្សា',
+        statusValue: '2',
         statusLabel: 'បញ្ឈប់ការសិក្សា'
       }],
+      statusValue: '',
       filter: [{
         filterValue: 'តាមឈ្មោះ',
         filterLabel: 'ទី១០'
@@ -256,7 +257,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _context.next = 4;
               return axios.post('/files/create/upload', form, config).then(function (response) {
-                _this2.ruleForm.photo_id = response.data.file.id;
+                _this2.ruleForm.file_upload_id = response.data.file.id;
                 _this2.$message({
                   message: 'Congrats, this is a success message.',
                   type: 'success'
@@ -279,15 +280,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              form = new FormData(document.getElementById('fm'));
-              form.append('role', _this3.ruleForm.roles);
+              form = new FormData(document.getElementById('fm')); //form.append('role', this.ruleForm.roles)
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context2.next = 5;
-              return axios.post('/user/store', form, config).then(function (response) {
+              _context2.next = 4;
+              return axios.post('/student/create', form, config).then(function (response) {
                 _this3.getData();
                 _this3.dialogFormVisible = false;
                 _this3.$message({
@@ -295,7 +295,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   type: 'success'
                 });
               });
-            case 5:
+            case 4:
             case "end":
               return _context2.stop();
           }
@@ -320,7 +320,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
               };
               _context3.next = 5;
-              return axios.post('/user/' + _this4.ruleForm.userId + '/update', form, config).then(function (response) {
+              return axios.post('/student' + '/update/' + _this4.ruleForm.student_id, form, config).then(function (response) {
                 _this4.getData();
                 _this4.dialogFormVisible = false;
                 _this4.$message({
@@ -335,6 +335,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
+    /*
+    *  Function Delete 
+    */
+    handleDelete: function handleDelete(id) {
+      var _this5 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return axios["delete"]('/student' + '/delete/' + id).then(function (response) {
+                _this5.getData();
+                _this5.dialogFormVisible = false;
+                _this5.$message({
+                  message: 'Congrats, this is a success message.',
+                  type: 'success'
+                });
+              });
+            case 2:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4);
+      }))();
+    },
     handlePictureCardPreview: function handlePictureCardPreview(UploadFile) {
       this.dialogImageUrl = UploadFile.url;
       this.dialogVisible = true;
@@ -343,88 +368,103 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       console.log(UploadFile);
     },
     AddUser: function AddUser() {
-      var _this5 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
-            case 0:
-              // this.cancelAction()
-              // this.resetForm('ruleForm');
-              _this5.ruleForm.name = '';
-              _this5.ruleForm.userId = '';
-              _this5.ruleForm.roles = '';
-              _this5.ruleForm.email = '';
-              _this5.imageUrl = '';
-              _this5.ruleForm.photo_id = '';
-              _this5.roles = null;
-              _this5.dialogFormVisible = true;
-              _this5.isShowButtonUpdate = false;
-              _this5.isShowPassword = true;
-              _context4.next = 12;
-              return axios.get('/user/create').then(function (response) {
-                _this5.roles = response.data.roles;
-              })["catch"](function (error) {
-                console.log(error);
-              });
-            case 12:
-            case "end":
-              return _context4.stop();
-          }
-        }, _callee4);
-      }))();
-    },
-    getData: function getData() {
       var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              _this6.loading = true;
-              _context5.next = 3;
-              return axios.get('/student/get').then(function (response) {
-                _this6.tableData = response.data.data;
-                _this6.classData = response.data["class"];
-                _this6.loading = false;
+              // this.cancelAction()
+              // this.resetForm('ruleForm');
+              _this6.ruleForm.name = '';
+              _this6.ruleForm.userId = '';
+              _this6.ruleForm.roles = '';
+              _this6.ruleForm.email = '';
+              _this6.imageUrl = '';
+              _this6.ruleForm.photo_id = '';
+              _this6.roles = null;
+              _this6.dialogFormVisible = true;
+              _this6.isShowButtonUpdate = false;
+              _this6.isShowPassword = true;
+              _context5.next = 12;
+              return axios.get('/user/create').then(function (response) {
+                _this6.roles = response.data.roles;
               })["catch"](function (error) {
-                if (error.response.status == 401) {
-                  _this6.$store.commit("auth/CLEAR_TOKEN");
-                }
+                console.log(error);
               });
-            case 3:
+            case 12:
             case "end":
               return _context5.stop();
           }
         }, _callee5);
       }))();
     },
-    editUser: function editUser(id) {
+    getData: function getData() {
       var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
-              _this7.dialogFormVisible = true;
-              // this.isShowButtonUpdate = true;
-              // this.isShowPassword = false;
-              // await axios.get('/user/' + id + '/edit').then(response => {
-              // 	this.ruleForm.name = response.data.user.name
-              // 	this.ruleForm.userId = response.data.user.id
-              // 	this.ruleForm.roles = response.data.user_has_roles
-              // 	this.ruleForm.email = response.data.user.email
-              // 	this.imageUrl = response.data.user.img?.file_path
-              // 	this.ruleForm.photo_id = response.data.user.id
-              // 	this.roles = response.data.roles
-
-              // }).catch((error) => {
-              // 	if (error.response.status == 401) {
-              // 		this.$store.commit("auth/CLEAR_TOKEN")
-              // 	}
-              // })
-            case 1:
+              _this7.loading = true;
+              _context6.next = 3;
+              return axios.get('/student/get').then(function (response) {
+                _this7.tableData = response.data.data;
+                _this7.classData = response.data["class"];
+                _this7.loading = false;
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this7.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 3:
             case "end":
               return _context6.stop();
           }
         }, _callee6);
+      }))();
+    },
+    editStudent: function editStudent(id) {
+      var _this8 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) switch (_context7.prev = _context7.next) {
+            case 0:
+              _this8.dialogFormVisible = true;
+              _this8.isShowButtonUpdate = true;
+              _this8.isShowPassword = false;
+              _context7.next = 5;
+              return axios.get('/student' + '/edit/' + id).then(function (response) {
+                var _response$data$data$p;
+                _this8.ruleForm.student_id = response.data.data.student_id;
+                _this8.ruleForm.firstNameKh = response.data.data.first_name_kh;
+                _this8.ruleForm.LastNameKh = response.data.data.last_name_kh;
+                _this8.ruleForm.fullNameKh = response.data.data.full_name_kh;
+                _this8.ruleForm.firstNameEng = response.data.data.first_name_en;
+                _this8.ruleForm.LastNameEng = response.data.data.last_name_en;
+                _this8.ruleForm.fullNameEng = response.data.data.full_name_en;
+                _this8.ruleForm.IDn = response.data.data.sid;
+                _this8.ruleForm.genderValue = response.data.data.gender_id;
+                _this8.ruleForm.dobValue = response.data.data.date_of_birth;
+                _this8.ruleForm.birsthAddress = response.data.data.place_of_birth;
+                _this8.ruleForm.address = response.data.data.address;
+                _this8.ruleForm.phoneNum = response.data.data.phone;
+                _this8.ruleForm.firstNameKh = response.data.data.first_name_kh;
+                _this8.ruleForm.email = response.data.data.email;
+                _this8.ruleForm.statusValue = response.data.data.status_id;
+                _this8.ruleForm.studentOtherText = response.data.data.other;
+                //	this.ruleForm.roles = response.data.data.role
+                _this8.imageUrl = (_response$data$data$p = response.data.data.profile_img) === null || _response$data$data$p === void 0 ? void 0 : _response$data$data$p.file_path;
+                _this8.ruleForm.file_upload_id = response.data.data.file_upload_id;
+                //	this.roles = response.data.roles
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this8.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 5:
+            case "end":
+              return _context7.stop();
+          }
+        }, _callee7);
       }))();
     },
     notification: function notification() {
@@ -541,6 +581,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Document = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Document");
   var _component_el_table_column = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-table-column");
   var _component_el_image = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-image");
+  var _component_el_popconfirm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-popconfirm");
   var _component_el_table = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-table");
   var _component_el_pagination = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-pagination");
   var _component_el_form_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-form-item");
@@ -762,27 +803,40 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             size: "small",
             "class": "sanfont-khmer",
-            onClick: _cache[3] || (_cache[3] = function ($event) {
-              return $options.editUser();
-            })
+            onClick: function onClick($event) {
+              return $options.editStudent(scope.row.student_id);
+            }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("កែប្រែ")];
             }),
-            _: 1 /* STABLE */
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-            size: "small",
-            type: "danger",
-            "class": "sanfont-khmer",
-            onClick: function onClick($event) {
-              return _ctx.handleDelete(scope.$index, scope.row);
+            _: 2 /* DYNAMIC */
+          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
+            width: "220",
+            "confirm-button-text": "OK",
+            "cancel-button-text": "No, Thanks",
+            icon: _ctx.InfoFilled,
+            "icon-color": "#626AEF",
+            title: "Are you sure to delete this?",
+            onConfirm: function onConfirm($event) {
+              return $options.handleDelete(scope.row.student_id);
             }
           }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុប")];
+            reference: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+                size: "small",
+                type: "danger",
+                "class": "sanfont-khmer"
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុប")];
+                }),
+                _: 1 /* STABLE */
+              })];
             }),
+
             _: 2 /* DYNAMIC */
-          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])];
+          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])];
         }),
         _: 1 /* STABLE */
       })];
@@ -795,7 +849,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     total: $data.tableData.length
   }, null, 8 /* PROPS */, ["total"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisible,
-    "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
+    "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
       return $data.dialogFormVisible = $event;
     }),
     title: "ព័ត៌មានសិស្ស",
@@ -809,7 +863,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[19] || (_cache[19] = function ($event) {
+        onClick: _cache[20] || (_cache[20] = function ($event) {
           return $options.cancelAction();
         }),
         "class": "sanfont-khmer",
@@ -823,7 +877,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 0,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[20] || (_cache[20] = function ($event) {
+        onClick: _cache[21] || (_cache[21] = function ($event) {
           return $options.submitForm('ruleForm');
         })
       }, {
@@ -835,7 +889,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 1,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[21] || (_cache[21] = function ($event) {
+        onClick: _cache[22] || (_cache[22] = function ($event) {
           return $options.updateData('ruleForm');
         })
       }, {
@@ -863,10 +917,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.firstNameKh,
-                "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
                   return $data.ruleForm.firstNameKh = $event;
                 }),
-                name: "firstNameKh1",
+                name: "first_name_kh",
                 clearable: ""
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
@@ -880,10 +934,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.LastNameKh,
-                "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+                "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
                   return $data.ruleForm.LastNameKh = $event;
                 }),
-                name: "LastNameKh1",
+                name: "last_name_kh",
+                clearable: ""
+              }, null, 8 /* PROPS */, ["modelValue"])];
+            }),
+            _: 1 /* STABLE */
+          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+            label: "នាមពេញ (ខ្មែរ)",
+            prop: "fullNameKh",
+            "class": "sanfont-khmer",
+            "label-width": $data.formLabelWidth
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                modelValue: $data.ruleForm.fullNameKh,
+                "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+                  return $data.ruleForm.fullNameKh = $event;
+                }),
+                name: "full_name_kh",
                 clearable: ""
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
@@ -900,7 +971,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
                   return $data.ruleForm.firstNameEng = $event;
                 }),
-                name: "firstNameEng1",
+                name: "first_name_en",
                 clearable: ""
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
@@ -917,25 +988,41 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
                   return $data.ruleForm.LastNameEng = $event;
                 }),
-                name: "LastNameEng1",
+                name: "last_name_en",
+                clearable: ""
+              }, null, 8 /* PROPS */, ["modelValue"])];
+            }),
+            _: 1 /* STABLE */
+          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+            label: "នាមពេញ (អង់គ្លេស)",
+            prop: "LastNameEng",
+            "class": "sanfont-khmer",
+            "label-width": $data.formLabelWidth
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                modelValue: $data.ruleForm.fullNameEng,
+                "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+                  return $data.ruleForm.fullNameEng = $event;
+                }),
+                name: "full_name_en",
                 clearable: ""
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
             label: "អត្តលេខ",
-            prop: "subject",
             "class": "sanfont-khmer",
             "label-width": $data.formLabelWidth
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.IDn,
-                "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-                  return $data.IDn = $event;
+                modelValue: $data.ruleForm.IDn,
+                "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+                  return $data.ruleForm.IDn = $event;
                 }),
                 autocomplete: "off",
-                name: "email",
+                name: "sid",
                 clearable: ""
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
@@ -949,10 +1036,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleForm.genderValue,
-                "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+                "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
                   return $data.ruleForm.genderValue = $event;
                 }),
-                placeholder: "ជ្រើសរើស"
+                placeholder: "ជ្រើសរើស",
+                name: "gender_id"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.gender, function (item) {
@@ -972,15 +1060,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             label: "ថ្ងៃ/ខែ/ឆ្នាំកំណើត",
             prop: "dobValue",
             "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
+            "label-width": $data.formLabelWidth,
+            name: "date_of_birth"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_date_picker, {
                 modelValue: $data.ruleForm.dobValue,
-                "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+                "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
                   return $data.ruleForm.dobValue = $event;
                 }),
-                type: "date"
+                type: "date",
+                name: "date_of_birth"
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
             _: 1 /* STABLE */
@@ -993,11 +1083,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.birsthAddress,
-                "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+                "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
                   return $data.ruleForm.birsthAddress = $event;
                 }),
                 autocomplete: "off",
-                name: "email",
+                name: "place_of_birth",
                 clearable: ""
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
@@ -1010,11 +1100,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.address,
-                "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+                "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
                   return $data.ruleForm.address = $event;
                 }),
                 autocomplete: "off",
-                name: "email",
+                name: "address",
                 clearable: ""
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
@@ -1044,11 +1134,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 _: 1 /* STABLE */
               }, 8 /* PROPS */, ["on-change", "before-upload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
                 type: "hidden",
-                name: "photo_id",
-                "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
-                  return $data.ruleForm.photo_id = $event;
+                name: "file_upload_id",
+                "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
+                  return $data.ruleForm.file_upload_id = $event;
                 })
-              }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.ruleForm.photo_id]])])];
+              }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.ruleForm.file_upload_id]])])];
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
@@ -1059,12 +1149,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.phoneNum,
-                "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
+                "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
                   return $data.ruleForm.phoneNum = $event;
                 }),
                 autocomplete: "off",
                 type: "number",
-                name: "phoneNum",
+                name: "phone",
                 clearable: ""
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
@@ -1077,7 +1167,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.email,
-                "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+                "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
                   return $data.ruleForm.email = $event;
                 }),
                 autocomplete: "off",
@@ -1095,10 +1185,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleForm.statusValue,
-                "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
+                "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
                   return $data.ruleForm.statusValue = $event;
                 }),
-                placeholder: "ជ្រើសរើស"
+                placeholder: "ជ្រើសរើស",
+                name: "status_id"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.status, function (item) {
@@ -1125,9 +1216,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 type: "textarea",
                 rows: 5,
                 modelValue: $data.ruleForm.studentOtherText,
-                "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
+                "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
                   return $data.ruleForm.studentOtherText = $event;
-                })
+                }),
+                name: "other"
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
             _: 1 /* STABLE */
@@ -1136,7 +1228,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["model", "rules"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
         modelValue: $data.dialogVisible,
-        "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
+        "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
           return $data.dialogVisible = $event;
         })
       }, {
