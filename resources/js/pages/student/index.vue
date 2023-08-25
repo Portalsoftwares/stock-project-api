@@ -359,17 +359,20 @@
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
+							
 								<el-select
 									v-model="ruleForm.genderValue"
 									placeholder="ជ្រើសរើស"
 									name="gender_id"
+									value-key="value"
 								>
 									<el-option
 										v-for="item in gender"
-										:key="item.genderValue"
+										:value-key="item.genderValue"
 										:label="item.genderLabel"
 										:value="item.genderValue"
 									>
+									
 									</el-option>
 								</el-select>
 							</el-form-item>
@@ -661,10 +664,10 @@ export default {
 			search: '',
 
 			gender: [{
-				genderValue: '1',
+				genderValue: 1,
 				genderLabel: 'ប្រុស'
 			}, {
-				genderValue: '2',
+				genderValue: 2,
 				genderLabel: 'ស្រី'
 			}],
 			

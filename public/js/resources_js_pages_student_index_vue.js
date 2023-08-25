@@ -148,10 +148,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       },
       search: '',
       gender: [{
-        genderValue: '1',
+        genderValue: 1,
         genderLabel: 'ប្រុស'
       }, {
-        genderValue: '2',
+        genderValue: 2,
         genderLabel: 'ស្រី'
       }],
       genders: [{
@@ -1039,16 +1039,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return $data.ruleForm.genderValue = $event;
                 }),
                 placeholder: "ជ្រើសរើស",
-                name: "gender_id"
+                name: "gender_id",
+                "value-key": "value"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.gender, function (item) {
                     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                      key: item.genderValue,
+                      "value-key": item.genderValue,
                       label: item.genderLabel,
                       value: item.genderValue
-                    }, null, 8 /* PROPS */, ["label", "value"]);
-                  }), 128 /* KEYED_FRAGMENT */))];
+                    }, null, 8 /* PROPS */, ["value-key", "label", "value"]);
+                  }), 256 /* UNKEYED_FRAGMENT */))];
                 }),
 
                 _: 1 /* STABLE */
