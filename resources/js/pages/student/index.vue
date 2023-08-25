@@ -667,7 +667,7 @@ export default {
 				genderValue: '2',
 				genderLabel: 'ស្រី'
 			}],
-			genderValue: '',
+			
 
 			genders: [{
 				value: 'ប្រុស',

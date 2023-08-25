@@ -210,13 +210,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       statusValue: '',
       gender: [{
-        genderValue: 'ប្រុស',
+        genderValue: '1',
         genderLabel: 'ប្រុស'
       }, {
-        genderValue: 'ស្រី',
+        genderValue: '2',
         genderLabel: 'ស្រី'
       }],
-      genderValue: '',
       profession: [{
         professionValue: 'ភាសាខ្មែរ',
         professionLabel: 'ភាសាខ្មែរ'

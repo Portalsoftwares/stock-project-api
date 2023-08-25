@@ -811,14 +811,13 @@ export default {
 			statusValue: '',
 
 			gender: [{
-				genderValue: 'ប្រុស',
+				genderValue: '1',
 				genderLabel: 'ប្រុស'
 			}, {
-				genderValue: 'ស្រី',
+				genderValue: '2',
 				genderLabel: 'ស្រី'
 			}],
-			genderValue: '',
-			
+	
 			
 
 			profession: [{

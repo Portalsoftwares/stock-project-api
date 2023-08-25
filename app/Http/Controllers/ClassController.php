@@ -41,7 +41,7 @@ class ClassController extends Controller
         ];
         return  response($response, 200);
     }
-    public function store(Request  $request)
+    public function create(Request  $request)
     {
         $validator = Validator::make($request->all(), [
             'class_name' => ['required'],
@@ -56,18 +56,79 @@ class ClassController extends Controller
             ];
             return  response($response, 400);
         }
+
         DB::transaction(function () use ($validator) {
             $class = new Classes();
             $class->fill($validator->validated());
             $class->save();
             if (!empty($class)) {
                 $schedule = Schedule::create([
-                    'class_id' => $class->id,
+                    'class_id' => $class->class_id,
                 ]);
             }
         });
         $response = [
             'message' => 'successfull',
+        ];
+        return  response($response, 200);
+    }
+
+    public function edit($id)
+    {
+        $items = Classes::find($id);
+        $response = [
+            'data' => $items,
+        ];
+        return  response($response, 200);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'class_name' => ['required'],
+            'class_type_id' => ['required', 'exists:class_type,class_type_id'],
+            'grade_level_id' => ['required', 'exists:grade_level,grade_level_id'],
+            'academic_id' => ['required', 'exists:academic,academic_id'],
+        ]);
+
+        if ($validator->fails()) {
+            $response = [
+                'errors' => $validator->messages(),
+            ];
+            return  response($response, 400);
+        }
+        DB::transaction(function () use ($validator, $id) {
+            $items = Classes::find($id);
+            $items->fill($validator->validated());
+            $items->save();
+        });
+
+        $response = [
+            'data' => 'Update successfull',
+        ];
+        return  response($response, 200);
+    }
+
+
+    public function delete($id)
+    {
+        DB::transaction(function () use ($id) {
+            //Delete soft
+            $items = Classes::find($id);
+            if (!empty($items)) {
+                $items->delete();
+            }
+            //Hard Delete
+            if (empty($items)) {
+                $items = Classes::onlyTrashed()->where('class_id', $id);
+                if (!empty($items)) {
+                    $items->forceDelete();
+                }
+            }
+        });
+
+        $response = [
+            'data' => 'Delete successfull',
         ];
         return  response($response, 200);
     }

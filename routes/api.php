@@ -90,7 +90,10 @@ Route::prefix('v1')->group(function () {
     Route::prefix('class')->group(function () {
       Route::get('/get', [ClassController::class, 'index']);
       Route::get('/teacher/{id}/get', [ClassController::class, 'getTeacher']);
-      Route::post('/store', [ClassController::class, 'store']);
+      Route::post('/create', [ClassController::class, 'create']);
+      Route::get('/edit/{id}', [ClassController::class, 'edit']);
+      Route::post('/update/{id}', [ClassController::class, 'update']);
+      Route::delete('/delete/{id}', [ClassController::class, 'delete']);
     });
 
     //Schedule class

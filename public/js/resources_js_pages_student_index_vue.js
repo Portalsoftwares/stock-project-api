@@ -154,7 +154,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         genderValue: '2',
         genderLabel: 'ស្រី'
       }],
-      genderValue: '',
       genders: [{
         value: 'ប្រុស',
         text: 'ប្រុស'

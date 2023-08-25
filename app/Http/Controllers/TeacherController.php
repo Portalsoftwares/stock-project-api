@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Teacher;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -61,7 +62,7 @@ class TeacherController extends Controller
             'full_name_en' => 'required|string',
             'first_name_en' => 'required|string',
             'last_name_en' => 'required|string',
-            'teacher_level' => 'required',
+            'teacher_level' => 'required|string',
             'profession' => 'required|string',
             'gender_id' => 'required',
             'date_of_birth' => 'required',
@@ -122,7 +123,8 @@ class TeacherController extends Controller
             'last_name_kh' => 'required|string',
             'full_name_en' => 'required|string',
             'first_name_en' => 'required|string',
-            'teacher_level' => 'required',
+            'last_name_en' => 'required|string',
+            'teacher_level' => 'required|string',
             'profession' => 'required|string',
             'gender_id' => 'required',
             'date_of_birth' => 'required',
@@ -161,7 +163,6 @@ class TeacherController extends Controller
     {
         DB::transaction(function () use ($id) {
             $items = Teacher::find($id)->delete();
-      
         });
 
         $response = [
