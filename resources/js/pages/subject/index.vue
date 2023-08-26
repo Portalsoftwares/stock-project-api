@@ -124,7 +124,7 @@
 									<el-button
 										size="small"
 										class="sanfont-khmer"
-										@click="editUser(scope.row.id)"
+										@click="editSubject(scope.row.subject_id)"
 									>កែប្រែ</el-button>
 									<el-button
 										size="small"
@@ -175,13 +175,13 @@
 							<div>
 								<el-form-item
 									label="ឈ្មោះមុខវិជ្ជា (ខ្មែរ)"
-									prop="subjectKhName"
+									prop="subNameKh"
 									class="sanfont-khmer "
 									:label-width="formLabelWidth"
 								>
 									<el-input
-										v-model="ruleForm.firstNameKh"
-										name="firstNameKh1"
+										v-model="ruleForm.subNameKh"
+										name="subject_name_kh"
 										clearable
 									></el-input>
 								</el-form-item>
@@ -189,13 +189,13 @@
 							<div>
 								<el-form-item
 									label="ឈ្មោះមុខវិជ្ជា (អង់គ្លេស)"
-									prop="subjectEngName"
+									prop="subNameEng"
 									class="sanfont-khmer "
 									:label-width="formLabelWidth"
 								>
 									<el-input
-										v-model="ruleForm.subjectEngName"
-										name="subjectEngName"
+										v-model="ruleForm.subNameEng"
+										name="subject_name_en"
 										clearable
 									></el-input>
 								</el-form-item>
@@ -203,13 +203,13 @@
 							<div>
 								<el-form-item
 									label="ឈ្មោះមុខវិជ្ជា (អក្សរកាត់)"
-									prop="subjectShortName"
+									prop="subShortNameEng"
 									class="sanfont-khmer "
 									:label-width="formLabelWidth"
 								>
 									<el-input
-										v-model="ruleForm.subjectShortName"
-										name="subjectShortName"
+										v-model="ruleForm.subShortNameEng"
+										name="subject_sort_name_en"
 										clearable
 									></el-input>
 								</el-form-item>
@@ -462,27 +462,33 @@
 
 									<el-form-item
 										label="ឈ្មោះមុខវិជ្ជា (ខ្មែរ)"
-										prop="subjectKhName"
+										prop="subLevelNameKh"
 										class="sanfont-khmer "
 										:label-width="formLabelWidth"
 									>
 										<el-select
-											v-model="ruleForm.firstNameKh"
+											v-model="ruleForm.subLevelNameKhValue"
 											placeholder="ជ្រើសរើស"
 										>
-
+											<el-option
+												v-for="item in subLevelNameKh"
+												:key="item.subLevelNameKhValue"
+												:label="item.subLevelNameKhLabel"
+												:value="item.subLevelNameKhValue"
+											>
+											</el-option>
 										</el-select>
 									</el-form-item>
 								</div>
 								<div>
 									<el-form-item
 										label="កម្រិតថ្នាក់"
-										prop="gradeLevel"
+										prop="gradeLevelValue"
 										class="sanfont-khmer"
 										:label-width="formLabelWidth"
 									>
 										<el-select
-											v-model="ruleForm.gradeLevelalue"
+											v-model="ruleForm.gradeLevelValue"
 											placeholder="ជ្រើសរើស"
 										>
 											<el-option
@@ -498,7 +504,7 @@
 								<div>
 									<el-form-item
 										label="ប្រភេទថ្នាក់"
-										prop="classType"
+										prop="classTypeValue"
 										class="sanfont-khmer"
 										:label-width="formLabelWidth"
 									>
@@ -622,7 +628,7 @@ export default {
 			dialogFormVisible: false,
 			roles: [],
 			name: "",
-			formLabelWidth: "160px",
+			formLabelWidth: "180px",
 			dialogImageUrl: "",
 			dialogVisible: false,
 			files: {},
@@ -633,6 +639,13 @@ export default {
 
 
 			ruleForm: {
+				subject_id: null,
+				subNameKh: null,
+				subNameEng: null,
+				subShortNameEng: null,
+				subLevelNameKh: null,
+				gradeLevelValue: null,
+				classTypeValue: null,
 				name: null,
 				roles: null,
 				password: null,
@@ -641,16 +654,24 @@ export default {
 				userId: null
 			},
 			rules: {
-				name: [
-					{ required: true, message: 'Please input Activity name', trigger: 'blur' },
-					{ min: 3, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
+				subNameKh: [
+					{ required: true, message: 'សូមបញ្ជូលឈ្មោះមុខវិជ្ជា (ខ្មែរ)', trigger: 'blur' },
 				],
-				roles: [
-					{ required: true, message: 'Please select role', trigger: 'change' }
+				subNameEng: [
+					{ required: true, message: 'សូមបញ្ជូលឈ្មោះមុខវិជ្ជា (អង់គ្លេស)', trigger: 'blur' }
 				],
-				email: [
-					{ required: true, message: 'Please input email address', trigger: 'blur' },
-					{ type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
+				subShortNameEng: [
+					{ required: true, message: 'សូមបញ្ជូលឈ្មោះមុខវិជ្ជា (អក្សរកាត់)', trigger: 'blur' },
+					{ min: 1, max: 2, message: 'ចំនួនតួអក្សរត្រូវបញ្ជូលយ៉ាងតិចឲ្យបាន២តួ', trigger: 'blur' }
+				],
+				subLevelNameKh: [
+					{ required: true, message: 'សូមជ្រើសរើសឈ្មោះមុខវិជ្ជា', trigger: 'blur' },
+				],
+				gradeLevelValue: [
+					{ required: true, message: 'សូមជ្រើសរើសកម្រិតថ្នាក់', trigger: 'blur' }
+				],
+				classTypeValue: [
+					{ required: true, message: 'សូមជ្រើសរើសប្រភេទថ្នាក់', trigger: 'blur' },
 				],
 				password: [
 					{ required: true, message: 'Please set password', trigger: 'blur' },
@@ -676,6 +697,35 @@ export default {
 				filterLabel: 'តាមទំហំផ្ទុក'
 			}],
 			filterSelectValue: "",
+
+			subLevelNameKh: [{
+				subLevelNameKhValue: '1',
+				subLevelNameKhLabel: 'ភាសាខ្មែរ'
+			}, {
+				subLevelNameKhValue: '2',
+				subLevelNameKhLabel: 'គណិតវិទ្យា'
+			},
+			{
+				subLevelNameKhValue: '3',
+				subLevelNameKhLabel: 'រូបវិទ្យា'
+			},	
+			{
+				subLevelNameKhValue: '4',
+				subLevelNameKhLabel: 'គីមីវិទ្យា'
+			}, {
+				subLevelNameKhValue: '5',
+				subLevelNameKhLabel: 'ជីវះវិទ្យា'
+			},
+			{
+				subLevelNameKhValue: '6',
+				subLevelNameKhLabel: 'ភូមិវិទ្យា'
+			},
+			{
+				subLevelNameKhValue: '7',
+				subLevelNameKhLabel: 'ប្រវត្តិវិទ្យា'
+			},
+				
+				],
 
 			gradeLevel: [{
 				gradeLevelValue: '10',
@@ -767,15 +817,15 @@ export default {
 			})
 		},
 		/*
-		*  Function create new user  
+		*  Function create new subject
 		*/
 		async submitData() {
 			const form = new FormData(document.getElementById('fm'));
-			form.append('role', this.ruleForm.roles)
+		//	form.append('role', this.ruleForm.roles)
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/user/store', form, config).then(response => {
+			await axios.post('/subject/create', form, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
@@ -794,7 +844,7 @@ export default {
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/user/' + this.ruleForm.userId + '/update', form, config).then(response => {
+			await axios.post('/subject' + '/update/'+ this.ruleForm.subject_id, form, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
@@ -855,24 +905,27 @@ export default {
 				}
 			})
 		},
-		async editUser(id) {
+		async editSubject(id) {
 			this.dialogFormVisible = true;
-			//this.isShowButtonUpdate = true;
-			//this.isShowPassword = false;
-			//await axios.get('/user/' + id + '/edit').then(response => {
-			//this.ruleForm.name = response.data.user.name
-			//this.ruleForm.userId = response.data.user.id
-			//this.ruleForm.roles = response.data.user_has_roles
-			//this.ruleForm.email = response.data.user.email
-			//this.imageUrl = response.data.user.img?.file_path
-			//this.ruleForm.photo_id = response.data.user.id
-			//this.roles = response.data.roles
+			this.isShowButtonUpdate = true;
+			this.isShowPassword = false;
+			await axios.get('/subject' + '/edit/'+ id).then(response => {
+				console.log(response.data + "123")
+			this.ruleForm.subject_id = response.data.data.subject_id
+			this.ruleForm.subNameKh = response.data.data.subject_name_kh
+			this.ruleForm.subNameEng = response.data.data.subject_name_en
+			this.ruleForm.subShortNameEng = response.data.data.subject_sort_name_en
+		//	this.ruleForm.roles = response.data.data.subNameKh
+		//	this.ruleForm.email = response.data.user.email
+		//	this.imageUrl = response.data.user.img?.file_path
+		//	this.ruleForm.photo_id = response.data.user.id
+		//	this.roles = response.data.roles
 
-			//}).catch((error) => {
-			//	if (error.response.status == 401) {
-			//this.$store.commit("auth/CLEAR_TOKEN")
-			//}
-			//})
+			}).catch((error) => {
+				if (error.response.status == 401) {
+			this.$store.commit("auth/CLEAR_TOKEN")
+			}
+			})
 		},
 		notification() {
 			this.showSuccess = !this.showSuccess
