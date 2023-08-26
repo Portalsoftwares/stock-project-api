@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SubjectGradeLevel extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $table = 'subject_grade_level';
-    // protected $dates = ['deleted_at'];
+    protected $primaryKey = "subject_grade_id";
+    protected $dates = ['deleted_at'];
     protected $fillable = [
         'subject_grade_id',
         'grade_level_id',

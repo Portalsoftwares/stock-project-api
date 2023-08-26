@@ -33,7 +33,6 @@
 					filterable
 					clearable
 					placeholder="កម្រិត"
-					
 				>
 					<el-option
 						v-for="item in teacher_level"
@@ -198,33 +197,59 @@
 						label="សកម្មភាព"
 					>
 						<template #default="scope">
-							<el-button
-								size="small"
-								class="sanfont-khmer"
-								@click="editTeacher(scope.row.teacher_id)"
-							>កែប្រែ</el-button>
-					
-							<el-popconfirm
-								width="220"
-								confirm-button-text="OK"
-								cancel-button-text="No, Thanks"
-								:icon="InfoFilled"
-								icon-color="#626AEF"
-								title="Are you sure to delete this?"
-								@confirm="handleDelete(scope.row.teacher_id)"
-							>
-								<template #reference>
-									<el-button
+							<div v-if="is_show_trust==1 &&!loading">
+								<el-button
+									size="small"
+									class="sanfont-khmer"
+									@click="restoreData(scope.row.id)"
+								>ស្ដារឡើងវិញ</el-button>
+								<el-popconfirm
+									width="220"
+									confirm-button-text="យល់ព្រម"
+									cancel-button-text="ទេ"
+									:icon="InfoFilled"
+									icon-color="#626AEF"
+									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									@confirm="handleDelete(scope.row.teacher_id)"
+								>
+									<template #reference>
+										<el-button
 											size="small"
 											type="danger"
 											class="sanfont-khmer"
-											
+										>លុបជាអចិន្ត្រៃយ៍
+										</el-button>
+									</template>
+								</el-popconfirm>
+							</div>
+							<div v-if="is_show_trust==0&&!loading">
+								<el-button
+									size="small"
+									class="sanfont-khmer"
+									@click="editUser(scope.row.id)"
+								>កែប្រែ</el-button>
+								<el-popconfirm
+									width="220"
+									confirm-button-text="យល់ព្រម"
+									cancel-button-text="ទេ"
+									:icon="InfoFilled"
+									icon-color="#626AEF"
+									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									@confirm="handleDelete(scope.row.teacher_id)"
+								>
+									<template #reference>
+										<el-button
+											size="small"
+											type="danger"
+											class="sanfont-khmer"
 										>លុប
-									</el-button>
-								</template>
-							</el-popconfirm>
+										</el-button>
+									</template>
+								</el-popconfirm>
+							</div>
 						</template>
 					</el-table-column>
+
 					<el-empty description="description"></el-empty>
 				</el-table>
 				<div class="py-2 flex justify-center">
@@ -421,7 +446,6 @@
 								</el-select>
 							</el-form-item>
 						</div>
-						
 
 						<div>
 							<el-form-item
@@ -699,7 +723,7 @@ export default {
 				LastNameEng: null,
 				fullNameEng: null,
 				IDn: "PK-T032",
-				professionValue:null,
+				professionValue: null,
 				genderValue: null,
 				teacher_level_value: null,
 				birsthAddress: null,
@@ -714,8 +738,8 @@ export default {
 				email: null,
 				file_upload_id: null,
 				teacherId: null
-				
-				
+
+
 
 			},
 			rules: {
@@ -749,7 +773,7 @@ export default {
 				professionValue: [
 					{ required: true, message: 'សូមជ្រើសរើសឯកទេស', trigger: 'blur' },
 				],
-				
+
 				genderValue: [
 					{ required: true, message: 'សូមជ្រើសរើសភេទ', trigger: 'blur' },
 				],
@@ -817,8 +841,8 @@ export default {
 				genderValue: '2',
 				genderLabel: 'ស្រី'
 			}],
-	
-			
+
+
 
 			profession: [{
 				professionValue: 'ភាសាខ្មែរ',
@@ -990,8 +1014,8 @@ export default {
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/teacher'+ '/update/' +this.ruleForm.teacher_id, form, config).then(response => {
-				
+			await axios.post('/teacher' + '/update/' + this.ruleForm.teacher_id, form, config).then(response => {
+
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
@@ -1000,8 +1024,8 @@ export default {
 				});
 			})
 		},
-		async handleDelete(id){
-			await axios.delete('/teacher'+ '/delete/' + id).then(response => {
+		async handleDelete(id) {
+			await axios.delete('/teacher' + '/delete/' + id).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
@@ -1037,46 +1061,46 @@ export default {
 				this.roles = response.data.roles
 			}).catch((error) => {
 				console.log(error)
-			})  
+			})
 		},
 
 		async editTeacher(id) {
 			this.dialogFormVisible = true;
-		 	this.isShowButtonUpdate = true;
+			this.isShowButtonUpdate = true;
 			this.isShowPassword = false;
-			
-			await axios.get('/teacher' + '/edit/'+id).then(response => {
+
+			await axios.get('/teacher' + '/edit/' + id).then(response => {
 				console.log(response.data);
-			this.ruleForm.firstNameKh = response.data.data.first_name_kh
-			this.ruleForm.teacher_id = response.data.data.teacher_id
-			
-			this.ruleForm.LastNameKh = response.data.data.last_name_kh
-			this.ruleForm.fullNameKh = response.data.data.full_name_kh
-			this.ruleForm.firstNameEng = response.data.data.first_name_en
-			this.ruleForm.LastNameEng = response.data.data.last_name_en
-			this.ruleForm.fullNameEng = response.data.data.full_name_en
-			this.ruleForm.IDn = response.data.data.tid
-			this.ruleForm.teacher_level_value = response.data.data.teacher_level
-			this.ruleForm.professionValue = response.data.data.profession
-			this.ruleForm.genderValue = response.data.data.gender_id
-			this.ruleForm.dobValue = response.data.data.date_of_birth
-			this.ruleForm.birsthAddress = response.data.data.place_of_birth
-			this.ruleForm.address = response.data.data.address
-			this.ruleForm.teachDate = response.data.data.join_date
-			this.ruleForm.phoneNum = response.data.data.phone
-			this.ruleForm.teacherId = response.data.data.id
-			this.ruleForm.statusValue = response.data.data.status_id
-			this.ruleForm.email = response.data.data.email
-			this.ruleForm.roles = response.data.data.role
-			this.imageUrl = response.data.data.profile_img?.file_path
-			this.ruleForm.file_upload_id = response.data.data.file_upload_id
-			this.dialogFormVisible = true;
-			
+				this.ruleForm.firstNameKh = response.data.data.first_name_kh
+				this.ruleForm.teacher_id = response.data.data.teacher_id
+
+				this.ruleForm.LastNameKh = response.data.data.last_name_kh
+				this.ruleForm.fullNameKh = response.data.data.full_name_kh
+				this.ruleForm.firstNameEng = response.data.data.first_name_en
+				this.ruleForm.LastNameEng = response.data.data.last_name_en
+				this.ruleForm.fullNameEng = response.data.data.full_name_en
+				this.ruleForm.IDn = response.data.data.tid
+				this.ruleForm.teacher_level_value = response.data.data.teacher_level
+				this.ruleForm.professionValue = response.data.data.profession
+				this.ruleForm.genderValue = response.data.data.gender_id
+				this.ruleForm.dobValue = response.data.data.date_of_birth
+				this.ruleForm.birsthAddress = response.data.data.place_of_birth
+				this.ruleForm.address = response.data.data.address
+				this.ruleForm.teachDate = response.data.data.join_date
+				this.ruleForm.phoneNum = response.data.data.phone
+				this.ruleForm.teacherId = response.data.data.id
+				this.ruleForm.statusValue = response.data.data.status_id
+				this.ruleForm.email = response.data.data.email
+				this.ruleForm.roles = response.data.data.role
+				this.imageUrl = response.data.data.profile_img?.file_path
+				this.ruleForm.file_upload_id = response.data.data.file_upload_id
+				this.dialogFormVisible = true;
+
 			}).catch((error) => {
-			if (error.response.status == 401) {
-			this.$store.commit("auth/CLEAR_TOKEN")
-			}
-			}) 
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
 		},
 		notification() {
 			this.showSuccess = !this.showSuccess
