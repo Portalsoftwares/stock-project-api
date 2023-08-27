@@ -76,7 +76,7 @@
 			<div class="flex flex-col  ">
 				<!-- {{ tableData }} -->
 				<el-table
-					:data="tableData"
+					:data="tableData.data"
 					height="750"
 					style="width: 100%"
 					resizable="true"
@@ -192,24 +192,23 @@
 								@click="editStudent(scope.row.student_id)"
 							>កែប្រែ</el-button>
 
-						<el-popconfirm
-							width="220"
-							confirm-button-text="OK"
-							cancel-button-text="No, Thanks"
-							:icon="InfoFilled"
-							icon-color="#626AEF"
-							title="Are you sure to delete this?"
-							@confirm="handleDelete(scope.row.student_id)"
+							<el-popconfirm
+								width="220"
+								confirm-button-text="OK"
+								cancel-button-text="No, Thanks"
+								:icon="InfoFilled"
+								icon-color="#626AEF"
+								title="Are you sure to delete this?"
+								@confirm="handleDelete(scope.row.student_id)"
 							>
-							<template #reference>
-							<el-button
-								size="small"
-								type="danger"
-								class="sanfont-khmer"
-								
-							>លុប</el-button>
-							</template>
-						</el-popconfirm>
+								<template #reference>
+									<el-button
+										size="small"
+										type="danger"
+										class="sanfont-khmer"
+									>លុប</el-button>
+								</template>
+							</el-popconfirm>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -217,7 +216,7 @@
 					<el-pagination
 						background
 						layout="total, prev, pager, next, sizes"
-						:total="tableData.length"
+						:total="tableData.total"
 					>
 					</el-pagination>
 
@@ -340,7 +339,6 @@
 						<div>
 							<el-form-item
 								label="អត្តលេខ"
-								
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
@@ -359,7 +357,7 @@
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
-							
+
 								<el-select
 									v-model="ruleForm.genderValue"
 									placeholder="ជ្រើសរើស"
@@ -372,7 +370,7 @@
 										:label="item.genderLabel"
 										:value="item.genderValue"
 									>
-									
+
 									</el-option>
 								</el-select>
 							</el-form-item>
@@ -670,7 +668,7 @@ export default {
 				genderValue: 2,
 				genderLabel: 'ស្រី'
 			}],
-			
+
 
 			genders: [{
 				value: 'ប្រុស',
@@ -805,7 +803,7 @@ export default {
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/student'+'/update/'+this.ruleForm.student_id , form, config).then(response => {
+			await axios.post('/student' + '/update/' + this.ruleForm.student_id, form, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
@@ -815,11 +813,11 @@ export default {
 			})
 		},
 
-	/*
-	*  Function Delete 
-	*/	
-		async handleDelete(id){
-			await axios.delete('/student'+ '/delete/' + id).then(response => {
+		/*
+		*  Function Delete 
+		*/
+		async handleDelete(id) {
+			await axios.delete('/student' + '/delete/' + id).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
@@ -892,16 +890,16 @@ export default {
 				this.ruleForm.email = response.data.data.email
 				this.ruleForm.statusValue = response.data.data.status_id
 				this.ruleForm.studentOtherText = response.data.data.other
-			 //	this.ruleForm.roles = response.data.data.role
-			 	this.imageUrl = response.data.data.profile_img?.file_path
-			 	this.ruleForm.file_upload_id = response.data.data.file_upload_id
-			 //	this.roles = response.data.roles
+				//	this.ruleForm.roles = response.data.data.role
+				this.imageUrl = response.data.data.profile_img?.file_path
+				this.ruleForm.file_upload_id = response.data.data.file_upload_id
+				//	this.roles = response.data.roles
 
-			 }).catch((error) => {
-			 	if (error.response.status == 401) {
-			 		this.$store.commit("auth/CLEAR_TOKEN")
-			 	}
-			 })
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
 		},
 		notification() {
 			this.showSuccess = !this.showSuccess

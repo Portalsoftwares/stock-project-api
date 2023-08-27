@@ -16,9 +16,38 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $student =  Student::with('current_class.class', 'profile_img')->get();
+        $items =  Student::query();
+        $per_page = $request->per_page ?? 10;
+        $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
+        $sort_by = $request->sort_by ?: 'sid';
+        if ($per_page == -1) {
+            $per_page = DB::table('students')->count() > 0 ? DB::table('students')->count() : $per_page;
+        }
+
+        // if (!empty($request->filter_profession)) {
+        //     $items->whereIn('profession', 'like', $request->filter_profession);
+        // }
+        // if (!empty($request->filter_teacher_level)) {
+        //     $items->whereIn('teacher_level', $request->filter_teacher_level);
+        // }
+
+        if (!empty($request->search)) {
+            $items->where('sid', 'like', "%" . $request->search . "%");
+            $items->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
+            $items->orWhere('full_name_en', 'like', "%" . $request->search . "%");
+            $items->orWhere('email', 'like', "%" . $request->search . "%");
+            $items->orWhere('phone', 'like', "%" . $request->search . "%");
+        }
+        if (!empty($request->is_show_trust)) {
+            $items->onlyTrashed();
+        }
+        $data = $items->with('current_class.class', 'profile_img')
+            ->orderBy($sort_by, $order_by)
+            ->orderBy('sid', $order_by)
+            ->paginate($per_page);
+
         $class =   Classes::all()->map(function ($item, $index) {
             return [
                 "text" => $item["class_name"],
@@ -26,7 +55,7 @@ class StudentController extends Controller
             ];
         });
         $response = [
-            'data' => $student,
+            'data' => $data,
             'class' => $class
         ];
         return  response($response, 200);
