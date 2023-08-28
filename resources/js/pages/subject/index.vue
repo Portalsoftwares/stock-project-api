@@ -130,7 +130,7 @@
 										size="small"
 										type="danger"
 										class="sanfont-khmer"
-										@click="handleDelete(scope.$index, scope.row)"
+										@click="handleDelete(scope.row.subject_id)"
 									>លុប</el-button>
 								</template>
 							</el-table-column>
@@ -664,7 +664,7 @@ export default {
 					{ required: true, message: 'សូមបញ្ជូលឈ្មោះមុខវិជ្ជា (អក្សរកាត់)', trigger: 'blur' },
 					{ min: 1, max: 2, message: 'ចំនួនតួអក្សរត្រូវបញ្ជូលយ៉ាងតិចឲ្យបាន២តួ', trigger: 'blur' }
 				],
-				subLevelNameKh: [
+		/*		subLevelNameKh: [
 					{ required: true, message: 'សូមជ្រើសរើសឈ្មោះមុខវិជ្ជា', trigger: 'blur' },
 				],
 				gradeLevelValue: [
@@ -673,6 +673,7 @@ export default {
 				classTypeValue: [
 					{ required: true, message: 'សូមជ្រើសរើសប្រភេទថ្នាក់', trigger: 'blur' },
 				],
+		*/		
 				password: [
 					{ required: true, message: 'Please set password', trigger: 'blur' },
 					{ min: 8, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
@@ -834,6 +835,26 @@ export default {
 				});
 			})
 		},
+
+		/*
+		*  Function create new Subject Level
+		*/
+		async submitDataSubjectLevel() {
+			const form = new FormData(document.getElementById('fm'));
+		//	form.append('role', this.ruleForm.roles)
+			const config = {
+				headers: { 'content-type': 'multipart/form-data' }
+			}
+			await axios.post('/subject/create', form, config).then(response => {
+				this.getData();
+				this.dialogFormVisible = false;
+				this.$message({
+					message: 'Congrats, this is a success message.',
+					type: 'success'
+				});
+			})
+		},
+
 		/*
 	*  Function update new user  
 	*/
@@ -853,6 +874,21 @@ export default {
 				});
 			})
 		},
+
+		/*
+	*  Function Delete 
+	*/	
+		async handleDelete(id){
+			await axios.delete('/subject'+ '/delete/' + id).then(response => {
+				this.getData();
+				this.dialogFormVisible = false;
+				this.$message({
+					message: 'Congrats, this is a success message.',
+					type: 'success'
+				});
+			})
+		},
+
 		handlePictureCardPreview(UploadFile) {
 			this.dialogImageUrl = UploadFile.url
 			this.dialogVisible = true
