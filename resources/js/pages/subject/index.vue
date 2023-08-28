@@ -72,7 +72,7 @@
 							/>
 						</div>
 						<el-table
-							:data="tableData"
+							:data="tableData.data"
 							height="690"
 							style="width: 100%"
 							resizable="true"
@@ -140,7 +140,7 @@
 							<el-pagination
 								background
 								layout="total, prev, pager, next, sizes"
-								:total="tableData.length"
+								:total="tableData.total"
 							>
 							</el-pagination>
 						</div>
@@ -352,7 +352,7 @@
 							/>
 						</div>
 						<el-table
-							:data="tableDataSubjectLevel"
+							:data="tableDataSubjectLevel.data"
 							height="690"
 							style="width: 100%"
 							resizable="true"
@@ -422,7 +422,7 @@
 							<el-pagination
 								background
 								layout="prev, pager, next, sizes"
-								:total="tableDataSubjectLevel.length"
+								:total="tableDataSubjectLevel.total"
 							>
 							</el-pagination>
 						</div>
@@ -708,7 +708,7 @@ export default {
 			{
 				subLevelNameKhValue: '3',
 				subLevelNameKhLabel: 'រូបវិទ្យា'
-			},	
+			},
 			{
 				subLevelNameKhValue: '4',
 				subLevelNameKhLabel: 'គីមីវិទ្យា'
@@ -724,8 +724,8 @@ export default {
 				subLevelNameKhValue: '7',
 				subLevelNameKhLabel: 'ប្រវត្តិវិទ្យា'
 			},
-				
-				],
+
+			],
 
 			gradeLevel: [{
 				gradeLevelValue: '10',
@@ -821,7 +821,7 @@ export default {
 		*/
 		async submitData() {
 			const form = new FormData(document.getElementById('fm'));
-		//	form.append('role', this.ruleForm.roles)
+			//	form.append('role', this.ruleForm.roles)
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
@@ -844,7 +844,7 @@ export default {
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/subject' + '/update/'+ this.ruleForm.subject_id, form, config).then(response => {
+			await axios.post('/subject' + '/update/' + this.ruleForm.subject_id, form, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
@@ -896,8 +896,9 @@ export default {
 		async getDataSubjectLevel() {
 			this.loading = true
 
-			await axios.get('/subject/get_subject_level').then(response => {
+			await axios.get('/subject-level/get').then(response => {
 				this.tableDataSubjectLevel = response.data.data
+				console.log(this.tableDataSubjectLevel)
 				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {
@@ -909,22 +910,22 @@ export default {
 			this.dialogFormVisible = true;
 			this.isShowButtonUpdate = true;
 			this.isShowPassword = false;
-			await axios.get('/subject' + '/edit/'+ id).then(response => {
+			await axios.get('/subject' + '/edit/' + id).then(response => {
 				console.log(response.data + "123")
-			this.ruleForm.subject_id = response.data.data.subject_id
-			this.ruleForm.subNameKh = response.data.data.subject_name_kh
-			this.ruleForm.subNameEng = response.data.data.subject_name_en
-			this.ruleForm.subShortNameEng = response.data.data.subject_sort_name_en
-		//	this.ruleForm.roles = response.data.data.subNameKh
-		//	this.ruleForm.email = response.data.user.email
-		//	this.imageUrl = response.data.user.img?.file_path
-		//	this.ruleForm.photo_id = response.data.user.id
-		//	this.roles = response.data.roles
+				this.ruleForm.subject_id = response.data.data.subject_id
+				this.ruleForm.subNameKh = response.data.data.subject_name_kh
+				this.ruleForm.subNameEng = response.data.data.subject_name_en
+				this.ruleForm.subShortNameEng = response.data.data.subject_sort_name_en
+				//	this.ruleForm.roles = response.data.data.subNameKh
+				//	this.ruleForm.email = response.data.user.email
+				//	this.imageUrl = response.data.user.img?.file_path
+				//	this.ruleForm.photo_id = response.data.user.id
+				//	this.roles = response.data.roles
 
 			}).catch((error) => {
 				if (error.response.status == 401) {
-			this.$store.commit("auth/CLEAR_TOKEN")
-			}
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
 			})
 		},
 		notification() {

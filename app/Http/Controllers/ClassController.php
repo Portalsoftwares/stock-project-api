@@ -20,11 +20,36 @@ class ClassController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $teacher =  Classes::with(['class_type', 'academic', 'count_student_in_class.student_in_class', 'get_teacher_in_class.teacher_in_class', 'get_teacher_in_class.teacher_subject_in_class'])->get();
+        $items =  Classes::query();
+        $per_page = $request->per_page ?? 10;
+        $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
+        $sort_by = $request->sort_by ?: 'class_name';
+        if ($per_page == -1) {
+            $per_page = DB::table('class')->count() > 0 ? DB::table('class')->count() : $per_page;
+        }
+
+        // if (!empty($request->filter_profession)) {
+        //     $items->whereIn('profession', 'like', $request->filter_profession);
+        // }
+        // if (!empty($request->filter_teacher_level)) {
+        //     $items->whereIn('teacher_level', $request->filter_teacher_level);
+        // }
+
+        if (!empty($request->search)) {
+            // $items->where('subject_name_kh', 'like', "%" . $request->search . "%");
+            // $items->orWhere('subject_name_en', 'like', "%" . $request->search . "%");
+            // $items->orWhere('subject_sort_name_en', 'like', "%" . $request->search . "%");
+        }
+        if (!empty($request->is_show_trust)) {
+            $items->onlyTrashed();
+        }
+        $data = $items->with(['class_type', 'academic', 'count_student_in_class.student_in_class', 'get_teacher_in_class.teacher_in_class', 'get_teacher_in_class.teacher_subject_in_class'])
+            ->orderBy($sort_by, $order_by)
+            ->paginate($per_page);
         $response = [
-            'data' => $teacher,
+            'data' => $data,
         ];
         return  response($response, 200);
     }

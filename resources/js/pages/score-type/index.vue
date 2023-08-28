@@ -51,7 +51,7 @@
 		<div class=" border rounded bg-gray-50">
 			<div class="flex flex-col  ">
 				<el-table
-					:data="tableData"
+					:data="tableData.data"
 					height="750"
 					style="width: 100%"
 					resizable="true"
@@ -112,7 +112,7 @@
 					<el-pagination
 						background
 						layout="total, prev, pager, next, sizes"
-						:total="tableData.length"
+						:total="tableData.total"
 					>
 					</el-pagination>
 				</div>

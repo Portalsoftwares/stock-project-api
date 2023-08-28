@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class scoreType extends Model
 {
     use HasFactory;
-    // use SoftDeletes;
+    use SoftDeletes;
     protected $table = 'score_type';
-    // protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at'];
+    protected $primaryKey = 'score_type_id';
     protected $fillable = [
         'name',
         'date',

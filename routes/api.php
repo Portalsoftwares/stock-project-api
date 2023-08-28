@@ -133,6 +133,11 @@ Route::prefix('v1')->group(function () {
     //Score Type
     Route::prefix('score-type')->group(function () {
       Route::get('/get', [ScoreTypeController::class, 'index']);
+      Route::post('/create', [ScoreTypeController::class, 'create']);
+      Route::get('/edit/{id}', [ScoreTypeController::class, 'edit']);
+      Route::post('/update/{id}', [ScoreTypeController::class, 'update']);
+      Route::post('/restore/{id}', [ScoreTypeController::class, 'restore']);
+      Route::delete('/delete/{id}', [ScoreTypeController::class, 'delete']);
     });
   });
 });

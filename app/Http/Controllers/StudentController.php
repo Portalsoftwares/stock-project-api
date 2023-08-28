@@ -45,7 +45,6 @@ class StudentController extends Controller
         }
         $data = $items->with('current_class.class', 'profile_img')
             ->orderBy($sort_by, $order_by)
-            ->orderBy('sid', $order_by)
             ->paginate($per_page);
 
         $class =   Classes::all()->map(function ($item, $index) {

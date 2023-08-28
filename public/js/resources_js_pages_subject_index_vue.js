@@ -373,8 +373,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _this7.loading = true;
               _context6.next = 3;
-              return axios.get('/subject/get_subject_level').then(function (response) {
+              return axios.get('/subject-level/get').then(function (response) {
                 _this7.tableDataSubjectLevel = response.data.data;
+                console.log(_this7.tableDataSubjectLevel);
                 _this7.loading = false;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
@@ -672,7 +673,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             type: "info",
             "show-icon": ""
           })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
-            data: $data.tableData,
+            data: $data.tableData.data,
             height: "690",
             style: {
               "width": "100%"
@@ -765,7 +766,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
             background: "",
             layout: "total, prev, pager, next, sizes",
-            total: $data.tableData.length
+            total: $data.tableData.total
           }, null, 8 /* PROPS */, ["total"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
             modelValue: $data.dialogFormVisible,
             "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
@@ -1008,7 +1009,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             type: "info",
             "show-icon": ""
           })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
-            data: $data.tableDataSubjectLevel,
+            data: $data.tableDataSubjectLevel.data,
             height: "690",
             style: {
               "width": "100%"
@@ -1117,7 +1118,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
             background: "",
             layout: "prev, pager, next, sizes",
-            total: $data.tableDataSubjectLevel.length
+            total: $data.tableDataSubjectLevel.total
           }, null, 8 /* PROPS */, ["total"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
             modelValue: $data.dialogFormVisible,
             "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
