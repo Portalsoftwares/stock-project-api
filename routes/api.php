@@ -129,6 +129,11 @@ Route::prefix('v1')->group(function () {
     //Academic
     Route::prefix('academic')->group(function () {
       Route::get('/get', [AcademicController::class, 'index']);
+      Route::post('/create', [AcademicController::class, 'create']);
+      Route::get('/edit/{id}', [AcademicController::class, 'edit']);
+      Route::post('/update/{id}', [AcademicController::class, 'update']);
+      Route::post('/restore/{id}', [AcademicController::class, 'restore']);
+      Route::delete('/delete/{id}', [AcademicController::class, 'delete']);
     });
     //Score Type
     Route::prefix('score-type')->group(function () {
