@@ -201,7 +201,7 @@
 								<el-button
 									size="small"
 									class="sanfont-khmer"
-									@click="restoreData(scope.row.id)"
+									@click="restoreData(scope.row.teacher_id)"
 								>ស្ដារឡើងវិញ</el-button>
 								<el-popconfirm
 									width="220"
@@ -226,7 +226,7 @@
 								<el-button
 									size="small"
 									class="sanfont-khmer"
-									@click="editUser(scope.row.id)"
+									@click="editTeacher(scope.row.teacher_id)"
 								>កែប្រែ</el-button>
 								<el-popconfirm
 									width="220"

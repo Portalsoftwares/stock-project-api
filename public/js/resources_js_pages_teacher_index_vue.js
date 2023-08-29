@@ -917,7 +917,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             size: "small",
             "class": "sanfont-khmer",
             onClick: function onClick($event) {
-              return _ctx.restoreData(scope.row.id);
+              return _ctx.restoreData(scope.row.teacher_id);
             }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -953,7 +953,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             size: "small",
             "class": "sanfont-khmer",
             onClick: function onClick($event) {
-              return _ctx.editUser(scope.row.id);
+              return $options.editTeacher(scope.row.teacher_id);
             }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {

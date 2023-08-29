@@ -40,20 +40,6 @@ Route::prefix('v1')->group(function () {
       Route::post('/create/upload', [UploadFileController::class, 'store']);
       // Route::post('/create' , [UploadFileController::class, 'store']);
       Route::get('/get/upload/{id}', [UploadFileController::class, 'getUploadFileByActivation']);
-      // Preview File
-      Route::get('storage/{filename}', function ($filename) {
-        $name = "app\public\images\ $filename";
-        $string = preg_replace('/\s+/', '', $name);
-        $path = storage_path($string);
-        if (!File::exists($path)) {
-          abort(404);
-        }
-        $file = File::get($path);
-        $type = File::mimeType($path);
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-        return  $response;
-      });
     });
     //Student
     Route::prefix('student')->group(function () {
@@ -125,6 +111,11 @@ Route::prefix('v1')->group(function () {
     //Time 
     Route::prefix('time')->group(function () {
       Route::get('/get', [TimeController::class, 'index']);
+      Route::post('/create', [TimeController::class, 'create']);
+      Route::get('/edit/{id}', [TimeController::class, 'edit']);
+      Route::post('/update/{id}', [TimeController::class, 'update']);
+      Route::post('/restore/{id}', [TimeController::class, 'restore']);
+      Route::delete('/delete/{id}', [TimeController::class, 'delete']);
     });
     //Academic
     Route::prefix('academic')->group(function () {

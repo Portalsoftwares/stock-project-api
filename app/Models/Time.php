@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Time extends Model
 {
     use HasFactory;
-    // use SoftDeletes;
+    use SoftDeletes;
     protected $table = 'time';
-    // protected $dates = ['deleted_at'];
+    protected $primaryKey = 'time_id';
+    protected $dates = ['deleted_at'];
     protected $fillable = [
         'time_id',
         'name',
