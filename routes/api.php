@@ -85,13 +85,16 @@ Route::prefix('v1')->group(function () {
       Route::get('/edit/{id}', [ClassController::class, 'edit']);
       Route::post('/update/{id}', [ClassController::class, 'update']);
       Route::delete('/delete/{id}', [ClassController::class, 'delete']);
+      //Add student in Class
+      Route::post('/student/{id}/add', [ClassController::class, 'addStudentClass']);
     });
 
     //Schedule class
     Route::prefix('schedule_class')->group(function () {
       Route::get('/{id}/get', [ScheduleController::class, 'index']);
+      Route::get('/{id}/edit', [ScheduleController::class, 'edit']);
       Route::get('/{id}/schedule', [ScheduleController::class, 'getScheduleDayTime']);
-      Route::post('/create', [ScheduleController::class, 'create']);
+      Route::post('/{id}/create', [ScheduleController::class, 'create']);
     });
     //Teacher class
     Route::prefix('teacher_class')->group(function () {

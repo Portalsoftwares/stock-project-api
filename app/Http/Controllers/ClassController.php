@@ -157,4 +157,24 @@ class ClassController extends Controller
         ];
         return  response($response, 200);
     }
+
+    //Add student in class
+
+    public function addStudentClass(Request $request, $id)
+    {
+        $dataStudent = [];
+
+        foreach ($request->data as $data) {
+            $obj = [
+                'student_id' => $data['student_id'],
+                'class_id' => $id
+            ];
+            array_push($dataStudent, $obj);
+        };
+        $classStudent = StudentClass::Insert($dataStudent);
+        $response = [
+            'data' => 'add student in class successfull',
+        ];
+        return  response($response, 200);
+    }
 }

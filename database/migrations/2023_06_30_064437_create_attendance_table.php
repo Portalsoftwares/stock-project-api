@@ -17,8 +17,10 @@ return new class extends Migration
             $table->bigIncrements('attendance_id');
             $table->integer('time_id');
             $table->integer('class_id');
+            $table->integer('day_id');
             $table->integer('subject_grade_id');
             $table->integer('teacher_id');
+            $table->date('date');
             $table->softDeletes();
             $table->timestamps();
         });
