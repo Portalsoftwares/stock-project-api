@@ -209,4 +209,13 @@ class UserController extends Controller
         ];
         return  response($response, 200);
     }
+
+    public function restore($id)
+    {
+        $items = User::withTrashed()->find($id)->restore();
+        $response = [
+            'data' => 'Restore successfull',
+        ];
+        return  response($response, 200);
+    }
 }

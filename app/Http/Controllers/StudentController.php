@@ -106,7 +106,7 @@ class StudentController extends Controller
 
     public function edit($id)
     {
-        $teacher = Student::find($id);
+        $teacher = Student::with('profile_img')->find($id);
         $response = [
             'data' => $teacher,
         ];

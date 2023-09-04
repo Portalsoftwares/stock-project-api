@@ -16,9 +16,10 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'សោភា ស៊ីវម៉ី',
+            'name' => 'វ៉ាន់ ស៊ីវម៉ី',
             'teacher_id' => '1',
-            'email' => 'sievmey@gmail.com',
+            'phone' => '0956487667',
+            'email' => 'vannmey@gmail.com',
             'file_upload_id' => '1',
             'password' => bcrypt('dev123')
         ])->each(
@@ -29,6 +30,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'សុខ សាន្ត វណ្ណា',
             'teacher_id' => '2',
+            'phone' => '0956487667',
             'email' => 'sanvanna@gmail.com',
             'file_upload_id' => '2',
             'password' => bcrypt('dev123')
@@ -40,6 +42,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'កែវ ចន្ទវត្តី',
             'teacher_id' => '3',
+            'phone' => '0956487667',
             'email' => 'chanvettey@gmail.com',
             'file_upload_id' => '3',
             'password' => bcrypt('dev123')

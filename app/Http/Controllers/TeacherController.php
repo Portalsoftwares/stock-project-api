@@ -107,7 +107,7 @@ class TeacherController extends Controller
 
     public function edit($id)
     {
-        $items = Teacher::find($id);
+        $items = Teacher::with('profile_img')->find($id);
         $response = [
             'data' => $items,
         ];
