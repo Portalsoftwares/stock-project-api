@@ -464,6 +464,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
+    restoreData: function restoreData(id) {
+      var _this8 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) switch (_context6.prev = _context6.next) {
+            case 0:
+              _context6.next = 2;
+              return axios.post('/teacher' + '/restore/' + id).then(function (response) {
+                _this8.getData();
+                _this8.dialogFormVisible = false;
+                _this8.$message({
+                  message: 'Congrats, this is a success message.',
+                  type: 'success'
+                });
+              });
+            case 2:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6);
+      }))();
+    },
     handlePictureCardPreview: function handlePictureCardPreview(UploadFile) {
       this.dialogImageUrl = UploadFile.url;
       this.dialogVisible = true;
@@ -472,82 +494,82 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       console.log(UploadFile);
     },
     AddUser: function AddUser() {
-      var _this8 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) switch (_context6.prev = _context6.next) {
-            case 0:
-              //this.cancelAction()
-              //this.resetForm('ruleForm');
-              _this8.ruleForm.name = '';
-              _this8.ruleForm.userId = '';
-              _this8.ruleForm.roles = '';
-              _this8.ruleForm.email = '';
-              _this8.imageUrl = '';
-              _this8.ruleForm.photo_id = '';
-              _this8.roles = null;
-              _this8.dialogFormVisible = true;
-              _this8.isShowButtonUpdate = false;
-              _this8.isShowPassword = true;
-              _context6.next = 12;
-              return axios.get('/user/create').then(function (response) {
-                _this8.roles = response.data.roles;
-              })["catch"](function (error) {
-                console.log(error);
-              });
-            case 12:
-            case "end":
-              return _context6.stop();
-          }
-        }, _callee6);
-      }))();
-    },
-    editTeacher: function editTeacher(id) {
       var _this9 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
           while (1) switch (_context7.prev = _context7.next) {
             case 0:
+              //this.cancelAction()
+              //this.resetForm('ruleForm');
+              _this9.ruleForm.name = '';
+              _this9.ruleForm.userId = '';
+              _this9.ruleForm.roles = '';
+              _this9.ruleForm.email = '';
+              _this9.imageUrl = '';
+              _this9.ruleForm.photo_id = '';
+              _this9.roles = null;
               _this9.dialogFormVisible = true;
-              _this9.isShowButtonUpdate = true;
-              _this9.isShowPassword = false;
-              _context7.next = 5;
-              return axios.get('/teacher' + '/edit/' + id).then(function (response) {
-                var _response$data$data$p;
-                console.log(response.data);
-                _this9.ruleForm.firstNameKh = response.data.data.first_name_kh;
-                _this9.ruleForm.teacher_id = response.data.data.teacher_id;
-                _this9.ruleForm.LastNameKh = response.data.data.last_name_kh;
-                _this9.ruleForm.fullNameKh = response.data.data.full_name_kh;
-                _this9.ruleForm.firstNameEng = response.data.data.first_name_en;
-                _this9.ruleForm.LastNameEng = response.data.data.last_name_en;
-                _this9.ruleForm.fullNameEng = response.data.data.full_name_en;
-                _this9.ruleForm.IDn = response.data.data.tid;
-                _this9.ruleForm.teacher_level_value = response.data.data.teacher_level;
-                _this9.ruleForm.professionValue = response.data.data.profession;
-                _this9.ruleForm.genderValue = response.data.data.gender_id;
-                _this9.ruleForm.dobValue = response.data.data.date_of_birth;
-                _this9.ruleForm.birsthAddress = response.data.data.place_of_birth;
-                _this9.ruleForm.address = response.data.data.address;
-                _this9.ruleForm.teachDate = response.data.data.join_date;
-                _this9.ruleForm.phoneNum = response.data.data.phone;
-                _this9.ruleForm.teacherId = response.data.data.id;
-                _this9.ruleForm.statusValue = response.data.data.status_id;
-                _this9.ruleForm.email = response.data.data.email;
-                _this9.ruleForm.roles = response.data.data.role;
-                _this9.imageUrl = (_response$data$data$p = response.data.data.profile_img) === null || _response$data$data$p === void 0 ? void 0 : _response$data$data$p.file_path;
-                _this9.ruleForm.file_upload_id = response.data.data.file_upload_id;
-                _this9.dialogFormVisible = true;
+              _this9.isShowButtonUpdate = false;
+              _this9.isShowPassword = true;
+              _context7.next = 12;
+              return axios.get('/user/create').then(function (response) {
+                _this9.roles = response.data.roles;
               })["catch"](function (error) {
-                if (error.response.status == 401) {
-                  _this9.$store.commit("auth/CLEAR_TOKEN");
-                }
+                console.log(error);
               });
-            case 5:
+            case 12:
             case "end":
               return _context7.stop();
           }
         }, _callee7);
+      }))();
+    },
+    editTeacher: function editTeacher(id) {
+      var _this10 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+          while (1) switch (_context8.prev = _context8.next) {
+            case 0:
+              _this10.dialogFormVisible = true;
+              _this10.isShowButtonUpdate = true;
+              _this10.isShowPassword = false;
+              _context8.next = 5;
+              return axios.get('/teacher' + '/edit/' + id).then(function (response) {
+                var _response$data$data$p;
+                console.log(response.data);
+                _this10.ruleForm.firstNameKh = response.data.data.first_name_kh;
+                _this10.ruleForm.teacher_id = response.data.data.teacher_id;
+                _this10.ruleForm.LastNameKh = response.data.data.last_name_kh;
+                _this10.ruleForm.fullNameKh = response.data.data.full_name_kh;
+                _this10.ruleForm.firstNameEng = response.data.data.first_name_en;
+                _this10.ruleForm.LastNameEng = response.data.data.last_name_en;
+                _this10.ruleForm.fullNameEng = response.data.data.full_name_en;
+                _this10.ruleForm.IDn = response.data.data.tid;
+                _this10.ruleForm.teacher_level_value = response.data.data.teacher_level;
+                _this10.ruleForm.professionValue = response.data.data.profession;
+                _this10.ruleForm.genderValue = response.data.data.gender_id;
+                _this10.ruleForm.dobValue = response.data.data.date_of_birth;
+                _this10.ruleForm.birsthAddress = response.data.data.place_of_birth;
+                _this10.ruleForm.address = response.data.data.address;
+                _this10.ruleForm.teachDate = response.data.data.join_date;
+                _this10.ruleForm.phoneNum = response.data.data.phone;
+                _this10.ruleForm.teacherId = response.data.data.id;
+                _this10.ruleForm.statusValue = response.data.data.status_id;
+                _this10.ruleForm.email = response.data.data.email;
+                _this10.ruleForm.roles = response.data.data.role;
+                _this10.imageUrl = (_response$data$data$p = response.data.data.profile_img) === null || _response$data$data$p === void 0 ? void 0 : _response$data$data$p.file_path;
+                _this10.ruleForm.file_upload_id = response.data.data.file_upload_id;
+                _this10.dialogFormVisible = true;
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this10.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 5:
+            case "end":
+              return _context8.stop();
+          }
+        }, _callee8);
       }))();
     },
     notification: function notification() {
@@ -917,7 +939,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             size: "small",
             "class": "sanfont-khmer",
             onClick: function onClick($event) {
-              return _ctx.restoreData(scope.row.teacher_id);
+              return $options.restoreData(scope.row.teacher_id);
             }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="flex h-screen items-center justify-center px-4 sm:px-6 lg:px-8  bg-gray-50 ">
-			<div class="w-[550px]  space-y-8 border py-8 px-9 shadow bg-gray-100 rounded-lg">
+			<div class="w-[550px]  space-y-8 border py-8 px-9 shadow bg-gray-100 rounded">
 
 				<div class="flex items-center justify-center ">
 					<img
@@ -15,74 +15,79 @@
 					<h2 class="mt-6 text-center text-3xl text-gray-800 sanfont-khmer">សាលាចំណេះទូទៅ និងបច្ចេកទេសពួក </h2>
 					<h1 class="text-2xl text-gray-600 text-[20px] font-bold">PUOK TECHNICAL AND GENERAL SCHOOL </h1>
 				</div>
-				<form
-					class="mt-8 space-y-6"
+				<div>
+					<el-alert
+						title="ជោគជ័យ"
+						type="success"
+						description=""
+						show-icon
+						v-show="successfull"
+						:closable="false"
+					/>
+					<el-alert
+						title="ព័ត៏មានអ្នកប្រើប្រាស់មិនត្រឹមត្រូវ"
+						type="error"
+						:description="message"
+						show-icon
+						v-show="failed"
+						:closable="false"
+					/>
+				</div>
+				<el-form
+					class="mt-4 "
 					id="login-form"
+					:model="objData"
+					:rules="rules"
+					ref="formLogin"
 				>
 					<input
 						type="hidden"
 						name="remember"
 						value="true"
 					/>
-					<div class="space-y-[20px] rounded-md shadow-sm">
-						<div>
-							<label
-								for="email-address"
-								class="sr-only"
-							>Email address</label>
-							<input
-								id="email-address"
-								v-model="objData.email"
-								name="email"
-								type="email"
-								class="text-lg relative block w-full h-full appearance-none rounded-lg  border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm "
-								placeholder="ឈ្មោះអ្នកប្រើប្រាស់/សារអេឡិចត្រូនិច"
-							/>
-						</div>
-
-						<div>
-							<label
-								for="password"
-								class="sr-only"
-							>Password</label>
-							<input
-								id="password"
-								v-model="objData.password"
-								name="password"
-								type="password"
-								class="text-lg relative block w-full h-full appearance-none rounded-lg border border-gray-300 px-3 py-2  text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-								placeholder="ពាក្យសម្ងាត់"
-							/>
-						</div>
-					</div>
-					<div class="flex items-center justify-between">
-						<div class="flex items-center">
-							<input
-								id="remember-me"
-								name="remember-me"
-								type="checkbox"
-								class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-							/>
-							<label
-								for="remember-me"
-								class="ml-2 block text-sm text-gray-900 text-[17px]"
-							>ចងចាំអ្នកប្រើប្រាស់</label>
-						</div>
-						<div class="text-sm">
+					<div class="space-y-[10px] rounded-md shadow-sm">
+						<div class="flex justify-center w-full ">
+							<el-form-item prop="email">
+								<el-input
+									v-model="objData.email"
+									name="email"
+									placeholder="ឈ្មោះអ្នកប្រើប្រាស់/សារអេឡិចត្រូនិច"
+									size="large"
+								/>
+							</el-form-item>
 
 						</div>
-					</div>
-					<div>
-					</div>
-				</form>
 
+						<div class="flex justify-center ">
+							<el-form-item prop="password">
+								<el-input
+									v-model="objData.password"
+									type="password"
+									placeholder="ពាក្យសម្ងាត់"
+									name="password"
+									show-password
+									size="large"
+								/>
+							</el-form-item>
+						</div>
+						<div class="flex justify-center ">
+							<el-form-item>
+
+								<el-checkbox
+									name="remember-me"
+									label="ចងចាំអ្នកប្រើប្រាស់"
+								/>
+
+							</el-form-item>
+						</div>
+					</div>
+				</el-form>
 				<div class="flex item-center justify-center">
-					<button
-						@click="login"
-						class="group relative  h-[50px] rounded-md border border-transparent bg-blue-500 py-2 px-4 text-[18px] font-bold text-white hover:bg-blue-400"
-					>
-						ចូលប្រើប្រព័ន្ធ
-					</button>
+					<el-button
+						type="primary"
+						@click="submitForm('formLogin')"
+						:loading="loading"
+					>ចូលប្រើប្រព័ន្ធ</el-button>
 				</div>
 			</div>
 		</div>
@@ -136,23 +141,50 @@
 export default {
 	data() {
 		return {
-
-
+			loading: false,
 			objData: {
-				email: 'sievmey@gmail.com',
-				password: 'dev123',
+				email: '',
+				password: '',
 
-			}
+			},
+			rules: {
+				email: [
+					{ required: true, message: 'សូមបញ្ចូល ឈ្មោះអ្នកប្រើប្រាស់/សារអេឡិចត្រូនិច', trigger: 'blur' }
+				],
+				password: [
+					{ required: true, message: 'ពាក្យសម្ងាត់', trigger: 'blur' }
+				],
+
+			},
+			failed: false,
+			successfull: false,
+			message: ''
 		}
 	},
-	mounted() {
-	},
 	methods: {
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					this.login()
+				}
+			});
+		},
 		login() {
+			this.loading = true;
 			this.$store.dispatch("auth/LOGIN_SYSTEM", this.objData).then(reponse => {
+				console.log(reponse)
 				if (reponse.status == '201' && localStorage.getItem('token') != null) {
-					this.$router.push('/');
+					this.successfull = true
+					// this.$router.push('/');
+					const self = this
+					setTimeout(() => {
+						self.$router.push('/');
+					}, 900)
+					this.loading = false;
 				} else {
+					this.failed = true;
+					this.message = reponse.response?.data?.message;
+					this.loading = false;
 
 				}
 
@@ -163,4 +195,7 @@ export default {
 </script>
 
 <style>
+.el-alert__content {
+	text-align: left !important;
+}
 </style>

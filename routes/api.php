@@ -29,10 +29,11 @@ Route::prefix('v1')->group(function () {
       Route::get('/get', [UserController::class, 'index']);
       Route::get('/create', [UserController::class, 'create']);
       Route::post('/store', [UserController::class, 'store']);
-      Route::get('/{id}/get', [UserController::class, 'show']);
-      Route::get('/{id}/edit', [UserController::class, 'edit']);
-      Route::post('/{id}/update', [UserController::class, 'update']);
-      Route::delete('/{id}/destroy', [UserController::class, 'destroy']);
+      Route::get('get/{id}', [UserController::class, 'show']);
+      Route::get('edit/{id}', [UserController::class, 'edit']);
+      Route::post('update/{id}', [UserController::class, 'update']);
+      Route::delete('delete/{id}', [UserController::class, 'delete']);
+      Route::post('/restore/{id}', [UserController::class, 'restore']);
     });
     // Files  
     Route::prefix('files')->group(function () {

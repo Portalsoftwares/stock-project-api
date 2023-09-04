@@ -9,10 +9,9 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
-use App\Models\UploadFile;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 class UserController extends Controller
 {
@@ -21,14 +20,32 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $items =  User::query();
+        $per_page = $request->per_page ?? 10;
+        $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
+        $sort_by = $request->sort_by ?: 'id';
+        if ($per_page == -1) {
+            $per_page = DB::table('users')->count() > 0 ? DB::table('users')->count() : $per_page;
+        }
+
+        if (!empty($request->search)) {
+            $items->orWhere('name', 'like', "%" . $request->search . "%");
+            $items->orWhere('email', 'like', "%" . $request->search . "%");
+            $items->orWhere('phone', 'like', "%" . $request->search . "%");
+        }
+        if (!empty($request->is_show_trust)) {
+            $items->onlyTrashed();
+        }
+        $data = $items->with('roles', 'img')
+            ->orderBy($sort_by, $order_by)
+            ->paginate($per_page);
+
         $response = [
-            'users' => User::with(array('roles' => function ($query) {
-                $query->get();
-            }))->with('img')->get()
+            'data' => $data,
         ];
-        return  response($response, 201);
+        return  response($response, 200);
     }
 
     /**
@@ -165,14 +182,31 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        $user = User::where('id', $id)->first();
-
-        if (is_null($user) and $id  == Auth::user()->id) {
+        if ($id  == Auth::user()->id) {
             abort(404);
         }
 
-        $user->delete();
+        DB::transaction(function () use ($id) {
+            //Delete soft
+            $items = User::find($id);
+            if (!empty($items)) {
+                $items->delete();
+            }
+            //Hard Delete
+            if (empty($items)) {
+                $items = User::onlyTrashed()->find($id);
+                if (!empty($items)) {
+                    $items->forceDelete();
+                }
+                abort(404);
+            }
+        });
+
+        $response = [
+            'data' => 'Delete successfull',
+        ];
+        return  response($response, 200);
     }
 }

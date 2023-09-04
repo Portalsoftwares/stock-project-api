@@ -42,11 +42,13 @@ export const auth = {
   actions: {
     // LOGIN 
     async LOGIN_SYSTEM({ commit }, payload) {
-      const response = await axios.post('/login', payload).then(resp => {
+      const response = await axios.post('/login', payload).then(response => {
         // SET STATE AND LOCAL STORE
-        axios.defaults.headers.common['Authorization'] = `Bearer ${resp.data.token}`;
-        commit('SET_TOKEN', resp.data)
-        return resp;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+        commit('SET_TOKEN', response.data)
+        return response;
+      }).catch(function (error) {
+        return error;
       });
       return response;
     },
@@ -55,6 +57,8 @@ export const auth = {
         // CLEAR STATE AND LOCAL STORE
         commit('CLEAR_TOKEN');
         return response;
+      }).catch(function (error) {
+        return error;
       });
       return response;
 

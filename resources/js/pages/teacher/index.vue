@@ -1034,6 +1034,16 @@ export default {
 				});
 			})
 		},
+		async restoreData(id) {
+			await axios.post('/teacher' + '/restore/' + id).then(response => {
+				this.getData();
+				this.dialogFormVisible = false;
+				this.$message({
+					message: 'Congrats, this is a success message.',
+					type: 'success'
+				});
+			})
+		},
 		handlePictureCardPreview(UploadFile) {
 			this.dialogImageUrl = UploadFile.url
 			this.dialogVisible = true

@@ -35,6 +35,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isShowButtonUpdate: false,
       ruleForm: {
         name: null,
+        phone: null,
         roles: null,
         password: null,
         email: null,
@@ -44,66 +45,88 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       rules: {
         name: [{
           required: true,
-          message: 'Please input Activity name',
+          message: 'សូមបញ្ចូលឈ្មោះ',
           trigger: 'blur'
         }, {
           min: 3,
           max: 15,
-          message: 'Length should be 3 to 15',
+          message: 'ចាប់ពី ៣តួ ទៅ ១៥តួអក្សរ',
           trigger: 'blur'
         }],
         roles: [{
           required: true,
-          message: 'Please select role',
+          message: 'សូមបញ្ចូលតួនាទី',
           trigger: 'change'
         }],
         email: [{
           required: true,
-          message: 'Please input email address',
+          message: 'សូមបញ្ចូលសារអេឡិចត្រូនិច',
           trigger: 'blur'
         }, {
           type: 'email',
-          message: 'Please input correct email address',
+          message: 'ប្រភេទសារអេឡិចត្រូនិច',
           trigger: ['blur', 'change']
         }],
         password: [{
           required: true,
-          message: 'Please set password',
+          message: 'សូមបញ្ចូលដាក់ពាក្សសម្ងាត់',
           trigger: 'blur'
         }, {
           min: 8,
           max: 15,
-          message: 'Length should be 3 to 15',
+          message: 'ចាប់ពី ៣តួ ទៅ ១៥តួអក្សរ',
           trigger: 'blur'
         }],
         photo_id: [{
           required: true,
-          message: 'Please add photo',
+          message: 'សូមដាក់រូបភាព',
           trigger: 'change'
         }]
       },
-      search: '',
-      filter: [{
-        filterValue: 'តាមឈ្មោះ',
-        filterLabel: 'តាមឈ្មោះ'
-      }, {
-        filterValue: 'តាមលេខរៀង',
-        filterLabel: 'តាមលេខរៀង'
-      }, {
-        filterValue: 'តាមកាលបរិច្ឆេត',
-        filterLabel: 'តាមកាលបរិច្ឆេត'
-      }, {
-        filterValue: 'តាមទំហំផ្ទុក',
-        filterLabel: 'តាមទំហំផ្ទុក'
-      }],
       filterSelectValue: "",
-      loading: false
+      loading: false,
+      //Data Page filter
+      page: 1,
+      per_page: 10,
+      sort_by: 'id',
+      order_by: 1,
+      filter_profession: [],
+      filter_teacher_level: 1,
+      search: '',
+      tSearch: null,
+      is_show_trust: 0
+      //Data Page filter
     };
   },
   mounted: function mounted() {
     this.getData();
   },
   methods: {
+    //Change Per Page
+    changePageSize: function changePageSize(event) {
+      this.per_page = event;
+      this.getData();
+    },
+    //Chnage Page 
+    changePage: function changePage(event) {
+      this.page = event;
+      this.getData();
+    },
+    // ស្វែងរក ទិន្នន័យ
+    clickSearch: function clickSearch() {
+      var _this = this;
+      clearTimeout(this.tSearch);
+      this.tSearch = setTimeout(function () {
+        if (_this.search != null) {
+          if (_this.search.replace(/\s/g, '') !== '') {}
+          _this.getData();
+        }
+      }, 1000);
+    },
+    clickShowwTrush: function clickShowwTrush() {
+      this.getData();
+      console.log(this.is_show_trust);
+    },
     handleAvatarSuccess: function handleAvatarSuccess(file) {
       if (file) {
         this.ruleForm.profile_img = file;
@@ -123,11 +146,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return isJPG && isLt2M;
     },
     submitForm: function submitForm(formName) {
-      var _this = this;
+      var _this2 = this;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          _this.submitData();
-          _this.resetForm('ruleForm');
+          _this2.submitData();
+          _this2.resetForm('ruleForm');
         } else {
           console.log('error submit!!');
           return false;
@@ -148,7 +171,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function upload image 
     */
     submitUplaod: function submitUplaod() {
-      var _this2 = this;
+      var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var form, config;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -162,8 +185,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _context.next = 4;
               return axios.post('/files/create/upload', form, config).then(function (response) {
-                _this2.ruleForm.photo_id = response.data.file.id;
-                _this2.$message({
+                _this3.ruleForm.photo_id = response.data.file.id;
+                _this3.$message({
                   message: 'Congrats, this is a success message.',
                   type: 'success'
                 });
@@ -179,14 +202,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function create new user  
     */
     submitData: function submitData() {
-      var _this3 = this;
+      var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var form, config;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               form = new FormData(document.getElementById('fm'));
-              form.append('role', _this3.ruleForm.roles);
+              form.append('role', _this4.ruleForm.roles);
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
@@ -194,9 +217,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _context2.next = 5;
               return axios.post('/user/store', form, config).then(function (response) {
-                _this3.getData();
-                _this3.dialogFormVisible = false;
-                _this3.$message({
+                _this4.getData();
+                _this4.dialogFormVisible = false;
+                _this4.$message({
                   message: 'Congrats, this is a success message.',
                   type: 'success'
                 });
@@ -212,24 +235,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function update new user  
     */
     updateData: function updateData() {
-      var _this4 = this;
+      var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var form, config;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               form = new FormData(document.getElementById('fm'));
-              form.append('role', _this4.ruleForm.roles);
+              form.append('role', _this5.ruleForm.roles);
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
               _context3.next = 5;
-              return axios.post('/user/' + _this4.ruleForm.userId + '/update', form, config).then(function (response) {
-                _this4.getData();
-                _this4.dialogFormVisible = false;
-                _this4.$message({
+              return axios.post('/user/update/' + _this5.ruleForm.userId, form, config).then(function (response) {
+                _this5.getData();
+                _this5.dialogFormVisible = false;
+                _this5.$message({
                   message: 'Congrats, this is a success message.',
                   type: 'success'
                 });
@@ -249,30 +272,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       console.log(UploadFile);
     },
     AddUser: function AddUser() {
-      var _this5 = this;
+      var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
               // this.cancelAction()
               // this.resetForm('ruleForm');
-              _this5.ruleForm.name = '';
-              _this5.ruleForm.userId = '';
-              _this5.ruleForm.roles = null;
-              _this5.ruleForm.email = '';
-              _this5.imageUrl = '';
-              _this5.ruleForm.photo_id = '';
-              _this5.roles = null;
-              _this5.dialogFormVisible = true;
-              _this5.isShowButtonUpdate = false;
-              _this5.isShowPassword = true;
-              _context4.next = 12;
+              _this6.ruleForm.name = '';
+              _this6.ruleForm.phone = '';
+              _this6.ruleForm.userId = '';
+              _this6.ruleForm.roles = null;
+              _this6.ruleForm.email = '';
+              _this6.imageUrl = '';
+              _this6.ruleForm.photo_id = '';
+              _this6.roles = null;
+              _this6.dialogFormVisible = true;
+              _this6.isShowButtonUpdate = false;
+              _this6.isShowPassword = true;
+              _context4.next = 13;
               return axios.get('/user/create').then(function (response) {
-                _this5.roles = response.data.roles;
+                _this6.roles = response.data.roles;
               })["catch"](function (error) {
                 console.log(error);
               });
-            case 12:
+            case 13:
             case "end":
               return _context4.stop();
           }
@@ -280,19 +304,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getData: function getData() {
-      var _this6 = this;
+      var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              _this6.loading = true;
+              _this7.loading = true;
               _context5.next = 3;
-              return axios.get('/user/get').then(function (response) {
-                _this6.tableData = response.data.users;
-                _this6.loading = false;
+              return axios.get("/user/get?page=".concat(_this7.page, "&per_page=").concat(_this7.per_page, "&sort_by=").concat(_this7.sort_by, "&order_by=").concat(_this7.order_by, "&search=").concat(_this7.search, "&is_show_trust=").concat(_this7.is_show_trust)).then(function (response) {
+                _this7.tableData = response.data.data;
+                _this7.loading = false;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
-                  _this6.$store.commit("auth/CLEAR_TOKEN");
+                  _this7.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 3:
@@ -303,27 +327,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     editUser: function editUser(id) {
-      var _this7 = this;
+      var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
-              _this7.isShowButtonUpdate = true;
-              _this7.isShowPassword = false;
+              _this8.isShowButtonUpdate = true;
+              _this8.isShowPassword = false;
               _context6.next = 4;
-              return axios.get('/user/' + id + '/edit').then(function (response) {
-                var _response$data$user$i;
-                _this7.ruleForm.name = response.data.user.name;
-                _this7.ruleForm.userId = response.data.user.id;
-                _this7.ruleForm.roles = response.data.user_has_roles;
-                _this7.ruleForm.email = response.data.user.email;
-                _this7.imageUrl = (_response$data$user$i = response.data.user.img) === null || _response$data$user$i === void 0 ? void 0 : _response$data$user$i.file_path;
-                _this7.ruleForm.photo_id = response.data.photo_id;
-                _this7.roles = response.data.roles;
-                _this7.dialogFormVisible = true;
+              return axios.get('/user/edit/' + id).then(function (response) {
+                var _response$data$user$i, _response$data$user$i2;
+                _this8.ruleForm.name = response.data.user.name;
+                _this8.ruleForm.phone = response.data.user.phone;
+                _this8.ruleForm.userId = response.data.user.id;
+                _this8.ruleForm.roles = response.data.user_has_roles;
+                _this8.ruleForm.email = response.data.user.email;
+                _this8.imageUrl = (_response$data$user$i = response.data.user.img) === null || _response$data$user$i === void 0 ? void 0 : _response$data$user$i.file_path;
+                _this8.ruleForm.photo_id = (_response$data$user$i2 = response.data.user.img) === null || _response$data$user$i2 === void 0 ? void 0 : _response$data$user$i2.file_upload_id;
+                _this8.roles = response.data.roles;
+                _this8.dialogFormVisible = true;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
-                  _this7.$store.commit("auth/CLEAR_TOKEN");
+                  _this8.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 4:
@@ -344,6 +369,55 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         message: 'Congrats, this is a success message.',
         type: 'success'
       });
+    },
+    handleDelete: function handleDelete(id) {
+      var _this9 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+        var config;
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) switch (_context7.prev = _context7.next) {
+            case 0:
+              config = {
+                headers: {
+                  'content-type': 'application/json'
+                }
+              };
+              _context7.next = 3;
+              return axios["delete"]('/user/delete/' + id, config).then(function (response) {
+                _this9.getData();
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this9.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 3:
+            case "end":
+              return _context7.stop();
+          }
+        }, _callee7);
+      }))();
+    },
+    restoreData: function restoreData(id) {
+      var _this10 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+          while (1) switch (_context8.prev = _context8.next) {
+            case 0:
+              _context8.next = 2;
+              return axios.post('/user/restore/' + id).then(function (response) {
+                _this10.getData();
+                _this10.dialogFormVisible = false;
+                _this10.$message({
+                  message: 'Congrats, this is a success message.',
+                  type: 'success'
+                });
+              });
+            case 2:
+            case "end":
+              return _context8.stop();
+          }
+        }, _callee8);
+      }))();
     }
   }
 });
@@ -392,31 +466,37 @@ var _hoisted_9 = {
 var _hoisted_10 = {
   "class": "flex flex-col"
 };
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "011 999222", -1 /* HOISTED */);
-var _hoisted_12 = {
+var _hoisted_11 = {
   "class": "flex space-x-1 min-w-[200px]"
 };
+var _hoisted_12 = {
+  key: 0
+};
 var _hoisted_13 = {
+  key: 1
+};
+var _hoisted_14 = {
   "class": "py-2 flex justify-center"
 };
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "my-header"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-lg font-semibold text-white"
 }, "ព័ត៌មានអ្នកប្រើប្រាស់")], -1 /* HOISTED */);
-var _hoisted_15 = ["src"];
-var _hoisted_16 = {
+var _hoisted_16 = ["src"];
+var _hoisted_17 = {
   key: 1,
   "class": "el-icon-plus avatar-uploader-icon"
 };
-var _hoisted_17 = ["src"];
-var _hoisted_18 = {
+var _hoisted_18 = ["src"];
+var _hoisted_19 = {
   "class": "dialog-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_input = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-input");
   var _component_el_option = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-option");
   var _component_el_select = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-select");
+  var _component_el_switch = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-switch");
   var _component_Document = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Document");
   var _component_el_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-icon");
   var _component_el_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-button");
@@ -424,6 +504,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_table_column = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-table-column");
   var _component_el_image = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-image");
   var _component_el_tag = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-tag");
+  var _component_el_popconfirm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-popconfirm");
   var _component_el_table = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-table");
   var _component_el_pagination = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-pagination");
   var _component_el_form_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-form-item");
@@ -437,8 +518,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     modelValue: $data.search,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.search = $event;
-    })
-  }, null, 8 /* PROPS */, ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
+    }),
+    onInput: $options.clickSearch
+  }, null, 8 /* PROPS */, ["modelValue", "onInput"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
     modelValue: $data.filterSelectValue,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.filterSelectValue = $event;
@@ -447,7 +529,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "តម្រៀប"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filter, function (item) {
+      return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filter, function (item) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
           key: item.filterValue,
           label: item.filterLabel,
@@ -457,7 +539,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
 
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["modelValue"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+  }, 8 /* PROPS */, ["modelValue"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_switch, {
+    modelValue: $data.is_show_trust,
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $data.is_show_trust = $event;
+    }),
+    onChange: $options.clickShowwTrush,
+    "class": "px-2",
+    width: "40",
+    "active-text": "បង្ហាញទិន្នន័យបានលុប",
+    "inactive-text": "",
+    "active-value": "1",
+    "inactive-value": "0"
+  }, null, 8 /* PROPS */, ["modelValue", "onChange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
     type: "info"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -483,7 +577,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["onClick"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
-    data: $data.tableData,
+    data: $data.tableData.data,
     height: "750",
     style: {
       "width": "100%"
@@ -542,19 +636,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         label: "សារអេឡិចត្រូនិច",
         width: "300"
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-        label: "លេខទូរស័ព្ទ"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [_hoisted_11];
-        }),
-        _: 1 /* STABLE */
+        label: "លេខទូរស័ព្ទ",
+        property: "phone"
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         property: "roles",
         label: "តួនាទី",
         width: "350"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(scope.row.roles, function (data) {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(scope.row.roles, function (data) {
             return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
               key: data.id
             }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tag, {
@@ -577,43 +667,103 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         label: "សកម្មភាព"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+          return [$data.is_show_trust == 1 && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             size: "small",
             "class": "sanfont-khmer",
             onClick: function onClick($event) {
-              return $options.editUser(scope.row.id);
+              return $options.restoreData(scope.row.id);
+            }
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("ស្ដារឡើងវិញ")];
+            }),
+            _: 2 /* DYNAMIC */
+          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
+            width: "220",
+            "confirm-button-text": "យល់ព្រម",
+            "cancel-button-text": "ទេ",
+            icon: _ctx.InfoFilled,
+            "icon-color": "#626AEF",
+            title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
+            onConfirm: function onConfirm($event) {
+              return $options.handleDelete(scope.row.id);
+            }
+          }, {
+            reference: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+                size: "small",
+                type: "danger",
+                "class": "sanfont-khmer"
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុបជាអចិន្ត្រៃយ៍ ")];
+                }),
+                _: 1 /* STABLE */
+              })];
+            }),
+
+            _: 2 /* DYNAMIC */
+          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.is_show_trust == 0 && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+            size: "small",
+            "class": "sanfont-khmer",
+            onClick: function onClick($event) {
+              return $options.editUser(scope.row.teacher_id);
             }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("កែប្រែ")];
             }),
             _: 2 /* DYNAMIC */
-          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-            size: "small",
-            type: "danger",
-            "class": "sanfont-khmer",
-            onClick: function onClick($event) {
-              return _ctx.handleDelete(scope.$index, scope.row);
+          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
+            width: "220",
+            "confirm-button-text": "យល់ព្រម",
+            "cancel-button-text": "ទេ",
+            icon: _ctx.InfoFilled,
+            "icon-color": "#626AEF",
+            title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
+            onConfirm: function onConfirm($event) {
+              return $options.handleDelete(scope.row.id);
             }
           }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុប")];
+            reference: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+                size: "small",
+                type: "danger",
+                "class": "sanfont-khmer"
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុប ")];
+                }),
+                _: 1 /* STABLE */
+              })];
             }),
+
             _: 2 /* DYNAMIC */
-          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])];
+          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
         }),
         _: 1 /* STABLE */
       })];
     }),
 
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
+  }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
     background: "",
+    "current-page": $data.page,
+    "onUpdate:currentPage": _cache[3] || (_cache[3] = function ($event) {
+      return $data.page = $event;
+    }),
+    "page-size": $data.per_page,
+    "onUpdate:pageSize": _cache[4] || (_cache[4] = function ($event) {
+      return $data.per_page = $event;
+    }),
+    "page-count": $data.tableData.last_page,
     layout: "total, prev, pager, next, sizes",
-    total: $data.tableData.length
-  }, null, 8 /* PROPS */, ["total"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
+    total: $data.tableData.total,
+    onCurrentChange: $options.changePage,
+    onSizeChange: $options.changePageSize
+  }, null, 8 /* PROPS */, ["current-page", "page-size", "page-count", "total", "onCurrentChange", "onSizeChange"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisible,
-    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
       return $data.dialogFormVisible = $event;
     }),
     title: "ព័ត៌មានអ្នកប្រើប្រាស់",
@@ -622,11 +772,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     draggable: ""
   }, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_14];
+      return [_hoisted_15];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[9] || (_cache[9] = function ($event) {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+        onClick: _cache[12] || (_cache[12] = function ($event) {
           return $options.cancelAction();
         }),
         "class": "sanfont-khmer"
@@ -639,7 +789,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 0,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[10] || (_cache[10] = function ($event) {
+        onClick: _cache[13] || (_cache[13] = function ($event) {
           return $options.submitForm('ruleForm');
         })
       }, {
@@ -651,7 +801,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 1,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[11] || (_cache[11] = function ($event) {
+        onClick: _cache[14] || (_cache[14] = function ($event) {
           return $options.updateData('ruleForm');
         })
       }, {
@@ -679,7 +829,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.name,
-                "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+                "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
                   return $data.ruleForm.name = $event;
                 }),
                 autocomplete: "off",
@@ -697,7 +847,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.phone,
-                "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+                "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
                   return $data.ruleForm.phone = $event;
                 }),
                 autocomplete: "off",
@@ -715,7 +865,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.email,
-                "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+                "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
                   return $data.ruleForm.email = $event;
                 }),
                 autocomplete: "off",
@@ -734,7 +884,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.ruleForm.password,
-                "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+                "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
                   return $data.ruleForm.password = $event;
                 }),
                 autocomplete: "off",
@@ -751,7 +901,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleForm.roles,
-                "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+                "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
                   return $data.ruleForm.roles = $event;
                 }),
                 placeholder: "ជ្រើសរើស",
@@ -783,7 +933,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "class": "avatar-uploader",
                 action: "#",
                 name: "file",
-                "show-file-list": true,
+                "show-file-list": false,
                 "auto-upload": false,
                 "on-change": $options.handleAvatarSuccess,
                 "before-upload": $options.beforeAvatarUpload
@@ -793,13 +943,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     key: 0,
                     src: $data.imageUrl,
                     "class": "avatar object-contain"
-                  }, null, 8 /* PROPS */, _hoisted_15)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_16))];
+                  }, null, 8 /* PROPS */, _hoisted_16)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_17))];
                 }),
                 _: 1 /* STABLE */
               }, 8 /* PROPS */, ["on-change", "before-upload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
                 type: "hidden",
                 name: "photo_id",
-                "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+                "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
                   return $data.ruleForm.photo_id = $event;
                 })
               }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.ruleForm.photo_id]])])];
@@ -810,7 +960,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["model", "rules"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
         modelValue: $data.dialogVisible,
-        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+        "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
           return $data.dialogVisible = $event;
         })
       }, {
@@ -819,7 +969,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "w-full": "",
             src: $data.dialogImageUrl,
             alt: "Preview Image"
-          }, null, 8 /* PROPS */, _hoisted_17)];
+          }, null, 8 /* PROPS */, _hoisted_18)];
         }),
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["modelValue"])];

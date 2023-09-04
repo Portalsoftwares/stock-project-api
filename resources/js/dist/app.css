@@ -1032,10 +1032,10 @@ header.el-dialog__header {
   margin-bottom: calc(2rem * var(--tw-space-y-reverse));
 }
 
-.space-y-\[20px\] > :not([hidden]) ~ :not([hidden]) {
+.space-y-\[10px\] > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
-  margin-top: calc(20px * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(20px * var(--tw-space-y-reverse));
+  margin-top: calc(10px * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(10px * var(--tw-space-y-reverse));
 }
 
 .self-start {
@@ -1234,6 +1234,11 @@ header.el-dialog__header {
 .bg-slate-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
+
+.bg-slate-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 250 252 / var(--tw-bg-opacity));
 }
 
 .bg-white {
@@ -1446,14 +1451,6 @@ header.el-dialog__header {
   font-size: 16px;
 }
 
-.text-\[17px\] {
-  font-size: 17px;
-}
-
-.text-\[18px\] {
-  font-size: 18px;
-}
-
 .text-\[20px\] {
   font-size: 20px;
 }
@@ -1578,16 +1575,6 @@ header.el-dialog__header {
 .antialiased {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.placeholder-gray-500::-moz-placeholder {
-  --tw-placeholder-opacity: 1;
-  color: rgb(107 114 128 / var(--tw-placeholder-opacity));
-}
-
-.placeholder-gray-500::placeholder {
-  --tw-placeholder-opacity: 1;
-  color: rgb(107 114 128 / var(--tw-placeholder-opacity));
 }
 
 .opacity-75 {
@@ -1723,11 +1710,6 @@ header.el-dialog__header {
   --tw-gradient-to: #111827;
 }
 
-.hover\:bg-blue-400:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(96 165 250 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-gray-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -1743,33 +1725,14 @@ header.el-dialog__header {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.focus\:z-10:focus {
-  z-index: 10;
-}
-
 .focus\:border-blue-500:focus {
   --tw-border-opacity: 1;
   border-color: rgb(59 130 246 / var(--tw-border-opacity));
 }
 
-.focus\:border-indigo-500:focus {
-  --tw-border-opacity: 1;
-  border-color: rgb(99 102 241 / var(--tw-border-opacity));
-}
-
-.focus\:outline-none:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
 .focus\:ring-blue-500:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity));
-}
-
-.focus\:ring-indigo-500:focus {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(99 102 241 / var(--tw-ring-opacity));
 }
 
 .group:hover .group-hover\:bg-white {
@@ -1823,11 +1786,6 @@ header.el-dialog__header {
   .sm\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
-  }
-
-  .sm\:text-sm {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
   }
 }
 
