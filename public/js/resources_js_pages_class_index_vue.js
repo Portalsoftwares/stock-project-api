@@ -209,7 +209,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return axios.post('/files/create/upload', form, config).then(function (response) {
                 _this2.ruleForm.photo_id = response.data.file.id;
                 _this2.$message({
-                  message: 'Congrats, this is a success message.',
+                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
               });
@@ -242,7 +242,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
               };
               _context2.next = 4;
-              return axios.post('/class/store', data, config).then(function (response) {
+              return axios.post('/class/create', data, config).then(function (response) {
                 _this3.dialogFormVisible = false;
                 _this3.$notify.success({
                   title: 'ព័ត៌មាន',
@@ -280,7 +280,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this4.getData();
                 _this4.dialogFormVisible = false;
                 _this4.$message({
-                  message: 'Congrats, this is a success message.',
+                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
               });
@@ -390,7 +390,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         offset: 100
       });
       ElMessage({
-        message: 'Congrats, this is a success message.',
+        message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
         type: 'success'
       });
     }

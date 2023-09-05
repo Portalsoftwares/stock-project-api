@@ -18,30 +18,32 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        $items =  Student::query();
         $per_page = $request->per_page ?? 10;
         $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
         $sort_by = $request->sort_by ?: 'sid';
         if ($per_page == -1) {
             $per_page = DB::table('students')->count() > 0 ? DB::table('students')->count() : $per_page;
         }
-
-        // if (!empty($request->filter_profession)) {
-        //     $items->whereIn('profession', 'like', $request->filter_profession);
-        // }
-        // if (!empty($request->filter_teacher_level)) {
-        //     $items->whereIn('teacher_level', $request->filter_teacher_level);
-        // }
-
-        if (!empty($request->search)) {
-            $items->where('sid', 'like', "%" . $request->search . "%");
-            $items->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
-            $items->orWhere('full_name_en', 'like', "%" . $request->search . "%");
-            $items->orWhere('email', 'like', "%" . $request->search . "%");
-            $items->orWhere('phone', 'like', "%" . $request->search . "%");
-        }
         if (!empty($request->is_show_trust)) {
-            $items->onlyTrashed();
+            $items =  Student::onlyTrashed()->where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->orWhere('sid', 'like', "%" . $request->search . "%");
+                    $query->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
+                    $query->orWhere('full_name_en', 'like', "%" . $request->search . "%");
+                    $query->orWhere('email', 'like', "%" . $request->search . "%");
+                    $query->orWhere('phone', 'like', "%" . $request->search . "%");
+                }
+            });
+        } else {
+            $items =  Student::where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->orWhere('sid', 'like', "%" . $request->search . "%");
+                    $query->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
+                    $query->orWhere('full_name_en', 'like', "%" . $request->search . "%");
+                    $query->orWhere('email', 'like', "%" . $request->search . "%");
+                    $query->orWhere('phone', 'like', "%" . $request->search . "%");
+                }
+            });
         }
         $data = $items->with('current_class.class', 'profile_img')
             ->orderBy($sort_by, $order_by)
@@ -160,11 +162,29 @@ class StudentController extends Controller
     public function delete($id)
     {
         DB::transaction(function () use ($id) {
-            $items = Student::find($id)->delete();
+            $items = Student::find($id);
+            if (!empty($items)) {
+                $items->delete();
+            }
+            //Hard Delete
+            if (empty($items)) {
+                $items = Student::onlyTrashed()->find($id);
+                if (!empty($items)) {
+                    $items->forceDelete();
+                }
+            }
         });
 
         $response = [
             'data' => 'Delete successfull',
+        ];
+        return  response($response, 200);
+    }
+    public function restore($id)
+    {
+        $items = Student::withTrashed()->find($id)->restore();
+        $response = [
+            'data' => 'Restore successfull',
         ];
         return  response($response, 200);
     }

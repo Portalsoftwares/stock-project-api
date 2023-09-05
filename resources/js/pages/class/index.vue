@@ -551,7 +551,7 @@ export default {
 			await axios.post('/files/create/upload', form, config).then(response => {
 				this.ruleForm.photo_id = response.data.file.id
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -570,7 +570,7 @@ export default {
 				headers: { 'content-type': 'application/json' }
 			}
 
-			await axios.post('/class/store', data, config).then(response => {
+			await axios.post('/class/create', data, config).then(response => {
 				this.dialogFormVisible = false;
 				this.$notify.success({
 					title: 'ព័ត៌មាន',
@@ -594,7 +594,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -666,7 +666,7 @@ export default {
 				offset: 100,
 			})
 			ElMessage({
-				message: 'Congrats, this is a success message.',
+				message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 				type: 'success',
 			})
 		}

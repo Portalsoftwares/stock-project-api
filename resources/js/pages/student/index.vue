@@ -7,9 +7,8 @@
 					placeholder="ស្វែងរក"
 					class="sanfont-khmer"
 					v-model="search"
+					@input="clickSearch"
 				>
-					<i class="el-input__icon el-icon-search"></i>
-					<CirclePlusFilled class="el-input__icon" />
 				</el-input>
 			</div>
 			<div class="self-start  ">
@@ -53,6 +52,16 @@
 		</div>
 
 		<div class="self-end">
+			<el-switch
+				v-model="is_show_trust"
+				@change="clickShowwTrush"
+				class="px-2"
+				width="40"
+				active-text="បង្ហាញទិន្នន័យបានលុប"
+				inactive-text=""
+				active-value="1"
+				inactive-value="0"
+			/>
 			<el-button type="info">
 				<el-icon>
 					<Document />
@@ -131,7 +140,7 @@
 						label="ឈ្មោះភាសាខ្មែរ"
 						sortable
 					>
-						<template #default="scope">{{scope.row.first_name_kh +" "+scope.row.last_name_kh }}</template>
+						<template #default="scope">{{scope.row.full_name_kh}}</template>
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
@@ -139,7 +148,7 @@
 						width="250"
 						sortable
 					>
-						<template #default="scope">{{scope.row.first_name_en +" "+scope.row.last_name_en }}</template>
+						<template #default="scope">{{scope.row.full_name_en }}</template>
 
 					</el-table-column>
 					<el-table-column
@@ -186,37 +195,69 @@
 						label="សកម្មភាព"
 					>
 						<template #default="scope">
-							<el-button
-								size="small"
-								class="sanfont-khmer "
-								@click="editStudent(scope.row.student_id)"
-							>កែប្រែ</el-button>
-
-							<el-popconfirm
-								width="220"
-								confirm-button-text="OK"
-								cancel-button-text="No, Thanks"
-								:icon="InfoFilled"
-								icon-color="#626AEF"
-								title="Are you sure to delete this?"
-								@confirm="handleDelete(scope.row.student_id)"
-							>
-								<template #reference>
-									<el-button
-										size="small"
-										type="danger"
-										class="sanfont-khmer"
-									>លុប</el-button>
-								</template>
-							</el-popconfirm>
+							<div v-if="is_show_trust==1 &&!loading">
+								<el-button
+									size="small"
+									class="sanfont-khmer"
+									@click="restoreData(scope.row.student_id)"
+								>ស្ដារឡើងវិញ</el-button>
+								<el-popconfirm
+									width="220"
+									confirm-button-text="យល់ព្រម"
+									cancel-button-text="ទេ"
+									:icon="InfoFilled"
+									icon-color="#626AEF"
+									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									@confirm="handleDelete(scope.row.student_id)"
+								>
+									<template #reference>
+										<el-button
+											size="small"
+											type="danger"
+											class="sanfont-khmer"
+										>លុបជាអចិន្ត្រៃយ៍
+										</el-button>
+									</template>
+								</el-popconfirm>
+							</div>
+							<div v-if="is_show_trust==0&&!loading">
+								<el-button
+									size="small"
+									class="sanfont-khmer"
+									@click="editStudent(scope.row.student_id)"
+								>កែប្រែ</el-button>
+								<el-popconfirm
+									width="220"
+									confirm-button-text="យល់ព្រម"
+									cancel-button-text="ទេ"
+									:icon="InfoFilled"
+									icon-color="#626AEF"
+									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									@confirm="handleDelete(scope.row.student_id)"
+								>
+									<template #reference>
+										<el-button
+											size="small"
+											type="danger"
+											class="sanfont-khmer"
+										>លុប
+										</el-button>
+									</template>
+								</el-popconfirm>
+							</div>
 						</template>
 					</el-table-column>
 				</el-table>
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
+						v-model:current-page="page"
+						v-model:page-size="per_page"
+						:page-count="tableData.last_page"
 						layout="total, prev, pager, next, sizes"
 						:total="tableData.total"
+						@current-change="changePage"
+						@size-change="changePageSize"
 					>
 					</el-pagination>
 
@@ -366,6 +407,7 @@
 								>
 									<el-option
 										v-for="item in gender"
+										:key="item"
 										:value-key="item.genderValue"
 										:label="item.genderLabel"
 										:value="item.genderValue"
@@ -711,13 +753,50 @@ export default {
 			],
 			filterSelectValue: "",
 			academicSelectValue: "",
-			loading: false
+			loading: false,
+
+			//Data Page filter
+			page: 1,
+			per_page: 10,
+			sort_by: 'sid',
+			order_by: 1,
+			search: '',
+			tSearch: null,
+			is_show_trust: 0
+			//Data Page filter
 		}
 	},
 	mounted() {
 		this.getData()
 	},
 	methods: {
+		//Change Per Page
+		changePageSize(event) {
+			this.per_page = event;
+			this.getData();
+
+		},
+		//Chnage Page 
+		changePage(event) {
+			this.page = event;
+			this.getData();
+		},
+
+		// ស្វែងរក ទិន្នន័យ
+		clickSearch() {
+			clearTimeout(this.tSearch);
+			this.tSearch = setTimeout(() => {
+				if (this.search != null) {
+					if (this.search.replace(/\s/g, '') !== '') {
+					}
+					this.getData();
+				}
+			}, 1000);
+		},
+		clickShowwTrush() {
+			this.getData();
+			console.log(this.is_show_trust)
+		},
 		handleAvatarSuccess(file) {
 			if (file) {
 				this.ruleForm.profile_img = file
@@ -770,7 +849,7 @@ export default {
 			await axios.post('/files/create/upload', form, config).then(response => {
 				this.ruleForm.file_upload_id = response.data.file.id
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -788,7 +867,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -807,7 +886,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -821,7 +900,17 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+			})
+		},
+		async restoreData(id) {
+			await axios.post('/student' + '/restore/' + id).then(response => {
+				this.getData();
+				this.dialogFormVisible = false;
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -858,15 +947,16 @@ export default {
 		},
 		async getData() {
 			this.loading = true
-			await axios.get('/student/get').then(response => {
-				this.tableData = response.data.data
-				this.classData = response.data.class
-				this.loading = false
-			}).catch((error) => {
-				if (error.response.status == 401) {
-					this.$store.commit("auth/CLEAR_TOKEN")
-				}
-			})
+			await axios.get(`/student/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`)
+				.then(response => {
+					this.tableData = response.data.data
+					this.classData = response.data.class
+					this.loading = false
+				}).catch((error) => {
+					if (error.response.status == 401) {
+						this.$store.commit("auth/CLEAR_TOKEN")
+					}
+				})
 		},
 		async editStudent(id) {
 			this.dialogFormVisible = true;
@@ -909,7 +999,7 @@ export default {
 				offset: 100,
 			})
 			ElMessage({
-				message: 'Congrats, this is a success message.',
+				message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 				type: 'success',
 			})
 		}

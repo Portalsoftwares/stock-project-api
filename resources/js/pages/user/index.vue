@@ -143,55 +143,62 @@
 					>
 						<template #default="scope">
 
-							<div v-if="is_show_trust==1 &&!loading">
-								<el-button
-									size="small"
-									class="sanfont-khmer"
-									@click="restoreData(scope.row.id)"
-								>ស្ដារឡើងវិញ</el-button>
-								<el-popconfirm
-									width="220"
-									confirm-button-text="យល់ព្រម"
-									cancel-button-text="ទេ"
-									:icon="InfoFilled"
-									icon-color="#626AEF"
-									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
-									@confirm="handleDelete(scope.row.id)"
-								>
-									<template #reference>
-										<el-button
-											size="small"
-											type="danger"
-											class="sanfont-khmer"
-										>លុបជាអចិន្ត្រៃយ៍
-										</el-button>
-									</template>
-								</el-popconfirm>
+							<div v-if="scope.row.is_system!=1">
+								<div v-if="is_show_trust==1 &&!loading">
+									<el-button
+										size="small"
+										class="sanfont-khmer"
+										@click="restoreData(scope.row.id)"
+									>ស្ដារឡើងវិញ</el-button>
+									<el-popconfirm
+										width="220"
+										confirm-button-text="យល់ព្រម"
+										cancel-button-text="ទេ"
+										:icon="InfoFilled"
+										icon-color="#626AEF"
+										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+										@confirm="handleDelete(scope.row.id)"
+									>
+										<template #reference>
+											<el-button
+												size="small"
+												type="danger"
+												class="sanfont-khmer"
+											>លុបជាអចិន្ត្រៃយ៍
+											</el-button>
+										</template>
+									</el-popconfirm>
+								</div>
+								<div v-if="is_show_trust==0&&!loading">
+									<el-button
+										size="small"
+										class="sanfont-khmer"
+										@click="editUser(scope.row.id)"
+									>កែប្រែ</el-button>
+									<el-popconfirm
+										width="220"
+										confirm-button-text="យល់ព្រម"
+										cancel-button-text="ទេ"
+										:icon="InfoFilled"
+										icon-color="#626AEF"
+										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+										@confirm="handleDelete(scope.row.id)"
+									>
+										<template #reference>
+											<el-button
+												size="small"
+												type="danger"
+												class="sanfont-khmer"
+											>លុប
+											</el-button>
+										</template>
+									</el-popconfirm>
+								</div>
 							</div>
-							<div v-if="is_show_trust==0&&!loading">
-								<el-button
-									size="small"
-									class="sanfont-khmer"
-									@click="editUser(scope.row.teacher_id)"
-								>កែប្រែ</el-button>
-								<el-popconfirm
-									width="220"
-									confirm-button-text="យល់ព្រម"
-									cancel-button-text="ទេ"
-									:icon="InfoFilled"
-									icon-color="#626AEF"
-									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
-									@confirm="handleDelete(scope.row.id)"
-								>
-									<template #reference>
-										<el-button
-											size="small"
-											type="danger"
-											class="sanfont-khmer"
-										>លុប
-										</el-button>
-									</template>
-								</el-popconfirm>
+							<div v-if="scope.row.is_system==1">
+								<el-icon :size="20">
+									<Lock />
+								</el-icon>
 							</div>
 
 						</template>
@@ -234,6 +241,26 @@
 			id="fm"
 		>
 			<div>
+				<el-form-item
+					label="គណនីនៃគ្រូបង្រៀន"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-select
+						v-model="ruleForm.teacher_id"
+						placeholder="ជ្រើសរើស"
+						class="text-left"
+						@change="selectTeacher"
+						filterable
+					>
+						<el-option
+							v-for="data in teachers"
+							:key="data.teacher_id"
+							:label="data.full_name_kh"
+							:value="data.teacher_id"
+						/>
+					</el-select>
+				</el-form-item>
 				<el-form-item
 					label="ឈ្មោះ"
 					prop="name"
@@ -340,6 +367,7 @@
 					>
 				</div>
 			</el-form-item>
+
 		</el-form>
 		<el-dialog v-model="dialogVisible">
 			<img
@@ -385,6 +413,7 @@ export default {
 			showInfo: false,
 			dialogFormVisible: false,
 			roles: null,
+			teachers: [],
 			name: "",
 			formLabelWidth: "150px",
 			dialogImageUrl: "",
@@ -401,6 +430,7 @@ export default {
 				roles: null,
 				password: null,
 				email: null,
+				teacher_id: null,
 				photo_id: null,
 				userId: null
 			},
@@ -445,6 +475,10 @@ export default {
 		this.getData()
 	},
 	methods: {
+		selectTeacher(event) {
+			// this.ruleForm.teacher_id = event.teacher_id.toString()
+			// this.ruleForm.name = event.last_name_en
+		},
 		//Change Per Page
 		changePageSize(event) {
 			this.per_page = event;
@@ -523,7 +557,7 @@ export default {
 			await axios.post('/files/create/upload', form, config).then(response => {
 				this.ruleForm.photo_id = response.data.file.id
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -534,6 +568,7 @@ export default {
 		async submitData() {
 			const form = new FormData(document.getElementById('fm'));
 			form.append('role', this.ruleForm.roles)
+			form.append('teacher_id', this.ruleForm.teacher_id)
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
@@ -541,7 +576,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -552,6 +587,8 @@ export default {
 		async updateData() {
 			const form = new FormData(document.getElementById('fm'));
 			form.append('role', this.ruleForm.roles)
+			form.append('teacher_id', this.ruleForm.teacher_id)
+
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
@@ -559,7 +596,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -582,6 +619,7 @@ export default {
 			this.ruleForm.email = ''
 			this.imageUrl = ''
 			this.ruleForm.photo_id = ''
+			this.ruleForm.teacher_id = ''
 			this.roles = null
 
 			this.dialogFormVisible = true
@@ -590,6 +628,7 @@ export default {
 
 			await axios.get('/user/create').then(response => {
 				this.roles = response.data.roles
+				this.teachers = response.data.teachers
 			}).catch((error) => {
 				console.log(error)
 			})
@@ -614,9 +653,12 @@ export default {
 				this.ruleForm.userId = response.data.user.id
 				this.ruleForm.roles = response.data.user_has_roles
 				this.ruleForm.email = response.data.user.email
+				this.ruleForm.teacher_id = response.data.user.teacher_id
 				this.imageUrl = response.data.user.img?.file_path
 				this.ruleForm.photo_id = response.data.user.img?.file_upload_id
 				this.roles = response.data.roles
+				this.teachers = response.data.teachers
+
 				this.dialogFormVisible = true;
 			}).catch((error) => {
 				if (error.response.status == 401) {
@@ -632,7 +674,7 @@ export default {
 				offset: 100,
 			})
 			ElMessage({
-				message: 'Congrats, this is a success message.',
+				message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 				type: 'success',
 			})
 		},
@@ -655,7 +697,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})

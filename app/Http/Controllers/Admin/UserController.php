@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
+use App\Models\Teacher;
 
 class UserController extends Controller
 {
@@ -29,14 +30,22 @@ class UserController extends Controller
         if ($per_page == -1) {
             $per_page = DB::table('users')->count() > 0 ? DB::table('users')->count() : $per_page;
         }
-
-        if (!empty($request->search)) {
-            $items->orWhere('name', 'like', "%" . $request->search . "%");
-            $items->orWhere('email', 'like', "%" . $request->search . "%");
-            $items->orWhere('phone', 'like', "%" . $request->search . "%");
-        }
         if (!empty($request->is_show_trust)) {
-            $items->onlyTrashed();
+            $items =  User::onlyTrashed()->where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->orWhere('name', 'like', "%" . $request->search . "%");
+                    $query->orWhere('email', 'like', "%" . $request->search . "%");
+                    $query->orWhere('phone', 'like', "%" . $request->search . "%");
+                }
+            });
+        } else {
+            $items =  User::where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->orWhere('name', 'like', "%" . $request->search . "%");
+                    $query->orWhere('email', 'like', "%" . $request->search . "%");
+                    $query->orWhere('phone', 'like', "%" . $request->search . "%");
+                }
+            });
         }
         $data = $items->with('roles', 'img')
             ->orderBy($sort_by, $order_by)
@@ -56,9 +65,10 @@ class UserController extends Controller
     public function create()
     {
         $response = [
-            'roles' => Role::all()
+            'roles' => Role::all(),
+            'teachers' => Teacher::all()
         ];
-        return  response($response, 201);
+        return  response($response, 200);
     }
 
     /**
@@ -87,7 +97,9 @@ class UserController extends Controller
 
         $user = User::create([
             'name' => $request->name,
+            'phone' => $request->phone,
             'email' => $request->email,
+            'teacher_id' => $request->teacher_id ?? null,
             'file_upload_id' => $request->photo_id,
             'password' => Hash::make($request->password),
         ]);
@@ -95,6 +107,10 @@ class UserController extends Controller
 
         foreach ($rolesArray as $row) {
             $user->assignRole($row);
+        }
+        $teacher = Teacher::find($request->teacher_id);
+        if (!empty($teacher)) {
+            $teacher->update(['is_enable_account' => 1]);
         }
 
         $response = [
@@ -132,11 +148,12 @@ class UserController extends Controller
             ];
             return  response($response, 404);
         }
-        $roles = Role::all();
         $response = [
             'user' => $user,
             'user_has_roles' => $user->roles->pluck("name"),
-            'roles' => $roles
+            'roles' => Role::all(),
+            'teachers' => Teacher::all()
+
         ];
         return  response($response, 201);
     }
@@ -160,8 +177,14 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'teacher_id' => $request->teacher_id ?? null,
             'file_upload_id' => $request->photo_id,
         ]);
+
+        $teacher = Teacher::find($request->teacher_id);
+        if (!empty($teacher)) {
+            $teacher->update(['is_enable_account' => 1]);
+        }
         // Delete all user roles
         DB::table('model_has_roles')->where('model_id', $request->id)->delete();
         $rolesArray =   explode(',', $request->role);

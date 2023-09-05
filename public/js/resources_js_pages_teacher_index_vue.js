@@ -366,7 +366,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return axios.post('/files/create/upload', form, config).then(function (response) {
                 _this4.ruleForm.file_upload_id = response.data.file.id;
                 _this4.$message({
-                  message: 'Congrats, this is a success message.',
+                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
               });
@@ -398,7 +398,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this5.getData();
                 _this5.dialogFormVisible = false;
                 _this5.$message({
-                  message: 'Congrats, this is a success message.',
+                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
               });
@@ -431,7 +431,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this6.getData();
                 _this6.dialogFormVisible = false;
                 _this6.$message({
-                  message: 'Congrats, this is a success message.',
+                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
               });
@@ -453,7 +453,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this7.getData();
                 _this7.dialogFormVisible = false;
                 _this7.$message({
-                  message: 'Congrats, this is a success message.',
+                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
               });
@@ -475,7 +475,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this8.getData();
                 _this8.dialogFormVisible = false;
                 _this8.$message({
-                  message: 'Congrats, this is a success message.',
+                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
               });
@@ -580,7 +580,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         offset: 100
       });
       ElMessage({
-        message: 'Congrats, this is a success message.',
+        message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
         type: 'success'
       });
     }
@@ -877,18 +877,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         sortable: ""
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.first_name_kh + " " + scope.row.last_name_kh), 1 /* TEXT */)];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.full_name_kh), 1 /* TEXT */)];
         }),
 
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         property: "first_name_en",
         label: "ឈ្មោះឡាតាំង",
-        width: "250",
+        width: "180",
         sortable: ""
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.first_name_en + " " + scope.row.last_name_en), 1 /* TEXT */)];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.full_name_en), 1 /* TEXT */)];
         }),
 
         _: 1 /* STABLE */
@@ -927,6 +927,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.phone), 1 /* TEXT */)];
         }),
 
+        _: 1 /* STABLE */
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
+        label: "បង្កើតគណនី",
+        "min-width": "80"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_switch, {
+            value: scope.row.is_enable_account.toString(),
+            modelValue: scope.row.is_enable_account,
+            "onUpdate:modelValue": function onUpdateModelValue($event) {
+              return scope.row.is_enable_account = $event;
+            },
+            "active-value": "1",
+            "inactive-value": "0"
+          }, null, 8 /* PROPS */, ["value", "modelValue", "onUpdate:modelValue"])])];
+        }),
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         width: "230",

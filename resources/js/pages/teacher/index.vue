@@ -139,15 +139,15 @@
 						label="ឈ្មោះភាសាខ្មែរ"
 						sortable
 					>
-						<template #default="scope">{{scope.row.first_name_kh +" "+scope.row.last_name_kh }}</template>
+						<template #default="scope">{{scope.row.full_name_kh}}</template>
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
 						label="ឈ្មោះឡាតាំង"
-						width="250"
+						width="180"
 						sortable
 					>
-						<template #default="scope">{{scope.row.first_name_en +" "+scope.row.last_name_en }}</template>
+						<template #default="scope">{{scope.row.full_name_en}}</template>
 
 					</el-table-column>
 					<el-table-column
@@ -187,6 +187,21 @@
 						<template #default="scope">
 							<div>
 								{{ scope.row.phone}}
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column
+						label="បង្កើតគណនី"
+						min-width="80"
+					>
+						<template #default="scope">
+							<div>
+								<el-switch
+									:value="scope.row.is_enable_account.toString()"
+									v-model="scope.row.is_enable_account"
+									active-value="1"
+									inactive-value="0"
+								/>
 							</div>
 						</template>
 					</el-table-column>
@@ -980,7 +995,7 @@ export default {
 			await axios.post('/files/create/upload', form, config).then(response => {
 				this.ruleForm.file_upload_id = response.data.file.id
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -998,7 +1013,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -1019,7 +1034,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -1029,7 +1044,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -1039,7 +1054,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -1120,7 +1135,7 @@ export default {
 				offset: 100,
 			})
 			ElMessage({
-				message: 'Congrats, this is a success message.',
+				message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 				type: 'success',
 			})
 		}

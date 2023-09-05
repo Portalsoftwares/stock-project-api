@@ -49,6 +49,7 @@ Route::prefix('v1')->group(function () {
       Route::get('/edit/{id}', [StudentController::class, 'edit']);
       Route::post('/update/{id}', [StudentController::class, 'update']);
       Route::delete('/delete/{id}', [StudentController::class, 'delete']);
+      Route::post('/restore/{id}', [StudentController::class, 'restore']);
     });
     //Teacher
     Route::prefix('teacher')->group(function () {
