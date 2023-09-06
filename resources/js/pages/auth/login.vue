@@ -171,11 +171,12 @@ export default {
 		},
 		login() {
 			this.loading = true;
+			this.failed = false;
+			this.successfull = false;
 			this.$store.dispatch("auth/LOGIN_SYSTEM", this.objData).then(reponse => {
 				console.log(reponse)
-				if (reponse.status == '201' && localStorage.getItem('token') != null) {
+				if (reponse.status == '200' && localStorage.getItem('token') != null) {
 					this.successfull = true
-					// this.$router.push('/');
 					const self = this
 					setTimeout(() => {
 						self.$router.push('/');

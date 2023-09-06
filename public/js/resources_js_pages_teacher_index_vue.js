@@ -23,7 +23,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       showSuccess: false,
       showInfo: false,
       dialogFormVisible: false,
-      roles: [],
       name: "",
       formLabelWidth: "150px",
       dialogImageUrl: "",
@@ -41,8 +40,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         firstNameEng: null,
         LastNameEng: null,
         fullNameEng: null,
-        IDn: "PK-T032",
-        professionValue: null,
+        IDn: null,
         genderValue: null,
         teacher_level_value: null,
         birsthAddress: null,
@@ -56,7 +54,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         password: null,
         email: null,
         file_upload_id: null,
-        teacherId: null
+        teacherId: null,
+        professionValue: []
       },
       rules: {
         firstNameKh: [{
@@ -194,51 +193,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       filterSelectValue: "",
       teacher_level: [{
-        teacher_level_value: 'មទភ',
-        teacher_level_Label: 'មទភ'
-      }, {
-        teacher_level_value: 'មបភ',
+        teacher_level_value: '1',
         teacher_level_Label: 'មបភ'
+      }, {
+        teacher_level_value: '2',
+        teacher_level_Label: 'មទភ'
       }],
-      teacher_level_Value: "",
-      status: [{
-        statusValue: 'កំពុងបង្រៀន',
-        statusLabel: 'កំពុងបង្រៀន'
-      }, {
-        statusValue: 'បញ្ឈប់ការបង្រៀន',
-        statusLabel: 'បញ្ឈប់ការបង្រៀន'
-      }],
-      statusValue: '',
-      gender: [{
-        genderValue: '1',
-        genderLabel: 'ប្រុស'
-      }, {
-        genderValue: '2',
-        genderLabel: 'ស្រី'
-      }],
-      profession: [{
-        professionValue: 'ភាសាខ្មែរ',
-        professionLabel: 'ភាសាខ្មែរ'
-      }, {
-        professionValue: 'គណិតវិទ្យា',
-        professionLabel: 'គណិតវិទ្យា'
-      }, {
-        professionValue: 'រូបវិទ្យា',
-        professionLabel: 'រូបវិទ្យា'
-      }, {
-        professionValue: 'គីមីវិទ្យា',
-        professionLabel: 'គីមីវិទ្យា'
-      }, {
-        professionValue: 'ជីវះវិទ្យា',
-        professionLabel: 'ជីវះវិទ្យា'
-      }, {
-        professionValue: 'ភូមិវិទ្យា',
-        professionLabel: 'ភូមិវិទ្យា'
-      }, {
-        professionValue: 'ប្រវត្តិវិទ្យា',
-        professionLabel: 'ប្រវត្តិវិទ្យា'
-      }],
-      professionValue: '',
       loading: false,
       teacher_levelSelectValue: '',
       //Data Page filter
@@ -250,8 +210,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       filter_teacher_level: 1,
       search: '',
       tSearch: null,
-      is_show_trust: 0
+      is_show_trust: 0,
       //Data Page filter
+      status: [],
+      role: [],
+      gender: [],
+      subject: []
     };
   },
   mounted: function mounted() {
@@ -268,6 +232,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _context.next = 3;
               return axios.get("/teacher/get?page=".concat(_this.page, "&per_page=").concat(_this.per_page, "&sort_by=").concat(_this.sort_by, "&order_by=").concat(_this.order_by, "&search=").concat(_this.search, "&is_show_trust=").concat(_this.is_show_trust)).then(function (response) {
                 _this.tableData = response.data.data;
+                _this.status = response.data.status;
+                _this.role = response.data.role;
+                _this.gender = response.data.gender;
+                _this.subject = response.data.subject;
                 _this.loading = false;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
@@ -387,13 +355,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              form = new FormData(document.getElementById('fm')); //form.append('role', this.ruleForm.roles)
+              form = new FormData(document.getElementById('fm'));
+              form.append('role', _this5.ruleForm.roles);
+              form.append('teacher_level', _this5.ruleForm.teacher_level_value);
+              form.append('gender_id', _this5.ruleForm.genderValue);
+              form.append('profession', _this5.ruleForm.professionValue);
+              form.append('role', _this5.ruleForm.roles);
+              form.append('status_id', _this5.ruleForm.statusValue);
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context3.next = 4;
+              _context3.next = 10;
               return axios.post('/teacher/create', form, config).then(function (response) {
                 _this5.getData();
                 _this5.dialogFormVisible = false;
@@ -402,7 +376,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   type: 'success'
                 });
               });
-            case 4:
+            case 10:
             case "end":
               return _context3.stop();
           }
@@ -421,12 +395,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               form = new FormData(document.getElementById('fm'));
               form.append('role', _this6.ruleForm.roles);
+              form.append('teacher_level', _this6.ruleForm.teacher_level_value);
+              form.append('gender_id', _this6.ruleForm.genderValue);
+              form.append('profession', _this6.ruleForm.professionValue);
+              form.append('role', _this6.ruleForm.roles);
+              form.append('status_id', _this6.ruleForm.statusValue);
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context4.next = 5;
+              _context4.next = 10;
               return axios.post('/teacher' + '/update/' + _this6.ruleForm.teacher_id, form, config).then(function (response) {
                 _this6.getData();
                 _this6.dialogFormVisible = false;
@@ -435,7 +414,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   type: 'success'
                 });
               });
-            case 5:
+            case 10:
             case "end":
               return _context4.stop();
           }
@@ -499,25 +478,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
           while (1) switch (_context7.prev = _context7.next) {
             case 0:
-              //this.cancelAction()
-              //this.resetForm('ruleForm');
-              _this9.ruleForm.name = '';
-              _this9.ruleForm.userId = '';
-              _this9.ruleForm.roles = '';
-              _this9.ruleForm.email = '';
-              _this9.imageUrl = '';
-              _this9.ruleForm.photo_id = '';
-              _this9.roles = null;
+              _this9.ruleForm.firstNameKh = null;
+              _this9.ruleForm.teacher_id = null;
+              _this9.ruleForm.LastNameKh = null;
+              _this9.ruleForm.fullNameKh = null;
+              _this9.ruleForm.firstNameEng = null;
+              _this9.ruleForm.LastNameEng = null;
+              _this9.ruleForm.fullNameEng = null;
+              _this9.ruleForm.IDn = null;
+              _this9.ruleForm.teacher_level_value = null;
+              _this9.ruleForm.professionValue = null;
+              _this9.ruleForm.genderValue = null;
+              _this9.ruleForm.dobValue = null;
+              _this9.ruleForm.birsthAddress = null;
+              _this9.ruleForm.address = null;
+              _this9.ruleForm.teachDate = null;
+              _this9.ruleForm.phoneNum = null;
+              _this9.ruleForm.teacherId = null;
+              _this9.ruleForm.statusValue = null;
+              _this9.ruleForm.email = null;
+              _this9.ruleForm.roles = null;
+              _this9.imageUrl = null;
+              _this9.ruleForm.file_upload_id = null;
               _this9.dialogFormVisible = true;
               _this9.isShowButtonUpdate = false;
-              _this9.isShowPassword = true;
-              _context7.next = 12;
+              _this9.isShowPassword = false;
+              _context7.next = 27;
               return axios.get('/user/create').then(function (response) {
                 _this9.roles = response.data.roles;
               })["catch"](function (error) {
                 console.log(error);
               });
-            case 12:
+            case 27:
             case "end":
               return _context7.stop();
           }
@@ -536,7 +528,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _context8.next = 5;
               return axios.get('/teacher' + '/edit/' + id).then(function (response) {
                 var _response$data$data$p;
-                console.log(response.data);
                 _this10.ruleForm.firstNameKh = response.data.data.first_name_kh;
                 _this10.ruleForm.teacher_id = response.data.data.teacher_id;
                 _this10.ruleForm.LastNameKh = response.data.data.last_name_kh;
@@ -546,7 +537,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this10.ruleForm.fullNameEng = response.data.data.full_name_en;
                 _this10.ruleForm.IDn = response.data.data.tid;
                 _this10.ruleForm.teacher_level_value = response.data.data.teacher_level;
-                _this10.ruleForm.professionValue = response.data.data.profession;
+                _this10.ruleForm.professionValue = response.data.data.profession != null ? Array.from(response.data.data.profession.split(","), function (a) {
+                  return +a;
+                }) : null;
                 _this10.ruleForm.genderValue = response.data.data.gender_id;
                 _this10.ruleForm.dobValue = response.data.data.date_of_birth;
                 _this10.ruleForm.birsthAddress = response.data.data.place_of_birth;
@@ -556,7 +549,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this10.ruleForm.teacherId = response.data.data.id;
                 _this10.ruleForm.statusValue = response.data.data.status_id;
                 _this10.ruleForm.email = response.data.data.email;
-                _this10.ruleForm.roles = response.data.data.role;
+                _this10.ruleForm.roles = Number(response.data.data.role);
                 _this10.imageUrl = (_response$data$data$p = response.data.data.profile_img) === null || _response$data$data$p === void 0 ? void 0 : _response$data$data$p.file_path;
                 _this10.ruleForm.file_upload_id = response.data.data.file_upload_id;
                 _this10.dialogFormVisible = true;
@@ -935,13 +928,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_switch, {
             value: scope.row.is_enable_account.toString(),
-            modelValue: scope.row.is_enable_account,
-            "onUpdate:modelValue": function onUpdateModelValue($event) {
-              return scope.row.is_enable_account = $event;
-            },
             "active-value": "1",
             "inactive-value": "0"
-          }, null, 8 /* PROPS */, ["value", "modelValue", "onUpdate:modelValue"])])];
+          }, null, 8 /* PROPS */, ["value"])])];
         }),
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
@@ -1241,8 +1230,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return $data.ruleForm.teacher_level_value = $event;
                 }),
                 placeholder: "ជ្រើសរើស",
-                clearable: "",
-                name: "teacher_level"
+                clearable: ""
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teacher_level, function (item) {
@@ -1272,14 +1260,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return $data.ruleForm.professionValue = $event;
                 }),
                 placeholder: "ជ្រើសរើស",
-                name: "profession"
+                multiple: "",
+                filterable: "",
+                remote: ""
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.profession, function (item) {
+                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.subject, function (item) {
                     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                      key: item.professionValue,
-                      label: item.professionLabel,
-                      value: item.professionValue
+                      key: item,
+                      label: item.subject_name_kh,
+                      value: item.subject_id
                     }, null, 8 /* PROPS */, ["label", "value"]);
                   }), 128 /* KEYED_FRAGMENT */))];
                 }),
@@ -1300,15 +1290,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
                   return $data.ruleForm.genderValue = $event;
                 }),
-                placeholder: "ជ្រើសរើស",
-                name: "gender_id"
+                placeholder: "ជ្រើសរើស"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.gender, function (item) {
                     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                      key: item.genderValue,
-                      label: item.genderLabel,
-                      value: item.genderValue
+                      key: item,
+                      label: item.gender_name_kh,
+                      value: item.gender_id
                     }, null, 8 /* PROPS */, ["label", "value"]);
                   }), 128 /* KEYED_FRAGMENT */))];
                 }),
@@ -1468,15 +1457,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return $data.ruleForm.roles = $event;
                 }),
                 placeholder: "ជ្រើសរើស",
-                "class": "text-left",
-                name: "role"
+                "class": "text-left"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.roles, function (data) {
+                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.role, function (data) {
                     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
                       key: data,
                       label: data.name,
-                      value: data.name
+                      value: data.role_id
                     }, null, 8 /* PROPS */, ["label", "value"]);
                   }), 128 /* KEYED_FRAGMENT */))];
                 }),
@@ -1497,15 +1485,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
                   return $data.ruleForm.statusValue = $event;
                 }),
-                placeholder: "ជ្រើសរើស",
-                name: "status_id"
+                placeholder: "ជ្រើសរើស"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.status, function (item) {
                     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                      key: item.statusValue,
-                      label: item.statusLabel,
-                      value: item.statusValue
+                      key: item,
+                      label: item.status_kh,
+                      value: item.status_id
                     }, null, 8 /* PROPS */, ["label", "value"]);
                   }), 128 /* KEYED_FRAGMENT */))];
                 }),

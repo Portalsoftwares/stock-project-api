@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gender;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
+use App\Models\TeacherRole;
+use App\Models\TeacherStatus;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -60,8 +64,16 @@ class TeacherController extends Controller
             ->orderBy($sort_by, $order_by)
             ->paginate($per_page);
 
+        $status = TeacherStatus::all();
+        $role = TeacherRole::all();
+        $gender = Gender::all();
+        $subject = Subject::all();
         $response = [
             'data' => $data,
+            'status' => $status,
+            'role' => $role,
+            'gender' => $gender,
+            'subject' => $subject,
         ];
         return  response($response, 200);
     }
@@ -99,7 +111,7 @@ class TeacherController extends Controller
             $items->file_upload_id    = $request->file_upload_id;
             $items->phone     = $request->phone;
             $items->email     = $request->email;
-            $items->is_enable_account = $request->is_enable_account;
+            $items->is_enable_account = $request->is_enable_account ?? 0;
             $items->other     = $request->other;
             $items->save();
         });

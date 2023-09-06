@@ -21,8 +21,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   // components: { Delete, Edit, Search, Share, Upload },
   data: function data() {
-    var _ruleForm, _ref;
-    return _ref = {
+    var _ruleForm;
+    return {
       tableData: [],
       classData: [],
       showSuccess: false,
@@ -50,7 +50,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         password: null,
         email: null,
         file_upload_id: null
-      }, _defineProperty(_ruleForm, "student_id", null), _defineProperty(_ruleForm, "genderValue", null), _defineProperty(_ruleForm, "dobValue", null), _defineProperty(_ruleForm, "address", null), _defineProperty(_ruleForm, "phoneNum", null), _defineProperty(_ruleForm, "studentOtherText", null), _defineProperty(_ruleForm, "statusValue", null), _defineProperty(_ruleForm, "IDn", 'PK-S0038'), _ruleForm),
+      }, _defineProperty(_ruleForm, "student_id", null), _defineProperty(_ruleForm, "genderValue", null), _defineProperty(_ruleForm, "dobValue", null), _defineProperty(_ruleForm, "address", null), _defineProperty(_ruleForm, "phoneNum", null), _defineProperty(_ruleForm, "studentOtherText", null), _defineProperty(_ruleForm, "statusValue", null), _defineProperty(_ruleForm, "IDn", null), _defineProperty(_ruleForm, "from_secondary_high_school", null), _defineProperty(_ruleForm, "secondary_exam_date", null), _defineProperty(_ruleForm, "secondary_exam_place", null), _defineProperty(_ruleForm, "secondary_exam_room", null), _defineProperty(_ruleForm, "secondary_exam_desk", null), _ruleForm),
       rules: {
         firstNameKh: [{
           required: true,
@@ -85,6 +85,26 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         LastNameEng: [{
           required: true,
           message: 'សូមបញ្ជូលនាមខ្លួន (អង់គ្លេស)',
+          trigger: 'blur'
+        }, {
+          min: 3,
+          max: 15,
+          message: 'ចំនួនពីចាប់៣រតួហូតដល់១៥តួ',
+          trigger: 'blur'
+        }],
+        fullNameEng: [{
+          required: true,
+          message: 'សូមបញ្ជូលនាមពេញ (អង់គ្លេស)',
+          trigger: 'blur'
+        }, {
+          min: 3,
+          max: 15,
+          message: 'ចំនួនពីចាប់៣រតួហូតដល់១៥តួ',
+          trigger: 'blur'
+        }],
+        fullNameKh: [{
+          required: true,
+          message: 'សូមបញ្ជូលនាមពេញ (ខ្មែរ)',
           trigger: 'blur'
         }, {
           min: 3,
@@ -146,29 +166,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           trigger: 'blur'
         }]
       },
-      search: '',
-      gender: [{
-        genderValue: 1,
-        genderLabel: 'ប្រុស'
-      }, {
-        genderValue: 2,
-        genderLabel: 'ស្រី'
-      }],
-      genders: [{
-        value: 'ប្រុស',
-        text: 'ប្រុស'
-      }, {
-        value: 'ស្រី',
-        text: 'ស្រី'
-      }],
-      status: [{
-        statusValue: '1',
-        statusLabel: 'កំពុងសិក្សា'
-      }, {
-        statusValue: '2',
-        statusLabel: 'បញ្ឈប់ការសិក្សា'
-      }],
-      statusValue: '',
       filter: [{
         filterValue: 'តាមឈ្មោះ',
         filterLabel: 'ទី១០'
@@ -196,13 +193,45 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       page: 1,
       per_page: 10,
       sort_by: 'sid',
-      order_by: 1
-    }, _defineProperty(_ref, "search", ''), _defineProperty(_ref, "tSearch", null), _defineProperty(_ref, "is_show_trust", 0), _ref;
+      order_by: 1,
+      search: '',
+      tSearch: null,
+      is_show_trust: 0,
+      //Data Page filter
+      status: [],
+      gender: []
+    };
   },
   mounted: function mounted() {
     this.getData();
   },
   methods: {
+    getData: function getData() {
+      var _this = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              _this.loading = true;
+              _context.next = 3;
+              return axios.get("/student/get?page=".concat(_this.page, "&per_page=").concat(_this.per_page, "&sort_by=").concat(_this.sort_by, "&order_by=").concat(_this.order_by, "&search=").concat(_this.search, "&is_show_trust=").concat(_this.is_show_trust)).then(function (response) {
+                _this.tableData = response.data.data;
+                _this.classData = response.data["class"];
+                _this.status = response.data.status;
+                _this.gender = response.data.gender;
+                _this.loading = false;
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee);
+      }))();
+    },
     //Change Per Page
     changePageSize: function changePageSize(event) {
       this.per_page = event;
@@ -215,12 +244,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     // ស្វែងរក ទិន្នន័យ
     clickSearch: function clickSearch() {
-      var _this = this;
+      var _this2 = this;
       clearTimeout(this.tSearch);
       this.tSearch = setTimeout(function () {
-        if (_this.search != null) {
-          if (_this.search.replace(/\s/g, '') !== '') {}
-          _this.getData();
+        if (_this2.search != null) {
+          if (_this2.search.replace(/\s/g, '') !== '') {}
+          _this2.getData();
         }
       }, 1000);
     },
@@ -247,11 +276,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       return isJPG && isLt2M;
     },
     submitForm: function submitForm(formName) {
-      var _this2 = this;
+      var _this3 = this;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          _this2.submitData();
-          _this2.resetForm('ruleForm');
+          _this3.submitData();
+          _this3.resetForm('ruleForm');
         } else {
           console.log('error submit!!');
           return false;
@@ -272,11 +301,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     *  Function upload image 
     */
     submitUplaod: function submitUplaod() {
-      var _this3 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var form, config;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
             case 0:
               form = new FormData(document.getElementById('fm'));
               config = {
@@ -284,41 +313,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context.next = 4;
-              return axios.post('/files/create/upload', form, config).then(function (response) {
-                _this3.ruleForm.file_upload_id = response.data.file.id;
-                _this3.$message({
-                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
-                  type: 'success'
-                });
-              });
-            case 4:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee);
-      }))();
-    },
-    /*
-    *  Function create new user  
-    */
-    submitData: function submitData() {
-      var _this4 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var form, config;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              form = new FormData(document.getElementById('fm')); //form.append('role', this.ruleForm.roles)
-              config = {
-                headers: {
-                  'content-type': 'multipart/form-data'
-                }
-              };
               _context2.next = 4;
-              return axios.post('/student/create', form, config).then(function (response) {
-                _this4.getData();
-                _this4.dialogFormVisible = false;
+              return axios.post('/files/create/upload', form, config).then(function (response) {
+                _this4.ruleForm.file_upload_id = response.data.file.id;
                 _this4.$message({
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
@@ -332,9 +329,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       }))();
     },
     /*
-    *  Function update new user  
+    *  Function create new user  
     */
-    updateData: function updateData() {
+    submitData: function submitData() {
       var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var form, config;
@@ -342,14 +339,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               form = new FormData(document.getElementById('fm'));
-              form.append('role', _this5.ruleForm.roles);
+              form.append('status_id', _this5.ruleForm.statusValue);
+              form.append('gender_id', _this5.ruleForm.genderValue);
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context3.next = 5;
-              return axios.post('/student' + '/update/' + _this5.ruleForm.student_id, form, config).then(function (response) {
+              _context3.next = 6;
+              return axios.post('/student/create', form, config).then(function (response) {
                 _this5.getData();
                 _this5.dialogFormVisible = false;
                 _this5.$message({
@@ -357,7 +355,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                   type: 'success'
                 });
               });
-            case 5:
+            case 6:
             case "end":
               return _context3.stop();
           }
@@ -365,16 +363,25 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       }))();
     },
     /*
-    *  Function Delete 
+    *  Function update new user  
     */
-    handleDelete: function handleDelete(id) {
+    updateData: function updateData() {
       var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var form, config;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              _context4.next = 2;
-              return axios["delete"]('/student' + '/delete/' + id).then(function (response) {
+              form = new FormData(document.getElementById('fm'));
+              form.append('status_id', _this6.ruleForm.statusValue);
+              form.append('gender_id', _this6.ruleForm.genderValue);
+              config = {
+                headers: {
+                  'content-type': 'multipart/form-data'
+                }
+              };
+              _context4.next = 6;
+              return axios.post('/student' + '/update/' + _this6.ruleForm.student_id, form, config).then(function (response) {
                 _this6.getData();
                 _this6.dialogFormVisible = false;
                 _this6.$message({
@@ -382,21 +389,24 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                   type: 'success'
                 });
               });
-            case 2:
+            case 6:
             case "end":
               return _context4.stop();
           }
         }, _callee4);
       }))();
     },
-    restoreData: function restoreData(id) {
+    /*
+    *  Function Delete 
+    */
+    handleDelete: function handleDelete(id) {
       var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
               _context5.next = 2;
-              return axios.post('/student' + '/restore/' + id).then(function (response) {
+              return axios["delete"]('/student' + '/delete/' + id).then(function (response) {
                 _this7.getData();
                 _this7.dialogFormVisible = false;
                 _this7.$message({
@@ -411,6 +421,28 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         }, _callee5);
       }))();
     },
+    restoreData: function restoreData(id) {
+      var _this8 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) switch (_context6.prev = _context6.next) {
+            case 0:
+              _context6.next = 2;
+              return axios.post('/student' + '/restore/' + id).then(function (response) {
+                _this8.getData();
+                _this8.dialogFormVisible = false;
+                _this8.$message({
+                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+                  type: 'success'
+                });
+              });
+            case 2:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6);
+      }))();
+    },
     handlePictureCardPreview: function handlePictureCardPreview(UploadFile) {
       this.dialogImageUrl = UploadFile.url;
       this.dialogVisible = true;
@@ -419,54 +451,48 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       console.log(UploadFile);
     },
     AddUser: function AddUser() {
-      var _this8 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) switch (_context6.prev = _context6.next) {
-            case 0:
-              // this.cancelAction()
-              // this.resetForm('ruleForm');
-              _this8.ruleForm.name = '';
-              _this8.ruleForm.userId = '';
-              _this8.ruleForm.roles = '';
-              _this8.ruleForm.email = '';
-              _this8.imageUrl = '';
-              _this8.ruleForm.photo_id = '';
-              _this8.roles = null;
-              _this8.dialogFormVisible = true;
-              _this8.isShowButtonUpdate = false;
-              _this8.isShowPassword = true;
-              _context6.next = 12;
-              return axios.get('/user/create').then(function (response) {
-                _this8.roles = response.data.roles;
-              })["catch"](function (error) {
-                console.log(error);
-              });
-            case 12:
-            case "end":
-              return _context6.stop();
-          }
-        }, _callee6);
-      }))();
-    },
-    getData: function getData() {
       var _this9 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
           while (1) switch (_context7.prev = _context7.next) {
             case 0:
-              _this9.loading = true;
-              _context7.next = 3;
-              return axios.get("/student/get?page=".concat(_this9.page, "&per_page=").concat(_this9.per_page, "&sort_by=").concat(_this9.sort_by, "&order_by=").concat(_this9.order_by, "&search=").concat(_this9.search, "&is_show_trust=").concat(_this9.is_show_trust)).then(function (response) {
-                _this9.tableData = response.data.data;
-                _this9.classData = response.data["class"];
-                _this9.loading = false;
+              _this9.ruleForm.student_id = null;
+              _this9.ruleForm.firstNameKh = null;
+              _this9.ruleForm.LastNameKh = null;
+              _this9.ruleForm.fullNameKh = null;
+              _this9.ruleForm.firstNameEng = null;
+              _this9.ruleForm.LastNameEng = null;
+              _this9.ruleForm.fullNameEng = null;
+              _this9.ruleForm.roles = null;
+              _this9.ruleForm.password = null;
+              _this9.ruleForm.email = null;
+              _this9.ruleForm.file_upload_id = null;
+              _this9.ruleForm.student_id = null;
+              _this9.ruleForm.genderValue = null;
+              _this9.ruleForm.dobValue = null;
+              _this9.ruleForm.address = null;
+              _this9.ruleForm.phoneNum = null;
+              _this9.ruleForm.studentOtherText = null;
+              _this9.ruleForm.statusValue = null;
+              _this9.ruleForm.IDn = null;
+              _this9.ruleForm.from_secondary_high_school = null;
+              _this9.ruleForm.secondary_exam_date = null;
+              _this9.ruleForm.secondary_exam_place = null;
+              _this9.ruleForm.secondary_exam_room = null;
+              _this9.ruleForm.secondary_exam_desk = null;
+              _this9.imageUrl = '';
+              _this9.ruleForm.photo_id = '';
+              _this9.roles = null;
+              _this9.dialogFormVisible = true;
+              _this9.isShowButtonUpdate = false;
+              _this9.isShowPassword = true;
+              _context7.next = 32;
+              return axios.get('/user/create').then(function (response) {
+                _this9.roles = response.data.roles;
               })["catch"](function (error) {
-                if (error.response.status == 401) {
-                  _this9.$store.commit("auth/CLEAR_TOKEN");
-                }
+                console.log(error);
               });
-            case 3:
+            case 32:
             case "end":
               return _context7.stop();
           }
@@ -506,6 +532,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 _this10.imageUrl = (_response$data$data$p = response.data.data.profile_img) === null || _response$data$data$p === void 0 ? void 0 : _response$data$data$p.file_path;
                 _this10.ruleForm.file_upload_id = response.data.data.file_upload_id;
                 //	this.roles = response.data.roles
+                _this10.ruleForm.from_secondary_high_school = response.data.data.from_secondary_high_school;
+                _this10.ruleForm.secondary_exam_date = response.data.data.secondary_exam_date;
+                _this10.ruleForm.secondary_exam_place = response.data.data.secondary_exam_place;
+                _this10.ruleForm.secondary_exam_room = response.data.data.secondary_exam_room;
+                _this10.ruleForm.secondary_exam_desk = response.data.data.secondary_exam_desk;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
                   _this10.$store.commit("auth/CLEAR_TOKEN");
@@ -601,11 +632,11 @@ var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
   "class": "text-lg font-semibold text-white"
 }, "ព័ត៌មានសិស្ស")], -1 /* HOISTED */);
 var _hoisted_18 = {
-  "class": "flex flex-col"
+  "class": "grid grid-cols-2"
 };
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "item-start"
-}, null, -1 /* HOISTED */);
+var _hoisted_19 = {
+  "class": "flex flex-col w-full"
+};
 var _hoisted_20 = {
   "class": "flex flex-row"
 };
@@ -620,8 +651,17 @@ var _hoisted_24 = {
   key: 1,
   "class": "el-icon-plus avatar-uploader-icon"
 };
-var _hoisted_25 = ["src"];
+var _hoisted_25 = {
+  "class": "flex flex-row"
+};
 var _hoisted_26 = {
+  "class": "flex flex-col space-y-1"
+};
+var _hoisted_27 = {
+  "class": "flex flex-col space-y-1"
+};
+var _hoisted_28 = ["src"];
+var _hoisted_29 = {
   "class": "dialog-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -642,6 +682,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_form_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-form-item");
   var _component_el_date_picker = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-date-picker");
   var _component_el_upload = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-upload");
+  var _component_el_tab_pane = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-tab-pane");
+  var _component_el_tabs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-tabs");
   var _component_el_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-form");
   var _component_el_dialog = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-dialog");
   var _directive_loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("loading");
@@ -821,7 +863,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         width: "120",
         label: "ភេទ",
-        filters: $data.genders
+        filters: _ctx.genders
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
           return [scope.row.gender_id == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, "ប្រុស")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, "ស្រី"))];
@@ -957,7 +999,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onSizeChange: $options.changePageSize
   }, null, 8 /* PROPS */, ["current-page", "page-size", "page-count", "total", "onCurrentChange", "onSizeChange"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisible,
-    "onUpdate:modelValue": _cache[26] || (_cache[26] = function ($event) {
+    "onUpdate:modelValue": _cache[31] || (_cache[31] = function ($event) {
       return $data.dialogFormVisible = $event;
     }),
     title: "ព័ត៌មានសិស្ស",
@@ -970,8 +1012,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [_hoisted_17];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[23] || (_cache[23] = function ($event) {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+        onClick: _cache[28] || (_cache[28] = function ($event) {
           return $options.cancelAction();
         }),
         "class": "sanfont-khmer",
@@ -985,7 +1027,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 0,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[24] || (_cache[24] = function ($event) {
+        onClick: _cache[29] || (_cache[29] = function ($event) {
           return $options.submitForm('ruleForm');
         })
       }, {
@@ -997,7 +1039,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 1,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[25] || (_cache[25] = function ($event) {
+        onClick: _cache[30] || (_cache[30] = function ($event) {
           return $options.updateData('ruleForm');
         })
       }, {
@@ -1009,336 +1051,445 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
-        "class": "grid grid-cols-2",
         model: $data.ruleForm,
         rules: $data.rules,
         ref: "ruleForm",
         id: "fm"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "នាមត្រកូល (ខ្មែរ)",
-            prop: "firstNameKh",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tabs, {
+            type: "card",
+            onTabClick: _ctx.handleClick,
+            style: {
+              "height": "650px",
+              "overflow": "auto"
+            }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.ruleForm.firstNameKh,
-                "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-                  return $data.ruleForm.firstNameKh = $event;
-                }),
-                name: "first_name_kh",
-                clearable: ""
-              }, null, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "នាមខ្លួន (ខ្មែរ)",
-            prop: "LastNameKh",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.ruleForm.LastNameKh,
-                "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-                  return $data.ruleForm.LastNameKh = $event;
-                }),
-                name: "last_name_kh",
-                clearable: ""
-              }, null, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "នាមពេញ (ខ្មែរ)",
-            prop: "fullNameKh",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.ruleForm.fullNameKh,
-                "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-                  return $data.ruleForm.fullNameKh = $event;
-                }),
-                name: "full_name_kh",
-                clearable: ""
-              }, null, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "នាមត្រកូល(អង់គ្លេស)",
-            prop: "firstNameEng",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.ruleForm.firstNameEng,
-                "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-                  return $data.ruleForm.firstNameEng = $event;
-                }),
-                name: "first_name_en",
-                clearable: ""
-              }, null, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "នាមខ្លួន (អង់គ្លេស)",
-            prop: "LastNameEng",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.ruleForm.LastNameEng,
-                "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
-                  return $data.ruleForm.LastNameEng = $event;
-                }),
-                name: "last_name_en",
-                clearable: ""
-              }, null, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "នាមពេញ (អង់គ្លេស)",
-            prop: "LastNameEng",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.ruleForm.fullNameEng,
-                "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
-                  return $data.ruleForm.fullNameEng = $event;
-                }),
-                name: "full_name_en",
-                clearable: ""
-              }, null, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "អត្តលេខ",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.ruleForm.IDn,
-                "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
-                  return $data.ruleForm.IDn = $event;
-                }),
-                autocomplete: "off",
-                name: "sid",
-                clearable: ""
-              }, null, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "ភេទ",
-            prop: "gender",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $data.ruleForm.genderValue,
-                "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
-                  return $data.ruleForm.genderValue = $event;
-                }),
-                placeholder: "ជ្រើសរើស",
-                name: "gender_id",
-                "value-key": "value"
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tab_pane, {
+                label: "ព័ត៌មានទូទៅ"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.gender, function (item) {
-                    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                      key: item,
-                      "value-key": item.genderValue,
-                      label: item.genderLabel,
-                      value: item.genderValue
-                    }, null, 8 /* PROPS */, ["value-key", "label", "value"]);
-                  }), 128 /* KEYED_FRAGMENT */))];
-                }),
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "នាមត្រកូល (ខ្មែរ)",
+                    prop: "firstNameKh",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.firstNameKh,
+                        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+                          return $data.ruleForm.firstNameKh = $event;
+                        }),
+                        name: "first_name_kh",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "នាមខ្លួន (ខ្មែរ)",
+                    prop: "LastNameKh",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.LastNameKh,
+                        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+                          return $data.ruleForm.LastNameKh = $event;
+                        }),
+                        name: "last_name_kh",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "នាមពេញ (ខ្មែរ)",
+                    prop: "fullNameKh",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.fullNameKh,
+                        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+                          return $data.ruleForm.fullNameKh = $event;
+                        }),
+                        name: "full_name_kh",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "នាមត្រកូល(អង់គ្លេស)",
+                    prop: "firstNameEng",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.firstNameEng,
+                        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+                          return $data.ruleForm.firstNameEng = $event;
+                        }),
+                        name: "first_name_en",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "នាមខ្លួន (អង់គ្លេស)",
+                    prop: "LastNameEng",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.LastNameEng,
+                        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+                          return $data.ruleForm.LastNameEng = $event;
+                        }),
+                        name: "last_name_en",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "នាមពេញ (អង់គ្លេស)",
+                    prop: "fullNameEng",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.fullNameEng,
+                        "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+                          return $data.ruleForm.fullNameEng = $event;
+                        }),
+                        name: "full_name_en",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "អត្តលេខ",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.IDn,
+                        "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+                          return $data.ruleForm.IDn = $event;
+                        }),
+                        autocomplete: "off",
+                        name: "sid",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "ភេទ",
+                    prop: "gender",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
+                        modelValue: $data.ruleForm.genderValue,
+                        "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
+                          return $data.ruleForm.genderValue = $event;
+                        }),
+                        placeholder: "ជ្រើសរើស",
+                        "value-key": "value"
+                      }, {
+                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.gender, function (item) {
+                            return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
+                              key: item,
+                              "value-key": item,
+                              label: item.gender_name_kh,
+                              value: item.gender_id
+                            }, null, 8 /* PROPS */, ["value-key", "label", "value"]);
+                          }), 128 /* KEYED_FRAGMENT */))];
+                        }),
 
-                _: 1 /* STABLE */
-              }, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "ថ្ងៃ/ខែ/ឆ្នាំកំណើត",
-            prop: "dobValue",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth,
-            name: "date_of_birth"
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_date_picker, {
-                modelValue: $data.ruleForm.dobValue,
-                "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
-                  return $data.ruleForm.dobValue = $event;
-                }),
-                type: "date",
-                name: "date_of_birth"
-              }, null, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "ទីកន្លែងកំណើត",
-            prop: "address",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.ruleForm.birsthAddress,
-                "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
-                  return $data.ruleForm.birsthAddress = $event;
-                }),
-                autocomplete: "off",
-                name: "place_of_birth",
-                clearable: ""
-              }, null, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "អាស័យដ្ឋានបច្ចុប្បន្ន",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.ruleForm.address,
-                "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
-                  return $data.ruleForm.address = $event;
-                }),
-                autocomplete: "off",
-                name: "address",
-                clearable: ""
-              }, null, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "រូបភាព",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_upload, {
-                "class": "avatar-uploader",
-                action: "#",
-                name: "file",
-                "show-file-list": true,
-                "auto-upload": false,
-                "on-change": $options.handleAvatarSuccess,
-                "before-upload": $options.beforeAvatarUpload
-              }, {
-                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [$data.imageUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
-                    key: 0,
-                    src: $data.imageUrl,
-                    "class": "avatar object-contain"
-                  }, null, 8 /* PROPS */, _hoisted_23)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_24))];
-                }),
-                _: 1 /* STABLE */
-              }, 8 /* PROPS */, ["on-change", "before-upload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-                type: "hidden",
-                name: "file_upload_id",
-                "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
-                  return $data.ruleForm.file_upload_id = $event;
-                })
-              }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.ruleForm.file_upload_id]])])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "លេខទូរស័ព្ទ",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.ruleForm.phoneNum,
-                "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
-                  return $data.ruleForm.phoneNum = $event;
-                }),
-                autocomplete: "off",
-                type: "number",
-                name: "phone",
-                clearable: ""
-              }, null, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "សារអេឡិចត្រូនិច",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.ruleForm.email,
-                "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
-                  return $data.ruleForm.email = $event;
-                }),
-                autocomplete: "off",
-                name: "email",
-                clearable: ""
-              }, null, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "ស្ថានភាព",
-            prop: "status",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $data.ruleForm.statusValue,
-                "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
-                  return $data.ruleForm.statusValue = $event;
-                }),
-                placeholder: "ជ្រើសរើស",
-                name: "status_id"
-              }, {
-                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.status, function (item) {
-                    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                      key: item.statusValue,
-                      label: item.statusLabel,
-                      value: item.statusValue
-                    }, null, 8 /* PROPS */, ["label", "value"]);
-                  }), 128 /* KEYED_FRAGMENT */))];
-                }),
+                        _: 1 /* STABLE */
+                      }, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "ថ្ងៃ/ខែ/ឆ្នាំកំណើត",
+                    prop: "dobValue",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth,
+                    name: "date_of_birth"
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_date_picker, {
+                        modelValue: $data.ruleForm.dobValue,
+                        "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
+                          return $data.ruleForm.dobValue = $event;
+                        }),
+                        type: "date",
+                        name: "date_of_birth"
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "ទីកន្លែងកំណើត",
+                    prop: "address",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.birsthAddress,
+                        "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+                          return $data.ruleForm.birsthAddress = $event;
+                        }),
+                        autocomplete: "off",
+                        name: "place_of_birth",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "អាស័យដ្ឋានបច្ចុប្បន្ន",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.address,
+                        "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
+                          return $data.ruleForm.address = $event;
+                        }),
+                        autocomplete: "off",
+                        name: "address",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "រូបភាព",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_upload, {
+                        "class": "avatar-uploader",
+                        action: "#",
+                        name: "file",
+                        "show-file-list": true,
+                        "auto-upload": false,
+                        "on-change": $options.handleAvatarSuccess,
+                        "before-upload": $options.beforeAvatarUpload
+                      }, {
+                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [$data.imageUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+                            key: 0,
+                            src: $data.imageUrl,
+                            "class": "avatar object-contain"
+                          }, null, 8 /* PROPS */, _hoisted_23)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_24))];
+                        }),
+                        _: 1 /* STABLE */
+                      }, 8 /* PROPS */, ["on-change", "before-upload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+                        type: "hidden",
+                        name: "file_upload_id",
+                        "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
+                          return $data.ruleForm.file_upload_id = $event;
+                        })
+                      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.ruleForm.file_upload_id]])])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "លេខទូរស័ព្ទ",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.phoneNum,
+                        "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
+                          return $data.ruleForm.phoneNum = $event;
+                        }),
+                        autocomplete: "off",
+                        type: "number",
+                        name: "phone",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "សារអេឡិចត្រូនិច",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.email,
+                        "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
+                          return $data.ruleForm.email = $event;
+                        }),
+                        autocomplete: "off",
+                        name: "email",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "ស្ថានភាព",
+                    prop: "status",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
+                        modelValue: $data.ruleForm.statusValue,
+                        "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
+                          return $data.ruleForm.statusValue = $event;
+                        }),
+                        placeholder: "ជ្រើសរើស"
+                      }, {
+                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.status, function (item) {
+                            return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
+                              key: item,
+                              label: item.status_kh,
+                              value: item.status_id
+                            }, null, 8 /* PROPS */, ["label", "value"]);
+                          }), 128 /* KEYED_FRAGMENT */))];
+                        }),
 
-                _: 1 /* STABLE */
-              }, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "ផ្សេងៗ",
-            prop: "studentOtherText",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                type: "textarea",
-                rows: 5,
-                modelValue: $data.ruleForm.studentOtherText,
-                "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
-                  return $data.ruleForm.studentOtherText = $event;
+                        _: 1 /* STABLE */
+                      }, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "ផ្សេងៗ",
+                    prop: "studentOtherText",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        type: "textarea",
+                        rows: 5,
+                        modelValue: $data.ruleForm.studentOtherText,
+                        "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
+                          return $data.ruleForm.studentOtherText = $event;
+                        }),
+                        name: "other"
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])])])])])])];
                 }),
-                name: "other"
-              }, null, 8 /* PROPS */, ["modelValue"])];
+                _: 1 /* STABLE */
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tab_pane, {
+                label: "ព័ត៌មានមធ្យមសិក្សបឋមភូមិ"
+              }, {
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "អនុវិទ្យាល័យ",
+                    prop: "from_secondary_high_school",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.from_secondary_high_school,
+                        "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
+                          return $data.ruleForm.from_secondary_high_school = $event;
+                        }),
+                        name: "from_secondary_high_school",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "សម័យប្រលង",
+                    prop: "secondary_exam_date",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.secondary_exam_date,
+                        "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
+                          return $data.ruleForm.secondary_exam_date = $event;
+                        }),
+                        name: "secondary_exam_date",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "ទីកន្លែងប្រលង",
+                    prop: "secondary_exam_place",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.secondary_exam_place,
+                        "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
+                          return $data.ruleForm.secondary_exam_place = $event;
+                        }),
+                        name: "secondary_exam_place",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "បន្ទប់ប្រលង",
+                    prop: "secondary_exam_room",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.secondary_exam_room,
+                        "onUpdate:modelValue": _cache[25] || (_cache[25] = function ($event) {
+                          return $data.ruleForm.secondary_exam_room = $event;
+                        }),
+                        name: "secondary_exam_room",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                    label: "លេខតុ",
+                    prop: "secondary_exam_desk",
+                    "class": "sanfont-khmer",
+                    "label-width": $data.formLabelWidth
+                  }, {
+                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+                        modelValue: $data.ruleForm.secondary_exam_desk,
+                        "onUpdate:modelValue": _cache[26] || (_cache[26] = function ($event) {
+                          return $data.ruleForm.secondary_exam_desk = $event;
+                        }),
+                        name: "secondary_exam_desk",
+                        clearable: ""
+                      }, null, 8 /* PROPS */, ["modelValue"])];
+                    }),
+                    _: 1 /* STABLE */
+                  }, 8 /* PROPS */, ["label-width"])])])])];
+                }),
+                _: 1 /* STABLE */
+              })];
             }),
+
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"])])])])])];
+          }, 8 /* PROPS */, ["onTabClick"])];
         }),
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["model", "rules"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
         modelValue: $data.dialogVisible,
-        "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
+        "onUpdate:modelValue": _cache[27] || (_cache[27] = function ($event) {
           return $data.dialogVisible = $event;
         })
       }, {
@@ -1347,7 +1498,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "w-full": "",
             src: $data.dialogImageUrl,
             alt: "Preview Image"
-          }, null, 8 /* PROPS */, _hoisted_25)];
+          }, null, 8 /* PROPS */, _hoisted_28)];
         }),
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["modelValue"])];

@@ -198,7 +198,6 @@
 							<div>
 								<el-switch
 									:value="scope.row.is_enable_account.toString()"
-									v-model="scope.row.is_enable_account"
 									active-value="1"
 									inactive-value="0"
 								/>
@@ -425,7 +424,6 @@
 									v-model="ruleForm.teacher_level_value"
 									placeholder="ជ្រើសរើស"
 									clearable
-									name="teacher_level"
 								>
 									<el-option
 										v-for="item in teacher_level"
@@ -449,19 +447,20 @@
 								<el-select
 									v-model="ruleForm.professionValue"
 									placeholder="ជ្រើសរើស"
-									name="profession"
+									multiple
+									filterable
+									remote
 								>
 									<el-option
-										v-for="item in profession"
-										:key="item.professionValue"
-										:label="item.professionLabel"
-										:value="item.professionValue"
+										v-for="item in subject"
+										:key="item"
+										:label="item.subject_name_kh"
+										:value="item.subject_id"
 									>
 									</el-option>
 								</el-select>
 							</el-form-item>
 						</div>
-
 						<div>
 							<el-form-item
 								label="ភេទ"
@@ -472,13 +471,12 @@
 								<el-select
 									v-model="ruleForm.genderValue"
 									placeholder="ជ្រើសរើស"
-									name="gender_id"
 								>
 									<el-option
 										v-for="item in gender"
-										:key="item.genderValue"
-										:label="item.genderLabel"
-										:value="item.genderValue"
+										:key="item"
+										:label="item.gender_name_kh"
+										:value="item.gender_id"
 									>
 									</el-option>
 								</el-select>
@@ -621,13 +619,12 @@
 									v-model="ruleForm.roles"
 									placeholder="ជ្រើសរើស"
 									class="text-left "
-									name="role"
 								>
 									<el-option
-										v-for="data in roles"
+										v-for="data in role"
 										:key="data"
 										:label="data.name"
-										:value="data.name"
+										:value="data.role_id"
 									/>
 								</el-select>
 							</el-form-item>
@@ -642,13 +639,12 @@
 								<el-select
 									v-model="ruleForm.statusValue"
 									placeholder="ជ្រើសរើស"
-									name="status_id"
 								>
 									<el-option
 										v-for="item in status"
-										:key="item.statusValue"
-										:label="item.statusLabel"
-										:value="item.statusValue"
+										:key="item"
+										:label="item.status_kh"
+										:value="item.status_id"
 									>
 									</el-option>
 								</el-select>
@@ -718,7 +714,6 @@ export default {
 			showSuccess: false,
 			showInfo: false,
 			dialogFormVisible: false,
-			roles: [],
 			name: "",
 			formLabelWidth: "150px",
 			dialogImageUrl: "",
@@ -729,6 +724,7 @@ export default {
 			isShowPassword: true,
 			isShowButtonUpdate: false,
 
+
 			ruleForm: {
 				teacher_id: null,
 				firstNameKh: null,
@@ -737,8 +733,7 @@ export default {
 				firstNameEng: null,
 				LastNameEng: null,
 				fullNameEng: null,
-				IDn: "PK-T032",
-				professionValue: null,
+				IDn: null,
 				genderValue: null,
 				teacher_level_value: null,
 				birsthAddress: null,
@@ -752,10 +747,8 @@ export default {
 				password: null,
 				email: null,
 				file_upload_id: null,
-				teacherId: null
-
-
-
+				teacherId: null,
+				professionValue: [],
 			},
 			rules: {
 				firstNameKh: [
@@ -831,60 +824,17 @@ export default {
 			}],
 			filterSelectValue: "",
 
-			teacher_level: [{
-				teacher_level_value: 'មទភ',
-				teacher_level_Label: 'មទភ'
-			}, {
-				teacher_level_value: 'មបភ',
-				teacher_level_Label: 'មបភ'
-			}],
-			teacher_level_Value: "",
+			teacher_level: [
+				{
+					teacher_level_value: '1',
+					teacher_level_Label: 'មបភ'
+				},
+				{
+					teacher_level_value: '2',
+					teacher_level_Label: 'មទភ'
+				}
 
-			status: [{
-				statusValue: 'កំពុងបង្រៀន',
-				statusLabel: 'កំពុងបង្រៀន'
-			}, {
-				statusValue: 'បញ្ឈប់ការបង្រៀន',
-				statusLabel: 'បញ្ឈប់ការបង្រៀន'
-			}],
-			statusValue: '',
-
-			gender: [{
-				genderValue: '1',
-				genderLabel: 'ប្រុស'
-			}, {
-				genderValue: '2',
-				genderLabel: 'ស្រី'
-			}],
-
-
-
-			profession: [{
-				professionValue: 'ភាសាខ្មែរ',
-				professionLabel: 'ភាសាខ្មែរ'
-			}, {
-				professionValue: 'គណិតវិទ្យា',
-				professionLabel: 'គណិតវិទ្យា'
-			},
-			{
-				professionValue: 'រូបវិទ្យា',
-				professionLabel: 'រូបវិទ្យា'
-			}, {
-				professionValue: 'គីមីវិទ្យា',
-				professionLabel: 'គីមីវិទ្យា'
-			},
-			{
-				professionValue: 'ជីវះវិទ្យា',
-				professionLabel: 'ជីវះវិទ្យា'
-			}, {
-				professionValue: 'ភូមិវិទ្យា',
-				professionLabel: 'ភូមិវិទ្យា'
-			}, {
-				professionValue: 'ប្រវត្តិវិទ្យា',
-				professionLabel: 'ប្រវត្តិវិទ្យា'
-			}
 			],
-			professionValue: '',
 			loading: false,
 			teacher_levelSelectValue: '',
 
@@ -897,8 +847,13 @@ export default {
 			filter_teacher_level: 1,
 			search: '',
 			tSearch: null,
-			is_show_trust: 0
+			is_show_trust: 0,
 			//Data Page filter
+			status: [],
+			role: [],
+			gender: [],
+			subject: [],
+
 		}
 	},
 	mounted() {
@@ -909,6 +864,10 @@ export default {
 			this.loading = true;
 			await axios.get(`/teacher/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`).then(response => {
 				this.tableData = response.data.data
+				this.status = response.data.status
+				this.role = response.data.role
+				this.gender = response.data.gender
+				this.subject = response.data.subject
 				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {
@@ -1005,7 +964,12 @@ export default {
 		*/
 		async submitData() {
 			const form = new FormData(document.getElementById('fm'));
-			//form.append('role', this.ruleForm.roles)
+			form.append('role', this.ruleForm.roles)
+			form.append('teacher_level', this.ruleForm.teacher_level_value)
+			form.append('gender_id', this.ruleForm.genderValue)
+			form.append('profession', this.ruleForm.professionValue)
+			form.append('role', this.ruleForm.roles)
+			form.append('status_id', this.ruleForm.statusValue)
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
@@ -1026,6 +990,11 @@ export default {
 
 			const form = new FormData(document.getElementById('fm'));
 			form.append('role', this.ruleForm.roles)
+			form.append('teacher_level', this.ruleForm.teacher_level_value)
+			form.append('gender_id', this.ruleForm.genderValue)
+			form.append('profession', this.ruleForm.professionValue)
+			form.append('role', this.ruleForm.roles)
+			form.append('status_id', this.ruleForm.statusValue)
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
@@ -1068,19 +1037,32 @@ export default {
 		},
 
 		async AddUser() {
-			//this.cancelAction()
-			//this.resetForm('ruleForm');
-			this.ruleForm.name = ''
-			this.ruleForm.userId = ''
-			this.ruleForm.roles = ''
-			this.ruleForm.email = ''
-			this.imageUrl = ''
-			this.ruleForm.photo_id = ''
-			this.roles = null
+			this.ruleForm.firstNameKh = null
+			this.ruleForm.teacher_id = null
+			this.ruleForm.LastNameKh = null
+			this.ruleForm.fullNameKh = null
+			this.ruleForm.firstNameEng = null
+			this.ruleForm.LastNameEng = null
+			this.ruleForm.fullNameEng = null
+			this.ruleForm.IDn = null
+			this.ruleForm.teacher_level_value = null
+			this.ruleForm.professionValue = null
+			this.ruleForm.genderValue = null
+			this.ruleForm.dobValue = null
+			this.ruleForm.birsthAddress = null
+			this.ruleForm.address = null
+			this.ruleForm.teachDate = null
+			this.ruleForm.phoneNum = null
+			this.ruleForm.teacherId = null
+			this.ruleForm.statusValue = null
+			this.ruleForm.email = null
+			this.ruleForm.roles = null
+			this.imageUrl = null
+			this.ruleForm.file_upload_id = null
 
-			this.dialogFormVisible = true
+			this.dialogFormVisible = true;
 			this.isShowButtonUpdate = false;
-			this.isShowPassword = true;
+			this.isShowPassword = false;
 
 			await axios.get('/user/create').then(response => {
 				this.roles = response.data.roles
@@ -1095,7 +1077,6 @@ export default {
 			this.isShowPassword = false;
 
 			await axios.get('/teacher' + '/edit/' + id).then(response => {
-				console.log(response.data);
 				this.ruleForm.firstNameKh = response.data.data.first_name_kh
 				this.ruleForm.teacher_id = response.data.data.teacher_id
 
@@ -1106,7 +1087,7 @@ export default {
 				this.ruleForm.fullNameEng = response.data.data.full_name_en
 				this.ruleForm.IDn = response.data.data.tid
 				this.ruleForm.teacher_level_value = response.data.data.teacher_level
-				this.ruleForm.professionValue = response.data.data.profession
+				this.ruleForm.professionValue = response.data.data.profession != null ? Array.from(response.data.data.profession.split(","), a => +a) : null
 				this.ruleForm.genderValue = response.data.data.gender_id
 				this.ruleForm.dobValue = response.data.data.date_of_birth
 				this.ruleForm.birsthAddress = response.data.data.place_of_birth
@@ -1116,7 +1097,7 @@ export default {
 				this.ruleForm.teacherId = response.data.data.id
 				this.ruleForm.statusValue = response.data.data.status_id
 				this.ruleForm.email = response.data.data.email
-				this.ruleForm.roles = response.data.data.role
+				this.ruleForm.roles = Number(response.data.data.role)
 				this.imageUrl = response.data.data.profile_img?.file_path
 				this.ruleForm.file_upload_id = response.data.data.file_upload_id
 				this.dialogFormVisible = true;

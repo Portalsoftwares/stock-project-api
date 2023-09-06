@@ -31,9 +31,9 @@ return new class extends Migration
             $table->string('address');
             $table->string('place_of_birth')->nullable();
             $table->string('from_secondary_high_school')->nullable();
-            $table->dateTime('secondary_exam_date')->nullable();
+            $table->date('secondary_exam_date')->nullable();
             $table->string('secondary_exam_place')->nullable();
-            $table->integer('secondary_exam_room')->nullable();
+            $table->string('secondary_exam_room')->nullable();
             $table->integer('secondary_exam_desk')->nullable();
             $table->string('other')->nullable();
             $table->softDeletes();

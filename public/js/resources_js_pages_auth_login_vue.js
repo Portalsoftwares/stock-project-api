@@ -48,11 +48,12 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this2 = this;
       this.loading = true;
+      this.failed = false;
+      this.successfull = false;
       this.$store.dispatch("auth/LOGIN_SYSTEM", this.objData).then(function (reponse) {
         console.log(reponse);
-        if (reponse.status == '201' && localStorage.getItem('token') != null) {
+        if (reponse.status == '200' && localStorage.getItem('token') != null) {
           _this2.successfull = true;
-          // this.$router.push('/');
           var self = _this2;
           setTimeout(function () {
             self.$router.push('/');

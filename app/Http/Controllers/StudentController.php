@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classes;
+use App\Models\Gender;
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Models\StudentRole;
+use App\Models\StudentStatus;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -55,9 +58,16 @@ class StudentController extends Controller
                 "value" => $item["class_id"]
             ];
         });
+        $status = StudentStatus::all();
+        $role = StudentRole::all();
+        $gender = Gender::all();
+
         $response = [
             'data' => $data,
-            'class' => $class
+            'class' => $class,
+            'status' => $status,
+            'role' => $role,
+            'gender' => $gender,
         ];
         return  response($response, 200);
     }
@@ -91,7 +101,7 @@ class StudentController extends Controller
             $items->file_upload_id    = $request->file_upload_id;
             $items->phone     = $request->phone;
             $items->email     = $request->email;
-            $items->from_secondary_high_school     = $request->from_secondary_high_school;
+            $items->from_secondary_high_school  = $request->from_secondary_high_school;
             $items->secondary_exam_date     = $request->secondary_exam_date;
             $items->secondary_exam_place     = $request->secondary_exam_place;
             $items->secondary_exam_room     = $request->secondary_exam_room;

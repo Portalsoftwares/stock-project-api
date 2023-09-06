@@ -33,24 +33,22 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required',
             'password' => 'required',
         ]);
-        $user = User::where('email', $request->email)->with('img')->with('roles.permissions')->first();
+        $field = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $user = User::where($field, $request->email)->with('img')->with('roles.permissions')->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
                 'message' => ' Bad creds'
             ], 401);
         }
         $token = $user->createToken('devop')->plainTextToken;
-
-        // dd($user);
-
         $response = [
             'user' => $user,
             'token' => $token
         ];
-        return  response($response, 201);
+        return  response($response, 200);
     }
 
     public function logout(Request $request)
