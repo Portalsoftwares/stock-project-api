@@ -194,7 +194,6 @@ class SubjectController extends Controller
         $validator = Validator::make($request->all(), [
             'subject_id' => 'required',
             'grade_level_id' => 'required',
-            'subject_id' => 'required',
             'class_type_id' => 'required',
         ]);
 
@@ -232,7 +231,6 @@ class SubjectController extends Controller
     public function updateSubjectLevel(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'subject_grade_id' => 'required',
             'grade_level_id' => 'required',
             'subject_id' => 'required',
             'class_type_id' => 'required',

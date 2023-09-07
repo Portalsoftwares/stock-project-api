@@ -82,11 +82,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       sort_by: 'subject_id',
       order_by: 1
     }, _defineProperty(_ref, "search", ''), _defineProperty(_ref, "tSearch", null), _defineProperty(_ref, "is_show_trust", 0), _defineProperty(_ref, "ruleFormSubjectLevel", {
+      subject_grade_id: null,
       subject_id: null,
       grade_level_id: null,
       class_type_id: null,
       full_score: null,
-      devide: null,
+      divide: null,
       average: null
     }), _defineProperty(_ref, "rulesSubjectLevel", {
       subject_id: [{
@@ -104,13 +105,20 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         message: 'សូមជ្រើសរើសប្រភេទថ្នាក់',
         trigger: 'blur'
       }]
-    }), _defineProperty(_ref, "dialogFormVisibleSubjectLevel", false), _defineProperty(_ref, "isShowButtonUpdateSubjectLevel", false), _defineProperty(_ref, "pageSubjectLevel", 1), _defineProperty(_ref, "per_pageSubjectLevel", 10), _defineProperty(_ref, "sort_bySubjectLevel", 'subject_id'), _defineProperty(_ref, "order_bySubjectLevel", 1), _defineProperty(_ref, "searchSubjectLevel", ''), _defineProperty(_ref, "tSearchSubjectLevel", null), _defineProperty(_ref, "is_show_trustSubjectLevel", 0), _defineProperty(_ref, "subject", []), _defineProperty(_ref, "gradeLevel", []), _defineProperty(_ref, "classType", []), _ref;
+    }), _defineProperty(_ref, "dialogFormVisibleSubjectLevel", false), _defineProperty(_ref, "isShowButtonUpdateSubjectLevel", false), _defineProperty(_ref, "pageSubjectLevel", 1), _defineProperty(_ref, "per_pageSubjectLevel", 10), _defineProperty(_ref, "sort_bySubjectLevel", 'subject_id'), _defineProperty(_ref, "order_bySubjectLevel", 1), _defineProperty(_ref, "searchSubjectLevel", ''), _defineProperty(_ref, "tSearchSubjectLevel", null), _defineProperty(_ref, "is_show_trustSubjectLevel", 0), _defineProperty(_ref, "subject", []), _defineProperty(_ref, "gradeLevel", []), _defineProperty(_ref, "classType", []), _defineProperty(_ref, "tabClassDetail", 1), _ref;
   },
   mounted: function mounted() {
+    var _localStorage$getItem;
     this.getData();
     this.getDataSubjectLevel();
+    // Default active tap
+    this.tabClassDetail = (_localStorage$getItem = localStorage.getItem('tab-subject')) !== null && _localStorage$getItem !== void 0 ? _localStorage$getItem : 'tab-subject-1';
   },
   methods: {
+    //tap funtion
+    changeTap: function changeTap(name) {
+      localStorage.setItem('tab-subject', name);
+    },
     //Change Per Page
     changePageSize: function changePageSize(event) {
       this.per_page = event;
@@ -324,11 +332,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 _this9.ruleForm.subNameKh = response.data.data.subject_name_kh;
                 _this9.ruleForm.subNameEng = response.data.data.subject_name_en;
                 _this9.ruleForm.subShortNameEng = response.data.data.subject_sort_name_en;
-                //	this.ruleForm.roles = response.data.data.subNameKh
-                //	this.ruleForm.email = response.data.user.email
-                //	this.imageUrl = response.data.user.img?.file_path
-                //	this.ruleForm.photo_id = response.data.user.id
-                //	this.roles = response.data.roles
               })["catch"](function (error) {
                 if (error.response.status == 401) {
                   _this9.$store.commit("auth/CLEAR_TOKEN");
@@ -381,12 +384,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       }))();
     },
     AddSubjectLevel: function AddSubjectLevel() {
+      this.ruleFormSubjectLevel.subject_grade_id = null;
       this.ruleFormSubjectLevel.subject_id = null;
       this.ruleFormSubjectLevel.class_type_id = null;
       this.ruleFormSubjectLevel.grade_level_id = null;
       this.ruleFormSubjectLevel.average = null;
       this.ruleFormSubjectLevel.full_score = null;
-      this.ruleFormSubjectLevel.devide = null;
+      this.ruleFormSubjectLevel.divide = null;
       this.dialogFormVisibleSubjectLevel = true;
     },
     //Change Per Page
@@ -427,8 +431,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     cancelActionSubjectLevel: function cancelActionSubjectLevel() {
       this.resetFormSubjectLevel('ruleFormSubjectLevel');
-      this.dialogFormVisible = !this.dialogFormVisible;
-      this.imageUrl = null;
+      this.dialogFormVisibleSubjectLevel = !this.dialogFormVisibleSubjectLevel;
     },
     resetFormSubjectLevel: function resetFormSubjectLevel(formName) {
       if (this.$refs[formName]) {
@@ -446,21 +449,24 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           while (1) switch (_context9.prev = _context9.next) {
             case 0:
               form = new FormData(document.getElementById('fmSubjectLevel'));
+              form.append('subject_id', _this13.ruleFormSubjectLevel.subject_id);
+              form.append('grade_level_id', _this13.ruleFormSubjectLevel.grade_level_id);
+              form.append('class_type_id', _this13.ruleFormSubjectLevel.class_type_id);
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context9.next = 4;
+              _context9.next = 7;
               return axios.post('/subject-level/create', form, config).then(function (response) {
                 _this13.getDataSubjectLevel();
-                _this13.dialogFormVisible = false;
+                _this13.dialogFormVisibleSubjectLevel = false;
                 _this13.$message({
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
               });
-            case 4:
+            case 7:
             case "end":
               return _context9.stop();
           }
@@ -477,9 +483,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               _this14.isShowButtonUpdateSubjectLevel = true;
               _context10.next = 4;
               return axios.get('/subject-level/edit/' + id).then(function (response) {
-                _this14.ruleFormSubjectLevel.subject_id = response.data.data["this"].ruleFormSubjectLevel.subNameKh = null;
-                _this14.ruleFormSubjectLevel.subNameEng = null;
-                _this14.ruleFormSubjectLevel.subShortNameEng = null;
+                _this14.ruleFormSubjectLevel.subject_grade_id = response.data.data.subject_grade_id;
+                _this14.ruleFormSubjectLevel.subject_id = response.data.data.subject_id;
+                _this14.ruleFormSubjectLevel.class_type_id = response.data.data.class_type_id;
+                _this14.ruleFormSubjectLevel.grade_level_id = response.data.data.grade_level_id;
+                _this14.ruleFormSubjectLevel.average = response.data.data.average;
+                _this14.ruleFormSubjectLevel.full_score = response.data.data.full_score;
+                _this14.ruleFormSubjectLevel.divide = response.data.data.divide;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
                   _this14.$store.commit("auth/CLEAR_TOKEN");
@@ -503,21 +513,24 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           while (1) switch (_context11.prev = _context11.next) {
             case 0:
               form = new FormData(document.getElementById('fmSubjectLevel'));
+              form.append('subject_id', _this15.ruleFormSubjectLevel.subject_id);
+              form.append('grade_level_id', _this15.ruleFormSubjectLevel.grade_level_id);
+              form.append('class_type_id', _this15.ruleFormSubjectLevel.class_type_id);
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context11.next = 4;
-              return axios.post('/subject-level/update/' + _this15.ruleFormSubjectLevel.subject_id, form, config).then(function (response) {
+              _context11.next = 7;
+              return axios.post('/subject-level/update/' + _this15.ruleFormSubjectLevel.subject_grade_id, form, config).then(function (response) {
                 _this15.getDataSubjectLevel();
-                _this15.dialogFormVisible = false;
+                _this15.dialogFormVisibleSubjectLevel = false;
                 _this15.$message({
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
               });
-            case 4:
+            case 7:
             case "end":
               return _context11.stop();
           }
@@ -582,7 +595,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
@@ -744,11 +757,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_tabs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-tabs");
   var _directive_loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("loading");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_tabs, {
-    type: "border-card"
+    type: "border-card",
+    modelValue: $data.tabClassDetail,
+    "onUpdate:modelValue": _cache[28] || (_cache[28] = function ($event) {
+      return $data.tabClassDetail = $event;
+    }),
+    onTabChange: $options.changeTap
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tab_pane, {
-        label: "មុខវិជ្ជាទូទៅ"
+        label: "មុខវិជ្ជាទូទៅ",
+        name: "tab-subject-1"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
@@ -1114,7 +1133,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" មុខវិជ្ជាតាមកម្រិត ------------------------------------------------------------------ "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tab_pane, {
-        label: "មុខវិជ្ជាតាមកម្រិត"
+        label: "មុខវិជ្ជាតាមកម្រិត",
+        name: "tab-subject-2"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
@@ -1244,7 +1264,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 label: "មុខវិជ្ជា"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.subject), 1 /* TEXT */)];
+                  var _scope$row$subject;
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$subject = scope.row.subject) === null || _scope$row$subject === void 0 ? void 0 : _scope$row$subject.subject_name_kh), 1 /* TEXT */)];
                 }),
 
                 _: 1 /* STABLE */
@@ -1252,7 +1273,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 label: "កម្រិត"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row), 1 /* TEXT */)];
+                  var _scope$row$grade_leve;
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$grade_leve = scope.row.grade_level) === null || _scope$row$grade_leve === void 0 ? void 0 : _scope$row$grade_leve.grade_level_name), 1 /* TEXT */)];
                 }),
 
                 _: 1 /* STABLE */
@@ -1261,7 +1283,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 sortable: ""
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row), 1 /* TEXT */)];
+                  var _scope$row$class_type;
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$class_type = scope.row.class_type) === null || _scope$row$class_type === void 0 ? void 0 : _scope$row$class_type.name), 1 /* TEXT */)];
                 }),
 
                 _: 1 /* STABLE */
@@ -1299,7 +1322,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     size: "small",
                     "class": "sanfont-khmer",
                     onClick: function onClick($event) {
-                      return $options.restoreDataSubjectLevel(scope.row.subject_id);
+                      return $options.restoreDataSubjectLevel(scope.row.subject_grade_id);
                     }
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -1314,7 +1337,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "icon-color": "#626AEF",
                     title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
                     onConfirm: function onConfirm($event) {
-                      return $options.handleDeleteSubjectLevel(scope.row.subject_id);
+                      return $options.handleDeleteSubjectLevel(scope.row.subject_grade_id);
                     }
                   }, {
                     reference: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -1335,7 +1358,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     size: "small",
                     "class": "sanfont-khmer",
                     onClick: function onClick($event) {
-                      return $options.editSubjectLevel(scope.row.subject_id);
+                      return $options.editSubjectLevel(scope.row.subject_grade_id);
                     }
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -1350,7 +1373,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "icon-color": "#626AEF",
                     title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
                     onConfirm: function onConfirm($event) {
-                      return $options.handleDeleteSubjectLevel(scope.row.subject_id);
+                      return $options.handleDeleteSubjectLevel(scope.row.subject_grade_id);
                     }
                   }, {
                     reference: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -1407,7 +1430,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
                 onClick: _cache[24] || (_cache[24] = function ($event) {
-                  return $options.cancelAction();
+                  return $options.cancelActionSubjectLevel();
                 }),
                 "class": "sanfont-khmer",
                 type: "danger"
@@ -1463,8 +1486,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
                           return $data.ruleFormSubjectLevel.subject_id = $event;
                         }),
-                        placeholder: "ជ្រើសរើស",
-                        name: "subject_id"
+                        placeholder: "ជ្រើសរើស"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.subject, function (item) {
@@ -1492,8 +1514,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
                           return $data.ruleFormSubjectLevel.grade_level_id = $event;
                         }),
-                        placeholder: "ជ្រើសរើស",
-                        name: "grade_level_id"
+                        placeholder: "ជ្រើសរើស"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.gradeLevel, function (item) {
@@ -1521,8 +1542,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
                           return $data.ruleFormSubjectLevel.class_type_id = $event;
                         }),
-                        placeholder: "ជ្រើសរើស",
-                        name: "class_type_id"
+                        placeholder: "ជ្រើសរើស"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.classType, function (item) {
@@ -1559,15 +1579,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     _: 1 /* STABLE */
                   }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "មេគុណ",
-                    prop: "devide",
+                    prop: "divide",
                     "class": "sanfont-khmer",
                     "label-width": $data.formLabelWidth
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                        modelValue: $data.ruleFormSubjectLevel.devide,
+                        modelValue: $data.ruleFormSubjectLevel.divide,
                         "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
-                          return $data.ruleFormSubjectLevel.devide = $event;
+                          return $data.ruleFormSubjectLevel.divide = $event;
                         }),
                         autocomplete: "off",
                         type: "number",
@@ -1607,7 +1627,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" មុខវិជ្ជាតាមកម្រិត ------------------------------------------------------------------ ")];
     }),
     _: 1 /* STABLE */
-  });
+  }, 8 /* PROPS */, ["modelValue", "onTabChange"]);
 }
 
 /***/ }),
@@ -1717,7 +1737,7 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./index.vue?vue&type=template&id=659f27d4 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/subject/index.vue?vue&type=template&id=659f27d4");
 
