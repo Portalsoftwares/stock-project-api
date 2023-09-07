@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClassType;
+use App\Models\GradeLevel;
 use Illuminate\Http\Request;
 use App\Models\Subject;
 use App\Models\SubjectGradeLevel;
@@ -17,7 +19,6 @@ class SubjectController extends Controller
      */
     public function index(Request $request)
     {
-        $items =  Subject::query();
         $per_page = $request->per_page ?? 10;
         $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
         $sort_by = $request->sort_by ?: 'subject_name_kh';
@@ -25,21 +26,24 @@ class SubjectController extends Controller
             $per_page = DB::table('subjects')->count() > 0 ? DB::table('subjects')->count() : $per_page;
         }
 
-        // if (!empty($request->filter_profession)) {
-        //     $items->whereIn('profession', 'like', $request->filter_profession);
-        // }
-        // if (!empty($request->filter_teacher_level)) {
-        //     $items->whereIn('teacher_level', $request->filter_teacher_level);
-        // }
-
-        if (!empty($request->search)) {
-            $items->where('subject_name_kh', 'like', "%" . $request->search . "%");
-            $items->orWhere('subject_name_en', 'like', "%" . $request->search . "%");
-            $items->orWhere('subject_sort_name_en', 'like', "%" . $request->search . "%");
-        }
         if (!empty($request->is_show_trust)) {
-            $items->onlyTrashed();
+            $items =  Subject::onlyTrashed()->where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->where('subject_name_kh', 'like', "%" . $request->search . "%");
+                    $query->orWhere('subject_name_en', 'like', "%" . $request->search . "%");
+                    $query->orWhere('subject_sort_name_en', 'like', "%" . $request->search . "%");
+                }
+            });
+        } else {
+            $items =  Subject::where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->where('subject_name_kh', 'like', "%" . $request->search . "%");
+                    $query->orWhere('subject_name_en', 'like', "%" . $request->search . "%");
+                    $query->orWhere('subject_sort_name_en', 'like', "%" . $request->search . "%");
+                }
+            });
         }
+
         $data = $items
             ->orderBy($sort_by, $order_by)
             ->paginate($per_page);
@@ -114,11 +118,29 @@ class SubjectController extends Controller
     public function delete($id)
     {
         DB::transaction(function () use ($id) {
-            $items = Subject::find($id)->delete();
+            $items = Subject::find($id);
+            if (!empty($items)) {
+                $items->delete();
+            }
+            //Hard Delete
+            if (empty($items)) {
+                $items = Subject::onlyTrashed()->find($id);
+                if (!empty($items)) {
+                    $items->forceDelete();
+                }
+            }
         });
 
         $response = [
             'data' => 'Delete successfull',
+        ];
+        return  response($response, 200);
+    }
+    public function restore($id)
+    {
+        $items = Subject::withTrashed()->find($id)->restore();
+        $response = [
+            'data' => 'Restore successfull',
         ];
         return  response($response, 200);
     }
@@ -155,8 +177,14 @@ class SubjectController extends Controller
         $data = $items->with(['subject', 'grade_level', 'class_type'])
             ->orderBy($sort_by, $order_by)
             ->paginate($per_page);
+        $classType = ClassType::all();
+        $subject = Subject::all();
+        $gradeLevel = GradeLevel::all();
         $response = [
             'data' => $data,
+            'classType' => $classType,
+            'subject' => $subject,
+            'gradeLevel' => $gradeLevel,
         ];
         return  response($response, 200);
     }
@@ -164,7 +192,7 @@ class SubjectController extends Controller
     public function createSubjectLevel(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'subject_grade_id' => 'required',
+            'subject_id' => 'required',
             'grade_level_id' => 'required',
             'subject_id' => 'required',
             'class_type_id' => 'required',
@@ -230,15 +258,32 @@ class SubjectController extends Controller
         ];
         return  response($response, 200);
     }
-
     public function deleteSubjectLevel($id)
     {
         DB::transaction(function () use ($id) {
-            $items = SubjectGradeLevel::find($id)->delete();
+            $items = SubjectGradeLevel::find($id);
+            if (!empty($items)) {
+                $items->delete();
+            }
+            //Hard Delete
+            if (empty($items)) {
+                $items = SubjectGradeLevel::onlyTrashed()->find($id);
+                if (!empty($items)) {
+                    $items->forceDelete();
+                }
+            }
         });
 
         $response = [
             'data' => 'Delete successfull',
+        ];
+        return  response($response, 200);
+    }
+    public function restoreSubjectLevel($id)
+    {
+        $items = SubjectGradeLevel::withTrashed()->find($id)->restore();
+        $response = [
+            'data' => 'Restore successfull',
         ];
         return  response($response, 200);
     }

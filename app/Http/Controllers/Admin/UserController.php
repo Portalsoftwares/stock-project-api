@@ -11,8 +11,9 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
 use App\Models\Teacher;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -233,12 +234,17 @@ class UserController extends Controller
         return  response($response, 200);
     }
 
-    public function restore($id)
+    public function __restore($id)
     {
-        $items = User::withTrashed()->find($id)->restore();
-        $response = [
-            'data' => 'Restore successfull',
-        ];
-        return  response($response, 200);
+        // $items = User::withTrashed()->find($id)->restore();
+        // $response = [
+        //     'data' => 'Restore successfull',
+        // ];
+        // return  response($response, 200);
+    }
+
+    public function restore()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
 }

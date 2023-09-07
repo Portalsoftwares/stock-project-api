@@ -67,18 +67,18 @@ Route::prefix('v1')->group(function () {
       Route::get('/edit/{id}', [SubjectController::class, 'edit']);
       Route::post('/update/{id}', [SubjectController::class, 'update']);
       Route::delete('/delete/{id}', [SubjectController::class, 'delete']);
+      Route::post('/restore/{id}', [SubjectController::class, 'restore']);
     });
+    //Subject Grade Level 
     Route::prefix('subject-level')->group(function () {
       Route::get('/get', [SubjectController::class, 'getSubjectLevel']);
       Route::post('/create', [SubjectController::class, 'createSubjectLevel']);
       Route::get('/edit/{id}', [SubjectController::class, 'editSubjectLevel']);
       Route::post('/update/{id}', [SubjectController::class, 'updateSubjectLevel']);
       Route::delete('/delete/{id}', [SubjectController::class, 'deleteSubjectLevel']);
+      Route::post('/restore/{id}', [SubjectController::class, 'restoreSubjectLevel']);
     });
-    //Subject
-    Route::prefix('subject')->group(function () {
-      Route::get('/get', [SubjectController::class, 'index']);
-    });
+
     //Class
     Route::prefix('class')->group(function () {
       Route::get('/get', [ClassController::class, 'index']);

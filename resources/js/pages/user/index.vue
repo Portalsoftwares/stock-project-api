@@ -404,8 +404,9 @@
 	<!-- Dialog user  -->
 </template>
 <script>
+import FileSaver from 'file-saver'
 export default {
-	// components: { Delete, Edit, Search, Share, Upload },
+	components: { FileSaver },
 	data() {
 		return {
 			tableData: [],
@@ -692,16 +693,27 @@ export default {
 				}
 			})
 		},
-		async restoreData(id) {
-			await axios.post('/user/restore/' + id).then(response => {
-				this.getData();
-				this.dialogFormVisible = false;
-				this.$message({
-					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
-					type: 'success'
-				});
-			})
-		},
+		// async restoreData(id) {
+		// 	await axios.post('/user/restore/' + id).then(response => {
+		// 		this.getData();
+		// 		this.dialogFormVisible = false;
+		// 		this.$message({
+		// 			message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+		// 			type: 'success'
+		// 		});
+		// 	})
+		// },
+		async restoreData() {
+			axios.post('/user/restore/1', {
+				file_name: 'User'
+			}, {
+				responseType: 'blob'
+			}).then((response) => {
+				// response.data is a blob type
+				FileSaver.saveAs(response.data, 'user');
+			});
+		}
+
 	}
 }
 </script>
