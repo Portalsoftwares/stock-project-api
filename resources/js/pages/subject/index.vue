@@ -135,6 +135,7 @@
 								fixed="right"
 								align="center"
 								label="សកម្មភាព"
+								width="230"
 							>
 								<template #default="scope">
 									<div v-if="is_show_trust==1 &&!loading">
@@ -325,10 +326,9 @@
 						<el-input
 							placeholder="ស្វែងរក"
 							class="sanfont-khmer"
-							v-model="search"
+							v-model="searchSubjectLevel"
+							@input="clickSearchSubjectLevel"
 						>
-							<i class="el-input__icon el-icon-search"></i>
-							<CirclePlusFilled class="el-input__icon" />
 						</el-input>
 					</div>
 					<div class="self-start  ">
@@ -372,6 +372,16 @@
 					</el-button>
 				</div>
 				<div class="self-end">
+					<el-switch
+						v-model="is_show_trustSubjectLevel"
+						@change="clickShowwTrushSubjectLevel"
+						class="px-2"
+						width="40"
+						active-text="បង្ហាញទិន្នន័យបានលុប"
+						inactive-text=""
+						active-value="1"
+						inactive-value="0"
+					/>
 					<el-button type="info">
 						<el-icon>
 							<Document />
@@ -465,9 +475,10 @@
 								fixed="right"
 								align="center"
 								label="សកម្មភាព"
+								width="230"
 							>
 								<template #default="scope">
-									<div v-if="is_show_trust==1 &&!loading">
+									<div v-if="is_show_trustSubjectLevel==1 &&!loading">
 										<el-button
 											size="small"
 											class="sanfont-khmer"
@@ -492,7 +503,7 @@
 											</template>
 										</el-popconfirm>
 									</div>
-									<div v-if="is_show_trust==0&&!loading">
+									<div v-if="is_show_trustSubjectLevel==0&&!loading">
 										<el-button
 											size="small"
 											class="sanfont-khmer"
@@ -524,13 +535,13 @@
 						<div class="py-2 flex justify-center">
 							<el-pagination
 								background
-								v-model:current-page="pageSubjectLevl"
-								v-model:page-size="per_pageSubjectLevl"
+								v-model:current-page="pageSubjectLevel"
+								v-model:page-size="per_pageSubjectLevel"
 								:page-count="tableDataSubjectLevel.last_page"
 								layout="total, prev, pager, next, sizes"
 								:total="tableDataSubjectLevel.total"
-								@current-change="changePageSubjectLevl"
-								@size-change="changePageSizeSubjectLevl"
+								@current-change="changePageSubjectLevel"
+								@size-change="changePageSizeSubjectLevel"
 							>
 							</el-pagination>
 						</div>
@@ -830,15 +841,24 @@ export default {
 		}
 	},
 	mounted() {
-		this.getData();
-		this.getDataSubjectLevel();
+
 		// Default active tap
 		this.tabClassDetail = localStorage.getItem('tab-subject') ?? 'tab-subject-1';
+		if (this.tabClassDetail == 'tab-subject-1') {
+			this.getData();
+		} else {
+			this.getDataSubjectLevel();
+		}
 	},
 	methods: {
 		//tap funtion
 		changeTap(name) {
 			localStorage.setItem('tab-subject', name);
+			if (name == 'tab-subject-1') {
+				this.getData();
+			} else {
+				this.getDataSubjectLevel();
+			}
 		},
 
 		//Change Per Page
@@ -1002,7 +1022,7 @@ export default {
 		async getDataSubjectLevel() {
 			this.loading = true
 
-			await axios.get(`/subject-level/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`).then(response => {
+			await axios.get(`/subject-level/get?page=${this.pageSubjectLevel}&per_page=${this.per_pageSubjectLevel}&sort_by=${this.sort_bySubjectLevel}&order_by=${this.order_bySubjectLevel}&search=${this.searchSubjectLevel}&is_show_trust=${this.is_show_trustSubjectLevel}`).then(response => {
 				this.tableDataSubjectLevel = response.data.data
 				this.subject = response.data.subject
 				this.gradeLevel = response.data.gradeLevel
@@ -1027,7 +1047,7 @@ export default {
 		},
 		//Change Per Page
 		changePageSizeSubjectLevel(event) {
-			this.per_page = event;
+			this.per_pageSubjectLevel = event;
 			this.getDataSubjectLevel();
 
 		},
@@ -1039,10 +1059,10 @@ export default {
 
 		// ស្វែងរក ទិន្នន័យ
 		clickSearchSubjectLevel() {
-			clearTimeout(this.tSearch);
-			this.tSearch = setTimeout(() => {
-				if (this.search != null) {
-					if (this.search.replace(/\s/g, '') !== '') {
+			clearTimeout(this.tSearchSubjectLevel);
+			this.tSearchSubjectLevel = setTimeout(() => {
+				if (this.searchSubjectLevel != null) {
+					if (this.searchSubjectLevel.replace(/\s/g, '') !== '') {
 					}
 					this.getDataSubjectLevel();
 				}

@@ -82,9 +82,10 @@ class ClassController extends Controller
             return  response($response, 400);
         }
 
-        DB::transaction(function () use ($validator) {
+        DB::transaction(function () use ($validator, $request) {
             $class = new Classes();
             $class->fill($validator->validated());
+            $class->other = $request->other;
             $class->save();
             if (!empty($class)) {
                 $schedule = Schedule::create([
@@ -122,9 +123,10 @@ class ClassController extends Controller
             ];
             return  response($response, 400);
         }
-        DB::transaction(function () use ($validator, $id) {
+        DB::transaction(function () use ($validator, $request, $id) {
             $items = Classes::find($id);
             $items->fill($validator->validated());
+            $items->other = $request->other;
             $items->save();
         });
 

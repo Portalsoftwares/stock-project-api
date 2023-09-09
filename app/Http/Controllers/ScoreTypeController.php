@@ -56,7 +56,7 @@ class ScoreTypeController extends Controller
         DB::transaction(function () use ($validator, $request) {
             $items = new ScoreType();
             $items->fill($validator->validated());
-            $items->date = $request->date;
+            $items->date = $request->date ?? '0000-00-00';
             $items->save();
         });
 

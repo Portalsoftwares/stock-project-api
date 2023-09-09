@@ -608,7 +608,7 @@ var _hoisted_1 = {
   "class": "w-full"
 };
 var _hoisted_2 = {
-  "class": "flex flex-col justify-between h-[100vh] w-full bg-blue-900"
+  "class": "flex flex-col justify-between h-[100vh] w-full bg-white-900"
 };
 var _hoisted_3 = {
   "class": "menu-man text-left whitespace-nowrap flex flex-col space-y-2"
