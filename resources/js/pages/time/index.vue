@@ -6,29 +6,23 @@
 					placeholder="ស្វែងរក"
 					class="sanfont-khmer"
 					v-model="search"
+					@input="clickSearch"
 				>
-					<i class="el-input__icon el-icon-search"></i>
-					<CirclePlusFilled class="el-input__icon" />
 				</el-input>
 			</div>
-			<!-- <div class="self-start  ">
-				<el-select
-					v-model="filterSelectValue"
-					filterable
-					placeholder="តម្រៀប"
-				>
-					<el-option
-						v-for="item in filter"
-						:key="item.filterValue"
-						:label="item.filterLabel"
-						:value="item.filterValue"
-					>
-					</el-option>
-				</el-select>
-			</div> -->
 		</div>
 
 		<div class="self-end">
+			<el-switch
+				v-model="is_show_trust"
+				@change="clickShowwTrush"
+				class="px-2"
+				width="40"
+				active-text="បង្ហាញទិន្នន័យបានលុប"
+				inactive-text=""
+				active-value="1"
+				inactive-value="0"
+			/>
 			<el-button type="info">
 				<el-icon>
 					<Document />
@@ -38,7 +32,7 @@
 			</el-button>
 			<el-button
 				type="primary"
-				@click="AddUser"
+				@click="AddTime"
 			>
 				<el-icon>
 					<CirclePlusFilled />
@@ -51,7 +45,7 @@
 		<div class=" border rounded bg-gray-50">
 			<div class="flex flex-col  ">
 				<el-table
-					:data="tableData"
+					:data="tableData.data"
 					height="750"
 					style="width: 100%"
 					resizable="true"
@@ -101,17 +95,56 @@
 						label="សកម្មភាព"
 					>
 						<template #default="scope">
-							<el-button
-								size="small"
-								class="sanfont-khmer"
-								@click="editUser(scope.row.id)"
-							>កែប្រែ</el-button>
-							<el-button
-								size="small"
-								type="danger"
-								class="sanfont-khmer"
-								@click="handleDelete(scope.$index, scope.row)"
-							>លុប</el-button>
+							<div v-if="is_show_trust==1 &&!loading">
+								<el-button
+									size="small"
+									class="sanfont-khmer"
+									@click="restoreData(scope.row.time_id)"
+								>ស្ដារឡើងវិញ</el-button>
+								<el-popconfirm
+									width="220"
+									confirm-button-text="យល់ព្រម"
+									cancel-button-text="ទេ"
+									:icon="InfoFilled"
+									icon-color="#626AEF"
+									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									@confirm="handleDelete(scope.row.time_id)"
+								>
+									<template #reference>
+										<el-button
+											size="small"
+											type="danger"
+											class="sanfont-khmer"
+										>លុបជាអចិន្ត្រៃយ៍
+										</el-button>
+									</template>
+								</el-popconfirm>
+							</div>
+							<div v-if="is_show_trust==0&&!loading">
+								<el-button
+									size="small"
+									class="sanfont-khmer"
+									@click="editTime(scope.row.time_id)"
+								>កែប្រែ</el-button>
+								<el-popconfirm
+									width="220"
+									confirm-button-text="យល់ព្រម"
+									cancel-button-text="ទេ"
+									:icon="InfoFilled"
+									icon-color="#626AEF"
+									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									@confirm="handleDelete(scope.row.time_id)"
+								>
+									<template #reference>
+										<el-button
+											size="small"
+											type="danger"
+											class="sanfont-khmer"
+										>លុប
+										</el-button>
+									</template>
+								</el-popconfirm>
+							</div>
 						</template>
 					</el-table-column>
 					<el-empty description="description"></el-empty>
@@ -119,8 +152,13 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
+						v-model:current-page="page"
+						v-model:page-size="per_page"
+						:page-count="tableData.last_page"
 						layout="total, prev, pager, next, sizes"
-						:total="tableData.length"
+						:total="tableData.total"
+						@current-change="changePage"
+						@size-change="changePageSize"
 					>
 					</el-pagination>
 				</div>
@@ -142,7 +180,6 @@
 			</div>
 		</template>
 		<el-form
-			class=""
 			:model="ruleForm"
 			:rules="rules"
 			ref="ruleForm"
@@ -156,14 +193,13 @@
 
 							<el-form-item
 								label="ឈ្មោះ"
-								prop="firstNameKh"
+								prop="name"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
 								<el-input
-									v-model="ruleForm.firstNameKh"
-									name="firstNameKh1"
-									style="width: 220px;"
+									v-model="ruleForm.name"
+									name="name"
 									clearable
 								></el-input>
 							</el-form-item>
@@ -171,22 +207,46 @@
 						<div>
 							<el-form-item
 								label="ម៉ោងចាប់ផ្ដើម"
-								prop="LastNameKh"
+								prop="start_date"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
-								<el-time-picker v-model="value1" />
+								<input
+									type="hidden"
+									:value="ruleForm.start_date"
+									name="start_date"
+								>
+								<el-time-select
+									v-model="ruleForm.start_date"
+									start="00:00"
+									step="00:10"
+									end="23:59"
+									placeholder="Select time"
+									format="hh:mm A"
+								/>
 
 							</el-form-item>
 						</div>
 						<div>
 							<el-form-item
 								label="ម៉ោងបញ្ចប់"
-								prop="firstNameEng"
+								prop="end_date"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
-								<el-time-picker v-model="value1" />
+								<input
+									type="hidden"
+									:value="ruleForm.end_date"
+									name="end_date"
+								>
+								<el-time-select
+									v-model="ruleForm.end_date"
+									start="00:00"
+									step="00:10"
+									end="23:59"
+									placeholder="Select time"
+									format="hh:mm A"
+								/>
 							</el-form-item>
 						</div>
 					</div>
@@ -195,13 +255,6 @@
 			</div>
 
 		</el-form>
-		<el-dialog v-model="dialogVisible">
-			<img
-				w-full
-				:src="dialogImageUrl"
-				alt="Preview Image"
-			/>
-		</el-dialog>
 		<template #footer>
 			<span class="dialog-footer">
 				<el-button
@@ -251,102 +304,65 @@ export default {
 			isShowButtonUpdate: false,
 
 			ruleForm: {
+				time_id: null,
 				name: null,
-				roles: null,
-				password: null,
-				email: null,
-				photo_id: null,
-				userId: null,
-				dobValue: null,
-				teachDate: null,
-
+				start_date: '',
+				end_date: '',
 			},
 			rules: {
 				name: [
-					{ required: true, message: 'Please input Activity name', trigger: 'blur' },
-					{ min: 3, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
+					{ required: true, message: 'សូមបញ្ជូលឈ្មោះ', trigger: 'blur' },
 				],
-				roles: [
-					{ required: true, message: 'Please select role', trigger: 'blur' }
+				start_date: [
+					{ required: true, message: 'សូមបញ្ជូលម៉ោងចាប់ផ្ដើម', trigger: 'blur' }
 				],
-				email: [
-					{ required: true, message: 'Please input email address', trigger: 'blur' },
-					{ type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
+				end_date: [
+					{ required: true, message: 'សូមបញ្ជូលម៉ោងបញ្ចប់', trigger: 'blur' }
 				],
-				password: [
-					{ required: true, message: 'Please set password', trigger: 'blur' },
-					{ min: 8, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
-				],
-				photo_id: [
-					{ required: true, message: 'Please add photo', trigger: 'change' }
-				],
+
 			},
-			search: '',
-			filter: [{
-				filterValue: 'តាមឈ្មោះ',
-				filterLabel: 'តាមឈ្មោះ'
-			}, {
-				filterValue: 'តាមលេខរៀង',
-				filterLabel: 'តាមលេខរៀង'
-			}, {
-				filterValue: 'តាមកាលបរិច្ឆេត',
-				filterLabel: 'តាមកាលបរិច្ឆេត'
-			}, {
-				filterValue: 'តាមទំហំផ្ទុក',
-				filterLabel: 'តាមទំហំផ្ទុក'
-			}],
-			filterSelectValue: "",
 
-			teacher_level: [{
-				teacher_level_value: 'មទភ',
-				teacher_level_Label: 'មទភ'
-			}, {
-				teacher_level_value: 'មបភ',
-				teacher_level_Label: 'មបភ'
-			}],
-			teacher_level_Value: "",
-
-			status: [{
-				statusValue: 'កំពុងសិក្សា',
-				statusLabel: 'កំពុងសិក្សា'
-			}, {
-				statusValue: 'បញ្ឈប់ការសិក្សា',
-				statusLabel: 'បញ្ឈប់ការសិក្សា'
-			}],
-			statusValue: '',
-
-			gender: [{
-				genderValue: 'ប្រុស',
-				genderLabel: 'ប្រុស'
-			}, {
-				genderValue: 'ស្រី',
-				genderLabel: 'ស្រី'
-			}],
-			generValue: '',
 			loading: false,
+			//Data Page filter
+			page: 1,
+			per_page: 20,
+			sort_by: 'time_id',
+			order_by: 1,
+			search: '',
+			tSearch: null,
+			is_show_trust: 0,
+			//Data Page filter
 		}
 	},
 	mounted() {
-		this.getData()
+		// this.getData()
 	},
 	methods: {
-		handleAvatarSuccess(file) {
-			if (file) {
-				this.ruleForm.profile_img = file
-				this.imageUrl = URL.createObjectURL(file.raw);
-				this.submitUplaod()
-			}
+		//Change Per Page
+		changePageSize(event) {
+			this.per_page = event;
+			this.getData();
+
 		},
-		beforeAvatarUpload(file) {
-			const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
-			const isLt2M = file.size / 1024 / 1024 < 2;
-			if (!isJPG) {
-				this.$message.error('Avatar picture must be JPG format!');
-			}
-			if (!isLt2M) {
-				this.$message.error('Avatar picture size can not exceed 2MB!');
-			}
-			return isJPG && isLt2M;
+		//Chnage Page 
+		changePage(event) {
+			this.page = event;
+			this.getData();
+		},
+
+		// ស្វែងរក ទិន្នន័យ
+		clickSearch() {
+			clearTimeout(this.tSearch);
+			this.tSearch = setTimeout(() => {
+				if (this.search != null) {
+					if (this.search.replace(/\s/g, '') !== '') {
+					}
+					this.getData();
+				}
+			}, 1000);
+		},
+		clickShowwTrush() {
+			this.getData();
 		},
 		submitForm(formName) {
 			this.$refs[formName].validate((valid) => {
@@ -362,7 +378,6 @@ export default {
 		cancelAction() {
 			this.resetForm('ruleForm');
 			this.dialogFormVisible = !this.dialogFormVisible;
-			this.imageUrl = null
 
 		},
 		resetForm(formName) {
@@ -371,36 +386,18 @@ export default {
 			}
 		},
 		/*
-		*  Function upload image 
-		*/
-		async submitUplaod() {
-			const form = new FormData(document.getElementById('fm'));
-
-			const config = {
-				headers: { 'content-type': 'multipart/form-data' }
-			}
-			await axios.post('/files/create/upload', form, config).then(response => {
-				this.ruleForm.photo_id = response.data.file.id
-				this.$message({
-					message: 'Congrats, this is a success message.',
-					type: 'success'
-				});
-			})
-		},
-		/*
 		*  Function create new user  
 		*/
 		async submitData() {
 			const form = new FormData(document.getElementById('fm'));
-			form.append('role', this.ruleForm.roles)
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/user/store', form, config).then(response => {
+			await axios.post('/time/create', form, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -411,51 +408,29 @@ export default {
 		async updateData() {
 
 			const form = new FormData(document.getElementById('fm'));
-			form.append('role', this.ruleForm.roles)
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/user/' + this.ruleForm.userId + '/update', form, config).then(response => {
+			await axios.post('/time/update/' + this.ruleForm.time_id, form, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
 		},
-		handlePictureCardPreview(UploadFile) {
-			this.dialogImageUrl = UploadFile.url
-			this.dialogVisible = true
-		},
-		handleRemove(UploadFile) {
-			console.log(UploadFile)
-		},
-
-		async AddUser() {
-			// this.cancelAction()
-			// this.resetForm('ruleForm');
-			this.ruleForm.name = ''
-			this.ruleForm.userId = ''
-			this.ruleForm.roles = ''
-			this.ruleForm.email = ''
-			this.imageUrl = ''
-			this.ruleForm.photo_id = ''
-			this.roles = null
-
+		async AddTime() {
+			this.ruleForm.name = null
+			this.ruleForm.start_date = ''
+			this.ruleForm.end_date = ''
+			this.ruleForm.time_id = null
 			this.dialogFormVisible = true
 			this.isShowButtonUpdate = false;
-			this.isShowPassword = true;
-
-			await axios.get('/user/create').then(response => {
-				this.roles = response.data.roles
-			}).catch((error) => {
-				console.log(error)
-			})
 		},
 		async getData() {
 			this.loading = true
-			await axios.get('/time/get').then(response => {
+			await axios.get(`/time/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`).then(response => {
 				this.tableData = response.data.data
 				this.loading = false
 			}).catch((error) => {
@@ -464,35 +439,47 @@ export default {
 				}
 			})
 		},
-		async editUser(id) {
+		async editTime(id) {
 			this.dialogFormVisible = true;
-			//this.isShowButtonUpdate = true;
-			//this.isShowPassword = false;
-			//await axios.get('/user/' + id + '/edit').then(response => {
-			//this.ruleForm.name = response.data.user.name
-			//this.ruleForm.userId = response.data.user.id
-			//this.ruleForm.roles = response.data.user_has_roles
-			//this.ruleForm.email = response.data.user.email
-			//this.imageUrl = response.data.user.img?.file_path
-			//this.ruleForm.photo_id = response.data.user.id
-			//this.roles = response.data.roles
-			//this.dialogFormVisible = true;
-			//}).catch((error) => {
-			//if (error.response.status == 401) {
-			//this.$store.commit("auth/CLEAR_TOKEN")
-			//}
-			//})
-		},
-		notification() {
-			this.showSuccess = !this.showSuccess
-			ElNotification.success({
-				title: 'Success',
-				message: 'This is a success message',
-				offset: 100,
+			this.isShowButtonUpdate = true;
+			await axios.get('/time/edit/' + id).then(response => {
+				this.ruleForm.time_id = response.data.data.time_id
+				this.ruleForm.name = response.data.data.name
+				this.ruleForm.start_date = response.data.data.start_date
+				this.ruleForm.end_date = response.data.data.end_date
+
+				this.dialogFormVisible = true;
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
 			})
-			ElMessage({
-				message: 'Congrats, this is a success message.',
-				type: 'success',
+		},
+		async handleDelete(id) {
+
+			await axios.delete('/time/delete/' + id).then(response => {
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+				this.getData();
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		async restoreData(id) {
+			await axios.post('/time/restore/' + id).then(response => {
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+				this.getData();
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
 			})
 		}
 	}
@@ -526,12 +513,7 @@ export default {
 .el-button--text {
 	margin-right: 15px;
 }
-.el-select {
-	width: 300px;
-}
-.el-input {
-	width: 300px;
-}
+
 .dialog-footer button:first-child {
 	margin-right: 10px;
 }

@@ -25,14 +25,20 @@ class TimeController extends Controller
         if ($per_page == -1) {
             $per_page = DB::table('time')->count() > 0 ? DB::table('time')->count() : $per_page;
         }
-        if (!empty($request->search)) {
-            // $items->where('subject_name_kh', 'like', "%" . $request->search . "%");
-            // $items->orWhere('subject_name_en', 'like', "%" . $request->search . "%");
-            // $items->orWhere('subject_sort_name_en', 'like', "%" . $request->search . "%");
-        }
         if (!empty($request->is_show_trust)) {
-            $items->onlyTrashed();
+            $items =  Time::onlyTrashed()->where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->where('name', 'like', "%" . $request->search . "%");
+                }
+            });
+        } else {
+            $items =  Time::where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->where('name', 'like', "%" . $request->search . "%");
+                }
+            });
         }
+
         $data = $items
             ->orderBy($sort_by, $order_by)
             ->paginate($per_page);

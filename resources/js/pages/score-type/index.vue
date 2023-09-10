@@ -184,7 +184,6 @@
 				<div class="flex flex-row ">
 					<div class="flex flex-col space-y-1">
 						<div>
-
 							<el-form-item
 								label="ឈ្មោះ"
 								prop="name"
@@ -210,12 +209,9 @@
 									v-model="ruleForm.date"
 									name="date"
 								/>
-
 							</el-form-item>
 						</div>
-
 					</div>
-
 				</div>
 			</div>
 
@@ -294,7 +290,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.getData()
+		// this.getData()
 	},
 	methods: {
 		//Change Per Page
@@ -416,10 +412,21 @@ export default {
 		},
 		async handleDelete(id) {
 			await axios.delete('/score-type/delete/' + id).then(response => {
+				this.getData();
+
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
+			})
+		},
+		async restoreData(id) {
+			await axios.post('/score-type/restore/' + id).then(response => {
+				this.getData();
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
 			})
 		},
 	}

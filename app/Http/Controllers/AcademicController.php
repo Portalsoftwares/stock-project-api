@@ -24,13 +24,18 @@ class AcademicController extends Controller
         if ($per_page == -1) {
             $per_page = DB::table('academic')->count() > 0 ? DB::table('academic')->count() : $per_page;
         }
-        if (!empty($request->search)) {
-            // $items->where('subject_name_kh', 'like', "%" . $request->search . "%");
-            // $items->orWhere('subject_name_en', 'like', "%" . $request->search . "%");
-            // $items->orWhere('subject_sort_name_en', 'like', "%" . $request->search . "%");
-        }
         if (!empty($request->is_show_trust)) {
-            $items->onlyTrashed();
+            $items =  Academic::onlyTrashed()->where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->where('academic_name', 'like', "%" . $request->search . "%");
+                }
+            });
+        } else {
+            $items =  Academic::where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->where('academic_name', 'like', "%" . $request->search . "%");
+                }
+            });
         }
         $data = $items
             ->orderBy($sort_by, $order_by)
