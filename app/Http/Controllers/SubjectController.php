@@ -15,11 +15,36 @@ class SubjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $subject =  Subject::all();
+        $items =  Subject::query();
+        $per_page = $request->per_page ?? 10;
+        $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
+        $sort_by = $request->sort_by ?: 'subject_name_kh';
+        if ($per_page == -1) {
+            $per_page = DB::table('subjects')->count() > 0 ? DB::table('subjects')->count() : $per_page;
+        }
+
+        // if (!empty($request->filter_profession)) {
+        //     $items->whereIn('profession', 'like', $request->filter_profession);
+        // }
+        // if (!empty($request->filter_teacher_level)) {
+        //     $items->whereIn('teacher_level', $request->filter_teacher_level);
+        // }
+
+        if (!empty($request->search)) {
+            $items->where('subject_name_kh', 'like', "%" . $request->search . "%");
+            $items->orWhere('subject_name_en', 'like', "%" . $request->search . "%");
+            $items->orWhere('subject_sort_name_en', 'like', "%" . $request->search . "%");
+        }
+        if (!empty($request->is_show_trust)) {
+            $items->onlyTrashed();
+        }
+        $data = $items
+            ->orderBy($sort_by, $order_by)
+            ->paginate($per_page);
         $response = [
-            'data' => $subject,
+            'data' => $data,
         ];
         return  response($response, 200);
     }
@@ -102,11 +127,36 @@ class SubjectController extends Controller
 
     // Subject Grade Level  
 
-    public function getSubjectLevel()
+    public function getSubjectLevel(Request $request)
     {
-        $subjectLevel =  SubjectGradeLevel::with(['subject', 'grade_level', 'class_type'])->get();
+        $items =  SubjectGradeLevel::query();
+        $per_page = $request->per_page ?? 10;
+        $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
+        $sort_by = $request->sort_by ?: 'subject_grade_id';
+        if ($per_page == -1) {
+            $per_page = DB::table('subjects_grade_level')->count() > 0 ? DB::table('subjects_grade_level')->count() : $per_page;
+        }
+
+        // if (!empty($request->filter_profession)) {
+        //     $items->whereIn('profession', 'like', $request->filter_profession);
+        // }
+        // if (!empty($request->filter_teacher_level)) {
+        //     $items->whereIn('teacher_level', $request->filter_teacher_level);
+        // }
+
+        if (!empty($request->search)) {
+            // $items->where('subject_name_kh', 'like', "%" . $request->search . "%");
+            // $items->orWhere('subject_name_en', 'like', "%" . $request->search . "%");
+            // $items->orWhere('subject_sort_name_en', 'like', "%" . $request->search . "%");
+        }
+        if (!empty($request->is_show_trust)) {
+            $items->onlyTrashed();
+        }
+        $data = $items->with(['subject', 'grade_level', 'class_type'])
+            ->orderBy($sort_by, $order_by)
+            ->paginate($per_page);
         $response = [
-            'data' => $subjectLevel,
+            'data' => $data,
         ];
         return  response($response, 200);
     }

@@ -29,6 +29,16 @@
 		</div>
 
 		<div class="self-end">
+			<el-switch
+				v-model="is_show_trust"
+				@change="clickShowwTrush"
+				class="px-2"
+				width="40"
+				active-text="បង្ហាញទិន្នន័យបានលុប"
+				inactive-text=""
+				active-value="1"
+				inactive-value="0"
+			/>
 			<el-button type="info">
 				<el-icon>
 					<Document />
@@ -51,7 +61,7 @@
 		<div class=" border rounded bg-gray-50">
 			<div class="flex flex-col  ">
 				<el-table
-					:data="tableData"
+					:data="tableData.data"
 					height="750"
 					style="width: 100%"
 					resizable="true"
@@ -93,17 +103,57 @@
 						label="សកម្មភាព"
 					>
 						<template #default="scope">
+							<div v-if="is_show_trust==1 &&!loading">
+								<el-button
+									size="small"
+									class="sanfont-khmer"
+									@click="restoreData(scope.row.teacher_id)"
+								>ស្ដារឡើងវិញ</el-button>
+								<el-popconfirm
+									width="220"
+									confirm-button-text="យល់ព្រម"
+									cancel-button-text="ទេ"
+									:icon="InfoFilled"
+									icon-color="#626AEF"
+									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									@confirm="handleDelete(scope.row.teacher_id)"
+								>
+									<template #reference>
+										<el-button
+											size="small"
+											type="danger"
+											class="sanfont-khmer"
+										>លុបជាអចិន្ត្រៃយ៍
+										</el-button>
+									</template>
+								</el-popconfirm>
+							</div>
+
+							<div v-if="is_show_trust==0&&!loading">
 							<el-button
 								size="small"
 								class="sanfont-khmer"
-								@click="editUser(scope.row.id)"
+								@click="editScoreType(scope.row.score_type_id)"
 							>កែប្រែ</el-button>
+							<el-popconfirm
+								width="220"
+								confirm-button-text="យល់ព្រម"
+								cancel-button-text="ទេ"
+								:icon="InfoFilled"
+								icon-color="#626AEF"
+								title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+								@confirm="handleDelete(scope.row.score_type_id)"
+							>	
+							<template #reference>
 							<el-button
 								size="small"
 								type="danger"
 								class="sanfont-khmer"
-								@click="handleDelete(scope.$index, scope.row)"
+								
 							>លុប</el-button>
+							</template>
+						</el-popconfirm>
+							</div>
 						</template>
 					</el-table-column>
 					<el-empty description="description"></el-empty>
@@ -112,7 +162,7 @@
 					<el-pagination
 						background
 						layout="total, prev, pager, next, sizes"
-						:total="tableData.length"
+						:total="tableData.total"
 					>
 					</el-pagination>
 				</div>
@@ -148,26 +198,29 @@
 
 							<el-form-item
 								label="ឈ្មោះ"
-								prop="firstNameKh"
+								prop="name"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
 								<el-input
-									v-model="ruleForm.firstNameKh"
-									name="firstNameKh1"
+									v-model="ruleForm.name"
+									name="name"
 									style="width: 220px;"
 									clearable
+								
 								></el-input>
 							</el-form-item>
 						</div>
 						<div>
 							<el-form-item
 								label="កាលបរិច្ជេទ"
-								prop="LastNameKh"
+								prop="date"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
 							>
-								<el-date-picker v-model="value1" />
+								<el-date-picker
+											 v-model="ruleForm.date"
+											 name="date" />
 
 							</el-form-item>
 						</div>
@@ -232,16 +285,13 @@ export default {
 			imageUrl: '',
 			isShowPassword: true,
 			isShowButtonUpdate: false,
+			
 
 			ruleForm: {
 				name: null,
-				roles: null,
-				password: null,
-				email: null,
-				photo_id: null,
-				userId: null,
-				dobValue: null,
-				teachDate: null,
+				date: null,
+				scoreType_id: null,
+
 
 			},
 			rules: {
@@ -252,17 +302,7 @@ export default {
 				roles: [
 					{ required: true, message: 'Please select role', trigger: 'blur' }
 				],
-				email: [
-					{ required: true, message: 'Please input email address', trigger: 'blur' },
-					{ type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
-				],
-				password: [
-					{ required: true, message: 'Please set password', trigger: 'blur' },
-					{ min: 8, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
-				],
-				photo_id: [
-					{ required: true, message: 'Please add photo', trigger: 'change' }
-				],
+				
 			},
 			search: '',
 			filter: [{
@@ -307,6 +347,11 @@ export default {
 			}],
 			generValue: '',
 			loading: false,
+
+			//Data Page filter
+			is_show_trust: 0
+			//Data Page filter
+
 		}
 	},
 	mounted() {
@@ -375,11 +420,11 @@ export default {
 		*/
 		async submitData() {
 			const form = new FormData(document.getElementById('fm'));
-			form.append('role', this.ruleForm.roles)
+			//form.append('role', this.ruleForm.roles)
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/user/store', form, config).then(response => {
+			await axios.post('/score-type/create', form, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
@@ -389,16 +434,16 @@ export default {
 			})
 		},
 		/*
-	*  Function update new user  
+	*  Function update new scoretype
 	*/
 		async updateData() {
 
 			const form = new FormData(document.getElementById('fm'));
-			form.append('role', this.ruleForm.roles)
+			//form.append('role', this.ruleForm.roles)
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/user/' + this.ruleForm.userId + '/update', form, config).then(response => {
+			await axios.post('/score-type'  + '/update/'+ this.ruleForm.scoreType_id, form, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
@@ -407,6 +452,23 @@ export default {
 				});
 			})
 		},
+
+		clickShowwTrush() {
+			this.getData();
+			console.log(this.is_show_trust)
+		},
+
+		async handleDelete(id) {
+			await axios.delete('/score-type' + '/delete/' + id).then(response => {
+				this.getData();
+				this.dialogFormVisible = false;
+				this.$message({
+					message: 'Congrats, this is a success message.',
+					type: 'success'
+				});
+			})
+		},
+
 		handlePictureCardPreview(UploadFile) {
 			this.dialogImageUrl = UploadFile.url
 			this.dialogVisible = true
@@ -447,24 +509,24 @@ export default {
 				}
 			})
 		},
-		async editUser(id) {
+		async editScoreType(id) {
 			this.dialogFormVisible = true;
-			//this.isShowButtonUpdate = true;
-			//this.isShowPassword = false;
-			//await axios.get('/user/' + id + '/edit').then(response => {
-			//this.ruleForm.name = response.data.user.name
-			//this.ruleForm.userId = response.data.user.id
-			//this.ruleForm.roles = response.data.user_has_roles
+			this.isShowButtonUpdate = true;
+			this.isShowPassword = false;
+			await axios.get('/score-type' + '/edit/'+ id ).then(response => {
+			this.ruleForm.scoreType_id = response.data.data.score_type_id
+			this.ruleForm.name = response.data.data.name
+			this.ruleForm.date = response.data.data.date
 			//this.ruleForm.email = response.data.user.email
 			//this.imageUrl = response.data.user.img?.file_path
 			//this.ruleForm.photo_id = response.data.user.id
 			//this.roles = response.data.roles
 			//this.dialogFormVisible = true;
-			//}).catch((error) => {
-			//if (error.response.status == 401) {
-			//this.$store.commit("auth/CLEAR_TOKEN")
-			//}
-			//})
+			}).catch((error) => {
+			if (error.response.status == 401) {
+			this.$store.commit("auth/CLEAR_TOKEN")
+			}
+			})
 		},
 		notification() {
 			this.showSuccess = !this.showSuccess

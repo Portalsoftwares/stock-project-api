@@ -282,7 +282,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
               };
               _context3.next = 4;
-              return axios.post('/subject/create', form, config).then(function (response) {
+              return axios.post('/subject-level/create', form, config).then(function (response) {
                 _this4.getData();
                 _this4.dialogFormVisible = false;
                 _this4.$message({
@@ -425,8 +425,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _this9.loading = true;
               _context8.next = 3;
-              return axios.get('/subject/get_subject_level').then(function (response) {
+              return axios.get('/subject-level/get').then(function (response) {
                 _this9.tableDataSubjectLevel = response.data.data;
+                console.log(_this9.tableDataSubjectLevel);
                 _this9.loading = false;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
@@ -639,6 +640,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-button");
   var _component_el_alert = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-alert");
   var _component_el_table_column = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-table-column");
+  var _component_el_popconfirm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-popconfirm");
   var _component_el_empty = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-empty");
   var _component_el_table = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-table");
   var _component_el_pagination = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-pagination");
@@ -724,7 +726,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             type: "info",
             "show-icon": ""
           })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
-            data: $data.tableData,
+            data: $data.tableData.data,
             height: "690",
             style: {
               "width": "100%"
@@ -744,12 +746,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 type: "index",
                 width: "90",
                 label: "ល.រ"
-              }, {
-                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.subject_id), 1 /* TEXT */)];
-                }),
-
-                _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
                 label: "មុខវិជ្ជា",
                 sortable: ""
@@ -794,19 +790,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("កែប្រែ")];
                     }),
                     _: 2 /* DYNAMIC */
-                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-                    size: "small",
-                    type: "danger",
-                    "class": "sanfont-khmer",
-                    onClick: function onClick($event) {
+                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
+                    width: "220",
+                    "confirm-button-text": "OK",
+                    "cancel-button-text": "No, Thanks",
+                    icon: _ctx.InfoFilled,
+                    "icon-color": "#626AEF",
+                    title: "Are you sure to delete this?",
+                    onConfirm: function onConfirm($event) {
                       return $options.handleDelete(scope.row.subject_id);
                     }
                   }, {
-                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុប")];
+                    reference: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+                        size: "small",
+                        type: "danger",
+                        "class": "sanfont-khmer"
+                      }, {
+                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុប")];
+                        }),
+                        _: 1 /* STABLE */
+                      })];
                     }),
+
                     _: 2 /* DYNAMIC */
-                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])];
+                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_empty, {
@@ -817,7 +826,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
             background: "",
             layout: "total, prev, pager, next, sizes",
-            total: $data.tableData.length
+            total: $data.tableData.total
           }, null, 8 /* PROPS */, ["total"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
             modelValue: $data.dialogFormVisible,
             "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
@@ -1060,7 +1069,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             type: "info",
             "show-icon": ""
           })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
-            data: $data.tableDataSubjectLevel,
+            data: $data.tableDataSubjectLevel.data,
             height: "690",
             style: {
               "width": "100%"
@@ -1169,7 +1178,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
             background: "",
             layout: "prev, pager, next, sizes",
-            total: $data.tableDataSubjectLevel.length
+            total: $data.tableDataSubjectLevel.total
           }, null, 8 /* PROPS */, ["total"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
             modelValue: $data.dialogFormVisible,
             "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {

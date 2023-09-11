@@ -72,7 +72,7 @@
 							/>
 						</div>
 						<el-table
-							:data="tableData"
+							:data="tableData.data"
 							height="690"
 							style="width: 100%"
 							resizable="true"
@@ -93,7 +93,7 @@
 								width="90"
 								label="ល.រ"
 							>
-								<template #default="scope">{{scope.row.subject_id }}</template>
+						
 							</el-table-column>
 
 							<el-table-column
@@ -126,12 +126,25 @@
 										class="sanfont-khmer"
 										@click="editSubject(scope.row.subject_id)"
 									>កែប្រែ</el-button>
+
+								<el-popconfirm
+										width="220"
+										confirm-button-text="OK"
+										cancel-button-text="No, Thanks"
+										:icon="InfoFilled"
+										icon-color="#626AEF"
+										title="Are you sure to delete this?"
+										@confirm="handleDelete(scope.row.subject_id)"
+							>
+								<template #reference>
 									<el-button
 										size="small"
 										type="danger"
 										class="sanfont-khmer"
-										@click="handleDelete(scope.row.subject_id)"
+										
 									>លុប</el-button>
+								</template>
+								</el-popconfirm>
 								</template>
 							</el-table-column>
 							<el-empty description="description"></el-empty>
@@ -140,7 +153,7 @@
 							<el-pagination
 								background
 								layout="total, prev, pager, next, sizes"
-								:total="tableData.length"
+								:total="tableData.total"
 							>
 							</el-pagination>
 						</div>
@@ -352,7 +365,7 @@
 							/>
 						</div>
 						<el-table
-							:data="tableDataSubjectLevel"
+							:data="tableDataSubjectLevel.data"
 							height="690"
 							style="width: 100%"
 							resizable="true"
@@ -374,7 +387,7 @@
 								label="ល.រ"
 							>
 							</el-table-column>
-
+								
 							<el-table-column label="មុខវិជ្ជា">
 								<template #default="scope">{{ scope.row.subject.subject_name_kh }}</template>
 							</el-table-column>
@@ -422,7 +435,7 @@
 							<el-pagination
 								background
 								layout="prev, pager, next, sizes"
-								:total="tableDataSubjectLevel.length"
+								:total="tableDataSubjectLevel.total"
 							>
 							</el-pagination>
 						</div>
@@ -664,6 +677,7 @@ export default {
 					{ required: true, message: 'សូមបញ្ជូលឈ្មោះមុខវិជ្ជា (អក្សរកាត់)', trigger: 'blur' },
 					{ min: 1, max: 2, message: 'ចំនួនតួអក្សរត្រូវបញ្ជូលយ៉ាងតិចឲ្យបាន២តួ', trigger: 'blur' }
 				],
+				
 		/*		subLevelNameKh: [
 					{ required: true, message: 'សូមជ្រើសរើសឈ្មោះមុខវិជ្ជា', trigger: 'blur' },
 				],
@@ -682,6 +696,7 @@ export default {
 					{ required: true, message: 'Please add photo', trigger: 'change' }
 				],
 			},
+			
 			search: '',
 
 			filter: [{
@@ -709,7 +724,7 @@ export default {
 			{
 				subLevelNameKhValue: '3',
 				subLevelNameKhLabel: 'រូបវិទ្យា'
-			},	
+			},
 			{
 				subLevelNameKhValue: '4',
 				subLevelNameKhLabel: 'គីមីវិទ្យា'
@@ -725,8 +740,8 @@ export default {
 				subLevelNameKhValue: '7',
 				subLevelNameKhLabel: 'ប្រវត្តិវិទ្យា'
 			},
-				
-				],
+
+			],
 
 			gradeLevel: [{
 				gradeLevelValue: '10',
@@ -822,7 +837,7 @@ export default {
 		*/
 		async submitData() {
 			const form = new FormData(document.getElementById('fm'));
-		//	form.append('role', this.ruleForm.roles)
+			//	form.append('role', this.ruleForm.roles)
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
@@ -845,7 +860,7 @@ export default {
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/subject/create', form, config).then(response => {
+			await axios.post('/subject-level/create', form, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
@@ -865,7 +880,7 @@ export default {
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/subject' + '/update/'+ this.ruleForm.subject_id, form, config).then(response => {
+			await axios.post('/subject' + '/update/' + this.ruleForm.subject_id, form, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
@@ -932,8 +947,9 @@ export default {
 		async getDataSubjectLevel() {
 			this.loading = true
 
-			await axios.get('/subject/get_subject_level').then(response => {
+			await axios.get('/subject-level/get').then(response => {
 				this.tableDataSubjectLevel = response.data.data
+				console.log(this.tableDataSubjectLevel)
 				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {
@@ -945,22 +961,22 @@ export default {
 			this.dialogFormVisible = true;
 			this.isShowButtonUpdate = true;
 			this.isShowPassword = false;
-			await axios.get('/subject' + '/edit/'+ id).then(response => {
+			await axios.get('/subject' + '/edit/' + id).then(response => {
 				console.log(response.data + "123")
-			this.ruleForm.subject_id = response.data.data.subject_id
-			this.ruleForm.subNameKh = response.data.data.subject_name_kh
-			this.ruleForm.subNameEng = response.data.data.subject_name_en
-			this.ruleForm.subShortNameEng = response.data.data.subject_sort_name_en
-		//	this.ruleForm.roles = response.data.data.subNameKh
-		//	this.ruleForm.email = response.data.user.email
-		//	this.imageUrl = response.data.user.img?.file_path
-		//	this.ruleForm.photo_id = response.data.user.id
-		//	this.roles = response.data.roles
+				this.ruleForm.subject_id = response.data.data.subject_id
+				this.ruleForm.subNameKh = response.data.data.subject_name_kh
+				this.ruleForm.subNameEng = response.data.data.subject_name_en
+				this.ruleForm.subShortNameEng = response.data.data.subject_sort_name_en
+				//	this.ruleForm.roles = response.data.data.subNameKh
+				//	this.ruleForm.email = response.data.user.email
+				//	this.imageUrl = response.data.user.img?.file_path
+				//	this.ruleForm.photo_id = response.data.user.id
+				//	this.roles = response.data.roles
 
 			}).catch((error) => {
 				if (error.response.status == 401) {
-			this.$store.commit("auth/CLEAR_TOKEN")
-			}
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
 			})
 		},
 		notification() {
