@@ -51,7 +51,7 @@
 							<div class="py-2">
 								<el-table
 									v-loading="loading_schedule"
-									:data="tableData"
+									:data="dataSchedule"
 									resizable="false"
 									header-cell-class-name="sanfont-khmer text-md"
 									row-class-name="sanfont-khmer"
@@ -59,9 +59,10 @@
 									stripe
 									border
 								>
+
 									<el-table-column
 										label="ម៉ោង"
-										min-width="150px"
+										width="160px"
 										fixed
 										align="center"
 									>
@@ -81,36 +82,32 @@
 										:key="day"
 										:prop="day"
 										:label="day.day_name_kh"
-										width="110px"
 									>
 										<template #default="scope">
-											<div
-												v-for="data in scope.row.get_schedule"
-												:key="data"
-											>
-												<div v-if="data.day_id ==day.day_id">
-													<div
-														v-if="day.day_id== activeDay"
-														class="flex items-center space-x-2 "
+											<div>
+
+												<div>
+													<el-select
+														v-model="scope.row['subject_grade_day_'+day.day_id]"
+														class="small-input"
+														disabled
+														filterable
+														remote
+														reserve-keyword
 													>
-														<span class="relative flex h-3 w-3">
-															<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-300 opacity-75"></span>
-															<span class="relative inline-flex rounded-full h-3 w-3 bg-blue-400"></span>
-														</span>
-														<el-link
-															@click="callAttenance(data.day_id, data.time_id,data.subject.subject_id)"
-															type="primary"
-														>{{ data.subject.subject.subject_name_kh }}</el-link>
-													</div>
-													<div v-else>
-														{{ data.subject.subject.subject_name_kh }}
-													</div>
+														<el-option
+															v-for="data in teacherData"
+															:key="data"
+															:label="data.teacher_subject_in_class.subject.subject_name_kh"
+															:value="data.teacher_subject_in_class.subject.subject_id"
+														></el-option>
+
+													</el-select>
 												</div>
 											</div>
 										</template>
 									</el-table-column>
 								</el-table>
-
 							</div>
 						</div>
 						<div class="">
@@ -486,6 +483,7 @@
 						:key="day"
 						:prop="day"
 						:label="day.day_name_kh"
+						width="180px"
 					>
 						<template #default="scope">
 							<div>
@@ -501,6 +499,7 @@
 									></el-option>
 
 								</el-select>
+
 							</div>
 						</template>
 					</el-table-column>
@@ -754,7 +753,8 @@ export default {
 		}
 	},
 	mounted() {
-		this.getScheduleData();
+		// this.getScheduleData();
+		this.getScheduleData()
 		this.getTeacher()
 		this.getTimeDayData()
 		this.activeDay = new Date().getDay();
@@ -781,7 +781,25 @@ export default {
 			this.ruleFormTeacher.class_id = this.classData.class_id
 		},
 		async addNewSchedule() {
-			this.dialogFormSchedule = true;
+
+			this.ruleFormSchedule.class_id = this.classData.class_id
+			this.loading_schedule = true;
+			const class_id = this.$route.query.id;
+			await axios.get('/schedule_class/' + class_id + '/edit').then(response => {
+				this.dataSchedule = response.data.data
+				setTimeout(() => {
+					this.loading_schedule = false;
+					this.dialogFormSchedule = true;
+				}, 1000)
+			}).catch((error) => {
+				this.loading_schedule = false;
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+
+		async getScheduleData() {
 			this.ruleFormSchedule.class_id = this.classData.class_id
 			this.loading_schedule = true;
 			const class_id = this.$route.query.id;
@@ -899,21 +917,6 @@ export default {
 				this.loading_student = false;
 			}).catch((error) => {
 				this.loading_student = false;
-				if (error.response.status == 401) {
-					this.$store.commit("auth/CLEAR_TOKEN")
-				}
-			})
-		},
-		async getScheduleData() {
-			this.loading_schedule = true;
-			const class_id = this.$route.query.id;
-			await axios.get('/schedule_class/' + class_id + '/get').then(response => {
-				this.tableData = response.data.data
-				// setTimeout(() => {
-				this.loading_schedule = false;
-				// }, 1000)
-			}).catch((error) => {
-				this.loading_schedule = false;
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
