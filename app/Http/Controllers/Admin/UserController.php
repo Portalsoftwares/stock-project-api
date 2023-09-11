@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
-use App\Models\UploadFile;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Teacher;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -21,14 +22,40 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $items =  User::query();
+        $per_page = $request->per_page ?? 10;
+        $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
+        $sort_by = $request->sort_by ?: 'id';
+        if ($per_page == -1) {
+            $per_page = DB::table('users')->count() > 0 ? DB::table('users')->count() : $per_page;
+        }
+        if (!empty($request->is_show_trust)) {
+            $items =  User::onlyTrashed()->where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->orWhere('name', 'like', "%" . $request->search . "%");
+                    $query->orWhere('email', 'like', "%" . $request->search . "%");
+                    $query->orWhere('phone', 'like', "%" . $request->search . "%");
+                }
+            });
+        } else {
+            $items =  User::where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->orWhere('name', 'like', "%" . $request->search . "%");
+                    $query->orWhere('email', 'like', "%" . $request->search . "%");
+                    $query->orWhere('phone', 'like', "%" . $request->search . "%");
+                }
+            });
+        }
+        $data = $items->with('roles', 'img')
+            ->orderBy($sort_by, $order_by)
+            ->paginate($per_page);
+
         $response = [
-            'users' => User::with(array('roles' => function ($query) {
-                $query->get();
-            }))->with('img')->get()
+            'data' => $data,
         ];
-        return  response($response, 201);
+        return  response($response, 200);
     }
 
     /**
@@ -39,9 +66,10 @@ class UserController extends Controller
     public function create()
     {
         $response = [
-            'roles' => Role::all()
+            'roles' => Role::all(),
+            'teachers' => Teacher::all()
         ];
-        return  response($response, 201);
+        return  response($response, 200);
     }
 
     /**
@@ -70,7 +98,9 @@ class UserController extends Controller
 
         $user = User::create([
             'name' => $request->name,
+            'phone' => $request->phone,
             'email' => $request->email,
+            'teacher_id' => $request->teacher_id ?? null,
             'file_upload_id' => $request->photo_id,
             'password' => Hash::make($request->password),
         ]);
@@ -78,6 +108,10 @@ class UserController extends Controller
 
         foreach ($rolesArray as $row) {
             $user->assignRole($row);
+        }
+        $teacher = Teacher::find($request->teacher_id);
+        if (!empty($teacher)) {
+            $teacher->update(['is_enable_account' => 1]);
         }
 
         $response = [
@@ -115,11 +149,12 @@ class UserController extends Controller
             ];
             return  response($response, 404);
         }
-        $roles = Role::all();
         $response = [
             'user' => $user,
             'user_has_roles' => $user->roles->pluck("name"),
-            'roles' => $roles
+            'roles' => Role::all(),
+            'teachers' => Teacher::all()
+
         ];
         return  response($response, 201);
     }
@@ -143,8 +178,14 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'teacher_id' => $request->teacher_id ?? null,
             'file_upload_id' => $request->photo_id,
         ]);
+
+        $teacher = Teacher::find($request->teacher_id);
+        if (!empty($teacher)) {
+            $teacher->update(['is_enable_account' => 1]);
+        }
         // Delete all user roles
         DB::table('model_has_roles')->where('model_id', $request->id)->delete();
         $rolesArray =   explode(',', $request->role);
@@ -165,14 +206,45 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        $user = User::where('id', $id)->first();
-
-        if (is_null($user) and $id  == Auth::user()->id) {
+        if ($id  == Auth::user()->id) {
             abort(404);
         }
 
-        $user->delete();
+        DB::transaction(function () use ($id) {
+            //Delete soft
+            $items = User::find($id);
+            if (!empty($items)) {
+                $items->delete();
+            }
+            //Hard Delete
+            if (empty($items)) {
+                $items = User::onlyTrashed()->find($id);
+                if (!empty($items)) {
+                    $items->forceDelete();
+                }
+                abort(404);
+            }
+        });
+
+        $response = [
+            'data' => 'Delete successfull',
+        ];
+        return  response($response, 200);
+    }
+
+    public function __restore($id)
+    {
+        // $items = User::withTrashed()->find($id)->restore();
+        // $response = [
+        //     'data' => 'Restore successfull',
+        // ];
+        // return  response($response, 200);
+    }
+
+    public function restore()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
 }

@@ -6,6 +6,7 @@
 					placeholder="ស្វែងរក"
 					class="sanfont-khmer"
 					v-model="search"
+					@input="clickSearch"
 				>
 				</el-input>
 			</div>
@@ -26,7 +27,16 @@
 			</div>
 		</div>
 		<div class="self-end">
-
+			<el-switch
+				v-model="is_show_trust"
+				@change="clickShowwTrush"
+				class="px-2"
+				width="40"
+				active-text="បង្ហាញទិន្នន័យបានលុប"
+				inactive-text=""
+				active-value="1"
+				inactive-value="0"
+			/>
 			<el-button type="info">
 				<el-icon>
 					<Document />
@@ -51,7 +61,7 @@
 		<div class=" border rounded bg-gray-50">
 			<div class="flex flex-col  ">
 				<el-table
-					:data="tableData"
+					:data="tableData.data"
 					height="750"
 					style="width: 100%"
 					resizable="true"
@@ -100,11 +110,10 @@
 						width="300"
 					/>
 
-					<el-table-column label="លេខទូរស័ព្ទ">
-						<template #default="scope">
-							<div>011 999222</div>
-
-						</template>
+					<el-table-column
+						label="លេខទូរស័ព្ទ"
+						property="phone"
+					>
 					</el-table-column>
 
 					<el-table-column
@@ -133,25 +142,78 @@
 						label="សកម្មភាព"
 					>
 						<template #default="scope">
-							<el-button
-								size="small"
-								class="sanfont-khmer"
-								@click="editUser(scope.row.id)"
-							>កែប្រែ</el-button>
-							<el-button
-								size="small"
-								type="danger"
-								class="sanfont-khmer"
-								@click="handleDelete(scope.$index, scope.row)"
-							>លុប</el-button>
+
+							<div v-if="scope.row.is_system!=1">
+								<div v-if="is_show_trust==1 &&!loading">
+									<el-button
+										size="small"
+										class="sanfont-khmer"
+										@click="restoreData(scope.row.id)"
+									>ស្ដារឡើងវិញ</el-button>
+									<el-popconfirm
+										width="220"
+										confirm-button-text="យល់ព្រម"
+										cancel-button-text="ទេ"
+										:icon="InfoFilled"
+										icon-color="#626AEF"
+										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+										@confirm="handleDelete(scope.row.id)"
+									>
+										<template #reference>
+											<el-button
+												size="small"
+												type="danger"
+												class="sanfont-khmer"
+											>លុបជាអចិន្ត្រៃយ៍
+											</el-button>
+										</template>
+									</el-popconfirm>
+								</div>
+								<div v-if="is_show_trust==0&&!loading">
+									<el-button
+										size="small"
+										class="sanfont-khmer"
+										@click="editUser(scope.row.id)"
+									>កែប្រែ</el-button>
+									<el-popconfirm
+										width="220"
+										confirm-button-text="យល់ព្រម"
+										cancel-button-text="ទេ"
+										:icon="InfoFilled"
+										icon-color="#626AEF"
+										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+										@confirm="handleDelete(scope.row.id)"
+									>
+										<template #reference>
+											<el-button
+												size="small"
+												type="danger"
+												class="sanfont-khmer"
+											>លុប
+											</el-button>
+										</template>
+									</el-popconfirm>
+								</div>
+							</div>
+							<div v-if="scope.row.is_system==1">
+								<el-icon :size="20">
+									<Lock />
+								</el-icon>
+							</div>
+
 						</template>
 					</el-table-column>
 				</el-table>
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
+						v-model:current-page="page"
+						v-model:page-size="per_page"
+						:page-count="tableData.last_page"
 						layout="total, prev, pager, next, sizes"
-						:total="tableData.length"
+						:total="tableData.total"
+						@current-change="changePage"
+						@size-change="changePageSize"
 					>
 					</el-pagination>
 				</div>
@@ -179,6 +241,26 @@
 			id="fm"
 		>
 			<div>
+				<el-form-item
+					label="គណនីនៃគ្រូបង្រៀន"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-select
+						v-model="ruleForm.teacher_id"
+						placeholder="ជ្រើសរើស"
+						class="text-left"
+						@change="selectTeacher"
+						filterable
+					>
+						<el-option
+							v-for="data in teachers"
+							:key="data.teacher_id"
+							:label="data.full_name_kh"
+							:value="data.teacher_id"
+						/>
+					</el-select>
+				</el-form-item>
 				<el-form-item
 					label="ឈ្មោះ"
 					prop="name"
@@ -263,7 +345,7 @@
 						class="avatar-uploader"
 						action="#"
 						name="file"
-						:show-file-list="true"
+						:show-file-list="false"
 						:auto-upload="false"
 						:on-change="handleAvatarSuccess"
 						:before-upload="beforeAvatarUpload"
@@ -285,6 +367,7 @@
 					>
 				</div>
 			</el-form-item>
+
 		</el-form>
 		<el-dialog v-model="dialogVisible">
 			<img
@@ -321,8 +404,9 @@
 	<!-- Dialog user  -->
 </template>
 <script>
+import FileSaver from 'file-saver'
 export default {
-	// components: { Delete, Edit, Search, Share, Upload },
+	components: { FileSaver },
 	data() {
 		return {
 			tableData: [],
@@ -330,6 +414,7 @@ export default {
 			showInfo: false,
 			dialogFormVisible: false,
 			roles: null,
+			teachers: [],
 			name: "",
 			formLabelWidth: "150px",
 			dialogImageUrl: "",
@@ -342,49 +427,48 @@ export default {
 
 			ruleForm: {
 				name: null,
+				phone: null,
 				roles: null,
 				password: null,
 				email: null,
+				teacher_id: null,
 				photo_id: null,
 				userId: null
 			},
 			rules: {
 				name: [
-					{ required: true, message: 'Please input Activity name', trigger: 'blur' },
-					{ min: 3, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
+					{ required: true, message: 'សូមបញ្ចូលឈ្មោះ', trigger: 'blur' },
+					{ min: 3, max: 15, message: 'ចាប់ពី ៣តួ ទៅ ១៥តួអក្សរ', trigger: 'blur' }
 				],
 				roles: [
-					{ required: true, message: 'Please select role', trigger: 'change' }
+					{ required: true, message: 'សូមបញ្ចូលតួនាទី', trigger: 'change' }
 				],
 				email: [
-					{ required: true, message: 'Please input email address', trigger: 'blur' },
-					{ type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
+					{ required: true, message: 'សូមបញ្ចូលសារអេឡិចត្រូនិច', trigger: 'blur' },
+					{ type: 'email', message: 'ប្រភេទសារអេឡិចត្រូនិច', trigger: ['blur', 'change'] }
 				],
 				password: [
-					{ required: true, message: 'Please set password', trigger: 'blur' },
-					{ min: 8, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
+					{ required: true, message: 'សូមបញ្ចូលដាក់ពាក្សសម្ងាត់', trigger: 'blur' },
+					{ min: 8, max: 15, message: 'ចាប់ពី ៣តួ ទៅ ១៥តួអក្សរ', trigger: 'blur' }
 				],
 				photo_id: [
-					{ required: true, message: 'Please add photo', trigger: 'change' }
+					{ required: true, message: 'សូមដាក់រូបភាព', trigger: 'change' }
 				],
 			},
-			search: '',
-
-			filter: [{
-				filterValue: 'តាមឈ្មោះ',
-				filterLabel: 'តាមឈ្មោះ'
-			}, {
-				filterValue: 'តាមលេខរៀង',
-				filterLabel: 'តាមលេខរៀង'
-			}, {
-				filterValue: 'តាមកាលបរិច្ឆេត',
-				filterLabel: 'តាមកាលបរិច្ឆេត'
-			}, {
-				filterValue: 'តាមទំហំផ្ទុក',
-				filterLabel: 'តាមទំហំផ្ទុក'
-			}],
 			filterSelectValue: "",
-			loading: false
+			loading: false,
+
+			//Data Page filter
+			page: 1,
+			per_page: 10,
+			sort_by: 'id',
+			order_by: 1,
+			filter_profession: [],
+			filter_teacher_level: 1,
+			search: '',
+			tSearch: null,
+			is_show_trust: 0
+			//Data Page filter
 
 		}
 	},
@@ -392,6 +476,37 @@ export default {
 		this.getData()
 	},
 	methods: {
+		selectTeacher(event) {
+			// this.ruleForm.teacher_id = event.teacher_id.toString()
+			// this.ruleForm.name = event.last_name_en
+		},
+		//Change Per Page
+		changePageSize(event) {
+			this.per_page = event;
+			this.getData();
+
+		},
+		//Chnage Page 
+		changePage(event) {
+			this.page = event;
+			this.getData();
+		},
+
+		// ស្វែងរក ទិន្នន័យ
+		clickSearch() {
+			clearTimeout(this.tSearch);
+			this.tSearch = setTimeout(() => {
+				if (this.search != null) {
+					if (this.search.replace(/\s/g, '') !== '') {
+					}
+					this.getData();
+				}
+			}, 1000);
+		},
+		clickShowwTrush() {
+			this.getData();
+			console.log(this.is_show_trust)
+		},
 		handleAvatarSuccess(file) {
 			if (file) {
 				this.ruleForm.profile_img = file
@@ -443,7 +558,7 @@ export default {
 			await axios.post('/files/create/upload', form, config).then(response => {
 				this.ruleForm.photo_id = response.data.file.id
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -454,6 +569,7 @@ export default {
 		async submitData() {
 			const form = new FormData(document.getElementById('fm'));
 			form.append('role', this.ruleForm.roles)
+			form.append('teacher_id', this.ruleForm.teacher_id)
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
@@ -461,7 +577,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -472,14 +588,16 @@ export default {
 		async updateData() {
 			const form = new FormData(document.getElementById('fm'));
 			form.append('role', this.ruleForm.roles)
+			form.append('teacher_id', this.ruleForm.teacher_id)
+
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/user/' + this.ruleForm.userId + '/update', form, config).then(response => {
+			await axios.post('/user/update/' + this.ruleForm.userId, form, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -496,11 +614,13 @@ export default {
 			// this.cancelAction()
 			// this.resetForm('ruleForm');
 			this.ruleForm.name = ''
+			this.ruleForm.phone = ''
 			this.ruleForm.userId = ''
 			this.ruleForm.roles = null
 			this.ruleForm.email = ''
 			this.imageUrl = ''
 			this.ruleForm.photo_id = ''
+			this.ruleForm.teacher_id = ''
 			this.roles = null
 
 			this.dialogFormVisible = true
@@ -509,14 +629,15 @@ export default {
 
 			await axios.get('/user/create').then(response => {
 				this.roles = response.data.roles
+				this.teachers = response.data.teachers
 			}).catch((error) => {
 				console.log(error)
 			})
 		},
 		async getData() {
 			this.loading = true
-			await axios.get('/user/get').then(response => {
-				this.tableData = response.data.users
+			await axios.get(`/user/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`).then(response => {
+				this.tableData = response.data.data
 				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {
@@ -527,14 +648,18 @@ export default {
 		async editUser(id) {
 			this.isShowButtonUpdate = true;
 			this.isShowPassword = false;
-			await axios.get('/user/' + id + '/edit').then(response => {
+			await axios.get('/user/edit/' + id).then(response => {
 				this.ruleForm.name = response.data.user.name
+				this.ruleForm.phone = response.data.user.phone
 				this.ruleForm.userId = response.data.user.id
 				this.ruleForm.roles = response.data.user_has_roles
 				this.ruleForm.email = response.data.user.email
+				this.ruleForm.teacher_id = response.data.user.teacher_id
 				this.imageUrl = response.data.user.img?.file_path
-				this.ruleForm.photo_id = response.data.photo_id
+				this.ruleForm.photo_id = response.data.user.img?.file_upload_id
 				this.roles = response.data.roles
+				this.teachers = response.data.teachers
+
 				this.dialogFormVisible = true;
 			}).catch((error) => {
 				if (error.response.status == 401) {
@@ -550,10 +675,45 @@ export default {
 				offset: 100,
 			})
 			ElMessage({
-				message: 'Congrats, this is a success message.',
+				message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 				type: 'success',
 			})
+		},
+
+		async handleDelete(id) {
+			const config = {
+				headers: { 'content-type': 'application/json' }
+			}
+			await axios.delete('/user/delete/' + id, config).then(response => {
+				this.getData()
+
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		// async restoreData(id) {
+		// 	await axios.post('/user/restore/' + id).then(response => {
+		// 		this.getData();
+		// 		this.dialogFormVisible = false;
+		// 		this.$message({
+		// 			message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+		// 			type: 'success'
+		// 		});
+		// 	})
+		// },
+		async restoreData() {
+			axios.post('/user/restore/1', {
+				file_name: 'User'
+			}, {
+				responseType: 'blob'
+			}).then((response) => {
+				// response.data is a blob type
+				FileSaver.saveAs(response.data, 'user');
+			});
 		}
+
 	}
 }
 </script>

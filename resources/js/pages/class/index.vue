@@ -1,74 +1,92 @@
 <template>
 	<div class="bg-white p-2 flex justify-between border rounded-t">
-		<div class="flex space-x-2">
-			<div class="self-start ">
-				<el-input
-					placeholder="ស្វែងរក"
-					class="sanfont-khmer"
-					v-model="search"
-				>
-					<i class="el-input__icon el-icon-search"></i>
-					<CirclePlusFilled class="el-input__icon" />
-				</el-input>
-			</div>
-			<div class="self-start  ">
-				<el-select
-					v-model="filterSelectValue "
-					filterable
-					clearable
-					multiple
-					placeholder="កម្រិត"
-				>
-					<el-option
-						v-for="item in filter"
-						:key="item.filterValue"
-						:label="item.filterLabel"
-						:value="item.filterValue"
+		<div class="flex space-y-2  flex-col">
+			<div class="flex space-x-2">
+				<div class="self-start ">
+					<el-input
+						placeholder="ស្វែងរក"
+						class="sanfont-khmer"
+						v-model="search"
 					>
-					</el-option>
-				</el-select>
-			</div>
-			<div class="self-start  ">
-				<el-select
-					v-model="filterSelectValue "
-					filterable
-					clearable
-					multiple
-					placeholder="ប្រភេទថ្នាក់"
-				>
-					<el-option
-						v-for="item in classType"
-						:key="item.id"
-						:label="item.name"
-						:value="item.id"
+						<i class="el-input__icon el-icon-search"></i>
+						<CirclePlusFilled class="el-input__icon" />
+					</el-input>
+				</div>
+				<div class="self-start  ">
+					<el-select
+						v-model="filterSelectValue "
+						filterable
+						clearable
+						multiple
+						placeholder="កម្រិត"
 					>
-					</el-option>
-				</el-select>
-			</div>
-			<div class="self-start  ">
-				<el-select
-					v-model="academicSelectValue"
-					filterable
-					clearable
-					placeholder="ឆ្នាំសិក្សា"
-				>
-					<el-option
-						v-for="item in academic"
-						:key="item.id"
-						:label="item.name"
-						:value="item.id"
-					>
-					</el-option>
-				</el-select>
-			</div>
-			<el-button type="primary">
-				<el-icon>
-					<Search />
-				</el-icon>
-			</el-button>
-		</div>
-		<div class="self-end">
+						<el-option
+							v-for="item in filter"
+							:key="item.filterValue"
+							:label="item.filterLabel"
+							:value="item.filterValue"
+						>
+						</el-option>
+					</el-select>
+				</div>
 
+			</div>
+			<div class="flex space-x-2">
+				<div class="self-start  ">
+					<el-select
+						v-model="filterSelectValue "
+						filterable
+						clearable
+						multiple
+						placeholder="ប្រភេទថ្នាក់"
+					>
+						<el-option
+							v-for="item in classType"
+							:key="item.id"
+							:label="item.name"
+							:value="item.id"
+						>
+						</el-option>
+					</el-select>
+				</div>
+
+				<div class="self-start  ">
+					<el-select
+						v-model="academicSelectValue"
+						filterable
+						clearable
+						placeholder="ឆ្នាំសិក្សា"
+					>
+						<el-option
+							v-for="item in academic"
+							:key="item.id"
+							:label="item.name"
+							:value="item.id"
+						>
+						</el-option>
+					</el-select>
+				</div>
+				<el-button type="primary">
+					<el-icon>
+						<Search />
+					</el-icon>
+				</el-button>
+
+			</div>
+		</div>
+		<div class="self-end space-y-2">
+			<div>
+				<el-switch
+					v-model="is_show_trust"
+					@change="clickShowwTrush"
+					class="px-2"
+					width="40"
+					active-text="បង្ហាញទិន្នន័យបានលុប"
+					inactive-text=""
+					active-value="1"
+					inactive-value="0"
+				/>
+			</div>
 			<div class="flex space-x-2">
 				<el-button type="info">
 					<el-icon>
@@ -79,7 +97,7 @@
 				</el-button>
 				<el-button
 					type="primary"
-					@click="AddUser"
+					@click="AddClass"
 				>
 					<el-icon>
 						<CirclePlusFilled />
@@ -93,31 +111,12 @@
 	<div class="grid grid-cols-1 gap-2 ">
 		<div class=" border rounded bg-gray-50">
 			<div class="flex flex-col  ">
-				<div
-					class="m-2"
-					v-if="showSuccess"
-				>
-					<el-alert
-						title="success alert"
-						type="success"
-						show-icon
-					/>
-				</div>
-				<div
-					class="m-2"
-					v-if="showInfo"
-				>
-					<el-alert
-						title="info alert"
-						type="info"
-						show-icon
-					/>
-				</div>
+
 				<div>
 					<el-table
 						v-loading="loading_class"
 						:data="tableData.data"
-						height="750"
+						height="700"
 						style="width: 100%"
 						resizable="true"
 						fit
@@ -158,33 +157,74 @@
 						<el-table-column label="ឆ្នាំសិក្សា ">
 							<template #default="scope">{{ scope.row.academic.academic_name }}</template>
 						</el-table-column>
+
 						<el-table-column
 							fixed="right"
-							label="សកម្មភាព"
 							align="center"
+							label="សកម្មភាព"
+							width="230"
 						>
 							<template #default="scope">
-								<router-link
-									:to="'/class-detail?id='+scope.row.class_id"
-									class="mx-2"
-								>
+								<div v-if="is_show_trust==1 &&!loading">
 									<el-button
 										size="small"
-										type="primary"
-										class="sanfont-khmer "
-									>ចូលមើល</el-button>
-								</router-link>
-								<el-button
-									size="small"
-									class="sanfont-khmer"
-									@click="editUser(scope.row.id)"
-								>កែប្រែ</el-button>
-								<el-button
-									size="small"
-									type="danger"
-									class="sanfont-khmer"
-									@click="handleDelete(scope.$index, scope.row)"
-								>លុប</el-button>
+										class="sanfont-khmer"
+										@click="restoreData(scope.row.class_id)"
+									>ស្ដារឡើងវិញ</el-button>
+									<el-popconfirm
+										width="220"
+										confirm-button-text="យល់ព្រម"
+										cancel-button-text="ទេ"
+										:icon="InfoFilled"
+										icon-color="#626AEF"
+										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+										@confirm="handleDelete(scope.row.class_id)"
+									>
+										<template #reference>
+											<el-button
+												size="small"
+												type="danger"
+												class="sanfont-khmer"
+											>លុបជាអចិន្ត្រៃយ៍
+											</el-button>
+										</template>
+									</el-popconfirm>
+								</div>
+								<div v-if="is_show_trust==0&&!loading">
+									<router-link
+										:to="'/class-detail?id='+scope.row.class_id"
+										class="mx-2"
+									>
+										<el-button
+											size="small"
+											type="primary"
+											class="sanfont-khmer "
+										>ចូលមើល</el-button>
+									</router-link>
+									<el-button
+										size="small"
+										class="sanfont-khmer"
+										@click="editClass(scope.row.class_id)"
+									>កែប្រែ</el-button>
+									<el-popconfirm
+										width="220"
+										confirm-button-text="យល់ព្រម"
+										cancel-button-text="ទេ"
+										:icon="InfoFilled"
+										icon-color="#626AEF"
+										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+										@confirm="handleDelete(scope.row.class_id)"
+									>
+										<template #reference>
+											<el-button
+												size="small"
+												type="danger"
+												class="sanfont-khmer"
+											>លុប
+											</el-button>
+										</template>
+									</el-popconfirm>
+								</div>
 							</template>
 						</el-table-column>
 						<el-empty description="description"></el-empty>
@@ -193,8 +233,13 @@
 				<div class="py-2 flex justify-center">
 					<el-pagination
 						background
+						v-model:current-page="page"
+						v-model:page-size="per_page"
+						:page-count="tableData.last_page"
 						layout="total, prev, pager, next, sizes"
 						:total="tableData.total"
+						@current-change="changePage"
+						@size-change="changePageSize"
 					>
 					</el-pagination>
 				</div>
@@ -206,7 +251,7 @@
 		v-model="dialogFormVisible"
 		title="ព័ត៌មានថ្នាក់រៀន"
 		class="sanfont-khmer"
-		width="30%"
+		width="45%"
 		align-center="true"
 		draggable
 	>
@@ -262,17 +307,15 @@
 					:label-width="formLabelWidth"
 				>
 					<el-select
-						v-model="gradeLevelId"
-						value-key="id"
 						placeholder="ជ្រើសរើស"
 						class="text-left "
-						@change="getNameClass()"
+						v-model="ruleForm.grade_level_id"
 					>
 						<el-option
 							v-for="data in gradeLevel"
 							:key="data"
 							:label="data.name"
-							:value="data"
+							:value="data.id"
 						/>
 					</el-select>
 				</el-form-item>
@@ -316,6 +359,22 @@
 							:disabled="item?.disabled"
 						/>
 					</el-select>
+				</el-form-item>
+			</div>
+			<div>
+				<el-form-item
+					label="ផ្សេងៗ"
+					prop="other"
+					class="sanfont-khmer"
+					:label-width="formLabelWidth"
+				>
+					<el-input
+						type="textarea"
+						:rows="5"
+						v-model="ruleForm.other"
+						name="other"
+					>
+					</el-input>
 				</el-form-item>
 			</div>
 		</el-form>
@@ -380,7 +439,8 @@ export default {
 				class_type_id: null,
 				grade_level_id: null,
 				academic_id: null,
-				class_symbol: null
+				class_symbol: null,
+				other: null,
 			},
 			rules: {
 				class_name: [
@@ -404,7 +464,7 @@ export default {
 			academic: [
 				{
 					name: 'ឆ្នាំសិក្សា២០២១-២០២២',
-					id: '1'
+					id: 1
 				},
 				{
 					name: 'ឆ្នាំសិក្សា២០២២-២០២៣',
@@ -418,7 +478,7 @@ export default {
 			gradeLevel: [
 				{
 					name: '10',
-					id: '1'
+					id: 1
 				},
 				{
 					name: '11',
@@ -432,7 +492,7 @@ export default {
 			classType: [
 				{
 					name: 'ធម្មតា',
-					id: '1',
+					id: 1,
 					disabled: true,
 				},
 				{
@@ -449,7 +509,7 @@ export default {
 			nameSimble: [
 				{
 					name: 'A',
-					id: '1'
+					id: 1
 				},
 				{
 					name: 'B',
@@ -485,34 +545,58 @@ export default {
 				filterLabel: 'តាមទំហំផ្ទុក'
 			}],
 			filterSelectValue: "",
+			//Data Page filter
+			page: 1,
+			per_page: 1,
+			sort_by: 'class_id',
+			order_by: 1,
+			search: '',
+			tSearch: null,
+			is_show_trust: 0,
+			//Data Page filter
+		}
+	},
+	watch: {
+		'ruleForm.grade_level_id': function (event) {
+			var obj = this.gradeLevel.find(e => e.id == this.ruleForm.grade_level_id);
+			this.ruleForm.class_name = (obj?.name ?? '') + " " + (this.ruleForm.class_symbol ?? '');
 		}
 	},
 	mounted() {
 		this.getData()
 	},
 	methods: {
+		//Change Per Page
+		changePageSize(event) {
+			this.per_page = event;
+			this.getData();
+
+		},
+		//Chnage Page 
+		changePage(event) {
+			this.page = event;
+			this.getData();
+		},
+
+		// ស្វែងរក ទិន្នន័យ
+		clickSearch() {
+			clearTimeout(this.tSearch);
+			this.tSearch = setTimeout(() => {
+				if (this.search != null) {
+					if (this.search.replace(/\s/g, '') !== '') {
+					}
+					this.getData();
+				}
+			}, 1000);
+		},
+		clickShowwTrush() {
+			this.getData();
+		},
 		getNameClass() {
-			this.ruleForm.grade_level_id = this.gradeLevelId?.id
-			this.ruleForm.class_name = (this.gradeLevelId?.name ?? '') + " " + (this.ruleForm.class_symbol ?? '');
+			var obj = this.gradeLevel.find(e => e.id = this.ruleForm.grade_level_id);
+			this.ruleForm.class_name = (obj.name ?? '') + " " + (this.ruleForm.class_symbol ?? '');
 		},
-		handleAvatarSuccess(file) {
-			if (file) {
-				this.ruleForm.profile_img = file
-				this.imageUrl = URL.createObjectURL(file.raw);
-				this.submitUplaod()
-			}
-		},
-		beforeAvatarUpload(file) {
-			const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
-			const isLt2M = file.size / 1024 / 1024 < 2;
-			if (!isJPG) {
-				this.$message.error('Avatar picture must be JPG format!');
-			}
-			if (!isLt2M) {
-				this.$message.error('Avatar picture size can not exceed 2MB!');
-			}
-			return isJPG && isLt2M;
-		},
+
 		submitForm(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
@@ -542,20 +626,6 @@ export default {
 		/*
 		*  Function upload image 
 		*/
-		async submitUplaod() {
-			const form = new FormData(document.getElementById('fm'));
-
-			const config = {
-				headers: { 'content-type': 'multipart/form-data' }
-			}
-			await axios.post('/files/create/upload', form, config).then(response => {
-				this.ruleForm.photo_id = response.data.file.id
-				this.$message({
-					message: 'Congrats, this is a success message.',
-					type: 'success'
-				});
-			})
-		},
 		/*
 		*  Function create new user  
 		*/
@@ -565,12 +635,13 @@ export default {
 				'class_type_id': this.ruleForm.class_type_id,
 				'grade_level_id': this.ruleForm.grade_level_id,
 				'academic_id': this.ruleForm.academic_id,
+				'other': this.ruleForm.other,
 			}
 			const config = {
 				headers: { 'content-type': 'application/json' }
 			}
 
-			await axios.post('/class/store', data, config).then(response => {
+			await axios.post('/class/create', data, config).then(response => {
 				this.dialogFormVisible = false;
 				this.$notify.success({
 					title: 'ព័ត៌មាន',
@@ -584,53 +655,40 @@ export default {
 	*  Function update new user  
 	*/
 		async updateData() {
-
-			const form = new FormData(document.getElementById('fm'));
-			form.append('role', this.ruleForm.roles)
-			const config = {
-				headers: { 'content-type': 'multipart/form-data' }
+			const data = {
+				'class_name': this.ruleForm.class_name,
+				'class_type_id': this.ruleForm.class_type_id,
+				'grade_level_id': this.ruleForm.grade_level_id,
+				'academic_id': this.ruleForm.academic_id,
+				'other': this.ruleForm.other,
 			}
-			await axios.post('/user/' + this.ruleForm.userId + '/update', form, config).then(response => {
+			const config = {
+				headers: { 'content-type': 'application/json' }
+			}
+			await axios.post('/class/update/' + this.ruleForm.class_id, data, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
 		},
-		handlePictureCardPreview(UploadFile) {
-			this.dialogImageUrl = UploadFile.url
-			this.dialogVisible = true
-		},
-		handleRemove(UploadFile) {
-			console.log(UploadFile)
-		},
 
-		async AddUser() {
-			// this.cancelAction()
-			// this.resetForm('ruleForm');
-			this.ruleForm.name = ''
-			this.ruleForm.userId = ''
-			this.ruleForm.roles = ''
-			this.ruleForm.email = ''
-			this.imageUrl = ''
-			this.ruleForm.photo_id = ''
-			this.roles = null
+		async AddClass() {
+			this.ruleForm.class_id = null;
+			this.ruleForm.class_name = null;
+			this.ruleForm.class_type_id = null;
+			this.ruleForm.grade_level_id = null;
+			this.gradeLevelId = null;
+			this.ruleForm.academic_id = null;
 
 			this.dialogFormVisible = true
 			this.isShowButtonUpdate = false;
-			this.isShowPassword = true;
-
-			await axios.get('/user/create').then(response => {
-				this.roles = response.data.roles
-			}).catch((error) => {
-				console.log(error)
-			})
 		},
 		async getData() {
 			this.loading_class = true;
-			await axios.get('/class/get').then(response => {
+			await axios.get(`/class/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`).then(response => {
 				this.tableData = response.data.data
 				this.loading_class = false;
 			}).catch((error) => {
@@ -640,23 +698,30 @@ export default {
 				}
 			})
 		},
-		async editUser(id) {
-			//this.isShowButtonUpdate = true;
-			//this.isShowPassword = false;
-			//await axios.get('/user/' + id + '/edit').then(response => {
-			//this.ruleForm.name = response.data.user.name
-			//this.ruleForm.userId = response.data.user.id
-			//this.ruleForm.roles = response.data.user_has_roles
-			//this.ruleForm.email = response.data.user.email
-			//this.imageUrl = response.data.user.img?.file_path
-			//this.ruleForm.photo_id = response.data.user.id
-			//this.roles = response.data.roles
-			this.dialogFormVisible = true;
-			//}).catch((error) => {
-			//if (error.response.status == 401) {
-			//	this.$store.commit("auth/CLEAR_TOKEN")
-			//}
-			//})
+		async editClass(id) {
+			this.isShowButtonUpdate = true;
+			this.isShowPassword = false;
+
+			await axios.get('/class/edit/' + id).then(response => {
+				this.ruleForm.class_id = response.data.data.class_id;
+				this.ruleForm.class_name = response.data.data.class_name;
+				this.ruleForm.class_type_id = response.data.data.class_type_id;
+				this.ruleForm.grade_level_id = response.data.data.grade_level_id;
+				this.ruleForm.academic_id = response.data.data.academic_id;
+				let symbol = '';
+				if (response.data.data.class_name != null) {
+					const arraySymbol = response.data.data.class_name.split(' ');
+					symbol = arraySymbol[1];
+				}
+				this.ruleForm.class_symbol = symbol;
+				this.ruleForm.other = response.data.data.other;
+
+				this.dialogFormVisible = true;
+			}).catch((error) => {
+				if (error.response?.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
 		},
 		notification() {
 			this.showSuccess = !this.showSuccess
@@ -666,7 +731,7 @@ export default {
 				offset: 100,
 			})
 			ElMessage({
-				message: 'Congrats, this is a success message.',
+				message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 				type: 'success',
 			})
 		}

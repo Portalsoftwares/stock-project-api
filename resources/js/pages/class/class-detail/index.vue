@@ -44,7 +44,7 @@
 										<el-icon>
 											<Setting />
 										</el-icon>
-										<span class="mx-1 sanfont-khmer "> បន្ថែមកាលវិភាគ</span>
+										<span class="mx-1 sanfont-khmer "> កំណត់កាលវិភាគ</span>
 									</el-button>
 								</div>
 							</div>
@@ -441,7 +441,7 @@
 		v-model="dialogFormSchedule"
 		title="ព័ត៌មានកាលវិភាគ"
 		class="sanfont-khmer"
-		width="50%"
+		width="60%"
 		draggable
 	>
 		<template #header>
@@ -449,88 +449,66 @@
 				<h4 class="text-lg font-semibold text-white">ព័ត៌មានកាលវិភាគ</h4>
 			</div>
 		</template>
-		<el-form
-			class="grid grid-cols-2"
-			:model="ruleFormSchedule"
-			:rules="rulesSchedule"
-			ref="ruleFormSchedule"
-			id="fmSchedule"
-		>
-			<div>
-				<el-form-item
-					label="ថ្នាក់រៀន"
-					prop="class_id"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
+
+		<!-- Overall detail -->
+		<div class="grid gap-5 ">
+			<div class="py-2">
+				<el-table
+					v-loading="loading_schedule"
+					:data="dataSchedule"
+					resizable="false"
+					header-cell-class-name="sanfont-khmer text-md"
+					row-class-name="sanfont-khmer"
+					style="width: 100%"
+					stripe
+					border
 				>
-					<el-input
-						v-model="classData.class_name"
-						disabled
-						name="class_id"
-					></el-input>
-				</el-form-item>
-				<el-form-item
-					label="ថ្ងៃ"
-					:error="errors.day_id"
-					prop="day_id"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-select
-						v-model="ruleFormSchedule.day_id"
-						placeholder="ជ្រើសរើស ថ្ងៃ"
-						class="text-left "
+
+					<el-table-column
+						label="ម៉ោង"
+						width="160px"
+						fixed
+						align="center"
 					>
-						<el-option
-							v-for="data in dataDay.day"
-							:key="data"
-							:label="data.day_name_kh"
-							:value="data.day_id"
-						/>
-					</el-select>
-				</el-form-item>
-				<el-form-item
-					label="ម៉ោង"
-					prop="time_id"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-					:error="errors.time_id"
-				>
-					<el-select
-						v-model="ruleFormSchedule.time_id"
-						placeholder="ជ្រើសរើស ម៉ោង"
-						class="text-left "
+						<template #default="scope">
+							<span class="text-center">
+								<div>{{ scope.row.name }}</div>
+								<div>
+									<span>{{ formatTime(scope.row.start_date) }}</span>
+									-
+									<span>{{ formatTime(scope.row.end_date) }}</span>
+								</div>
+							</span>
+						</template>
+					</el-table-column>
+					<el-table-column
+						v-for="day in columnDay "
+						:key="day"
+						:prop="day"
+						:label="day.day_name_kh"
 					>
-						<el-option
-							v-for="data in dataDay.time"
-							:key="data"
-							:label="data.name"
-							:value="data.time_id"
-						/>
-					</el-select>
-				</el-form-item>
-				<el-form-item
-					label="មុខវិទ្យា"
-					prop="subject_grade_id"
-					class="sanfont-khmer"
-					:error="errors.subject_grade_id"
-					:label-width="formLabelWidth"
-				>
-					<el-select
-						v-model="ruleFormSchedule.subject_grade_id"
-						placeholder="ជ្រើសរើស មុខវិទ្យា"
-						class="text-left "
-					>
-						<el-option
-							v-for="data in teacherData"
-							:key="data"
-							:label="data.teacher_subject_in_class.subject.subject_name_kh"
-							:value="data.teacher_subject_in_class.subject_grade_id"
-						/>
-					</el-select>
-				</el-form-item>
+						<template #default="scope">
+							<div>
+								<el-select
+									v-model="scope.row['subject_grade_day_'+day.day_id]"
+									class="small-input"
+								>
+									<el-option
+										v-for="data in teacherData"
+										:key="data"
+										:label="data.teacher_subject_in_class.subject.subject_name_kh"
+										:value="data.teacher_subject_in_class.subject.subject_id"
+									></el-option>
+
+								</el-select>
+							</div>
+						</template>
+					</el-table-column>
+				</el-table>
+
 			</div>
-		</el-form>
+
+		</div>
 		<template #footer>
 			<span class="dialog-footer">
 				<el-button
@@ -549,7 +527,7 @@
 					v-if="!isShowButtonUpdate"
 					type="primary"
 					class="sanfont-khmer"
-					@click="submitForm('ruleFormSchedule')"
+					@click="submitData('ruleFormSchedule')"
 				>
 					រក្សាទុក ហើយបន្ត
 				</el-button>
@@ -731,10 +709,10 @@ export default {
 			loading_schedule: false,
 			loading_student: false,
 			ruleFormSchedule: {
-				class_id: 1,
-				time_id: 1,
-				subject_grade_id: 1,
-				day_id: 1,
+				class_id: null,
+				time_id: null,
+				subject_grade_id: null,
+				day_id: null,
 			},
 			rulesSchedule: {
 				class_id: [
@@ -752,9 +730,9 @@ export default {
 			},
 			dialogFormTeacher: false,
 			ruleFormTeacher: {
-				class_id: 1,
-				teacher_id: 1,
-				subject_grade_id: 1,
+				class_id: null,
+				teacher_id: null,
+				subject_grade_id: null,
 				role_id: '0',
 			},
 			ruleTeacher: {
@@ -771,7 +749,8 @@ export default {
 			errors: {},
 			activeDay: '',
 			fullscreenLoading: false,
-			date: ''
+			date: '',
+			dataSchedule: []
 		}
 	},
 	mounted() {
@@ -793,22 +772,38 @@ export default {
 		Back() {
 			this.$router.push('/class');
 		},
-		ManageSchedule() {
+		async ManageSchedule() {
+
 			this.dialogFormVisible = true;
 		},
 		addTeacher() {
 			this.dialogFormTeacher = true;
 			this.ruleFormTeacher.class_id = this.classData.class_id
 		},
-		addNewSchedule() {
+		async addNewSchedule() {
 			this.dialogFormSchedule = true;
 			this.ruleFormSchedule.class_id = this.classData.class_id
+			this.loading_schedule = true;
+			const class_id = this.$route.query.id;
+			await axios.get('/schedule_class/' + class_id + '/edit').then(response => {
+				this.dataSchedule = response.data.data
+				// setTimeout(() => {
+				this.loading_schedule = false;
+				// }, 1000)
+			}).catch((error) => {
+				this.loading_schedule = false;
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
 		},
 		resetForm(formName) {
 			if (this.$refs[formName]) {
 				this.$refs[formName].resetFields();
 			}
 		},
+		//Add teacher subject
+
 		submitFormTeacher(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
@@ -857,6 +852,9 @@ export default {
 			this.submitForm(formName);
 			this.dialogFormSchedule = false;
 		},
+
+
+
 		submitForm(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
@@ -872,17 +870,10 @@ export default {
 		*  Function create schedule
 		*/
 		async submitData() {
-			const formID = document.getElementById('fmSchedule');
-			const form = new FormData(formID);
-			form.append('class_id', this.ruleFormSchedule.class_id)
-			form.append('time_id', this.ruleFormSchedule.time_id)
-			form.append('day_id', this.ruleFormSchedule.day_id)
-			form.append('subject_grade_id', this.ruleFormSchedule.subject_grade_id)
-			console.log(form, formID);
 			const config = {
-				headers: { 'content-type': 'multipart/form-data' }
+				headers: { 'content-type': 'application/json' }
 			}
-			await axios.post('/schedule_class/create', form, config).then(response => {
+			await axios.post('/schedule_class/' + this.classData.class_id + '/create', { 'data': this.dataSchedule }, config).then(response => {
 				this.getScheduleData();
 				this.$message({
 					message: 'Successfully , this is a success message.',
@@ -1054,11 +1045,14 @@ export default {
 .el-button--text {
 	margin-right: 15px;
 }
-.el-select {
-	width: 300px;
+.small-input .el-select {
+	width: 100px !important;
 }
-.el-input {
-	width: 300px;
+.el-select-dropdown {
+	width: 100px !important;
+}
+.small-input .el-input {
+	width: 100px !important;
 }
 .dialog-footer button:first-child {
 	margin-right: 10px;

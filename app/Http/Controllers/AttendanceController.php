@@ -35,10 +35,12 @@ class AttendanceController extends Controller
         $attendance = Attendance::where(function ($query) use ($class_id, $time_id, $day_id, $subject_grade_id) {
             $query->where('class_id', $class_id)->where('time_id', $time_id)->where('day_id', $day_id)->where('subject_grade_id', $subject_grade_id)->whereDate('created_at', Carbon::today());
         })->first();
+
         $attendanceLine = [];
         if (!empty($attendance)) {
             $attendanceLine = AttendanceLine::where('attendance_id', $attendance->attendance_id)->get();
         }
+
         $student =   StudentClass::query()->where('class_id', $id)->with(['student_in_class.gender', 'student_in_class.status'])->get();
         $day =   Day::where('day_id', $day_id)->first();
         $time =   Time::where('time_id', $time_id)->first();
@@ -60,6 +62,7 @@ class AttendanceController extends Controller
             'time' => $time,
             'subject' => $subject,
         ];
+
         return  response($response, 200);
     }
     /**

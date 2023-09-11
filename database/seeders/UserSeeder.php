@@ -16,37 +16,40 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'សោភា ស៊ីវម៉ី',
-            'teacher_id' => '1',
-            'email' => 'sievmey@gmail.com',
-            'file_upload_id' => '1',
+            'name' => 'Super Admin',
+            'phone' => '0956487667',
+            'email' => 'admin@gmail.com',
+            'is_system' => 1,
+            'file_upload_id' => 1,
             'password' => bcrypt('dev123')
         ])->each(
             function ($user) {
                 $user->assignRole('super-admin');
             }
         );
-        User::create([
-            'name' => 'សុខ សាន្ត វណ្ណា',
-            'teacher_id' => '2',
-            'email' => 'sanvanna@gmail.com',
-            'file_upload_id' => '2',
-            'password' => bcrypt('dev123')
-        ])->each(
-            function ($user) {
-                $user->assignRole('role-editor');
-            }
-        );
-        User::create([
-            'name' => 'កែវ ចន្ទវត្តី',
-            'teacher_id' => '3',
-            'email' => 'chanvettey@gmail.com',
-            'file_upload_id' => '3',
-            'password' => bcrypt('dev123')
-        ])->each(
-            function ($user) {
-                $user->assignRole('role-viewer');
-            }
-        );
+        // User::create([
+        //     'name' => 'សុខ សាន្ត វណ្ណា',
+        //     'teacher_id' => '2',
+        //     'phone' => '0956487667',
+        //     'email' => 'sanvanna@gmail.com',
+        //     'file_upload_id' => '2',
+        //     'password' => bcrypt('dev123')
+        // ])->each(
+        //     function ($user) {
+        //         $user->assignRole('role-editor');
+        //     }
+        // );
+        // User::create([
+        //     'name' => 'កែវ ចន្ទវត្តី',
+        //     'teacher_id' => '3',
+        //     'phone' => '0956487667',
+        //     'email' => 'chanvettey@gmail.com',
+        //     'file_upload_id' => '3',
+        //     'password' => bcrypt('dev123')
+        // ])->each(
+        //     function ($user) {
+        //         $user->assignRole('role-viewer');
+        //     }
+        // );
     }
 }

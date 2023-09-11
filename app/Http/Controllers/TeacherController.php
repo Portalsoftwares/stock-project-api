@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gender;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
-use Exception;
+use App\Models\TeacherRole;
+use App\Models\TeacherStatus;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -17,37 +20,60 @@ class TeacherController extends Controller
      */
     public function index(Request $request)
     {
-        $items =  Teacher::query();
+
         $per_page = $request->per_page ?? 10;
         $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
         $sort_by = $request->sort_by ?: 'tid';
         if ($per_page == -1) {
             $per_page = DB::table('teachers')->count() > 0 ? DB::table('teachers')->count() : $per_page;
         }
-
-
-        if (!empty($request->filter_profession)) {
-            $items->whereIn('profession', 'like', $request->filter_profession);
-        }
-        if (!empty($request->filter_teacher_level)) {
-            $items->whereIn('teacher_level', $request->filter_teacher_level);
-        }
-        if (!empty($request->search)) {
-            $items->where('tid', 'like', "%" . $request->search . "%");
-            $items->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
-            $items->orWhere('full_name_en', 'like', "%" . $request->search . "%");
-            $items->orWhere('email', 'like', "%" . $request->search . "%");
-            $items->orWhere('phone', 'like', "%" . $request->search . "%");
-        }
         if (!empty($request->is_show_trust)) {
-            $items->onlyTrashed();
+            $items =  Teacher::onlyTrashed()->where(function ($query) use ($request) {
+                if (!empty($request->filter_profession)) {
+                    $query->whereIn('profession', 'like', $request->filter_profession);
+                }
+                if (!empty($request->filter_teacher_level)) {
+                    $query->whereIn('teacher_level', $request->filter_teacher_level);
+                }
+                if (!empty($request->search)) {
+                    $query->where('tid', 'like', "%" . $request->search . "%");
+                    $query->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
+                    $query->orWhere('full_name_en', 'like', "%" . $request->search . "%");
+                    $query->orWhere('email', 'like', "%" . $request->search . "%");
+                    $query->orWhere('phone', 'like', "%" . $request->search . "%");
+                }
+            });
+        } else {
+            $items =  Teacher::Where(function ($query) use ($request) {
+                if (!empty($request->filter_profession)) {
+                    $query->whereIn('profession', 'like', $request->filter_profession);
+                }
+                if (!empty($request->filter_teacher_level)) {
+                    $query->whereIn('teacher_level', $request->filter_teacher_level);
+                }
+                if (!empty($request->search)) {
+                    $query->where('tid', 'like', "%" . $request->search . "%");
+                    $query->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
+                    $query->orWhere('full_name_en', 'like', "%" . $request->search . "%");
+                    $query->orWhere('email', 'like', "%" . $request->search . "%");
+                    $query->orWhere('phone', 'like', "%" . $request->search . "%");
+                }
+            });
         }
         $data = $items->with('profile_img')
             ->orderBy($sort_by, $order_by)
             ->paginate($per_page);
 
+        $status = TeacherStatus::all();
+        $role = TeacherRole::all();
+        $gender = Gender::all();
+        $subject = Subject::all();
         $response = [
             'data' => $data,
+            'status' => $status,
+            'role' => $role,
+            'gender' => $gender,
+            'subject' => $subject,
         ];
         return  response($response, 200);
     }
@@ -85,7 +111,7 @@ class TeacherController extends Controller
             $items->file_upload_id    = $request->file_upload_id;
             $items->phone     = $request->phone;
             $items->email     = $request->email;
-            $items->is_enable_account = $request->is_enable_account;
+            $items->is_enable_account = $request->is_enable_account ?? 0;
             $items->other     = $request->other;
             $items->save();
         });
@@ -107,7 +133,7 @@ class TeacherController extends Controller
 
     public function edit($id)
     {
-        $items = Teacher::find($id);
+        $items = Teacher::with('profile_img')->find($id);
         $response = [
             'data' => $items,
         ];

@@ -41,6 +41,40 @@ class ScheduleController extends Controller
         ];
         return  response($response, 200);
     }
+    public function edit(Request $request, $id)
+    {
+        $data =  Schedule::where('class_id', $id)->first();
+        $day =  Day::all();
+        $timeData = [];
+
+        if (!empty($data)) {
+            $schedule = $data->schedule_id;
+            $timeData =  Time::with([
+                'getSchedule.subject.subject', 'getSchedule' => function ($query) use ($schedule) {
+                    $query->where('schedule_id', $schedule);
+                }
+            ])->get();
+        }
+        foreach ($timeData as $ix => $obj) {
+            foreach ($day as $index => $data) {
+                // បាន​ហៅ វត្តមានហើយ
+                if (count($obj->getSchedule) != 0) {
+                    foreach ($obj->getSchedule as $si => $scd) {
+                        if ($data->day_id == $obj->getSchedule[$si]->day_id) {
+                            $obj['subject_grade_day_' . $data->day_id] = $obj->getSchedule[$si]->subject_grade_id;
+                        }
+                    }
+                } else {
+                    // មិនទាន់
+                    $obj['subject_grade_day_' . $data->day_id] = null;
+                }
+            }
+        }
+        $response = [
+            'data' => $timeData,
+        ];
+        return  response($response, 200);
+    }
 
     public function  getScheduleDayTime(Request $request, $id)
     {
@@ -61,52 +95,37 @@ class ScheduleController extends Controller
         return  response($response, 200);
     }
     //create schedule class
-    public  function create(Request $request)
+    public  function create(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'class_id' => ['required', 'exists:class,class_id'],
-            'time_id' => [
-                'required', 'exists:time,time_id',
-                Rule::unique('schedule_line')->where(function ($query) use ($request) {
-                    return $query->where('time_id', $request->time_id)->where('day_id', $request->day_id)->where('schedule_id', $request->class_id)->get();
-                })
-            ],
-            'subject_grade_id' => [
-                'required', 'exists:subject_grade_level,subject_grade_id',
-                Rule::unique('schedule_line')->where(function ($query) use ($request) {
-                    return $query->where('subject_grade_id', $request->subject_grade_id)->where('time_id', $request->time_id)->where('day_id', $request->day_id)->where('schedule_id', $request->class_id)->get();
-                })
-            ],
-            'day_id' => [
-                'required', 'exists:day,day_id',
-                Rule::unique('schedule_line')->where(function ($query) use ($request) {
-                    return $query->where('subject_grade_id', $request->subject_grade_id)->where('time_id', $request->time_id)->where('day_id', $request->day_id)->where('schedule_id', $request->class_id)->get();
-                })
-            ],
-        ]);
-
-        if ($validator->fails()) {
-            $response = [
-                'errors' => $validator->messages(),
-            ];
-            return  response($response, 400);
-        }
-        DB::transaction(function () use ($request) {
-            $schedule = Schedule::where('class_id', $request->class_id)->first();
+        $days =  Day::all();
+        DB::transaction(function () use ($request, $id, $days) {
+            $schedule = Schedule::where('class_id', $id)->first();
             if (empty($schedule)) {
                 $schedule = Schedule::create([
-                    'class_id' => $request->class_id,
+                    'class_id' => $id,
                 ]);
             }
-            $subDay =  ScheduleLine::create([
-                'schedule_id' => $schedule->schedule_id,
-                'subject_grade_id' => $request->subject_grade_id,
-                'time_id' => $request->time_id,
-                'day_id' => $request->day_id,
-            ]);
+            $data = $request->data;
+            if ($data) {
+                ScheduleLine::where('schedule_id', $id)->delete();
+                $ObjData =  [];
+                foreach ($data as $row) {
+                    foreach ($days as $day) {
+                        // dd($row);
+                        if (isset($row['subject_grade_day_' . $day->day_id]) && $row['subject_grade_day_' . $day->day_id] != null) {
+                            $subDay =  [
+                                'schedule_id' => $id,
+                                'subject_grade_id' => $row['subject_grade_day_' . $day->day_id],
+                                'time_id' => $row['time_id'],
+                                'day_id' => $day->day_id,
+                            ];
+                            array_push($ObjData, $subDay);
+                        }
+                    }
+                }
+                ScheduleLine::Insert($ObjData);
+            }
             $response = [
-                'sch_class' => $schedule,
-                'sub_day' => $subDay,
                 'message' => "Schedule class  was created."
             ];
             return  response($response, 201);

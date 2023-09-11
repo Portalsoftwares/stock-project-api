@@ -82,9 +82,10 @@ class ClassController extends Controller
             return  response($response, 400);
         }
 
-        DB::transaction(function () use ($validator) {
+        DB::transaction(function () use ($validator, $request) {
             $class = new Classes();
             $class->fill($validator->validated());
+            $class->other = $request->other;
             $class->save();
             if (!empty($class)) {
                 $schedule = Schedule::create([
@@ -122,9 +123,10 @@ class ClassController extends Controller
             ];
             return  response($response, 400);
         }
-        DB::transaction(function () use ($validator, $id) {
+        DB::transaction(function () use ($validator, $request, $id) {
             $items = Classes::find($id);
             $items->fill($validator->validated());
+            $items->other = $request->other;
             $items->save();
         });
 
@@ -154,6 +156,26 @@ class ClassController extends Controller
 
         $response = [
             'data' => 'Delete successfull',
+        ];
+        return  response($response, 200);
+    }
+
+    //Add student in class
+
+    public function addStudentClass(Request $request, $id)
+    {
+        $dataStudent = [];
+
+        foreach ($request->data as $data) {
+            $obj = [
+                'student_id' => $data['student_id'],
+                'class_id' => $id
+            ];
+            array_push($dataStudent, $obj);
+        };
+        $classStudent = StudentClass::Insert($dataStudent);
+        $response = [
+            'data' => 'add student in class successfull',
         ];
         return  response($response, 200);
     }

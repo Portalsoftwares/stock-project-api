@@ -1,6 +1,13 @@
 <template>
-	<el-tabs type="border-card">
-		<el-tab-pane label="មុខវិជ្ជាទូទៅ">
+	<el-tabs
+		type="border-card"
+		v-model="tabClassDetail"
+		@tab-change="changeTap"
+	>
+		<el-tab-pane
+			label="មុខវិជ្ជាទូទៅ"
+			name="tab-subject-1"
+		>
 			<div class="bg-white p-2 w-full flex justify-between">
 				<div class="flex space-x-2">
 					<div class="self-start">
@@ -8,9 +15,8 @@
 							placeholder="ស្វែងរក"
 							class="sanfont-khmer"
 							v-model="search"
+							@input="clickSearch"
 						>
-							<i class="el-input__icon el-icon-search"></i>
-							<CirclePlusFilled class="el-input__icon" />
 						</el-input>
 					</div>
 					<div class="self-start hidden ">
@@ -30,6 +36,16 @@
 					</div>
 				</div>
 				<div class="self-end">
+					<el-switch
+						v-model="is_show_trust"
+						@change="clickShowwTrush"
+						class="px-2"
+						width="40"
+						active-text="បង្ហាញទិន្នន័យបានលុប"
+						inactive-text=""
+						active-value="1"
+						inactive-value="0"
+					/>
 					<el-button type="info">
 						<el-icon>
 							<Document />
@@ -39,7 +55,7 @@
 					</el-button>
 					<el-button
 						type="primary"
-						@click="AddUser"
+						@click="AddSubject"
 					>
 						<el-icon>
 							<CirclePlusFilled />
@@ -119,6 +135,7 @@
 								fixed="right"
 								align="center"
 								label="សកម្មភាព"
+								width="230"
 							>
 								<template #default="scope">
 									<el-button
@@ -152,8 +169,13 @@
 						<div class="py-2 flex justify-center">
 							<el-pagination
 								background
+								v-model:current-page="page"
+								v-model:page-size="per_page"
+								:page-count="tableData.last_page"
 								layout="total, prev, pager, next, sizes"
 								:total="tableData.total"
+								@current-change="changePage"
+								@size-change="changePageSize"
 							>
 							</el-pagination>
 						</div>
@@ -267,17 +289,20 @@
 			</el-dialog>
 			<!-- Dialog user  -->
 		</el-tab-pane>
-		<el-tab-pane label="មុខវិជ្ជាតាមកម្រិត">
+		<!-- មុខវិជ្ជាតាមកម្រិត ------------------------------------------------------------------ -->
+		<el-tab-pane
+			label="មុខវិជ្ជាតាមកម្រិត"
+			name="tab-subject-2"
+		>
 			<div class="bg-white p-2 w-full flex justify-between">
 				<div class="flex space-x-2">
 					<div class="self-start">
 						<el-input
 							placeholder="ស្វែងរក"
 							class="sanfont-khmer"
-							v-model="search"
+							v-model="searchSubjectLevel"
+							@input="clickSearchSubjectLevel"
 						>
-							<i class="el-input__icon el-icon-search"></i>
-							<CirclePlusFilled class="el-input__icon" />
 						</el-input>
 					</div>
 					<div class="self-start  ">
@@ -321,6 +346,16 @@
 					</el-button>
 				</div>
 				<div class="self-end">
+					<el-switch
+						v-model="is_show_trustSubjectLevel"
+						@change="clickShowwTrushSubjectLevel"
+						class="px-2"
+						width="40"
+						active-text="បង្ហាញទិន្នន័យបានលុប"
+						inactive-text=""
+						active-value="1"
+						inactive-value="0"
+					/>
 					<el-button type="info">
 						<el-icon>
 							<Document />
@@ -330,7 +365,7 @@
 					</el-button>
 					<el-button
 						type="primary"
-						@click="AddUser"
+						@click="AddSubjectLevel"
 					>
 						<el-icon>
 							<CirclePlusFilled />
@@ -389,17 +424,17 @@
 							</el-table-column>
 								
 							<el-table-column label="មុខវិជ្ជា">
-								<template #default="scope">{{ scope.row.subject.subject_name_kh }}</template>
+								<template #default="scope">{{ scope.row.subject?.subject_name_kh }}</template>
 							</el-table-column>
 							<el-table-column label="កម្រិត">
 
-								<template #default="scope">{{ scope.row.grade_level.grade_level_name }}</template>
+								<template #default="scope">{{ scope.row.grade_level?.grade_level_name }}</template>
 							</el-table-column>
 							<el-table-column
 								label="ប្រភេទថ្នាក់"
 								sortable
 							>
-								<template #default="scope">{{ scope.row.class_type.name }}</template>
+								<template #default="scope">{{ scope.row.class_type?.name }}</template>
 							</el-table-column>
 							<el-table-column label="ពិន្ទុពេញ">
 								<template #default="scope">{{ scope.row.full_score }}</template>
@@ -414,19 +449,59 @@
 								fixed="right"
 								align="center"
 								label="សកម្មភាព"
+								width="230"
 							>
 								<template #default="scope">
-									<el-button
-										size="small"
-										class="sanfont-khmer"
-										@click="editUser(scope.row.id)"
-									>កែប្រែ</el-button>
-									<el-button
-										size="small"
-										type="danger"
-										class="sanfont-khmer"
-										@click="handleDelete(scope.$index, scope.row)"
-									>លុប</el-button>
+									<div v-if="is_show_trustSubjectLevel==1 &&!loading">
+										<el-button
+											size="small"
+											class="sanfont-khmer"
+											@click="restoreDataSubjectLevel(scope.row.subject_grade_id)"
+										>ស្ដារឡើងវិញ</el-button>
+										<el-popconfirm
+											width="220"
+											confirm-button-text="យល់ព្រម"
+											cancel-button-text="ទេ"
+											:icon="InfoFilled"
+											icon-color="#626AEF"
+											title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+											@confirm="handleDeleteSubjectLevel(scope.row.subject_grade_id)"
+										>
+											<template #reference>
+												<el-button
+													size="small"
+													type="danger"
+													class="sanfont-khmer"
+												>លុបជាអចិន្ត្រៃយ៍
+												</el-button>
+											</template>
+										</el-popconfirm>
+									</div>
+									<div v-if="is_show_trustSubjectLevel==0&&!loading">
+										<el-button
+											size="small"
+											class="sanfont-khmer"
+											@click="editSubjectLevel(scope.row.subject_grade_id)"
+										>កែប្រែ</el-button>
+										<el-popconfirm
+											width="220"
+											confirm-button-text="យល់ព្រម"
+											cancel-button-text="ទេ"
+											:icon="InfoFilled"
+											icon-color="#626AEF"
+											title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+											@confirm="handleDeleteSubjectLevel(scope.row.subject_grade_id)"
+										>
+											<template #reference>
+												<el-button
+													size="small"
+													type="danger"
+													class="sanfont-khmer"
+												>លុប
+												</el-button>
+											</template>
+										</el-popconfirm>
+									</div>
 								</template>
 							</el-table-column>
 							<el-empty description="description"></el-empty>
@@ -434,8 +509,13 @@
 						<div class="py-2 flex justify-center">
 							<el-pagination
 								background
-								layout="prev, pager, next, sizes"
+								v-model:current-page="pageSubjectLevel"
+								v-model:page-size="per_pageSubjectLevel"
+								:page-count="tableDataSubjectLevel.last_page"
+								layout="total, prev, pager, next, sizes"
 								:total="tableDataSubjectLevel.total"
+								@current-change="changePageSubjectLevel"
+								@size-change="changePageSizeSubjectLevel"
 							>
 							</el-pagination>
 						</div>
@@ -445,7 +525,7 @@
 
 			<!-- Dialog  -->
 			<el-dialog
-				v-model="dialogFormVisible"
+				v-model="dialogFormVisibleSubjectLevel"
 				title="ព័ត៌មានមុខវិជ្ជាតាមកម្រិត"
 				class="sanfont-khmer "
 				width="30%"
@@ -460,10 +540,10 @@
 				</template>
 				<el-form
 					class="grid grid-cols-2"
-					:model="ruleForm"
-					:rules="rules"
-					ref="ruleForm"
-					id="fm"
+					:model="ruleFormSubjectLevel"
+					:rules="rulesSubjectLevel"
+					ref="ruleFormSubjectLevel"
+					id="fmSubjectLevel"
 				>
 					<div class="flex flex-col">
 						<div class=" item-start ">
@@ -475,19 +555,19 @@
 
 									<el-form-item
 										label="ឈ្មោះមុខវិជ្ជា (ខ្មែរ)"
-										prop="subLevelNameKh"
+										prop="subject_id"
 										class="sanfont-khmer "
 										:label-width="formLabelWidth"
 									>
 										<el-select
-											v-model="ruleForm.subLevelNameKhValue"
+											v-model="ruleFormSubjectLevel.subject_id"
 											placeholder="ជ្រើសរើស"
 										>
 											<el-option
-												v-for="item in subLevelNameKh"
-												:key="item.subLevelNameKhValue"
-												:label="item.subLevelNameKhLabel"
-												:value="item.subLevelNameKhValue"
+												v-for="item in subject"
+												:key="item"
+												:label="item.subject_name_kh"
+												:value="item.subject_id"
 											>
 											</el-option>
 										</el-select>
@@ -496,19 +576,19 @@
 								<div>
 									<el-form-item
 										label="កម្រិតថ្នាក់"
-										prop="gradeLevelValue"
+										prop="grade_level_id"
 										class="sanfont-khmer"
 										:label-width="formLabelWidth"
 									>
 										<el-select
-											v-model="ruleForm.gradeLevelValue"
+											v-model="ruleFormSubjectLevel.grade_level_id"
 											placeholder="ជ្រើសរើស"
 										>
 											<el-option
 												v-for="item in gradeLevel"
-												:key="item.gradeLevelValue"
-												:label="item.gradeLevelLabel"
-												:value="item.gradeLevelValue"
+												:key="item"
+												:label="item.grade_level_name"
+												:value="item.grade_level_id"
 											>
 											</el-option>
 										</el-select>
@@ -517,19 +597,19 @@
 								<div>
 									<el-form-item
 										label="ប្រភេទថ្នាក់"
-										prop="classTypeValue"
+										prop="class_type_id"
 										class="sanfont-khmer"
 										:label-width="formLabelWidth"
 									>
 										<el-select
-											v-model="ruleForm.classTypeValue"
+											v-model="ruleFormSubjectLevel.class_type_id"
 											placeholder="ជ្រើសរើស"
 										>
 											<el-option
 												v-for="item in classType"
-												:key="item.classTypeValue"
-												:label="item.classTypeLabel"
-												:value="item.classTypeValue"
+												:key="item"
+												:label="item.name"
+												:value="item.class_type_id"
 											>
 											</el-option>
 										</el-select>
@@ -538,15 +618,15 @@
 								<div>
 									<el-form-item
 										label="ពិន្ទុពេញ"
-										prop="fullScore"
+										prop="full_score"
 										class="sanfont-khmer"
 										:label-width="formLabelWidth"
 									>
 										<el-input
-											v-model="ruleForm.fullScore"
+											v-model="ruleFormSubjectLevel.full_score"
 											autocomplete="off"
 											type="number"
-											name="fullScore"
+											name="full_score"
 											clearable
 										/>
 									</el-form-item>
@@ -555,15 +635,15 @@
 								<div>
 									<el-form-item
 										label="មេគុណ"
-										prop="devide"
+										prop="divide"
 										class="sanfont-khmer"
 										:label-width="formLabelWidth"
 									>
 										<el-input
-											v-model="ruleForm.devide"
+											v-model="ruleFormSubjectLevel.divide"
 											autocomplete="off"
 											type="number"
-											name="devide"
+											name="divide"
 											clearable
 										/>
 									</el-form-item>
@@ -571,15 +651,15 @@
 								<div>
 									<el-form-item
 										label="មធ្យមភាគ"
-										prop="devide"
+										prop="average"
 										class="sanfont-khmer"
 										:label-width="formLabelWidth"
 									>
 										<el-input
-											v-model="ruleForm.devide"
+											v-model="ruleFormSubjectLevel.average"
 											autocomplete="off"
 											type="number"
-											name="devide"
+											name="average"
 											clearable
 										/>
 									</el-form-item>
@@ -590,33 +670,26 @@
 					</div>
 
 				</el-form>
-				<el-dialog v-model="dialogVisible">
-					<img
-						w-full
-						:src="dialogImageUrl"
-						alt="Preview Image"
-					/>
-				</el-dialog>
 				<template #footer>
 					<span class="dialog-footer">
 						<el-button
-							@click="cancelAction()"
+							@click="cancelActionSubjectLevel()"
 							class="sanfont-khmer "
 							type="danger"
 						> បោះបង់</el-button>
 						<el-button
-							v-if="!isShowButtonUpdate"
+							v-if="!isShowButtonUpdateSubjectLevel"
 							type="primary"
 							class="sanfont-khmer"
-							@click="submitForm('ruleForm')"
+							@click="submitFormSubjectLevel('ruleFormSubjectLevel')"
 						>
 							រក្សាទុក
 						</el-button>
 						<el-button
-							v-if="isShowButtonUpdate"
+							v-if="isShowButtonUpdateSubjectLevel"
 							type="primary"
 							class="sanfont-khmer"
-							@click="updateData('ruleForm')"
+							@click="updateDataSubjectLevel('ruleFormSubjectLevel')"
 						>
 							រក្សាទុក
 						</el-button>
@@ -626,6 +699,8 @@
 			<!-- Dialog user  -->
 
 		</el-tab-pane>
+		<!-- មុខវិជ្ជាតាមកម្រិត ------------------------------------------------------------------ -->
+
 	</el-tabs>
 
 </template>
@@ -650,22 +725,13 @@ export default {
 			isShowPassword: true,
 			isShowButtonUpdate: false,
 
-
 			ruleForm: {
 				subject_id: null,
 				subNameKh: null,
-				subNameEng: null,
 				subShortNameEng: null,
-				subLevelNameKh: null,
-				gradeLevelValue: null,
-				classTypeValue: null,
-				name: null,
-				roles: null,
-				password: null,
-				email: null,
-				photo_id: null,
-				userId: null
+				subNameEng: null,
 			},
+
 			rules: {
 				subNameKh: [
 					{ required: true, message: 'សូមបញ្ជូលឈ្មោះមុខវិជ្ជា (ខ្មែរ)', trigger: 'blur' },
@@ -714,84 +780,105 @@ export default {
 			}],
 			filterSelectValue: "",
 
-			subLevelNameKh: [{
-				subLevelNameKhValue: '1',
-				subLevelNameKhLabel: 'ភាសាខ្មែរ'
-			}, {
-				subLevelNameKhValue: '2',
-				subLevelNameKhLabel: 'គណិតវិទ្យា'
-			},
-			{
-				subLevelNameKhValue: '3',
-				subLevelNameKhLabel: 'រូបវិទ្យា'
-			},
-			{
-				subLevelNameKhValue: '4',
-				subLevelNameKhLabel: 'គីមីវិទ្យា'
-			}, {
-				subLevelNameKhValue: '5',
-				subLevelNameKhLabel: 'ជីវះវិទ្យា'
-			},
-			{
-				subLevelNameKhValue: '6',
-				subLevelNameKhLabel: 'ភូមិវិទ្យា'
-			},
-			{
-				subLevelNameKhValue: '7',
-				subLevelNameKhLabel: 'ប្រវត្តិវិទ្យា'
-			},
+			//Data Page filter
+			page: 1,
+			per_page: 10,
+			sort_by: 'subject_id',
+			order_by: 1,
+			search: '',
+			tSearch: null,
+			is_show_trust: 0,
+			//Data Page filter
 
-			],
-
-			gradeLevel: [{
-				gradeLevelValue: '10',
-				gradeLevelLabel: 'ទី10'
-			}, {
-				gradeLevelValue: '11',
-				gradeLevelLabel: 'ទី11'
+			// Subject Level --------------------------------------
+			ruleFormSubjectLevel: {
+				subject_grade_id: null,
+				subject_id: null,
+				grade_level_id: null,
+				class_type_id: null,
+				full_score: null,
+				divide: null,
+				average: null,
 			},
-			{
-				gradeLevelValue: '12',
-				gradeLevelLabel: 'ទី12'
-			}],
-			gradeLevelValue: '',
+			rulesSubjectLevel: {
 
-			classType: [{
-				classTypeValue: 'ធម្មតា',
-				classTypeLabel: 'ធម្មតា'
-			}, {
-				classTypeValue: 'វិជ្ជាសាស្រ្តពិក',
-				classTypeLabel: 'វិជ្ជាសាស្រ្តពិក'
+				subject_id: [
+					{ required: true, message: 'សូមជ្រើសរើសឈ្មោះមុខវិជ្ជា', trigger: 'blur' },
+				],
+				grade_level_id: [
+					{ required: true, message: 'សូមជ្រើសរើសកម្រិតថ្នាក់', trigger: 'blur' }
+				],
+				class_type_id: [
+					{ required: true, message: 'សូមជ្រើសរើសប្រភេទថ្នាក់', trigger: 'blur' },
+				],
 			},
-			{
-				classTypeValue: 'វិជ្ជាសាស្រ្តសង្គម',
-				classTypeLabel: 'វិជ្ជាសាស្រ្តសង្គម'
-			}],
-			classTypeValue: '',
+			dialogFormVisibleSubjectLevel: false,
+			isShowButtonUpdateSubjectLevel: false,
+
+			//Data Page filter
+			pageSubjectLevel: 1,
+			per_pageSubjectLevel: 10,
+			sort_bySubjectLevel: 'subject_id',
+			order_bySubjectLevel: 1,
+			searchSubjectLevel: '',
+			tSearchSubjectLevel: null,
+			is_show_trustSubjectLevel: 0,
+			//Data Page filter
+
+
+			subject: [],
+			gradeLevel: [],
+			classType: [],
+
+			tabClassDetail: 1,
 		}
 	},
 	mounted() {
-		this.getData();
-		this.getDataSubjectLevel()
+
+		// Default active tap
+		this.tabClassDetail = localStorage.getItem('tab-subject') ?? 'tab-subject-1';
+		if (this.tabClassDetail == 'tab-subject-1') {
+			this.getData();
+		} else {
+			this.getDataSubjectLevel();
+		}
 	},
 	methods: {
-		handleAvatarSuccess(file) {
-			if (file) {
-				this.ruleForm.profile_img = file
-				this.imageUrl = URL.createObjectURL(file.raw);
-				this.submitUplaod()
+		//tap funtion
+		changeTap(name) {
+			localStorage.setItem('tab-subject', name);
+			if (name == 'tab-subject-1') {
+				this.getData();
+			} else {
+				this.getDataSubjectLevel();
 			}
 		},
-		beforeAvatarUpload(file) {
-			const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
-			const isLt2M = file.size / 1024 / 1024 < 2;
-			if (!isJPG) {
-				this.$message.error('Avatar picture must be JPG format!');
-			}
-			if (!isLt2M) {
-				this.$message.error('Avatar picture size can not exceed 2MB!');
-			}
-			return isJPG && isLt2M;
+
+		//Change Per Page
+		changePageSize(event) {
+			this.per_page = event;
+			this.getData();
+
+		},
+		//Chnage Page 
+		changePage(event) {
+			this.page = event;
+			this.getData();
+		},
+
+		// ស្វែងរក ទិន្នន័យ
+		clickSearch() {
+			clearTimeout(this.tSearch);
+			this.tSearch = setTimeout(() => {
+				if (this.search != null) {
+					if (this.search.replace(/\s/g, '') !== '') {
+					}
+					this.getData();
+				}
+			}, 1000);
+		},
+		clickShowwTrush() {
+			this.getData();
 		},
 		submitForm(formName) {
 			this.$refs[formName].validate((valid) => {
@@ -816,23 +903,6 @@ export default {
 			}
 		},
 		/*
-		*  Function upload image 
-		*/
-		async submitUplaod() {
-			const form = new FormData(document.getElementById('fm'));
-
-			const config = {
-				headers: { 'content-type': 'multipart/form-data' }
-			}
-			await axios.post('/files/create/upload', form, config).then(response => {
-				this.ruleForm.photo_id = response.data.file.id
-				this.$message({
-					message: 'Congrats, this is a success message.',
-					type: 'success'
-				});
-			})
-		},
-		/*
 		*  Function create new subject
 		*/
 		async submitData() {
@@ -845,7 +915,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -884,7 +954,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -912,30 +982,40 @@ export default {
 			console.log(UploadFile)
 		},
 
-		async AddUser() {
-			// this.cancelAction()
-			// this.resetForm('ruleForm');
-			//this.ruleForm.name = ''
-			//this.ruleForm.userId = ''
-			//this.ruleForm.roles = ''
-			//this.ruleForm.email = ''
-			//this.imageUrl = ''
-			//this.ruleForm.photo_id = ''
-			//this.roles = null
+
+		/*
+		*  Function Delete 
+		*/
+		async handleDelete(id) {
+			await axios.delete('/subject' + '/delete/' + id).then(response => {
+				this.getData();
+
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+			})
+		},
+		async restoreData(id) {
+			await axios.post('/subject' + '/restore/' + id).then(response => {
+				this.getData();
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+			})
+		},
+		async AddSubject() {
+			this.ruleForm.subject_id = null
+			this.ruleForm.subNameKh = null
+			this.ruleForm.subNameEng = null
+			this.ruleForm.subShortNameEng = null
 
 			this.dialogFormVisible = true
-			//this.isShowButtonUpdate = false;
-			//this.isShowPassword = true;
-
-			//await axios.get('/user/create').then(response => {
-			//this.roles = response.data.roles
-			//}).catch((error) => {
-			//console.log(error)
-			//})
 		},
 		async getData() {
 			this.loading = true
-			await axios.get('/subject/get').then(response => {
+			await axios.get(`/subject/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`).then(response => {
 				this.tableData = response.data.data
 				this.loading = false
 			}).catch((error) => {
@@ -944,19 +1024,7 @@ export default {
 				}
 			})
 		},
-		async getDataSubjectLevel() {
-			this.loading = true
 
-			await axios.get('/subject-level/get').then(response => {
-				this.tableDataSubjectLevel = response.data.data
-				console.log(this.tableDataSubjectLevel)
-				this.loading = false
-			}).catch((error) => {
-				if (error.response.status == 401) {
-					this.$store.commit("auth/CLEAR_TOKEN")
-				}
-			})
-		},
 		async editSubject(id) {
 			this.dialogFormVisible = true;
 			this.isShowButtonUpdate = true;
@@ -967,12 +1035,6 @@ export default {
 				this.ruleForm.subNameKh = response.data.data.subject_name_kh
 				this.ruleForm.subNameEng = response.data.data.subject_name_en
 				this.ruleForm.subShortNameEng = response.data.data.subject_sort_name_en
-				//	this.ruleForm.roles = response.data.data.subNameKh
-				//	this.ruleForm.email = response.data.user.email
-				//	this.imageUrl = response.data.user.img?.file_path
-				//	this.ruleForm.photo_id = response.data.user.id
-				//	this.roles = response.data.roles
-
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
@@ -987,10 +1049,167 @@ export default {
 				offset: 100,
 			})
 			ElMessage({
-				message: 'Congrats, this is a success message.',
+				message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 				type: 'success',
 			})
-		}
+		},
+		//--------------------------------------Subeject Level---------------------------------------------
+		async getDataSubjectLevel() {
+			this.loading = true
+
+			await axios.get(`/subject-level/get?page=${this.pageSubjectLevel}&per_page=${this.per_pageSubjectLevel}&sort_by=${this.sort_bySubjectLevel}&order_by=${this.order_bySubjectLevel}&search=${this.searchSubjectLevel}&is_show_trust=${this.is_show_trustSubjectLevel}`).then(response => {
+				this.tableDataSubjectLevel = response.data.data
+				this.subject = response.data.subject
+				this.gradeLevel = response.data.gradeLevel
+				this.classType = response.data.classType
+				this.loading = false
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		AddSubjectLevel() {
+			this.ruleFormSubjectLevel.subject_grade_id = null
+			this.ruleFormSubjectLevel.subject_id = null
+			this.ruleFormSubjectLevel.class_type_id = null
+			this.ruleFormSubjectLevel.grade_level_id = null
+			this.ruleFormSubjectLevel.average = null
+			this.ruleFormSubjectLevel.full_score = null
+			this.ruleFormSubjectLevel.divide = null
+
+			this.dialogFormVisibleSubjectLevel = true
+		},
+		//Change Per Page
+		changePageSizeSubjectLevel(event) {
+			this.per_pageSubjectLevel = event;
+			this.getDataSubjectLevel();
+
+		},
+		//Chnage Page 
+		changePageSubjectLevel(event) {
+			this.page = event;
+			this.getDataSubjectLevel();
+		},
+
+		// ស្វែងរក ទិន្នន័យ
+		clickSearchSubjectLevel() {
+			clearTimeout(this.tSearchSubjectLevel);
+			this.tSearchSubjectLevel = setTimeout(() => {
+				if (this.searchSubjectLevel != null) {
+					if (this.searchSubjectLevel.replace(/\s/g, '') !== '') {
+					}
+					this.getDataSubjectLevel();
+				}
+			}, 1000);
+		},
+		clickShowwTrushSubjectLevel() {
+			this.getDataSubjectLevel();
+		},
+		submitFormSubjectLevel(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					this.submitDataSubjectLevel()
+					this.resetFormSubjectLevel('ruleFormSubjectLevel')
+				} else {
+					console.log('error submit!!');
+					return false;
+				}
+			});
+		},
+		cancelActionSubjectLevel() {
+			this.resetFormSubjectLevel('ruleFormSubjectLevel');
+			this.dialogFormVisibleSubjectLevel = !this.dialogFormVisibleSubjectLevel;
+
+		},
+		resetFormSubjectLevel(formName) {
+			if (this.$refs[formName]) {
+				this.$refs[formName].resetFields();
+			}
+		},
+		/*
+		*  Function create new subject
+		*/
+		async submitDataSubjectLevel() {
+			const form = new FormData(document.getElementById('fmSubjectLevel'));
+			form.append('subject_id', this.ruleFormSubjectLevel.subject_id)
+			form.append('grade_level_id', this.ruleFormSubjectLevel.grade_level_id)
+			form.append('class_type_id', this.ruleFormSubjectLevel.class_type_id)
+			const config = {
+				headers: { 'content-type': 'multipart/form-data' }
+			}
+			await axios.post('/subject-level/create', form, config).then(response => {
+				this.getDataSubjectLevel();
+				this.dialogFormVisibleSubjectLevel = false;
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+			})
+		},
+		async editSubjectLevel(id) {
+			this.dialogFormVisibleSubjectLevel = true;
+			this.isShowButtonUpdateSubjectLevel = true;
+			await axios.get('/subject-level/edit/' + id).then(response => {
+				this.ruleFormSubjectLevel.subject_grade_id = response.data.data.subject_grade_id
+				this.ruleFormSubjectLevel.subject_id = response.data.data.subject_id
+				this.ruleFormSubjectLevel.class_type_id = response.data.data.class_type_id
+				this.ruleFormSubjectLevel.grade_level_id = response.data.data.grade_level_id
+				this.ruleFormSubjectLevel.average = response.data.data.average
+				this.ruleFormSubjectLevel.full_score = response.data.data.full_score
+				this.ruleFormSubjectLevel.divide = response.data.data.divide
+
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		/*
+	*  Function update new user  
+	*/
+		async updateDataSubjectLevel() {
+
+			const form = new FormData(document.getElementById('fmSubjectLevel'));
+			form.append('subject_id', this.ruleFormSubjectLevel.subject_id)
+			form.append('grade_level_id', this.ruleFormSubjectLevel.grade_level_id)
+			form.append('class_type_id', this.ruleFormSubjectLevel.class_type_id)
+			const config = {
+				headers: { 'content-type': 'multipart/form-data' }
+			}
+			await axios.post('/subject-level/update/' + this.ruleFormSubjectLevel.subject_grade_id, form, config).then(response => {
+				this.getDataSubjectLevel();
+				this.dialogFormVisibleSubjectLevel = false;
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+			})
+		},
+
+
+		/*
+		*  Function Delete 
+		*/
+		async handleDeleteSubjectLevel(id) {
+			await axios.delete('/subject-level/delete/' + id).then(response => {
+				this.getDataSubjectLevel();
+
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+			})
+		},
+		async restoreDataSubjectLevel(id) {
+			await axios.post('/subject-level/restore/' + id).then(response => {
+				this.getDataSubjectLevel();
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+			})
+		},
 	}
 }
 </script>

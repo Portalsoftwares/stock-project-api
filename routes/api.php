@@ -29,10 +29,11 @@ Route::prefix('v1')->group(function () {
       Route::get('/get', [UserController::class, 'index']);
       Route::get('/create', [UserController::class, 'create']);
       Route::post('/store', [UserController::class, 'store']);
-      Route::get('/{id}/get', [UserController::class, 'show']);
-      Route::get('/{id}/edit', [UserController::class, 'edit']);
-      Route::post('/{id}/update', [UserController::class, 'update']);
-      Route::delete('/{id}/destroy', [UserController::class, 'destroy']);
+      Route::get('get/{id}', [UserController::class, 'show']);
+      Route::get('edit/{id}', [UserController::class, 'edit']);
+      Route::post('update/{id}', [UserController::class, 'update']);
+      Route::delete('delete/{id}', [UserController::class, 'delete']);
+      Route::post('/restore/{id}', [UserController::class, 'restore']);
     });
     // Files  
     Route::prefix('files')->group(function () {
@@ -40,20 +41,6 @@ Route::prefix('v1')->group(function () {
       Route::post('/create/upload', [UploadFileController::class, 'store']);
       // Route::post('/create' , [UploadFileController::class, 'store']);
       Route::get('/get/upload/{id}', [UploadFileController::class, 'getUploadFileByActivation']);
-      // Preview File
-      Route::get('storage/{filename}', function ($filename) {
-        $name = "app\public\images\ $filename";
-        $string = preg_replace('/\s+/', '', $name);
-        $path = storage_path($string);
-        if (!File::exists($path)) {
-          abort(404);
-        }
-        $file = File::get($path);
-        $type = File::mimeType($path);
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-        return  $response;
-      });
     });
     //Student
     Route::prefix('student')->group(function () {
@@ -62,6 +49,7 @@ Route::prefix('v1')->group(function () {
       Route::get('/edit/{id}', [StudentController::class, 'edit']);
       Route::post('/update/{id}', [StudentController::class, 'update']);
       Route::delete('/delete/{id}', [StudentController::class, 'delete']);
+      Route::post('/restore/{id}', [StudentController::class, 'restore']);
     });
     //Teacher
     Route::prefix('teacher')->group(function () {
@@ -79,18 +67,18 @@ Route::prefix('v1')->group(function () {
       Route::get('/edit/{id}', [SubjectController::class, 'edit']);
       Route::post('/update/{id}', [SubjectController::class, 'update']);
       Route::delete('/delete/{id}', [SubjectController::class, 'delete']);
+      Route::post('/restore/{id}', [SubjectController::class, 'restore']);
     });
+    //Subject Grade Level 
     Route::prefix('subject-level')->group(function () {
       Route::get('/get', [SubjectController::class, 'getSubjectLevel']);
       Route::post('/create', [SubjectController::class, 'createSubjectLevel']);
       Route::get('/edit/{id}', [SubjectController::class, 'editSubjectLevel']);
       Route::post('/update/{id}', [SubjectController::class, 'updateSubjectLevel']);
       Route::delete('/delete/{id}', [SubjectController::class, 'deleteSubjectLevel']);
+      Route::post('/restore/{id}', [SubjectController::class, 'restoreSubjectLevel']);
     });
-    //Subject
-    Route::prefix('subject')->group(function () {
-      Route::get('/get', [SubjectController::class, 'index']);
-    });
+
     //Class
     Route::prefix('class')->group(function () {
       Route::get('/get', [ClassController::class, 'index']);
@@ -99,13 +87,16 @@ Route::prefix('v1')->group(function () {
       Route::get('/edit/{id}', [ClassController::class, 'edit']);
       Route::post('/update/{id}', [ClassController::class, 'update']);
       Route::delete('/delete/{id}', [ClassController::class, 'delete']);
+      //Add student in Class
+      Route::post('/student/{id}/add', [ClassController::class, 'addStudentClass']);
     });
 
     //Schedule class
     Route::prefix('schedule_class')->group(function () {
       Route::get('/{id}/get', [ScheduleController::class, 'index']);
+      Route::get('/{id}/edit', [ScheduleController::class, 'edit']);
       Route::get('/{id}/schedule', [ScheduleController::class, 'getScheduleDayTime']);
-      Route::post('/create', [ScheduleController::class, 'create']);
+      Route::post('/{id}/create', [ScheduleController::class, 'create']);
     });
     //Teacher class
     Route::prefix('teacher_class')->group(function () {
@@ -125,6 +116,11 @@ Route::prefix('v1')->group(function () {
     //Time 
     Route::prefix('time')->group(function () {
       Route::get('/get', [TimeController::class, 'index']);
+      Route::post('/create', [TimeController::class, 'create']);
+      Route::get('/edit/{id}', [TimeController::class, 'edit']);
+      Route::post('/update/{id}', [TimeController::class, 'update']);
+      Route::post('/restore/{id}', [TimeController::class, 'restore']);
+      Route::delete('/delete/{id}', [TimeController::class, 'delete']);
     });
     //Academic
     Route::prefix('academic')->group(function () {

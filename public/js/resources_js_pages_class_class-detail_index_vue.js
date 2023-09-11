@@ -164,10 +164,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       loading_schedule: false,
       loading_student: false,
       ruleFormSchedule: {
-        class_id: 1,
-        time_id: 1,
-        subject_grade_id: 1,
-        day_id: 1
+        class_id: null,
+        time_id: null,
+        subject_grade_id: null,
+        day_id: null
       },
       rulesSchedule: {
         class_id: [{
@@ -193,9 +193,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       dialogFormTeacher: false,
       ruleFormTeacher: {
-        class_id: 1,
-        teacher_id: 1,
-        subject_grade_id: 1,
+        class_id: null,
+        teacher_id: null,
+        subject_grade_id: null,
         role_id: '0'
       },
       ruleTeacher: {
@@ -218,7 +218,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       errors: {},
       activeDay: '',
       fullscreenLoading: false,
-      date: ''
+      date: '',
+      dataSchedule: []
     };
   },
   mounted: function mounted() {
@@ -242,26 +243,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$router.push('/class');
     },
     ManageSchedule: function ManageSchedule() {
-      this.dialogFormVisible = true;
+      var _this = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              _this.dialogFormVisible = true;
+            case 1:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee);
+      }))();
     },
     addTeacher: function addTeacher() {
       this.dialogFormTeacher = true;
       this.ruleFormTeacher.class_id = this.classData.class_id;
     },
     addNewSchedule: function addNewSchedule() {
-      this.dialogFormSchedule = true;
-      this.ruleFormSchedule.class_id = this.classData.class_id;
+      var _this2 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var class_id;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _this2.dialogFormSchedule = true;
+              _this2.ruleFormSchedule.class_id = _this2.classData.class_id;
+              _this2.loading_schedule = true;
+              class_id = _this2.$route.query.id;
+              _context2.next = 6;
+              return axios.get('/schedule_class/' + class_id + '/edit').then(function (response) {
+                _this2.dataSchedule = response.data.data;
+                // setTimeout(() => {
+                _this2.loading_schedule = false;
+                // }, 1000)
+              })["catch"](function (error) {
+                _this2.loading_schedule = false;
+                if (error.response.status == 401) {
+                  _this2.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 6:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2);
+      }))();
     },
     resetForm: function resetForm(formName) {
       if (this.$refs[formName]) {
         this.$refs[formName].resetFields();
       }
     },
+    //Add teacher subject
     submitFormTeacher: function submitFormTeacher(formName) {
-      var _this = this;
+      var _this3 = this;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          _this.submitDataTeacher();
+          _this3.submitDataTeacher();
         } else {
           console.log('error submit!!');
           return false;
@@ -269,37 +308,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     submitDataTeacher: function submitDataTeacher() {
-      var _this2 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var formID, form, config;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
             case 0:
               formID = document.getElementById('fmTeacher');
               form = new FormData(formID);
-              form.append('class_id', _this2.ruleFormTeacher.class_id);
-              form.append('teacher_id', _this2.ruleFormTeacher.teacher_id);
-              form.append('role_id', _this2.ruleFormTeacher.role_id);
-              form.append('subject_grade_id', _this2.ruleFormTeacher.subject_grade_id);
+              form.append('class_id', _this4.ruleFormTeacher.class_id);
+              form.append('teacher_id', _this4.ruleFormTeacher.teacher_id);
+              form.append('role_id', _this4.ruleFormTeacher.role_id);
+              form.append('subject_grade_id', _this4.ruleFormTeacher.subject_grade_id);
               console.log(form, formID);
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context.next = 10;
+              _context3.next = 10;
               return axios.post('/teacher_class/create', form, config).then(function (response) {
                 if (response.status == 200) {
-                  _this2.$message({
+                  _this4.$message({
                     message: 'Successfully , this is a success message.',
                     type: 'success'
                   });
-                  _this2.getTeacher();
+                  _this4.getTeacher();
                 }
               })["catch"](function (error) {
                 if (error.response.status == 400) {
-                  _this2.errors = error.response.data.errors;
-                  _this2.$message({
+                  _this4.errors = error.response.data.errors;
+                  _this4.$message({
                     message: 'Error, this is a errror message.',
                     type: 'error'
                   });
@@ -307,9 +346,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
             case 10:
             case "end":
-              return _context.stop();
+              return _context3.stop();
           }
-        }, _callee);
+        }, _callee3);
       }))();
     },
     // Schedule Function
@@ -322,10 +361,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.dialogFormSchedule = false;
     },
     submitForm: function submitForm(formName) {
-      var _this3 = this;
+      var _this5 = this;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          _this3.submitData();
+          _this5.submitData();
         } else {
           console.log('error submit!!');
           return false;
@@ -336,127 +375,122 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function create schedule
     */
     submitData: function submitData() {
-      var _this4 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var formID, form, config;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
+      var _this6 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var config;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              formID = document.getElementById('fmSchedule');
-              form = new FormData(formID);
-              form.append('class_id', _this4.ruleFormSchedule.class_id);
-              form.append('time_id', _this4.ruleFormSchedule.time_id);
-              form.append('day_id', _this4.ruleFormSchedule.day_id);
-              form.append('subject_grade_id', _this4.ruleFormSchedule.subject_grade_id);
-              console.log(form, formID);
               config = {
                 headers: {
-                  'content-type': 'multipart/form-data'
+                  'content-type': 'application/json'
                 }
               };
-              _context2.next = 10;
-              return axios.post('/schedule_class/create', form, config).then(function (response) {
-                _this4.getScheduleData();
-                _this4.$message({
+              _context4.next = 3;
+              return axios.post('/schedule_class/' + _this6.classData.class_id + '/create', {
+                'data': _this6.dataSchedule
+              }, config).then(function (response) {
+                _this6.getScheduleData();
+                _this6.$message({
                   message: 'Successfully , this is a success message.',
                   type: 'success'
                 });
               })["catch"](function (error) {
                 if (error.response.status == 400) {
-                  _this4.errors = error.response.data.errors;
-                  _this4.$message({
+                  _this6.errors = error.response.data.errors;
+                  _this6.$message({
                     message: 'Error, this is a errror message.',
                     type: 'error'
                   });
                 }
               });
-            case 10:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2);
-      }))();
-    },
-    getTeacher: function getTeacher() {
-      var _this5 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var class_id;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
-            case 0:
-              _this5.loading_student = true;
-              class_id = _this5.$route.query.id;
-              _context3.next = 4;
-              return axios.get('/class/teacher/' + class_id + '/get').then(function (response) {
-                _this5.teacherData = response.data.teacher;
-                _this5.studentData = response.data.student;
-                _this5.classData = response.data["class"];
-                _this5.loading_student = false;
-              })["catch"](function (error) {
-                _this5.loading_student = false;
-                if (error.response.status == 401) {
-                  _this5.$store.commit("auth/CLEAR_TOKEN");
-                }
-              });
-            case 4:
-            case "end":
-              return _context3.stop();
-          }
-        }, _callee3);
-      }))();
-    },
-    getScheduleData: function getScheduleData() {
-      var _this6 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var class_id;
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
-            case 0:
-              _this6.loading_schedule = true;
-              class_id = _this6.$route.query.id;
-              _context4.next = 4;
-              return axios.get('/schedule_class/' + class_id + '/get').then(function (response) {
-                _this6.tableData = response.data.data;
-                // setTimeout(() => {
-                _this6.loading_schedule = false;
-                // }, 1000)
-              })["catch"](function (error) {
-                _this6.loading_schedule = false;
-                if (error.response.status == 401) {
-                  _this6.$store.commit("auth/CLEAR_TOKEN");
-                }
-              });
-            case 4:
+            case 3:
             case "end":
               return _context4.stop();
           }
         }, _callee4);
       }))();
     },
-    getTimeDayData: function getTimeDayData() {
+    getTeacher: function getTeacher() {
       var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         var class_id;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
+              _this7.loading_student = true;
               class_id = _this7.$route.query.id;
-              _context5.next = 3;
-              return axios.get('/schedule_class/' + class_id + '/schedule').then(function (response) {
-                _this7.dataDay = response.data.data;
-                _this7.subjectData = response.data.data.subject;
-                _this7.allTeacherData = response.data.data.teacher;
-                _this7.columnDay = _this7.dataDay.day;
+              _context5.next = 4;
+              return axios.get('/class/teacher/' + class_id + '/get').then(function (response) {
+                _this7.teacherData = response.data.teacher;
+                _this7.studentData = response.data.student;
+                _this7.classData = response.data["class"];
+                _this7.loading_student = false;
               })["catch"](function (error) {
+                _this7.loading_student = false;
                 if (error.response.status == 401) {
                   _this7.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 3:
+            case 4:
             case "end":
               return _context5.stop();
           }
         }, _callee5);
+      }))();
+    },
+    getScheduleData: function getScheduleData() {
+      var _this8 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        var class_id;
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) switch (_context6.prev = _context6.next) {
+            case 0:
+              _this8.loading_schedule = true;
+              class_id = _this8.$route.query.id;
+              _context6.next = 4;
+              return axios.get('/schedule_class/' + class_id + '/get').then(function (response) {
+                _this8.tableData = response.data.data;
+                // setTimeout(() => {
+                _this8.loading_schedule = false;
+                // }, 1000)
+              })["catch"](function (error) {
+                _this8.loading_schedule = false;
+                if (error.response.status == 401) {
+                  _this8.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 4:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6);
+      }))();
+    },
+    getTimeDayData: function getTimeDayData() {
+      var _this9 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+        var class_id;
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) switch (_context7.prev = _context7.next) {
+            case 0:
+              class_id = _this9.$route.query.id;
+              _context7.next = 3;
+              return axios.get('/schedule_class/' + class_id + '/schedule').then(function (response) {
+                _this9.dataDay = response.data.data;
+                _this9.subjectData = response.data.data.subject;
+                _this9.allTeacherData = response.data.data.teacher;
+                _this9.columnDay = _this9.dataDay.day;
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this9.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 3:
+            case "end":
+              return _context7.stop();
+          }
+        }, _callee7);
       }))();
     },
     // Attendance
@@ -464,44 +498,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function create attendace
     */
     submitFormAttendance: function submitFormAttendance() {
-      var _this8 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+      var _this10 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
         var attendanceInfo, config;
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) switch (_context6.prev = _context6.next) {
+        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+          while (1) switch (_context8.prev = _context8.next) {
             case 0:
-              _this8.fullscreenLoading = true;
+              _this10.fullscreenLoading = true;
               attendanceInfo = {
-                'class_id': _this8.attendanceClassId,
-                'time_id': _this8.attendanceTimeId,
-                'day_id': _this8.attendanceDayId,
-                'subject_grade_id': _this8.attendanceSubjecGradetId,
-                'data': _this8.studentCallAttendance
+                'class_id': _this10.attendanceClassId,
+                'time_id': _this10.attendanceTimeId,
+                'day_id': _this10.attendanceDayId,
+                'subject_grade_id': _this10.attendanceSubjecGradetId,
+                'data': _this10.studentCallAttendance
               };
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context6.next = 5;
+              _context8.next = 5;
               return axios.post('/attendance/create', attendanceInfo, config).then(function (response) {
-                _this8.getScheduleData();
-                _this8.fullscreenLoading = false;
-                _this8.$notify.success({
+                _this10.getScheduleData();
+                _this10.fullscreenLoading = false;
+                _this10.$notify.success({
                   title: 'រួចរាល់',
                   message: 'បញ្ចូលវត្តមានបានជោគជ័យ 😊',
                   showClose: true
                 });
               })["catch"](function (error) {
-                _this8.fullscreenLoading = false;
-                _this8.$notify.error({
+                _this10.fullscreenLoading = false;
+                _this10.$notify.error({
                   title: 'កំហុស',
                   message: 'បញ្ចូលវត្តមានមិនបានជោគជ័យទេ 😓',
                   showClose: true
                 });
                 if (error.response.status == 400) {
-                  _this8.errors = error.response.data.errors;
-                  _this8.$message({
+                  _this10.errors = error.response.data.errors;
+                  _this10.$message({
                     message: 'Error, this is a errror message.',
                     type: 'error'
                   });
@@ -509,56 +543,56 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
             case 5:
             case "end":
-              return _context6.stop();
+              return _context8.stop();
           }
-        }, _callee6);
+        }, _callee8);
       }))();
     },
     callAttenance: function callAttenance(day_id, time_id, subject_id) {
-      var _this9 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+      var _this11 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
         var class_id, attendanceInfo, config;
-        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-          while (1) switch (_context7.prev = _context7.next) {
+        return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+          while (1) switch (_context9.prev = _context9.next) {
             case 0:
-              _this9.fullscreenLoading = true;
-              class_id = _this9.$route.query.id;
-              _this9.attendanceTimeId = time_id;
-              _this9.attendanceDayId = day_id;
-              _this9.attendanceClassId = class_id;
-              _this9.attendanceSubjecGradetId = subject_id;
+              _this11.fullscreenLoading = true;
+              class_id = _this11.$route.query.id;
+              _this11.attendanceTimeId = time_id;
+              _this11.attendanceDayId = day_id;
+              _this11.attendanceClassId = class_id;
+              _this11.attendanceSubjecGradetId = subject_id;
               attendanceInfo = {
-                'class_id': _this9.attendanceClassId,
-                'time_id': _this9.attendanceTimeId,
-                'day_id': _this9.attendanceDayId,
-                'subject_grade_id': _this9.attendanceSubjecGradetId
+                'class_id': _this11.attendanceClassId,
+                'time_id': _this11.attendanceTimeId,
+                'day_id': _this11.attendanceDayId,
+                'subject_grade_id': _this11.attendanceSubjecGradetId
               };
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context7.next = 10;
+              _context9.next = 10;
               return axios.post('/attendance/call/' + class_id, attendanceInfo, config).then(function (response) {
-                _this9.studentCallAttendance = response.data.data;
-                _this9.dataDayObj = response.data.day;
-                _this9.dataTimeObj = response.data.time;
-                _this9.dataSubjectGradeObj = response.data.subject;
-                _this9.dialogFormVisible = true;
+                _this11.studentCallAttendance = response.data.data;
+                _this11.dataDayObj = response.data.day;
+                _this11.dataTimeObj = response.data.time;
+                _this11.dataSubjectGradeObj = response.data.subject;
+                _this11.dialogFormVisible = true;
                 setTimeout(function () {
-                  _this9.fullscreenLoading = false;
+                  _this11.fullscreenLoading = false;
                 }, 2000);
               })["catch"](function (error) {
-                _this9.fullscreenLoading = false;
+                _this11.fullscreenLoading = false;
                 if (error.response.status == 401) {
-                  _this9.$store.commit("auth/CLEAR_TOKEN");
+                  _this11.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 10:
             case "end":
-              return _context7.stop();
+              return _context9.stop();
           }
-        }, _callee7);
+        }, _callee9);
       }))();
     },
     closeFormAttendance: function closeFormAttendance() {
@@ -801,6 +835,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
+      studentData: [],
       studentClass: [],
       tableData: [],
       classData: [],
@@ -863,13 +898,79 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, {
         genderValue: 'ស្រី',
         genderLabel: 'ស្រី'
-      }]
+      }],
+      selectDataStudent: []
     };
   },
   mounted: function mounted() {
     this.getData();
+    this.getTeacher();
   },
   methods: {
+    //select student id
+    handleSelectionChange: function handleSelectionChange(value) {
+      this.selectDataStudent = value;
+    },
+    //Add student in class 
+    addStudentInClass: function addStudentInClass() {
+      var _this = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var config, class_id;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              _this.loading = true;
+              config = {
+                headers: {
+                  'content-type': 'application/json'
+                }
+              };
+              class_id = _this.$route.query.id;
+              _context.next = 5;
+              return axios.post('/class/student/' + class_id + '/add', {
+                'data': _this.selectDataStudent
+              }, config).then(function (response) {
+                _this.loading = false;
+                _this.getTeacher();
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 5:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee);
+      }))();
+    },
+    getTeacher: function getTeacher() {
+      var _this2 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var class_id;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _this2.loading_student = true;
+              class_id = _this2.$route.query.id;
+              _context2.next = 4;
+              return axios.get('/class/teacher/' + class_id + '/get').then(function (response) {
+                _this2.studentData = response.data.student;
+                _this2.loading_student = false;
+                _this2.dialogVisibleAdd = false;
+              })["catch"](function (error) {
+                _this2.loading_student = false;
+                if (error.response.status == 401) {
+                  _this2.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 4:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2);
+      }))();
+    },
     handleAvatarSuccess: function handleAvatarSuccess(file) {
       if (file) {
         this.ruleForm.profile_img = file;
@@ -889,11 +990,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return isJPG && isLt2M;
     },
     submitForm: function submitForm(formName) {
-      var _this = this;
+      var _this3 = this;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          _this.submitData();
-          _this.resetForm('ruleForm');
+          _this3.submitData();
+          _this3.resetForm('ruleForm');
         } else {
           console.log('error submit!!');
           return false;
@@ -914,70 +1015,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function upload image 
     */
     submitUplaod: function submitUplaod() {
-      var _this2 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var form, config;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              form = new FormData(document.getElementById('fm'));
-              config = {
-                headers: {
-                  'content-type': 'multipart/form-data'
-                }
-              };
-              _context.next = 4;
-              return axios.post('/files/create/upload', form, config).then(function (response) {
-                _this2.ruleForm.photo_id = response.data.file.id;
-                _this2.$message({
-                  message: 'Congrats, this is a success message.',
-                  type: 'success'
-                });
-              });
-            case 4:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee);
-      }))();
-    },
-    /*
-    *  Function create new user  
-    */
-    submitData: function submitData() {
-      var _this3 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var form, config;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              form = new FormData(document.getElementById('fm'));
-              form.append('role', _this3.ruleForm.roles);
-              config = {
-                headers: {
-                  'content-type': 'multipart/form-data'
-                }
-              };
-              _context2.next = 5;
-              return axios.post('/user/store', form, config).then(function (response) {
-                _this3.getData();
-                _this3.dialogFormVisible = false;
-                _this3.$message({
-                  message: 'Congrats, this is a success message.',
-                  type: 'success'
-                });
-              });
-            case 5:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2);
-      }))();
-    },
-    /*
-    *  Function update new user  
-    */
-    updateData: function updateData() {
       var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var form, config;
@@ -985,26 +1022,90 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               form = new FormData(document.getElementById('fm'));
-              form.append('role', _this4.ruleForm.roles);
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context3.next = 5;
-              return axios.post('/user/' + _this4.ruleForm.userId + '/update', form, config).then(function (response) {
-                _this4.getData();
-                _this4.dialogFormVisible = false;
+              _context3.next = 4;
+              return axios.post('/files/create/upload', form, config).then(function (response) {
+                _this4.ruleForm.photo_id = response.data.file.id;
                 _this4.$message({
+                  message: 'Congrats, this is a success message.',
+                  type: 'success'
+                });
+              });
+            case 4:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3);
+      }))();
+    },
+    /*
+    *  Function create new user  
+    */
+    submitData: function submitData() {
+      var _this5 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var form, config;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              form = new FormData(document.getElementById('fm'));
+              form.append('role', _this5.ruleForm.roles);
+              config = {
+                headers: {
+                  'content-type': 'multipart/form-data'
+                }
+              };
+              _context4.next = 5;
+              return axios.post('/user/store', form, config).then(function (response) {
+                _this5.getData();
+                _this5.dialogFormVisible = false;
+                _this5.$message({
                   message: 'Congrats, this is a success message.',
                   type: 'success'
                 });
               });
             case 5:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
-        }, _callee3);
+        }, _callee4);
+      }))();
+    },
+    /*
+    *  Function update new user  
+    */
+    updateData: function updateData() {
+      var _this6 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        var form, config;
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
+            case 0:
+              form = new FormData(document.getElementById('fm'));
+              form.append('role', _this6.ruleForm.roles);
+              config = {
+                headers: {
+                  'content-type': 'multipart/form-data'
+                }
+              };
+              _context5.next = 5;
+              return axios.post('/user/' + _this6.ruleForm.userId + '/update', form, config).then(function (response) {
+                _this6.getData();
+                _this6.dialogFormVisible = false;
+                _this6.$message({
+                  message: 'Congrats, this is a success message.',
+                  type: 'success'
+                });
+              });
+            case 5:
+            case "end":
+              return _context5.stop();
+          }
+        }, _callee5);
       }))();
     },
     handlePictureCardPreview: function handlePictureCardPreview(UploadFile) {
@@ -1018,67 +1119,67 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.dialogVisibleAdd = true;
     },
     AddUser: function AddUser() {
-      var _this5 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
-            case 0:
-              // this.cancelAction()
-              // this.resetForm('ruleForm');
-              _this5.ruleForm.name = '';
-              _this5.ruleForm.userId = '';
-              _this5.ruleForm.roles = '';
-              _this5.ruleForm.email = '';
-              _this5.imageUrl = '';
-              _this5.ruleForm.photo_id = '';
-              _this5.roles = null;
-              _this5.dialogFormVisible = true;
-              _this5.isShowButtonUpdate = false;
-              _this5.isShowPassword = true;
-              _context4.next = 12;
-              return axios.get('/user/create').then(function (response) {
-                _this5.roles = response.data.roles;
-              })["catch"](function (error) {
-                console.log(error);
-              });
-            case 12:
-            case "end":
-              return _context4.stop();
-          }
-        }, _callee4);
-      }))();
-    },
-    getData: function getData() {
-      var _this6 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) switch (_context5.prev = _context5.next) {
-            case 0:
-              _this6.loading = true;
-              _context5.next = 3;
-              return axios.get('/student/get').then(function (response) {
-                _this6.tableData = response.data.data;
-                _this6.classData = response.data["class"];
-                _this6.loading = false;
-              })["catch"](function (error) {
-                if (error.response.status == 401) {
-                  _this6.$store.commit("auth/CLEAR_TOKEN");
-                }
-              });
-            case 3:
-            case "end":
-              return _context5.stop();
-          }
-        }, _callee5);
-      }))();
-    },
-    editUser: function editUser(id) {
       var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
+              // this.cancelAction()
+              // this.resetForm('ruleForm');
+              _this7.ruleForm.name = '';
+              _this7.ruleForm.userId = '';
+              _this7.ruleForm.roles = '';
+              _this7.ruleForm.email = '';
+              _this7.imageUrl = '';
+              _this7.ruleForm.photo_id = '';
+              _this7.roles = null;
               _this7.dialogFormVisible = true;
+              _this7.isShowButtonUpdate = false;
+              _this7.isShowPassword = true;
+              _context6.next = 12;
+              return axios.get('/user/create').then(function (response) {
+                _this7.roles = response.data.roles;
+              })["catch"](function (error) {
+                console.log(error);
+              });
+            case 12:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6);
+      }))();
+    },
+    getData: function getData() {
+      var _this8 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) switch (_context7.prev = _context7.next) {
+            case 0:
+              _this8.loading = true;
+              _context7.next = 3;
+              return axios.get('/student/get').then(function (response) {
+                _this8.tableData = response.data.data;
+                _this8.classData = response.data["class"];
+                _this8.loading = false;
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this8.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 3:
+            case "end":
+              return _context7.stop();
+          }
+        }, _callee7);
+      }))();
+    },
+    editUser: function editUser(id) {
+      var _this9 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+          while (1) switch (_context8.prev = _context8.next) {
+            case 0:
+              _this9.dialogFormVisible = true;
               // this.isShowButtonUpdate = true;
               // this.isShowPassword = false;
               // await axios.get('/user/' + id + '/edit').then(response => {
@@ -1097,9 +1198,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               // })
             case 1:
             case "end":
-              return _context6.stop();
+              return _context8.stop();
           }
-        }, _callee6);
+        }, _callee8);
       }))();
     },
     notification: function notification() {
@@ -1127,7 +1228,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
@@ -1804,7 +1905,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
@@ -1840,7 +1941,7 @@ var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 }, " ទាញ PDF", -1 /* HOISTED */);
 var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "mx-1 sanfont-khmer"
-}, " បន្ថែមកាលវិភាគ", -1 /* HOISTED */);
+}, " កំណត់កាលវិភាគ", -1 /* HOISTED */);
 var _hoisted_12 = {
   "class": "py-2"
 };
@@ -1928,17 +2029,26 @@ var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
   "class": "text-lg font-semibold text-white"
 }, "ព័ត៌មានកាលវិភាគ")], -1 /* HOISTED */);
 var _hoisted_38 = {
+  "class": "grid gap-5"
+};
+var _hoisted_39 = {
+  "class": "py-2"
+};
+var _hoisted_40 = {
+  "class": "text-center"
+};
+var _hoisted_41 = {
   "class": "dialog-footer"
 };
-var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "my-header"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-lg font-semibold text-white"
 }, "ព័ត៌មានគ្រូបង្រៀន")], -1 /* HOISTED */);
-var _hoisted_40 = {
+var _hoisted_43 = {
   "class": "flex space-x-2"
 };
-var _hoisted_41 = {
+var _hoisted_44 = {
   "class": "dialog-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -2432,20 +2542,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog Form Schedule  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormSchedule,
-    "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
+    "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
       return $data.dialogFormSchedule = $event;
     }),
     title: "ព័ត៌មានកាលវិភាគ",
     "class": "sanfont-khmer",
-    width: "50%",
+    width: "60%",
     draggable: ""
   }, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [_hoisted_37];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[17] || (_cache[17] = function ($event) {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+        onClick: _cache[13] || (_cache[13] = function ($event) {
           return $options.closeForm();
         }),
         "class": "sanfont-khmer"
@@ -2458,7 +2568,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 0,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[18] || (_cache[18] = function ($event) {
+        onClick: _cache[14] || (_cache[14] = function ($event) {
           return $options.submitFormClose('ruleFormSchedule');
         })
       }, {
@@ -2470,8 +2580,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 1,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[19] || (_cache[19] = function ($event) {
-          return $options.submitForm('ruleFormSchedule');
+        onClick: _cache[15] || (_cache[15] = function ($event) {
+          return $options.submitData('ruleFormSchedule');
         })
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -2482,7 +2592,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 2,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[20] || (_cache[20] = function ($event) {
+        onClick: _cache[16] || (_cache[16] = function ($event) {
           return _ctx.updateData('ruleFormSchedule');
         })
       }, {
@@ -2493,130 +2603,68 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
-        "class": "grid grid-cols-2",
-        model: $data.ruleFormSchedule,
-        rules: $data.rulesSchedule,
-        ref: "ruleFormSchedule",
-        id: "fmSchedule"
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
+        data: $data.dataSchedule,
+        resizable: "false",
+        "header-cell-class-name": "sanfont-khmer text-md",
+        "row-class-name": "sanfont-khmer",
+        style: {
+          "width": "100%"
+        },
+        stripe: "",
+        border: ""
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "ថ្នាក់រៀន",
-            prop: "class_id",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                modelValue: $data.classData.class_name,
-                "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
-                  return $data.classData.class_name = $event;
-                }),
-                disabled: "",
-                name: "class_id"
-              }, null, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "ថ្ងៃ",
-            error: $data.errors.day_id,
-            prop: "day_id",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $data.ruleFormSchedule.day_id,
-                "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
-                  return $data.ruleFormSchedule.day_id = $event;
-                }),
-                placeholder: "ជ្រើសរើស ថ្ងៃ",
-                "class": "text-left"
-              }, {
-                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.dataDay.day, function (data) {
-                    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                      key: data,
-                      label: data.day_name_kh,
-                      value: data.day_id
-                    }, null, 8 /* PROPS */, ["label", "value"]);
-                  }), 128 /* KEYED_FRAGMENT */))];
-                }),
-
-                _: 1 /* STABLE */
-              }, 8 /* PROPS */, ["modelValue"])];
-            }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["error", "label-width"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
             label: "ម៉ោង",
-            prop: "time_id",
-            "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth,
-            error: $data.errors.time_id
+            width: "160px",
+            fixed: "",
+            align: "center"
           }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $data.ruleFormSchedule.time_id,
-                "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
-                  return $data.ruleFormSchedule.time_id = $event;
-                }),
-                placeholder: "ជ្រើសរើស ម៉ោង",
-                "class": "text-left"
-              }, {
-                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.dataDay.time, function (data) {
-                    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                      key: data,
-                      label: data.name,
-                      value: data.time_id
-                    }, null, 8 /* PROPS */, ["label", "value"]);
-                  }), 128 /* KEYED_FRAGMENT */))];
-                }),
-
-                _: 1 /* STABLE */
-              }, 8 /* PROPS */, ["modelValue"])];
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(scope.row.start_date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(scope.row.end_date)), 1 /* TEXT */)])])];
             }),
-            _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width", "error"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "មុខវិទ្យា",
-            prop: "subject_grade_id",
-            "class": "sanfont-khmer",
-            error: $data.errors.subject_grade_id,
-            "label-width": $data.formLabelWidth
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $data.ruleFormSchedule.subject_grade_id,
-                "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
-                  return $data.ruleFormSchedule.subject_grade_id = $event;
-                }),
-                placeholder: "ជ្រើសរើស មុខវិទ្យា",
-                "class": "text-left"
-              }, {
-                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teacherData, function (data) {
-                    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                      key: data,
-                      label: data.teacher_subject_in_class.subject.subject_name_kh,
-                      value: data.teacher_subject_in_class.subject_grade_id
-                    }, null, 8 /* PROPS */, ["label", "value"]);
-                  }), 128 /* KEYED_FRAGMENT */))];
-                }),
 
-                _: 1 /* STABLE */
-              }, 8 /* PROPS */, ["modelValue"])];
-            }),
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["error", "label-width"])])];
+          }), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.columnDay, function (day) {
+            return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table_column, {
+              key: day,
+              prop: day,
+              label: day.day_name_kh
+            }, {
+              "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+                return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
+                  modelValue: scope.row['subject_grade_day_' + day.day_id],
+                  "onUpdate:modelValue": function onUpdateModelValue($event) {
+                    return scope.row['subject_grade_day_' + day.day_id] = $event;
+                  },
+                  "class": "small-input"
+                }, {
+                  "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                    return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teacherData, function (data) {
+                      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
+                        key: data,
+                        label: data.teacher_subject_in_class.subject.subject_name_kh,
+                        value: data.teacher_subject_in_class.subject.subject_id
+                      }, null, 8 /* PROPS */, ["label", "value"]);
+                    }), 128 /* KEYED_FRAGMENT */))];
+                  }),
+
+                  _: 2 /* DYNAMIC */
+                }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["modelValue", "onUpdate:modelValue"])])];
+              }),
+              _: 2 /* DYNAMIC */
+            }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["prop", "label"]);
+          }), 128 /* KEYED_FRAGMENT */))];
         }),
+
         _: 1 /* STABLE */
-      }, 8 /* PROPS */, ["model", "rules"])];
+      }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading_schedule]])])])];
     }),
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog Form Schedule  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog Form Teacher Subject  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormTeacher,
-    "onUpdate:modelValue": _cache[28] || (_cache[28] = function ($event) {
+    "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
       return $data.dialogFormTeacher = $event;
     }),
     title: "ព័ត៌មានគ្រូបង្រៀន",
@@ -2625,11 +2673,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     draggable: ""
   }, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_39];
+      return [_hoisted_42];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[26] || (_cache[26] = function ($event) {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+        onClick: _cache[22] || (_cache[22] = function ($event) {
           return $options.closeForm();
         }),
         "class": "sanfont-khmer",
@@ -2652,7 +2700,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 1,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[27] || (_cache[27] = function ($event) {
+        onClick: _cache[23] || (_cache[23] = function ($event) {
           return $options.submitFormTeacher('ruleFormTeacher');
         })
       }, {
@@ -2690,7 +2738,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.classData.class_name,
-                "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
+                "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
                   return $data.classData.class_name = $event;
                 }),
                 disabled: "",
@@ -2708,7 +2756,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleFormTeacher.teacher_id,
-                "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
+                "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
                   return $data.ruleFormTeacher.teacher_id = $event;
                 }),
                 placeholder: "ជ្រើសរើសគ្រូ",
@@ -2737,7 +2785,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleFormTeacher.subject_grade_id,
-                "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
+                "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
                   return $data.ruleFormTeacher.subject_grade_id = $event;
                 }),
                 placeholder: "ជ្រើសរើសមុខវិទ្យា",
@@ -2767,12 +2815,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_radio_group, {
                 modelValue: $data.ruleFormTeacher.role_id,
-                "onUpdate:modelValue": _cache[25] || (_cache[25] = function ($event) {
+                "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
                   return $data.ruleFormTeacher.role_id = $event;
                 })
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_radio, {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_radio, {
                     label: "1",
                     border: ""
                   }, {
@@ -2814,7 +2862,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
@@ -3825,7 +3873,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
@@ -3995,7 +4043,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["onClick"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
-    data: $props.data,
+    data: $data.studentData,
     "header-cell-class-name": "sanfont-khmer text-md",
     "row-class-name": "sanfont-khmer",
     resizable: "true",
@@ -4111,7 +4159,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុប")];
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("ដកចេញពីថ្នាក់")];
             }),
             _: 2 /* DYNAMIC */
           }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])];
@@ -4124,7 +4172,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
     background: "",
     layout: "prev, pager, next, sizes",
-    total: $data.tableData.length
+    total: $data.studentData.length
   }, null, 8 /* PROPS */, ["total"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("Dialog New Student"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisible,
     "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
@@ -4528,7 +4576,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "primary",
         "class": "sanfont-khmer",
         onClick: _cache[23] || (_cache[23] = function ($event) {
-          return $options.submitForm('ruleForm');
+          return $options.addStudentInClass();
         })
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -4573,7 +4621,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{ tableData }} "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
-            data: $data.tableData,
+            data: $data.tableData.data,
             height: "350",
             style: {
               "width": "100%"
@@ -4582,7 +4630,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "header-cell-class-name": "header-table-font-khmer text-md",
             "row-class-name": "sanfont-khmer",
             selectable: "",
-            "highlight-current-row": "true"
+            "highlight-current-row": "true",
+            onSelectionChange: $options.handleSelectionChange,
+            ref: "multipleTableRef"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
@@ -4675,10 +4725,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
 
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
+          }, 8 /* PROPS */, ["data", "onSelectionChange"])), [[_directive_loading, _ctx.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
             background: "",
             layout: "total, prev, pager, next, sizes",
-            total: $data.tableData.length
+            total: $data.tableData.total
           }, null, 8 /* PROPS */, ["total"])])])])])];
         }),
         _: 1 /* STABLE */
@@ -4720,7 +4770,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.avatar-uploader .el-upload {\r\n\tborder: 1px dashed #d9d9d9;\r\n\tborder-radius: 6px;\r\n\tcursor: pointer;\r\n\tposition: relative;\r\n\toverflow: hidden;\n}\n.avatar-uploader .el-upload:hover {\r\n\tborder-color: #409eff;\n}\n.avatar-uploader-icon {\r\n\tfont-size: 28px;\r\n\tcolor: #8c939d;\r\n\twidth: 140px;\r\n\theight: 140px;\r\n\tline-height: 178px;\r\n\ttext-align: center;\n}\n.avatar {\r\n\twidth: 140px;\r\n\theight: 140px;\r\n\tdisplay: block;\n}\n.el-button--text {\r\n\tmargin-right: 15px;\n}\n.el-select {\r\n\twidth: 300px;\n}\n.el-input {\r\n\twidth: 300px;\n}\n.dialog-footer button:first-child {\r\n\tmargin-right: 10px;\n}\n:global(h2#card-usage ~ .example .example-showcase) {\r\n\tbackground-color: var(--el-fill-color) !important;\n}\n.el-statistic {\r\n\t--el-statistic-content-font-size: 28px;\n}\n.statistic-card {\r\n\theight: 100%;\r\n\tpadding: 20px;\r\n\tborder-radius: 4px;\r\n\tbackground-color: var(--el-bg-color-overlay);\n}\n.statistic-footer {\r\n\tdisplay: flex;\r\n\tjustify-content: space-between;\r\n\talign-items: center;\r\n\tflex-wrap: wrap;\r\n\tfont-size: 12px;\r\n\tcolor: var(--el-text-color-regular);\r\n\tmargin-top: 16px;\n}\n.statistic-footer .footer-item {\r\n\tdisplay: flex;\r\n\tjustify-content: space-between;\r\n\talign-items: center;\n}\n.el-dialog__header {\r\n\ttext-align: left;\n}\n.statistic-footer .footer-item span:last-child {\r\n\tdisplay: inline-flex;\r\n\talign-items: center;\r\n\tmargin-left: 4px;\n}\n.green {\r\n\tcolor: var(--el-color-success);\n}\n.red {\r\n\tcolor: var(--el-color-error);\n}\n.item {\r\n\tmargin-top: 10px;\r\n\tmargin-right: 10px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.avatar-uploader .el-upload {\r\n\tborder: 1px dashed #d9d9d9;\r\n\tborder-radius: 6px;\r\n\tcursor: pointer;\r\n\tposition: relative;\r\n\toverflow: hidden;\n}\n.avatar-uploader .el-upload:hover {\r\n\tborder-color: #409eff;\n}\n.avatar-uploader-icon {\r\n\tfont-size: 28px;\r\n\tcolor: #8c939d;\r\n\twidth: 140px;\r\n\theight: 140px;\r\n\tline-height: 178px;\r\n\ttext-align: center;\n}\n.avatar {\r\n\twidth: 140px;\r\n\theight: 140px;\r\n\tdisplay: block;\n}\n.el-button--text {\r\n\tmargin-right: 15px;\n}\n.small-input .el-select {\r\n\twidth: 100px !important;\n}\n.el-select-dropdown {\r\n\twidth: 100px !important;\n}\n.small-input .el-input {\r\n\twidth: 100px !important;\n}\n.dialog-footer button:first-child {\r\n\tmargin-right: 10px;\n}\n:global(h2#card-usage ~ .example .example-showcase) {\r\n\tbackground-color: var(--el-fill-color) !important;\n}\n.el-statistic {\r\n\t--el-statistic-content-font-size: 28px;\n}\n.statistic-card {\r\n\theight: 100%;\r\n\tpadding: 20px;\r\n\tborder-radius: 4px;\r\n\tbackground-color: var(--el-bg-color-overlay);\n}\n.statistic-footer {\r\n\tdisplay: flex;\r\n\tjustify-content: space-between;\r\n\talign-items: center;\r\n\tflex-wrap: wrap;\r\n\tfont-size: 12px;\r\n\tcolor: var(--el-text-color-regular);\r\n\tmargin-top: 16px;\n}\n.statistic-footer .footer-item {\r\n\tdisplay: flex;\r\n\tjustify-content: space-between;\r\n\talign-items: center;\n}\n.el-dialog__header {\r\n\ttext-align: left;\n}\n.statistic-footer .footer-item span:last-child {\r\n\tdisplay: inline-flex;\r\n\talign-items: center;\r\n\tmargin-left: 4px;\n}\n.green {\r\n\tcolor: var(--el-color-success);\n}\n.red {\r\n\tcolor: var(--el-color-error);\n}\n.item {\r\n\tmargin-top: 10px;\r\n\tmargin-right: 10px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4768,13 +4818,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=5c9c0168 */ "./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=template&id=5c9c0168");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=script&lang=js");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/attendence-class/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/attendence-class/index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -4796,7 +4846,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_db54c3ae__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=db54c3ae */ "./resources/js/pages/class/class-detail/index.vue?vue&type=template&id=db54c3ae");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/class/class-detail/index.vue?vue&type=script&lang=js");
 /* harmony import */ var _index_vue_vue_type_style_index_0_id_db54c3ae_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=db54c3ae&lang=css */ "./resources/js/pages/class/class-detail/index.vue?vue&type=style&index=0&id=db54c3ae&lang=css");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -4804,7 +4854,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_db54c3ae__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_db54c3ae__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -4825,13 +4875,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _index_vue_vue_type_template_id_17ce6ad2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=17ce6ad2 */ "./resources/js/pages/class/class-detail/score-class/index.vue?vue&type=template&id=17ce6ad2");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/class/class-detail/score-class/index.vue?vue&type=script&lang=js");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_17ce6ad2__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/score-class/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_17ce6ad2__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/score-class/index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -4852,13 +4902,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=2c9d6f00 */ "./resources/js/pages/class/class-detail/student-class/index.vue?vue&type=template&id=2c9d6f00");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/class/class-detail/student-class/index.vue?vue&type=script&lang=js");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/student-class/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/student-class/index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -4935,7 +4985,7 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./index.vue?vue&type=template&id=5c9c0168 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=template&id=5c9c0168");
 
@@ -4950,7 +5000,7 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_db54c3ae__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_db54c3ae__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_db54c3ae__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./index.vue?vue&type=template&id=db54c3ae */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/class/class-detail/index.vue?vue&type=template&id=db54c3ae");
 
@@ -4965,7 +5015,7 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_17ce6ad2__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_17ce6ad2__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_17ce6ad2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./index.vue?vue&type=template&id=17ce6ad2 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/class/class-detail/score-class/index.vue?vue&type=template&id=17ce6ad2");
 
@@ -4980,7 +5030,7 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./index.vue?vue&type=template&id=2c9d6f00 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/class/class-detail/student-class/index.vue?vue&type=template&id=2c9d6f00");
 

@@ -16,10 +16,28 @@ class TeacherRoleSeeder extends Seeder
     public function run()
     {
         TeacherRole::create([
-            'name' => 'គ្រូ បន្ទុកថ្នាក់'
+            'name' => 'គ្រូនាយក'
         ]);
         TeacherRole::create([
-            'name' => 'បង្រៀន'
+            'name' => 'នាយករង'
+        ]);
+        TeacherRole::create([
+            'name' => 'ជំនួយការនាយក'
+        ]);
+        TeacherRole::create([
+            'name' => 'លេខាធិការ'
+        ]);
+        TeacherRole::create([
+            'name' => 'វិន័យ'
+        ]);
+        TeacherRole::create([
+            'name' => 'បុ.ទីចាត់ការ'
+        ]);
+        TeacherRole::create([
+            'name' => 'គ្រូបន្ទុក'
+        ]);
+        TeacherRole::create([
+            'name' => 'សិក្ខាបនធារី'
         ]);
     }
 }

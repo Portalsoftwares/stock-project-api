@@ -27,6 +27,26 @@ class TeacherStatusSeeder extends Seeder
             'color' => '#cbd5e1'
         ]);
         TeacherStatus::create([
+            'status_kh' => 'លំហែមាតុភាព',
+            'status_en' => 'Stopped',
+            'color' => '#ef4444'
+        ]);
+        TeacherStatus::create([
+            'status_kh' => 'បុ.ទីចាត់ការ',
+            'status_en' => 'Stopped',
+            'color' => '#ef4444'
+        ]);
+        TeacherStatus::create([
+            'status_kh' => 'វិន័យ',
+            'status_en' => 'Stopped',
+            'color' => '#ef4444'
+        ]);
+        TeacherStatus::create([
+            'status_kh' => 'លេខា',
+            'status_en' => 'Stopped',
+            'color' => '#ef4444'
+        ]);
+        TeacherStatus::create([
             'status_kh' => 'បានឈប់',
             'status_en' => 'Stopped',
             'color' => '#ef4444'

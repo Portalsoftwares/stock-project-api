@@ -17,20 +17,26 @@ class ScoreTypeController extends Controller
      */
     public function index(Request $request)
     {
-        $items =  ScoreType::query();
+
         $per_page = $request->per_page ?? 10;
         $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
         $sort_by = $request->sort_by ?: 'score_type_id';
         if ($per_page == -1) {
             $per_page = DB::table('score_type')->count() > 0 ? DB::table('score_type')->count() : $per_page;
         }
-        if (!empty($request->search)) {
-            // $items->where('subject_name_kh', 'like', "%" . $request->search . "%");
-            // $items->orWhere('subject_name_en', 'like', "%" . $request->search . "%");
-            // $items->orWhere('subject_sort_name_en', 'like', "%" . $request->search . "%");
-        }
+
         if (!empty($request->is_show_trust)) {
-            $items->onlyTrashed();
+            $items =  ScoreType::onlyTrashed()->where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->where('name', 'like', "%" . $request->search . "%");
+                }
+            });
+        } else {
+            $items =  ScoreType::where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->where('name', 'like', "%" . $request->search . "%");
+                }
+            });
         }
         $data = $items
             ->orderBy($sort_by, $order_by)
@@ -56,7 +62,7 @@ class ScoreTypeController extends Controller
         DB::transaction(function () use ($validator, $request) {
             $items = new ScoreType();
             $items->fill($validator->validated());
-            $items->date = $request->date;
+            $items->date = $request->date ?? '0000-00-00';
             $items->save();
         });
 

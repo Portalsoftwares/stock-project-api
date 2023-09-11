@@ -48,7 +48,7 @@
 	</div>
 
 	<el-table
-		:data="data"
+		:data="studentData"
 		header-cell-class-name="sanfont-khmer text-md"
 		row-class-name="sanfont-khmer"
 		resizable="true"
@@ -147,7 +147,7 @@
 					type="danger"
 					class="sanfont-khmer"
 					@click="handleDelete(scope.$index, scope.row)"
-				>លុប</el-button>
+				>ដកចេញពីថ្នាក់</el-button>
 			</template>
 		</el-table-column>
 	</el-table>
@@ -155,7 +155,7 @@
 		<el-pagination
 			background
 			layout="prev, pager, next, sizes"
-			:total="tableData.length"
+			:total="studentData.length"
 		>
 		</el-pagination>
 	</div>
@@ -524,7 +524,7 @@
 					<div class="flex flex-col  ">
 						<!-- {{ tableData }} -->
 						<el-table
-							:data="tableData"
+							:data="tableData.data"
 							height="350"
 							style="width: 100%"
 							resizable="true"
@@ -533,6 +533,8 @@
 							selectable
 							v-loading="loading"
 							highlight-current-row="true"
+							@selection-change="handleSelectionChange"
+							ref="multipleTableRef"
 						>
 
 							<el-table-column
@@ -623,7 +625,7 @@
 							<el-pagination
 								background
 								layout="total, prev, pager, next, sizes"
-								:total="tableData.length"
+								:total="tableData.total"
 							>
 							</el-pagination>
 						</div>
@@ -648,7 +650,7 @@
 				<el-button
 					type="primary"
 					class="sanfont-khmer"
-					@click="submitForm('ruleForm')"
+					@click="addStudentInClass()"
 				>
 					បន្ថែមសិស្ស
 				</el-button>
@@ -668,6 +670,7 @@ export default {
 	},
 	data() {
 		return {
+			studentData: [],
 			studentClass: [],
 			tableData: [],
 			classData: [],
@@ -734,14 +737,54 @@ export default {
 				genderValue: 'ស្រី',
 				genderLabel: 'ស្រី'
 			}],
+
+			selectDataStudent: []
+
 		}
 	},
 
 	mounted() {
-		this.getData()
+		this.getData();
+		this.getTeacher()
 	},
 
 	methods: {
+		//select student id
+		handleSelectionChange(value) {
+			this.selectDataStudent = value;
+		},
+		//Add student in class 
+		async addStudentInClass() {
+			this.loading = true
+			const config = {
+				headers: { 'content-type': 'application/json' }
+			}
+			const class_id = this.$route.query.id;
+			await axios.post('/class/student/' + class_id + '/add', { 'data': this.selectDataStudent }, config).then(response => {
+				this.loading = false
+				this.getTeacher()
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		async getTeacher() {
+			this.loading_student = true;
+			const class_id = this.$route.query.id;
+			await axios.get('/class/teacher/' + class_id + '/get').then(response => {
+				this.studentData = response.data.student
+				this.loading_student = false;
+				this.dialogVisibleAdd = false
+			}).catch((error) => {
+				this.loading_student = false;
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+
+
 		handleAvatarSuccess(file) {
 			if (file) {
 				this.ruleForm.profile_img = file

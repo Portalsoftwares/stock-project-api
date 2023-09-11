@@ -14,6 +14,7 @@ class Attendance extends Model
         'class_id',
         'day_id',
         'subject_grade_id',
-        'teacher_id'
+        'teacher_id',
+        'date',
     ];
 }
