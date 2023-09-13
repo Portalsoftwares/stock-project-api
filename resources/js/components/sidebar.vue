@@ -8,7 +8,7 @@
 			style="height: 3rem"
 			class="w-full"
 		>
-			<div class="flex flex-col justify-between h-[100vh] w-full bg-white-900 ">
+			<div class="flex flex-col justify-between h-[100vh] w-full bg-blue-900 ">
 				<div class="menu-man text-left  whitespace-nowrap flex flex-col space-y-2 ">
 					<div
 						class="profile flex justify-center items-center text-center "

@@ -298,20 +298,17 @@
 			</div>
 		</template>
 		<el-form
-			class="grid grid-cols-2"
+			
 			:model="ruleForm"
 			:rules="rules"
 			ref="ruleForm"
 			id="fm"
 		>
+		<div class="grid grid-cols-2">
 			<div class="flex flex-col">
-
-				<div class=" item-start ">
-
-				</div>
 				<div class="flex flex-row ">
 					<div class="flex flex-col space-y-1">
-						<div>
+						
 							<div>
 
 								<el-form-item
@@ -355,7 +352,7 @@
 									></el-input>
 								</el-form-item>
 							</div>
-						</div>
+						
 						<div>
 							<el-form-item
 								label="នាមត្រកូល(អង់គ្លេស)"
@@ -668,7 +665,7 @@
 					</div>
 				</div>
 			</div>
-
+		</div>	
 		</el-form>
 		<el-dialog v-model="dialogVisible">
 			<img

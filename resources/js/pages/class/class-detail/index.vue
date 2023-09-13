@@ -61,7 +61,8 @@
 								>
 
 									<el-table-column
-										label="ម៉ោង"
+									
+										label="ម៉ោង១"
 										width="160px"
 										fixed
 										align="center"
@@ -78,6 +79,7 @@
 										</template>
 									</el-table-column>
 									<el-table-column
+									
 										v-for="day in columnDay "
 										:key="day"
 										:prop="day"
@@ -241,7 +243,7 @@
 								/>
 							</el-select>
 						</el-form-item>
-						<el-form-item label="ម៉ោង">
+						<el-form-item label="ម៉ោង១">
 							<el-select
 								v-model="dataTimeObj.name"
 								disabled
@@ -438,7 +440,7 @@
 		v-model="dialogFormSchedule"
 		title="ព័ត៌មានកាលវិភាគ"
 		class="sanfont-khmer"
-		width="60%"
+		width="66.5%"
 		draggable
 	>
 		<template #header>
@@ -460,7 +462,7 @@
 					stripe
 					border
 				>
-
+					
 					<el-table-column
 						label="ម៉ោង"
 						width="160px"
@@ -478,6 +480,8 @@
 							</span>
 						</template>
 					</el-table-column>
+					
+					
 					<el-table-column
 						v-for="day in columnDay "
 						:key="day"
@@ -485,8 +489,9 @@
 						:label="day.day_name_kh"
 						width="180px"
 					>
+						
 						<template #default="scope">
-							<div>
+							<div >
 								<el-select
 									v-model="scope.row['subject_grade_day_'+day.day_id]"
 									class="small-input"
@@ -503,6 +508,7 @@
 							</div>
 						</template>
 					</el-table-column>
+					
 				</el-table>
 
 			</div>
