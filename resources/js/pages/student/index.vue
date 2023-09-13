@@ -71,7 +71,7 @@
 			</el-button>
 			<el-button
 				type="primary"
-				@click="AddUser"
+				@click="addStudent"
 			>
 				<el-icon>
 					<CirclePlusFilled />
@@ -1016,7 +1016,7 @@ export default {
 			console.log(UploadFile)
 		},
 
-		async AddUser() {
+		async addStudent() {
 			this.ruleForm.student_id = null;
 			this.ruleForm.firstNameKh = null;
 			this.ruleForm.LastNameKh = null;
@@ -1048,19 +1048,12 @@ export default {
 
 			this.dialogFormVisible = true
 			this.isShowButtonUpdate = false;
-			this.isShowPassword = true;
 
-			await axios.get('/user/create').then(response => {
-				this.roles = response.data.roles
-			}).catch((error) => {
-				console.log(error)
-			})
 		},
 
 		async editStudent(id) {
 			this.dialogFormVisible = true;
 			this.isShowButtonUpdate = true;
-			this.isShowPassword = false;
 			await axios.get('/student' + '/edit/' + id).then(response => {
 				this.ruleForm.student_id = response.data.data.student_id
 				this.ruleForm.firstNameKh = response.data.data.first_name_kh

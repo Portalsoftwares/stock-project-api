@@ -44,7 +44,7 @@ class Student extends Model
     }
     public function gender()
     {
-        return   $this->hasOne(Gender::class, 'gender_id', 'gender_id');
+        return  $this->hasOne(Gender::class, 'gender_id', 'gender_id');
     }
     public function status()
     {

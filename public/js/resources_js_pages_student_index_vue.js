@@ -450,7 +450,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     handleRemove: function handleRemove(UploadFile) {
       console.log(UploadFile);
     },
-    AddUser: function AddUser() {
+    addStudent: function addStudent() {
       var _this9 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
@@ -485,14 +485,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               _this9.roles = null;
               _this9.dialogFormVisible = true;
               _this9.isShowButtonUpdate = false;
-              _this9.isShowPassword = true;
-              _context7.next = 32;
-              return axios.get('/user/create').then(function (response) {
-                _this9.roles = response.data.roles;
-              })["catch"](function (error) {
-                console.log(error);
-              });
-            case 32:
+            case 29:
             case "end":
               return _context7.stop();
           }
@@ -507,8 +500,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             case 0:
               _this10.dialogFormVisible = true;
               _this10.isShowButtonUpdate = true;
-              _this10.isShowPassword = false;
-              _context8.next = 5;
+              _context8.next = 4;
               return axios.get('/student' + '/edit/' + id).then(function (response) {
                 var _response$data$data$p;
                 _this10.ruleForm.student_id = response.data.data.student_id;
@@ -542,7 +534,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                   _this10.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 5:
+            case 4:
             case "end":
               return _context8.stop();
           }
@@ -775,7 +767,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
     type: "primary",
-    onClick: $options.AddUser
+    onClick: $options.addStudent
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {

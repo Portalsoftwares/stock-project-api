@@ -18,13 +18,14 @@
 				type="border-card"
 				v-model="tabClassDetail"
 				@tab-change="changeTap"
+				v-loading.fullscreen.lock="fullscreenLoading"
 			>
 				<el-tab-pane
 					label="ព័ត៌មានទូទៅ"
 					name="tab-class-detail-1"
 				>
 					<!-- Overall detail -->
-					<div class="grid grid-cols-2 gap-5 ">
+					<div class="grid grid-cols-1 gap-5 ">
 						<div class=" ">
 							<div class="flex justify-between items-center">
 								<div class="text-left text-xl  pb-2 ">កាលវិភាគប្រចាំសប្តាហ៍</div>
@@ -62,7 +63,7 @@
 
 									<el-table-column
 										label="ម៉ោង"
-										width="160px"
+										width="250px"
 										fixed
 										align="center"
 									>
@@ -82,6 +83,7 @@
 										:key="day"
 										:prop="day"
 										:label="day.day_name_kh"
+										align="center"
 									>
 										<template #default="scope">
 											<div>
@@ -94,6 +96,7 @@
 														filterable
 														remote
 														reserve-keyword
+														placeholder="ទំនេរ"
 													>
 														<el-option
 															v-for="data in teacherData"
@@ -438,7 +441,7 @@
 		v-model="dialogFormSchedule"
 		title="ព័ត៌មានកាលវិភាគ"
 		class="sanfont-khmer"
-		width="60%"
+		width="80%"
 		draggable
 	>
 		<template #header>
@@ -448,22 +451,22 @@
 		</template>
 
 		<!-- Overall detail -->
-		<div class="grid gap-5 ">
-			<div class="py-2">
+		<div class="grid gap-5  w-full">
+			<div class="py-2 w-full">
 				<el-table
 					v-loading="loading_schedule"
 					:data="dataSchedule"
 					resizable="false"
 					header-cell-class-name="sanfont-khmer text-md"
 					row-class-name="sanfont-khmer"
-					style="width: 100%"
+					style="width:95%"
 					stripe
+					:fit="true"
 					border
 				>
 
 					<el-table-column
 						label="ម៉ោង"
-						width="160px"
 						fixed
 						align="center"
 					>
@@ -483,13 +486,13 @@
 						:key="day"
 						:prop="day"
 						:label="day.day_name_kh"
-						width="180px"
 					>
 						<template #default="scope">
 							<div>
 								<el-select
 									v-model="scope.row['subject_grade_day_'+day.day_id]"
 									class="small-input"
+									clearable
 								>
 									<el-option
 										v-for="data in teacherData"
@@ -805,9 +808,9 @@ export default {
 			const class_id = this.$route.query.id;
 			await axios.get('/schedule_class/' + class_id + '/edit').then(response => {
 				this.dataSchedule = response.data.data
-				// setTimeout(() => {
-				this.loading_schedule = false;
-				// }, 1000)
+				setTimeout(() => {
+					this.loading_schedule = false;
+				}, 1000)
 			}).catch((error) => {
 				this.loading_schedule = false;
 				if (error.response.status == 401) {
@@ -846,7 +849,7 @@ export default {
 			await axios.post('/teacher_class/create', form, config).then(response => {
 				if (response.status == 200) {
 					this.$message({
-						message: 'Successfully , this is a success message.',
+						message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 						type: 'success'
 					});
 					this.getTeacher();
@@ -894,7 +897,7 @@ export default {
 			await axios.post('/schedule_class/' + this.classData.class_id + '/create', { 'data': this.dataSchedule }, config).then(response => {
 				this.getScheduleData();
 				this.$message({
-					message: 'Successfully , this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			}).catch((error) => {
@@ -1049,13 +1052,13 @@ export default {
 	margin-right: 15px;
 }
 .small-input .el-select {
-	width: 100px !important;
+	max-width: 180px !important;
 }
 .el-select-dropdown {
-	width: 100px !important;
+	max-width: 180px !important;
 }
 .small-input .el-input {
-	width: 100px !important;
+	width: 180px !important;
 }
 .dialog-footer button:first-child {
 	margin-right: 10px;

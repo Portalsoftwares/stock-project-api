@@ -11,6 +11,11 @@ use App\Models\TeacherClass;
 use App\Models\StudentClass;
 use App\Models\Schedule;
 
+use App\Models\Gender;
+use App\Models\Student;
+use App\Models\StudentRole;
+use App\Models\StudentStatus;
+
 
 
 class ClassController extends Controller
@@ -58,11 +63,43 @@ class ClassController extends Controller
     {
         $teacher = TeacherClass::where('class_id', $id)->with(['teacher_subject_in_class.subject', 'teacher_in_class'])->get();
         $class = Classes::where('class_id', $id)->first();
-        $student = StudentClass::where('class_id', $id)->with(['student_in_class.profile_img'])->get();
+
+
+        $per_page = $request->per_page ?? 10;
+        $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
+        $sort_by = $request->sort_by ?: 'student_id';
+
+        if ($per_page == -1) {
+            $per_page = DB::table('student_class')->where('class_id', $id)->count() > 0 ? DB::table('student_class')->where('class_id', $id)->count() : $per_page;
+        }
+
+        $student = StudentClass::where('class_id', $id)->with(['student_in_class.profile_img', 'student_in_class.status', 'student_in_class.gender'])
+            ->whereHas('student_in_class', function ($query) use ($request) {
+
+                if (!empty($request->search)) {
+                    $query->where(function ($query) use ($request) {
+                        $query->orWhere('sid', 'like', "%" . $request->search . "%");
+                        $query->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
+                        $query->orWhere('full_name_en', 'like', "%" . $request->search . "%");
+                        $query->orWhere('email', 'like', "%" . $request->search . "%");
+                        $query->orWhere('phone', 'like', "%" . $request->search . "%");
+                    });
+                }
+            })
+            ->orderBy($sort_by, $order_by)
+            ->paginate($per_page);
+
+        $status = StudentStatus::all();
+        $role = StudentRole::all();
+        $gender = Gender::all();
         $response = [
             'teacher' => $teacher,
             'student' => $student,
             'class' => $class,
+            'status' => $status,
+            'role' => $role,
+            'gender' => $gender,
+
         ];
         return  response($response, 200);
     }
@@ -178,5 +215,38 @@ class ClassController extends Controller
             'data' => 'add student in class successfull',
         ];
         return  response($response, 200);
+    }
+
+    public function getStudentToClass(Request $request, $id)
+    {
+        $class = Classes::find($id);
+        $class_type_id =  $class->class_type_id;
+        $grade_level_id =  $class->grade_level_id;
+        $academic_id =  $class->academic_id;
+
+        //array student in class
+        $studentClass = StudentClass::where('class_id', $id)->pluck('student_id');
+        $allStudentData = Student::whereNotIn('student_id', $studentClass)->with('profile_img', 'status', 'gender')->get();
+        $response = [
+            'data' => $allStudentData
+        ];
+        return  response($response, 200);
+    }
+    public function deleteStudentToClass($id, $student_id)
+    {
+        $stuClass = StudentClass::find($student_id)->delete();
+        if ($stuClass) {
+
+            $response = [
+                'data' => 'Remove student in class successfull',
+            ];
+            return  response($response, 200);
+        } else {
+
+            $response = [
+                'data' => 'Remove student in class error',
+            ];
+            return  response($response, 402);
+        }
     }
 }
