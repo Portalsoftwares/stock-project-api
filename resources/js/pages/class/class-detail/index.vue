@@ -136,24 +136,26 @@
 										class="text-left"
 									>
 
-										<div class="flex items-center space-x-2 justify-start">
-											<div class="flex h-14 w-14 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-												<img
-													:src="data.teacher_in_class?.profile_img?.file_path"
-													alt=""
-												>
+										<div class="flex items-center space-x-2 justify-between">
+											<div class="flex items-center space-x-2 justify-start">
+												<div class="flex h-14 w-14 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+													<img
+														:src="data.teacher_in_class?.profile_img?.file_path"
+														alt=""
+													>
 
-											</div>
-											<div>
-
-												<div>
-													ឈ្មោះ : <span class="font-bold">{{ data.teacher_in_class.first_name_kh }} {{ data.teacher_in_class.last_name_kh }}</span>
 												</div>
 												<div>
-													មុខវិជ្ជា : <span class="font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span>
-												</div>
-												<div>
-													លេខទូរស័ព្ទ : <span class="font-bold">{{ data.teacher_in_class?.phone }}</span>
+
+													<div>
+														ឈ្មោះ : <span class="font-bold">{{ data.teacher_in_class.first_name_kh }} {{ data.teacher_in_class.last_name_kh }}</span>
+													</div>
+													<div>
+														មុខវិជ្ជា : <span class="font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span>
+													</div>
+													<div>
+														លេខទូរស័ព្ទ : <span class="font-bold">{{ data.teacher_in_class?.phone }}</span>
+													</div>
 												</div>
 											</div>
 
@@ -260,7 +262,7 @@
 								/>
 							</el-select>
 						</el-form-item>
-						<el-form-item label="ម៉ោង">
+						<el-form-item label="ម៉ោង១">
 							<el-select
 								v-model="dataTimeObj.time_id"
 								disabled
@@ -439,7 +441,7 @@
 		v-model="dialogFormSchedule"
 		title="ព័ត៌មានកាលវិភាគ"
 		class="sanfont-khmer"
-		width="80%"
+		width="66.5%"
 		draggable
 	>
 		<template #header>
@@ -479,18 +481,21 @@
 							</span>
 						</template>
 					</el-table-column>
+
 					<el-table-column
 						v-for="day in columnDay "
 						:key="day"
 						:prop="day"
 						:label="day.day_name_kh"
 					>
+
 						<template #default="scope">
 							<div>
 								<el-select
 									v-model="scope.row['subject_grade_day_'+day.day_id]"
 									class="small-input"
 									clearable
+									style="width:10px"
 								>
 									<el-option
 										v-for="data in teacherData"
@@ -504,6 +509,7 @@
 							</div>
 						</template>
 					</el-table-column>
+
 				</el-table>
 
 			</div>

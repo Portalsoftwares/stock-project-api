@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-white p-2 flex justify-between border rounded-t">
+	<div class="bg-white p-2 flex flex-col xl:flex-row xl:justify-between border rounded-t">
 		<div class="flex space-y-2  flex-col">
 			<div class="flex space-x-2">
 				<div class="self-start ">
@@ -12,7 +12,7 @@
 						<CirclePlusFilled class="el-input__icon" />
 					</el-input>
 				</div>
-				<div class="self-start  ">
+				<div class="self-start ">
 					<el-select
 						v-model="filterSelectValue "
 						filterable
@@ -74,7 +74,7 @@
 
 			</div>
 		</div>
-		<div class="self-end space-y-2">
+		<div class="self-end space-y-2 ">
 			<div>
 				<el-switch
 					v-model="is_show_trust"
@@ -87,7 +87,7 @@
 					inactive-value="0"
 				/>
 			</div>
-			<div class="flex space-x-2">
+			<div class=" space-x-2">
 				<el-button type="info">
 					<el-icon>
 						<Document />
@@ -251,7 +251,7 @@
 		v-model="dialogFormVisible"
 		title="ព័ត៌មានថ្នាក់រៀន"
 		class="sanfont-khmer"
-		width="45%"
+		width="53%"
 		align-center="true"
 		draggable
 	>
@@ -262,7 +262,7 @@
 			</div>
 		</template>
 		<el-form
-			class="grid grid-cols-2"
+			class="xl:grid xl:grid-cols-2"
 			:model="ruleForm"
 			:rules="rules"
 			ref="ruleForm"
@@ -604,7 +604,7 @@ export default {
 				if (valid) {
 					this.submitData()
 					// this.resetForm('ruleForm')
-				} else {
+				} else {	
 					this.$notify.error({
 						title: 'កំហុស',
 						message: 'បញ្ចូលមិនបានជោគជ័យទេ 😓',

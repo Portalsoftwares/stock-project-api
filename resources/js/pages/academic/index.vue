@@ -1,7 +1,7 @@
 <template>
-	<div class="bg-white p-2 w-full flex justify-between border rounded-t">
+	<div class="bg-white p-2 w-full flex flex-col justify-between border rounded-t lg:flex-row">
 		<div class="flex space-x-2">
-			<div class="self-start">
+			<div class="self-center">
 				<el-input
 					placeholder="ស្វែងរក"
 					class="sanfont-khmer"
@@ -11,8 +11,8 @@
 				</el-input>
 			</div>
 		</div>
-
-		<div class="self-end">
+		<div class="flex flex-col xl:flex-row">	
+		<div class="self-center">
 			<el-switch
 				v-model="is_show_trust"
 				@change="clickShowwTrush"
@@ -23,6 +23,8 @@
 				active-value="1"
 				inactive-value="0"
 			/>
+		</div>	
+		<div class="self-center">
 			<el-button type="info">
 				<el-icon>
 					<Document />
@@ -39,6 +41,7 @@
 				</el-icon>
 				<span class="mx-1 sanfont-khmer"> បន្ថែម</span>
 			</el-button>
+		</div>		
 		</div>
 	</div>
 	<div class="grid grid-cols-1 gap-2 ">
@@ -90,6 +93,7 @@
 						fixed="right"
 						align="center"
 						label="សកម្មភាព"
+						min-width="180"
 					>
 						<template #default="scope">
 							<div v-if="is_show_trust==1 &&!loading">
@@ -167,7 +171,7 @@
 		v-model="dialogFormVisible"
 		title="ព័ត៌មានឆ្នាំសិក្សា"
 		class="sanfont-khmer "
-		width="30%"
+		width="36%"
 		align-center="true"
 		draggable
 	>
@@ -274,7 +278,7 @@ export default {
 		return {
 			tableData: [],
 			dialogFormVisible: false,
-			formLabelWidth: "150px",
+			formLabelWidth: "110px",
 			isShowButtonUpdate: false,
 
 			ruleForm: {

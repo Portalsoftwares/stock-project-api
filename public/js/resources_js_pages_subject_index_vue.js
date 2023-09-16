@@ -11,6 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+var _methods;
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -30,7 +31,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       dialogFormVisible: false,
       roles: [],
       name: "",
-      formLabelWidth: "180px",
+      formLabelWidth: "170px",
       dialogImageUrl: "",
       dialogVisible: false,
       files: {},
@@ -59,6 +60,36 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           required: true,
           message: 'សូមបញ្ជូលឈ្មោះមុខវិជ្ជា (អក្សរកាត់)',
           trigger: 'blur'
+        }, {
+          min: 1,
+          max: 2,
+          message: 'ចំនួនតួអក្សរត្រូវបញ្ជូលយ៉ាងតិចឲ្យបាន២តួ',
+          trigger: 'blur'
+        }],
+        /*		subLevelNameKh: [
+        			{ required: true, message: 'សូមជ្រើសរើសឈ្មោះមុខវិជ្ជា', trigger: 'blur' },
+        		],
+        		gradeLevelValue: [
+        			{ required: true, message: 'សូមជ្រើសរើសកម្រិតថ្នាក់', trigger: 'blur' }
+        		],
+        		classTypeValue: [
+        			{ required: true, message: 'សូមជ្រើសរើសប្រភេទថ្នាក់', trigger: 'blur' },
+        		],
+        */
+        password: [{
+          required: true,
+          message: 'Please set password',
+          trigger: 'blur'
+        }, {
+          min: 8,
+          max: 15,
+          message: 'Length should be 3 to 15',
+          trigger: 'blur'
+        }],
+        photo_id: [{
+          required: true,
+          message: 'Please add photo',
+          trigger: 'change'
         }]
       },
       search: '',
@@ -117,7 +148,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       this.getDataSubjectLevel();
     }
   },
-  methods: {
+  methods: (_methods = {
     //tap funtion
     changeTap: function changeTap(name) {
       localStorage.setItem('tab-subject', name);
@@ -206,32 +237,31 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       }))();
     },
     /*
-    *  Function update new user  
+    *  Function create new Subject Level
     */
-    updateData: function updateData() {
+    submitDataSubjectLevel: function submitDataSubjectLevel() {
       var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var form, config;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              form = new FormData(document.getElementById('fm'));
-              form.append('role', _this4.ruleForm.roles);
+              form = new FormData(document.getElementById('fm')); //	form.append('role', this.ruleForm.roles)
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context2.next = 5;
-              return axios.post('/subject' + '/update/' + _this4.ruleForm.subject_id, form, config).then(function (response) {
+              _context2.next = 4;
+              return axios.post('/subject-level/create', form, config).then(function (response) {
                 _this4.getData();
                 _this4.dialogFormVisible = false;
                 _this4.$message({
-                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+                  message: 'Congrats, this is a success message.',
                   type: 'success'
                 });
               });
-            case 5:
+            case 4:
             case "end":
               return _context2.stop();
           }
@@ -239,40 +269,53 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       }))();
     },
     /*
-    *  Function Delete 
+    *  Function update new user  
     */
-    handleDelete: function handleDelete(id) {
+    updateData: function updateData() {
       var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var form, config;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              _context3.next = 2;
-              return axios["delete"]('/subject' + '/delete/' + id).then(function (response) {
+              form = new FormData(document.getElementById('fm'));
+              form.append('role', _this5.ruleForm.roles);
+              config = {
+                headers: {
+                  'content-type': 'multipart/form-data'
+                }
+              };
+              _context3.next = 5;
+              return axios.post('/subject' + '/update/' + _this5.ruleForm.subject_id, form, config).then(function (response) {
                 _this5.getData();
+                _this5.dialogFormVisible = false;
                 _this5.$message({
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
               });
-            case 2:
+            case 5:
             case "end":
               return _context3.stop();
           }
         }, _callee3);
       }))();
     },
-    restoreData: function restoreData(id) {
+    /*
+    *  Function Delete 
+    */
+    handleDelete: function handleDelete(id) {
       var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
               _context4.next = 2;
-              return axios.post('/subject' + '/restore/' + id).then(function (response) {
+              return axios["delete"]('/subject' + '/delete/' + id).then(function (response) {
                 _this6.getData();
+                _this6.dialogFormVisible = false;
                 _this6.$message({
-                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+                  message: 'Congrats, this is a success message.',
                   type: 'success'
                 });
               });
@@ -283,314 +326,330 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         }, _callee4);
       }))();
     },
-    AddSubject: function AddSubject() {
-      var _this7 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) switch (_context5.prev = _context5.next) {
-            case 0:
-              _this7.ruleForm.subject_id = null;
-              _this7.ruleForm.subNameKh = null;
-              _this7.ruleForm.subNameEng = null;
-              _this7.ruleForm.subShortNameEng = null;
-              _this7.dialogFormVisible = true;
-            case 5:
-            case "end":
-              return _context5.stop();
-          }
-        }, _callee5);
-      }))();
+    handlePictureCardPreview: function handlePictureCardPreview(UploadFile) {
+      this.dialogImageUrl = UploadFile.url;
+      this.dialogVisible = true;
     },
-    getData: function getData() {
-      var _this8 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) switch (_context6.prev = _context6.next) {
-            case 0:
-              _this8.loading = true;
-              _context6.next = 3;
-              return axios.get("/subject/get?page=".concat(_this8.page, "&per_page=").concat(_this8.per_page, "&sort_by=").concat(_this8.sort_by, "&order_by=").concat(_this8.order_by, "&search=").concat(_this8.search, "&is_show_trust=").concat(_this8.is_show_trust)).then(function (response) {
-                _this8.tableData = response.data.data;
-                _this8.loading = false;
-              })["catch"](function (error) {
-                if (error.response.status == 401) {
-                  _this8.$store.commit("auth/CLEAR_TOKEN");
-                }
-              });
-            case 3:
-            case "end":
-              return _context6.stop();
-          }
-        }, _callee6);
-      }))();
-    },
-    editSubject: function editSubject(id) {
-      var _this9 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
-        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-          while (1) switch (_context7.prev = _context7.next) {
-            case 0:
-              _this9.dialogFormVisible = true;
-              _this9.isShowButtonUpdate = true;
-              _this9.isShowPassword = false;
-              _context7.next = 5;
-              return axios.get('/subject' + '/edit/' + id).then(function (response) {
-                console.log(response.data + "123");
-                _this9.ruleForm.subject_id = response.data.data.subject_id;
-                _this9.ruleForm.subNameKh = response.data.data.subject_name_kh;
-                _this9.ruleForm.subNameEng = response.data.data.subject_name_en;
-                _this9.ruleForm.subShortNameEng = response.data.data.subject_sort_name_en;
-              })["catch"](function (error) {
-                if (error.response.status == 401) {
-                  _this9.$store.commit("auth/CLEAR_TOKEN");
-                }
-              });
-            case 5:
-            case "end":
-              return _context7.stop();
-          }
-        }, _callee7);
-      }))();
-    },
-    notification: function notification() {
-      this.showSuccess = !this.showSuccess;
-      ElNotification.success({
-        title: 'Success',
-        message: 'This is a success message',
-        offset: 100
-      });
-      ElMessage({
-        message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
-        type: 'success'
-      });
-    },
-    //--------------------------------------Subeject Level---------------------------------------------
-    getDataSubjectLevel: function getDataSubjectLevel() {
-      var _this10 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
-        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
-          while (1) switch (_context8.prev = _context8.next) {
-            case 0:
-              _this10.loading = true;
-              _context8.next = 3;
-              return axios.get("/subject-level/get?page=".concat(_this10.pageSubjectLevel, "&per_page=").concat(_this10.per_pageSubjectLevel, "&sort_by=").concat(_this10.sort_bySubjectLevel, "&order_by=").concat(_this10.order_bySubjectLevel, "&search=").concat(_this10.searchSubjectLevel, "&is_show_trust=").concat(_this10.is_show_trustSubjectLevel)).then(function (response) {
-                _this10.tableDataSubjectLevel = response.data.data;
-                _this10.subject = response.data.subject;
-                _this10.gradeLevel = response.data.gradeLevel;
-                _this10.classType = response.data.classType;
-                _this10.loading = false;
-              })["catch"](function (error) {
-                if (error.response.status == 401) {
-                  _this10.$store.commit("auth/CLEAR_TOKEN");
-                }
-              });
-            case 3:
-            case "end":
-              return _context8.stop();
-          }
-        }, _callee8);
-      }))();
-    },
-    AddSubjectLevel: function AddSubjectLevel() {
-      this.ruleFormSubjectLevel.subject_grade_id = null;
-      this.ruleFormSubjectLevel.subject_id = null;
-      this.ruleFormSubjectLevel.class_type_id = null;
-      this.ruleFormSubjectLevel.grade_level_id = null;
-      this.ruleFormSubjectLevel.average = null;
-      this.ruleFormSubjectLevel.full_score = null;
-      this.ruleFormSubjectLevel.divide = null;
-      this.dialogFormVisibleSubjectLevel = true;
-    },
-    //Change Per Page
-    changePageSizeSubjectLevel: function changePageSizeSubjectLevel(event) {
-      this.per_pageSubjectLevel = event;
-      this.getDataSubjectLevel();
-    },
-    //Chnage Page 
-    changePageSubjectLevel: function changePageSubjectLevel(event) {
-      this.page = event;
-      this.getDataSubjectLevel();
-    },
-    // ស្វែងរក ទិន្នន័យ
-    clickSearchSubjectLevel: function clickSearchSubjectLevel() {
-      var _this11 = this;
-      clearTimeout(this.tSearchSubjectLevel);
-      this.tSearchSubjectLevel = setTimeout(function () {
-        if (_this11.searchSubjectLevel != null) {
-          if (_this11.searchSubjectLevel.replace(/\s/g, '') !== '') {}
-          _this11.getDataSubjectLevel();
-        }
-      }, 1000);
-    },
-    clickShowwTrushSubjectLevel: function clickShowwTrushSubjectLevel() {
-      this.getDataSubjectLevel();
-    },
-    submitFormSubjectLevel: function submitFormSubjectLevel(formName) {
-      var _this12 = this;
-      this.$refs[formName].validate(function (valid) {
-        if (valid) {
-          _this12.submitDataSubjectLevel();
-          _this12.resetFormSubjectLevel('ruleFormSubjectLevel');
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
-    },
-    cancelActionSubjectLevel: function cancelActionSubjectLevel() {
-      this.resetFormSubjectLevel('ruleFormSubjectLevel');
-      this.dialogFormVisibleSubjectLevel = !this.dialogFormVisibleSubjectLevel;
-    },
-    resetFormSubjectLevel: function resetFormSubjectLevel(formName) {
-      if (this.$refs[formName]) {
-        this.$refs[formName].resetFields();
-      }
-    },
-    /*
-    *  Function create new subject
-    */
-    submitDataSubjectLevel: function submitDataSubjectLevel() {
-      var _this13 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
-        var form, config;
-        return _regeneratorRuntime().wrap(function _callee9$(_context9) {
-          while (1) switch (_context9.prev = _context9.next) {
-            case 0:
-              form = new FormData(document.getElementById('fmSubjectLevel'));
-              form.append('subject_id', _this13.ruleFormSubjectLevel.subject_id);
-              form.append('grade_level_id', _this13.ruleFormSubjectLevel.grade_level_id);
-              form.append('class_type_id', _this13.ruleFormSubjectLevel.class_type_id);
-              config = {
-                headers: {
-                  'content-type': 'multipart/form-data'
-                }
-              };
-              _context9.next = 7;
-              return axios.post('/subject-level/create', form, config).then(function (response) {
-                _this13.getDataSubjectLevel();
-                _this13.dialogFormVisibleSubjectLevel = false;
-                _this13.$message({
-                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
-                  type: 'success'
-                });
-              });
-            case 7:
-            case "end":
-              return _context9.stop();
-          }
-        }, _callee9);
-      }))();
-    },
-    editSubjectLevel: function editSubjectLevel(id) {
-      var _this14 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
-        return _regeneratorRuntime().wrap(function _callee10$(_context10) {
-          while (1) switch (_context10.prev = _context10.next) {
-            case 0:
-              _this14.dialogFormVisibleSubjectLevel = true;
-              _this14.isShowButtonUpdateSubjectLevel = true;
-              _context10.next = 4;
-              return axios.get('/subject-level/edit/' + id).then(function (response) {
-                _this14.ruleFormSubjectLevel.subject_grade_id = response.data.data.subject_grade_id;
-                _this14.ruleFormSubjectLevel.subject_id = response.data.data.subject_id;
-                _this14.ruleFormSubjectLevel.class_type_id = response.data.data.class_type_id;
-                _this14.ruleFormSubjectLevel.grade_level_id = response.data.data.grade_level_id;
-                _this14.ruleFormSubjectLevel.average = response.data.data.average;
-                _this14.ruleFormSubjectLevel.full_score = response.data.data.full_score;
-                _this14.ruleFormSubjectLevel.divide = response.data.data.divide;
-              })["catch"](function (error) {
-                if (error.response.status == 401) {
-                  _this14.$store.commit("auth/CLEAR_TOKEN");
-                }
-              });
-            case 4:
-            case "end":
-              return _context10.stop();
-          }
-        }, _callee10);
-      }))();
-    },
-    /*
-    *  Function update new user  
-    */
-    updateDataSubjectLevel: function updateDataSubjectLevel() {
-      var _this15 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11() {
-        var form, config;
-        return _regeneratorRuntime().wrap(function _callee11$(_context11) {
-          while (1) switch (_context11.prev = _context11.next) {
-            case 0:
-              form = new FormData(document.getElementById('fmSubjectLevel'));
-              form.append('subject_id', _this15.ruleFormSubjectLevel.subject_id);
-              form.append('grade_level_id', _this15.ruleFormSubjectLevel.grade_level_id);
-              form.append('class_type_id', _this15.ruleFormSubjectLevel.class_type_id);
-              config = {
-                headers: {
-                  'content-type': 'multipart/form-data'
-                }
-              };
-              _context11.next = 7;
-              return axios.post('/subject-level/update/' + _this15.ruleFormSubjectLevel.subject_grade_id, form, config).then(function (response) {
-                _this15.getDataSubjectLevel();
-                _this15.dialogFormVisibleSubjectLevel = false;
-                _this15.$message({
-                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
-                  type: 'success'
-                });
-              });
-            case 7:
-            case "end":
-              return _context11.stop();
-          }
-        }, _callee11);
-      }))();
-    },
-    /*
-    *  Function Delete 
-    */
-    handleDeleteSubjectLevel: function handleDeleteSubjectLevel(id) {
-      var _this16 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12() {
-        return _regeneratorRuntime().wrap(function _callee12$(_context12) {
-          while (1) switch (_context12.prev = _context12.next) {
-            case 0:
-              _context12.next = 2;
-              return axios["delete"]('/subject-level/delete/' + id).then(function (response) {
-                _this16.getDataSubjectLevel();
-                _this16.$message({
-                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
-                  type: 'success'
-                });
-              });
-            case 2:
-            case "end":
-              return _context12.stop();
-          }
-        }, _callee12);
-      }))();
-    },
-    restoreDataSubjectLevel: function restoreDataSubjectLevel(id) {
-      var _this17 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee13() {
-        return _regeneratorRuntime().wrap(function _callee13$(_context13) {
-          while (1) switch (_context13.prev = _context13.next) {
-            case 0:
-              _context13.next = 2;
-              return axios.post('/subject-level/restore/' + id).then(function (response) {
-                _this17.getDataSubjectLevel();
-                _this17.$message({
-                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
-                  type: 'success'
-                });
-              });
-            case 2:
-            case "end":
-              return _context13.stop();
-          }
-        }, _callee13);
-      }))();
+    handleRemove: function handleRemove(UploadFile) {
+      console.log(UploadFile);
     }
-  }
+  }, _defineProperty(_methods, "handleDelete", function handleDelete(id) {
+    var _this7 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+      return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+        while (1) switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.next = 2;
+            return axios["delete"]('/subject' + '/delete/' + id).then(function (response) {
+              _this7.getData();
+              _this7.$message({
+                message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+                type: 'success'
+              });
+            });
+          case 2:
+          case "end":
+            return _context5.stop();
+        }
+      }, _callee5);
+    }))();
+  }), _defineProperty(_methods, "restoreData", function restoreData(id) {
+    var _this8 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+      return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+        while (1) switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.next = 2;
+            return axios.post('/subject' + '/restore/' + id).then(function (response) {
+              _this8.getData();
+              _this8.$message({
+                message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+                type: 'success'
+              });
+            });
+          case 2:
+          case "end":
+            return _context6.stop();
+        }
+      }, _callee6);
+    }))();
+  }), _defineProperty(_methods, "AddSubject", function AddSubject() {
+    var _this9 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+      return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+        while (1) switch (_context7.prev = _context7.next) {
+          case 0:
+            _this9.ruleForm.subject_id = null;
+            _this9.ruleForm.subNameKh = null;
+            _this9.ruleForm.subNameEng = null;
+            _this9.ruleForm.subShortNameEng = null;
+            _this9.dialogFormVisible = true;
+          case 5:
+          case "end":
+            return _context7.stop();
+        }
+      }, _callee7);
+    }))();
+  }), _defineProperty(_methods, "getData", function getData() {
+    var _this10 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+      return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+        while (1) switch (_context8.prev = _context8.next) {
+          case 0:
+            _this10.loading = true;
+            _context8.next = 3;
+            return axios.get("/subject/get?page=".concat(_this10.page, "&per_page=").concat(_this10.per_page, "&sort_by=").concat(_this10.sort_by, "&order_by=").concat(_this10.order_by, "&search=").concat(_this10.search, "&is_show_trust=").concat(_this10.is_show_trust)).then(function (response) {
+              _this10.tableData = response.data.data;
+              _this10.loading = false;
+            })["catch"](function (error) {
+              if (error.response.status == 401) {
+                _this10.$store.commit("auth/CLEAR_TOKEN");
+              }
+            });
+          case 3:
+          case "end":
+            return _context8.stop();
+        }
+      }, _callee8);
+    }))();
+  }), _defineProperty(_methods, "editSubject", function editSubject(id) {
+    var _this11 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
+      return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+        while (1) switch (_context9.prev = _context9.next) {
+          case 0:
+            _this11.dialogFormVisible = true;
+            _this11.isShowButtonUpdate = true;
+            _this11.isShowPassword = false;
+            _context9.next = 5;
+            return axios.get('/subject' + '/edit/' + id).then(function (response) {
+              console.log(response.data + "123");
+              _this11.ruleForm.subject_id = response.data.data.subject_id;
+              _this11.ruleForm.subNameKh = response.data.data.subject_name_kh;
+              _this11.ruleForm.subNameEng = response.data.data.subject_name_en;
+              _this11.ruleForm.subShortNameEng = response.data.data.subject_sort_name_en;
+            })["catch"](function (error) {
+              if (error.response.status == 401) {
+                _this11.$store.commit("auth/CLEAR_TOKEN");
+              }
+            });
+          case 5:
+          case "end":
+            return _context9.stop();
+        }
+      }, _callee9);
+    }))();
+  }), _defineProperty(_methods, "notification", function notification() {
+    this.showSuccess = !this.showSuccess;
+    ElNotification.success({
+      title: 'Success',
+      message: 'This is a success message',
+      offset: 100
+    });
+    ElMessage({
+      message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+      type: 'success'
+    });
+  }), _defineProperty(_methods, "getDataSubjectLevel", function getDataSubjectLevel() {
+    var _this12 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
+      return _regeneratorRuntime().wrap(function _callee10$(_context10) {
+        while (1) switch (_context10.prev = _context10.next) {
+          case 0:
+            _this12.loading = true;
+            _context10.next = 3;
+            return axios.get("/subject-level/get?page=".concat(_this12.pageSubjectLevel, "&per_page=").concat(_this12.per_pageSubjectLevel, "&sort_by=").concat(_this12.sort_bySubjectLevel, "&order_by=").concat(_this12.order_bySubjectLevel, "&search=").concat(_this12.searchSubjectLevel, "&is_show_trust=").concat(_this12.is_show_trustSubjectLevel)).then(function (response) {
+              _this12.tableDataSubjectLevel = response.data.data;
+              _this12.subject = response.data.subject;
+              _this12.gradeLevel = response.data.gradeLevel;
+              _this12.classType = response.data.classType;
+              _this12.loading = false;
+            })["catch"](function (error) {
+              if (error.response.status == 401) {
+                _this12.$store.commit("auth/CLEAR_TOKEN");
+              }
+            });
+          case 3:
+          case "end":
+            return _context10.stop();
+        }
+      }, _callee10);
+    }))();
+  }), _defineProperty(_methods, "AddSubjectLevel", function AddSubjectLevel() {
+    this.ruleFormSubjectLevel.subject_grade_id = null;
+    this.ruleFormSubjectLevel.subject_id = null;
+    this.ruleFormSubjectLevel.class_type_id = null;
+    this.ruleFormSubjectLevel.grade_level_id = null;
+    this.ruleFormSubjectLevel.average = null;
+    this.ruleFormSubjectLevel.full_score = null;
+    this.ruleFormSubjectLevel.divide = null;
+    this.dialogFormVisibleSubjectLevel = true;
+  }), _defineProperty(_methods, "changePageSizeSubjectLevel", function changePageSizeSubjectLevel(event) {
+    this.per_pageSubjectLevel = event;
+    this.getDataSubjectLevel();
+  }), _defineProperty(_methods, "changePageSubjectLevel", function changePageSubjectLevel(event) {
+    this.page = event;
+    this.getDataSubjectLevel();
+  }), _defineProperty(_methods, "clickSearchSubjectLevel", function clickSearchSubjectLevel() {
+    var _this13 = this;
+    clearTimeout(this.tSearchSubjectLevel);
+    this.tSearchSubjectLevel = setTimeout(function () {
+      if (_this13.searchSubjectLevel != null) {
+        if (_this13.searchSubjectLevel.replace(/\s/g, '') !== '') {}
+        _this13.getDataSubjectLevel();
+      }
+    }, 1000);
+  }), _defineProperty(_methods, "clickShowwTrushSubjectLevel", function clickShowwTrushSubjectLevel() {
+    this.getDataSubjectLevel();
+  }), _defineProperty(_methods, "submitFormSubjectLevel", function submitFormSubjectLevel(formName) {
+    var _this14 = this;
+    this.$refs[formName].validate(function (valid) {
+      if (valid) {
+        _this14.submitDataSubjectLevel();
+        _this14.resetFormSubjectLevel('ruleFormSubjectLevel');
+      } else {
+        console.log('error submit!!');
+        return false;
+      }
+    });
+  }), _defineProperty(_methods, "cancelActionSubjectLevel", function cancelActionSubjectLevel() {
+    this.resetFormSubjectLevel('ruleFormSubjectLevel');
+    this.dialogFormVisibleSubjectLevel = !this.dialogFormVisibleSubjectLevel;
+  }), _defineProperty(_methods, "resetFormSubjectLevel", function resetFormSubjectLevel(formName) {
+    if (this.$refs[formName]) {
+      this.$refs[formName].resetFields();
+    }
+  }), _defineProperty(_methods, "submitDataSubjectLevel", function submitDataSubjectLevel() {
+    var _this15 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11() {
+      var form, config;
+      return _regeneratorRuntime().wrap(function _callee11$(_context11) {
+        while (1) switch (_context11.prev = _context11.next) {
+          case 0:
+            form = new FormData(document.getElementById('fmSubjectLevel'));
+            form.append('subject_id', _this15.ruleFormSubjectLevel.subject_id);
+            form.append('grade_level_id', _this15.ruleFormSubjectLevel.grade_level_id);
+            form.append('class_type_id', _this15.ruleFormSubjectLevel.class_type_id);
+            config = {
+              headers: {
+                'content-type': 'multipart/form-data'
+              }
+            };
+            _context11.next = 7;
+            return axios.post('/subject-level/create', form, config).then(function (response) {
+              _this15.getDataSubjectLevel();
+              _this15.dialogFormVisibleSubjectLevel = false;
+              _this15.$message({
+                message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+                type: 'success'
+              });
+            });
+          case 7:
+          case "end":
+            return _context11.stop();
+        }
+      }, _callee11);
+    }))();
+  }), _defineProperty(_methods, "editSubjectLevel", function editSubjectLevel(id) {
+    var _this16 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12() {
+      return _regeneratorRuntime().wrap(function _callee12$(_context12) {
+        while (1) switch (_context12.prev = _context12.next) {
+          case 0:
+            _this16.dialogFormVisibleSubjectLevel = true;
+            _this16.isShowButtonUpdateSubjectLevel = true;
+            _context12.next = 4;
+            return axios.get('/subject-level/edit/' + id).then(function (response) {
+              _this16.ruleFormSubjectLevel.subject_grade_id = response.data.data.subject_grade_id;
+              _this16.ruleFormSubjectLevel.subject_id = response.data.data.subject_id;
+              _this16.ruleFormSubjectLevel.class_type_id = response.data.data.class_type_id;
+              _this16.ruleFormSubjectLevel.grade_level_id = response.data.data.grade_level_id;
+              _this16.ruleFormSubjectLevel.average = response.data.data.average;
+              _this16.ruleFormSubjectLevel.full_score = response.data.data.full_score;
+              _this16.ruleFormSubjectLevel.divide = response.data.data.divide;
+            })["catch"](function (error) {
+              if (error.response.status == 401) {
+                _this16.$store.commit("auth/CLEAR_TOKEN");
+              }
+            });
+          case 4:
+          case "end":
+            return _context12.stop();
+        }
+      }, _callee12);
+    }))();
+  }), _defineProperty(_methods, "updateDataSubjectLevel", function updateDataSubjectLevel() {
+    var _this17 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee13() {
+      var form, config;
+      return _regeneratorRuntime().wrap(function _callee13$(_context13) {
+        while (1) switch (_context13.prev = _context13.next) {
+          case 0:
+            form = new FormData(document.getElementById('fmSubjectLevel'));
+            form.append('subject_id', _this17.ruleFormSubjectLevel.subject_id);
+            form.append('grade_level_id', _this17.ruleFormSubjectLevel.grade_level_id);
+            form.append('class_type_id', _this17.ruleFormSubjectLevel.class_type_id);
+            config = {
+              headers: {
+                'content-type': 'multipart/form-data'
+              }
+            };
+            _context13.next = 7;
+            return axios.post('/subject-level/update/' + _this17.ruleFormSubjectLevel.subject_grade_id, form, config).then(function (response) {
+              _this17.getDataSubjectLevel();
+              _this17.dialogFormVisibleSubjectLevel = false;
+              _this17.$message({
+                message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+                type: 'success'
+              });
+            });
+          case 7:
+          case "end":
+            return _context13.stop();
+        }
+      }, _callee13);
+    }))();
+  }), _defineProperty(_methods, "handleDeleteSubjectLevel", function handleDeleteSubjectLevel(id) {
+    var _this18 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee14() {
+      return _regeneratorRuntime().wrap(function _callee14$(_context14) {
+        while (1) switch (_context14.prev = _context14.next) {
+          case 0:
+            _context14.next = 2;
+            return axios["delete"]('/subject-level/delete/' + id).then(function (response) {
+              _this18.getDataSubjectLevel();
+              _this18.$message({
+                message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+                type: 'success'
+              });
+            });
+          case 2:
+          case "end":
+            return _context14.stop();
+        }
+      }, _callee14);
+    }))();
+  }), _defineProperty(_methods, "restoreDataSubjectLevel", function restoreDataSubjectLevel(id) {
+    var _this19 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee15() {
+      return _regeneratorRuntime().wrap(function _callee15$(_context15) {
+        while (1) switch (_context15.prev = _context15.next) {
+          case 0:
+            _context15.next = 2;
+            return axios.post('/subject-level/restore/' + id).then(function (response) {
+              _this19.getDataSubjectLevel();
+              _this19.$message({
+                message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+                type: 'success'
+              });
+            });
+          case 2:
+          case "end":
+            return _context15.stop();
+        }
+      }, _callee15);
+    }))();
+  }), _methods)
 });
 
 /***/ }),
@@ -608,69 +667,69 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "bg-white p-2 w-full flex justify-between"
+  "class": "bg-white p-2 w-full flex flex-col justify-between lg:flex-row"
 };
 var _hoisted_2 = {
-  "class": "flex space-x-2"
+  "class": "self-start flex"
 };
 var _hoisted_3 = {
-  "class": "self-start"
-};
-var _hoisted_4 = {
   "class": "self-start hidden"
 };
-var _hoisted_5 = {
-  "class": "self-end"
+var _hoisted_4 = {
+  "class": "flex flex-col xl:flex-row"
 };
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "mx-1 sanfont-khmer"
-}, " ទាញ Excel", -1 /* HOISTED */);
+var _hoisted_5 = {
+  "class": "self-center"
+};
+var _hoisted_6 = {
+  "class": "self-center"
+};
 var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "mx-1 sanfont-khmer"
+}, " ទាញ Excel", -1 /* HOISTED */);
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "mx-1 sanfont-khmer"
 }, " បន្ថែមមុខវិជ្ជា", -1 /* HOISTED */);
-var _hoisted_8 = {
+var _hoisted_9 = {
   "class": "grid grid-cols-1 gap-2"
 };
-var _hoisted_9 = {
+var _hoisted_10 = {
   "class": "border rounded bg-gray-50"
 };
-var _hoisted_10 = {
+var _hoisted_11 = {
   "class": "flex flex-col"
 };
-var _hoisted_11 = {
+var _hoisted_12 = {
   key: 0,
   "class": "m-2"
 };
-var _hoisted_12 = {
+var _hoisted_13 = {
   key: 1,
   "class": "m-2"
 };
-var _hoisted_13 = {
-  key: 0
-};
 var _hoisted_14 = {
-  key: 1
-};
-var _hoisted_15 = {
   "class": "py-2 flex justify-center"
 };
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "my-header"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-lg font-semibold text-white"
 }, "ព័ត៌មានមុខវិជ្ជា")], -1 /* HOISTED */);
-var _hoisted_17 = {
+var _hoisted_16 = {
   "class": "flex flex-row"
 };
-var _hoisted_18 = {
+var _hoisted_17 = {
   "class": "flex flex-col space-y-1"
 };
-var _hoisted_19 = ["src"];
-var _hoisted_20 = {
+var _hoisted_18 = ["src"];
+var _hoisted_19 = {
   "class": "dialog-footer"
 };
+var _hoisted_20 = {
+  "class": "bg-white p-2 w-full flex justify-between flex-col lg:flex-row"
+};
 var _hoisted_21 = {
-  "class": "bg-white p-2 w-full flex justify-between"
+  "class": "flex flex-col 2xl:flex 2xl:flex-row"
 };
 var _hoisted_22 = {
   "class": "flex space-x-2"
@@ -682,61 +741,74 @@ var _hoisted_24 = {
   "class": "self-start"
 };
 var _hoisted_25 = {
-  "class": "self-start"
+  "class": "flex space-y-2 2xl:space-y-0"
 };
-var _hoisted_26 = {
-  "class": "self-end"
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Use this <div> for space-y-2 work ")], -1 /* HOISTED */);
+var _hoisted_27 = {
+  "class": "flex space-x-2"
 };
-var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "mx-1 sanfont-khmer"
-}, " ទាញ Excel", -1 /* HOISTED */);
-var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "mx-1 sanfont-khmer"
-}, " បន្ថែមមុខវិជ្ជាតាមកម្រិត", -1 /* HOISTED */);
+var _hoisted_28 = {
+  "class": "self-start pl-0 2xl:pl-2"
+};
 var _hoisted_29 = {
-  "class": "grid grid-cols-1 gap-2"
+  "class": "flex flex-col 2xl:flex-row"
 };
 var _hoisted_30 = {
-  "class": "border rounded bg-gray-50"
+  "class": "self-center flex"
 };
 var _hoisted_31 = {
+  "class": "self-center"
+};
+var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "mx-1 sanfont-khmer"
+}, " ទាញ Excel", -1 /* HOISTED */);
+var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "mx-1 sanfont-khmer"
+}, " បន្ថែមមុខវិជ្ជាតាមកម្រិត", -1 /* HOISTED */);
+var _hoisted_34 = {
+  "class": "grid grid-cols-1 gap-2"
+};
+var _hoisted_35 = {
+  "class": "border rounded bg-gray-50"
+};
+var _hoisted_36 = {
   "class": "flex flex-col"
 };
-var _hoisted_32 = {
+var _hoisted_37 = {
   key: 0,
   "class": "m-2"
 };
-var _hoisted_33 = {
+var _hoisted_38 = {
   key: 1,
   "class": "m-2"
 };
-var _hoisted_34 = {
+var _hoisted_39 = {
   key: 0
 };
-var _hoisted_35 = {
+var _hoisted_40 = {
   key: 1
 };
-var _hoisted_36 = {
+var _hoisted_41 = {
   "class": "py-2 flex justify-center"
 };
-var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "my-header"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-lg font-semibold text-white"
 }, "ព័ត៌មានមុខវិជ្ជាតាមកម្រិត")], -1 /* HOISTED */);
-var _hoisted_38 = {
+var _hoisted_43 = {
   "class": "flex flex-col"
 };
-var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "item-start"
 }, null, -1 /* HOISTED */);
-var _hoisted_40 = {
+var _hoisted_45 = {
   "class": "flex flex-row"
 };
-var _hoisted_41 = {
+var _hoisted_46 = {
   "class": "flex flex-col space-y-1"
 };
-var _hoisted_42 = {
+var _hoisted_47 = {
   "class": "dialog-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -775,7 +847,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         name: "tab-subject-1"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
             placeholder: "ស្វែងរក",
             "class": "sanfont-khmer",
             modelValue: $data.search,
@@ -783,7 +855,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               return $data.search = $event;
             }),
             onInput: $options.clickSearch
-          }, null, 8 /* PROPS */, ["modelValue", "onInput"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
+          }, null, 8 /* PROPS */, ["modelValue", "onInput"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
             modelValue: $data.filterSelectValue,
             "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
               return $data.filterSelectValue = $event;
@@ -802,7 +874,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
 
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["modelValue"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_switch, {
+          }, 8 /* PROPS */, ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_switch, {
             modelValue: $data.is_show_trust,
             "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
               return $data.is_show_trust = $event;
@@ -814,7 +886,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "inactive-text": "",
             "active-value": "1",
             "inactive-value": "0"
-          }, null, 8 /* PROPS */, ["modelValue", "onChange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+          }, null, 8 /* PROPS */, ["modelValue", "onChange"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             type: "info"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -823,7 +895,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Document)];
                 }),
                 _: 1 /* STABLE */
-              }), _hoisted_6];
+              }), _hoisted_7];
             }),
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
@@ -836,14 +908,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CirclePlusFilled)];
                 }),
                 _: 1 /* STABLE */
-              }), _hoisted_7];
+              }), _hoisted_8];
             }),
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["onClick"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [$data.showSuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_alert, {
+          }, 8 /* PROPS */, ["onClick"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [$data.showSuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_alert, {
             title: "success alert",
             type: "success",
             "show-icon": ""
-          })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showInfo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_alert, {
+          })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showInfo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_alert, {
             title: "info alert",
             type: "info",
             "show-icon": ""
@@ -868,12 +940,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 type: "index",
                 width: "90",
                 label: "ល.រ"
-              }, {
-                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.subject_id), 1 /* TEXT */)];
-                }),
-
-                _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
                 label: "មុខវិជ្ជា",
                 sortable: ""
@@ -905,46 +971,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 fixed: "right",
                 align: "center",
                 label: "សកម្មភាព",
-                width: "230"
+                width: "180"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [$data.is_show_trust == 1 && !_ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-                    size: "small",
-                    "class": "sanfont-khmer",
-                    onClick: function onClick($event) {
-                      return $options.restoreData(scope.row.subject_id);
-                    }
-                  }, {
-                    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("ស្ដារឡើងវិញ")];
-                    }),
-                    _: 2 /* DYNAMIC */
-                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
-                    width: "220",
-                    "confirm-button-text": "យល់ព្រម",
-                    "cancel-button-text": "ទេ",
-                    icon: _ctx.InfoFilled,
-                    "icon-color": "#626AEF",
-                    title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
-                    onConfirm: function onConfirm($event) {
-                      return $options.handleDelete(scope.row.subject_id);
-                    }
-                  }, {
-                    reference: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-                        size: "small",
-                        type: "danger",
-                        "class": "sanfont-khmer"
-                      }, {
-                        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុបជាអចិន្ត្រៃយ៍ ")];
-                        }),
-                        _: 1 /* STABLE */
-                      })];
-                    }),
-
-                    _: 2 /* DYNAMIC */
-                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.is_show_trust == 0 && !_ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
                     size: "small",
                     "class": "sanfont-khmer",
                     onClick: function onClick($event) {
@@ -957,11 +987,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     _: 2 /* DYNAMIC */
                   }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
                     width: "220",
-                    "confirm-button-text": "យល់ព្រម",
-                    "cancel-button-text": "ទេ",
+                    "confirm-button-text": "OK",
+                    "cancel-button-text": "No, Thanks",
                     icon: _ctx.InfoFilled,
                     "icon-color": "#626AEF",
-                    title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
+                    title: "Are you sure to delete this?",
                     onConfirm: function onConfirm($event) {
                       return $options.handleDelete(scope.row.subject_id);
                     }
@@ -973,14 +1003,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "class": "sanfont-khmer"
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុប ")];
+                          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុប")];
                         }),
                         _: 1 /* STABLE */
                       })];
                     }),
 
                     _: 2 /* DYNAMIC */
-                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_empty, {
@@ -988,7 +1018,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               })];
             }),
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
+          }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
             background: "",
             "current-page": $data.page,
             "onUpdate:currentPage": _cache[3] || (_cache[3] = function ($event) {
@@ -1010,15 +1040,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             title: "ព័ត៌មានមុខវិជ្ជា",
             "class": "sanfont-khmer",
-            width: "30%",
+            width: "50%",
             "align-center": "true",
             draggable: ""
           }, {
             header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [_hoisted_16];
+              return [_hoisted_15];
             }),
             footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
                 onClick: _cache[9] || (_cache[9] = function ($event) {
                   return $options.cancelAction();
                 }),
@@ -1064,7 +1094,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 id: "fm"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "ឈ្មោះមុខវិជ្ជា (ខ្មែរ)",
                     prop: "subNameKh",
                     "class": "sanfont-khmer",
@@ -1129,7 +1159,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "w-full": "",
                     src: $data.dialogImageUrl,
                     alt: "Preview Image"
-                  }, null, 8 /* PROPS */, _hoisted_19)];
+                  }, null, 8 /* PROPS */, _hoisted_18)];
                 }),
                 _: 1 /* STABLE */
               }, 8 /* PROPS */, ["modelValue"])];
@@ -1143,7 +1173,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         name: "tab-subject-2"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
             placeholder: "ស្វែងរក",
             "class": "sanfont-khmer",
             modelValue: $data.searchSubjectLevel,
@@ -1172,7 +1202,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
 
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
+          }, 8 /* PROPS */, ["modelValue"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
             modelValue: _ctx.SelectValue,
             "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
               return _ctx.SelectValue = $event;
@@ -1206,7 +1236,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
 
             _: 1 /* STABLE */
-          })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_switch, {
+          })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_switch, {
             modelValue: $data.is_show_trustSubjectLevel,
             "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
               return $data.is_show_trustSubjectLevel = $event;
@@ -1218,7 +1248,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "inactive-text": "",
             "active-value": "1",
             "inactive-value": "0"
-          }, null, 8 /* PROPS */, ["modelValue", "onChange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+          }, null, 8 /* PROPS */, ["modelValue", "onChange"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             type: "info"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -1227,7 +1257,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Document)];
                 }),
                 _: 1 /* STABLE */
-              }), _hoisted_27];
+              }), _hoisted_32];
             }),
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
@@ -1240,14 +1270,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CirclePlusFilled)];
                 }),
                 _: 1 /* STABLE */
-              }), _hoisted_28];
+              }), _hoisted_33];
             }),
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["onClick"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [$data.showSuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_alert, {
+          }, 8 /* PROPS */, ["onClick"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [$data.showSuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_alert, {
             title: "success alert",
             type: "success",
             "show-icon": ""
-          })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showInfo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_alert, {
+          })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showInfo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_alert, {
             title: "info alert",
             type: "info",
             "show-icon": ""
@@ -1331,7 +1361,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 width: "230"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [$data.is_show_trustSubjectLevel == 1 && !_ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+                  return [$data.is_show_trustSubjectLevel == 1 && !_ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
                     size: "small",
                     "class": "sanfont-khmer",
                     onClick: function onClick($event) {
@@ -1367,7 +1397,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     }),
 
                     _: 2 /* DYNAMIC */
-                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.is_show_trustSubjectLevel == 0 && !_ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.is_show_trustSubjectLevel == 0 && !_ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
                     size: "small",
                     "class": "sanfont-khmer",
                     onClick: function onClick($event) {
@@ -1411,7 +1441,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               })];
             }),
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
+          }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
             background: "",
             "current-page": $data.pageSubjectLevel,
             "onUpdate:currentPage": _cache[17] || (_cache[17] = function ($event) {
@@ -1433,15 +1463,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             title: "ព័ត៌មានមុខវិជ្ជាតាមកម្រិត",
             "class": "sanfont-khmer",
-            width: "30%",
+            width: "55%",
             "align-center": "true",
             draggable: ""
           }, {
             header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [_hoisted_37];
+              return [_hoisted_42];
             }),
             footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
                 onClick: _cache[25] || (_cache[25] = function ($event) {
                   return $options.cancelActionSubjectLevel();
                 }),
@@ -1487,7 +1517,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 id: "fmSubjectLevel"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [_hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "ឈ្មោះមុខវិជ្ជា (ខ្មែរ)",
                     prop: "subject_id",
                     "class": "sanfont-khmer",

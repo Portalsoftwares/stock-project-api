@@ -3,9 +3,10 @@
 	<div>
 		<div class="text-left text-xl pb-2 ">បញ្ជីឈ្មោះសិស្ស</div>
 	</div>
-	<div class="bg-white p-2 w-full flex justify-between">
+	<div class="bg-white p-2 w-full space-y-2 flex-col justify-between lg:flex lg:flex-row lg:space-y-0">
+
 		<div class="flex space-x-2">
-			<div class="self-start">
+			<div class="self-center">
 				<el-input
 					placeholder="ស្វែងរក"
 					class="sanfont-khmer"
@@ -14,17 +15,21 @@
 				>
 				</el-input>
 			</div>
-
 		</div>
 
-		<div class="self-end">
+	<div class="flex flex-col space-y-2 xl:flex-row  xl:space-y-0">
+		<div class="self-center  flex space-x-3">
 			<el-button type="info">
 				<el-icon>
 					<Document />
 				</el-icon>
 				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
-
 			</el-button>
+			<div>
+				<!-- Use this <div> for space-x-2 work -->
+			</div>
+		</div>	
+		<div class="self-center ">
 			<el-button
 				type="primary"
 				@click="AddStudentToClass"
@@ -44,7 +49,7 @@
 				</el-icon>
 				<span class="mx-1 sanfont-khmer">បង្កើតសិស្សថ្មី</span>
 			</el-button>
-
+		</div>
 		</div>
 	</div>
 
@@ -136,6 +141,7 @@
 			fixed="right"
 			align="center"
 			label="សកម្មភាព"
+			width="185px"
 		>
 			<template #default="scope">
 				<el-button

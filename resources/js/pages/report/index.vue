@@ -2,10 +2,11 @@
 	<div>
 		<el-tabs type="border-card">
 			<el-tab-pane label="របាយការណ៏វត្តមានសិស្ស">
-				<div class="bg-white p-2 w-full flex justify-between">
-
-					<div class="flex space-x-2">
-						<div class="self-start  ">
+				<div class="bg-white p-2 w-full justify-between space-y-2 flex flex-col lg:flex-row lg:space-y-0">
+					<div>
+					<div class="flex flex-col space-y-2 xl:flex-row xl:space-y-0">
+						<div class="self-start flex space-x-2">
+							<div>
 							<el-select
 								v-model="academicSelectValue"
 								filterable
@@ -20,6 +21,10 @@
 								>
 								</el-option>
 							</el-select>
+							</div>
+							<div>
+								<!-- Use this <div> for space-y-2 work -->
+							</div>
 						</div>
 						<div class="self-start  ">
 							<el-select
@@ -37,9 +42,10 @@
 								</el-option>
 							</el-select>
 						</div>
+					</div>	
 
 					</div>
-					<div class="self-end">
+					<div class="self-center">
 
 						<el-button type="primary">
 							<el-icon>
@@ -186,10 +192,10 @@
 
 			</el-tab-pane>
 			<el-tab-pane label="របាយការណ៏ពិន្ទុសិស្ស">
-				<div class="bg-white p-2 w-full flex justify-between">
-
-					<div class="flex space-x-2">
-						<div class="self-start  ">
+				<div class="bg-white p-2 w-full flex justify-between space-y-2 flex flex-col xl:flex-row 2xl:space-y-0">
+					
+					<div class="flex flex-col space-y-2 2xl:flex-row 2xl:space-y-0 ">
+						<div class="self-start flex space-x-2">
 							<el-select
 								v-model="academicSelectValue"
 								filterable
@@ -204,8 +210,7 @@
 								>
 								</el-option>
 							</el-select>
-						</div>
-						<div class="self-start  ">
+					
 							<el-select
 								v-model="filterSelectValue "
 								filterable
@@ -220,6 +225,11 @@
 								>
 								</el-option>
 							</el-select>
+
+							<div>
+								<!-- Use this <div> for space-y-2 work -->
+							</div>
+
 						</div>
 						<div class="self-start  ">
 							<el-select
@@ -237,9 +247,9 @@
 								</el-option>
 							</el-select>
 						</div>
-
 					</div>
-					<div class="self-end">
+					
+					<div class="self-center">
 						<el-button type="primary">
 							<el-icon>
 								<Tools />

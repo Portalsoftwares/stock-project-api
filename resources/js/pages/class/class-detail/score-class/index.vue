@@ -109,7 +109,8 @@
 					label-width="50px"
 					model="top"
 				>
-					<div class="flex space-x-2">
+					<div class="flex flex-col lg:flex-row ">
+					<div class="self-start flex space-x-2">
 						<el-form-item label="ថ្នាក់រៀន">
 							<el-select
 								v-model="classData.class_name"
@@ -131,6 +132,11 @@
 								/>
 							</el-select>
 						</el-form-item>
+						<div>
+							<!-- Use this <div> for space-x-2 work -->
+						</div>
+					</div>		
+					<div class="self-start flex space-x-2">
 						<el-form-item label="ប្រភេទពិន្ទុ">
 							<el-select v-model="scoreTypeId">
 								<el-option
@@ -151,6 +157,7 @@
 								យល់ព្រម
 							</el-button>
 						</el-form-item>
+					</div>	
 					</div>
 				</el-form>
 				<div>

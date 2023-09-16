@@ -442,7 +442,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "bg-white p-2 flex justify-between border rounded-t"
+  "class": "bg-white p-2 flex flex-col xl:flex-row xl:justify-between border rounded-t"
 };
 var _hoisted_2 = {
   "class": "flex space-y-2 flex-col"
@@ -472,7 +472,7 @@ var _hoisted_10 = {
   "class": "self-end space-y-2"
 };
 var _hoisted_11 = {
-  "class": "flex space-x-2"
+  "class": "space-x-2"
 };
 var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "mx-1 sanfont-khmer"
@@ -848,7 +848,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     title: "ព័ត៌មានថ្នាក់រៀន",
     "class": "sanfont-khmer",
-    width: "45%",
+    width: "53%",
     "align-center": "true",
     draggable: ""
   }, {
@@ -895,7 +895,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
-        "class": "grid grid-cols-2",
+        "class": "xl:grid xl:grid-cols-2",
         model: $data.ruleForm,
         rules: $data.rules,
         ref: "ruleForm",

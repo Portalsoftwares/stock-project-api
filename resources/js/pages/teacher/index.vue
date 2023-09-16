@@ -1,5 +1,6 @@
 <template>
-	<div class="bg-white p-2 w-full flex justify-between border rounded-t">
+	<div class="bg-white p-2 w-full justify-between border rounded-t lg:flex lg:flex-row">
+		<div class="flex  flex-col 2xl:flex  2xl:flex-row  ">
 		<div class="flex space-x-2">
 			<div class="self-start">
 				<el-input
@@ -27,7 +28,13 @@
 					</el-option>
 				</el-select>
 			</div>
-			<div class="self-start  ">
+		</div>	
+		<div class="flex space-y-2  2xl:space-y-0 ">	
+			<div>
+				<!-- Use this <div> for space-y-2 work -->
+			</div>
+			<div class="flex space-x-2 "> 
+			<div class="self-start pl-0 2xl:pl-2 ">
 				<el-select
 					v-model="teacher_levelSelectValue"
 					filterable
@@ -49,8 +56,11 @@
 				</el-icon>
 			</el-button>
 		</div>
+		</div>
+		</div>
 
-		<div class="self-end">
+		<div class="flex flex-col 2xl:flex-row ">
+		<div class="self-center flex ">
 			<el-switch
 				v-model="is_show_trust"
 				@change="clickShowwTrush"
@@ -61,6 +71,8 @@
 				active-value="1"
 				inactive-value="0"
 			/>
+		</div>	
+			<div class="self-center ">
 			<el-button type="info">
 				<el-icon>
 					<Document />
@@ -84,6 +96,8 @@
 				</el-icon>
 				<span class="mx-1 sanfont-khmer"> បន្ថែមគ្រូ</span>
 			</el-button>
+			</div>
+		
 		</div>
 	</div>
 	<div class="grid grid-cols-1 gap-2 ">
@@ -205,7 +219,7 @@
 						</template>
 					</el-table-column>
 					<el-table-column
-						width="230"
+						width="180"
 						fixed="right"
 						align="center"
 						label="សកម្មភាព"
@@ -288,7 +302,7 @@
 		title="ព័ត៌មានគ្រូ"
 		titleClass="text-xl font-bold"
 		class="sanfont-khmer "
-		width="50%"
+		width="63%"
 		align-center="true"
 		draggable
 	>
@@ -297,23 +311,26 @@
 				<h4 class="text-lg font-semibold text-white">ព័ត៌មានគ្រូ</h4>
 			</div>
 		</template>
+	
 		<el-form
-			class="grid grid-cols-2"
 			:model="ruleForm"
 			:rules="rules"
 			ref="ruleForm"
 			id="fm"
 		>
-			<div class="flex flex-col">
+		<el-tabs
+				type="card"
+				@tab-click="handleClick"
+				style="height: 650px; overflow: auto;"
+			>
+		
+		<el-tab-pane label="ព័ត៌មានទូទៅ">
 
-				<div class=" item-start ">
-
-				</div>
-				<div class="flex flex-row ">
+			<div class="flex flex-col w-full">
+				<div class="xl:flex xl:flex-row ">
 					<div class="flex flex-col space-y-1">
-						<div>
+						
 							<div>
-
 								<el-form-item
 									label="នាមត្រកូល (ខ្មែរ)"
 									prop="firstNameKh"
@@ -355,7 +372,7 @@
 									></el-input>
 								</el-form-item>
 							</div>
-						</div>
+						
 						<div>
 							<el-form-item
 								label="នាមត្រកូល(អង់គ្លេស)"
@@ -668,7 +685,8 @@
 					</div>
 				</div>
 			</div>
-
+		</el-tab-pane>
+		</el-tabs>
 		</el-form>
 		<el-dialog v-model="dialogVisible">
 			<img
