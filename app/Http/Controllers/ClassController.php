@@ -106,7 +106,12 @@ class ClassController extends Controller
     public function create(Request  $request)
     {
         $validator = Validator::make($request->all(), [
-            'class_name' => ['required'],
+            'class_name' => [
+                'required',
+                Rule::unique('class')->where(function ($query) use ($request) {
+                    return $query->where('class_name', $request->class_name)->where('academic_id', $request->academic_id)->get();
+                })
+            ],
             'class_type_id' => ['required', 'exists:class_type,class_type_id'],
             'grade_level_id' => ['required', 'exists:grade_level,grade_level_id'],
             'academic_id' => ['required', 'exists:academic,academic_id'],
@@ -148,7 +153,10 @@ class ClassController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'class_name' => ['required'],
+            'class_name' => [
+                'required'
+
+            ],
             'class_type_id' => ['required', 'exists:class_type,class_type_id'],
             'grade_level_id' => ['required', 'exists:grade_level,grade_level_id'],
             'academic_id' => ['required', 'exists:academic,academic_id'],

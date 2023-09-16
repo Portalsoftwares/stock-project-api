@@ -141,10 +141,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       filterSelectValue: "",
       //Data Page filter
       page: 1,
-      per_page: 1,
+      per_page: 10,
       sort_by: 'class_id',
       order_by: 1
-    }, _defineProperty(_ref, "search", ''), _defineProperty(_ref, "tSearch", null), _defineProperty(_ref, "is_show_trust", 0), _ref;
+    }, _defineProperty(_ref, "search", ''), _defineProperty(_ref, "tSearch", null), _defineProperty(_ref, "is_show_trust", 0), _defineProperty(_ref, "errors", ''), _ref;
   },
   watch: {
     'ruleForm.grade_level_id': function ruleFormGrade_level_id(event) {
@@ -190,7 +190,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         _obj$name2,
         _this$ruleForm$class_2;
       var obj = this.gradeLevel.find(function (e) {
-        return e.id = _this3.ruleForm.grade_level_id;
+        return e.id == _this3.ruleForm.grade_level_id;
       });
       this.ruleForm.class_name = ((_obj$name2 = obj.name) !== null && _obj$name2 !== void 0 ? _obj$name2 : '') + " " + ((_this$ruleForm$class_2 = this.ruleForm.class_symbol) !== null && _this$ruleForm$class_2 !== void 0 ? _this$ruleForm$class_2 : '');
     },
@@ -254,6 +254,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                   showClose: true
                 });
                 _this5.getData();
+              })["catch"](function (error) {
+                if (error.response.status == 400) {
+                  _this5.errors = error.response.data.errors;
+                  _this5.$message({
+                    message: 'ប្រតិបត្តិការរបស់អ្នកមិនទទួលបានជោគជ័យទេ',
+                    type: 'error'
+                  });
+                }
               });
             case 4:
             case "end":
@@ -292,6 +300,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
+              })["catch"](function (error) {
+                if (error.response.status == 400) {
+                  _this6.errors = error.response.data.errors;
+                  _this6.$message({
+                    message: 'ប្រតិបត្តិការរបស់អ្នកមិនទទួលបានជោគជ័យទេ',
+                    type: 'error'
+                  });
+                }
               });
             case 4:
             case "end":
@@ -381,17 +397,32 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         }, _callee5);
       }))();
     },
-    notification: function notification() {
-      this.showSuccess = !this.showSuccess;
-      ElNotification.success({
-        title: 'Success',
-        message: 'This is a success message',
-        offset: 100
-      });
-      ElMessage({
-        message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
-        type: 'success'
-      });
+    handleDelete: function handleDelete($id) {
+      var _this10 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        var config;
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) switch (_context6.prev = _context6.next) {
+            case 0:
+              config = {
+                headers: {
+                  'content-type': 'application/json'
+                }
+              };
+              _context6.next = 3;
+              return axios["delete"]('/class/delete/' + $id, config).then(function (response) {
+                _this10.getData();
+                _this10.$message({
+                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+                  type: 'success'
+                });
+              });
+            case 3:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6);
+      }))();
     }
   }
 });
@@ -716,7 +747,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "icon-color": "#626AEF",
             title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
             onConfirm: function onConfirm($event) {
-              return _ctx.handleDelete(scope.row.class_id);
+              return $options.handleDelete(scope.row.class_id);
             }
           }, {
             reference: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -770,7 +801,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "icon-color": "#626AEF",
             title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
             onConfirm: function onConfirm($event) {
-              return _ctx.handleDelete(scope.row.class_id);
+              return $options.handleDelete(scope.row.class_id);
             }
           }, {
             reference: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -871,11 +902,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         id: "fm"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          var _$data$errors;
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
             label: "ឈ្មោះថ្នាក់រៀន",
             prop: "class_name",
             "class": "sanfont-khmer",
-            "label-width": $data.formLabelWidth
+            "label-width": $data.formLabelWidth,
+            error: (_$data$errors = $data.errors) === null || _$data$errors === void 0 ? void 0 : _$data$errors.class_name
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
@@ -888,7 +921,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["label-width"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+          }, 8 /* PROPS */, ["label-width", "error"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
             label: "ឆ្នាំសិក្សា",
             prop: "academic_id",
             "class": "sanfont-khmer",
