@@ -15,6 +15,7 @@ use App\Models\Time;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\Subject;
 
 class ScheduleController extends Controller
 {
@@ -62,6 +63,8 @@ class ScheduleController extends Controller
                     foreach ($obj->getSchedule as $si => $scd) {
                         if ($data->day_id == $obj->getSchedule[$si]->day_id) {
                             $obj['subject_grade_day_' . $data->day_id] = $obj->getSchedule[$si]->subject_grade_id;
+                            // $sub = Subject::find($obj->getSchedule[$si]->subject_grade_id);
+                            $obj['name_subject_grade_day_' . $data->day_id] = !empty($obj->getSchedule[$si]->subject) ? $obj->getSchedule[$si]->subject : '';
                         }
                     }
                 } else {

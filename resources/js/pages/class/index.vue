@@ -274,6 +274,7 @@
 					prop="class_name"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
+					:error="errors?.class_name"
 				>
 					<el-input
 						v-model="ruleForm.class_name"
@@ -547,13 +548,14 @@ export default {
 			filterSelectValue: "",
 			//Data Page filter
 			page: 1,
-			per_page: 1,
+			per_page: 10,
 			sort_by: 'class_id',
 			order_by: 1,
 			search: '',
 			tSearch: null,
 			is_show_trust: 0,
-			//Data Page filter
+			//Data Page filter,
+			errors: ''
 		}
 	},
 	watch: {
@@ -593,7 +595,7 @@ export default {
 			this.getData();
 		},
 		getNameClass() {
-			var obj = this.gradeLevel.find(e => e.id = this.ruleForm.grade_level_id);
+			var obj = this.gradeLevel.find(e => e.id == this.ruleForm.grade_level_id);
 			this.ruleForm.class_name = (obj.name ?? '') + " " + (this.ruleForm.class_symbol ?? '');
 		},
 
@@ -649,6 +651,14 @@ export default {
 					showClose: true
 				});
 				this.getData();
+			}).catch((error) => {
+				if (error.response.status == 400) {
+					this.errors = error.response.data.errors;
+					this.$message({
+						message: 'ប្រតិបត្តិការរបស់អ្នកមិនទទួលបានជោគជ័យទេ',
+						type: 'error'
+					});
+				}
 			})
 		},
 		/*
@@ -672,6 +682,14 @@ export default {
 					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
+			}).catch((error) => {
+				if (error.response.status == 400) {
+					this.errors = error.response.data.errors;
+					this.$message({
+						message: 'ប្រតិបត្តិការរបស់អ្នកមិនទទួលបានជោគជ័យទេ',
+						type: 'error'
+					});
+				}
 			})
 		},
 
@@ -723,16 +741,16 @@ export default {
 				}
 			})
 		},
-		notification() {
-			this.showSuccess = !this.showSuccess
-			ElNotification.success({
-				title: 'Success',
-				message: 'This is a success message',
-				offset: 100,
-			})
-			ElMessage({
-				message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
-				type: 'success',
+		async handleDelete($id) {
+			const config = {
+				headers: { 'content-type': 'application/json' }
+			}
+			await axios.delete('/class/delete/' + $id, config).then(response => {
+				this.getData();
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
 			})
 		}
 	}

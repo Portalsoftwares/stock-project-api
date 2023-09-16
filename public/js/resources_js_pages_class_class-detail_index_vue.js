@@ -22,14 +22,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   components: {
     moment: (moment__WEBPACK_IMPORTED_MODULE_0___default())
   },
-  props: {
-    data: Object,
-    subjectData: Object,
-    studentCallAttendance: Object,
-    dataDayObj: Object,
-    dataTimeObj: Object,
-    classData: Object
-  },
   data: function data() {
     return {
       dialogFormVisible: false,
@@ -41,12 +33,160 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       attendanceObj: [],
       studentObj: [],
       dataSubjectGradeObj: [],
-      subjectAttendance: 'ភាសាខ្មែរ'
+      subjectAttendance: 'ភាសាខ្មែរ',
+      data: [],
+      subjectData: [],
+      studentCallAttendance: [],
+      dataDayObj: [],
+      dataTimeObj: [],
+      classData: [],
+      fullscreenLoading: false,
+      ruleForm: {
+        date: moment__WEBPACK_IMPORTED_MODULE_0___default()(new Date()).format("YYYY-MM-DD"),
+        subject_id: null,
+        time_id: null,
+        day_id: null,
+        class_id: null
+      },
+      rules: {
+        date: [{
+          required: true,
+          message: 'សូមបញ្ចូលកាលបរិច្ឆេទ',
+          trigger: 'blur'
+        }],
+        subject_id: [{
+          required: true,
+          message: 'សូមបញ្ចូលមុខវិជ្ជា',
+          trigger: 'change'
+        }],
+        time_id: [{
+          required: true,
+          message: 'សូមបញ្ចូលម៉ោង',
+          trigger: 'change'
+        }],
+        day_id: [{
+          required: true,
+          message: 'សូមបញ្ចូលថ្ងៃ',
+          trigger: 'change'
+        }]
+      },
+      showTimeOBJ: ''
     };
   },
+  watch: {
+    'ruleForm.time_id': function ruleFormTime_id(event) {
+      var _this = this;
+      var obj = this.dataTimeObj.find(function (e) {
+        return e.time_id == _this.ruleForm.time_id;
+      });
+      this.showTimeOBJ = obj.name + ' : ' + obj.start_date + ' - ' + obj.end_date;
+    }
+  },
   methods: {
-    addScore: function addScore() {
-      this.dialogFormVisibleAdd = true;
+    submitForm: function submitForm(formName) {
+      var _this2 = this;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          _this2.AttenanceSave();
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    AttenanceCall: function AttenanceCall() {
+      var _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var class_id;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              _this3.fullscreenLoading = true;
+              class_id = _this3.$route.query.id;
+              _context.next = 4;
+              return axios.get('/attendance/call/' + class_id).then(function (response) {
+                var _response$data$classD;
+                _this3.studentCallAttendance = response.data.data;
+                _this3.dataDayObj = response.data.day;
+                _this3.dataTimeObj = response.data.time;
+                _this3.dataSubjectGradeObj = response.data.subject;
+                _this3.classData = response.data.classData;
+                _this3.ruleForm.class_id = (_response$data$classD = response.data.classData) === null || _response$data$classD === void 0 ? void 0 : _response$data$classD.class_id;
+                // this.dialogFormVisibleAdd = true
+
+                setTimeout(function () {
+                  _this3.fullscreenLoading = false;
+                }, 200);
+              })["catch"](function (error) {
+                var _error$response;
+                _this3.fullscreenLoading = false;
+                if (((_error$response = error.response) === null || _error$response === void 0 ? void 0 : _error$response.status) == 401) {
+                  _this3.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee);
+      }))();
+    },
+    closeFormAttendance: function closeFormAttendance() {
+      this.studentCallAttendance = [];
+      this.ruleForm.date = null;
+      this.ruleForm.subject_id = null;
+      this.ruleForm.time_id = null;
+      this.ruleForm.day_id = null;
+      this.ruleForm.time_id = null;
+      this.dialogFormVisibleAdd = false;
+    },
+    AttenanceSave: function AttenanceSave() {
+      var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var data, config;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _this4.fullscreenLoading = true;
+              data = {
+                'data': _this4.studentCallAttendance,
+                'obj': {
+                  'subject_id': _this4.ruleForm.subject_id,
+                  'time_id': _this4.ruleForm.time_id,
+                  'day_id': _this4.ruleForm.day_id,
+                  'class_id': _this4.ruleForm.class_id,
+                  'date': moment__WEBPACK_IMPORTED_MODULE_0___default()(new Date(_this4.ruleForm.date)).format("YYYY-MM-DD")
+                }
+              };
+              config = {
+                headers: {
+                  'content-type': 'application/json'
+                }
+              };
+              _context2.next = 5;
+              return axios.post('/attendance/create', data, config).then(function (response) {
+                // this.dialogFormVisibleAdd = true
+                setTimeout(function () {
+                  _this4.fullscreenLoading = false;
+                  _this4.$notify.success({
+                    title: 'ព័ត៌មាន',
+                    message: 'បញ្ចូលបានជោគជ័យ 😊',
+                    showClose: true
+                  });
+                }, 200);
+              })["catch"](function (error) {
+                var _error$response2;
+                _this4.fullscreenLoading = false;
+                if (((_error$response2 = error.response) === null || _error$response2 === void 0 ? void 0 : _error$response2.status) == 401) {
+                  _this4.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 5:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2);
+      }))();
     },
     geColor: function geColor(type) {
       var typeinput = type.replace(/[\u200B-\u200D\uFEFF]/g, '');
@@ -65,42 +205,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(date).format('DD-MM-YYYY');
     },
     showInfomationAttendance: function showInfomationAttendance(obj) {
-      var _this = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      var _this5 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var class_id, attendanceInfo, config;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              class_id = _this.$route.query.id;
-              _this.attendanceClassId = class_id;
-              _this.attendanceSubjecGradetId = obj.subject_id;
-              _this.dataSubjectGradeObj = obj;
+              class_id = _this5.$route.query.id;
+              _this5.attendanceClassId = class_id;
+              _this5.attendanceSubjecGradetId = obj.subject_id;
+              _this5.dataSubjectGradeObj = obj;
               attendanceInfo = {
-                'class_id': _this.attendanceClassId,
-                'time_id': _this.attendanceTimeId,
-                'day_id': _this.attendanceDayId,
-                'subject_grade_id': _this.attendanceSubjecGradetId
+                'class_id': _this5.attendanceClassId,
+                'time_id': _this5.attendanceTimeId,
+                'day_id': _this5.attendanceDayId,
+                'subject_grade_id': _this5.attendanceSubjecGradetId
               };
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
-              _context.next = 8;
+              _context3.next = 8;
               return axios.post('/attendance/report/' + class_id, attendanceInfo, config).then(function (response) {
-                _this.attendanceObj = response.data.attendance;
-                _this.studentObj = response.data.student;
-                _this.dialogFormVisible = true;
+                _this5.attendanceObj = response.data.attendance;
+                _this5.studentObj = response.data.student;
+                _this5.dialogFormVisible = true;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
-                  _this.$store.commit("auth/CLEAR_TOKEN");
+                  _this5.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 8:
             case "end":
-              return _context.stop();
+              return _context3.stop();
           }
-        }, _callee);
+        }, _callee3);
       }))();
     }
   }
@@ -119,8 +259,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _student_class_index_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./student-class/index.vue */ "./resources/js/pages/class/class-detail/student-class/index.vue");
-/* harmony import */ var _attendence_class_index_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./attendence-class/index.vue */ "./resources/js/pages/class/class-detail/attendence-class/index.vue");
-/* harmony import */ var _score_class_index_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./score-class/index.vue */ "./resources/js/pages/class/class-detail/score-class/index.vue");
+/* harmony import */ var _score_class_index_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./score-class/index.vue */ "./resources/js/pages/class/class-detail/score-class/index.vue");
+/* harmony import */ var _attendence_class_index_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./attendence-class/index.vue */ "./resources/js/pages/class/class-detail/attendence-class/index.vue");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -134,8 +274,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     studentClass: _student_class_index_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    attendanceClass: _attendence_class_index_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    scoreClass: _score_class_index_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    attendanceClass: _attendence_class_index_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    scoreClass: _score_class_index_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
@@ -218,8 +358,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       errors: {},
       activeDay: '',
       fullscreenLoading: false,
-      date: '',
-      dataSchedule: []
+      date: moment__WEBPACK_IMPORTED_MODULE_3___default()(new Date()).format("YYYY-MM-DD"),
+      dataSchedule: [],
+      //Schedule Class 
+      dialogFormVisibleAdd: false,
+      showTimeOBJ: ''
     };
   },
   mounted: function mounted() {
@@ -369,7 +512,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 if (error.response.status == 400) {
                   _this5.errors = error.response.data.errors;
                   _this5.$message({
-                    message: 'Error, this is a errror message.',
+                    message: 'ប្រតិបត្តិការរបស់អ្នកមិនទទួលបានជោគជ័យទេ',
                     type: 'error'
                   });
                 }
@@ -512,11 +655,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 'time_id': _this10.attendanceTimeId,
                 'day_id': _this10.attendanceDayId,
                 'subject_grade_id': _this10.attendanceSubjecGradetId,
+                'date': _this10.date,
                 'data': _this10.studentCallAttendance
               };
               config = {
                 headers: {
-                  'content-type': 'multipart/form-data'
+                  'content-type': 'application/json'
                 }
               };
               _context8.next = 5;
@@ -550,44 +694,61 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee8);
       }))();
     },
-    callAttenance: function callAttenance(day_id, time_id, subject_id) {
+    submitFormAD: function submitFormAD(formName) {
       var _this11 = this;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          _this11.submitFormAttendance();
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    callAttenance: function callAttenance(day_id, time_id, subject_id) {
+      var _this12 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
         var class_id, attendanceInfo, config;
         return _regeneratorRuntime().wrap(function _callee9$(_context9) {
           while (1) switch (_context9.prev = _context9.next) {
             case 0:
-              _this11.fullscreenLoading = true;
-              class_id = _this11.$route.query.id;
-              _this11.attendanceTimeId = time_id;
-              _this11.attendanceDayId = day_id;
-              _this11.attendanceClassId = class_id;
-              _this11.attendanceSubjecGradetId = subject_id;
+              // console.log(day_id, time_id, subject_id);
+              // return;
+              _this12.fullscreenLoading = true;
+              class_id = _this12.$route.query.id;
+              _this12.attendanceTimeId = time_id;
+              _this12.attendanceDayId = day_id;
+              _this12.attendanceClassId = class_id;
+              _this12.attendanceSubjecGradetId = subject_id;
               attendanceInfo = {
-                'class_id': _this11.attendanceClassId,
-                'time_id': _this11.attendanceTimeId,
-                'day_id': _this11.attendanceDayId,
-                'subject_grade_id': _this11.attendanceSubjecGradetId
+                'class_id': _this12.attendanceClassId,
+                'time_id': _this12.attendanceTimeId,
+                'day_id': _this12.attendanceDayId,
+                'subject_grade_id': _this12.attendanceSubjecGradetId
               };
               config = {
                 headers: {
-                  'content-type': 'multipart/form-data'
+                  'content-type': 'application/json'
                 }
               };
               _context9.next = 10;
               return axios.post('/attendance/call/' + class_id, attendanceInfo, config).then(function (response) {
-                _this11.studentCallAttendance = response.data.data;
-                _this11.dataDayObj = response.data.day;
-                _this11.dataTimeObj = response.data.time;
-                _this11.dataSubjectGradeObj = response.data.subject;
-                _this11.dialogFormVisible = true;
+                var _this12$dataTimeObj, _this12$dataTimeObj2, _this12$dataTimeObj3;
+                _this12.studentCallAttendance = response.data.data;
+                _this12.dataDayObj = response.data.day;
+                _this12.dataTimeObj = response.data.time;
+                _this12.dataSubjectGradeObj = response.data.subject;
+                _this12.dialogFormVisibleAdd = true;
+                _this12.showTimeOBJ = ((_this12$dataTimeObj = _this12.dataTimeObj) === null || _this12$dataTimeObj === void 0 ? void 0 : _this12$dataTimeObj.name) + ' : ' + ((_this12$dataTimeObj2 = _this12.dataTimeObj) === null || _this12$dataTimeObj2 === void 0 ? void 0 : _this12$dataTimeObj2.start_date) + ' - ' + ((_this12$dataTimeObj3 = _this12.dataTimeObj) === null || _this12$dataTimeObj3 === void 0 ? void 0 : _this12$dataTimeObj3.end_date);
                 setTimeout(function () {
-                  _this11.fullscreenLoading = false;
+                  _this12.fullscreenLoading = false;
                 }, 2000);
               })["catch"](function (error) {
-                _this11.fullscreenLoading = false;
-                if (error.response.status == 401) {
-                  _this11.$store.commit("auth/CLEAR_TOKEN");
+                var _error$response;
+                _this12.fullscreenLoading = false;
+                console.log(error);
+                if (((_error$response = error.response) === null || _error$response === void 0 ? void 0 : _error$response.status) == 401) {
+                  _this12.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 10:
@@ -1504,19 +1665,23 @@ var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-green-600"
 }, "PS", -1 /* HOISTED */);
-var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_32 = ["checked", "onClick"];
+var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-yellow-600"
 }, "PM", -1 /* HOISTED */);
-var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_34 = ["checked", "onClick"];
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-blue-600"
 }, "AL", -1 /* HOISTED */);
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_36 = ["checked", "onClick"];
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-red-600"
 }, "A", -1 /* HOISTED */);
-var _hoisted_35 = {
+var _hoisted_38 = ["checked", "onClick"];
+var _hoisted_39 = {
   "class": "dialog-footer"
 };
-var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "hidden text-blue-600 text-red-600 text-green-600 text-yellow-600"
 }, null, -1 /* HOISTED */);
 
@@ -1533,7 +1698,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_table = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-table");
   var _component_el_dialog = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-dialog");
   var _component_el_date_picker = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-date-picker");
-  var _component_el_checkbox = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-checkbox");
   var _directive_loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("loading");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
     type: "primary",
@@ -1552,7 +1716,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "primary",
     "class": "sanfont-khmer",
     onClick: _cache[0] || (_cache[0] = function ($event) {
-      return $options.addScore();
+      return $options.AttenanceCall();
     })
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -1564,14 +1728,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), _hoisted_6];
     }),
     _: 1 /* STABLE */
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.subjectData, function (data) {
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.subjectData, function (data) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "z-10 mt-1 overflow-hidden rounded bg-white shadow ring-1 ring-gray-900/5",
       key: data,
       onClick: function onClick($event) {
         return $options.showInfomationAttendance(data.teacher_subject_in_class.subject);
       }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_subject_in_class.subject.subject_name_kh), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.first_name_kh) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.last_name_kh), 1 /* TEXT */)])])])])], 8 /* PROPS */, _hoisted_8);
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_subject_in_class.subject.subject_name_kh), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.full_name_kh), 1 /* TEXT */)])])])])], 8 /* PROPS */, _hoisted_8);
   }), 128 /* KEYED_FRAGMENT */))])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Suspense, null, {
     fallback: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Loading... ")];
@@ -1593,7 +1757,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             onClick: _cache[3] || (_cache[3] = function ($event) {
-              return _ctx.closeFormAttendance();
+              return $options.closeFormAttendance();
             }),
             "class": "sanfont-khmer"
           }, {
@@ -1627,9 +1791,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                    modelValue: $props.classData.class_name,
+                    modelValue: $data.classData.class_name,
                     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-                      return $props.classData.class_name = $event;
+                      return $data.classData.class_name = $event;
                     }),
                     disabled: ""
                   }, {
@@ -1793,7 +1957,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   })), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  Manage Attendance list "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisibleAdd,
-    "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
+    "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
       return $data.dialogFormVisibleAdd = $event;
     }),
     fullscreen: "true",
@@ -1805,9 +1969,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [_hoisted_26];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[15] || (_cache[15] = function ($event) {
-          return _ctx.closeFormAttendance();
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+        onClick: _cache[11] || (_cache[11] = function ($event) {
+          return $options.closeFormAttendance();
         }),
         "class": "sanfont-khmer"
       }, {
@@ -1818,15 +1982,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_button, {
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[16] || (_cache[16] = function ($event) {
-          return _ctx.submitFormAttendance('ruleFormSchedule');
+        onClick: _cache[12] || (_cache[12] = function ($event) {
+          return $options.submitForm('ruleFormSchedule');
         })
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" រក្សាទុក ")];
         }),
         _: 1 /* STABLE */
-      })), [[_directive_loading, _ctx.fullscreenLoading, void 0, {
+      })), [[_directive_loading, $data.fullscreenLoading, void 0, {
         fullscreen: true,
         lock: true
       }]])])];
@@ -1835,100 +1999,120 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
         "label-position": "top",
         "label-width": "50px",
-        model: "top"
+        model: $data.ruleForm,
+        rules: $data.rules,
+        ref: "ruleFormSchedule",
+        id: "ruleFormSchedule"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "ថ្នាក់រៀន"
+            label: "ថ្នាក់រៀន",
+            prop: "class_id"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $props.classData.class_name,
+                modelValue: $data.classData.class_name,
                 "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-                  return $props.classData.class_name = $event;
+                  return $data.classData.class_name = $event;
                 }),
                 disabled: ""
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_option, {
-                    label: "classData.class_name",
-                    value: "classData.class_name"
-                  })];
+                    label: $data.classData.class_name,
+                    value: $data.classData.class_id
+                  }, null, 8 /* PROPS */, ["label", "value"])];
                 }),
                 _: 1 /* STABLE */
               }, 8 /* PROPS */, ["modelValue"])];
             }),
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "ថ្ងៃ"
+            label: "ថ្ងៃ",
+            prop: "day_id"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $props.dataDayObj.day_name_kh,
+                modelValue: $data.ruleForm.day_id,
                 "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-                  return $props.dataDayObj.day_name_kh = $event;
+                  return $data.ruleForm.day_id = $event;
                 })
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_option, {
-                    label: "dataDay",
-                    value: "dataDay"
-                  })];
+                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.dataDayObj, function (data) {
+                    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
+                      key: data,
+                      label: data.day_name_kh,
+                      value: data.day_id
+                    }, null, 8 /* PROPS */, ["label", "value"]);
+                  }), 128 /* KEYED_FRAGMENT */))];
                 }),
+
                 _: 1 /* STABLE */
               }, 8 /* PROPS */, ["modelValue"])];
             }),
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "ម៉ោង"
+            label: "ម៉ោង",
+            prop: "time_id"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $props.dataTimeObj.name,
+                modelValue: $data.ruleForm.time_id,
                 "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-                  return $props.dataTimeObj.name = $event;
+                  return $data.ruleForm.time_id = $event;
                 })
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_option, {
-                    label: "dataDay",
-                    value: "dataDay"
-                  })];
+                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.dataTimeObj, function (data) {
+                    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
+                      key: data.time_id,
+                      label: data.name,
+                      value: data.time_id
+                    }, null, 8 /* PROPS */, ["label", "value"]);
+                  }), 128 /* KEYED_FRAGMENT */))];
                 }),
+
                 _: 1 /* STABLE */
               }, 8 /* PROPS */, ["modelValue"])];
             }),
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "មុខវិទ្យា"
+            label: "មុខវិទ្យា",
+            prop: "subject_id"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $data.subjectAttendance,
+                modelValue: $data.ruleForm.subject_id,
                 "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-                  return $data.subjectAttendance = $event;
+                  return $data.ruleForm.subject_id = $event;
                 })
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_option, {
-                    selected: "",
-                    label: "ភាសាខ្មែរ",
-                    value: "ភាសាខ្មែរ"
-                  })];
+                  return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.dataSubjectGradeObj, function (data) {
+                    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
+                      key: data,
+                      label: data.subject.subject_name_kh,
+                      value: data.subject.subject_id
+                    }, null, 8 /* PROPS */, ["label", "value"]);
+                  }), 128 /* KEYED_FRAGMENT */))];
                 }),
+
                 _: 1 /* STABLE */
               }, 8 /* PROPS */, ["modelValue"])];
             }),
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "កាលបរិច្ចេទ"
+            label: "កាលបរិច្ចេទ",
+            prop: "date"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_date_picker, {
-                modelValue: _ctx.ruleForm,
+                modelValue: $data.ruleForm.date,
                 "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
-                  return _ctx.ruleForm = $event;
+                  return $data.ruleForm.date = $event;
                 }),
+                format: "YYYY-MM-DD",
                 type: "date"
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
@@ -1937,8 +2121,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
 
         _: 1 /* STABLE */
-      }), _hoisted_30]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
-        data: $props.studentCallAttendance,
+      }, 8 /* PROPS */, ["model", "rules"]), _hoisted_30]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
+        data: $data.studentCallAttendance,
         resizable: "false",
         "header-cell-class-name": "sanfont-khmer text-md",
         "row-class-name": "sanfont-khmer",
@@ -1980,71 +2164,83 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
             align: "center",
-            label: $props.dataTimeObj.name + ' : ' + $props.dataTimeObj.start_date + ' - ' + $props.dataTimeObj.end_date
+            label: $data.showTimeOBJ
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                width: "60",
+                width: "80",
                 align: "center"
               }, {
                 header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [_hoisted_31];
                 }),
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_checkbox, {
-                    modelValue: _ctx.checked,
-                    "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
-                      return _ctx.checked = $event;
-                    })
-                  }, null, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-radio-group\r\n\t\t\t\t\t\t\t\tv-model=\"scope.row.attendance_type_id\"\r\n\t\t\t\t\t\t\t\tfill=\"#67C23A\"\r\n\t\t\t\t\t\t\t\tsize=\"small\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<el-radio\r\n\t\t\t\t\t\t\t\t\tlabel=\"1\"\r\n\t\t\t\t\t\t\t\t\tclass=\"bg-green-50 border border-green-50\"\r\n\t\t\t\t\t\t\t\t\tborder\r\n\t\t\t\t\t\t\t\t>វត្តមាន</el-radio>\r\n\t\t\t\t\t\t\t</el-radio-group> ")];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+                    type: "checkbox",
+                    name: "checkbox",
+                    "class": "custom-checkbox",
+                    checked: scope.row.attendance_type_id == 1,
+                    onClick: function onClick($event) {
+                      return scope.row.attendance_type_id = 1;
+                    }
+                  }, null, 8 /* PROPS */, _hoisted_32)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                width: "60",
-                align: "center"
-              }, {
-                header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [_hoisted_32];
-                }),
-                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_checkbox, {
-                    modelValue: _ctx.checked,
-                    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
-                      return _ctx.checked = $event;
-                    })
-                  }, null, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-radio-group\r\n\t\t\t\t\t\t\t\tv-model=\"scope.row.attendance_type_id\"\r\n\t\t\t\t\t\t\t\tsize=\"small\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<el-radio\r\n\t\t\t\t\t\t\t\t\tlabel=\"2\"\r\n\t\t\t\t\t\t\t\t\tclass=\"bg-yellow-50 border border-yellow-50\"\r\n\t\t\t\t\t\t\t\t\tborder\r\n\t\t\t\t\t\t\t\t>ច្បាប់</el-radio>\r\n\t\t\t\t\t\t\t</el-radio-group> ")];
-                }),
-                _: 1 /* STABLE */
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                width: "60",
+                width: "80",
                 align: "center"
               }, {
                 header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [_hoisted_33];
                 }),
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_checkbox, {
-                    modelValue: _ctx.checked,
-                    "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
-                      return _ctx.checked = $event;
-                    })
-                  }, null, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-radio-group\r\n\t\t\t\t\t\t\t\tv-model=\"scope.row.attendance_type_id\"\r\n\t\t\t\t\t\t\t\tsize=\"small\"\r\n\t\t\t\t\t\t\t\ttext-color=\"#2563eb\"\r\n\t\t\t\t\t\t\t\tfill=\"#2563eb\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<el-radio\r\n\t\t\t\t\t\t\t\t\tlabel=\"3\"\r\n\t\t\t\t\t\t\t\t\tclass=\"bg-blue-50 border border-blue-50\"\r\n\t\t\t\t\t\t\t\t\tborder\r\n\t\t\t\t\t\t\t\t>យឺត</el-radio>\r\n\t\t\t\t\t\t\t</el-radio-group> ")];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+                    type: "checkbox",
+                    name: "checkbox",
+                    "class": "custom-checkbox",
+                    checked: scope.row.attendance_type_id == 2,
+                    onClick: function onClick($event) {
+                      return scope.row.attendance_type_id = 2;
+                    }
+                  }, null, 8 /* PROPS */, _hoisted_34)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                width: "60",
+                width: "80",
                 align: "center"
               }, {
                 header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [_hoisted_34];
+                  return [_hoisted_35];
                 }),
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_checkbox, {
-                    modelValue: _ctx.checked,
-                    "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
-                      return _ctx.checked = $event;
-                    })
-                  }, null, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-radio-group\r\n\t\t\t\t\t\t\t\tclass=\"\"\r\n\t\t\t\t\t\t\t\tv-model=\"scope.row.attendance_type_id\"\r\n\t\t\t\t\t\t\t\tsize=\"small\"\r\n\t\t\t\t\t\t\t\ttext-color=\"#dc2626\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<el-radio\r\n\t\t\t\t\t\t\t\t\tclass=\"bg-red-50 border border-red-50\"\r\n\t\t\t\t\t\t\t\t\tlabel=\"4\"\r\n\t\t\t\t\t\t\t\t\tborder\r\n\t\t\t\t\t\t\t\t></el-radio>\r\n\t\t\t\t\t\t\t</el-radio-group> ")];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+                    type: "checkbox",
+                    name: "checkbox",
+                    "class": "custom-checkbox",
+                    checked: scope.row.attendance_type_id == 3,
+                    onClick: function onClick($event) {
+                      return scope.row.attendance_type_id = 3;
+                    }
+                  }, null, 8 /* PROPS */, _hoisted_36)];
+                }),
+                _: 1 /* STABLE */
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
+                width: "80",
+                align: "center"
+              }, {
+                header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  return [_hoisted_37];
+                }),
+                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+                    type: "checkbox",
+                    name: "checkbox",
+                    "class": "custom-checkbox",
+                    checked: scope.row.attendance_type_id == 4,
+                    onClick: function onClick($event) {
+                      return scope.row.attendance_type_id = 4;
+                    }
+                  }, null, 8 /* PROPS */, _hoisted_38)];
                 }),
                 _: 1 /* STABLE */
               })];
@@ -2057,7 +2253,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading_schedule]])])];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["modelValue"]), _hoisted_36], 64 /* STABLE_FRAGMENT */);
+  }, 8 /* PROPS */, ["modelValue"]), _hoisted_40], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
@@ -2114,89 +2310,110 @@ var _hoisted_13 = {
   "class": "text-center"
 };
 var _hoisted_14 = {
-  "class": ""
+  key: 0
 };
 var _hoisted_15 = {
-  "class": "flex justify-between py-2 items-center"
+  key: 0,
+  "class": "flex items-center space-x-2"
 };
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-left text-xl pb-2"
-}, "គ្រូ និងមុខវិជ្ជា ", -1 /* HOISTED */);
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "mx-1 sanfont-khmer"
-}, " បន្ថែមគ្រូ និងមុខវិជ្ជា", -1 /* HOISTED */);
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "relative flex h-3 w-3"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-300 opacity-75"
+}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "relative inline-flex rounded-full h-3 w-3 bg-blue-400"
+})], -1 /* HOISTED */);
+var _hoisted_17 = {
+  key: 1
+};
 var _hoisted_18 = {
-  "class": "grid grid-cols-3 gap-2"
+  "class": ""
 };
 var _hoisted_19 = {
+  "class": "flex justify-between py-2 items-center"
+};
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "text-left text-xl pb-2"
+}, "គ្រូ និងមុខវិជ្ជា ", -1 /* HOISTED */);
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "mx-1 sanfont-khmer"
+}, " បន្ថែមគ្រូ និងមុខវិជ្ជា", -1 /* HOISTED */);
+var _hoisted_22 = {
+  "class": "grid grid-cols-3 gap-2"
+};
+var _hoisted_23 = {
   "class": "flex items-center space-x-2 justify-start"
 };
-var _hoisted_20 = {
+var _hoisted_24 = {
   "class": "font-bold"
 };
-var _hoisted_21 = {
+var _hoisted_25 = {
   "class": "font-bold"
 };
-var _hoisted_22 = {
+var _hoisted_26 = {
   key: 0,
   "class": "py-2"
 };
-var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "my-header"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-lg font-semibold text-white"
-}, "គ្រប់គ្រងអវត្តមាន")], -1 /* HOISTED */);
-var _hoisted_24 = {
+}, "ស្រង់វត្តមាន")], -1 /* HOISTED */);
+var _hoisted_28 = {
   "class": "bg-white px-5"
 };
-var _hoisted_25 = {
+var _hoisted_29 = {
   "class": "flex justify-between py-2"
 };
-var _hoisted_26 = {
+var _hoisted_30 = {
   "class": "flex space-x-2"
 };
-var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, null, -1 /* HOISTED */);
-var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, null, -1 /* HOISTED */);
+var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-green-600"
 }, "PS", -1 /* HOISTED */);
-var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_33 = ["checked", "onClick"];
+var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-yellow-600"
 }, "PM", -1 /* HOISTED */);
-var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_35 = ["checked", "onClick"];
+var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-blue-600"
 }, "AL", -1 /* HOISTED */);
-var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_37 = ["checked", "onClick"];
+var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-red-600"
 }, "A", -1 /* HOISTED */);
-var _hoisted_32 = {
+var _hoisted_39 = ["checked", "onClick"];
+var _hoisted_40 = {
   "class": "dialog-footer"
 };
-var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "my-header"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-lg font-semibold text-white"
 }, "ព័ត៌មានកាលវិភាគ")], -1 /* HOISTED */);
-var _hoisted_34 = {
+var _hoisted_42 = {
   "class": "grid gap-5 w-full"
 };
-var _hoisted_35 = {
+var _hoisted_43 = {
   "class": "py-2 w-full"
 };
-var _hoisted_36 = {
+var _hoisted_44 = {
   "class": "text-center"
 };
-var _hoisted_37 = {
+var _hoisted_45 = {
   "class": "dialog-footer"
 };
-var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "my-header"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-lg font-semibold text-white"
 }, "ព័ត៌មានគ្រូបង្រៀន")], -1 /* HOISTED */);
-var _hoisted_39 = {
+var _hoisted_47 = {
   "class": "flex space-x-2"
 };
-var _hoisted_40 = {
+var _hoisted_48 = {
   "class": "dialog-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -2206,8 +2423,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-button");
   var _component_Setting = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Setting");
   var _component_el_table_column = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-table-column");
-  var _component_el_option = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-option");
-  var _component_el_select = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-select");
+  var _component_el_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-link");
   var _component_el_table = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-table");
   var _component_el_tag = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-tag");
   var _component_el_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-card");
@@ -2217,10 +2433,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_attendanceClass = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("attendanceClass");
   var _component_scoreClass = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("scoreClass");
   var _component_el_tabs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-tabs");
+  var _component_el_option = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-option");
+  var _component_el_select = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-select");
   var _component_el_form_item = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-form-item");
   var _component_el_date_picker = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-date-picker");
   var _component_el_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-form");
-  var _component_el_checkbox = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-checkbox");
   var _component_el_dialog = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-dialog");
   var _component_el_input = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-input");
   var _component_el_radio = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-radio");
@@ -2308,30 +2525,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   align: "center"
                 }, {
                   "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                      modelValue: scope.row['subject_grade_day_' + day.day_id],
-                      "onUpdate:modelValue": function onUpdateModelValue($event) {
-                        return scope.row['subject_grade_day_' + day.day_id] = $event;
+                    var _scope$row3, _scope$row3$subject;
+                    return [scope.row['name_subject_grade_day_' + day.day_id] != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [day.day_id == $data.activeDay ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_link, {
+                      onClick: function onClick($event) {
+                        var _scope$row;
+                        return $options.callAttenance(day.day_id, scope.row.time_id, (_scope$row = scope.row['name_subject_grade_day_' + day.day_id]) === null || _scope$row === void 0 ? void 0 : _scope$row.subject_grade_id);
                       },
-                      "class": "small-input",
-                      disabled: "",
-                      filterable: "",
-                      remote: "",
-                      "reserve-keyword": "",
-                      placeholder: "ទំនេរ"
+                      type: "primary"
                     }, {
                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                        return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teacherData, function (data) {
-                          return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                            key: data,
-                            label: data.teacher_subject_in_class.subject.subject_name_kh,
-                            value: data.teacher_subject_in_class.subject.subject_id
-                          }, null, 8 /* PROPS */, ["label", "value"]);
-                        }), 128 /* KEYED_FRAGMENT */))];
+                        var _scope$row2, _scope$row2$subject;
+                        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row2 = scope.row['name_subject_grade_day_' + day.day_id]) === null || _scope$row2 === void 0 ? void 0 : (_scope$row2$subject = _scope$row2.subject) === null || _scope$row2$subject === void 0 ? void 0 : _scope$row2$subject.subject_name_kh), 1 /* TEXT */)];
                       }),
 
                       _: 2 /* DYNAMIC */
-                    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["modelValue", "onUpdate:modelValue"])])])];
+                    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row3 = scope.row['name_subject_grade_day_' + day.day_id]) === null || _scope$row3 === void 0 ? void 0 : (_scope$row3$subject = _scope$row3.subject) === null || _scope$row3$subject === void 0 ? void 0 : _scope$row3$subject.subject_name_kh), 1 /* TEXT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
                   }),
                   _: 2 /* DYNAMIC */
                 }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["prop", "label"]);
@@ -2339,7 +2547,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
 
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading_schedule]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+          }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading_schedule]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             type: "primary",
             size: "medium",
             onClick: $options.addTeacher
@@ -2350,10 +2558,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Setting)];
                 }),
                 _: 1 /* STABLE */
-              }), _hoisted_17];
+              }), _hoisted_21];
             }),
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["onClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teacherData, function (data) {
+          }, 8 /* PROPS */, ["onClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teacherData, function (data) {
             return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_col, {
               key: data
             }, {
@@ -2363,7 +2571,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   "class": "text-left"
                 }, {
                   "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ឈ្មោះ : "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.first_name_kh) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.last_name_kh), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" មុខវិជ្ជា : "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_subject_in_class.subject.subject_name_kh), 1 /* TEXT */)])]), data.role_id == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tag, null, {
+                    return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ឈ្មោះ : "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.first_name_kh) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.last_name_kh), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" មុខវិជ្ជា : "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_subject_in_class.subject.subject_name_kh), 1 /* TEXT */)])]), data.role_id == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tag, null, {
                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("គ្រូបន្ទុកថ្នាក់")];
                       }),
@@ -2428,10 +2636,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, 8 /* PROPS */, ["modelValue", "onTabChange"])), [[_directive_loading, $data.fullscreenLoading, void 0, {
     fullscreen: true,
     lock: true
-  }]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  Manage Attendance list "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
-    modelValue: $data.dialogFormVisible,
-    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
-      return $data.dialogFormVisible = $event;
+  }]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog Form  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
+    modelValue: $data.dialogFormVisibleAdd,
+    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+      return $data.dialogFormVisibleAdd = $event;
     }),
     fullscreen: "true",
     title: "គ្រប់គ្រងអវត្តមាន",
@@ -2439,11 +2647,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "50%"
   }, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_23];
+      return [_hoisted_27];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[10] || (_cache[10] = function ($event) {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+        onClick: _cache[6] || (_cache[6] = function ($event) {
           return $options.closeFormAttendance();
         }),
         "class": "sanfont-khmer"
@@ -2455,8 +2663,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_button, {
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[11] || (_cache[11] = function ($event) {
-          return $options.submitFormAttendance('ruleFormSchedule');
+        onClick: _cache[7] || (_cache[7] = function ($event) {
+          return $options.submitFormAttendance();
         })
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -2469,13 +2677,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }]])])];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
         "label-position": "top",
         "label-width": "50px",
-        model: "top"
+        ref: "ruleFormSchedule",
+        id: "ruleFormSchedule"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
             label: "ថ្នាក់រៀន"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -2488,9 +2697,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_option, {
-                    label: "classData.class_name",
-                    value: "classData.class_name"
-                  })];
+                    label: $data.classData.class_name,
+                    value: $data.classData.class_id
+                  }, null, 8 /* PROPS */, ["label", "value"])];
                 }),
                 _: 1 /* STABLE */
               }, 8 /* PROPS */, ["modelValue"])];
@@ -2501,17 +2710,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $data.dataDayObj.day_name_kh,
+                modelValue: $data.dataDayObj.day_id,
                 "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-                  return $data.dataDayObj.day_name_kh = $event;
+                  return $data.dataDayObj.day_id = $event;
                 }),
                 disabled: ""
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_option, {
-                    label: "dataDay",
-                    value: "dataDay"
-                  })];
+                    label: $data.dataDayObj.day_name_kh,
+                    value: $data.dataDayObj.day_id
+                  }, null, 8 /* PROPS */, ["label", "value"])];
                 }),
                 _: 1 /* STABLE */
               }, 8 /* PROPS */, ["modelValue"])];
@@ -2522,17 +2731,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-                modelValue: $data.dataTimeObj.name,
+                modelValue: $data.dataTimeObj.time_id,
                 "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-                  return $data.dataTimeObj.name = $event;
+                  return $data.dataTimeObj.time_id = $event;
                 }),
                 disabled: ""
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_option, {
-                    label: "dataDay",
-                    value: "dataDay"
-                  })];
+                    label: $data.dataTimeObj.name,
+                    value: $data.dataTimeObj.time_id
+                  }, null, 8 /* PROPS */, ["label", "value"])];
                 }),
                 _: 1 /* STABLE */
               }, 8 /* PROPS */, ["modelValue"])];
@@ -2542,22 +2751,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             label: "មុខវិទ្យា"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [$data.dataSubjectGradeObj.subject != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_select, {
-                key: 0,
-                modelValue: $data.dataSubjectGradeObj.subject.subject_name_kh,
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
+                modelValue: $data.dataSubjectGradeObj.subject.subject_id,
                 "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-                  return $data.dataSubjectGradeObj.subject.subject_name_kh = $event;
+                  return $data.dataSubjectGradeObj.subject.subject_id = $event;
                 }),
                 disabled: ""
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+                  var _$data$dataSubjectGra, _$data$dataSubjectGra2;
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_option, {
-                    label: "dataDay",
-                    value: "dataDay"
-                  })];
+                    label: (_$data$dataSubjectGra = $data.dataSubjectGradeObj.subject) === null || _$data$dataSubjectGra === void 0 ? void 0 : _$data$dataSubjectGra.subject_name_kh,
+                    value: (_$data$dataSubjectGra2 = $data.dataSubjectGradeObj.subject) === null || _$data$dataSubjectGra2 === void 0 ? void 0 : _$data$dataSubjectGra2.subject_id
+                  }, null, 8 /* PROPS */, ["label", "value"])];
                 }),
                 _: 1 /* STABLE */
-              }, 8 /* PROPS */, ["modelValue"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+              }, 8 /* PROPS */, ["modelValue"])];
             }),
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
@@ -2569,7 +2778,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
                   return $data.date = $event;
                 }),
-                type: "date"
+                format: "YYYY-MM-DD",
+                type: "date",
+                disabled: ""
               }, null, 8 /* PROPS */, ["modelValue"])];
             }),
             _: 1 /* STABLE */
@@ -2577,7 +2788,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
 
         _: 1 /* STABLE */
-      }), _hoisted_27]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
+      }, 512 /* NEED_PATCH */), _hoisted_31]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
         data: $data.studentCallAttendance,
         resizable: "false",
         "header-cell-class-name": "sanfont-khmer text-md",
@@ -2620,71 +2831,83 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
             align: "center",
-            label: $data.dataTimeObj.name + ' : ' + $data.dataTimeObj.start_date + ' - ' + $data.dataTimeObj.end_date
+            label: $data.showTimeOBJ
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                width: "60",
+                width: "80",
                 align: "center"
               }, {
                 header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [_hoisted_28];
+                  return [_hoisted_32];
                 }),
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_checkbox, {
-                    modelValue: _ctx.checked,
-                    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-                      return _ctx.checked = $event;
-                    })
-                  }, null, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-radio-group\r\n\t\t\t\t\t\t\t\tv-model=\"scope.row.attendance_type_id\"\r\n\t\t\t\t\t\t\t\tfill=\"#67C23A\"\r\n\t\t\t\t\t\t\t\tsize=\"small\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<el-radio\r\n\t\t\t\t\t\t\t\t\tlabel=\"1\"\r\n\t\t\t\t\t\t\t\t\tclass=\"bg-green-50 border border-green-50\"\r\n\t\t\t\t\t\t\t\t\tborder\r\n\t\t\t\t\t\t\t\t>វត្តមាន</el-radio>\r\n\t\t\t\t\t\t\t</el-radio-group> ")];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+                    type: "checkbox",
+                    name: "checkbox",
+                    "class": "custom-checkbox",
+                    checked: scope.row.attendance_type_id == 1,
+                    onClick: function onClick($event) {
+                      return scope.row.attendance_type_id = 1;
+                    }
+                  }, null, 8 /* PROPS */, _hoisted_33)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                width: "60",
+                width: "80",
                 align: "center"
               }, {
                 header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [_hoisted_29];
+                  return [_hoisted_34];
                 }),
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_checkbox, {
-                    modelValue: _ctx.checked,
-                    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-                      return _ctx.checked = $event;
-                    })
-                  }, null, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-radio-group\r\n\t\t\t\t\t\t\t\tv-model=\"scope.row.attendance_type_id\"\r\n\t\t\t\t\t\t\t\tsize=\"small\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<el-radio\r\n\t\t\t\t\t\t\t\t\tlabel=\"2\"\r\n\t\t\t\t\t\t\t\t\tclass=\"bg-yellow-50 border border-yellow-50\"\r\n\t\t\t\t\t\t\t\t\tborder\r\n\t\t\t\t\t\t\t\t>ច្បាប់</el-radio>\r\n\t\t\t\t\t\t\t</el-radio-group> ")];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+                    type: "checkbox",
+                    name: "checkbox",
+                    "class": "custom-checkbox",
+                    checked: scope.row.attendance_type_id == 2,
+                    onClick: function onClick($event) {
+                      return scope.row.attendance_type_id = 2;
+                    }
+                  }, null, 8 /* PROPS */, _hoisted_35)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                width: "60",
+                width: "80",
                 align: "center"
               }, {
                 header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [_hoisted_30];
+                  return [_hoisted_36];
                 }),
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_checkbox, {
-                    modelValue: _ctx.checked,
-                    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-                      return _ctx.checked = $event;
-                    })
-                  }, null, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-radio-group\r\n\t\t\t\t\t\t\t\tv-model=\"scope.row.attendance_type_id\"\r\n\t\t\t\t\t\t\t\tsize=\"small\"\r\n\t\t\t\t\t\t\t\ttext-color=\"#2563eb\"\r\n\t\t\t\t\t\t\t\tfill=\"#2563eb\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<el-radio\r\n\t\t\t\t\t\t\t\t\tlabel=\"3\"\r\n\t\t\t\t\t\t\t\t\tclass=\"bg-blue-50 border border-blue-50\"\r\n\t\t\t\t\t\t\t\t\tborder\r\n\t\t\t\t\t\t\t\t>យឺត</el-radio>\r\n\t\t\t\t\t\t\t</el-radio-group> ")];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+                    type: "checkbox",
+                    name: "checkbox",
+                    "class": "custom-checkbox",
+                    checked: scope.row.attendance_type_id == 3,
+                    onClick: function onClick($event) {
+                      return scope.row.attendance_type_id = 3;
+                    }
+                  }, null, 8 /* PROPS */, _hoisted_37)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                width: "60",
+                width: "80",
                 align: "center"
               }, {
                 header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [_hoisted_31];
+                  return [_hoisted_38];
                 }),
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_checkbox, {
-                    modelValue: _ctx.checked,
-                    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-                      return _ctx.checked = $event;
-                    })
-                  }, null, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-radio-group\r\n\t\t\t\t\t\t\t\tclass=\"\"\r\n\t\t\t\t\t\t\t\tv-model=\"scope.row.attendance_type_id\"\r\n\t\t\t\t\t\t\t\tsize=\"small\"\r\n\t\t\t\t\t\t\t\ttext-color=\"#dc2626\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<el-radio\r\n\t\t\t\t\t\t\t\t\tclass=\"bg-red-50 border border-red-50\"\r\n\t\t\t\t\t\t\t\t\tlabel=\"4\"\r\n\t\t\t\t\t\t\t\t\tborder\r\n\t\t\t\t\t\t\t\t></el-radio>\r\n\t\t\t\t\t\t\t</el-radio-group> ")];
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+                    type: "checkbox",
+                    name: "checkbox",
+                    "class": "custom-checkbox",
+                    checked: scope.row.attendance_type_id == 4,
+                    onClick: function onClick($event) {
+                      return scope.row.attendance_type_id = 4;
+                    }
+                  }, null, 8 /* PROPS */, _hoisted_39)];
                 }),
                 _: 1 /* STABLE */
               })];
@@ -2699,7 +2922,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog Form Schedule  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormSchedule,
-    "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
+    "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
       return $data.dialogFormSchedule = $event;
     }),
     title: "ព័ត៌មានកាលវិភាគ",
@@ -2708,11 +2931,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     draggable: ""
   }, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_33];
+      return [_hoisted_41];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[13] || (_cache[13] = function ($event) {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+        onClick: _cache[9] || (_cache[9] = function ($event) {
           return $options.closeForm();
         }),
         "class": "sanfont-khmer"
@@ -2725,7 +2948,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 0,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[14] || (_cache[14] = function ($event) {
+        onClick: _cache[10] || (_cache[10] = function ($event) {
           return $options.submitFormClose('ruleFormSchedule');
         })
       }, {
@@ -2737,7 +2960,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 1,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[15] || (_cache[15] = function ($event) {
+        onClick: _cache[11] || (_cache[11] = function ($event) {
           return $options.submitData('ruleFormSchedule');
         })
       }, {
@@ -2749,7 +2972,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 2,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[16] || (_cache[16] = function ($event) {
+        onClick: _cache[12] || (_cache[12] = function ($event) {
           return _ctx.updateData('ruleFormSchedule');
         })
       }, {
@@ -2760,7 +2983,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
         data: $data.dataSchedule,
         resizable: "false",
         "header-cell-class-name": "sanfont-khmer text-md",
@@ -2779,7 +3002,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             align: "center"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(scope.row.start_date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(scope.row.end_date)), 1 /* TEXT */)])])];
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(scope.row.start_date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(scope.row.end_date)), 1 /* TEXT */)])])];
             }),
 
             _: 1 /* STABLE */
@@ -2800,10 +3023,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 }, {
                   "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                     return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teacherData, function (data) {
+                      var _data$teacher_subject, _data$teacher_subject2;
                       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
                         key: data,
-                        label: data.teacher_subject_in_class.subject.subject_name_kh,
-                        value: data.teacher_subject_in_class.subject.subject_id
+                        label: (_data$teacher_subject = data.teacher_subject_in_class) === null || _data$teacher_subject === void 0 ? void 0 : (_data$teacher_subject2 = _data$teacher_subject.subject) === null || _data$teacher_subject2 === void 0 ? void 0 : _data$teacher_subject2.subject_name_kh,
+                        value: data.subject_grade_id
                       }, null, 8 /* PROPS */, ["label", "value"]);
                     }), 128 /* KEYED_FRAGMENT */))];
                   }),
@@ -2822,7 +3046,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog Form Schedule  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog Form Teacher Subject  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormTeacher,
-    "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
+    "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
       return $data.dialogFormTeacher = $event;
     }),
     title: "ព័ត៌មានគ្រូបង្រៀន",
@@ -2831,11 +3055,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     draggable: ""
   }, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_38];
+      return [_hoisted_46];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[22] || (_cache[22] = function ($event) {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+        onClick: _cache[18] || (_cache[18] = function ($event) {
           return $options.closeForm();
         }),
         "class": "sanfont-khmer",
@@ -2858,7 +3082,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 1,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[23] || (_cache[23] = function ($event) {
+        onClick: _cache[19] || (_cache[19] = function ($event) {
           return $options.submitFormTeacher('ruleFormTeacher');
         })
       }, {
@@ -2896,7 +3120,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                 modelValue: $data.classData.class_name,
-                "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
+                "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
                   return $data.classData.class_name = $event;
                 }),
                 disabled: "",
@@ -2914,7 +3138,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleFormTeacher.teacher_id,
-                "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
+                "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
                   return $data.ruleFormTeacher.teacher_id = $event;
                 }),
                 placeholder: "ជ្រើសរើសគ្រូ",
@@ -2943,7 +3167,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleFormTeacher.subject_grade_id,
-                "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
+                "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
                   return $data.ruleFormTeacher.subject_grade_id = $event;
                 }),
                 placeholder: "ជ្រើសរើសមុខវិទ្យា",
@@ -2973,12 +3197,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_radio_group, {
                 modelValue: $data.ruleFormTeacher.role_id,
-                "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
+                "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
                   return $data.ruleFormTeacher.role_id = $event;
                 })
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_radio, {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_radio, {
                     label: "1",
                     border: ""
                   }, {
@@ -5055,6 +5279,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=style&index=0&id=5c9c0168&lang=css":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=style&index=0&id=5c9c0168&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-checkbox {\r\n\tborder: 0.1em solid #000;\r\n\tborder-radius: 0.2em;\r\n\tdisplay: inline-block;\r\n\twidth: 18px;\r\n\theight: 18px;\r\n\r\n\tpadding-left: 0.2em;\r\n\tpadding-bottom: 0.3em;\r\n\tmargin-right: 0.2em;\r\n\tvertical-align: bottom;\r\n\tcolor: transparent;\r\n\ttransition: 0.2s;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/class/class-detail/index.vue?vue&type=style&index=0&id=db54c3ae&lang=css":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/class/class-detail/index.vue?vue&type=style&index=0&id=db54c3ae&lang=css ***!
@@ -5075,6 +5322,35 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.avatar-uploader .el-upload {\r\n\tb
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=style&index=0&id=5c9c0168&lang=css":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=style&index=0&id=5c9c0168&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_style_index_0_id_5c9c0168_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./index.vue?vue&type=style&index=0&id=5c9c0168&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=style&index=0&id=5c9c0168&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_style_index_0_id_5c9c0168_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_style_index_0_id_5c9c0168_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -5119,13 +5395,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=5c9c0168 */ "./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=template&id=5c9c0168");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=script&lang=js");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _index_vue_vue_type_style_index_0_id_5c9c0168_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=5c9c0168&lang=css */ "./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=style&index=0&id=5c9c0168&lang=css");
+/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/attendence-class/index.vue"]])
+
+
+const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/attendence-class/index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -5334,6 +5613,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./index.vue?vue&type=template&id=2c9d6f00 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/class/class-detail/student-class/index.vue?vue&type=template&id=2c9d6f00");
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=style&index=0&id=5c9c0168&lang=css":
+/*!**********************************************************************************************************************!*\
+  !*** ./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=style&index=0&id=5c9c0168&lang=css ***!
+  \**********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_index_vue_vue_type_style_index_0_id_5c9c0168_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/style-loader/dist/cjs.js!../../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!../../../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!../../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./index.vue?vue&type=style&index=0&id=5c9c0168&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=style&index=0&id=5c9c0168&lang=css");
 
 
 /***/ }),

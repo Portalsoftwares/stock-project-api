@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\AttendanceLine;
+use App\Models\Classes;
 use App\Models\Day;
 use App\Models\Time;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\StudentClass;
+use App\Models\Subject;
 use App\Models\SubjectGradeLevel;
 use Carbon\Carbon;
 
@@ -25,22 +27,44 @@ class AttendanceController extends Controller
     {
         //
     }
+    public function getCallAttendance(Request $request, $id)
+    {
+
+        $classData = Classes::find($id);
+        $student =   StudentClass::query()->where('class_id', $id)->with(['student_in_class.gender', 'student_in_class.status'])->get();
+        $day =   Day::all();
+        $time =   Time::all();
+        $subject =  SubjectGradeLevel::where('grade_level_id', 1)->with('subject')->get();
+        foreach ($student as $index => $data) {
+            // មិនទាន់
+            $data['attendance_type_id'] = null;
+        }
+        $response = [
+            'data' => $student,
+            'day' => $day,
+            'time' => $time,
+            'subject' => $subject,
+            'classData' => $classData,
+        ];
+
+        return  response($response, 200);
+    }
     public function callStudentAttendance(Request $request, $id)
     {
+        // dd(1);
         $class_id =  $request->class_id;
         $time_id = $request->time_id;
         $day_id =  $request->day_id;
         $subject_grade_id = $request->subject_grade_id;
 
         $attendance = Attendance::where(function ($query) use ($class_id, $time_id, $day_id, $subject_grade_id) {
-            $query->where('class_id', $class_id)->where('time_id', $time_id)->where('day_id', $day_id)->where('subject_grade_id', $subject_grade_id)->whereDate('created_at', Carbon::today());
+            $query->where('class_id', $class_id)->where('time_id', $time_id)->where('day_id', $day_id)->where('subject_grade_id', $subject_grade_id)->whereDate('date', Carbon::today());
         })->first();
 
         $attendanceLine = [];
         if (!empty($attendance)) {
             $attendanceLine = AttendanceLine::where('attendance_id', $attendance->attendance_id)->get();
         }
-
         $student =   StudentClass::query()->where('class_id', $id)->with(['student_in_class.gender', 'student_in_class.status'])->get();
         $day =   Day::where('day_id', $day_id)->first();
         $time =   Time::where('time_id', $time_id)->first();
@@ -73,19 +97,32 @@ class AttendanceController extends Controller
     public function create(Request $request)
     {
         DB::transaction(function () use ($request) {
-            $attendance = Attendance::create([
-                'class_id' => $request->class_id,
-                'time_id' => $request->time_id,
-                'day_id' => $request->day_id,
-                'subject_grade_id' => $request->subject_grade_id,
-                'teacher_id' => 1
-            ]);
+            $class_id = $request->class_id;
+            $time_id = $request->time_id;
+            $day_id = $request->day_id;
+            $subject_grade_id = $request->subject_grade_id;
+            $attendance = Attendance::where(function ($query) use ($class_id, $time_id, $day_id, $subject_grade_id) {
+                $query->where('class_id', $class_id)->where('time_id', $time_id)->where('day_id', $day_id)->where('subject_grade_id', $subject_grade_id)->whereDate('date', Carbon::today());
+            })->first();
+            if (empty($attendance)) {
+                $attendance = Attendance::create(
+                    [
+                        'class_id' => $class_id,
+                        'time_id' => $time_id,
+                        'day_id' => $day_id,
+                        'subject_grade_id' => $subject_grade_id,
+                        'date' =>  Carbon::today()
+                    ]
+                );
+            };
+
             $data = $request->data ?? [];
             $attendanceLine = [];
-            if (isset($attendance)) {
+            if (!empty($attendance)) {
+                AttendanceLine::where('attendance_id', $attendance->attendance_id)->delete();
                 foreach ($data as $row) {
                     $obj = [
-                        'attendance_id' => $attendance->id,
+                        'attendance_id' => $attendance->attendance_id,
                         'student_id' => $row['student_id'],
                         'attendance_type_id' => $row['attendance_type_id']
                     ];
@@ -95,7 +132,6 @@ class AttendanceController extends Controller
                 AttendanceLine::insert($attendanceLine);
             }
         });
-
         $response = [
             'data' => 'successfull',
         ];
