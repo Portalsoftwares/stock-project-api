@@ -126,7 +126,7 @@
 									<span class="mx-1 sanfont-khmer"> បន្ថែមគ្រូ និងមុខវិជ្ជា</span>
 								</el-button>
 							</div>
-							<div class="grid grid-cols-3 gap-2">
+							<div class="grid grid-cols-3 gap-5">
 								<el-col
 									v-for="data in teacherData "
 									:key="data"
@@ -135,7 +135,15 @@
 										shadow="hover"
 										class="text-left"
 									>
+
 										<div class="flex items-center space-x-2 justify-start">
+											<div class="flex h-14 w-14 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+												<img
+													:src="data.teacher_in_class?.profile_img?.file_path"
+													alt=""
+												>
+
+											</div>
 											<div>
 
 												<div>
@@ -144,6 +152,9 @@
 												<div>
 													មុខវិជ្ជា : <span class="font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span>
 												</div>
+												<div>
+													លេខទូរស័ព្ទ : <span class="font-bold">{{ data.teacher_in_class?.phone }}</span>
+												</div>
 											</div>
 
 											<div
@@ -151,6 +162,13 @@
 												class="py-2 "
 											>
 												<el-tag>គ្រូបន្ទុកថ្នាក់</el-tag>
+											</div>
+											<div>
+												<el-button
+													size="small"
+													class="sanfont-khmer"
+													@click="editSubjectLevel(scope.row.subject_grade_id)"
+												>កែប្រែ</el-button>
 											</div>
 										</div>
 
@@ -256,6 +274,7 @@
 						<el-form-item label="មុខវិទ្យា">
 
 							<el-select
+								v-if="dataSubjectGradeObj.subject!=null"
 								v-model="dataSubjectGradeObj.subject.subject_id"
 								disabled
 							>
@@ -401,6 +420,7 @@
 			<span class="dialog-footer">
 				<el-button
 					@click="closeFormAttendance()"
+					v-loading.fullscreen.lock="fullscreenLoading"
 					class="sanfont-khmer"
 				> បោះបង់</el-button>
 				<el-button
@@ -655,6 +675,7 @@
 
 </template>
 <script>
+import { ElMessage, ElMessageBox } from 'element-plus'
 import studentClass from './student-class/index.vue'
 import scoreClass from './score-class/index.vue'
 import attendanceClass from './attendence-class/index.vue'
@@ -1016,11 +1037,32 @@ export default {
 
 		},
 		closeFormAttendance() {
-			this.dialogFormVisible = false;
-			this.studentCallAttendance = []
-			this.dataDayObj = []
-			this.dataTimeObj = []
-			this.dataSubjectGradeObj = []
+
+			ElMessageBox.confirm(
+				'អ្នកមិនទាន់បានរក្សាទុកការកែប្រែទេ, តើអ្នកពិតជាចង់បោះបង់មែនឬទេ?',
+				'ការដាស់តើន',
+				{
+					confirmButtonText: 'យល់ព្រម',
+					cancelButtonText: 'ទេ',
+				}
+			)
+				.then(() => {
+					this.dialogFormVisibleAdd = false;
+					this.studentCallAttendance = []
+					this.dataDayObj = []
+					this.dataTimeObj = []
+					this.dataSubjectGradeObj = []
+				})
+				.catch((action) => {
+					ElMessage({
+						type: 'info',
+						message:
+							action === 'cancel'
+								? 'អ្នកបានបោះបង់ដំណើរការ'
+								: '',
+					})
+				});
+
 		}
 	}
 }

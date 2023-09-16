@@ -61,7 +61,7 @@ class ClassController extends Controller
 
     public function getTeacher(Request  $request, $id)
     {
-        $teacher = TeacherClass::where('class_id', $id)->with(['teacher_subject_in_class.subject', 'teacher_in_class'])->get();
+        $teacher = TeacherClass::where('class_id', $id)->with(['teacher_subject_in_class.subject', 'teacher_in_class.profile_img'])->get();
         $class = Classes::where('class_id', $id)->first();
 
 

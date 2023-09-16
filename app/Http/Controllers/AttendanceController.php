@@ -15,6 +15,7 @@ use App\Models\StudentClass;
 use App\Models\Subject;
 use App\Models\SubjectGradeLevel;
 use Carbon\Carbon;
+use App\Models\TeacherClass;
 
 class AttendanceController extends Controller
 {
@@ -31,10 +32,11 @@ class AttendanceController extends Controller
     {
 
         $classData = Classes::find($id);
+        $teacherSubject = TeacherClass::where('class_id', $id)->with(['teacher_subject_in_class.subject', 'teacher_in_class'])->get();
         $student =   StudentClass::query()->where('class_id', $id)->with(['student_in_class.gender', 'student_in_class.status'])->get();
         $day =   Day::all();
         $time =   Time::all();
-        $subject =  SubjectGradeLevel::where('grade_level_id', 1)->with('subject')->get();
+        // $subject =  SubjectGradeLevel::where('grade_level_id', 1)->with('subject')->get();
         foreach ($student as $index => $data) {
             // មិនទាន់
             $data['attendance_type_id'] = null;
@@ -43,7 +45,7 @@ class AttendanceController extends Controller
             'data' => $student,
             'day' => $day,
             'time' => $time,
-            'subject' => $subject,
+            'teacher_subject' => $teacherSubject,
             'classData' => $classData,
         ];
 
