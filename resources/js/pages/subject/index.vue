@@ -8,9 +8,8 @@
 			label="មុខវិជ្ជាទូទៅ"
 			name="tab-subject-1"
 		>
-			<div class="bg-white p-2 w-full flex justify-between">
-				<div class="flex space-x-2">
-					<div class="self-start">
+		<div class="bg-white p-2 w-full flex flex-col justify-between lg:flex-row">
+				<div class="self-start flex">
 						<el-input
 							placeholder="ស្វែងរក"
 							class="sanfont-khmer"
@@ -18,7 +17,7 @@
 							@input="clickSearch"
 						>
 						</el-input>
-					</div>
+				</div>	
 					<div class="self-start hidden ">
 						<el-select
 							v-model="filterSelectValue"
@@ -34,8 +33,8 @@
 							</el-option>
 						</el-select>
 					</div>
-				</div>
-				<div class="self-end">
+		<div class="flex flex-col  xl:flex-row ">
+				<div class="self-center">
 					<el-switch
 						v-model="is_show_trust"
 						@change="clickShowwTrush"
@@ -46,6 +45,8 @@
 						active-value="1"
 						inactive-value="0"
 					/>
+				</div>	
+				<div class="self-center ">
 					<el-button type="info">
 						<el-icon>
 							<Document />
@@ -62,8 +63,10 @@
 						</el-icon>
 						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជា</span>
 					</el-button>
+				</div>	
 				</div>
 			</div>
+
 			<div class="grid grid-cols-1 gap-2 ">
 				<div class=" border rounded bg-gray-50">
 					<div class="flex flex-col  ">
@@ -135,7 +138,7 @@
 								fixed="right"
 								align="center"
 								label="សកម្មភាព"
-								width="230"
+								width="180"
 							>
 								<template #default="scope">
 									<el-button
@@ -188,7 +191,7 @@
 				v-model="dialogFormVisible"
 				title="ព័ត៌មានមុខវិជ្ជា"
 				class="sanfont-khmer"
-				width="30%"
+				width="50%"
 				align-center="true"
 				draggable
 			>
@@ -294,7 +297,8 @@
 			label="មុខវិជ្ជាតាមកម្រិត"
 			name="tab-subject-2"
 		>
-			<div class="bg-white p-2 w-full flex justify-between">
+			<div class="bg-white p-2 w-full flex justify-between flex-col lg:flex-row">
+				<div class="flex flex-col 2xl:flex 2xl:flex-row">	
 				<div class="flex space-x-2">
 					<div class="self-start">
 						<el-input
@@ -322,7 +326,13 @@
 							</el-option>
 						</el-select>
 					</div>
-					<div class="self-start  ">
+				</div>	
+				<div class="flex space-y-2  2xl:space-y-0 ">	
+					<div>
+						<!-- Use this <div> for space-y-2 work -->
+					</div>
+					<div class="flex space-x-2  ">
+					<div class="self-start pl-0 2xl:pl-2 ">	
 						<el-select
 							v-model="SelectValue "
 							filterable
@@ -344,8 +354,12 @@
 							<Search />
 						</el-icon>
 					</el-button>
+					</div>
 				</div>
-				<div class="self-end">
+				</div>
+				
+				<div class="flex flex-col  2xl:flex-row ">
+				<div class="self-center flex ">
 					<el-switch
 						v-model="is_show_trustSubjectLevel"
 						@change="clickShowwTrushSubjectLevel"
@@ -356,6 +370,8 @@
 						active-value="1"
 						inactive-value="0"
 					/>
+				</div>
+				<div class="self-center "> 	
 					<el-button type="info">
 						<el-icon>
 							<Document />
@@ -374,6 +390,7 @@
 						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជាតាមកម្រិត</span>
 
 					</el-button>
+				</div>	
 				</div>
 			</div>
 			<div class="grid grid-cols-1 gap-2 ">
@@ -528,7 +545,7 @@
 				v-model="dialogFormVisibleSubjectLevel"
 				title="ព័ត៌មានមុខវិជ្ជាតាមកម្រិត"
 				class="sanfont-khmer "
-				width="30%"
+				width="55%"
 				align-center="true"
 				draggable
 			>
@@ -558,6 +575,7 @@
 										prop="subject_id"
 										class="sanfont-khmer "
 										:label-width="formLabelWidth"
+										
 									>
 										<el-select
 											v-model="ruleFormSubjectLevel.subject_id"
@@ -716,7 +734,7 @@ export default {
 			dialogFormVisible: false,
 			roles: [],
 			name: "",
-			formLabelWidth: "180px",
+			formLabelWidth: "170px",
 			dialogImageUrl: "",
 			dialogVisible: false,
 			files: {},

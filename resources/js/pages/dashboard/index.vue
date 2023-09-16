@@ -126,11 +126,11 @@
 
 			</div>
 		</div>
-		<div class="border rounded  bg-gray-50">
+		<div class="border rounded  bg-gray-50 ">
 			<div class="py-2 text-xl">
 				ទិន្នន័យវត្តមាន
 			</div>
-			<div id="chartAttendace">
+			<div id="chartAttendace ">
 				<apexchart
 					type="pie"
 					width="380"

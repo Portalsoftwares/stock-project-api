@@ -1,7 +1,7 @@
 <template>
-
-	<div class="bg-white p-2 w-full flex justify-between border rounded-t">
-		<div class="flex space-x-2">
+	<div class="bg-white p-2 w-full border justify-between rounded-t lg:flex lg:flex-row">
+		<div class="flex  flex-col 2xl:flex  2xl:flex-row  ">
+		<div class="flex space-x-2 ">
 			<div class="self-start">
 				<el-input
 					placeholder="ស្វែងរក"
@@ -11,13 +11,14 @@
 				>
 				</el-input>
 			</div>
-			<div class="self-start  ">
+			<div class="self-start ">
 				<el-select
 					v-model="filterSelectValue "
 					filterable
 					clearable
 					multiple
 					placeholder="សិស្សនៃកម្រិត"
+					
 				>
 					<el-option
 						v-for="item in filter"
@@ -28,12 +29,19 @@
 					</el-option>
 				</el-select>
 			</div>
-			<div class="self-start  ">
+		</div>
+		<div class="flex space-y-2  2xl:space-y-0 ">	
+			<div>
+				<!-- Use this <div> for space-y-2 work -->
+			</div>
+			<div class="flex space-x-2 "> 
+			<div class="self-start pl-0 2xl:pl-2 ">
 				<el-select
 					v-model="academicSelectValue"
 					filterable
 					clearable
 					placeholder="ឆ្នាំសិក្សា"
+					
 				>
 					<el-option
 						v-for="item in academic"
@@ -44,14 +52,19 @@
 					</el-option>
 				</el-select>
 			</div>
-			<el-button type="primary">
-				<el-icon>
+			<div class="self-start">
+			<el-button type="primary" >
+				<el-icon >
 					<Search />
 				</el-icon>
 			</el-button>
+			</div>
+			</div>
+		</div>
 		</div>
 
-		<div class="self-end">
+		<div class="flex flex-col  2xl:flex-row ">
+		<div class="self-center flex ">
 			<el-switch
 				v-model="is_show_trust"
 				@change="clickShowwTrush"
@@ -62,6 +75,8 @@
 				active-value="1"
 				inactive-value="0"
 			/>
+		</div>
+			<div class="self-center ">
 			<el-button type="info">
 				<el-icon>
 					<Document />
@@ -71,13 +86,14 @@
 			</el-button>
 			<el-button
 				type="primary"
-				@click="AddUser"
+				@click="addStudent"
 			>
 				<el-icon>
 					<CirclePlusFilled />
 				</el-icon>
 				<span class="mx-1 sanfont-khmer"> បន្ថែមសិស្ស</span>
 			</el-button>
+		</div>	
 		</div>
 	</div>
 	<div class="grid grid-cols-1 gap-2 ">
@@ -145,14 +161,14 @@
 					<el-table-column
 						property="first_name_en"
 						label="ឈ្មោះឡាតាំង"
-						width="250"
+						width="220"
 						sortable
 					>
 						<template #default="scope">{{scope.row.full_name_en }}</template>
 
 					</el-table-column>
 					<el-table-column
-						width="120"
+						width="130"
 						label="ភេទ"
 						:filters="genders"
 					>
@@ -162,7 +178,7 @@
 						</template>
 					</el-table-column>
 					<el-table-column
-						width="120"
+						width="150"
 						label="ថ្នាក់រៀន"
 						sortable
 					>
@@ -172,7 +188,7 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត">
+					<el-table-column label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត" >
 						<template #default="scope">
 							<div>
 								{{ scope.row.date_of_birth}}
@@ -181,7 +197,7 @@
 					</el-table-column>
 					<el-table-column
 						label="លេខទូរស័ព្ទ"
-						width="120"
+						width="170"
 					>
 						<template #default="scope">
 							<div>
@@ -190,6 +206,7 @@
 						</template>
 					</el-table-column>
 					<el-table-column
+						width="220"
 						align="center"
 						fixed="right"
 						label="សកម្មភាព"
@@ -270,7 +287,7 @@
 		v-model="dialogFormVisible"
 		title="ព័ត៌មានសិស្ស"
 		class="sanfont-khmer "
-		width="50%"
+		width="63%"
 		align-center="true"
 		draggable
 	>
@@ -291,9 +308,9 @@
 				style="height: 650px; overflow: auto;"
 			>
 				<el-tab-pane label="ព័ត៌មានទូទៅ">
-					<div class="grid grid-cols-2">
+					
 						<div class="flex flex-col w-full">
-							<div class="flex flex-row ">
+							<div class="xl:flex xl:flex-row ">
 								<div class="flex flex-col space-y-1">
 									<div>
 
@@ -574,7 +591,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+				
 				</el-tab-pane>
 				<el-tab-pane label="ព័ត៌មានមធ្យមសិក្សបឋមភូមិ">
 					<div class="flex flex-row ">
@@ -1016,7 +1033,7 @@ export default {
 			console.log(UploadFile)
 		},
 
-		async AddUser() {
+		async addStudent() {
 			this.ruleForm.student_id = null;
 			this.ruleForm.firstNameKh = null;
 			this.ruleForm.LastNameKh = null;
@@ -1048,19 +1065,12 @@ export default {
 
 			this.dialogFormVisible = true
 			this.isShowButtonUpdate = false;
-			this.isShowPassword = true;
 
-			await axios.get('/user/create').then(response => {
-				this.roles = response.data.roles
-			}).catch((error) => {
-				console.log(error)
-			})
 		},
 
 		async editStudent(id) {
 			this.dialogFormVisible = true;
 			this.isShowButtonUpdate = true;
-			this.isShowPassword = false;
 			await axios.get('/student' + '/edit/' + id).then(response => {
 				this.ruleForm.student_id = response.data.data.student_id
 				this.ruleForm.firstNameKh = response.data.data.first_name_kh

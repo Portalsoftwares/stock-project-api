@@ -298,7 +298,8 @@
 					label-width="50px"
 					model="top"
 				>
-					<div class="flex space-x-2">
+					<div class="flex flex-col  2xl:flex-row ">
+					<div class="self-start flex space-x-2">
 						<el-form-item label="ថ្នាក់រៀន">
 							<el-select
 								v-model="classData.class_name"
@@ -318,6 +319,11 @@
 								/>
 							</el-select>
 						</el-form-item>
+						<div>
+							<!-- Use this <div> for space-x-2 work -->
+						</div>
+					</div>
+					<div class="self-start flex space-x-2">
 						<el-form-item label="ម៉ោង">
 							<el-select v-model="dataTimeObj.name">
 								<el-option
@@ -344,6 +350,7 @@
 							>
 							</el-date-picker>
 						</el-form-item>
+					</div>	
 					</div>
 				</el-form>
 				<div>

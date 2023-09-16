@@ -89,6 +89,8 @@ Route::prefix('v1')->group(function () {
       Route::delete('/delete/{id}', [ClassController::class, 'delete']);
       //Add student in Class
       Route::post('/student/{id}/add', [ClassController::class, 'addStudentClass']);
+      Route::get('/student/{id}/get', [ClassController::class, 'getStudentToClass']);
+      Route::delete('/student/{id}/delete/{student_id}', [ClassController::class, 'deleteStudentToClass']);
     });
 
     //Schedule class

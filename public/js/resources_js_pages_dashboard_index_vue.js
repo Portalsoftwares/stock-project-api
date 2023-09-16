@@ -393,7 +393,7 @@ var _hoisted_32 = /*#__PURE__*/_withScopeId(function () {
   }, " ទិន្នន័យវត្តមាន ", -1 /* HOISTED */);
 });
 var _hoisted_33 = {
-  id: "chartAttendace"
+  id: "chartAttendace "
 };
 var _hoisted_34 = ["src"];
 var _hoisted_35 = {

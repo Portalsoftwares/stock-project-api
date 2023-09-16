@@ -450,7 +450,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     handleRemove: function handleRemove(UploadFile) {
       console.log(UploadFile);
     },
-    AddUser: function AddUser() {
+    addStudent: function addStudent() {
       var _this9 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
@@ -485,14 +485,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               _this9.roles = null;
               _this9.dialogFormVisible = true;
               _this9.isShowButtonUpdate = false;
-              _this9.isShowPassword = true;
-              _context7.next = 32;
-              return axios.get('/user/create').then(function (response) {
-                _this9.roles = response.data.roles;
-              })["catch"](function (error) {
-                console.log(error);
-              });
-            case 32:
+            case 29:
             case "end":
               return _context7.stop();
           }
@@ -507,8 +500,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             case 0:
               _this10.dialogFormVisible = true;
               _this10.isShowButtonUpdate = true;
-              _this10.isShowPassword = false;
-              _context8.next = 5;
+              _context8.next = 4;
               return axios.get('/student' + '/edit/' + id).then(function (response) {
                 var _response$data$data$p;
                 _this10.ruleForm.student_id = response.data.data.student_id;
@@ -542,7 +534,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                   _this10.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 5:
+            case 4:
             case "end":
               return _context8.stop();
           }
@@ -579,13 +571,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "bg-white p-2 w-full flex justify-between border rounded-t"
+  "class": "bg-white p-2 w-full border justify-between rounded-t lg:flex lg:flex-row"
 };
 var _hoisted_2 = {
-  "class": "flex space-x-2"
+  "class": "flex flex-col 2xl:flex 2xl:flex-row"
 };
 var _hoisted_3 = {
-  "class": "self-start"
+  "class": "flex space-x-2"
 };
 var _hoisted_4 = {
   "class": "self-start"
@@ -594,74 +586,90 @@ var _hoisted_5 = {
   "class": "self-start"
 };
 var _hoisted_6 = {
-  "class": "self-end"
+  "class": "flex space-y-2 2xl:space-y-0"
 };
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "mx-1 sanfont-khmer"
-}, " ទាញ Excel", -1 /* HOISTED */);
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "mx-1 sanfont-khmer"
-}, " បន្ថែមសិស្ស", -1 /* HOISTED */);
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Use this <div> for space-y-2 work ")], -1 /* HOISTED */);
+var _hoisted_8 = {
+  "class": "flex space-x-2"
+};
 var _hoisted_9 = {
-  "class": "grid grid-cols-1 gap-2"
+  "class": "self-start pl-0 2xl:pl-2"
 };
 var _hoisted_10 = {
-  "class": "border rounded bg-gray-50"
+  "class": "self-start"
 };
 var _hoisted_11 = {
-  "class": "flex flex-col"
+  "class": "flex flex-col 2xl:flex-row"
 };
 var _hoisted_12 = {
-  key: 0
+  "class": "self-center flex"
 };
 var _hoisted_13 = {
-  key: 1
+  "class": "self-center"
 };
-var _hoisted_14 = {
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "mx-1 sanfont-khmer"
+}, " ទាញ Excel", -1 /* HOISTED */);
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "mx-1 sanfont-khmer"
+}, " បន្ថែមសិស្ស", -1 /* HOISTED */);
+var _hoisted_16 = {
+  "class": "grid grid-cols-1 gap-2"
+};
+var _hoisted_17 = {
+  "class": "border rounded bg-gray-50"
+};
+var _hoisted_18 = {
+  "class": "flex flex-col"
+};
+var _hoisted_19 = {
   key: 0
 };
-var _hoisted_15 = {
+var _hoisted_20 = {
   key: 1
 };
-var _hoisted_16 = {
+var _hoisted_21 = {
+  key: 0
+};
+var _hoisted_22 = {
+  key: 1
+};
+var _hoisted_23 = {
   "class": "py-2 flex justify-center"
 };
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "my-header"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-lg font-semibold text-white"
 }, "ព័ត៌មានសិស្ស")], -1 /* HOISTED */);
-var _hoisted_18 = {
-  "class": "grid grid-cols-2"
-};
-var _hoisted_19 = {
+var _hoisted_25 = {
   "class": "flex flex-col w-full"
 };
-var _hoisted_20 = {
-  "class": "flex flex-row"
-};
-var _hoisted_21 = {
-  "class": "flex flex-col space-y-1"
-};
-var _hoisted_22 = {
-  "class": "flex flex-col space-y-1"
-};
-var _hoisted_23 = ["src"];
-var _hoisted_24 = {
-  key: 1,
-  "class": "el-icon-plus avatar-uploader-icon"
-};
-var _hoisted_25 = {
-  "class": "flex flex-row"
-};
 var _hoisted_26 = {
-  "class": "flex flex-col space-y-1"
+  "class": "xl:flex xl:flex-row"
 };
 var _hoisted_27 = {
   "class": "flex flex-col space-y-1"
 };
-var _hoisted_28 = ["src"];
-var _hoisted_29 = {
+var _hoisted_28 = {
+  "class": "flex flex-col space-y-1"
+};
+var _hoisted_29 = ["src"];
+var _hoisted_30 = {
+  key: 1,
+  "class": "el-icon-plus avatar-uploader-icon"
+};
+var _hoisted_31 = {
+  "class": "flex flex-row"
+};
+var _hoisted_32 = {
+  "class": "flex flex-col space-y-1"
+};
+var _hoisted_33 = {
+  "class": "flex flex-col space-y-1"
+};
+var _hoisted_34 = ["src"];
+var _hoisted_35 = {
   "class": "dialog-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -687,7 +695,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-form");
   var _component_el_dialog = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-dialog");
   var _directive_loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("loading");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
     placeholder: "ស្វែងរក",
     "class": "sanfont-khmer",
     modelValue: $data.search,
@@ -695,7 +703,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.search = $event;
     }),
     onInput: $options.clickSearch
-  }, null, 8 /* PROPS */, ["modelValue", "onInput"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
+  }, null, 8 /* PROPS */, ["modelValue", "onInput"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
     modelValue: $data.filterSelectValue,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.filterSelectValue = $event;
@@ -716,7 +724,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
 
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
+  }, 8 /* PROPS */, ["modelValue"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
     modelValue: $data.academicSelectValue,
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.academicSelectValue = $event;
@@ -736,7 +744,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
 
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+  }, 8 /* PROPS */, ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
     type: "primary"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -749,7 +757,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
 
     _: 1 /* STABLE */
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_switch, {
+  })])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_switch, {
     modelValue: $data.is_show_trust,
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.is_show_trust = $event;
@@ -761,7 +769,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "inactive-text": "",
     "active-value": "1",
     "inactive-value": "0"
-  }, null, 8 /* PROPS */, ["modelValue", "onChange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+  }, null, 8 /* PROPS */, ["modelValue", "onChange"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
     type: "info"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -770,12 +778,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Document)];
         }),
         _: 1 /* STABLE */
-      }), _hoisted_7];
+      }), _hoisted_14];
     }),
     _: 1 /* STABLE */
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
     type: "primary",
-    onClick: $options.AddUser
+    onClick: $options.addStudent
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -783,10 +791,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CirclePlusFilled)];
         }),
         _: 1 /* STABLE */
-      }), _hoisted_8];
+      }), _hoisted_15];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["onClick"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{ tableData }} "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
+  }, 8 /* PROPS */, ["onClick"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{ tableData }} "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
     data: $data.tableData.data,
     height: "750",
     style: {
@@ -852,7 +860,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         property: "first_name_en",
         label: "ឈ្មោះឡាតាំង",
-        width: "250",
+        width: "220",
         sortable: ""
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
@@ -861,16 +869,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-        width: "120",
+        width: "130",
         label: "ភេទ",
         filters: _ctx.genders
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [scope.row.gender_id == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, "ប្រុស")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, "ស្រី"))];
+          return [scope.row.gender_id == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, "ប្រុស")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, "ស្រី"))];
         }),
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["filters"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-        width: "120",
+        width: "150",
         label: "ថ្នាក់រៀន",
         sortable: ""
       }, {
@@ -890,7 +898,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         label: "លេខទូរស័ព្ទ",
-        width: "120"
+        width: "170"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.phone), 1 /* TEXT */)];
@@ -898,12 +906,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
+        width: "220",
         align: "center",
         fixed: "right",
         label: "សកម្មភាព"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [$data.is_show_trust == 1 && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+          return [$data.is_show_trust == 1 && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             size: "small",
             "class": "sanfont-khmer",
             onClick: function onClick($event) {
@@ -939,7 +948,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
 
             _: 2 /* DYNAMIC */
-          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.is_show_trust == 0 && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.is_show_trust == 0 && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             size: "small",
             "class": "sanfont-khmer",
             onClick: function onClick($event) {
@@ -982,7 +991,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
 
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
+  }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
     background: "",
     "current-page": $data.page,
     "onUpdate:currentPage": _cache[4] || (_cache[4] = function ($event) {
@@ -1004,15 +1013,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     title: "ព័ត៌មានសិស្ស",
     "class": "sanfont-khmer",
-    width: "50%",
+    width: "63%",
     "align-center": "true",
     draggable: ""
   }, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_17];
+      return [_hoisted_24];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
         onClick: _cache[28] || (_cache[28] = function ($event) {
           return $options.cancelAction();
         }),
@@ -1070,7 +1079,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 label: "ព័ត៌មានទូទៅ"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "នាមត្រកូល (ខ្មែរ)",
                     prop: "firstNameKh",
                     "class": "sanfont-khmer",
@@ -1272,7 +1281,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       }, null, 8 /* PROPS */, ["modelValue"])];
                     }),
                     _: 1 /* STABLE */
-                  }, 8 /* PROPS */, ["label-width"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                  }, 8 /* PROPS */, ["label-width"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "រូបភាព",
                     "class": "sanfont-khmer",
                     "label-width": $data.formLabelWidth
@@ -1292,7 +1301,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             key: 0,
                             src: $data.imageUrl,
                             "class": "avatar object-contain"
-                          }, null, 8 /* PROPS */, _hoisted_23)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_24))];
+                          }, null, 8 /* PROPS */, _hoisted_29)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_30))];
                         }),
                         _: 1 /* STABLE */
                       }, 8 /* PROPS */, ["on-change", "before-upload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -1385,14 +1394,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       }, null, 8 /* PROPS */, ["modelValue"])];
                     }),
                     _: 1 /* STABLE */
-                  }, 8 /* PROPS */, ["label-width"])])])])])])];
+                  }, 8 /* PROPS */, ["label-width"])])])])])];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tab_pane, {
                 label: "ព័ត៌មានមធ្យមសិក្សបឋមភូមិ"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "អនុវិទ្យាល័យ",
                     prop: "from_secondary_high_school",
                     "class": "sanfont-khmer",
@@ -1443,7 +1452,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       }, null, 8 /* PROPS */, ["modelValue"])];
                     }),
                     _: 1 /* STABLE */
-                  }, 8 /* PROPS */, ["label-width"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                  }, 8 /* PROPS */, ["label-width"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "បន្ទប់ប្រលង",
                     prop: "secondary_exam_room",
                     "class": "sanfont-khmer",
@@ -1498,7 +1507,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "w-full": "",
             src: $data.dialogImageUrl,
             alt: "Preview Image"
-          }, null, 8 /* PROPS */, _hoisted_28)];
+          }, null, 8 /* PROPS */, _hoisted_34)];
         }),
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["modelValue"])];

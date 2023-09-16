@@ -1,7 +1,7 @@
 <template>
-	<div class="bg-white p-2 w-full flex justify-between border rounded-t">
+	<div class="bg-white p-2 w-full flex flex-col justify-between border rounded-t lg:flex-row">
 		<div class="flex space-x-2">
-			<div class="self-start">
+			<div class="self-center">
 				<el-input
 					placeholder="ស្វែងរក"
 					class="sanfont-khmer"
@@ -26,7 +26,8 @@
 				</el-select>
 			</div>
 		</div>
-		<div class="self-end">
+		<div class="flex flex-col  xl:flex-row ">
+		<div class="self-center flex">
 			<el-switch
 				v-model="is_show_trust"
 				@change="clickShowwTrush"
@@ -37,6 +38,8 @@
 				active-value="1"
 				inactive-value="0"
 			/>
+		</div>	
+		<div class="self-center ">
 			<el-button type="info">
 				<el-icon>
 					<Document />
@@ -55,7 +58,7 @@
 				<span class="mx-1 sanfont-khmer"> បន្ថែមអ្នកប្រើប្រាស់</span>
 			</el-button>
 		</div>
-
+		</div>
 	</div>
 	<div class="grid grid-cols-1 gap-2 ">
 		<div class=" border rounded bg-gray-50">
@@ -234,7 +237,7 @@
 			</div>
 		</template>
 		<el-form
-			class="grid grid-cols-2"
+			class="xl:grid xl:grid-cols-2"
 			:model="ruleForm"
 			:rules="rules"
 			ref="ruleForm"
