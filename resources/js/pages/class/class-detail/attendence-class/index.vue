@@ -19,7 +19,7 @@
 				<el-button
 					type="primary"
 					class="sanfont-khmer"
-					@click="addScore()"
+					@click="AttenanceCall()"
 				>
 
 					<el-icon>
@@ -67,7 +67,7 @@
 								class="block font-semibold text-gray-900"
 							>
 								<span class="font-bold"><span class="text-xl font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span> </span>
-								<p class="mt-1 text-gray-600">{{ data.teacher_in_class.first_name_kh }} {{ data.teacher_in_class.last_name_kh }} </p>
+								<p class="mt-1 text-gray-600">{{ data.teacher_in_class.full_name_kh}} </p>
 							</a>
 
 						</div>
@@ -274,9 +274,7 @@
 		</el-dialog>
 		<!-- Dialog Form Schedule  -->
 		<!-- loading state -->
-		<template #fallback>
-			Loading...
-		</template>
+
 	</Suspense>
 	<!-- Dialog  Manage Attendance list -->
 	<el-dialog
@@ -296,66 +294,83 @@
 				<el-form
 					label-position="top"
 					label-width="50px"
-					model="top"
+					:model="ruleForm"
+					:rules="rules"
+					ref="ruleFormSchedule"
+					id="ruleFormSchedule"
 				>
-					<div class="flex flex-col 2xl:flex-row ">
-					<div class="self-start flex space-x-2">
-						<el-form-item label="ថ្នាក់រៀន">
+					<div class="flex space-x-2">
+						<el-form-item
+							label="ថ្នាក់រៀន"
+							prop="class_id"
+						>
 							<el-select
 								v-model="classData.class_name"
 								disabled
 							>
 								<el-option
-									label="classData.class_name"
-									value="classData.class_name"
+									:label="classData.class_name"
+									:value="classData.class_id"
 								/>
 							</el-select>
 						</el-form-item>
-						<el-form-item label="ថ្ងៃ">
-							<el-select v-model="dataDayObj.day_name_kh">
+						<el-form-item
+							label="ថ្ងៃ"
+							prop="day_id"
+						>
+							<el-select v-model="ruleForm.day_id">
 								<el-option
-									label="dataDay"
-									value="dataDay"
+									v-for="data in dataDayObj"
+									:key="data"
+									:label="data.day_name_kh"
+									:value="data.day_id"
 								/>
 							</el-select>
 						</el-form-item>
-						<div>
-							<!-- Use this <div> for space-x-2 work -->
-						</div>
-					</div>
-					<div class="self-start flex space-x-2">
-						<el-form-item label="ម៉ោង">
-							<el-select v-model="dataTimeObj.name">
+						<el-form-item
+							label="ម៉ោង"
+							prop="time_id"
+						>
+							<el-select v-model="ruleForm.time_id">
 								<el-option
-									label="dataDay"
-									value="dataDay"
+									v-for="data in dataTimeObj"
+									:key="data.time_id"
+									:label="data.name"
+									:value="data.time_id"
 								/>
 							</el-select>
 						</el-form-item>
-						<el-form-item label="មុខវិទ្យា">
-
-							<el-select v-model="subjectAttendance">
+						<el-form-item
+							label="មុខវិទ្យា"
+							prop="subject_grade_id"
+						>
+							<el-select v-model="ruleForm.subject_grade_id">
 								<el-option
-									selected
-									label="ភាសាខ្មែរ"
-									value="ភាសាខ្មែរ"
+									v-for="data in dataSubjectGradeObj"
+									:key="data"
+									:label="data.teacher_subject_in_class?.subject?.subject_name_kh"
+									:value="data.teacher_subject_in_class?.subject_grade_id"
 								/>
 							</el-select>
 						</el-form-item>
-						<el-form-item label="កាលបរិច្ចេទ">
+						<el-form-item
+							label="កាលបរិច្ចេទ"
+							prop="date"
+						>
 
 							<el-date-picker
-								v-model="ruleForm"
+								v-model="ruleForm.date"
+								format="YYYY-MM-DD"
 								type="date"
 							>
 							</el-date-picker>
 						</el-form-item>
-					</div>	
 					</div>
 				</el-form>
 				<div>
 				</div>
 			</div>
+
 			<el-table
 				v-loading="loading_schedule"
 				:data="studentCallAttendance"
@@ -396,98 +411,76 @@
 
 				<el-table-column
 					align="center"
-					:label="dataTimeObj.name +' : ' + dataTimeObj.start_date +' - ' + dataTimeObj.end_date"
+					:label="showTimeOBJ"
 				>
+
 					<el-table-column
-						width="60"
+						width="80"
 						align="center"
 					>
 						<template #header>
 							<div class="text-green-600">PS</div>
 						</template>
 						<template #default="scope">
-							<el-checkbox v-model="checked"></el-checkbox>
-
-							<!-- <el-radio-group
-								v-model="scope.row.attendance_type_id"
-								fill="#67C23A"
-								size="small"
+							<input
+								type="checkbox"
+								name="checkbox"
+								class="custom-checkbox"
+								:checked="scope.row.attendance_type_id ==1"
+								@click="scope.row.attendance_type_id =1"
 							>
-								<el-radio
-									label="1"
-									class="bg-green-50 border border-green-50"
-									border
-								>វត្តមាន</el-radio>
-							</el-radio-group> -->
+
 						</template>
 					</el-table-column>
 					<el-table-column
-						width="60"
+						width="80"
 						align="center"
 					>
 						<template #header>
 							<div class="text-yellow-600">PM</div>
 						</template>
 						<template #default="scope">
-							<el-checkbox v-model="checked"></el-checkbox>
-
-							<!-- <el-radio-group
-								v-model="scope.row.attendance_type_id"
-								size="small"
+							<input
+								type="checkbox"
+								name="checkbox"
+								class="custom-checkbox"
+								:checked="scope.row.attendance_type_id ==2"
+								@click="scope.row.attendance_type_id =2"
 							>
-								<el-radio
-									label="2"
-									class="bg-yellow-50 border border-yellow-50"
-									border
-								>ច្បាប់</el-radio>
-							</el-radio-group> -->
 						</template>
 					</el-table-column>
 					<el-table-column
-						width="60"
+						width="80"
 						align="center"
 					>
 						<template #header>
 							<div class="text-blue-600">AL</div>
 						</template>
 						<template #default="scope">
-							<el-checkbox v-model="checked"></el-checkbox>
-
-							<!-- <el-radio-group
-								v-model="scope.row.attendance_type_id"
-								size="small"
-								text-color="#2563eb"
-								fill="#2563eb"
+							<input
+								type="checkbox"
+								name="checkbox"
+								class="custom-checkbox"
+								:checked="scope.row.attendance_type_id ==3"
+								@click="scope.row.attendance_type_id =3"
 							>
-								<el-radio
-									label="3"
-									class="bg-blue-50 border border-blue-50"
-									border
-								>យឺត</el-radio>
-							</el-radio-group> -->
 						</template>
 					</el-table-column>
 					<el-table-column
-						width="60"
+						width="80"
 						align="center"
 					>
 						<template #header>
 							<div class="text-red-600">A</div>
 						</template>
 						<template #default="scope">
-							<el-checkbox v-model="checked"></el-checkbox>
-							<!-- <el-radio-group
-								class=""
-								v-model="scope.row.attendance_type_id"
-								size="small"
-								text-color="#dc2626"
+							<input
+								type="checkbox"
+								name="checkbox"
+								class="custom-checkbox"
+								:checked="scope.row.attendance_type_id ==4"
+								@click="scope.row.attendance_type_id =4"
 							>
-								<el-radio
-									class="bg-red-50 border border-red-50"
-									label="4"
-									border
-								></el-radio>
-							</el-radio-group> -->
 						</template>
 					</el-table-column>
 				</el-table-column>
@@ -503,7 +496,7 @@
 				<el-button
 					type="primary"
 					class="sanfont-khmer"
-					@click="submitFormAttendance('ruleFormSchedule')"
+					@click="submitForm('ruleFormSchedule')"
 					v-loading.fullscreen.lock="fullscreenLoading"
 				>
 					រក្សាទុក
@@ -517,14 +510,7 @@
 import moment from 'moment';
 export default {
 	components: { moment },
-	props: {
-		data: Object,
-		subjectData: Object,
-		studentCallAttendance: Object,
-		dataDayObj: Object,
-		dataTimeObj: Object,
-		classData: Object
-	},
+
 	data() {
 		return {
 			dialogFormVisible: false,
@@ -532,18 +518,149 @@ export default {
 			attendanceTimeId: '1',
 			attendanceDayId: '1',
 			attendanceClassId: '1',
-
 			//
 			attendanceObj: [],
 			studentObj: [],
 			dataSubjectGradeObj: [],
-			subjectAttendance: 'ភាសាខ្មែរ'
-
+			subjectAttendance: 'ភាសាខ្មែរ',
+			data: [],
+			subjectData: [],
+			studentCallAttendance: [],
+			dataDayObj: [],
+			dataTimeObj: [],
+			classData: [],
+			fullscreenLoading: false,
+			ruleForm: {
+				date: moment(new Date()).format("YYYY-MM-DD"),
+				subject_grade_id: null,
+				time_id: null,
+				day_id: null,
+				class_id: null
+			},
+			rules: {
+				date: [
+					{ required: true, message: 'សូមបញ្ចូលកាលបរិច្ឆេទ', trigger: 'blur' },
+				],
+				subject_grade_id: [
+					{ required: true, message: 'សូមបញ្ចូលមុខវិជ្ជា', trigger: 'change' }
+				],
+				time_id: [
+					{ required: true, message: 'សូមបញ្ចូលម៉ោង', trigger: 'change' }
+				],
+				day_id: [
+					{ required: true, message: 'សូមបញ្ចូលថ្ងៃ', trigger: 'change' }
+				],
+			},
+			showTimeOBJ: ''
+		}
+	},
+	watch: {
+		'ruleForm.time_id': function (event) {
+			var obj = this.dataTimeObj.find(e => e.time_id == this.ruleForm.time_id);
+			this.showTimeOBJ = obj.name + ' : ' + obj.start_date + ' - ' + obj.end_date;
 		}
 	},
 	methods: {
-		addScore() {
-			this.dialogFormVisibleAdd = true
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					this.AttenanceSave()
+				} else {
+					console.log('error submit!!');
+					return false;
+				}
+			});
+		},
+		async AttenanceCall() {
+			this.fullscreenLoading = true;
+			const class_id = this.$route.query.id;
+			await axios.get('/attendance/call/' + class_id).then(response => {
+				this.studentCallAttendance = response.data.data
+				this.dataDayObj = response.data.day
+				this.dataTimeObj = response.data.time
+				this.dataSubjectGradeObj = response.data.teacher_subject
+				this.classData = response.data.classData
+				this.ruleForm.class_id = response.data.classData?.class_id
+				this.dialogFormVisibleAdd = true
+				setTimeout(() => {
+					this.fullscreenLoading = false;
+				}, 200)
+
+			}).catch((error) => {
+				this.fullscreenLoading = false;
+				if (error.response?.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+
+		},
+		closeFormAttendance() {
+
+			ElMessageBox.confirm(
+				'អ្នកមិនទាន់បាន រក្សាទុកការកែប្រែទេ, តើអ្នកពិតជាចង់បោះបង់មែនឬទេ?',
+				'ការដាស់តើន',
+				{
+					confirmButtonText: 'យល់ព្រម',
+					cancelButtonText: 'ទេ',
+				}
+			)
+				.then(() => {
+					this.dialogFormVisibleAdd = false;
+					this.studentCallAttendance = []
+					this.dataDayObj = []
+					this.dataTimeObj = []
+					this.dataSubjectGradeObj = []
+				})
+				.catch((action) => {
+					ElMessage({
+						type: 'info',
+						message:
+							action === 'cancel'
+								? 'អ្នកបានបោះបង់ដំណើរការ'
+								: '',
+					})
+				});
+			this.dialogFormVisibleAdd = false;
+			this.studentCallAttendance = [];
+			this.ruleForm.date = null
+			this.ruleForm.subject_grade_id = null
+			this.ruleForm.time_id = null
+			this.ruleForm.day_id = null
+			this.ruleForm.time_id = null
+
+
+		},
+		async AttenanceSave() {
+			this.fullscreenLoading = true;
+			const data = {
+				'data': this.studentCallAttendance,
+				'subject_grade_id': this.ruleForm.subject_grade_id,
+				'time_id': this.ruleForm.time_id,
+				'day_id': this.ruleForm.day_id,
+				'class_id': this.ruleForm.class_id,
+				'date': moment(new Date(this.ruleForm.date)).format("YYYY-MM-DD"),
+			}
+			const config = {
+				headers: { 'content-type': 'application/json' }
+			}
+			await axios.post('/attendance/create', data, config).then(response => {
+				// this.dialogFormVisibleAdd = true
+				setTimeout(() => {
+					this.fullscreenLoading = false;
+					this.$notify.success({
+						title: 'ព័ត៌មាន',
+						message: 'បញ្ចូលបានជោគជ័យ 😊',
+						showClose: true
+					});
+				}, 200)
+
+			}).catch((error) => {
+				this.fullscreenLoading = false;
+				if (error.response?.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+
 		},
 		geColor(type) {
 			const typeinput = type.replace(/[\u200B-\u200D\uFEFF]/g, '');
@@ -588,3 +705,19 @@ export default {
 	}
 }
 </script>
+<style>
+.custom-checkbox {
+	border: 0.1em solid #000;
+	border-radius: 0.2em;
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+
+	padding-left: 0.2em;
+	padding-bottom: 0.3em;
+	margin-right: 0.2em;
+	vertical-align: bottom;
+	color: transparent;
+	transition: 0.2s;
+}
+</style>
