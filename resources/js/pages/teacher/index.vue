@@ -1,6 +1,6 @@
 <template>
-	<div class="bg-white p-2 w-full justify-between border rounded-t lg:flex lg:flex-row">
-		<div class="flex  flex-col 2xl:flex  2xl:flex-row  ">
+	<div class="bg-white p-2 w-full justify-between border rounded-t xl:flex xl:flex-row ">
+		<div class="flex  flex-col 3xl:flex  3xl:flex-row  ">
 		<div class="flex space-x-2">
 			<div class="self-start">
 				<el-input
@@ -11,7 +11,29 @@
 				>
 				</el-input>
 			</div>
-			<div class="self-start  ">
+			
+		</div>	
+		<div class="flex space-y-2 ">	
+			<div>
+				<!-- Use this <div> for space-y-2 work -->
+			</div>
+			<div class="flex  "> 
+			<div class="self-start  space-x-2">
+				<el-select
+					v-model="teacher_levelSelectValue"
+					filterable
+					clearable
+					placeholder="កម្រិត"
+				>
+					<el-option
+						v-for="item in teacher_level"
+						:key="item.teacher_level_value"
+						:label="item.teacher_level_Label"
+						:value="item.teacher_level_value"
+					>
+					</el-option>
+				</el-select>
+				
 				<el-select
 					v-model="filterSelectValue "
 					filterable
@@ -27,40 +49,21 @@
 					>
 					</el-option>
 				</el-select>
-			</div>
-		</div>	
-		<div class="flex space-y-2  2xl:space-y-0 ">	
-			<div>
-				<!-- Use this <div> for space-y-2 work -->
-			</div>
-			<div class="flex space-x-2 "> 
-			<div class="self-start pl-0 2xl:pl-2 ">
-				<el-select
-					v-model="teacher_levelSelectValue"
-					filterable
-					clearable
-					placeholder="កម្រិត"
-				>
-					<el-option
-						v-for="item in teacher_level"
-						:key="item.teacher_level_value"
-						:label="item.teacher_level_Label"
-						:value="item.teacher_level_value"
-					>
-					</el-option>
-				</el-select>
-			</div>
-			<el-button type="primary">
+
+				<el-button type="primary">
 				<el-icon>
 					<Search />
 				</el-icon>
-			</el-button>
+				</el-button>
+			
+			</div>
+			
 		</div>
 		</div>
 		</div>
 
-		<div class="flex flex-col 2xl:flex-row ">
-		<div class="self-center flex ">
+		<div class="flex flex-col 3xl:flex-row space-y-2 ">
+		<div class="self-center flex pt-2 xl:pt-0">
 			<el-switch
 				v-model="is_show_trust"
 				@change="clickShowwTrush"
@@ -71,6 +74,15 @@
 				active-value="1"
 				inactive-value="0"
 			/>
+			<el-button
+				type="primary"
+				@click="AddUser"
+			>
+				<el-icon>
+					<CirclePlusFilled />
+				</el-icon>
+				<span class="mx-1 sanfont-khmer"> បន្ថែមគ្រូ</span>
+			</el-button>
 		</div>	
 			<div class="self-center ">
 			<el-button type="info">
@@ -87,15 +99,7 @@
 				<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
 
 			</el-button>
-			<el-button
-				type="primary"
-				@click="AddUser"
-			>
-				<el-icon>
-					<CirclePlusFilled />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> បន្ថែមគ្រូ</span>
-			</el-button>
+			
 			</div>
 		
 		</div>

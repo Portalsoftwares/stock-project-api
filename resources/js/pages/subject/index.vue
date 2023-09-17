@@ -297,8 +297,8 @@
 			label="មុខវិជ្ជាតាមកម្រិត"
 			name="tab-subject-2"
 		>
-			<div class="bg-white p-2 w-full flex justify-between flex-col lg:flex-row">
-				<div class="flex flex-col 2xl:flex 2xl:flex-row">	
+			<div class="bg-white p-2 w-full  justify-between flex flex-col xl:flex-row">
+				<div class="flex flex-col 3xl:flex 3xl:flex-row">	
 				<div class="flex space-x-2">
 					<div class="self-start">
 						<el-input
@@ -308,6 +308,30 @@
 							@input="clickSearchSubjectLevel"
 						>
 						</el-input>
+					</div>
+					
+				</div>	
+				<div class="flex space-y-2  3xl:space-y-0 ">	
+					<div>
+						<!-- Use this <div> for space-y-2 work -->
+					</div>
+					<div class="flex space-x-2  ">
+					<div class="self-start pl-0 3xl:pl-2 ">	
+						<el-select
+							v-model="SelectValue "
+							filterable
+							clearable
+							multiple
+							placeholder="ប្រភេទថ្នាក់"
+						>
+							<el-option
+								v-for="item in classType"
+								:key="item.classTypeValue"
+								:label="item.classTypeLabel"
+								:value="item.classTypeValue"
+							>
+							</el-option>
+						</el-select>
 					</div>
 					<div class="self-start  ">
 						<el-select
@@ -322,29 +346,6 @@
 								:key="item.gradeLevelValue"
 								:label="item.gradeLevelLabel"
 								:value="item.gradeLevelValue"
-							>
-							</el-option>
-						</el-select>
-					</div>
-				</div>	
-				<div class="flex space-y-2  2xl:space-y-0 ">	
-					<div>
-						<!-- Use this <div> for space-y-2 work -->
-					</div>
-					<div class="flex space-x-2  ">
-					<div class="self-start pl-0 2xl:pl-2 ">	
-						<el-select
-							v-model="SelectValue "
-							filterable
-							clearable
-							multiple
-							placeholder="ប្រភេទថ្នាក់"
-						>
-							<el-option
-								v-for="item in classType"
-								:key="item.classTypeValue"
-								:label="item.classTypeLabel"
-								:value="item.classTypeValue"
 							>
 							</el-option>
 						</el-select>
@@ -387,7 +388,7 @@
 							<CirclePlusFilled />
 						</el-icon>
 
-						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជាតាមកម្រិត</span>
+						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជា</span>
 
 					</el-button>
 				</div>	

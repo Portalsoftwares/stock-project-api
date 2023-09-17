@@ -571,7 +571,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "bg-white p-2 w-full border justify-between rounded-t lg:flex lg:flex-row"
+  "class": "bg-white p-2 w-full border justify-between rounded-t xl:flex xl:flex-row"
 };
 var _hoisted_2 = {
   "class": "flex flex-col 2xl:flex 2xl:flex-row"
@@ -580,26 +580,26 @@ var _hoisted_3 = {
   "class": "flex space-x-2"
 };
 var _hoisted_4 = {
-  "class": "self-start"
+  "class": "self-center pr-2"
 };
 var _hoisted_5 = {
-  "class": "self-start"
-};
-var _hoisted_6 = {
   "class": "flex space-y-2 2xl:space-y-0"
 };
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Use this <div> for space-y-2 work ")], -1 /* HOISTED */);
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Use this <div> for space-y-2 work ")], -1 /* HOISTED */);
+var _hoisted_7 = {
+  "class": "self-center"
+};
 var _hoisted_8 = {
   "class": "flex space-x-2"
 };
 var _hoisted_9 = {
-  "class": "self-start pl-0 2xl:pl-2"
+  "class": "self-center pl-2"
 };
 var _hoisted_10 = {
-  "class": "self-start"
+  "class": "self-center"
 };
 var _hoisted_11 = {
-  "class": "flex flex-col 2xl:flex-row"
+  "class": "flex flex-col 3xl:flex-row"
 };
 var _hoisted_12 = {
   "class": "self-center flex"
@@ -703,7 +703,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.search = $event;
     }),
     onInput: $options.clickSearch
-  }, null, 8 /* PROPS */, ["modelValue", "onInput"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
+  }, null, 8 /* PROPS */, ["modelValue", "onInput"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
     modelValue: $data.filterSelectValue,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.filterSelectValue = $event;
@@ -724,7 +724,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
 
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["modelValue"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
+  }, 8 /* PROPS */, ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
     modelValue: $data.academicSelectValue,
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.academicSelectValue = $event;
@@ -770,7 +770,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "active-value": "1",
     "inactive-value": "0"
   }, null, 8 /* PROPS */, ["modelValue", "onChange"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-    type: "info"
+    type: "info",
+    style: {
+      "width": "111px"
+    }
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
