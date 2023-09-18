@@ -1,8 +1,8 @@
 <template>
-	<div class="bg-white p-2 w-full border justify-between rounded-t lg:flex lg:flex-row">
+	<div class="bg-white p-2 w-full border justify-between rounded-t xl:flex xl:flex-row">
 		<div class="flex  flex-col 2xl:flex  2xl:flex-row  ">
 		<div class="flex space-x-2 ">
-			<div class="self-start">
+			<div class="self-center pr-2">
 				<el-input
 					placeholder="ស្វែងរក"
 					class="sanfont-khmer"
@@ -11,7 +11,14 @@
 				>
 				</el-input>
 			</div>
-			<div class="self-start ">
+			
+		</div>
+		<div class="flex space-y-2  2xl:space-y-0 ">	
+			<div>
+				<!-- Use this <div> for space-y-2 work -->
+			</div>
+			
+			<div class="self-center ">
 				<el-select
 					v-model="filterSelectValue "
 					filterable
@@ -29,13 +36,9 @@
 					</el-option>
 				</el-select>
 			</div>
-		</div>
-		<div class="flex space-y-2  2xl:space-y-0 ">	
-			<div>
-				<!-- Use this <div> for space-y-2 work -->
-			</div>
+
 			<div class="flex space-x-2 "> 
-			<div class="self-start pl-0 2xl:pl-2 ">
+			<div class="self-center pl-2">
 				<el-select
 					v-model="academicSelectValue"
 					filterable
@@ -52,7 +55,7 @@
 					</el-option>
 				</el-select>
 			</div>
-			<div class="self-start">
+			<div class="self-center">
 			<el-button type="primary" >
 				<el-icon >
 					<Search />
@@ -63,7 +66,7 @@
 		</div>
 		</div>
 
-		<div class="flex flex-col  2xl:flex-row ">
+		<div class="flex flex-col  3xl:flex-row ">
 		<div class="self-center flex ">
 			<el-switch
 				v-model="is_show_trust"
@@ -77,7 +80,7 @@
 			/>
 		</div>
 			<div class="self-center ">
-			<el-button type="info">
+			<el-button type="info" style="width:111px">
 				<el-icon>
 					<Document />
 				</el-icon>
