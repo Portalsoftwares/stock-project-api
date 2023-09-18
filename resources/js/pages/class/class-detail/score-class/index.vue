@@ -383,7 +383,7 @@
 					<template #default="scope">
 						<div class="flex space-x-4 ">
 							<el-input
-								v-model="scope.row['mark_'+teacher_subject_in_class?.subject?.subject_grade_id]"
+								v-model="scope.row['mark_'+data.teacher_subject_in_class?.subject_grade_id]"
 								placeholder="0.00"
 							/>
 						</div>

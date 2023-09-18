@@ -74,33 +74,9 @@
 					active-value="1"
 					inactive-value="0"
 				/>
-				<el-button
-					type="primary"
-					@click="AddUser"
-				>
-					<el-icon>
-						<CirclePlusFilled />
-					</el-icon>
-					<span class="mx-1 sanfont-khmer"> បន្ថែមគ្រូ</span>
-				</el-button>
-			</div>
-			<div class="self-center ">
-				<el-button type="info">
-					<el-icon>
-						<Document />
-					</el-icon>
-					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
-
-				</el-button>
-				<el-button type="info">
-					<el-icon>
-						<Document />
-					</el-icon>
-					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
-
-				</el-button>
 
 			</div>
+
 			<div class="self-center ">
 				<el-button type="info">
 					<el-icon>
