@@ -880,6 +880,16 @@ header.el-dialog__header {
   animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -1098,6 +1108,10 @@ header.el-dialog__header {
 
 .justify-self-end {
   justify-self: end;
+}
+
+.overflow-auto {
+  overflow: auto;
 }
 
 .overflow-hidden {

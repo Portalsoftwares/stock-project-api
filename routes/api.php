@@ -110,10 +110,13 @@ Route::prefix('v1')->group(function () {
       Route::post('/call/{id}', [AttendanceController::class, 'callStudentAttendance']);
       Route::post('/create', [AttendanceController::class, 'create']);
       Route::post('/report/{id}', [AttendanceController::class, 'reportInclass']);
+      Route::post('/report/monthly/{id}', [AttendanceController::class, 'reportInclassMonthly']);
+      Route::post('/report/monthly/get/{id}', [AttendanceController::class, 'reportInclassMonthlyGenerate']);
     });
     //Score 
     Route::prefix('score')->group(function () {
       Route::post('/collect/{id}', [ScoreController::class, 'index']);
+      Route::post('/collect/all/{id}', [ScoreController::class, 'allsubeject']);
       Route::post('/collect/{id}/create', [ScoreController::class, 'create']);
     });
     //Time 

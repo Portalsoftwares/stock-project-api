@@ -49,7 +49,7 @@
 				class="z-10 mt-1 overflow-hidden rounded bg-white shadow ring-1 ring-gray-900/5 "
 				v-for="data in subjectData"
 				:key="data"
-				@click="showInfomationAttendance(data.teacher_subject_in_class.subject)"
+				@click="showInfomationScore(data.teacher_subject_in_class.subject)"
 			>
 				<div>
 					<div class="group relative flex items-center gap-x-6 rounded-lg p-3 text-sm leading-6 hover:bg-gray-50">
@@ -80,7 +80,7 @@
 								class="block font-semibold text-gray-900"
 							>
 								<span class="font-bold"><span class="text-xl font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span> </span>
-								<p class="mt-1 text-gray-600">{{ data.teacher_in_class.first_name_kh }} {{ data.teacher_in_class.last_name_kh }} </p>
+								<p class="mt-1 text-gray-600"> បង្រៀនដោយ {{ data.teacher_in_class.gender_id==1?'លោកគ្រូ':'អ្នកគ្រូ' }} : {{ data.teacher_in_class.full_name_kh}} </p>
 							</a>
 
 						</div>
@@ -110,54 +110,54 @@
 					model="top"
 				>
 					<div class="flex flex-col lg:flex-row ">
-					<div class="self-start flex space-x-2">
-						<el-form-item label="ថ្នាក់រៀន">
-							<el-select
-								v-model="classData.class_name"
-								disabled
-							>
-								<el-option
-									label="classData.class_name"
-									value="classData.class_name"
-								/>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="មុខវិទ្យា">
-							<el-select v-model="scoreSubjectGradeId">
-								<el-option
-									v-for="data in subjectData"
-									:key="data"
-									:label="data.teacher_subject_in_class.subject.subject_name_kh"
-									:value="data.teacher_subject_in_class.subject_grade_id"
-								/>
-							</el-select>
-						</el-form-item>
-						<div>
-							<!-- Use this <div> for space-x-2 work -->
+						<div class="self-start flex space-x-2">
+							<el-form-item label="ថ្នាក់រៀន">
+								<el-select
+									v-model="classData.class_name"
+									disabled
+								>
+									<el-option
+										label="classData.class_name"
+										value="classData.class_name"
+									/>
+								</el-select>
+							</el-form-item>
+							<el-form-item label="មុខវិទ្យា">
+								<el-select v-model="scoreSubjectGradeId">
+									<el-option
+										v-for="data in subjectData"
+										:key="data"
+										:label="data.teacher_subject_in_class.subject.subject_name_kh"
+										:value="data.teacher_subject_in_class.subject_grade_id"
+									/>
+								</el-select>
+							</el-form-item>
+							<div>
+								<!-- Use this <div> for space-x-2 work -->
+							</div>
 						</div>
-					</div>		
-					<div class="self-start flex space-x-2">
-						<el-form-item label="ប្រភេទពិន្ទុ">
-							<el-select v-model="scoreTypeId">
-								<el-option
-									v-for="data in scoreTypeObj"
-									:key="data"
-									:label="data.name"
-									:value="data.score_type_id"
-								/>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="កំណត់">
-							<el-button
-								type="primary"
-								class="sanfont-khmer"
-								@click="showInfomationStudentScore()"
-								v-loading.fullscreen.lock="fullscreenLoading"
-							>
-								យល់ព្រម
-							</el-button>
-						</el-form-item>
-					</div>	
+						<div class="self-start flex space-x-2">
+							<el-form-item label="ប្រភេទពិន្ទុ">
+								<el-select v-model="scoreTypeId">
+									<el-option
+										v-for="data in scoreTypeObj"
+										:key="data"
+										:label="data.name"
+										:value="data.score_type_id"
+									/>
+								</el-select>
+							</el-form-item>
+							<el-form-item label="កំណត់">
+								<el-button
+									type="primary"
+									class="sanfont-khmer"
+									@click="showInfomationStudentScore()"
+									v-loading.fullscreen.lock="fullscreenLoading"
+								>
+									យល់ព្រម
+								</el-button>
+							</el-form-item>
+						</div>
 					</div>
 				</el-form>
 				<div>
@@ -271,7 +271,7 @@
 	>
 		<template #header>
 			<div class="my-header">
-				<h4 class="text-lg font-semibold text-white">ស្រង់ពិន្ទុសិស្សគ្រប់មុខវិជ្ជា</h4>
+				<h4 class="text-lg font-semibold text-white">សម្រង់ពិន្ទុសិស្សគ្រប់មុខវិជ្ជា</h4>
 			</div>
 		</template>
 		<div class="bg-white px-5">
@@ -279,7 +279,9 @@
 				<el-form
 					label-position="top"
 					label-width="50px"
-					model="top"
+					:model="ruleForm"
+					:roles="roles"
+					ref="formScoreAll"
 				>
 					<div class="flex space-x-2">
 						<el-form-item label="ថ្នាក់រៀន">
@@ -293,8 +295,11 @@
 								/>
 							</el-select>
 						</el-form-item>
-						<el-form-item label="ប្រភេទពិន្ទុ">
-							<el-select v-model="scoreTypeId">
+						<el-form-item
+							label="ប្រភេទពិន្ទុ"
+							prop="score_type_id"
+						>
+							<el-select v-model="ruleForm.score_type_id">
 								<el-option
 									v-for="data in scoreTypeObj"
 									:key="data"
@@ -307,7 +312,7 @@
 							<el-button
 								type="primary"
 								class="sanfont-khmer"
-								@click="showInfomationStudentScore()"
+								@click="submitForm('formScoreAll')"
 								v-loading.fullscreen.lock="fullscreenLoading"
 							>
 								យល់ព្រម
@@ -340,7 +345,7 @@
 				>
 					<template #default="scope">
 						<div>
-							<span>{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}</span>
+							<span>{{ scope.row.student_in_class.full_name_kh }} </span>
 						</div>
 					</template>
 				</el-table-column>
@@ -367,120 +372,18 @@
 					</template>
 				</el-table-column>
 				<el-table-column
-					v-for="data in attendanceObj"
-					:key="data.attendance_id"
-					width="100"
+					v-for="data in subjectDataSore"
+					:key="data"
+					width="120"
 					align="center"
 				>
 					<template #header>
-						{{ formatDate(data.created_at)}}
+						{{data.teacher_subject_in_class?.subject?.subject_name_kh }}
 					</template>
-					<template #default="scope">
-						<span :class="geColor(scope.row['attendance_'+data.attendance_id])">
-							{{ scope.row['attendance_'+data.attendance_id]}}
-						</span>
-					</template>
-				</el-table-column>
-				<el-table-column
-					fixed="right"
-					label="ភាសាខ្មែរ"
-					align="center"
-					min-width="100"
-				>
 					<template #default="scope">
 						<div class="flex space-x-4 ">
 							<el-input
-								v-model="scope.row.mark"
-								placeholder="0.00"
-							/>
-						</div>
-					</template>
-				</el-table-column>
-				<el-table-column
-					fixed="right"
-					label="គណិតវិទ្យា"
-					align="center"
-					min-width="100"
-				>
-					<template #default="scope">
-						<div class="flex space-x-4 ">
-							<el-input
-								v-model="scope.row.mark"
-								placeholder="0.00"
-							/>
-						</div>
-					</template>
-				</el-table-column>
-				<el-table-column
-					fixed="right"
-					label="រូបវិទ្យា"
-					align="center"
-					min-width="100"
-				>
-					<template #default="scope">
-						<div class="flex space-x-4 ">
-							<el-input
-								v-model="scope.row.mark"
-								placeholder="0.00"
-							/>
-						</div>
-					</template>
-				</el-table-column>
-				<el-table-column
-					fixed="right"
-					label="គីមីវិទ្យា"
-					align="center"
-					min-width="100"
-				>
-					<template #default="scope">
-						<div class="flex space-x-4 ">
-							<el-input
-								v-model="scope.row.mark"
-								placeholder="0.00"
-							/>
-						</div>
-					</template>
-				</el-table-column>
-				<el-table-column
-					fixed="right"
-					label="ជីវះវិទ្យា"
-					align="center"
-					min-width="100"
-				>
-					<template #default="scope">
-						<div class="flex space-x-4 ">
-							<el-input
-								v-model="scope.row.mark"
-								placeholder="0.00"
-							/>
-						</div>
-					</template>
-				</el-table-column>
-				<el-table-column
-					fixed="right"
-					label="ភូមិវិទ្យា"
-					align="center"
-					min-width="100"
-				>
-					<template #default="scope">
-						<div class="flex space-x-4 ">
-							<el-input
-								v-model="scope.row.mark"
-								placeholder="0.00"
-							/>
-						</div>
-					</template>
-				</el-table-column>
-				<el-table-column
-					fixed="right"
-					label="ប្រវត្តិវិទ្យា"
-					align="center"
-					min-width="100"
-				>
-					<template #default="scope">
-						<div class="flex space-x-4 ">
-							<el-input
-								v-model="scope.row.mark"
+								v-model="scope.row['mark_'+teacher_subject_in_class?.subject?.subject_grade_id]"
 								placeholder="0.00"
 							/>
 						</div>
@@ -777,7 +680,19 @@ export default {
 			dataSubjectGradeObj: [],
 			scoreTypeObj: [],
 			//loading
-			fullscreenLoading: false
+			fullscreenLoading: false,
+			//score
+			subjectDataSore: [],
+
+			ruleForm: {
+				'class_id': null,
+				'score_type_id': null,
+			},
+			roles: {
+				score_type_id: [
+					{ required: true, message: 'សូមបញ្ចូលប្រភេទពិន្ទុ', trigger: 'blur' }
+				],
+			}
 
 		}
 	},
@@ -819,7 +734,6 @@ export default {
 			this.scoreClassId = class_id;
 			const scoreInfo = {
 				'class_id': this.scoreClassId,
-				'subject_grade_id': this.scoreSubjectGradeId,
 				'score_type_id': this.scoreTypeId,
 			}
 			const config = {
@@ -841,21 +755,32 @@ export default {
 			this.dialogFormVisible = false
 
 		},
+
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					this.showInfomationStudentScoreAll()
+				} else {
+					console.log('error submit!!');
+					return false;
+				}
+			});
+		},
 		async showInfomationStudentScoreAll() {
 			this.fullscreenLoading = true;
 			const class_id = this.$route.query.id;
 			this.scoreClassId = class_id;
 			const scoreInfo = {
 				'class_id': this.scoreClassId,
-				'subject_grade_id': this.scoreSubjectGradeId,
 				'score_type_id': this.scoreTypeId,
 			}
 			const config = {
 				headers: { 'content-type': 'application/json' }
 			}
-			await axios.post('/score/collect/' + class_id, scoreInfo, config).then(response => {
+			await axios.post('/score/collect/all/' + class_id, scoreInfo, config).then(response => {
 				this.studentObj = response.data.student;
 				this.scoreTypeObj = response.data.score_type;
+				this.subjectDataSore = this.subjectData;
 				this.dialogFormVisibleAll = true;
 				this.fullscreenLoading = false;
 

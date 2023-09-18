@@ -7,6 +7,7 @@
 				<el-button
 					type="primary"
 					class="sanfont-khmer"
+					@click="showInfomationAttendanceInMonthly()"
 				>
 
 					<el-icon>
@@ -36,7 +37,7 @@
 				class="z-10 mt-1 overflow-hidden rounded bg-white shadow ring-1 ring-gray-900/5 "
 				v-for="data in subjectData"
 				:key="data"
-				@click="showInfomationAttendance(data.teacher_subject_in_class.subject)"
+				@click="showInfomationAttendance(data.teacher_subject_in_class.subject_grade_id)"
 			>
 				<div>
 					<div class="group relative flex items-center gap-x-6 rounded-lg p-3 text-sm leading-6 hover:bg-gray-50">
@@ -67,7 +68,7 @@
 								class="block font-semibold text-gray-900"
 							>
 								<span class="font-bold"><span class="text-xl font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span> </span>
-								<p class="mt-1 text-gray-600">{{ data.teacher_in_class.full_name_kh}} </p>
+								<p class="mt-1 text-gray-600"> បង្រៀនដោយ {{ data.teacher_in_class.gender_id==1?'លោកគ្រូ':'អ្នកគ្រូ' }} : {{ data.teacher_in_class.full_name_kh}} </p>
 							</a>
 
 						</div>
@@ -76,206 +77,414 @@
 			</div>
 		</div>
 	</div>
-	<Suspense>
-		<!-- Dialog  Manage Attendance list -->
-		<el-dialog
-			v-model="dialogFormVisible"
-			fullscreen="true"
-			title="របាយការណ៍វត្តមានសិស្ស"
-			class="sanfont-khmer text-xl"
-			width="50%"
-		>
-			<template #header>
-				<div class="my-header">
-					<h4 class="text-lg font-semibold text-white">របាយការណ៍វត្តមានសិស្ស</h4>
-				</div>
-			</template>
-			<div class="bg-white px-5">
-				<div class="flex justify-between py-2">
-					<el-form
-						label-position="top"
-						label-width="50px"
-						model="top"
-					>
-						<div class="flex space-x-2">
-							<el-form-item label="ថ្នាក់រៀន">
-								<el-select
-									v-model="classData.class_name"
-									disabled
-								>
-									<el-option
-										label="classData.class_name"
-										value="classData.class_name"
-									/>
-								</el-select>
-							</el-form-item>
-							<el-form-item label="មុខវិទ្យា">
-								<el-select
-									v-if="dataSubjectGradeObj !=null"
-									v-model="dataSubjectGradeObj.subject_name_kh"
-									disabled
-								>
-								</el-select>
-							</el-form-item>
-						</div>
-					</el-form>
-					<div>
-					</div>
-				</div>
-				<el-table
-					v-loading="loading_schedule"
-					:data="studentObj"
-					resizable="false"
-					header-cell-class-name="sanfont-khmer text-md"
-					row-class-name="sanfont-khmer"
-					style="width: 100%"
-					stripe
-					border
-				>
-					<el-table-column
-						label="ID"
-						type="index"
-						fixed
-					></el-table-column>
-					<el-table-column
-						fixed
-						label="ឈ្មោះសិស្ស"
-						min-width="250"
-					>
-						<template #default="scope">
-							<div>
-								<span>{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}</span>
-							</div>
-						</template>
-					</el-table-column>
-					<el-table-column
-						fixed
-						label="ថ្ងៃខែឆ្នាំកំណើត"
-						min-width="200"
-					>
-						<template #default="scope">
-							<span>
-								{{ scope.row.student_in_class.date_of_birth }}
-							</span>
-						</template>
-					</el-table-column>
-					<el-table-column
-						fixed
-						label="ស្ថានភាព"
-						width="150"
-					>
-						<template #default="scope">
-							<span :style="'color:'+scope.row.student_in_class.status.color">
-								{{ scope.row.student_in_class.status.status_kh }}
-							</span>
-						</template>
-					</el-table-column>
-					<el-table-column
-						v-for="data in attendanceObj"
-						:key="data.attendance_id"
-						width="100"
-						align="center"
-					>
-						<template #header>
-							{{ formatDate(data.created_at)}}
-						</template>
-						<template #default="scope">
-							<span :class="geColor(scope.row['attendance_'+data.attendance_id])">
-								{{ scope.row['attendance_'+data.attendance_id]}}
-							</span>
-						</template>
-					</el-table-column>
-					<el-table-column
-						fixed="right"
-						label="សរុប"
-						align="center"
-						min-width="200"
-					>
 
-						<el-table-column
-							prop="state"
-							label="PS"
-							value="10"
-							width="50"
-							class="text-green-600"
-						>
-							<template #default="scope">
-								<span class="text-green-600">
-									12
-								</span>
-							</template>
-						</el-table-column>
-						<el-table-column
-							prop="city"
-							label="PM"
-							value="0"
-							width="50"
-							class="text-yellow-600"
-						>
-							<template #default="scope">
-								<span class="text-yellow-600">
-									12
-								</span>
-							</template>
-						</el-table-column>
-						<el-table-column
-							prop="address"
-							label="AL"
-							value="5"
-							width="50"
-							class="text-blue-600"
-						>
-							<template #default="scope">
-								<span class="text-blue-600">
-									12
-								</span>
-							</template>
-						</el-table-column>
-						<el-table-column
-							prop="address"
-							label="A"
-							value="10"
-							width="50"
-							class="text-red-600"
-						>
-							<template #default="scope">
-								<span class="text-red-600">
-									12
-								</span>
-							</template>
-						</el-table-column>
-
-						<!-- <template #default="scope">
-							<div class="flex space-x-4 ">
-								<span class="text-green-600">( 2 ) PS</span>
-								<span class="text-yellow-600">( 0 ) P</span>
-								<span class="text-blue-600">( 0 ) AL</span>
-								<span class="text-red-600">( 2 ) A</span>
-							</div>
-						</template> -->
-					</el-table-column>
-				</el-table>
+	<!-- Dialog  Report Attendance by Month -->
+	<el-dialog
+		v-model="dialogFormVisibleReportMonthly"
+		fullscreen="true"
+		title="របាយការណ៍វត្តមានសិស្ស"
+		class="sanfont-khmer text-xl"
+		width="50%"
+	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">របាយការណ៍វត្តមានសិស្ស</h4>
 			</div>
-			<template #footer>
-				<span class="dialog-footer">
-					<el-button
-						@click="closeFormAttendance()"
-						class="sanfont-khmer"
-					> បោះបង់</el-button>
+		</template>
+		<div class="bg-white px-5">
+			<div class="flex justify-start items-end py-2 space-x-4">
+				<el-form
+					label-position="top"
+					label-width="50px"
+					:model="ruleFormReport"
+					:rules="rulesReport"
+					ref="ruleFormReport"
+					id="ruleFormReport"
+				>
+					<div class="flex space-x-2">
+						<el-form-item label="ថ្នាក់រៀន">
+
+							<el-select
+								v-model="classData.class_name"
+								disabled
+							>
+								<el-option
+									label="classData.class_name"
+									value="classData.class_name"
+								/>
+							</el-select>
+						</el-form-item>
+						<el-form-item
+							label="ប្រចាំខែ"
+							prop="month_id"
+						>
+							<el-select v-model="ruleFormReport.month_id">
+								<el-option
+									v-for="data in monthly"
+									:key="data"
+									:label="data.name"
+									:value="data.score_type_id"
+								/>
+							</el-select>
+
+						</el-form-item>
+					</div>
+				</el-form>
+				<div class="mb-5">
+
 					<el-button
 						type="primary"
-						class="sanfont-khmer"
-						@click="printAttendance()"
+						:disabled="loading_report"
+						@click="submitFormReport('ruleFormReport')"
 					>
-						បោះពុម្ភ
+						<el-icon :class="loading_report==true?'animate-spin':''">
+							<Tools />
+						</el-icon>
+						<span class="mx-1 sanfont-khmer"> ដំណើរការទាញរបាយការណ៍ <span v-show="loading_report">...</span></span>
 					</el-button>
-				</span>
-			</template>
-		</el-dialog>
-		<!-- Dialog Form Schedule  -->
-		<!-- loading state -->
+				</div>
+				<div>
+				</div>
+			</div>
+			<el-table
+				v-loading="loading_report"
+				:data="studentReport"
+				resizable="false"
+				header-cell-class-name="sanfont-khmer text-md"
+				row-class-name="sanfont-khmer"
+				style="width: 100%"
+				stripe
+				border
+			>
+				<el-table-column
+					label="ល.រ"
+					type="index"
+					fixed
+				></el-table-column>
+				<el-table-column
+					fixed
+					label="ឈ្មោះសិស្ស"
+					min-width="250"
+				>
+					<template #default="scope">
+						<div>
+							<span>{{ scope.row.student_in_class.full_name_kh }}</span>
+						</div>
+					</template>
+				</el-table-column>
+				<el-table-column
+					fixed
+					label="ភេទ"
+					min-width="80"
+				>
+					<template #default="scope">
+						<span>
+							{{ scope.row.student_in_class?.gender?.gender_name_kh }}
+						</span>
+					</template>
+				</el-table-column>
+				<!-- <el-table-column
+					fixed
+					label="ស្ថានភាព"
+					width="150"
+				>
+					<template #default="scope">
+						<span :style="'color:'+scope.row.student_in_class.status.color">
+							{{ scope.row.student_in_class.status.status_kh }}
+						</span>
+					</template>
+				</el-table-column> -->
+				<el-table-column
+					v-for="(data ,i) in dates"
+					:key="data"
+					width="50"
+					align="center"
+				>
+					<template #header>
+						{{i+1 }}
+					</template>
+					<template #default="scope">
 
-	</Suspense>
+						<span>
+							{{ scope.row['attendance_'+data]}}
+						</span>
+					</template>
+				</el-table-column>
+
+				<el-table-column
+					value="0"
+					fixed="right"
+					width="70"
+					align="center"
+				>
+					<template #header>
+						<div class="text-yellow-600">ច្បាប់</div>
+					</template>
+					<template #default="scope">
+						<span class="text-yellow-600">
+							{{ scope.row.total_type_pm }}
+						</span>
+					</template>
+				</el-table-column>
+				<!-- <el-table-column
+						label="AL"
+						value="5"
+						width="50"
+					>
+						<template #header>
+							<div class="text-blue-600">AL</div>
+						</template>
+						<template #default="scope">
+							<span class="text-blue-600">
+								{{ scope.row.total_type_al }}
+							</span>
+						</template>
+					</el-table-column> -->
+				<el-table-column
+					value="10"
+					fixed="right"
+					width="70"
+					align="center"
+				>
+					<template #header>
+						<div class="text-red-600">អច្បាប់</div>
+					</template>
+					<template #default="scope">
+						<span class="text-red-600">
+							{{ scope.row.total_type_a }}
+						</span>
+					</template>
+				</el-table-column>
+
+			</el-table>
+		</div>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button
+					@click="closeFormAttendanceReport()"
+					class="sanfont-khmer"
+				> បោះបង់</el-button>
+				<el-button
+					type="primary"
+					class="sanfont-khmer"
+					@click="printAttendance()"
+				>
+					បោះពុម្ភ
+				</el-button>
+			</span>
+		</template>
+	</el-dialog>
+	<!-- Dialog  Report Attendance by Month -->
+
+	<!-- Dialog  Report Attendance by Subject -->
+	<el-dialog
+		v-model="dialogFormVisible"
+		fullscreen="true"
+		title="របាយការណ៍វត្តមានសិស្ស"
+		class="sanfont-khmer text-xl"
+		width="50%"
+	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">របាយការណ៍វត្តមានសិស្ស</h4>
+			</div>
+		</template>
+		<div class="bg-white px-5">
+			<div class="flex justify-between py-2">
+				<el-form
+					label-position="top"
+					label-width="50px"
+					model="top"
+				>
+					<div class="flex space-x-2">
+						<el-form-item label="ថ្នាក់រៀន">
+
+							<el-select
+								v-model="classData.class_name"
+								disabled
+							>
+								<el-option
+									label="classData.class_name"
+									value="classData.class_name"
+								/>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="មុខវិទ្យា">
+							<el-input
+								v-if="dataSubjectGrade !=null"
+								v-model="dataSubjectGrade.subject.subject_name_kh"
+								disabled
+							>
+							</el-input>
+						</el-form-item>
+					</div>
+				</el-form>
+				<div>
+				</div>
+			</div>
+			<el-table
+				v-loading="loading_schedule"
+				:data="studentObj"
+				resizable="false"
+				header-cell-class-name="sanfont-khmer text-md"
+				row-class-name="sanfont-khmer"
+				style="width: 100%"
+				stripe
+				border
+			>
+				<el-table-column
+					label="ID"
+					type="index"
+					fixed
+				></el-table-column>
+				<el-table-column
+					fixed
+					label="ឈ្មោះសិស្ស"
+					min-width="250"
+				>
+					<template #default="scope">
+						<div>
+							<span>{{ scope.row.student_in_class.full_name_kh }}</span>
+						</div>
+					</template>
+				</el-table-column>
+				<el-table-column
+					fixed
+					label="ថ្ងៃខែឆ្នាំកំណើត"
+					min-width="200"
+				>
+					<template #default="scope">
+						<span>
+							{{ scope.row.student_in_class.date_of_birth }}
+						</span>
+					</template>
+				</el-table-column>
+				<el-table-column
+					fixed
+					label="ស្ថានភាព"
+					width="150"
+				>
+					<template #default="scope">
+						<span :style="'color:'+scope.row.student_in_class.status.color">
+							{{ scope.row.student_in_class.status.status_kh }}
+						</span>
+					</template>
+				</el-table-column>
+				<el-table-column
+					v-for="data in attendanceObj"
+					:key="data.attendance_id"
+					width="100"
+					align="center"
+				>
+					<template #header>
+						{{ formatDate(data.date)}}
+					</template>
+					<template #default="scope">
+						<span
+							:class="geColor(scope.row['attendance_'+data.attendance_id])"
+							v-if="scope.row['attendance_'+data.attendance_id]=='PS'"
+						>
+
+							<!-- <el-icon>
+								<Check />
+							</el-icon> -->
+							<el-icon><Select /></el-icon>
+						</span>
+						<span
+							:class="geColor(scope.row['attendance_'+data.attendance_id])"
+							v-else
+						>
+
+							{{ scope.row['attendance_'+data.attendance_id]}}
+						</span>
+					</template>
+				</el-table-column>
+				<el-table-column
+					fixed="right"
+					label="សរុប"
+					align="center"
+					min-width="200"
+				>
+
+					<el-table-column
+						label="PS"
+						value="10"
+						width="50"
+					>
+						<template #header>
+							<div class="text-green-600">PS</div>
+						</template>
+						<template #default="scope">
+							<span class="text-green-600">
+								{{ scope.row.total_type_ps }}
+							</span>
+						</template>
+					</el-table-column>
+					<el-table-column
+						label="PM"
+						value="0"
+						width="50"
+					>
+						<template #header>
+							<div class="text-yellow-600">PM</div>
+						</template>
+						<template #default="scope">
+							<span class="text-yellow-600">
+								{{ scope.row.total_type_pm }}
+							</span>
+						</template>
+					</el-table-column>
+					<el-table-column
+						label="AL"
+						value="5"
+						width="50"
+					>
+						<template #header>
+							<div class="text-blue-600">AL</div>
+						</template>
+						<template #default="scope">
+							<span class="text-blue-600">
+								{{ scope.row.total_type_al }}
+							</span>
+						</template>
+					</el-table-column>
+					<el-table-column
+						prop="address"
+						label="A"
+						value="10"
+						width="50"
+						class="text-red-600"
+					>
+						<template #header>
+							<div class="text-red-600">A</div>
+						</template>
+						<template #default="scope">
+							<span class="text-red-600">
+								{{ scope.row.total_type_a }}
+							</span>
+						</template>
+					</el-table-column>
+				</el-table-column>
+			</el-table>
+		</div>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button
+					@click="closeFormAttendance()"
+					class="sanfont-khmer"
+				> បោះបង់</el-button>
+				<el-button
+					type="primary"
+					class="sanfont-khmer"
+					@click="printAttendance()"
+				>
+					បោះពុម្ភ
+				</el-button>
+			</span>
+		</template>
+	</el-dialog>
+	<!-- Dialog  Report Attendance by Subject -->
+
 	<!-- Dialog  Manage Attendance list -->
 	<el-dialog
 		v-model="dialogFormVisibleAdd"
@@ -387,10 +596,8 @@
 				></el-table-column>
 				<el-table-column label="ឈ្មោះសិស្ស">
 					<template #default="scope">
-
 						<div>
-
-							<span>{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}</span>
+							<span>{{ scope.row.student_in_class.full_name_kh }}</span>
 						</div>
 					</template>
 				</el-table-column>
@@ -508,9 +715,12 @@
 </template>
 <script>
 import moment from 'moment';
+import { ElMessageBox, ElMessage } from 'element-plus'
 export default {
 	components: { moment },
-
+	props: {
+		subjectData: Object
+	},
 	data() {
 		return {
 			dialogFormVisible: false,
@@ -522,9 +732,11 @@ export default {
 			attendanceObj: [],
 			studentObj: [],
 			dataSubjectGradeObj: [],
+
+			dataSubjectGrade: [],
 			subjectAttendance: 'ភាសាខ្មែរ',
 			data: [],
-			subjectData: [],
+			// subjectData: [],
 			studentCallAttendance: [],
 			dataDayObj: [],
 			dataTimeObj: [],
@@ -542,22 +754,39 @@ export default {
 					{ required: true, message: 'សូមបញ្ចូលកាលបរិច្ឆេទ', trigger: 'blur' },
 				],
 				subject_grade_id: [
-					{ required: true, message: 'សូមបញ្ចូលមុខវិជ្ជា', trigger: 'change' }
+					{ required: true, message: 'សូមបញ្ចូលមុខវិជ្ជា', trigger: 'blur' }
 				],
 				time_id: [
-					{ required: true, message: 'សូមបញ្ចូលម៉ោង', trigger: 'change' }
+					{ required: true, message: 'សូមបញ្ចូលម៉ោង', trigger: 'blur' }
 				],
 				day_id: [
-					{ required: true, message: 'សូមបញ្ចូលថ្ងៃ', trigger: 'change' }
+					{ required: true, message: 'សូមបញ្ចូលថ្ងៃ', trigger: 'blur' }
 				],
 			},
-			showTimeOBJ: ''
+			showTimeOBJ: '',
+			//Report 
+			studentReport: [],
+			dialogFormVisibleReportMonthly: false,
+			monthly: [],
+			dates: [],
+			loading_report: false,
+			ruleFormReport: {
+				month_id: null
+			},
+			rulesReport: {
+				month_id: [
+					{ required: true, message: 'សូមបញ្ចូលខែ', trigger: 'change' },
+				]
+			},
 		}
 	},
 	watch: {
 		'ruleForm.time_id': function (event) {
 			var obj = this.dataTimeObj.find(e => e.time_id == this.ruleForm.time_id);
-			this.showTimeOBJ = obj.name + ' : ' + obj.start_date + ' - ' + obj.end_date;
+			if (obj != null) {
+
+				this.showTimeOBJ = obj.name + ' : ' + obj.start_date + ' - ' + obj.end_date;
+			}
 		}
 	},
 	methods: {
@@ -581,6 +810,7 @@ export default {
 				this.dataSubjectGradeObj = response.data.teacher_subject
 				this.classData = response.data.classData
 				this.ruleForm.class_id = response.data.classData?.class_id
+				this.ruleForm.date = moment(new Date()).format("YYYY-MM-DD");
 				this.dialogFormVisibleAdd = true
 				setTimeout(() => {
 					this.fullscreenLoading = false;
@@ -606,10 +836,12 @@ export default {
 			)
 				.then(() => {
 					this.dialogFormVisibleAdd = false;
-					this.studentCallAttendance = []
-					this.dataDayObj = []
-					this.dataTimeObj = []
-					this.dataSubjectGradeObj = []
+					this.studentCallAttendance = [];
+					this.ruleForm.date = null
+					this.ruleForm.subject_grade_id = null
+					this.ruleForm.time_id = null
+					this.ruleForm.day_id = null
+					this.ruleForm.time_id = null
 				})
 				.catch((action) => {
 					ElMessage({
@@ -620,13 +852,7 @@ export default {
 								: '',
 					})
 				});
-			this.dialogFormVisibleAdd = false;
-			this.studentCallAttendance = [];
-			this.ruleForm.date = null
-			this.ruleForm.subject_grade_id = null
-			this.ruleForm.time_id = null
-			this.ruleForm.day_id = null
-			this.ruleForm.time_id = null
+
 
 
 		},
@@ -667,7 +893,7 @@ export default {
 			switch (typeinput) {
 				case 'PS':
 					return 'text-green-600';
-				case 'P':
+				case 'PM':
 					return 'text-yellow-600';
 				case 'AL':
 					return 'text-blue-600';
@@ -678,21 +904,21 @@ export default {
 		formatDate(date) {
 			return moment(date).format('DD-MM-YYYY')
 		},
-		async showInfomationAttendance(obj) {
+		//report attendance by subject
+		async showInfomationAttendance(id) {
 			const class_id = this.$route.query.id;
 			this.attendanceClassId = class_id;
-			this.attendanceSubjecGradetId = obj.subject_id;
-			this.dataSubjectGradeObj = obj;
+			this.attendanceSubjecGradetId = id
 			const attendanceInfo = {
 				'class_id': this.attendanceClassId,
-				'time_id': this.attendanceTimeId,
-				'day_id': this.attendanceDayId,
 				'subject_grade_id': this.attendanceSubjecGradetId,
 			}
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
 			await axios.post('/attendance/report/' + class_id, attendanceInfo, config).then(response => {
+				this.classData = response.data.classData
+				this.dataSubjectGrade = response.data.dataSubjectGrade
 				this.attendanceObj = response.data.attendance;
 				this.studentObj = response.data.student;
 				this.dialogFormVisible = true;
@@ -701,7 +927,93 @@ export default {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
 			})
-		}
+		},
+
+		//report attandance in month
+		async showInfomationAttendanceInMonthly() {
+			const class_id = this.$route.query.id;
+			this.attendanceClassId = class_id;
+			// this.attendanceSubjecGradetId = id
+			const attendanceInfo = {
+				'class_id': this.attendanceClassId,
+			}
+			const config = {
+				headers: { 'content-type': 'multipart/form-data' }
+			}
+			await axios.post('/attendance/report/monthly/' + class_id, attendanceInfo, config).then(response => {
+				this.classData = response.data.classData
+				this.monthly = response.data.month;
+				this.dialogFormVisibleReportMonthly = true;
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+
+		submitFormReport(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					this.showReportAtendanceMonthly()
+				} else {
+					console.log('error submit!!');
+					return false;
+				}
+			});
+		},
+		async showReportAtendanceMonthly() {
+			this.loading_report = true
+
+			const class_id = this.$route.query.id;
+			this.attendanceClassId = class_id;
+			this.attendanceMonthId = this.ruleFormReport.month_id;
+			const attendanceInfo = {
+				'class_id': this.attendanceClassId,
+				'month_id': this.attendanceMonthId,
+			}
+			const config = {
+				headers: { 'content-type': 'multipart/form-data' }
+			}
+			await axios.post('/attendance/report/monthly/get/' + class_id, attendanceInfo, config).then(response => {
+				this.classData = response.data.classData
+				this.dates = response.data.dates;
+				this.studentReport = response.data.student;
+				this.loading_report = false
+
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		closeFormAttendanceReport() {
+
+			ElMessageBox.confirm(
+				'អ្នកមិនទាន់បាន រក្សាទុកការកែប្រែទេ, តើអ្នកពិតជាចង់បោះបង់មែនឬទេ?',
+				'ការដាស់តើន',
+				{
+					confirmButtonText: 'យល់ព្រម',
+					cancelButtonText: 'ទេ',
+				}
+			)
+				.then(() => {
+					this.dialogFormVisibleReportMonthly = false;
+					this.studentReport = [];
+					this.ruleFormReport.month_id = null
+				})
+				.catch((action) => {
+					ElMessage({
+						type: 'info',
+						message:
+							action === 'cancel'
+								? 'អ្នកបានបោះបង់ដំណើរការ'
+								: '',
+					})
+				});
+
+
+
+		},
 	}
 }
 </script>

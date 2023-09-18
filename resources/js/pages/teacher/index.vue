@@ -1,103 +1,103 @@
 <template>
 	<div class="bg-white p-2 w-full justify-between border rounded-t lg:flex lg:flex-row">
 		<div class="flex  flex-col 2xl:flex  2xl:flex-row  ">
-		<div class="flex space-x-2">
-			<div class="self-start">
-				<el-input
-					placeholder="ស្វែងរក"
-					class="sanfont-khmer"
-					v-model="search"
-					@input="clickSearch"
-				>
-				</el-input>
-			</div>
-			<div class="self-start  ">
-				<el-select
-					v-model="filterSelectValue "
-					filterable
-					clearable
-					multiple
-					placeholder="ឯកទេស"
-				>
-					<el-option
-						v-for="item in filter"
-						:key="item.filterValue"
-						:label="item.filterLabel"
-						:value="item.filterValue"
+			<div class="flex space-x-2">
+				<div class="self-start">
+					<el-input
+						placeholder="ស្វែងរក"
+						class="sanfont-khmer"
+						v-model="search"
+						@input="clickSearch"
 					>
-					</el-option>
-				</el-select>
-			</div>
-		</div>	
-		<div class="flex space-y-2  2xl:space-y-0 ">	
-			<div>
-				<!-- Use this <div> for space-y-2 work -->
-			</div>
-			<div class="flex space-x-2 "> 
-			<div class="self-start pl-0 2xl:pl-2 ">
-				<el-select
-					v-model="teacher_levelSelectValue"
-					filterable
-					clearable
-					placeholder="កម្រិត"
-				>
-					<el-option
-						v-for="item in teacher_level"
-						:key="item.teacher_level_value"
-						:label="item.teacher_level_Label"
-						:value="item.teacher_level_value"
+					</el-input>
+				</div>
+				<div class="self-start  ">
+					<el-select
+						v-model="filterSelectValue "
+						filterable
+						clearable
+						multiple
+						placeholder="ឯកទេស"
 					>
-					</el-option>
-				</el-select>
+						<el-option
+							v-for="item in filter"
+							:key="item.filterValue"
+							:label="item.filterLabel"
+							:value="item.filterValue"
+						>
+						</el-option>
+					</el-select>
+				</div>
 			</div>
-			<el-button type="primary">
-				<el-icon>
-					<Search />
-				</el-icon>
-			</el-button>
-		</div>
-		</div>
+			<div class="flex space-y-2  2xl:space-y-0 ">
+				<div>
+					<!-- Use this <div> for space-y-2 work -->
+				</div>
+				<div class="flex space-x-2 ">
+					<div class="self-start pl-0 2xl:pl-2 ">
+						<el-select
+							v-model="teacher_levelSelectValue"
+							filterable
+							clearable
+							placeholder="កម្រិត"
+						>
+							<el-option
+								v-for="item in teacher_level"
+								:key="item.teacher_level_value"
+								:label="item.teacher_level_Label"
+								:value="item.teacher_level_value"
+							>
+							</el-option>
+						</el-select>
+					</div>
+					<el-button type="primary">
+						<el-icon>
+							<Search />
+						</el-icon>
+					</el-button>
+				</div>
+			</div>
 		</div>
 
 		<div class="flex flex-col 2xl:flex-row ">
-		<div class="self-center flex ">
-			<el-switch
-				v-model="is_show_trust"
-				@change="clickShowwTrush"
-				class="px-2"
-				width="40"
-				active-text="បង្ហាញទិន្នន័យបានលុប"
-				inactive-text=""
-				active-value="1"
-				inactive-value="0"
-			/>
-		</div>	
-			<div class="self-center ">
-			<el-button type="info">
-				<el-icon>
-					<Document />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
-
-			</el-button>
-			<el-button type="info">
-				<el-icon>
-					<Document />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
-
-			</el-button>
-			<el-button
-				type="primary"
-				@click="AddUser"
-			>
-				<el-icon>
-					<CirclePlusFilled />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> បន្ថែមគ្រូ</span>
-			</el-button>
+			<div class="self-center flex ">
+				<el-switch
+					v-model="is_show_trust"
+					@change="clickShowwTrush"
+					class="px-2"
+					width="40"
+					active-text="បង្ហាញទិន្នន័យបានលុប"
+					inactive-text=""
+					active-value="1"
+					inactive-value="0"
+				/>
 			</div>
-		
+			<div class="self-center ">
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+
+				</el-button>
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+
+				</el-button>
+				<el-button
+					type="primary"
+					@click="AddUser"
+				>
+					<el-icon>
+						<CirclePlusFilled />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> បន្ថែមគ្រូ</span>
+				</el-button>
+			</div>
+
 		</div>
 	</div>
 	<div class="grid grid-cols-1 gap-2 ">
@@ -170,8 +170,8 @@
 						sortable
 					>
 						<template #default="scope">
-							<div v-if="scope.row.gender_id == 1">គ្រូ</div>
-							<div v-else>គ្រូវិន័យ</div>
+							<div>{{ scope.row.roles?.name }}</div>
+
 						</template>
 					</el-table-column>
 					<el-table-column
@@ -302,7 +302,7 @@
 		title="ព័ត៌មានគ្រូ"
 		titleClass="text-xl font-bold"
 		class="sanfont-khmer "
-		width="63%"
+		width="auto"
 		align-center="true"
 		draggable
 	>
@@ -311,68 +311,68 @@
 				<h4 class="text-lg font-semibold text-white">ព័ត៌មានគ្រូ</h4>
 			</div>
 		</template>
-	
+
 		<el-form
 			:model="ruleForm"
 			:rules="rules"
 			ref="ruleForm"
 			id="fm"
 		>
-		<el-tabs
+			<!-- <el-tabs
 				type="card"
 				@tab-click="handleClick"
 				style="height: 650px; overflow: auto;"
 			>
-		
-		<el-tab-pane label="ព័ត៌មានទូទៅ">
+
+				<el-tab-pane label="ព័ត៌មានទូទៅ"> -->
 
 			<div class="flex flex-col w-full">
 				<div class="xl:flex xl:flex-row ">
 					<div class="flex flex-col space-y-1">
-						
-							<div>
-								<el-form-item
-									label="នាមត្រកូល (ខ្មែរ)"
-									prop="firstNameKh"
-									class="sanfont-khmer "
-									:label-width="formLabelWidth"
-								>
-									<el-input
-										v-model="ruleForm.firstNameKh"
-										name="first_name_kh"
-										clearable
-									></el-input>
-								</el-form-item>
-							</div>
-							<div>
-								<el-form-item
-									label="នាមខ្លួន (ខ្មែរ)"
-									prop="LastNameKh"
-									class="sanfont-khmer"
-									:label-width="formLabelWidth"
-								>
-									<el-input
-										v-model="ruleForm.LastNameKh"
-										name="last_name_kh"
-										clearable
-									></el-input>
-								</el-form-item>
-							</div>
-							<div>
-								<el-form-item
-									label="នាមពេញ (ខ្មែរ)"
-									prop="fullNameKh"
-									class="sanfont-khmer"
-									:label-width="formLabelWidth"
-								>
-									<el-input
-										v-model="ruleForm.fullNameKh"
-										name="full_name_kh"
-										clearable
-									></el-input>
-								</el-form-item>
-							</div>
-						
+
+						<div>
+							<el-form-item
+								label="នាមត្រកូល (ខ្មែរ)"
+								prop="firstNameKh"
+								class="sanfont-khmer "
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.firstNameKh"
+									name="first_name_kh"
+									clearable
+								></el-input>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="នាមខ្លួន (ខ្មែរ)"
+								prop="LastNameKh"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.LastNameKh"
+									name="last_name_kh"
+									clearable
+								></el-input>
+							</el-form-item>
+						</div>
+						<div>
+							<el-form-item
+								label="នាមពេញ (ខ្មែរ)"
+								prop="fullNameKh"
+								class="sanfont-khmer"
+								:label-width="formLabelWidth"
+							>
+								<el-input
+									v-model="ruleForm.fullNameKh"
+									name="full_name_kh"
+									clearable
+								></el-input>
+							</el-form-item>
+						</div>
+
 						<div>
 							<el-form-item
 								label="នាមត្រកូល(អង់គ្លេស)"
@@ -685,8 +685,8 @@
 					</div>
 				</div>
 			</div>
-		</el-tab-pane>
-		</el-tabs>
+			<!-- </el-tab-pane>
+			</el-tabs> -->
 		</el-form>
 		<el-dialog v-model="dialogVisible">
 			<img
@@ -741,8 +741,6 @@ export default {
 			imageUrl: '',
 			isShowPassword: true,
 			isShowButtonUpdate: false,
-
-
 			ruleForm: {
 				teacher_id: null,
 				firstNameKh: null,

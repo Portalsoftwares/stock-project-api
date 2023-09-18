@@ -11,6 +11,7 @@ use App\Models\ScoreType;
 use App\Models\Score;
 use App\Models\scoreLine;
 use App\Models\SubjectGradeLevel;
+use App\Models\TeacherClass;
 use Carbon\Carbon;
 
 class ScoreController extends Controller
@@ -47,7 +48,37 @@ class ScoreController extends Controller
         }
         $response = [
             'student' => $student,
-            'score_type' => $scoreType
+            'score_type' => $scoreType,
+        ];
+        return  response($response, 200);
+    }
+
+    public function allsubeject(Request $request, $id)
+    {
+        $class_id = $id;
+        $scoreLine = null;
+        $scoreType = scoreType::all();
+        $score_type_id = $request->score_type_id;
+        $subjectGradeInclass = TeacherClass::where('class_id', $id)->with('teacher_subject_in_class.subject')->get();
+        $student = StudentClass::query()->where('class_id', $id)->with(['student_in_class.gender', 'student_in_class.status',])->get();
+        foreach ($student as  $data) {
+            foreach ($subjectGradeInclass as $obj) {
+                $score = Score::where([['class_id', $class_id], ['score_type_id', $score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
+                if (!empty($score)) {
+                    $scoreLine = scoreLine::where([['score_id', $score->score_id], ['student_id', $data->student_id]])->first();
+                }
+                // បានស្រង់ហើយ
+                if (!empty($score) && !$scoreLine->isEmpty()) {
+                    $data['mark_' . $obj->teacher_subject_in_class->subject_grade_id] =  $scoreLine->mark;
+                } else {
+                    // មិនទាន់
+                    $data['mark_' . $obj->teacher_subject_in_class->subject_grade_id] = 0.0;
+                }
+            }
+        }
+        $response = [
+            'student' => $student,
+            'score_type' => $scoreType,
         ];
         return  response($response, 200);
     }

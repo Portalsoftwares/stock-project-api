@@ -41,4 +41,8 @@ class Teacher extends Model
     {
         return $this->hasOne(UploadFile::class, 'file_upload_id', 'file_upload_id');
     }
+    public function roles()
+    {
+        return $this->hasOne(TeacherRole::class, 'role_id', 'role');
+    }
 }

@@ -228,7 +228,7 @@
 	>
 		<template #header>
 			<div class="my-header">
-				<h4 class="text-lg font-semibold text-white">ស្រង់វត្តមាន</h4>
+				<h4 class="text-lg font-semibold text-white">សម្រង់វត្តមាន</h4>
 			</div>
 		</template>
 		<div class="bg-white px-5">
@@ -441,7 +441,7 @@
 		v-model="dialogFormSchedule"
 		title="ព័ត៌មានកាលវិភាគ"
 		class="sanfont-khmer"
-		width="66.5%"
+		width="75%"
 		draggable
 	>
 		<template #header>
@@ -452,14 +452,14 @@
 
 		<!-- Overall detail -->
 		<div class="grid gap-5  w-full">
-			<div class="py-2 w-full">
+			<div class="py-2 w-full overflow-auto">
 				<el-table
 					v-loading="loading_schedule"
 					:data="dataSchedule"
 					resizable="false"
 					header-cell-class-name="sanfont-khmer text-md"
 					row-class-name="sanfont-khmer"
-					style="width:95%"
+					style="width:auto"
 					stripe
 					:fit="true"
 					border
@@ -469,6 +469,7 @@
 						label="ម៉ោង"
 						fixed
 						align="center"
+						min-width="150px"
 					>
 						<template #default="scope">
 							<span class="text-center">
@@ -487,6 +488,7 @@
 						:key="day"
 						:prop="day"
 						:label="day.day_name_kh"
+						width="200px"
 					>
 
 						<template #default="scope">
@@ -1102,10 +1104,10 @@ export default {
 	margin-right: 15px;
 }
 .small-input .el-select {
-	max-width: 180px !important;
+	width: 120px !important;
 }
 .el-select-dropdown {
-	max-width: 180px !important;
+	width: 120px !important;
 }
 .small-input .el-input {
 	width: 180px !important;

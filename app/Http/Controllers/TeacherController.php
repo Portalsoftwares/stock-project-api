@@ -60,7 +60,7 @@ class TeacherController extends Controller
                 }
             });
         }
-        $data = $items->with('profile_img')
+        $data = $items->with('profile_img', 'roles')
             ->orderBy($sort_by, $order_by)
             ->paginate($per_page);
 
