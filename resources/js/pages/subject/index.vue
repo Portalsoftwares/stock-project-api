@@ -659,7 +659,7 @@
 										<el-input
 											v-model="ruleFormSubjectLevel.divide"
 											autocomplete="off"
-											type="number"
+											
 											name="divide"
 											clearable
 										/>
@@ -675,7 +675,7 @@
 										<el-input
 											v-model="ruleFormSubjectLevel.average"
 											autocomplete="off"
-											type="number"
+											
 											name="average"
 											clearable
 										/>

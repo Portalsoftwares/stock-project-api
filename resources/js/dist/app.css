@@ -697,6 +697,10 @@ header.el-dialog__header {
   height: 2.75rem;
 }
 
+.h-14 {
+  height: 3.5rem;
+}
+
 .h-24 {
   height: 6rem;
 }
@@ -745,10 +749,6 @@ header.el-dialog__header {
   height: 100vh;
 }
 
-.h-14 {
-  height: 3.5rem;
-}
-
 .w-1 {
   width: 0.25rem;
 }
@@ -759,6 +759,10 @@ header.el-dialog__header {
 
 .w-11 {
   width: 2.75rem;
+}
+
+.w-14 {
+  width: 3.5rem;
 }
 
 .w-16 {
@@ -843,10 +847,6 @@ header.el-dialog__header {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-14 {
-  width: 3.5rem;
 }
 
 .min-w-\[200px\] {
@@ -1948,12 +1948,6 @@ header.el-dialog__header {
     margin-bottom: calc(0px * var(--tw-space-y-reverse));
   }
 
-  .xl\:space-y-2 > :not([hidden]) ~ :not([hidden]) {
-    --tw-space-y-reverse: 0;
-    margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
-    margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
-  }
-
   .xl\:pt-0 {
     padding-top: 0px;
   }
@@ -1972,9 +1966,5 @@ header.el-dialog__header {
     --tw-space-y-reverse: 0;
     margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
     margin-bottom: calc(0px * var(--tw-space-y-reverse));
-  }
-
-  .\32xl\:pl-2 {
-    padding-left: 0.5rem;
   }
 }
