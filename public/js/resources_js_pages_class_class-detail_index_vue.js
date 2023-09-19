@@ -955,6 +955,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       fullscreenLoading: false,
       //score
       subjectDataSore: [],
+      //form data
       ruleForm: {
         'class_id': null,
         'score_type_id': null
@@ -1069,24 +1070,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     showInfomationStudentScoreAll: function showInfomationStudentScoreAll() {
       var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var class_id, scoreInfo, config;
+        var scoreInfo, config;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               _this4.fullscreenLoading = true;
-              class_id = _this4.$route.query.id;
-              _this4.scoreClassId = class_id;
+              _this4.ruleForm.class_id = _this4.$route.query.id;
               scoreInfo = {
-                'class_id': _this4.scoreClassId,
-                'score_type_id': _this4.scoreTypeId
+                'class_id': _this4.ruleForm.class_id,
+                'score_type_id': _this4.ruleForm.score_type_id
               };
               config = {
                 headers: {
                   'content-type': 'application/json'
                 }
               };
-              _context3.next = 7;
-              return axios.post('/score/collect/all/' + class_id, scoreInfo, config).then(function (response) {
+              _context3.next = 6;
+              return axios.post('/score/collect/all/' + _this4.ruleForm.class_id, scoreInfo, config).then(function (response) {
                 _this4.studentObj = response.data.student;
                 _this4.scoreTypeObj = response.data.score_type;
                 _this4.subjectDataSore = _this4.subjectData;
@@ -1097,49 +1097,87 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this4.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 7:
+            case 6:
             case "end":
               return _context3.stop();
           }
         }, _callee3);
       }))();
     },
-    showInfomationStudentScoreReport: function showInfomationStudentScoreReport() {
+    studentScoreSave: function studentScoreSave() {
       var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var class_id, scoreInfo, config;
+        var scoreInfo, config;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
               _this5.fullscreenLoading = true;
-              class_id = _this5.$route.query.id;
-              _this5.scoreClassId = class_id;
+              _this5.ruleForm.class_id = _this5.$route.query.id;
               scoreInfo = {
-                'class_id': _this5.scoreClassId,
-                'subject_grade_id': _this5.scoreSubjectGradeId,
-                'score_type_id': _this5.scoreTypeId
+                'class_id': _this5.ruleForm.class_id,
+                'score_type_id': _this5.ruleForm.score_type_id,
+                'data': _this5.studentObj
               };
               config = {
                 headers: {
                   'content-type': 'application/json'
                 }
               };
-              _context4.next = 7;
-              return axios.post('/score/collect/' + class_id, scoreInfo, config).then(function (response) {
+              _context4.next = 6;
+              return axios.post('/score/collect/all/' + _this5.ruleForm.class_id + '/create', scoreInfo, config).then(function (response) {
                 _this5.studentObj = response.data.student;
                 _this5.scoreTypeObj = response.data.score_type;
-                _this5.dialogFormVisibleReports = true;
+                _this5.subjectDataSore = _this5.subjectData;
+                _this5.dialogFormVisibleAll = true;
                 _this5.fullscreenLoading = false;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
                   _this5.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 7:
+            case 6:
             case "end":
               return _context4.stop();
           }
         }, _callee4);
+      }))();
+    },
+    showInfomationStudentScoreReport: function showInfomationStudentScoreReport() {
+      var _this6 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        var class_id, scoreInfo, config;
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
+            case 0:
+              _this6.fullscreenLoading = true;
+              class_id = _this6.$route.query.id;
+              _this6.scoreClassId = class_id;
+              scoreInfo = {
+                'class_id': _this6.scoreClassId,
+                'subject_grade_id': _this6.scoreSubjectGradeId,
+                'score_type_id': _this6.scoreTypeId
+              };
+              config = {
+                headers: {
+                  'content-type': 'application/json'
+                }
+              };
+              _context5.next = 7;
+              return axios.post('/score/collect/' + class_id, scoreInfo, config).then(function (response) {
+                _this6.studentObj = response.data.student;
+                _this6.scoreTypeObj = response.data.score_type;
+                _this6.dialogFormVisibleReports = true;
+                _this6.fullscreenLoading = false;
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this6.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 7:
+            case "end":
+              return _context5.stop();
+          }
+        }, _callee5);
       }))();
     }
   }
@@ -3825,7 +3863,7 @@ var _hoisted_28 = {
   "class": "bg-white px-5"
 };
 var _hoisted_29 = {
-  "class": "flex justify-between py-2"
+  "class": "flex justify-start items-center py-2 space-x-4"
 };
 var _hoisted_30 = {
   "class": "flex space-x-2"
@@ -4199,7 +4237,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "primary",
         "class": "sanfont-khmer",
         onClick: _cache[14] || (_cache[14] = function ($event) {
-          return $options.collectScore();
+          return $options.studentScoreSave();
         })
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -4216,8 +4254,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "label-position": "top",
         "label-width": "50px",
         model: $data.ruleForm,
-        roles: $data.roles,
-        ref: "formScoreAll"
+        rules: $data.roles,
+        ref: "formScoreAll",
+        id: "formScoreAll"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
@@ -4266,32 +4305,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }, 8 /* PROPS */, ["modelValue"])];
             }),
             _: 1 /* STABLE */
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "កំណត់"
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_button, {
-                type: "primary",
-                "class": "sanfont-khmer",
-                onClick: _cache[12] || (_cache[12] = function ($event) {
-                  return $options.submitForm('formScoreAll');
-                })
-              }, {
-                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" យល់ព្រម ")];
-                }),
-                _: 1 /* STABLE */
-              })), [[_directive_loading, $data.fullscreenLoading, void 0, {
-                fullscreen: true,
-                lock: true
-              }]])];
-            }),
-            _: 1 /* STABLE */
           })])];
         }),
 
         _: 1 /* STABLE */
-      }, 8 /* PROPS */, ["model", "roles"]), _hoisted_31]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
+      }, 8 /* PROPS */, ["model", "rules"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+        type: "primary",
+        "class": "sanfont-khmer mt-2",
+        onClick: _cache[12] || (_cache[12] = function ($event) {
+          return $options.submitForm('formScoreAll');
+        })
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" យល់ព្រម ")];
+        }),
+        _: 1 /* STABLE */
+      }), _hoisted_31]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
         data: $data.studentObj,
         resizable: "false",
         "header-cell-class-name": "sanfont-khmer text-md",

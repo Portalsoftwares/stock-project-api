@@ -117,6 +117,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('score')->group(function () {
       Route::post('/collect/{id}', [ScoreController::class, 'index']);
       Route::post('/collect/all/{id}', [ScoreController::class, 'allsubeject']);
+      Route::post('/collect/all/{id}/create', [ScoreController::class, 'createAllSubject']);
       Route::post('/collect/{id}/create', [ScoreController::class, 'create']);
     });
     //Time 

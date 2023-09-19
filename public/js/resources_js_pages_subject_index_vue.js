@@ -143,9 +143,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     // Default active tap
     this.tabClassDetail = (_localStorage$getItem = localStorage.getItem('tab-subject')) !== null && _localStorage$getItem !== void 0 ? _localStorage$getItem : 'tab-subject-1';
     if (this.tabClassDetail == 'tab-subject-1') {
-      this.getData();
+      // this.getData();
     } else {
-      this.getDataSubjectLevel();
+      // this.getDataSubjectLevel();
     }
   },
   methods: (_methods = {
@@ -383,8 +383,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             _this9.ruleForm.subNameKh = null;
             _this9.ruleForm.subNameEng = null;
             _this9.ruleForm.subShortNameEng = null;
+            _this9.isShowButtonUpdate = false;
             _this9.dialogFormVisible = true;
-          case 5:
+          case 6:
           case "end":
             return _context7.stop();
         }
@@ -483,6 +484,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     this.ruleFormSubjectLevel.average = null;
     this.ruleFormSubjectLevel.full_score = null;
     this.ruleFormSubjectLevel.divide = null;
+    this.isShowButtonUpdateSubjectLevel = false;
     this.dialogFormVisibleSubjectLevel = true;
   }), _defineProperty(_methods, "changePageSizeSubjectLevel", function changePageSizeSubjectLevel(event) {
     this.per_pageSubjectLevel = event;

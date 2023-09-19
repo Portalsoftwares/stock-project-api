@@ -12,6 +12,7 @@ class score extends Model
     // use SoftDeletes;
     protected $table = 'score';
     // protected $dates = ['deleted_at'];
+    protected $primaryKey = "score_id";
     protected $fillable = [
         'class_id',
         'score_type_id',

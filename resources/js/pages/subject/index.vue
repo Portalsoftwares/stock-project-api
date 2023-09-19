@@ -8,62 +8,62 @@
 			label="មុខវិជ្ជាទូទៅ"
 			name="tab-subject-1"
 		>
-		<div class="bg-white p-2 w-full flex flex-col justify-between lg:flex-row">
+			<div class="bg-white p-2 w-full flex flex-col justify-between lg:flex-row">
 				<div class="self-start flex">
-						<el-input
-							placeholder="ស្វែងរក"
-							class="sanfont-khmer"
-							v-model="search"
-							@input="clickSearch"
-						>
-						</el-input>
-				</div>	
-					<div class="self-start hidden ">
-						<el-select
-							v-model="filterSelectValue"
-							filterable
-							placeholder="តម្រៀប"
-						>
-							<el-option
-								v-for="item in filter"
-								:key="item.filterValue"
-								:label="item.filterLabel"
-								:value="item.filterValue"
-							>
-							</el-option>
-						</el-select>
-					</div>
-		<div class="flex flex-col  xl:flex-row ">
-				<div class="self-center">
-					<el-switch
-						v-model="is_show_trust"
-						@change="clickShowwTrush"
-						class="px-2"
-						width="40"
-						active-text="បង្ហាញទិន្នន័យបានលុប"
-						inactive-text=""
-						active-value="1"
-						inactive-value="0"
-					/>
-				</div>	
-				<div class="self-center ">
-					<el-button type="info">
-						<el-icon>
-							<Document />
-						</el-icon>
-						<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
-
-					</el-button>
-					<el-button
-						type="primary"
-						@click="AddSubject"
+					<el-input
+						placeholder="ស្វែងរក"
+						class="sanfont-khmer"
+						v-model="search"
+						@input="clickSearch"
 					>
-						<el-icon>
-							<CirclePlusFilled />
-						</el-icon>
-						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជា</span>
-					</el-button>
-				</div>	
+					</el-input>
+				</div>
+				<div class="self-start hidden ">
+					<el-select
+						v-model="filterSelectValue"
+						filterable
+						placeholder="តម្រៀប"
+					>
+						<el-option
+							v-for="item in filter"
+							:key="item.filterValue"
+							:label="item.filterLabel"
+							:value="item.filterValue"
+						>
+						</el-option>
+					</el-select>
+				</div>
+				<div class="flex flex-col  xl:flex-row ">
+					<div class="self-center">
+						<el-switch
+							v-model="is_show_trust"
+							@change="clickShowwTrush"
+							class="px-2"
+							width="40"
+							active-text="បង្ហាញទិន្នន័យបានលុប"
+							inactive-text=""
+							active-value="1"
+							inactive-value="0"
+						/>
+					</div>
+					<div class="self-center ">
+						<el-button type="info">
+							<el-icon>
+								<Document />
+							</el-icon>
+							<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+
+						</el-button>
+						<el-button
+							type="primary"
+							@click="AddSubject"
+						>
+							<el-icon>
+								<CirclePlusFilled />
+							</el-icon>
+							<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជា</span>
+						</el-button>
+					</div>
 				</div>
 			</div>
 
@@ -112,7 +112,7 @@
 								width="90"
 								label="ល.រ"
 							>
-						
+
 							</el-table-column>
 
 							<el-table-column
@@ -147,7 +147,7 @@
 										@click="editSubject(scope.row.subject_id)"
 									>កែប្រែ</el-button>
 
-								<el-popconfirm
+									<el-popconfirm
 										width="220"
 										confirm-button-text="OK"
 										cancel-button-text="No, Thanks"
@@ -155,16 +155,15 @@
 										icon-color="#626AEF"
 										title="Are you sure to delete this?"
 										@confirm="handleDelete(scope.row.subject_id)"
-							>
-								<template #reference>
-									<el-button
-										size="small"
-										type="danger"
-										class="sanfont-khmer"
-										
-									>លុប</el-button>
-								</template>
-								</el-popconfirm>
+									>
+										<template #reference>
+											<el-button
+												size="small"
+												type="danger"
+												class="sanfont-khmer"
+											>លុប</el-button>
+										</template>
+									</el-popconfirm>
 								</template>
 							</el-table-column>
 							<el-empty description="description"></el-empty>
@@ -298,100 +297,100 @@
 			name="tab-subject-2"
 		>
 			<div class="bg-white p-2 w-full  justify-between flex flex-col xl:flex-row">
-				<div class="flex flex-col 3xl:flex 3xl:flex-row">	
-				<div class="flex space-x-2">
-					<div class="self-start">
-						<el-input
-							placeholder="ស្វែងរក"
-							class="sanfont-khmer"
-							v-model="searchSubjectLevel"
-							@input="clickSearchSubjectLevel"
-						>
-						</el-input>
-					</div>
-					
-				</div>	
-				<div class="flex space-y-2  3xl:space-y-0 ">	
-					<div>
-						<!-- Use this <div> for space-y-2 work -->
-					</div>
-					<div class="flex space-x-2  ">
-					<div class="self-start pl-0 3xl:pl-2 ">	
-						<el-select
-							v-model="SelectValue "
-							filterable
-							clearable
-							multiple
-							placeholder="ប្រភេទថ្នាក់"
-						>
-							<el-option
-								v-for="item in classType"
-								:key="item.classTypeValue"
-								:label="item.classTypeLabel"
-								:value="item.classTypeValue"
+				<div class="flex flex-col 3xl:flex 3xl:flex-row">
+					<div class="flex space-x-2">
+						<div class="self-start">
+							<el-input
+								placeholder="ស្វែងរក"
+								class="sanfont-khmer"
+								v-model="searchSubjectLevel"
+								@input="clickSearchSubjectLevel"
 							>
-							</el-option>
-						</el-select>
+							</el-input>
+						</div>
+
 					</div>
-					<div class="self-start  ">
-						<el-select
-							v-model="filterSelectValue "
-							filterable
-							clearable
-							multiple
-							placeholder="មុខវិជ្ជានៃកម្រិត"
-						>
-							<el-option
-								v-for="item in gradeLevel"
-								:key="item.gradeLevelValue"
-								:label="item.gradeLevelLabel"
-								:value="item.gradeLevelValue"
-							>
-							</el-option>
-						</el-select>
-					</div>
-					<el-button type="primary">
-						<el-icon>
-							<Search />
-						</el-icon>
-					</el-button>
+					<div class="flex space-y-2  3xl:space-y-0 ">
+						<div>
+							<!-- Use this <div> for space-y-2 work -->
+						</div>
+						<div class="flex space-x-2  ">
+							<div class="self-start pl-0 3xl:pl-2 ">
+								<el-select
+									v-model="SelectValue "
+									filterable
+									clearable
+									multiple
+									placeholder="ប្រភេទថ្នាក់"
+								>
+									<el-option
+										v-for="item in classType"
+										:key="item.classTypeValue"
+										:label="item.classTypeLabel"
+										:value="item.classTypeValue"
+									>
+									</el-option>
+								</el-select>
+							</div>
+							<div class="self-start  ">
+								<el-select
+									v-model="filterSelectValue "
+									filterable
+									clearable
+									multiple
+									placeholder="មុខវិជ្ជានៃកម្រិត"
+								>
+									<el-option
+										v-for="item in gradeLevel"
+										:key="item.gradeLevelValue"
+										:label="item.gradeLevelLabel"
+										:value="item.gradeLevelValue"
+									>
+									</el-option>
+								</el-select>
+							</div>
+							<el-button type="primary">
+								<el-icon>
+									<Search />
+								</el-icon>
+							</el-button>
+						</div>
 					</div>
 				</div>
-				</div>
-				
+
 				<div class="flex flex-col  2xl:flex-row ">
-				<div class="self-center flex ">
-					<el-switch
-						v-model="is_show_trustSubjectLevel"
-						@change="clickShowwTrushSubjectLevel"
-						class="px-2"
-						width="40"
-						active-text="បង្ហាញទិន្នន័យបានលុប"
-						inactive-text=""
-						active-value="1"
-						inactive-value="0"
-					/>
-				</div>
-				<div class="self-center "> 	
-					<el-button type="info">
-						<el-icon>
-							<Document />
-						</el-icon>
-						<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+					<div class="self-center flex ">
+						<el-switch
+							v-model="is_show_trustSubjectLevel"
+							@change="clickShowwTrushSubjectLevel"
+							class="px-2"
+							width="40"
+							active-text="បង្ហាញទិន្នន័យបានលុប"
+							inactive-text=""
+							active-value="1"
+							inactive-value="0"
+						/>
+					</div>
+					<div class="self-center ">
+						<el-button type="info">
+							<el-icon>
+								<Document />
+							</el-icon>
+							<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
-					</el-button>
-					<el-button
-						type="primary"
-						@click="AddSubjectLevel"
-					>
-						<el-icon>
-							<CirclePlusFilled />
-						</el-icon>
+						</el-button>
+						<el-button
+							type="primary"
+							@click="AddSubjectLevel"
+						>
+							<el-icon>
+								<CirclePlusFilled />
+							</el-icon>
 
-						<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជា</span>
+							<span class="mx-1 sanfont-khmer"> បន្ថែមមុខវិជ្ជា</span>
 
-					</el-button>
-				</div>	
+						</el-button>
+					</div>
 				</div>
 			</div>
 			<div class="grid grid-cols-1 gap-2 ">
@@ -440,7 +439,7 @@
 								label="ល.រ"
 							>
 							</el-table-column>
-								
+
 							<el-table-column label="មុខវិជ្ជា">
 								<template #default="scope">{{ scope.row.subject?.subject_name_kh }}</template>
 							</el-table-column>
@@ -576,7 +575,6 @@
 										prop="subject_id"
 										class="sanfont-khmer "
 										:label-width="formLabelWidth"
-										
 									>
 										<el-select
 											v-model="ruleFormSubjectLevel.subject_id"
@@ -762,17 +760,17 @@ export default {
 					{ required: true, message: 'សូមបញ្ជូលឈ្មោះមុខវិជ្ជា (អក្សរកាត់)', trigger: 'blur' },
 					{ min: 1, max: 2, message: 'ចំនួនតួអក្សរត្រូវបញ្ជូលយ៉ាងតិចឲ្យបាន២តួ', trigger: 'blur' }
 				],
-				
-		/*		subLevelNameKh: [
-					{ required: true, message: 'សូមជ្រើសរើសឈ្មោះមុខវិជ្ជា', trigger: 'blur' },
-				],
-				gradeLevelValue: [
-					{ required: true, message: 'សូមជ្រើសរើសកម្រិតថ្នាក់', trigger: 'blur' }
-				],
-				classTypeValue: [
-					{ required: true, message: 'សូមជ្រើសរើសប្រភេទថ្នាក់', trigger: 'blur' },
-				],
-		*/		
+
+				/*		subLevelNameKh: [
+							{ required: true, message: 'សូមជ្រើសរើសឈ្មោះមុខវិជ្ជា', trigger: 'blur' },
+						],
+						gradeLevelValue: [
+							{ required: true, message: 'សូមជ្រើសរើសកម្រិតថ្នាក់', trigger: 'blur' }
+						],
+						classTypeValue: [
+							{ required: true, message: 'សូមជ្រើសរើសប្រភេទថ្នាក់', trigger: 'blur' },
+						],
+				*/
 				password: [
 					{ required: true, message: 'Please set password', trigger: 'blur' },
 					{ min: 8, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
@@ -781,7 +779,7 @@ export default {
 					{ required: true, message: 'Please add photo', trigger: 'change' }
 				],
 			},
-			
+
 			search: '',
 
 			filter: [{
@@ -857,9 +855,9 @@ export default {
 		// Default active tap
 		this.tabClassDetail = localStorage.getItem('tab-subject') ?? 'tab-subject-1';
 		if (this.tabClassDetail == 'tab-subject-1') {
-			this.getData();
+			// this.getData();
 		} else {
-			this.getDataSubjectLevel();
+			// this.getDataSubjectLevel();
 		}
 	},
 	methods: {
@@ -945,7 +943,7 @@ export default {
 		*/
 		async submitDataSubjectLevel() {
 			const form = new FormData(document.getElementById('fm'));
-		//	form.append('role', this.ruleForm.roles)
+			//	form.append('role', this.ruleForm.roles)
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
@@ -981,9 +979,9 @@ export default {
 
 		/*
 	*  Function Delete 
-	*/	
-		async handleDelete(id){
-			await axios.delete('/subject'+ '/delete/' + id).then(response => {
+	*/
+		async handleDelete(id) {
+			await axios.delete('/subject' + '/delete/' + id).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
@@ -1029,7 +1027,7 @@ export default {
 			this.ruleForm.subNameKh = null
 			this.ruleForm.subNameEng = null
 			this.ruleForm.subShortNameEng = null
-
+			this.isShowButtonUpdate = false;
 			this.dialogFormVisible = true
 		},
 		async getData() {
@@ -1096,7 +1094,7 @@ export default {
 			this.ruleFormSubjectLevel.average = null
 			this.ruleFormSubjectLevel.full_score = null
 			this.ruleFormSubjectLevel.divide = null
-
+			this.isShowButtonUpdateSubjectLevel = false;
 			this.dialogFormVisibleSubjectLevel = true
 		},
 		//Change Per Page

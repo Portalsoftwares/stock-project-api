@@ -68,7 +68,7 @@ class ScoreController extends Controller
                     $scoreLine = scoreLine::where([['score_id', $score->score_id], ['student_id', $data->student_id]])->first();
                 }
                 // បានស្រង់ហើយ
-                if (!empty($score) && !$scoreLine->isEmpty()) {
+                if (!empty($scoreLine)) {
                     $data['mark_' . $obj->teacher_subject_in_class->subject_grade_id] =  $scoreLine->mark;
                 } else {
                     // មិនទាន់
@@ -79,6 +79,53 @@ class ScoreController extends Controller
         $response = [
             'student' => $student,
             'score_type' => $scoreType,
+        ];
+        return  response($response, 200);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createAllSubject(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'class_id' => ['required', 'exists:class,class_id'],
+            'score_type_id' => ['required', 'exists:score_type,score_type_id'],
+        ]);
+
+        if ($validator->fails()) {
+            $response = [
+                'errors' => $validator->messages(),
+            ];
+            return  response($response, 400);
+        }
+
+        DB::transaction(function () use ($request) {
+            //Create
+            $subjectGradeInclass = TeacherClass::where('class_id', $request->class_id)->with('teacher_subject_in_class.subject')->get();
+            $student = $request->data;
+            foreach ($student as  $data) {
+                foreach ($subjectGradeInclass as $obj) {
+                    $score = Score::where([['class_id', $request->class_id], ['score_type_id', $request->score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
+                    if (empty($score)) {
+                        $score = Score::create([
+                            'class_id' => $request->class_id,
+                            'score_type_id' => $request->score_type_id,
+                            'subject_grade_id' => $obj->teacher_subject_in_class->subject_grade_id
+                        ]);
+                        $scoreLine[] = ['score_id' => $score->score_id, 'student_id' => $data['student_id'], 'mark' => $data['mark_' . $obj->teacher_subject_in_class->subject_grade_id]];
+                    } else {
+                        scoreLine::where('score_id', $score->score_id)->delete();
+                        $scoreLine[] = ['score_id' => $score->score_id, 'student_id' => $data['student_id'], 'mark' => $data['mark_' . $obj->teacher_subject_in_class->subject_grade_id]];
+                    }
+                }
+                scoreLine::insert($scoreLine);
+            }
+        });
+        $response = [
+            'message' => 'success',
         ];
         return  response($response, 200);
     }

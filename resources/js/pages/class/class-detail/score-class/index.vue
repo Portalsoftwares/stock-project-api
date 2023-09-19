@@ -275,13 +275,14 @@
 			</div>
 		</template>
 		<div class="bg-white px-5">
-			<div class="flex justify-between py-2">
+			<div class="flex justify-start items-center py-2 space-x-4">
 				<el-form
 					label-position="top"
 					label-width="50px"
 					:model="ruleForm"
-					:roles="roles"
+					:rules="roles"
 					ref="formScoreAll"
+					id="formScoreAll"
 				>
 					<div class="flex space-x-2">
 						<el-form-item label="ថ្នាក់រៀន">
@@ -308,18 +309,16 @@
 								/>
 							</el-select>
 						</el-form-item>
-						<el-form-item label="កំណត់">
-							<el-button
-								type="primary"
-								class="sanfont-khmer"
-								@click="submitForm('formScoreAll')"
-								v-loading.fullscreen.lock="fullscreenLoading"
-							>
-								យល់ព្រម
-							</el-button>
-						</el-form-item>
+
 					</div>
 				</el-form>
+				<el-button
+					type="primary"
+					class="sanfont-khmer mt-2"
+					@click="submitForm('formScoreAll')"
+				>
+					យល់ព្រម
+				</el-button>
 				<div>
 				</div>
 			</div>
@@ -400,7 +399,7 @@
 				<el-button
 					type="primary"
 					class="sanfont-khmer"
-					@click="collectScore()"
+					@click="studentScoreSave()"
 					v-loading.fullscreen.lock="fullscreenLoading"
 				>
 					រក្សាទុក
@@ -674,7 +673,6 @@ export default {
 			scoreClassId: 1,
 			scoreSubjectGradeId: null,
 			scoreTypeId: null,
-
 			//
 			studentObj: [],
 			dataSubjectGradeObj: [],
@@ -683,7 +681,7 @@ export default {
 			fullscreenLoading: false,
 			//score
 			subjectDataSore: [],
-
+			//form data
 			ruleForm: {
 				'class_id': null,
 				'score_type_id': null,
@@ -693,7 +691,6 @@ export default {
 					{ required: true, message: 'សូមបញ្ចូលប្រភេទពិន្ទុ', trigger: 'blur' }
 				],
 			}
-
 		}
 	},
 	methods: {
@@ -766,18 +763,18 @@ export default {
 				}
 			});
 		},
+
 		async showInfomationStudentScoreAll() {
 			this.fullscreenLoading = true;
-			const class_id = this.$route.query.id;
-			this.scoreClassId = class_id;
+			this.ruleForm.class_id = this.$route.query.id;
 			const scoreInfo = {
-				'class_id': this.scoreClassId,
-				'score_type_id': this.scoreTypeId,
+				'class_id': this.ruleForm.class_id,
+				'score_type_id': this.ruleForm.score_type_id,
 			}
 			const config = {
 				headers: { 'content-type': 'application/json' }
 			}
-			await axios.post('/score/collect/all/' + class_id, scoreInfo, config).then(response => {
+			await axios.post('/score/collect/all/' + this.ruleForm.class_id, scoreInfo, config).then(response => {
 				this.studentObj = response.data.student;
 				this.scoreTypeObj = response.data.score_type;
 				this.subjectDataSore = this.subjectData;
@@ -790,6 +787,31 @@ export default {
 				}
 			})
 		},
+
+		async studentScoreSave() {
+			this.fullscreenLoading = true;
+			this.ruleForm.class_id = this.$route.query.id;
+			const scoreInfo = {
+				'class_id': this.ruleForm.class_id,
+				'score_type_id': this.ruleForm.score_type_id,
+				'data': this.studentObj
+			}
+			const config = {
+				headers: { 'content-type': 'application/json' }
+			}
+			await axios.post('/score/collect/all/' + this.ruleForm.class_id + '/create', scoreInfo, config).then(response => {
+				this.studentObj = response.data.student;
+				this.scoreTypeObj = response.data.score_type;
+				this.subjectDataSore = this.subjectData;
+				this.dialogFormVisibleAll = true;
+				this.fullscreenLoading = false;
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+
 		async showInfomationStudentScoreReport() {
 			this.fullscreenLoading = true;
 			const class_id = this.$route.query.id;
