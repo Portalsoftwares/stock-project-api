@@ -660,7 +660,7 @@ var _hoisted_30 = {
   "class": "el-icon-plus avatar-uploader-icon"
 };
 var _hoisted_31 = {
-  "class": "flex flex-row"
+  "class": "flex flex-col xl:flex-row"
 };
 var _hoisted_32 = {
   "class": "flex flex-col space-y-1"

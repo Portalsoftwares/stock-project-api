@@ -78,7 +78,7 @@
 			</div>
 
 			<div class="self-center ">
-				<el-button type="info">
+				<el-button type="info" >
 					<el-icon>
 						<Document />
 					</el-icon>

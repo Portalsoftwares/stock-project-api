@@ -1635,7 +1635,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           return $data.ruleFormSubjectLevel.divide = $event;
                         }),
                         autocomplete: "off",
-                        type: "number",
                         name: "divide",
                         clearable: ""
                       }, null, 8 /* PROPS */, ["modelValue"])];
@@ -1654,7 +1653,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                           return $data.ruleFormSubjectLevel.average = $event;
                         }),
                         autocomplete: "off",
-                        type: "number",
                         name: "average",
                         clearable: ""
                       }, null, 8 /* PROPS */, ["modelValue"])];

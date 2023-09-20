@@ -597,7 +597,7 @@
 				
 				</el-tab-pane>
 				<el-tab-pane label="ព័ត៌មានមធ្យមសិក្សបឋមភូមិ">
-					<div class="flex flex-row ">
+					<div class="flex flex-col xl:flex-row">
 						<div class="flex flex-col space-y-1">
 							<div>
 
