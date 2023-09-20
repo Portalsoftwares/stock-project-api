@@ -27,37 +27,37 @@
 			</div>
 		</div>
 		<div class="flex flex-col  xl:flex-row ">
-		<div class="self-center flex">
-			<el-switch
-				v-model="is_show_trust"
-				@change="clickShowwTrush"
-				class="px-2"
-				width="40"
-				active-text="បង្ហាញទិន្នន័យបានលុប"
-				inactive-text=""
-				active-value="1"
-				inactive-value="0"
-			/>
-		</div>	
-		<div class="self-center ">
-			<el-button type="info">
-				<el-icon>
-					<Document />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+			<div class="self-center flex">
+				<el-switch
+					v-model="is_show_trust"
+					@change="clickShowwTrush"
+					class="px-2"
+					width="40"
+					active-text="បង្ហាញទិន្នន័យបានលុប"
+					inactive-text=""
+					active-value="1"
+					inactive-value="0"
+				/>
+			</div>
+			<div class="self-center ">
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
-			</el-button>
+				</el-button>
 
-			<el-button
-				type="primary"
-				@click="AddUser"
-			>
-				<el-icon>
-					<CirclePlusFilled />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> បន្ថែមអ្នកប្រើប្រាស់</span>
-			</el-button>
-		</div>
+				<el-button
+					type="primary"
+					@click="AddUser"
+				>
+					<el-icon>
+						<CirclePlusFilled />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> បន្ថែមអ្នកប្រើប្រាស់</span>
+				</el-button>
+			</div>
 		</div>
 	</div>
 	<div class="grid grid-cols-1 gap-2 ">
@@ -696,26 +696,26 @@ export default {
 				}
 			})
 		},
-		// async restoreData(id) {
-		// 	await axios.post('/user/restore/' + id).then(response => {
-		// 		this.getData();
-		// 		this.dialogFormVisible = false;
-		// 		this.$message({
-		// 			message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
-		// 			type: 'success'
-		// 		});
-		// 	})
-		// },
-		async restoreData() {
-			axios.post('/user/restore/1', {
-				file_name: 'User'
-			}, {
-				responseType: 'blob'
-			}).then((response) => {
-				// response.data is a blob type
-				FileSaver.saveAs(response.data, 'user');
-			});
-		}
+		async restoreData(id) {
+			await axios.post('/user/restore/' + id).then(response => {
+				this.getData();
+				this.dialogFormVisible = false;
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+			})
+		},
+		// async restoreData() {
+		// 	axios.post('/user/restore/1', {
+		// 		file_name: 'User'
+		// 	}, {
+		// 		responseType: 'blob'
+		// 	}).then((response) => {
+		// 		// response.data is a blob type
+		// 		FileSaver.saveAs(response.data, 'user');
+		// 	});
+		// }
 
 	}
 }

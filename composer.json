@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.7",
         "laravelcollective/html": "^6.3",
         "maatwebsite/excel": "*",
+        "mpdf/mpdf": "^8.2",
         "spatie/laravel-html": "*",
         "spatie/laravel-permission": "^5.5"
     },

@@ -414,36 +414,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee7);
       }))();
     },
-    // async restoreData(id) {
-    // 	await axios.post('/user/restore/' + id).then(response => {
-    // 		this.getData();
-    // 		this.dialogFormVisible = false;
-    // 		this.$message({
-    // 			message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
-    // 			type: 'success'
-    // 		});
-    // 	})
-    // },
-    restoreData: function restoreData() {
+    restoreData: function restoreData(id) {
+      var _this10 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
         return _regeneratorRuntime().wrap(function _callee8$(_context8) {
           while (1) switch (_context8.prev = _context8.next) {
             case 0:
-              axios.post('/user/restore/1', {
-                file_name: 'User'
-              }, {
-                responseType: 'blob'
-              }).then(function (response) {
-                // response.data is a blob type
-                file_saver__WEBPACK_IMPORTED_MODULE_0___default().saveAs(response.data, 'user');
+              _context8.next = 2;
+              return axios.post('/user/restore/' + id).then(function (response) {
+                _this10.getData();
+                _this10.dialogFormVisible = false;
+                _this10.$message({
+                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+                  type: 'success'
+                });
               });
-            case 1:
+            case 2:
             case "end":
               return _context8.stop();
           }
         }, _callee8);
       }))();
-    }
+    } // async restoreData() {
+    // 	axios.post('/user/restore/1', {
+    // 		file_name: 'User'
+    // 	}, {
+    // 		responseType: 'blob'
+    // 	}).then((response) => {
+    // 		// response.data is a blob type
+    // 		FileSaver.saveAs(response.data, 'user');
+    // 	});
+    // }
   }
 });
 

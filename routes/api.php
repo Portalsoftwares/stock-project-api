@@ -116,9 +116,12 @@ Route::prefix('v1')->group(function () {
     //Score 
     Route::prefix('score')->group(function () {
       Route::post('/collect/{id}', [ScoreController::class, 'index']);
+      Route::post('/collect/report/{id}', [ScoreController::class, 'reportSubject']);
       Route::post('/collect/all/{id}', [ScoreController::class, 'allsubeject']);
       Route::post('/collect/all/{id}/create', [ScoreController::class, 'createAllSubject']);
       Route::post('/collect/{id}/create', [ScoreController::class, 'create']);
+      //Report
+      Route::post('/report/{id}/export', [ScoreController::class, 'exportPDF']);
     });
     //Time 
     Route::prefix('time')->group(function () {
@@ -146,6 +149,13 @@ Route::prefix('v1')->group(function () {
       Route::post('/update/{id}', [ScoreTypeController::class, 'update']);
       Route::post('/restore/{id}', [ScoreTypeController::class, 'restore']);
       Route::delete('/delete/{id}', [ScoreTypeController::class, 'delete']);
+      //academic
+      Route::get('/academic/get', [ScoreTypeController::class, 'indexAcademic']);
+      Route::post('/academic/create', [ScoreTypeController::class, 'createAcademic']);
+      Route::get('/academic/edit/{id}', [ScoreTypeController::class, 'editAcademic']);
+      Route::post('/academic/update/{id}', [ScoreTypeController::class, 'updateAcademic']);
+      Route::post('/academic/restore/{id}', [ScoreTypeController::class, 'restoreAcademic']);
+      Route::delete('/academic/delete/{id}', [ScoreTypeController::class, 'deleteAcademic']);
     });
   });
 });

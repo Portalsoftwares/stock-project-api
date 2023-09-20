@@ -10,9 +10,11 @@ use App\Models\StudentClass;
 use App\Models\ScoreType;
 use App\Models\Score;
 use App\Models\scoreLine;
+use App\Models\scoreTypeAcademic;
 use App\Models\SubjectGradeLevel;
 use App\Models\TeacherClass;
 use Carbon\Carbon;
+use App\mPDF\PdfWrapper as PDF;
 
 class ScoreController extends Controller
 {
@@ -57,7 +59,7 @@ class ScoreController extends Controller
     {
         $class_id = $id;
         $scoreLine = null;
-        $scoreType = scoreType::all();
+        $scoreType = scoreType::where('type', '!=', 3)->get();
         $score_type_id = $request->score_type_id;
         $subjectGradeInclass = TeacherClass::where('class_id', $id)->with('teacher_subject_in_class.subject')->get();
         $student = StudentClass::query()->where('class_id', $id)->with(['student_in_class.gender', 'student_in_class.status',])->get();
@@ -191,52 +193,52 @@ class ScoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function reportSubject(Request $request, $id)
     {
+        $class_id = $id;
+        $scoreLine = null;
+        $scoreType = scoreType::where('type', '!=', 3)->get();
+
+        $score_type_id = ScoreType::where('score_type_id', $request->score_type_id)->first();
+        //ប្រចាំខែ
+        if ($score_type_id->type == 1) {
+        }
+        //ប្រចាំឆមាស
+        if ($score_type_id->type == 2) {
+        }
+        //ប្រចាំឆ្នាំ
+        if ($score_type_id->type == 3) {
+        }
+        $subjectGradeInclass = TeacherClass::where('class_id', $id)->with('teacher_subject_in_class.subject')->get();
+        $student = StudentClass::query()->where('class_id', $id)->with(['student_in_class.gender', 'student_in_class.status',])->get();
+        foreach ($student as  $data) {
+            foreach ($subjectGradeInclass as $obj) {
+                $score = Score::where([['class_id', $class_id], ['score_type_id', $score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
+                if (!empty($score)) {
+                    $scoreLine = scoreLine::where([['score_id', $score->score_id], ['student_id', $data->student_id]])->first();
+                }
+                // បានស្រង់ហើយ
+                if (!empty($scoreLine)) {
+                    $data['mark_total'] +=  $scoreLine->mark;
+                }
+            }
+        }
+        $response = [
+            'student' => $student,
+            'score_type' => $scoreType,
+        ];
+        return  response($response, 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+    //PDF EXPORT 
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function exportPDF()
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $pdf = PDF::loadView('Score.monthly', [
+            'data' => [],
+            'preference' => [],
+            'template_options' => [],
+        ]);
+        return $pdf->save('reports_score.pdf');
     }
 }

@@ -16,5 +16,6 @@ class scoreType extends Model
     protected $fillable = [
         'name',
         'date',
+        'type',
     ];
 }

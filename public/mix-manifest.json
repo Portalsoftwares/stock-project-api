@@ -2,5 +2,21 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/font/Kantumruy-Regular.ttf": "/font/Kantumruy-Regular.ttf",
-    "/font/Kantumruy-Regular.woff": "/font/Kantumruy-Regular.woff"
+    "/font/Kantumruy-Regular.woff": "/font/Kantumruy-Regular.woff",
+    "/font/!KhmerOSSiemreap.ttf.otf": "/font/!KhmerOSSiemreap.ttf.otf",
+    "/font/calibri.ttf": "/font/calibri.ttf",
+    "/font/calibrib.ttf": "/font/calibrib.ttf",
+    "/font/calibrii.ttf": "/font/calibrii.ttf",
+    "/font/calibril.ttf": "/font/calibril.ttf",
+    "/font/calibrili.ttf": "/font/calibrili.ttf",
+    "/font/calibriz.ttf": "/font/calibriz.ttf",
+    "/font/cour.ttf": "/font/cour.ttf",
+    "/font/KhmerOSbattambang.ttf": "/font/KhmerOSbattambang.ttf",
+    "/font/KhmerOSmuol.ttf": "/font/KhmerOSmuol.ttf",
+    "/font/KhmerOSmuollight.ttf": "/font/KhmerOSmuollight.ttf",
+    "/font/KhmerOSsiemreap.ttf": "/font/KhmerOSsiemreap.ttf",
+    "/font/Roboto-Italic.ttf": "/font/Roboto-Italic.ttf",
+    "/font/Roboto-Medium.ttf": "/font/Roboto-Medium.ttf",
+    "/font/Roboto-MediumItalic.ttf": "/font/Roboto-MediumItalic.ttf",
+    "/font/Roboto-Regular.ttf": "/font/Roboto-Regular.ttf"
 }
