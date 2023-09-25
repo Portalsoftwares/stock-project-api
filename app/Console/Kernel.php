@@ -4,11 +4,12 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Models\Setting;
 
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
-        Commands\DailyTask::class,
+        Commands\BackUPTask::class,
     ];
     /**
      * Define the application's command schedule.
@@ -18,7 +19,28 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('task:daily')->everyMinute();
+        $data = Setting::first();
+        //BackUp Database
+        if (!empty($data)) {
+            $backupType = $data->backup_type;
+            $backupTime =  date("g:i", strtotime($data->backup_time));
+            switch ($backupType) {
+                case 1:
+                    $schedule->command('backup:custom')->dailyAt($backupTime);
+                    break;
+                case 2:
+                    $schedule->command('backup:custom')->weeklyOn(1, $backupTime);
+                    break;
+                case 3:
+                    $schedule->command('backup:custom')->monthlyOn(1, $backupTime);
+                    break;
+                case 4:
+                    $schedule->command('backup:custom')->yearlyOn(1, 1, $backupTime);
+                    break;
+                default;
+            }
+        }
+        $schedule->command('backup:custom')->everyMinute();
     }
 
     /**
@@ -28,7 +50,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

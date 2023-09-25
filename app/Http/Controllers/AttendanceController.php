@@ -219,8 +219,6 @@ class AttendanceController extends Controller
         foreach ($period as $date) {
             $dates[] = $date->format('Y-m-d');
         }
-
-
         // dd($dates);
 
 

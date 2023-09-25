@@ -3,11 +3,6 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
-use App\Models\ClassType;
-use App\Models\Gender;
-use App\Models\StudentRole;
-use App\Models\TeacherRole;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -38,7 +33,8 @@ class DatabaseSeeder extends Seeder
             // AcademicSeeder::class,
             // TeacherRoleSeeder::class,
             // StudentRoleSeeder::class,
-            ScoreTypeSeeder::class,
+            // ScoreTypeSeeder::class,
+            SettingSeeder::class,
         ]);
     }
 }

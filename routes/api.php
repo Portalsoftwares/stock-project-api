@@ -13,7 +13,9 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\TimeController;
 use App\Http\Controllers\AcademicController;
+use App\Http\Controllers\BackUpController;
 use App\Http\Controllers\ScoreTypeController;
+use App\Http\Controllers\SettingController;
 //Version 1 API
 Route::prefix('v1')->group(function () {
   // User 
@@ -103,6 +105,7 @@ Route::prefix('v1')->group(function () {
     //Teacher class
     Route::prefix('teacher_class')->group(function () {
       Route::post('/create', [ScheduleController::class, 'createTeacher']);
+      Route::get('/edit/{id}', [ScheduleController::class, 'editTeacher']);
     });
     //Attendance 
     Route::prefix('attendance')->group(function () {
@@ -156,6 +159,17 @@ Route::prefix('v1')->group(function () {
       Route::post('/academic/update/{id}', [ScoreTypeController::class, 'updateAcademic']);
       Route::post('/academic/restore/{id}', [ScoreTypeController::class, 'restoreAcademic']);
       Route::delete('/academic/delete/{id}', [ScoreTypeController::class, 'deleteAcademic']);
+    });
+
+    //Backup Restore
+    Route::prefix('backup')->group(function () {
+      Route::get('/get', [BackUpController::class, 'index']);
+      Route::post('/create', [BackUpController::class, 'create']);
+    });
+    //Setting
+    Route::prefix('setting')->group(function () {
+      Route::get('/get', [SettingController::class, 'index']);
+      Route::post('/update', [SettingController::class, 'update']);
     });
   });
 });

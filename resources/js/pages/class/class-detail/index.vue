@@ -169,7 +169,7 @@
 												<el-button
 													size="small"
 													class="sanfont-khmer"
-													@click="editSubjectLevel(scope.row.subject_grade_id)"
+													@click="editDataTeacher(data.id)"
 												>កែប្រែ</el-button>
 											</div>
 										</div>
@@ -527,14 +527,6 @@
 					v-if="!isShowButtonUpdate"
 					type="primary"
 					class="sanfont-khmer"
-					@click="submitFormClose('ruleFormSchedule')"
-				>
-					រក្សាទុក ហើយបិទ
-				</el-button>
-				<el-button
-					v-if="!isShowButtonUpdate"
-					type="primary"
-					class="sanfont-khmer"
 					@click="submitData('ruleFormSchedule')"
 				>
 					រក្សាទុក ហើយបន្ត
@@ -601,13 +593,14 @@
 						<el-option
 							v-for="data in allTeacherData"
 							:key="data"
-							:label="data.first_name_kh +' '+ data.last_name_kh"
+							:label="data.full_name_kh"
 							:value="data.teacher_id"
 						/>
 					</el-select>
 				</el-form-item>
 				<el-form-item
 					label="មុខវិទ្យា"
+					prop="subject_grade_id"
 					:error="errors.subject_grade_id"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
@@ -655,26 +648,11 @@
 					type="danger"
 				> បោះបង់</el-button>
 				<el-button
-					v-if="!isShowButtonUpdate"
-					type="primary"
-					class="sanfont-khmer"
-				>
-					រក្សាទុក ហើយបិទ
-				</el-button>
-				<el-button
-					v-if="!isShowButtonUpdate"
 					type="primary"
 					class="sanfont-khmer"
 					@click="submitFormTeacher('ruleFormTeacher')"
 				>
 					រក្សាទុក ហើយបន្ត
-				</el-button>
-				<el-button
-					v-if="isShowButtonUpdate"
-					type="primary"
-					class="sanfont-khmer"
-				>
-					រក្សាទុក
 				</el-button>
 			</span>
 		</template>
@@ -739,6 +717,7 @@ export default {
 			},
 			dialogFormTeacher: false,
 			ruleFormTeacher: {
+				id: null,
 				class_id: null,
 				teacher_id: null,
 				subject_grade_id: null,
@@ -746,13 +725,13 @@ export default {
 			},
 			ruleTeacher: {
 				class_id: [
-					{ required: true, message: 'Please input  class', trigger: 'blur' },
+					{ required: true, message: 'សូមបញ្ជូលថ្នាក់រៀន', trigger: 'blur' },
 				],
 				teacher_id: [
-					{ required: true, message: 'Please select teacher', trigger: 'change' }
+					{ required: true, message: 'សូមបញ្ជូលគ្រូបង្រៀន', trigger: 'change' }
 				],
 				subject_grade_id: [
-					{ required: true, message: 'Please select subject', trigger: 'change' }
+					{ required: true, message: 'សូមបញ្ជូលមុខវិជ្ជា', trigger: 'change' }
 				],
 			},
 			errors: {},
@@ -796,6 +775,11 @@ export default {
 		addTeacher() {
 			this.dialogFormTeacher = true;
 			this.ruleFormTeacher.class_id = this.classData.class_id
+			this.ruleFormTeacher.id = '';
+			this.ruleFormTeacher.teacher_id = null
+			this.ruleFormTeacher.role_id = '0'
+			this.ruleFormTeacher.subject_grade_id = null
+
 		},
 		async addNewSchedule() {
 
@@ -837,6 +821,28 @@ export default {
 				this.$refs[formName].resetFields();
 			}
 		},
+
+		async editDataTeacher(id) {
+			await axios.get('/teacher_class/edit/' + id).then(response => {
+				if (response.status == 200) {
+					this.ruleFormTeacher.id = response.data.teacher_class.id
+					this.ruleFormTeacher.class_id = response.data.teacher_class.class_id
+					this.ruleFormTeacher.teacher_id = response.data.teacher_class.teacher_id
+					this.ruleFormTeacher.role_id = response.data.teacher_class?.role_id?.toString();
+					this.ruleFormTeacher.subject_grade_id = response.data.teacher_class.subject_grade_id
+
+					this.dialogFormTeacher = true;
+				}
+			}).catch((error) => {
+				if (error.response.status == 400) {
+					this.errors = error.response.data.errors;
+					this.$message({
+						message: 'ប្រតិបត្តិការរបស់អ្នកមិនទទួលបានជោគជ័យទេ',
+						type: 'error'
+					});
+				}
+			})
+		},
 		//Add teacher subject
 
 		submitFormTeacher(formName) {
@@ -852,6 +858,7 @@ export default {
 		async submitDataTeacher() {
 			const formID = document.getElementById('fmTeacher');
 			const form = new FormData(formID);
+			form.append('id', this.ruleFormTeacher.id)
 			form.append('class_id', this.ruleFormTeacher.class_id)
 			form.append('teacher_id', this.ruleFormTeacher.teacher_id)
 			form.append('role_id', this.ruleFormTeacher.role_id)

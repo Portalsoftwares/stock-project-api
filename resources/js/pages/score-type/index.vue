@@ -529,7 +529,7 @@
 						</div>
 						<div>
 							<el-form-item
-								label="ខែនៅក្រោមឆមាស"
+								label="ប្រឡងនៅក្រោមឆមាស"
 								prop="under_score_type_id"
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
@@ -539,6 +539,9 @@
 									placeholder="ជ្រើសរើស"
 									name="under_score_type_id"
 									value-key="value"
+									collapse-tags-tooltip
+									:max-collapse-tags="3"
+									collapse-tags
 									clearable
 									multiple
 								>

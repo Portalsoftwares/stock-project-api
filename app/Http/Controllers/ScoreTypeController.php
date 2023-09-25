@@ -176,8 +176,8 @@ class ScoreTypeController extends Controller
             ->orderBy($sort_by, $order_by)
             ->paginate($per_page);
         $academic = Academic::all();
-        $semester = ScoreType::where('type', 2)->get();
-        $months = ScoreType::where('type', 1)->get();
+        $semester = ScoreType::where('type', 3)->get();
+        $months = ScoreType::whereIn('type', [1, 2])->get();
         $response = [
             'data' => $data,
             'academic' => $academic,

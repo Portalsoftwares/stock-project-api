@@ -183,17 +183,6 @@
 						</span>
 					</template>
 				</el-table-column>
-				<!-- <el-table-column
-					fixed
-					label="ស្ថានភាព"
-					width="150"
-				>
-					<template #default="scope">
-						<span :style="'color:'+scope.row.student_in_class.status.color">
-							{{ scope.row.student_in_class.status.status_kh }}
-						</span>
-					</template>
-				</el-table-column> -->
 				<el-table-column
 					v-for="(data ,i) in dates"
 					:key="data"
@@ -226,20 +215,6 @@
 						</span>
 					</template>
 				</el-table-column>
-				<!-- <el-table-column
-						label="AL"
-						value="5"
-						width="50"
-					>
-						<template #header>
-							<div class="text-blue-600">AL</div>
-						</template>
-						<template #default="scope">
-							<span class="text-blue-600">
-								{{ scope.row.total_type_al }}
-							</span>
-						</template>
-					</el-table-column> -->
 				<el-table-column
 					value="10"
 					fixed="right"
