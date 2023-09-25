@@ -107,6 +107,19 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         filterLabel: 'តាមទំហំផ្ទុក'
       }],
       filterSelectValue: "",
+      classType: [{
+        name: 'ធម្មតា',
+        id: 1,
+        disabled: true
+      }, {
+        name: 'ថ្នាក់វិទ្យាសាស្រ្តពិត',
+        id: 2,
+        disabled: true
+      }, {
+        name: 'ថ្នាក់វិទ្យាសាស្រ្តសង្គម',
+        id: 3,
+        disabled: true
+      }],
       //Data Page filter
       page: 1,
       per_page: 10,
@@ -1184,9 +1197,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             onInput: $options.clickSearchSubjectLevel
           }, null, 8 /* PROPS */, ["modelValue", "onInput"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-            modelValue: _ctx.SelectValue,
+            modelValue: $data.filterSelectValue,
             "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
-              return _ctx.SelectValue = $event;
+              return $data.filterSelectValue = $event;
             }),
             filterable: "",
             clearable: "",
@@ -1196,9 +1209,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.classType, function (item) {
                 return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                  key: item.classTypeValue,
-                  label: item.classTypeLabel,
-                  value: item.classTypeValue
+                  key: item.id,
+                  label: item.name,
+                  value: item.id
                 }, null, 8 /* PROPS */, ["label", "value"]);
               }), 128 /* KEYED_FRAGMENT */))];
             }),
@@ -1740,7 +1753,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=659f27d4 */ "./resources/js/pages/subject/index.vue?vue&type=template&id=659f27d4");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/subject/index.vue?vue&type=script&lang=js");
 /* harmony import */ var _index_vue_vue_type_style_index_0_id_659f27d4_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=659f27d4&lang=css */ "./resources/js/pages/subject/index.vue?vue&type=style&index=0&id=659f27d4&lang=css");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -1748,7 +1761,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/subject/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/subject/index.vue"]])
 /* hot reload */
 if (false) {}
 
