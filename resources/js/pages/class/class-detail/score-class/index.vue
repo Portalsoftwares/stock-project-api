@@ -140,7 +140,7 @@
 				</div>
 			</div>
 			<el-table
-				v-loading="loading_schedule"
+				v-loading="loading_score"
 				:data="studentObj"
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
@@ -244,8 +244,8 @@
 				<el-form
 					label-position="top"
 					label-width="50px"
-					:model="ruleForm"
-					:rules="roles"
+					:model="ruleFormReport"
+					:rules="rolesReport"
 					ref="formScoreReport"
 					id="formScoreReport"
 				>
@@ -265,7 +265,7 @@
 							label="ប្រភេទពិន្ទុ"
 							prop="score_type_id"
 						>
-							<el-select v-model="ruleForm.score_type_id">
+							<el-select v-model="ruleFormReport.score_type_id">
 								<el-option
 									v-for="data in scoreTypeObj"
 									:key="data"
@@ -277,18 +277,22 @@
 
 					</div>
 				</el-form>
-				<el-button
-					type="primary"
-					class="sanfont-khmer mt-2"
-					@click="submitFormReport('formScoreReport')"
-				>
-					យល់ព្រម
-				</el-button>
-				<div>
+				<div class="mt-3">
+
+					<el-button
+						type="primary"
+						:disabled="loading_report"
+						@click="submitFormReport('formScoreReport')"
+					>
+						<el-icon :class="loading_report==true?'animate-spin':''">
+							<Tools />
+						</el-icon>
+						<span class="mx-1 sanfont-khmer"> ដំណើរការទាញរបាយការណ៍ <span v-show="loading_report">...</span></span>
+					</el-button>
 				</div>
 			</div>
 			<el-table
-				v-loading="loading_schedule"
+				v-loading="loading_report"
 				:data="studentObj"
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
@@ -309,7 +313,7 @@
 				>
 					<template #default="scope">
 						<div>
-							<span>{{ scope.row.student_in_class.full_name_kh }}</span>
+							<span>{{ scope.row.student_in_class?.full_name_kh }}</span>
 						</div>
 					</template>
 				</el-table-column>
@@ -343,7 +347,7 @@
 				>
 					<template #default="scope">
 						<div class="text-center items-center w-full">
-							<span>{{ 545- scope.row.student_id }}.00</span>
+							<span>{{  scope.row.mark_total }}</span>
 						</div>
 					</template>
 				</el-table-column>
@@ -355,7 +359,7 @@
 				>
 					<template #default="scope">
 						<div class=" text-center items-center">
-							<span>{{ 45- scope.row.student_id }}.00</span>
+							<span>{{ scope.row.mark_avg }}</span>
 						</div>
 					</template>
 				</el-table-column>
@@ -367,37 +371,64 @@
 				>
 					<template #default="scope">
 						<div class="text-center items-center">
-							<span>{{  scope.row.student_id  }}</span>
+							<span class="text-red-500">{{  scope.row.mark_rank  }}</span>
+						</div>
+					</template>
+				</el-table-column>
+				<el-table-column
+					fixed="right"
+					label="និទ្ទេស"
+					align="center"
+					min-width="100"
+				>
+					<template #default="scope">
+						<div class="text-center items-center">
+							<span>{{  scope.row.mark_rank_text  }}</span>
 						</div>
 					</template>
 				</el-table-column>
 			</el-table>
 		</div>
 		<template #footer>
-			<span class="dialog-footer">
-				<el-button
-					@click="closeForm()"
-					class="sanfont-khmer"
-				> បោះបង់</el-button>
-				<el-button
-					type="primary"
-					class="sanfont-khmer"
-					@click="collectScore()"
-					v-loading.fullscreen.lock="fullscreenLoading"
-				>
-					បោះពុម្ភ
-				</el-button>
+			<div class="flex justify-between px-5">
+				<div class="flex justify-start align-start space-x-5 text-left bg-slate-50 border rounded p-5">
+					<div>
+						<div class="text-[14px]"> - បញ្ឈប់បញ្ជីត្រឹមចំនួនសិស្សសរុប <span class="font-bold">{{ report_total_student }}</span> នាក់​ ស្រី <span class="font-bold">{{report_total_student_women  }} </span> នាក់</div>
+						<div class="text-[14px]"> - សិស្សជាប់និទ្ទេសល្អសរុប <span class="font-bold">{{ report_total_good }}</span> នាក់​ ស្រី <span class="font-bold">{{ report_total_good_women }}</span> នាក់</div>
+						<div class="text-[14px]"> - សិស្សជាប់និទ្ទេសល្អបង្គួរសរុប <span class="font-bold"> {{ report_total_ok }}</span> នាក់​ ស្រី <span class="font-bold">{{report_total_ok_women  }} </span> នាក់</div>
+					</div>
+					<div>
+						<div class="text-[14px]"> - សិស្សជាប់និទ្ទេសមធ្យមសរុប <span class="font-bold"> {{ report_total_medium }} </span> នាក់​ ស្រី <span class="font-bold"> {{report_total_medium_women  }} </span> នាក់</div>
+						<div class="text-[14px]"> - សិស្សជាប់និទ្ទេសខ្សោយសរុប <span class="font-bold"> {{ report_total_low}} </span> នាក់​ ស្រី <span class="font-bold"> {{ report_total_low_women }} </span> នាក់</div>
+						<div class="text-[14px]"> - សិស្សគ្មានចំណាត់ថ្នាក់សរុប <span class="font-bold"> {{ report_total_less }} </span> នាក់​ ស្រី <span class="font-bold"> {{ report_total_less_women }} </span> នាក់</div>
+					</div>
 
-				<el-button
-					type="info"
-					@click="exportPDF"
-				>
-					<el-icon>
-						<Document />
-					</el-icon>
-					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
-				</el-button>
-			</span>
+				</div>
+				<div class="dialog-footer">
+					<el-button
+						@click="closeForm()"
+						class="sanfont-khmer"
+					> បោះបង់</el-button>
+					<el-button
+						type="primary"
+						class="sanfont-khmer"
+						@click="collectScore()"
+						v-loading.fullscreen.lock="fullscreenLoading"
+					>
+						បោះពុម្ភ
+					</el-button>
+
+					<el-button
+						type="info"
+						@click="exportPDF"
+					>
+						<el-icon>
+							<Document />
+						</el-icon>
+						<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+					</el-button>
+				</div>
+			</div>
 		</template>
 	</el-dialog>
 	<!-- Dialog Form Schedule  -->
@@ -431,8 +462,8 @@ export default {
 			subjectDataSore: [],
 			//form data
 			ruleForm: {
-				'class_id': null,
-				'score_type_id': null,
+				class_id: null,
+				score_type_id: null,
 			},
 			roles: {
 				score_type_id: [
@@ -442,14 +473,29 @@ export default {
 
 			//Rerport
 			ruleFormReport: {
-				'class_id': null,
-				'score_type_id': 1,
+				class_id: null,
+				score_type_id: 1,
 			},
 			rolesReport: {
 				score_type_id: [
 					{ required: true, message: 'សូមបញ្ចូលប្រភេទពិន្ទុ', trigger: 'blur' }
 				],
-			}
+			},
+			loading_report: false,
+			loading_score: false,
+
+			report_total_student: 0,
+			report_total_good: 0,
+			report_total_ok: 0,
+			report_total_medium: 0,
+			report_total_low: 0,
+			report_total_less: 0,
+			report_total_student_women: 0,
+			report_total_good_women: 0,
+			report_total_ok_women: 0,
+			report_total_medium_women: 0,
+			report_total_low_women: 0,
+			report_total_less_women: 0,
 		}
 	},
 	methods: {
@@ -491,7 +537,7 @@ export default {
 		},
 
 		async showInfomationStudentScoreAll() {
-			this.fullscreenLoading = true;
+			this.loading_score = true;
 			this.ruleForm.class_id = this.$route.query.id;
 			const scoreInfo = {
 				'class_id': this.ruleForm.class_id,
@@ -505,7 +551,7 @@ export default {
 				this.scoreTypeObj = response.data.score_type;
 				this.subjectDataSore = this.subjectData;
 				this.dialogFormVisibleAll = true;
-				this.fullscreenLoading = false;
+				this.loading_score = false;
 
 			}).catch((error) => {
 				if (error.response.status == 401) {
@@ -515,7 +561,7 @@ export default {
 		},
 
 		async studentScoreSave() {
-			this.fullscreenLoading = true;
+			this.loading_score = true;
 			this.ruleForm.class_id = this.$route.query.id;
 			const scoreInfo = {
 				'class_id': this.ruleForm.class_id,
@@ -529,8 +575,10 @@ export default {
 				this.studentObj = response.data.student;
 				this.scoreTypeObj = response.data.score_type;
 				this.subjectDataSore = this.subjectData;
-				this.dialogFormVisibleAll = true;
-				this.fullscreenLoading = false;
+				// this.dialogFormVisibleAll = true;
+				this.loading_score = false;
+
+				this.showInfomationStudentScoreAll();
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
@@ -548,7 +596,7 @@ export default {
 			});
 		},
 		async showInfomationStudentScoreReport() {
-			this.fullscreenLoading = true;
+			this.loading_report = true;
 			const class_id = this.$route.query.id;
 			this.ruleFormReport.class_id = class_id;
 			const scoreInfo = {
@@ -561,8 +609,24 @@ export default {
 			await axios.post('/score/collect/report/' + class_id, scoreInfo, config).then(response => {
 				this.studentObj = response.data.student;
 				this.scoreTypeObj = response.data.score_type;
+
+				//total
+				this.report_total_student = response.data.total_student;
+				this.report_total_good = response.data.total_good;
+				this.report_total_ok = response.data.total_ok;
+				this.report_total_medium = response.data.total_medium;
+				this.report_total_low = response.data.total_low;
+				this.report_total_less = response.data.total_less;
+				//Women
+				this.report_total_student_women = response.data.total_student_women;
+				this.report_total_good_women = response.data.total_good_women;
+				this.report_total_ok_women = response.data.total_ok_women;
+				this.report_total_medium_women = response.data.total_medium_women;
+				this.report_total_low_women = response.data.total_low_women;
+				this.report_total_less_women = response.data.total_less_women;
+				//
 				this.dialogFormVisibleReports = true;
-				this.fullscreenLoading = false;
+				this.loading_report = false;
 
 			}).catch((error) => {
 				if (error.response.status == 401) {

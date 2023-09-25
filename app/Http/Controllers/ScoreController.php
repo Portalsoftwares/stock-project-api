@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Academic;
+use App\Models\Classes;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
@@ -59,7 +61,20 @@ class ScoreController extends Controller
     {
         $class_id = $id;
         $scoreLine = null;
-        $scoreType = scoreType::where('type', '!=', 3)->get();
+        //យកតែការប្រលង 
+
+        $class = Classes::find($id);
+        $academic = $class->academic_id;
+        $scoreTypeAcademic = scoreTypeAcademic::where('academic_id', $academic)->get();
+        $under_score_type = [];
+        foreach ($scoreTypeAcademic as $data) {
+            $under_score_type = array_merge($under_score_type, explode(',', $data->under_score_type_id));
+        }
+        //បន្ថែម
+        $scoreTypeAdd = scoreType::whereIn('type', [2])->pluck('score_type_id')->toArray();
+        $under_score_type = array_merge($under_score_type, $scoreTypeAdd);
+        $scoreType = scoreType::whereIn('score_type_id', $under_score_type)->get();
+
         $score_type_id = $request->score_type_id;
         $subjectGradeInclass = TeacherClass::where('class_id', $id)->with('teacher_subject_in_class.subject')->get();
         $student = StudentClass::query()->where('class_id', $id)->with(['student_in_class.gender', 'student_in_class.status',])->get();
@@ -187,6 +202,22 @@ class ScoreController extends Controller
         return  response($response, 200);
     }
 
+    public function getRankText($avg)
+    {
+        if ($avg >= 40) {
+            return 'ល្អ';
+        }
+        if ($avg < 40 && $avg >= 32.5) {
+            return 'ល្អបង្គួរ';
+        }
+        if ($avg < 32.5 && $avg >= 25) {
+            return 'មធ្យម';
+        }
+        if ($avg < 25 && $avg > 0) {
+            return 'ខ្សោយ';
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -197,35 +228,400 @@ class ScoreController extends Controller
     {
         $class_id = $id;
         $scoreLine = null;
-        $scoreType = scoreType::where('type', '!=', 3)->get();
 
+        $class = Classes::find($id);
+        $academic = $class->academic_id;
+        $scoreTypeAcademic = scoreTypeAcademic::where('academic_id', $academic)->get();
+        $under_score_type = [];
+        foreach ($scoreTypeAcademic as $data) {
+            $under_score_type = array_merge($under_score_type, explode(',', $data->under_score_type_id));
+        }
+
+        $scoreTypeAdd = scoreType::whereIn('type', [2, 3, 4])->pluck('score_type_id')->toArray();
+        $under_score_type = array_merge($under_score_type, $scoreTypeAdd);
+        $scoreType = scoreType::whereIn('score_type_id', $under_score_type)->get();
         $score_type_id = ScoreType::where('score_type_id', $request->score_type_id)->first();
-        //ប្រចាំខែ
-        if ($score_type_id->type == 1) {
-        }
-        //ប្រចាំឆមាស
-        if ($score_type_id->type == 2) {
-        }
-        //ប្រចាំឆ្នាំ
-        if ($score_type_id->type == 3) {
-        }
+
         $subjectGradeInclass = TeacherClass::where('class_id', $id)->with('teacher_subject_in_class.subject')->get();
         $student = StudentClass::query()->where('class_id', $id)->with(['student_in_class.gender', 'student_in_class.status',])->get();
-        foreach ($student as  $data) {
-            foreach ($subjectGradeInclass as $obj) {
-                $score = Score::where([['class_id', $class_id], ['score_type_id', $score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
-                if (!empty($score)) {
-                    $scoreLine = scoreLine::where([['score_id', $score->score_id], ['student_id', $data->student_id]])->first();
+        //find women
+
+        //Find divide total by subject , 50 pt = 1x 
+        $total_divide = 1;
+        foreach ($subjectGradeInclass as $obj) {
+            $total_divide += $obj->teacher_subject_in_class->divide;
+        }
+        $arrayScore = [];
+        //Data More Infor
+        $total_student = count($student);
+        $total_good = 0;
+        $total_ok = 0;
+        $total_medium = 0;
+        $total_low = 0;
+        $total_less = 0;
+        $total_student_women = 0;
+        $total_good_women = 0;
+        $total_ok_women = 0;
+        $total_medium_women = 0;
+        $total_low_women = 0;
+        $total_less_women = 0;
+
+        //ប្រចាំខែ
+        if ($score_type_id->type == 1 || $score_type_id->type == 2) {
+            foreach ($student as  $data) {
+                $total_score = 0;
+                foreach ($subjectGradeInclass as $obj) {
+                    $score = Score::where([['class_id', $class_id], ['score_type_id', $score_type_id->score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
+                    if (!empty($score)) {
+                        $scoreLine = scoreLine::where([['score_id', $score->score_id], ['student_id', $data->student_id]])->first();
+                        // បានស្រង់ហើយ
+                        if (!empty($scoreLine)) {
+                            //ក្រៅពីភាសាបរទេស
+                            if ($obj->teacher_subject_in_class->divide != 0) {
+                                $total_score +=  $scoreLine->mark;
+                            }
+                            //ភាសាបរទេស
+                            if ($obj->teacher_subject_in_class->divide == 0) {
+                                $total_score +=  $scoreLine->mark - 25;
+                            }
+                        }
+                    }
                 }
-                // បានស្រង់ហើយ
-                if (!empty($scoreLine)) {
-                    $data['mark_total'] +=  $scoreLine->mark;
+                $total_score  = round($total_score, 2);
+                $avg_score = round($total_score / $total_divide, 2);
+
+                $data['mark_total'] = $total_score;
+                $data['mark_avg'] = $avg_score;
+
+                $women = $data->student_in_class->gender_id == 2;
+                if ($women) {
+                    $total_student_women++;
+                }
+                if ($avg_score != 0) {
+                    $data['mark_rank_text'] = $this->getRankText($avg_score);
+                    // return 'ល្អ';
+                    if ($avg_score >= 40) {
+                        $total_good++;
+                        if ($women) {
+                            $total_good_women++;
+                        }
+                    }
+                    // return 'ល្អបង្គួរ';
+                    if ($avg_score < 40 && $avg_score >= 32.5) {
+                        $total_ok++;
+                        if ($women) {
+                            $total_ok_women++;
+                        }
+                    }
+                    // return 'មធ្យម';
+                    if ($avg_score < 32.5 && $avg_score >= 25) {
+                        $total_medium++;
+                        if ($women) {
+                            $total_medium_women++;
+                        }
+                    }
+                    // return 'ខ្សោយ';
+                    if ($avg_score < 25 && $avg_score > 0) {
+                        $total_low++;
+                        if ($women) {
+                            $total_low_women++;
+                        }
+                    }
+                    if ($avg_score <= 0) {
+                        $total_less++;
+                        if ($women) {
+                            $total_less_women++;
+                        }
+                    }
+                } else {
+                    $data['mark_rank_text'] = null;
                 }
             }
         }
+        //ប្រចាំឆមាស 
+        if ($score_type_id->type == 3) {
+
+            //avg total in semester month + avg exam semseter
+            $monthInSemester = scoreTypeAcademic::where([['academic_id', $academic], ['semester_id', $score_type_id->score_type_id]])->first();
+            $monnthly = explode(',', $monthInSemester->under_score_type_id);
+            //យកទាំងប្រលងប្រចាំខែ និង​ឆមាស
+            $dataMonthly = scoreType::whereIn('score_type_id', $monnthly)->get();
+            //យកតែប្រលងប្រចាំខែមក
+            $number_monthly = scoreType::whereIn('score_type_id', $monnthly)->where('type', 1)->count();
+            // $number_monthly = count($dataMonthly);
+            //ប្រចាំខែ រកមធ្យមភាគ
+            foreach ($student as  $data) {
+                $final_avg_semester = 0;
+                foreach ($dataMonthly as $mon) {
+                    //toal 1 month
+                    $total_score_monthly = 0;
+                    $total_avg_monthly = 0;
+                    $total_score = 0;
+                    if ($mon->type == 1) {
+                        foreach ($subjectGradeInclass as $obj) {
+                            $score = Score::where([['class_id', $class_id], ['score_type_id', $mon->score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
+                            if (!empty($score)) {
+                                $scoreLine = scoreLine::where([['score_id', $score->score_id], ['student_id', $data->student_id]])->first();
+                                // បានស្រង់ហើយ
+                                if (!empty($scoreLine)) {
+                                    //ក្រៅពីភាសាបរទេស
+                                    if ($obj->teacher_subject_in_class->divide != 0) {
+                                        $total_score +=  $scoreLine->mark;
+                                    }
+                                    //ភាសាបរទេស
+                                    if ($obj->teacher_subject_in_class->divide == 0) {
+                                        $total_score +=  $scoreLine->mark - 25;
+                                    }
+                                }
+                            }
+                        }
+                        $total_score_monthly += round($total_score, 2);
+                        $total_avg_monthly += round(($total_score_monthly / $total_divide) / $number_monthly, 2);
+                    }
+                    $total_score_semester = 0;
+                    $total_avg_semester = 0;
+                    if ($mon->type == 2) {
+                        foreach ($subjectGradeInclass as $obj) {
+                            $score = Score::where([['class_id', $class_id], ['score_type_id', $mon->score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
+                            if (!empty($score)) {
+                                $scoreLine = scoreLine::where([['score_id', $score->score_id], ['student_id', $data->student_id]])->first();
+                                // បានស្រង់ហើយ
+                                if (!empty($scoreLine)) {
+                                    //ក្រៅពីភាសាបរទេស
+                                    if ($obj->teacher_subject_in_class->divide != 0) {
+                                        $total_score_semester +=  $scoreLine->mark;
+                                    }
+                                    //ភាសាបរទេស
+                                    if ($obj->teacher_subject_in_class->divide == 0) {
+                                        $total_score_semester +=  $scoreLine->mark - 25;
+                                    }
+                                }
+                            }
+                        }
+                        $total_score_semester += round($total_score_semester, 2);
+                        $total_avg_semester += round(($total_score_semester / $total_divide), 2);
+                    }
+
+                    $final_avg_semester = ($total_avg_semester + $total_avg_monthly) / 2;
+                }
+
+                $data['mark_total'] = null;
+                $data['mark_avg'] =  round($final_avg_semester, 2);
+
+                $women = $data->student_in_class->gender_id == 2;
+                if ($women) {
+                    $total_student_women++;
+                }
+                if ($final_avg_semester != 0) {
+                    $data['mark_rank_text'] = $this->getRankText($final_avg_semester);
+                    // return 'ល្អ';
+                    if ($final_avg_semester >= 40) {
+                        $total_good++;
+                        if ($women) {
+                            $total_good_women++;
+                        }
+                    }
+                    // return 'ល្អបង្គួរ';
+                    if ($final_avg_semester < 40 && $final_avg_semester >= 32.5) {
+                        $total_ok++;
+                        if ($women) {
+                            $total_ok_women++;
+                        }
+                    }
+                    // return 'មធ្យម';
+                    if ($final_avg_semester < 32.5 && $final_avg_semester >= 25) {
+                        $total_medium++;
+                        if ($women) {
+                            $total_medium_women++;
+                        }
+                    }
+                    // return 'ខ្សោយ';
+                    if ($final_avg_semester < 25 && $final_avg_semester > 0) {
+                        $total_low++;
+                        if ($women) {
+                            $total_low_women++;
+                        }
+                    }
+                    if ($final_avg_semester <= 0) {
+                        $total_less++;
+                        if ($women) {
+                            $total_less_women++;
+                        }
+                    }
+                } else {
+                    $data['mark_rank_text'] = null;
+                }
+            }
+        }
+        //ប្រចាំឆ្នាំ
+        if ($score_type_id->type == 4) {
+            //avg total in semester month + avg exam semseter
+            $monthInSemester = scoreTypeAcademic::where('academic_id', $academic)->get();
+            $monnthly = [];
+            foreach ($scoreTypeAcademic as $data) {
+                $monnthly = array_merge($monnthly, explode(',', $data->under_score_type_id));
+            }
+            //យកទាំងប្រលងប្រចាំខែ និង​ឆមាស
+            $dataMonthly = scoreType::whereIn('score_type_id', $monnthly)->get();
+            //យកតែប្រលងប្រចាំខែមក
+            $number_monthly = scoreType::whereIn('score_type_id', $monnthly)->where('type', 1)->count();
+            // $number_monthly = count($dataMonthly);
+            //ប្រចាំខែ រកមធ្យមភាគ
+            foreach ($student as  $data) {
+                $final_avg_semester = 0;
+                foreach ($dataMonthly as $mon) {
+                    //toal 1 month
+                    $total_score_monthly = 0;
+                    $total_avg_monthly = 0;
+                    $total_score = 0;
+                    if ($mon->type == 1) {
+                        foreach ($subjectGradeInclass as $obj) {
+                            $score = Score::where([['class_id', $class_id], ['score_type_id', $mon->score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
+                            if (!empty($score)) {
+                                $scoreLine = scoreLine::where([['score_id', $score->score_id], ['student_id', $data->student_id]])->first();
+                                // បានស្រង់ហើយ
+                                if (!empty($scoreLine)) {
+                                    //ក្រៅពីភាសាបរទេស
+                                    if ($obj->teacher_subject_in_class->divide != 0) {
+                                        $total_score +=  $scoreLine->mark;
+                                    }
+                                    //ភាសាបរទេស
+                                    if ($obj->teacher_subject_in_class->divide == 0) {
+                                        $total_score +=  $scoreLine->mark - 25;
+                                    }
+                                }
+                            }
+                        }
+                        $total_score_monthly += round($total_score, 2);
+                        $total_avg_monthly += round(($total_score_monthly / $total_divide) / $number_monthly, 2);
+                    }
+                    $total_score_semester = 0;
+                    $total_avg_semester = 0;
+                    if ($mon->type == 2) {
+                        foreach ($subjectGradeInclass as $obj) {
+                            $score = Score::where([['class_id', $class_id], ['score_type_id', $mon->score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
+                            if (!empty($score)) {
+                                $scoreLine = scoreLine::where([['score_id', $score->score_id], ['student_id', $data->student_id]])->first();
+                                // បានស្រង់ហើយ
+                                if (!empty($scoreLine)) {
+                                    //ក្រៅពីភាសាបរទេស
+                                    if ($obj->teacher_subject_in_class->divide != 0) {
+                                        $total_score_semester +=  $scoreLine->mark;
+                                    }
+                                    //ភាសាបរទេស
+                                    if ($obj->teacher_subject_in_class->divide == 0) {
+                                        $total_score_semester +=  $scoreLine->mark - 25;
+                                    }
+                                }
+                            }
+                        }
+                        $total_score_semester += round($total_score_semester, 2);
+                        $total_avg_semester += round(($total_score_semester / $total_divide), 2);
+                    }
+
+                    $final_avg_semester = ($total_avg_semester + $total_avg_monthly) / 2;
+                }
+
+                //Exam Semester
+                $avg_score_yearly = round($final_avg_semester / 2, 2);
+
+
+
+                $data['mark_total'] = $total_score_monthly;
+                $data['mark_avg'] = $avg_score_yearly;
+
+                $women = $data->student_in_class->gender_id == 2;
+                if ($women) {
+                    $total_student_women++;
+                }
+                if ($avg_score_yearly != 0) {
+                    $data['mark_rank_text'] = $this->getRankText($avg_score_yearly);
+                    // return 'ល្អ';
+                    if ($avg_score_yearly >= 40) {
+                        $total_good++;
+                        if ($women) {
+                            $total_good_women++;
+                        }
+                    }
+                    // return 'ល្អបង្គួរ';
+                    if ($avg_score_yearly < 40 && $avg_score_yearly >= 32.5) {
+                        $total_ok++;
+                        if ($women) {
+                            $total_ok_women++;
+                        }
+                    }
+                    // return 'មធ្យម';
+                    if ($avg_score_yearly < 32.5 && $avg_score_yearly >= 25) {
+                        $total_medium++;
+                        if ($women) {
+                            $total_medium_women++;
+                        }
+                    }
+                    // return 'ខ្សោយ';
+                    if ($avg_score_yearly < 25 && $avg_score_yearly > 0) {
+                        $total_low++;
+                        if ($women) {
+                            $total_low_women++;
+                        }
+                    }
+                    if ($avg_score_yearly <= 0) {
+                        $total_less++;
+                        if ($women) {
+                            $total_less_women++;
+                        }
+                    }
+                } else {
+                    $data['mark_rank_text'] = null;
+                }
+            }
+        }
+
+        //Set grade of score
+        $collection = collect($student);
+        $collection = $collection->sortByDesc(
+            function ($item) {
+                return $item->mark_avg;
+            }
+        );
+
+        $collection = $collection->values()->all();
+        $rank = 1;
+        $previous = null;
+        $ix = 1;
+        foreach ($collection as  $data) {
+            if ($data['mark_avg'] != 0) {
+                if ($previous && $previous['mark_avg'] != $data['mark_avg']) {
+                    if ($ix > 1) {
+                        $rank += $ix;
+                    } else {
+                        $rank++;
+                    }
+                }
+                if ($previous &&  $previous['mark_avg'] == $data['mark_avg']) {
+                    $ix++;
+                } else {
+                    $ix = 1;
+                }
+
+                $data['mark_rank'] = $rank;
+                $previous = $data;
+            }
+        }
         $response = [
-            'student' => $student,
+            'student' =>  $collection,
             'score_type' => $scoreType,
+            'total_student' => $total_student,
+            'total_good' => $total_good,
+            'total_ok' => $total_ok,
+            'total_medium' => $total_medium,
+            'total_low' => $total_low,
+            'total_less' => $total_less,
+            'total_student_women' => $total_student_women,
+            'total_good_women' => $total_good_women,
+            'total_ok_women' => $total_ok_women,
+            'total_medium_women' => $total_medium_women,
+            'total_low_women' => $total_low_women,
+            'total_less_women' => $total_less_women,
         ];
         return  response($response, 200);
     }

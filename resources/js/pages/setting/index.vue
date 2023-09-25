@@ -1,6 +1,13 @@
 <template>
-	<el-tabs type="border-card">
-		<el-tab-pane label="Backup & Restore">
+	<el-tabs
+		type="border-card"
+		v-model="tabTypeScore"
+		@tab-change="changeTap"
+	>
+		<el-tab-pane
+			label="Backup & ស្តាទិន្នន័យ"
+			name="tab-setting-1"
+		>
 			<div class="bg-white p-2 w-full flex justify-between">
 				<div class="flex space-x-2">
 					<div class="self-start">
@@ -14,30 +21,21 @@
 						</el-input>
 					</div>
 					<div class="self-start hidden ">
-						<el-select
-							v-model="filterSelectValue"
-							filterable
-							placeholder="តម្រៀប"
-						>
-							<el-option
-								v-for="item in filter"
-								:key="item.filterValue"
-								:label="item.filterLabel"
-								:value="item.filterValue"
-							>
-							</el-option>
-						</el-select>
+
 					</div>
 				</div>
 				<div class="self-end">
-					<el-button>
+					<!-- <el-button>
 						<el-icon>
 							<Document />
 						</el-icon>
 						<span class="mx-1 sanfont-khmer"> ស្តារទិន្នន័យពីម៉ាសុីន</span>
 
-					</el-button>
-					<el-button type="primary">
+					</el-button> -->
+					<el-button
+						type="primary"
+						@click="backup"
+					>
 						<el-icon>
 							<CirclePlusFilled />
 						</el-icon>
@@ -48,26 +46,7 @@
 			<div class="grid grid-cols-1 gap-2 ">
 				<div class=" border rounded bg-gray-50">
 					<div class="flex flex-col  ">
-						<div
-							class="m-2"
-							v-if="showSuccess"
-						>
-							<el-alert
-								title="success alert"
-								type="success"
-								show-icon
-							/>
-						</div>
-						<div
-							class="m-2"
-							v-if="showInfo"
-						>
-							<el-alert
-								title="info alert"
-								type="info"
-								show-icon
-							/>
-						</div>
+
 						<el-table
 							:data="tableData"
 							height="690"
@@ -89,21 +68,17 @@
 								width="90"
 								label="ល.រ"
 							>
-								<template #default="scope">{{scope.row.subject_id }}</template>
 							</el-table-column>
 
 							<el-table-column label="ឈ្មោះ">
 								<template #default="scope">
-									<div v-if="scope.row.subject_id%2==0 && scope.row.subject_id>=4">backup-25jul23.tar</div>
-									<div
-										type="success"
-										v-if="scope.row.subject_id%2!=0 && scope.row.subject_id>=4"
-									>restore-25jul23.tar</div>
-									<div v-if="scope.row.subject_id%2==0 && scope.row.subject_id<4">backup-26jul23.tar</div>
-									<div
-										type="success"
-										v-if="scope.row.subject_id%2!=0 && scope.row.subject_id<4"
-									>restore-26jul23.tar</div>
+									<div>{{ scope.row.path }}</div>
+
+								</template>
+							</el-table-column>
+							<el-table-column label="ប្រភេទ">
+								<template #default="scope">
+									<div>{{ scope.row.type }}</div>
 								</template>
 							</el-table-column>
 							<el-table-column
@@ -111,19 +86,12 @@
 								sortable
 							>
 								<template #default="scope">
-									<div v-if="scope.row.subject_id>=4">25 July 2023 </div>
-									<div v-else>26 July 2023</div>
+									<div>{{ scope.row.date }}</div>
 								</template>
 							</el-table-column>
 							<el-table-column label="ទំហំផ្ទុក">
 								<template #default="scope">
-									<div v-if="scope.row.subject_id%2==0">10.60 MB </div>
-									<div v-else>10.30 MB</div>
-								</template>
-							</el-table-column>
-							<el-table-column label="ប្រភេទ">
-								<template #default="scope">
-									<el-tag>File</el-tag>
+									<div>{{ scope.row.size }}</div>
 
 								</template>
 							</el-table-column>
@@ -154,16 +122,6 @@
 
 					</div>
 				</div>
-
-				<div class="py-2 flex justify-center">
-					<el-pagination
-						background
-						layout="total, prev, pager, next, sizes"
-						:total="tableData.length"
-					>
-					</el-pagination>
-				</div>
-
 			</div>
 
 			<!-- Dialog  -->
@@ -267,6 +225,158 @@
 			</el-dialog>
 			<!-- Dialog user  -->
 		</el-tab-pane>
+		<el-tab-pane
+			label="ការកំណត់"
+			name="tab-setting-2"
+		>
+			<div class="grid grid-cols-1 gap-2 ">
+				<div class=" border rounded bg-gray-50  p-4">
+					<div class="flex flex-col  ">
+						<el-form
+							ref="ruleForm"
+							id="fm"
+							label-position="top"
+						>
+
+							<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+								<div class="grid grid-cols-2">
+									<div>
+										<div class="py-2">
+											<div class="font-bold text-left text-md">
+												ព័ត៌មានសាលា
+											</div>
+										</div>
+										<div class="flex flex-col ">
+
+											<div>
+
+												<el-form-item
+													label="ឈ្មោះសាលា"
+													prop="from_secondary_high_school"
+													class="sanfont-khmer "
+													:label-width="formLabelWidth"
+												>
+													<el-input
+														v-model="ruleForm.name"
+														name="from_secondary_high_school"
+														clearable
+													></el-input>
+												</el-form-item>
+											</div>
+											<div>
+
+												<el-form-item
+													label="លេខទូរស័ព្ទ"
+													prop="secondary_exam_date"
+													class="sanfont-khmer "
+													:label-width="formLabelWidth"
+												>
+													<el-input
+														v-model="ruleForm.phone"
+														name="secondary_exam_date"
+														clearable
+													></el-input>
+												</el-form-item>
+											</div>
+											<div>
+
+												<el-form-item
+													label="សារអេឡិចទ្រូនិច"
+													prop="secondary_exam_place"
+													class="sanfont-khmer "
+													:label-width="formLabelWidth"
+												>
+													<el-input
+														v-model="ruleForm.email"
+														name="secondary_exam_place"
+														clearable
+													></el-input>
+												</el-form-item>
+											</div>
+										</div>
+									</div>
+									<div class="flex flex-col ">
+										<div class="py-2">
+											<div class="font-bold text-left text-lg h-7">
+
+											</div>
+										</div>
+										<el-form-item
+											label="ទីតាំង"
+											prop="secondary_exam_room"
+											class="sanfont-khmer "
+											:label-width="formLabelWidth"
+										>
+											<el-input
+												v-model="ruleForm.address"
+												name="secondary_exam_room"
+												type="textarea"
+												:rows="4"
+											></el-input>
+										</el-form-item>
+
+									</div>
+
+								</div>
+								<div class="grid grid-cols-1">
+									<div class="flex flex-col justify-start">
+										<div class="py-2">
+											<div class="font-bold text-left text-md">
+												Backup ស្វ័យប្រវត្តិ
+											</div>
+										</div>
+										<div>
+
+											<el-form-item
+												label="ពេល BackUp"
+												prop="from_secondary_high_school"
+												class="sanfont-khmer "
+												:label-width="formLabelWidth"
+											>
+												<el-radio-group v-model="ruleForm.backup_type">
+													<el-radio-button label="រាល់នាទី" />
+													<el-radio-button label="ប្រចាំថ្ងៃ" />
+													<el-radio-button label="ប្រចាំសប្តាហ៍" />
+													<el-radio-button label="ប្រចាំខែ" />
+													<el-radio-button label="ប្រចាំឆ្នាំ" />
+												</el-radio-group>
+											</el-form-item>
+										</div>
+										<div>
+
+											<el-form-item
+												label="ម៉ោង BackUp"
+												prop="from_secondary_high_school"
+												class="sanfont-khmer "
+												:label-width="formLabelWidth"
+											>
+												<el-time-select
+													v-model="ruleForm.backup_time"
+													start="00:00"
+													step="00:30"
+													end="23:59"
+													format="hh:mm A"
+												/>
+											</el-form-item>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="flex align-end">
+
+								<el-button
+									@click="updateInfo"
+									type="primary"
+								>រក្សាទុក</el-button>
+							</div>
+						</el-form>
+					</div>
+				</div>
+			</div>
+
+		</el-tab-pane>
 	</el-tabs>
 
 </template>
@@ -294,99 +404,33 @@ export default {
 
 			ruleForm: {
 				name: null,
-				roles: null,
-				password: null,
+				phone: null,
 				email: null,
-				photo_id: null,
-				userId: null
+				address: null,
+				backup_type: null,
+				backup_time: null,
 			},
-			rules: {
-				name: [
-					{ required: true, message: 'Please input Activity name', trigger: 'blur' },
-					{ min: 3, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
-				],
-				roles: [
-					{ required: true, message: 'Please select role', trigger: 'change' }
-				],
-				email: [
-					{ required: true, message: 'Please input email address', trigger: 'blur' },
-					{ type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
-				],
-				password: [
-					{ required: true, message: 'Please set password', trigger: 'blur' },
-					{ min: 8, max: 15, message: 'Length should be 3 to 15', trigger: 'blur' }
-				],
-				photo_id: [
-					{ required: true, message: 'Please add photo', trigger: 'change' }
-				],
-			},
+
 			search: '',
 
-			filter: [{
-				filterValue: 'តាមឈ្មោះ',
-				filterLabel: 'តាមឈ្មោះ'
-			}, {
-				filterValue: 'តាមលេខរៀង',
-				filterLabel: 'តាមលេខរៀង'
-			}, {
-				filterValue: 'តាមកាលបរិច្ឆេត',
-				filterLabel: 'តាមកាលបរិច្ឆេត'
-			}, {
-				filterValue: 'តាមទំហំផ្ទុក',
-				filterLabel: 'តាមទំហំផ្ទុក'
-			}],
-			filterSelectValue: "",
-
-			gradeLevel: [{
-				gradeLevelValue: '10',
-				gradeLevelLabel: 'ទី10'
-			}, {
-				gradeLevelValue: '11',
-				gradeLevelLabel: 'ទី11'
-			},
-			{
-				gradeLevelValue: '12',
-				gradeLevelLabel: 'ទី12'
-			}],
-			gradeLevelValue: '',
-
-			classType: [{
-				classTypeValue: 'ធម្មតា',
-				classTypeLabel: 'ធម្មតា'
-			}, {
-				classTypeValue: 'វិទ្យាសាស្រ្តពិក',
-				classTypeLabel: 'វិទ្យាសាស្រ្តពិក'
-			},
-			{
-				classTypeValue: 'វិទ្យាសាស្រ្តសង្គម',
-				classTypeLabel: 'វិទ្យាសាស្រ្តសង្គម'
-			}],
 			classTypeValue: '',
+			tabTypeScore: 'tab-setting-1'
 		}
 	},
 	mounted() {
 		this.getData();
-		this.getDataSubjectLevel()
+		this.tabTypeScore = localStorage.getItem('tab-setting') ?? 'tab-setting-1';
 	},
 	methods: {
-		handleAvatarSuccess(file) {
-			if (file) {
-				this.ruleForm.profile_img = file
-				this.imageUrl = URL.createObjectURL(file.raw);
-				this.submitUplaod()
+		changeTap(name) {
+			localStorage.setItem('tab-setting', name);
+			if (name == 'tab-setting-1') {
+				this.getData();
+			} else {
+				this.getSetting();
 			}
 		},
-		beforeAvatarUpload(file) {
-			const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
-			const isLt2M = file.size / 1024 / 1024 < 2;
-			if (!isJPG) {
-				this.$message.error('Avatar picture must be JPG format!');
-			}
-			if (!isLt2M) {
-				this.$message.error('Avatar picture size can not exceed 2MB!');
-			}
-			return isJPG && isLt2M;
-		},
+
 		submitForm(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
@@ -412,20 +456,7 @@ export default {
 		/*
 		*  Function upload image 
 		*/
-		async submitUplaod() {
-			const form = new FormData(document.getElementById('fm'));
 
-			const config = {
-				headers: { 'content-type': 'multipart/form-data' }
-			}
-			await axios.post('/files/create/upload', form, config).then(response => {
-				this.ruleForm.photo_id = response.data.file.id
-				this.$message({
-					message: 'Congrats, this is a success message.',
-					type: 'success'
-				});
-			})
-		},
 		/*
 		*  Function create new user  
 		*/
@@ -439,7 +470,7 @@ export default {
 				this.getData();
 				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
@@ -447,54 +478,18 @@ export default {
 		/*
 	*  Function update new user  
 	*/
-		async updateData() {
-
-			const form = new FormData(document.getElementById('fm'));
-			form.append('role', this.ruleForm.roles)
-			const config = {
-				headers: { 'content-type': 'multipart/form-data' }
-			}
-			await axios.post('/user/' + this.ruleForm.userId + '/update', form, config).then(response => {
+		async backup() {
+			await axios.post('/backup/create').then(response => {
 				this.getData();
-				this.dialogFormVisible = false;
 				this.$message({
-					message: 'Congrats, this is a success message.',
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 			})
 		},
-		handlePictureCardPreview(UploadFile) {
-			this.dialogImageUrl = UploadFile.url
-			this.dialogVisible = true
-		},
-		handleRemove(UploadFile) {
-			console.log(UploadFile)
-		},
-
-		async AddUser() {
-			// this.cancelAction()
-			// this.resetForm('ruleForm');
-			//this.ruleForm.name = ''
-			//this.ruleForm.userId = ''
-			//this.ruleForm.roles = ''
-			//this.ruleForm.email = ''
-			//this.imageUrl = ''
-			//this.ruleForm.photo_id = ''
-			//this.roles = null
-
-			this.dialogFormVisible = true
-			//this.isShowButtonUpdate = false;
-			//this.isShowPassword = true;
-
-			//await axios.get('/user/create').then(response => {
-			//this.roles = response.data.roles
-			//}).catch((error) => {
-			//console.log(error)
-			//})
-		},
 		async getData() {
 			this.loading = true
-			await axios.get('/subject/get').then(response => {
+			await axios.get('/backup/get').then(response => {
 				this.tableData = response.data.data
 				this.loading = false
 			}).catch((error) => {
@@ -503,49 +498,71 @@ export default {
 				}
 			})
 		},
-		async getDataSubjectLevel() {
-			this.loading = true
-
-			await axios.get('/subject/get_subject_level').then(response => {
-				this.tableDataSubjectLevel = response.data.data
-				this.loading = false
+		async getSetting() {
+			await axios.get('/setting/get').then(response => {
+				this.ruleForm.name = response.data.data.name
+				this.ruleForm.email = response.data.data.email
+				this.ruleForm.phone = response.data.data.phone
+				this.ruleForm.address = response.data.data.address
+				this.ruleForm.backup_type = this.getBackUpType(response.data.data.backup_type)
+				this.ruleForm.backup_time = response.data.data.backup_time
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
 			})
 		},
-		async editUser(id) {
-			this.dialogFormVisible = true;
-			//this.isShowButtonUpdate = true;
-			//this.isShowPassword = false;
-			//await axios.get('/user/' + id + '/edit').then(response => {
-			//this.ruleForm.name = response.data.user.name
-			//this.ruleForm.userId = response.data.user.id
-			//this.ruleForm.roles = response.data.user_has_roles
-			//this.ruleForm.email = response.data.user.email
-			//this.imageUrl = response.data.user.img?.file_path
-			//this.ruleForm.photo_id = response.data.user.id
-			//this.roles = response.data.roles
 
-			//}).catch((error) => {
-			//	if (error.response.status == 401) {
-			//this.$store.commit("auth/CLEAR_TOKEN")
-			//}
-			//})
+		getBackUpType(t) {
+			switch (t) {
+				case "1":
+					return 'ប្រចាំថ្ងៃ'
+				case "2":
+					return 'ប្រចាំសប្តាហ៍'
+				case "3":
+					return 'ប្រចាំឆ្នាំខែ'
+				case "4":
+					return 'ប្រចាំឆ្នាំ'
+				default:
+					return 'រាល់នាទី'
+
+			}
 		},
-		notification() {
-			this.showSuccess = !this.showSuccess
-			ElNotification.success({
-				title: 'Success',
-				message: 'This is a success message',
-				offset: 100,
-			})
-			ElMessage({
-				message: 'Congrats, this is a success message.',
-				type: 'success',
+		upBackUpType(t) {
+			switch (t) {
+				case "ប្រចាំថ្ងៃ":
+					return 1
+				case "ប្រចាំសប្តាហ៍":
+					return 2
+				case "ប្រចាំឆ្នាំខែ":
+					return 3
+				case "ប្រចាំឆ្នាំ":
+					return 4
+				default:
+					return 0
+			}
+		},
+		async updateInfo() {
+			const data = {
+				'name': this.ruleForm.name,
+				'email': this.ruleForm.email,
+				'phone': this.ruleForm.phone,
+				'address': this.ruleForm.address,
+				'backup_type': this.upBackUpType(this.ruleForm.backup_type),
+				'backup_time': this.ruleForm.backup_time
+			}
+			const config = {
+				headers: { 'content-type': 'application/json' }
+			}
+			await axios.post('/setting/update', data, config).then(response => {
+				this.getSetting();
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
 			})
 		}
+
 	}
 }
 </script>

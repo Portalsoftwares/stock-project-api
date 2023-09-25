@@ -168,17 +168,36 @@ class ScheduleController extends Controller
             return  response($response, 400);
         }
         DB::transaction(function () use ($request) {
-            $teacherData =  TeacherClass::create([
-                'class_id' => $request->class_id,
-                'teacher_id' => $request->teacher_id,
-                'subject_grade_id' => $request->subject_grade_id,
-                'role_id' => $request->role_id,
-            ]);
+            if (!empty($request->id)) {
+                $teacherData =  TeacherClass::where('id', $request->id)->update([
+                    'class_id' => $request->class_id,
+                    'teacher_id' => $request->teacher_id,
+                    'subject_grade_id' => $request->subject_grade_id,
+                    'role_id' => $request->role_id,
+                ]);
+            } else {
+                $teacherData =  TeacherClass::create([
+                    'class_id' => $request->class_id,
+                    'teacher_id' => $request->teacher_id,
+                    'subject_grade_id' => $request->subject_grade_id,
+                    'role_id' => $request->role_id,
+                ]);
+            }
             $response = [
                 'teacher_class' => $teacherData,
                 'message' => "Teacher class  was created."
             ];
             return  response($response, 201);
         });
+    }
+
+    public function editTeacher(Request $request, $id)
+    {
+        $teacherData =  TeacherClass::where('id', $id)->first();
+        $response = [
+            'teacher_class' => $teacherData,
+            'message' => "Teacher class  was created."
+        ];
+        return  response($response, 200);
     }
 }
