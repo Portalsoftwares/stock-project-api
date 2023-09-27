@@ -2,7 +2,7 @@
 
 	<div class="bg-white">
 		<div class="pb-2 flex justify-between">
-			<div class="text-left text-xl  ">ពិន្ទុសិស្សតាម មុខវិជ្ជា</div>
+			<div class="text-left text-xl  ">ពិន្ទុសិស្ស</div>
 			<div class="text-right">
 				<el-button
 					type="primary"
@@ -32,7 +32,84 @@
 				</el-button>
 			</div>
 		</div>
-		<div class="grid grid-cols-4 gap-2 ">
+		<div>
+			<el-table
+				v-loading="loading_class"
+				:data="tableData"
+				height="700"
+				style="width: 100%"
+				resizable="true"
+				fit
+				header-cell-class-name="header-table-font-khmer text-md"
+				row-class-name="sanfont-khmer"
+				selectable
+				stripe
+				highlight-current-row="true"
+			>
+				<el-table-column
+					type="selection"
+					width="55"
+				/>
+
+				<el-table-column
+					type="index"
+					width="90"
+					label="ល.រ"
+				>
+				</el-table-column>
+
+				<el-table-column label="ប្រឡង">
+					<template #default="scope">{{ scope.row.score_type?.name }}</template>
+				</el-table-column>
+				<el-table-column label="កាលបរិច្ចេទស្រង់ពិន្ទុ">
+					<template #default="scope">{{  formatDate(scope.row.created_at) }}
+					</template>
+				</el-table-column>
+
+				<el-table-column
+					fixed="right"
+					align="center"
+					label="សកម្មភាព"
+					width="230"
+				>
+					<template #default="scope">
+
+						<div>
+							<el-button
+								size="small"
+								class="sanfont-khmer"
+								@click="reportExam(scope.row.score_type_id)"
+							>របាយការណ៍</el-button>
+							<el-button
+								size="small"
+								class="sanfont-khmer"
+								@click="editExam(scope.row.score_type_id)"
+							>កែប្រែ</el-button>
+							<el-popconfirm
+								width="220"
+								confirm-button-text="យល់ព្រម"
+								cancel-button-text="ទេ"
+								:icon="InfoFilled"
+								icon-color="#626AEF"
+								title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+								@confirm="handleDelete(scope.row.score_type_id)"
+							>
+								<template #reference>
+									<el-button
+										size="small"
+										type="danger"
+										class="sanfont-khmer"
+									>លុប
+									</el-button>
+								</template>
+							</el-popconfirm>
+						</div>
+					</template>
+				</el-table-column>
+				<el-empty description="description"></el-empty>
+			</el-table>
+		</div>
+		<!-- <div class="grid grid-cols-4 gap-2 ">
 			<div
 				class="z-10 mt-1 overflow-hidden rounded bg-white shadow ring-1 ring-gray-900/5 "
 				v-for="data in subjectData"
@@ -75,7 +152,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<!-- Dialog  Manage Attendance list All -->
 	<el-dialog
@@ -436,10 +513,9 @@
 <script>
 import { ElMessageBox, ElMessage } from 'element-plus'
 import FileSaver from 'file-saver'
-
+import moment from 'moment'
 export default {
 	components: { FileSaver },
-
 	props: {
 		data: Object,
 		subjectData: Object,
@@ -496,7 +572,12 @@ export default {
 			report_total_medium_women: 0,
 			report_total_low_women: 0,
 			report_total_less_women: 0,
+			//exam
+			tableData: []
 		}
+	},
+	mounted() {
+		this.getExam()
 	},
 	methods: {
 		closeForm() {
@@ -534,6 +615,10 @@ export default {
 					return false;
 				}
 			});
+		},
+
+		formatDate(data) {
+			return moment(new Date(data)).format("DD-MM-YYYY");
 		},
 
 		async showInfomationStudentScoreAll() {
@@ -577,8 +662,9 @@ export default {
 				this.subjectDataSore = this.subjectData;
 				// this.dialogFormVisibleAll = true;
 				this.loading_score = false;
-
+				this.getExam();
 				this.showInfomationStudentScoreAll();
+
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
@@ -653,6 +739,26 @@ export default {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
 			})
+		},
+		async getExam() {
+			const class_id = this.$route.query.id;
+			await axios.get('/score/collect/all/' + class_id + '/exam',).then(response => {
+				this.tableData = response.data.data
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+
+		editExam(id) {
+			this.ruleForm.score_type_id = id;
+			this.showInfomationStudentScoreAll();
+		},
+		reportExam(id) {
+			this.ruleFormReport.score_type_id = id;
+			this.showInfomationStudentScoreReport();
+
 		}
 	}
 }

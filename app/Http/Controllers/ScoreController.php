@@ -637,4 +637,11 @@ class ScoreController extends Controller
         ]);
         return $pdf->save('reports_score.pdf');
     }
+    public function getExam($id)
+    {
+        $exam  = Score::where('class_id', $id)->with('score_type')->groupBy('score_type_id')->get();
+        return  response([
+            'data' => $exam
+        ], 200);
+    }
 }

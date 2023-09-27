@@ -14,4 +14,9 @@
     background: #1e40af;
     margin-right: 0px !important;
 }
+
+.el-dialog__headerbtn .el-dialog__close {
+    font-size: 25px!important;
+}
+
 @tailwind utilities;

@@ -106,9 +106,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   mounted: function mounted() {
-    this.getData();
+    // this.getData()
   },
   methods: {
+    getType: function getType(role) {
+      if (role == 'super-admin') {
+        return 'success';
+      }
+      if (role == 'role-editor') {
+        return 'warning';
+      }
+      if (role == 'role-viewer') {
+        return 'info';
+      }
+    },
     selectTeacher: function selectTeacher(event) {
       // this.ruleForm.teacher_id = event.teacher_id.toString()
       // this.ruleForm.name = event.last_name_en
@@ -435,16 +446,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee8);
       }))();
-    } // async restoreData() {
-    // 	axios.post('/user/restore/1', {
-    // 		file_name: 'User'
-    // 	}, {
-    // 		responseType: 'blob'
-    // 	}).then((response) => {
-    // 		// response.data is a blob type
-    // 		FileSaver.saveAs(response.data, 'user');
-    // 	});
-    // }
+    },
+    exportExcel: function exportExcel() {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
+        return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+          while (1) switch (_context9.prev = _context9.next) {
+            case 0:
+              axios.post('/user/exportExcel', {
+                file_name: 'User'
+              }, {
+                responseType: 'blob'
+              }).then(function (response) {
+                // response.data is a blob type
+                file_saver__WEBPACK_IMPORTED_MODULE_0___default().saveAs(response.data, 'user');
+              });
+            case 1:
+            case "end":
+              return _context9.stop();
+          }
+        }, _callee9);
+      }))();
+    }
   }
 });
 
@@ -592,7 +614,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "active-value": "1",
     "inactive-value": "0"
   }, null, 8 /* PROPS */, ["modelValue", "onChange"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-    type: "info"
+    type: "info",
+    onClick: $options.exportExcel
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -603,7 +626,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), _hoisted_8];
     }),
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+  }, 8 /* PROPS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
     type: "primary",
     onClick: $options.AddUser
   }, {
@@ -623,8 +646,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "width": "100%"
     },
     resizable: "true",
-    "header-cell-class-name": "header-table-font-khmer text-md",
-    "row-class-name": "sanfont-khmer",
+    "header-cell-class-name": "header-table-font-khmer text-md ",
+    "row-class-name": "sanfont-khmer ",
     selectable: "",
     stripe: "",
     "highlight-current-row": "true"
@@ -664,7 +687,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         label: "ឈ្មោះ",
-        sortable: ""
+        sortable: "",
+        property: "full_name_kh"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.name), 1 /* TEXT */)];
@@ -674,7 +698,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         property: "email",
         label: "សារអេឡិចត្រូនិច",
-        width: "300"
+        width: "300",
+        sortable: ""
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         label: "លេខទូរស័ព្ទ",
         property: "phone"
@@ -688,7 +713,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
               key: data.id
             }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tag, {
-              type: "info",
+              type: $options.getType(data.name),
               "disable-transitions": ""
             }, {
               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -696,7 +721,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }),
 
               _: 2 /* DYNAMIC */
-            }, 1024 /* DYNAMIC_SLOTS */)]);
+            }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["type"])]);
           }), 128 /* KEYED_FRAGMENT */))])];
         }),
 
@@ -725,6 +750,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             icon: _ctx.InfoFilled,
             "icon-color": "#626AEF",
             title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
+            "cancel-button-type": "info",
             onConfirm: function onConfirm($event) {
               return $options.handleDelete(scope.row.id);
             }
@@ -761,6 +787,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             icon: _ctx.InfoFilled,
             "icon-color": "#626AEF",
             title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
+            "cancel-button-type": "info",
             onConfirm: function onConfirm($event) {
               return $options.handleDelete(scope.row.id);
             }
@@ -826,6 +853,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[13] || (_cache[13] = function ($event) {
           return $options.cancelAction();
         }),
+        type: "danger",
         "class": "sanfont-khmer"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
