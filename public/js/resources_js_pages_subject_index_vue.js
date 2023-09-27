@@ -107,19 +107,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         filterLabel: 'តាមទំហំផ្ទុក'
       }],
       filterSelectValue: "",
-      classType: [{
-        name: 'ធម្មតា',
-        id: 1,
-        disabled: true
-      }, {
-        name: 'ថ្នាក់វិទ្យាសាស្រ្តពិត',
-        id: 2,
-        disabled: true
-      }, {
-        name: 'ថ្នាក់វិទ្យាសាស្រ្តសង្គម',
-        id: 3,
-        disabled: true
-      }],
       //Data Page filter
       page: 1,
       per_page: 10,
@@ -1197,9 +1184,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             onInput: $options.clickSearchSubjectLevel
           }, null, 8 /* PROPS */, ["modelValue", "onInput"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-            modelValue: $data.filterSelectValue,
+            modelValue: _ctx.SelectValue,
             "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
-              return $data.filterSelectValue = $event;
+              return _ctx.SelectValue = $event;
             }),
             filterable: "",
             clearable: "",
@@ -1209,9 +1196,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.classType, function (item) {
                 return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                  key: item.id,
-                  label: item.name,
-                  value: item.id
+                  key: item.classTypeValue,
+                  label: item.classTypeLabel,
+                  value: item.classTypeValue
                 }, null, 8 /* PROPS */, ["label", "value"]);
               }), 128 /* KEYED_FRAGMENT */))];
             }),
