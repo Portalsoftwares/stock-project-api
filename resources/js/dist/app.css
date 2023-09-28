@@ -564,6 +564,10 @@ header.el-dialog__header {
   margin-right: 0px !important;
 }
 
+.el-dialog__headerbtn .el-dialog__close {
+  font-size: 25px!important;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1625,6 +1629,10 @@ header.el-dialog__header {
   padding-bottom: 1.75rem;
 }
 
+.pb-8 {
+  padding-bottom: 2rem;
+}
+
 .pl-0 {
   padding-left: 0px;
 }
@@ -1645,6 +1653,10 @@ header.el-dialog__header {
   padding-left: 40px;
 }
 
+.pr-10 {
+  padding-right: 2.5rem;
+}
+
 .pr-11 {
   padding-right: 2.75rem;
 }
@@ -1653,8 +1665,16 @@ header.el-dialog__header {
   padding-right: 0.5rem;
 }
 
+.pr-4 {
+  padding-right: 1rem;
+}
+
 .pr-64 {
   padding-right: 16rem;
+}
+
+.pr-9 {
+  padding-right: 2.25rem;
 }
 
 .pt-0 {
@@ -1817,6 +1837,16 @@ header.el-dialog__header {
 .text-\[\#00FF00\] {
   --tw-text-opacity: 1;
   color: rgb(0 255 0 / var(--tw-text-opacity));
+}
+
+.text-blue-300 {
+  --tw-text-opacity: 1;
+  color: rgb(147 197 253 / var(--tw-text-opacity));
+}
+
+.text-blue-400 {
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity));
 }
 
 .text-blue-500 {

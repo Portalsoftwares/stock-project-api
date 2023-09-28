@@ -114,6 +114,7 @@
 									:icon="InfoFilled"
 									icon-color="#626AEF"
 									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									cancel-button-type="info"
 									@confirm="handleDelete(scope.row.time_id)"
 								>
 									<template #reference>
@@ -139,6 +140,7 @@
 									:icon="InfoFilled"
 									icon-color="#626AEF"
 									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									cancel-button-type="info"
 									@confirm="handleDelete(scope.row.time_id)"
 								>
 									<template #reference>
@@ -176,7 +178,7 @@
 		v-model="dialogFormVisible"
 		title="ព័ត៌មានម៉ោង"
 		class="sanfont-khmer "
-		width="43%"
+		width="35%"
 		align-center="true"
 		draggable
 	>
@@ -300,7 +302,7 @@ export default {
 			dialogFormVisible: false,
 			roles: [],
 			name: "",
-			formLabelWidth: "110px",
+			formLabelWidth: "135px",
 			dialogImageUrl: "",
 			dialogVisible: false,
 			files: {},

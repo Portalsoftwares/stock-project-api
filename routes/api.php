@@ -36,6 +36,8 @@ Route::prefix('v1')->group(function () {
       Route::post('update/{id}', [UserController::class, 'update']);
       Route::delete('delete/{id}', [UserController::class, 'delete']);
       Route::post('/restore/{id}', [UserController::class, 'restore']);
+
+      Route::post('/exportExcel', [UserController::class, 'exportExcel']);
     });
     // Files  
     Route::prefix('files')->group(function () {
@@ -122,6 +124,7 @@ Route::prefix('v1')->group(function () {
       Route::post('/collect/report/{id}', [ScoreController::class, 'reportSubject']);
       Route::post('/collect/all/{id}', [ScoreController::class, 'allsubeject']);
       Route::post('/collect/all/{id}/create', [ScoreController::class, 'createAllSubject']);
+      Route::get('/collect/all/{id}/exam', [ScoreController::class, 'getExam']);
       Route::post('/collect/{id}/create', [ScoreController::class, 'create']);
       //Report
       Route::post('/report/{id}/export', [ScoreController::class, 'exportPDF']);

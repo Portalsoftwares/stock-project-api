@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Academic;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Classes;
+use App\Models\ClassType;
 use App\Models\TeacherClass;
 use App\Models\StudentClass;
 use App\Models\Schedule;
 
 use App\Models\Gender;
+use App\Models\GradeLevel;
 use App\Models\Student;
 use App\Models\StudentRole;
 use App\Models\StudentStatus;
@@ -35,9 +38,21 @@ class ClassController extends Controller
             $per_page = DB::table('class')->count() > 0 ? DB::table('class')->count() : $per_page;
         }
 
-        // if (!empty($request->filter_profession)) {
-        //     $items->whereIn('profession', 'like', $request->filter_profession);
-        // }
+        if (!empty($request->class_type)) {
+            $items->whereHas('class_type', function ($query) use ($request) {
+                $query->whereIn('class_type_id', explode(',', $request->class_type));
+            });
+        }
+        if (!empty($request->grade_level)) {
+            $items->whereHas('grade_level', function ($query) use ($request) {
+                $query->whereIn('grade_level_id', explode(',', $request->grade_level));
+            });
+        }
+        if (!empty($request->academic)) {
+            $items->whereHas('academic', function ($query) use ($request) {
+                $query->where('academic_id', $request->academic);
+            });
+        }
         // if (!empty($request->filter_teacher_level)) {
         //     $items->whereIn('teacher_level', $request->filter_teacher_level);
         // }
@@ -50,11 +65,18 @@ class ClassController extends Controller
         if (!empty($request->is_show_trust)) {
             $items->onlyTrashed();
         }
-        $data = $items->with(['class_type', 'academic', 'count_student_in_class.student_in_class', 'get_teacher_in_class.teacher_in_class', 'get_teacher_in_class.teacher_subject_in_class'])
+
+
+        $data = $items->with([
+            'class_type', 'academic', 'count_student_in_class.student_in_class', 'get_teacher_in_class.teacher_in_class', 'get_teacher_in_class.teacher_subject_in_class'
+        ])
             ->orderBy($sort_by, $order_by)
             ->paginate($per_page);
         $response = [
             'data' => $data,
+            'grade_level' => GradeLevel::all(),
+            'academic' => Academic::all(),
+            'class_type' => ClassType::all(),
         ];
         return  response($response, 200);
     }

@@ -212,7 +212,7 @@
 							<el-tooltip
 								class="box-item"
 								effect="dark"
-								content="ប្រភេទពិន្ទុ"
+								content="ការប្រឡង"
 								placement="right-start"
 							>
 
@@ -223,7 +223,7 @@
 							<span
 								v-show="dataSibar"
 								class="sanfont-khmer  text-sm"
-							> ប្រភេទពិន្ទុ</span>
+							> ការប្រឡង</span>
 						</router-link>
 					</div>
 					<div

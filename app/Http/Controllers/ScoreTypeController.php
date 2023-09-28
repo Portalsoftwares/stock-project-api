@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\ScoreType;
 use App\Models\scoreTypeAcademic;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -43,7 +44,7 @@ class ScoreTypeController extends Controller
         }
 
 
-        $data = $items
+        $data = $items->whereNotIn('type', [3, 4])
             ->orderBy($sort_by, $order_by)
             ->paginate($per_page);
 
@@ -190,8 +191,18 @@ class ScoreTypeController extends Controller
     public function createAcademic(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'academic_id' => 'required',
-            'semester_id' => 'required',
+            'academic_id' => [
+                'required',
+                Rule::unique('score_type_academic')->where(function ($query) use ($request) {
+                    return $query->where('academic_id', $request->academic_id)->where('semester_id', $request->semester_id)->get();
+                })
+            ],
+            'semester_id' => [
+                'required',
+                Rule::unique('score_type_academic')->where(function ($query) use ($request) {
+                    return $query->where('academic_id', $request->academic_id)->where('semester_id', $request->semester_id)->get();
+                })
+            ]
         ]);
 
         if ($validator->fails()) {
@@ -266,7 +277,7 @@ class ScoreTypeController extends Controller
             }
             //Hard Delete
             if (empty($items)) {
-                $items = ScoreType::onlyTrashed()->where('id', $id);
+                $items = scoreTypeAcademic::onlyTrashed()->where('id', $id);
                 if (!empty($items)) {
                     $items->forceDelete();
                 }

@@ -228,6 +228,7 @@
 									:icon="InfoFilled"
 									icon-color="#626AEF"
 									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									cancel-button-type="info"
 									@confirm="handleDelete(scope.row.student_id)"
 								>
 									<template #reference>
@@ -253,6 +254,7 @@
 									:icon="InfoFilled"
 									icon-color="#626AEF"
 									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									cancel-button-type="info"
 									@confirm="handleDelete(scope.row.student_id)"
 								>
 									<template #reference>

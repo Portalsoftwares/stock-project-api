@@ -18,4 +18,8 @@ class score extends Model
         'score_type_id',
         'subject_grade_id',
     ];
+    public function score_type()
+    {
+        return $this->hasOne(scoreType::class, 'score_type_id', 'score_type_id');
+    }
 }

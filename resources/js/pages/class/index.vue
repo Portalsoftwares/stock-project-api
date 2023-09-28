@@ -1,58 +1,11 @@
 <template>
 	<div class="bg-white p-2 flex flex-col xl:flex-row xl:justify-between border rounded-t">
 		<div class="flex space-y-2  flex-col">
-			<div class="flex space-x-2">
-				<div class="self-start ">
-					<el-input
-						placeholder="ស្វែងរក"
-						class="sanfont-khmer"
-						v-model="search"
-					>
-						<i class="el-input__icon el-icon-search"></i>
-						<CirclePlusFilled class="el-input__icon" />
-					</el-input>
-				</div>
-				<div class="self-start ">
-					<el-select
-						v-model="filterSelectValue "
-						filterable
-						clearable
-						multiple
-						placeholder="កម្រិត"
-					>
-						<el-option
-							v-for="item in filter"
-							:key="item.filterValue"
-							:label="item.filterLabel"
-							:value="item.filterValue"
-						>
-						</el-option>
-					</el-select>
-				</div>
 
-			</div>
 			<div class="flex space-x-2">
 				<div class="self-start  ">
 					<el-select
-						v-model="filterSelectValue "
-						filterable
-						clearable
-						multiple
-						placeholder="ប្រភេទថ្នាក់"
-					>
-						<el-option
-							v-for="item in classType"
-							:key="item.id"
-							:label="item.name"
-							:value="item.id"
-						>
-						</el-option>
-					</el-select>
-				</div>
-
-				<div class="self-start  ">
-					<el-select
-						v-model="academicSelectValue"
+						v-model="filter_academic_id"
 						filterable
 						clearable
 						placeholder="ឆ្នាំសិក្សា"
@@ -60,13 +13,54 @@
 						<el-option
 							v-for="item in academic"
 							:key="item.id"
-							:label="item.name"
-							:value="item.id"
+							:label="item.academic_name"
+							:value="item.academic_id"
 						>
 						</el-option>
 					</el-select>
 				</div>
-				<el-button type="primary">
+				<div class="self-start  ">
+					<el-select
+						v-model="filter_class_type_id"
+						filterable
+						clearable
+						multiple
+						placeholder="ប្រភេទថ្នាក់"
+						collapse-tags
+						collapse-tags-tooltip
+						:max-collapse-tags="2"
+					>
+						<el-option
+							v-for="item in classType"
+							:key="item.id"
+							:label="item.name"
+							:value="item.class_type_id"
+						>
+						</el-option>
+					</el-select>
+				</div>
+				<div class="self-start ">
+					<el-select
+						v-model="filter_grade_level_id"
+						filterable
+						clearable
+						multiple
+						placeholder="កម្រិត"
+					>
+						<el-option
+							v-for="item in gradeLevel"
+							:key="item"
+							:label="item.grade_level_name"
+							:value="item.grade_level_id"
+						>
+						</el-option>
+					</el-select>
+				</div>
+
+				<el-button
+					type="primary"
+					@click="filterAction"
+				>
 					<el-icon>
 						<Search />
 					</el-icon>
@@ -75,7 +69,7 @@
 			</div>
 		</div>
 		<div class="self-end space-y-2 ">
-			<div>
+			<div class=" space-x-2">
 				<el-switch
 					v-model="is_show_trust"
 					@change="clickShowwTrush"
@@ -86,8 +80,6 @@
 					active-value="1"
 					inactive-value="0"
 				/>
-			</div>
-			<div class=" space-x-2">
 				<el-button type="info">
 					<el-icon>
 						<Document />
@@ -178,6 +170,7 @@
 										:icon="InfoFilled"
 										icon-color="#626AEF"
 										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+										cancel-button-type="info"
 										@confirm="handleDelete(scope.row.class_id)"
 									>
 										<template #reference>
@@ -213,6 +206,7 @@
 										:icon="InfoFilled"
 										icon-color="#626AEF"
 										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+										cancel-button-type="info"
 										@confirm="handleDelete(scope.row.class_id)"
 									>
 										<template #reference>
@@ -251,7 +245,7 @@
 		v-model="dialogFormVisible"
 		title="ព័ត៌មានថ្នាក់រៀន"
 		class="sanfont-khmer"
-		width="53%"
+		width="33%"
 		align-center="true"
 		draggable
 	>
@@ -262,7 +256,7 @@
 			</div>
 		</template>
 		<el-form
-			class="xl:grid xl:grid-cols-2"
+			class="grid grid-cols-1"
 			:model="ruleForm"
 			:rules="rules"
 			ref="ruleForm"
@@ -361,13 +355,12 @@
 						/>
 					</el-select>
 				</el-form-item>
-			</div>
-			<div>
 				<el-form-item
 					label="ផ្សេងៗ"
 					prop="other"
-					class="sanfont-khmer"
+					class="sanfont-khmer pr-4"
 					:label-width="formLabelWidth"
+					
 				>
 					<el-input
 						type="textarea"
@@ -378,6 +371,7 @@
 					</el-input>
 				</el-form-item>
 			</div>
+			
 		</el-form>
 		<el-dialog v-model="dialogVisible">
 			<img
@@ -462,51 +456,9 @@ export default {
 
 			},
 			search: '',
-			academic: [
-				{
-					name: 'ឆ្នាំសិក្សា២០២១-២០២២',
-					id: 1
-				},
-				{
-					name: 'ឆ្នាំសិក្សា២០២២-២០២៣',
-					id: 2
-				},
-				{
-					name: 'ឆ្នាំសិក្សា២០២៣-២០២៤',
-					id: 3
-				},
-			],
-			gradeLevel: [
-				{
-					name: '10',
-					id: 1
-				},
-				{
-					name: '11',
-					id: 2
-				},
-				{
-					name: '12',
-					id: 3
-				},
-			],
-			classType: [
-				{
-					name: 'ធម្មតា',
-					id: 1,
-					disabled: true,
-				},
-				{
-					name: 'ថ្នាក់វិទ្យាសាស្រ្តពិត',
-					id: 2,
-					disabled: true,
-				},
-				{
-					name: 'ថ្នាក់វិទ្យាសាស្រ្តសង្គម',
-					id: 3,
-					disabled: true,
-				},
-			],
+			academic: [],
+			gradeLevel: [],
+			classType: [],
 			nameSimble: [
 				{
 					name: 'A',
@@ -531,21 +483,6 @@ export default {
 			],
 			gradeLevelId: null,
 			nameClass: '',
-
-			filter: [{
-				filterValue: 'តាមឈ្មោះ',
-				filterLabel: 'តាមឈ្មោះ'
-			}, {
-				filterValue: 'តាមលេខរៀង',
-				filterLabel: 'តាមលេខរៀង'
-			}, {
-				filterValue: 'តាមកាលបរិច្ឆេត',
-				filterLabel: 'តាមកាលបរិច្ឆេត'
-			}, {
-				filterValue: 'តាមទំហំផ្ទុក',
-				filterLabel: 'តាមទំហំផ្ទុក'
-			}],
-			filterSelectValue: "",
 			//Data Page filter
 			page: 1,
 			per_page: 10,
@@ -555,7 +492,11 @@ export default {
 			tSearch: null,
 			is_show_trust: 0,
 			//Data Page filter,
-			errors: ''
+			errors: '',
+
+			filter_academic_id: '',
+			filter_class_type_id: '',
+			filter_grade_level_id: '',
 		}
 	},
 	watch: {
@@ -565,9 +506,12 @@ export default {
 		}
 	},
 	mounted() {
-		this.getData()
+		// this.getData()
 	},
 	methods: {
+		filterAction() {
+			this.getData()
+		},
 		//Change Per Page
 		changePageSize(event) {
 			this.per_page = event;
@@ -604,7 +548,7 @@ export default {
 				if (valid) {
 					this.submitData()
 					// this.resetForm('ruleForm')
-				} else {	
+				} else {
 					this.$notify.error({
 						title: 'កំហុស',
 						message: 'បញ្ចូលមិនបានជោគជ័យទេ 😓',
@@ -706,8 +650,13 @@ export default {
 		},
 		async getData() {
 			this.loading_class = true;
-			await axios.get(`/class/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`).then(response => {
+			await axios.get(`/class/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}
+             &academic=${this.filter_academic_id}&grade_level=${this.filter_grade_level_id}&class_type=${this.filter_class_type_id}
+			`).then(response => {
 				this.tableData = response.data.data
+				this.academic = response.data.academic
+				this.gradeLevel = response.data.grade_level
+				this.classType = response.data.class_type
 				this.loading_class = false;
 			}).catch((error) => {
 				this.loading_class = false;

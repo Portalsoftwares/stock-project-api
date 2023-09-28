@@ -5,7 +5,7 @@
 		@tab-change="changeTap"
 	>
 		<el-tab-pane
-			label="ប្រភេទពិន្ទុទូទៅ"
+			label="ការប្រឡង"
 			name="tab-type-1"
 		>
 			<div>
@@ -59,7 +59,7 @@
 						<div class="flex flex-col  ">
 							<el-table
 								:data="tableData.data"
-								height="750"
+								height="720"
 								style="width: 100%"
 								resizable="true"
 								header-cell-class-name="header-table-font-khmer text-md"
@@ -114,6 +114,7 @@
 												:icon="InfoFilled"
 												icon-color="#626AEF"
 												title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+												cancel-button-type="info"
 												@confirm="handleDelete(scope.row.score_type_id)"
 											>
 												<template #reference>
@@ -139,6 +140,7 @@
 												:icon="InfoFilled"
 												icon-color="#626AEF"
 												title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+												cancel-button-type="info"
 												@confirm="handleDelete(scope.row.score_type_id)"
 											>
 												<template #reference>
@@ -176,7 +178,7 @@
 			</div>
 		</el-tab-pane>
 		<el-tab-pane
-			label="ប្រភេទពិន្ទុតាមឆ្នាំសិក្សា"
+			label="ការប្រឡងក្នុងឆមាស"
 			name="tab-type-2"
 		>
 			<div>
@@ -223,7 +225,7 @@
 						<div class="flex flex-col  ">
 							<el-table
 								:data="tableDataAcademic.data"
-								height="750"
+								height="720"
 								style="width: 100%"
 								resizable="true"
 								header-cell-class-name="header-table-font-khmer text-md"
@@ -258,7 +260,7 @@
 
 								</el-table-column>
 								<el-table-column
-									label="ខែនៅក្រោមឆមាស"
+									label="ប្រឡងក្នុងឆមាស"
 									min-width="320"
 								>
 									<template #default="scope">
@@ -365,7 +367,7 @@
 	<!-- Dialog  -->
 	<el-dialog
 		v-model="dialogFormVisible"
-		title="ព័ត៌មានប្រភេទពិន្ទុ"
+		title="ព័ត៌មានការប្រឡង"
 		class="sanfont-khmer "
 		width="34%"
 		align-center="true"
@@ -373,7 +375,7 @@
 	>
 		<template #header>
 			<div class="my-header">
-				<h4 class="text-lg font-semibold text-white">ព័ត៌មានប្រភេទពិន្ទុ</h4>
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានការប្រឡង</h4>
 			</div>
 		</template>
 		<el-form
@@ -383,11 +385,6 @@
 			ref="ruleForm"
 			id="fm"
 		>
-			<div class="flex flex-col">
-
-				<div class="flex flex-row ">
-					<div class="flex flex-col space-y-1">
-						<div>
 							<el-form-item
 								label="ឈ្មោះ"
 								prop="name"
@@ -401,8 +398,7 @@
 									clearable
 								></el-input>
 							</el-form-item>
-						</div>
-						<div>
+						
 							<el-form-item
 								label="កាលបរិច្ជេទ"
 								prop="date"
@@ -414,11 +410,7 @@
 									name="date"
 								/>
 							</el-form-item>
-						</div>
-					</div>
-				</div>
-			</div>
-
+						
 		</el-form>
 
 		<template #footer>
@@ -451,7 +443,7 @@
 	<!-- Dialog  Academic -->
 	<el-dialog
 		v-model="dialogFormVisibleAcademic"
-		title="ព័ត៌មានប្រភេទពិន្ទុតាមឆ្នាំសិក្សា"
+		title="ព័ត៌មានការប្រឡងតាមឆ្នាំសិក្សា"
 		class="sanfont-khmer "
 		width="34%"
 		align-center="true"
@@ -459,7 +451,7 @@
 	>
 		<template #header>
 			<div class="my-header">
-				<h4 class="text-lg font-semibold text-white">ព័ត៌មានប្រភេទពិន្ទុតាមឆ្នាំសិក្សា</h4>
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានការប្រឡងតាមឆ្នាំសិក្សា</h4>
 			</div>
 		</template>
 		<el-form
@@ -478,7 +470,7 @@
 								label="ឆ្នាំសិក្សា"
 								prop="academic_id"
 								class="sanfont-khmer"
-								:label-width="formLabelWidth"
+								:label-width="formLabelWidth1"
 							>
 								<el-select
 									v-model="ruleFormAcademic.academic_id"
@@ -505,7 +497,7 @@
 								label="ឆមាស"
 								prop="semester_id"
 								class="sanfont-khmer"
-								:label-width="formLabelWidth"
+								:label-width="formLabelWidth1"
 							>
 								<el-select
 									v-model="ruleFormAcademic.semester_id"
@@ -529,10 +521,10 @@
 						</div>
 						<div>
 							<el-form-item
-								label="ប្រឡងនៅក្រោមឆមាស"
+								label="ប្រឡងក្នុងឆមាស"
 								prop="under_score_type_id"
 								class="sanfont-khmer"
-								:label-width="formLabelWidth"
+								:label-width="formLabelWidth1"
 							>
 								<el-select
 									v-model="ruleFormAcademic.under_score_type_id"
@@ -600,7 +592,8 @@ export default {
 		return {
 			tableData: [],
 			dialogFormVisible: false,
-			formLabelWidth: "150px",
+			formLabelWidth: "140px",
+			formLabelWidth1: "130px",
 			isShowButtonUpdate: false,
 			ruleForm: {
 				name: null,
@@ -609,7 +602,7 @@ export default {
 			},
 			rules: {
 				name: [
-					{ required: true, message: 'សូមបញ្ជូលឈ្មោះប្រភេទពិន្ទុ', trigger: 'blur' },
+					{ required: true, message: 'សូមបញ្ជូលឈ្មោះការប្រឡង', trigger: 'blur' },
 				],
 			},
 			loading: false,

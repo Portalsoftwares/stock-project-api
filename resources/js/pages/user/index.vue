@@ -40,7 +40,10 @@
 				/>
 			</div>
 			<div class="self-center ">
-				<el-button type="info">
+				<el-button
+					type="info"
+					@click="exportExcel"
+				>
 					<el-icon>
 						<Document />
 					</el-icon>
@@ -68,8 +71,8 @@
 					height="750"
 					style="width: 100%"
 					resizable="true"
-					header-cell-class-name="header-table-font-khmer text-md"
-					row-class-name="sanfont-khmer"
+					header-cell-class-name="header-table-font-khmer text-md "
+					row-class-name="sanfont-khmer "
 					selectable
 					stripe
 					highlight-current-row="true"
@@ -104,6 +107,7 @@
 					<el-table-column
 						label="ឈ្មោះ"
 						sortable
+						property="full_name_kh"
 					>
 						<template #default="scope">{{ scope.row.name }}</template>
 					</el-table-column>
@@ -111,6 +115,7 @@
 						property="email"
 						label="សារអេឡិចត្រូនិច"
 						width="300"
+						sortable
 					/>
 
 					<el-table-column
@@ -131,7 +136,7 @@
 									:key="data.id"
 								>
 									<el-tag
-										type="info"
+										:type="getType(data.name)"
 										disable-transitions
 									>{{ data.name }}</el-tag>
 								</div>
@@ -160,6 +165,7 @@
 										:icon="InfoFilled"
 										icon-color="#626AEF"
 										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+										cancel-button-type="info"
 										@confirm="handleDelete(scope.row.id)"
 									>
 										<template #reference>
@@ -185,6 +191,7 @@
 										:icon="InfoFilled"
 										icon-color="#626AEF"
 										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+										cancel-button-type="info"
 										@confirm="handleDelete(scope.row.id)"
 									>
 										<template #reference>
@@ -343,7 +350,10 @@
 				class="sanfont-khmer"
 				:label-width="formLabelWidth"
 			>
-				<div>
+				
+				<div class="flex flex-col">
+					<!--<div class="pb-5">រូបភាព</div> -->
+					<div>
 					<el-upload
 						class="avatar-uploader"
 						action="#"
@@ -368,6 +378,7 @@
 						name="photo_id"
 						v-model="ruleForm.photo_id"
 					>
+					</div>
 				</div>
 			</el-form-item>
 
@@ -383,6 +394,7 @@
 			<span class="dialog-footer">
 				<el-button
 					@click="cancelAction()"
+					type="danger"
 					class="sanfont-khmer"
 				> បោះបង់</el-button>
 				<el-button
@@ -472,13 +484,23 @@ export default {
 			tSearch: null,
 			is_show_trust: 0
 			//Data Page filter
-
 		}
 	},
 	mounted() {
-		this.getData()
+		// this.getData()
 	},
 	methods: {
+		getType(role) {
+			if (role == 'super-admin') {
+				return 'success'
+			}
+			if (role == 'role-editor') {
+				return 'warning'
+			}
+			if (role == 'role-viewer') {
+				return 'info'
+			}
+		},
 		selectTeacher(event) {
 			// this.ruleForm.teacher_id = event.teacher_id.toString()
 			// this.ruleForm.name = event.last_name_en
@@ -706,16 +728,16 @@ export default {
 				});
 			})
 		},
-		// async restoreData() {
-		// 	axios.post('/user/restore/1', {
-		// 		file_name: 'User'
-		// 	}, {
-		// 		responseType: 'blob'
-		// 	}).then((response) => {
-		// 		// response.data is a blob type
-		// 		FileSaver.saveAs(response.data, 'user');
-		// 	});
-		// }
+		async exportExcel() {
+			axios.post('/user/exportExcel', {
+				file_name: 'User'
+			}, {
+				responseType: 'blob'
+			}).then((response) => {
+				// response.data is a blob type
+				FileSaver.saveAs(response.data, 'user');
+			});
+		}
 
 	}
 }

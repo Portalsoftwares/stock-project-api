@@ -45,7 +45,7 @@ router.beforeEach(async (to, from) => {
         },
         {
             path: "/score-type",
-            name: "ប្រភេទពិន្ទុ"
+            name: "ការប្រឡង"
         },
         {
             path: "/time",

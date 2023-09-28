@@ -109,6 +109,7 @@
 									:icon="InfoFilled"
 									icon-color="#626AEF"
 									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									cancel-button-type="info"
 									@confirm="handleDelete(scope.row.academic_id)"
 								>
 									<template #reference>
@@ -134,6 +135,7 @@
 									:icon="InfoFilled"
 									icon-color="#626AEF"
 									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									cancel-button-type="info"
 									@confirm="handleDelete(scope.row.academic_id)"
 								>
 									<template #reference>
@@ -171,7 +173,7 @@
 		v-model="dialogFormVisible"
 		title="ព័ត៌មានឆ្នាំសិក្សា"
 		class="sanfont-khmer "
-		width="36%"
+		width="27%"
 		align-center="true"
 		draggable
 	>
@@ -278,7 +280,7 @@ export default {
 		return {
 			tableData: [],
 			dialogFormVisible: false,
-			formLabelWidth: "110px",
+			formLabelWidth: "105px",
 			isShowButtonUpdate: false,
 
 			ruleForm: {

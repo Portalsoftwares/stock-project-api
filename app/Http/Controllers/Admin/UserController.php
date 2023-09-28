@@ -65,9 +65,11 @@ class UserController extends Controller
      */
     public function create()
     {
+        $unuser = User::whereNotNull('teacher_id')->pluck('teacher_id');
+
         $response = [
             'roles' => Role::all(),
-            'teachers' => Teacher::all()
+            'teachers' => Teacher::whereNotIn('teacher_id', $unuser)->get()
         ];
         return  response($response, 200);
     }
@@ -141,8 +143,6 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::where('id', $id)->with('img')->first();
-        // dd( Hash::check('123a456789', $user->password, []));
-
         if (is_null($user)) {
             $response = [
                 'message' => 'user not found',
@@ -208,6 +208,7 @@ class UserController extends Controller
      */
     public function delete($id)
     {
+
         if ($id  == Auth::user()->id) {
             abort(404);
         }
@@ -224,7 +225,6 @@ class UserController extends Controller
                 if (!empty($items)) {
                     $items->forceDelete();
                 }
-                abort(404);
             }
         });
 
@@ -234,16 +234,16 @@ class UserController extends Controller
         return  response($response, 200);
     }
 
-    public function __restore($id)
+    public function restore($id)
     {
-        // $items = User::withTrashed()->find($id)->restore();
-        // $response = [
-        //     'data' => 'Restore successfull',
-        // ];
-        // return  response($response, 200);
+        $items = User::withTrashed()->find($id)->restore();
+        $response = [
+            'data' => 'Restore successfull',
+        ];
+        return  response($response, 200);
     }
 
-    public function restore()
+    public function exportExcel()
     {
         return Excel::download(new UsersExport, 'users.xlsx');
     }

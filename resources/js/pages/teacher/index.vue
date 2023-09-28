@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-white p-2 w-full justify-between border rounded-t xl:flex xl:flex-row ">
 		<div class="flex  flex-col 3xl:flex  3xl:flex-row  ">
-			<div class="flex space-x-2">
+			<div class="flex space-x-2"> 
 				<div class="self-start">
 					<el-input
 						placeholder="ស្វែងរក"
@@ -78,7 +78,7 @@
 			</div>
 
 			<div class="self-center ">
-				<el-button type="info" >
+				<el-button type="info">
 					<el-icon>
 						<Document />
 					</el-icon>
@@ -243,6 +243,7 @@
 									:icon="InfoFilled"
 									icon-color="#626AEF"
 									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									cancel-button-type="info"
 									@confirm="handleDelete(scope.row.teacher_id)"
 								>
 									<template #reference>
@@ -268,6 +269,7 @@
 									:icon="InfoFilled"
 									icon-color="#626AEF"
 									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									cancel-button-type="info"
 									@confirm="handleDelete(scope.row.teacher_id)"
 								>
 									<template #reference>

@@ -37,4 +37,8 @@ class Classes extends Model
     {
         return $this->hasMany(TeacherClass::class, 'class_id', 'class_id');
     }
+    public function grade_level()
+    {
+        return $this->hasOne(GradeLevel::class, 'grade_level_id', 'grade_level_id');
+    }
 }
