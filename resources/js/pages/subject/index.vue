@@ -149,11 +149,12 @@
 
 									<el-popconfirm
 										width="220"
-										confirm-button-text="OK"
-										cancel-button-text="No, Thanks"
+										confirm-button-text="យល់ព្រម"
+										cancel-button-text="ទេ"
 										:icon="InfoFilled"
 										icon-color="#626AEF"
-										title="Are you sure to delete this?"
+										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+										cancel-button-type="info"
 										@confirm="handleDelete(scope.row.subject_id)"
 									>
 										<template #reference>
@@ -190,7 +191,7 @@
 				v-model="dialogFormVisible"
 				title="ព័ត៌មានមុខវិជ្ជា"
 				class="sanfont-khmer"
-				width="50%"
+				width="36%"
 				align-center="true"
 				draggable
 			>
@@ -200,21 +201,19 @@
 					</div>
 				</template>
 				<el-form
-					class="grid grid-cols-2"
+					class="grid grid-cols-1"
 					:model="ruleForm"
 					:rules="rules"
 					ref="ruleForm"
 					id="fm"
 				>
 
-					<div class="flex flex-row ">
-						<div class="flex flex-col space-y-1">
-							<div>
+					
 								<el-form-item
 									label="ឈ្មោះមុខវិជ្ជា (ខ្មែរ)"
 									prop="subNameKh"
 									class="sanfont-khmer "
-									:label-width="formLabelWidth"
+									:label-width="formLabelWidth1"
 								>
 									<el-input
 										v-model="ruleForm.subNameKh"
@@ -222,13 +221,12 @@
 										clearable
 									></el-input>
 								</el-form-item>
-							</div>
-							<div>
+							
 								<el-form-item
 									label="ឈ្មោះមុខវិជ្ជា (អង់គ្លេស)"
 									prop="subNameEng"
 									class="sanfont-khmer "
-									:label-width="formLabelWidth"
+									:label-width="formLabelWidth1"
 								>
 									<el-input
 										v-model="ruleForm.subNameEng"
@@ -236,13 +234,12 @@
 										clearable
 									></el-input>
 								</el-form-item>
-							</div>
-							<div>
+							
 								<el-form-item
 									label="ឈ្មោះមុខវិជ្ជា (អក្សរកាត់)"
 									prop="subShortNameEng"
 									class="sanfont-khmer "
-									:label-width="formLabelWidth"
+									:label-width="formLabelWidth1"
 								>
 									<el-input
 										v-model="ruleForm.subShortNameEng"
@@ -250,10 +247,7 @@
 										clearable
 									></el-input>
 								</el-form-item>
-							</div>
-
-						</div>
-					</div>
+						
 
 				</el-form>
 				<el-dialog v-model="dialogVisible">
@@ -482,6 +476,7 @@
 											:icon="InfoFilled"
 											icon-color="#626AEF"
 											title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+											cancel-button-type="info"
 											@confirm="handleDeleteSubjectLevel(scope.row.subject_grade_id)"
 										>
 											<template #reference>
@@ -507,6 +502,7 @@
 											:icon="InfoFilled"
 											icon-color="#626AEF"
 											title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+											cancel-button-type="info"
 											@confirm="handleDeleteSubjectLevel(scope.row.subject_grade_id)"
 										>
 											<template #reference>
@@ -545,7 +541,7 @@
 				v-model="dialogFormVisibleSubjectLevel"
 				title="ព័ត៌មានមុខវិជ្ជាតាមកម្រិត"
 				class="sanfont-khmer "
-				width="55%"
+				width="38%"
 				align-center="true"
 				draggable
 			>
@@ -734,6 +730,7 @@ export default {
 			roles: [],
 			name: "",
 			formLabelWidth: "170px",
+			formLabelWidth1: "180px",
 			dialogImageUrl: "",
 			dialogVisible: false,
 			files: {},

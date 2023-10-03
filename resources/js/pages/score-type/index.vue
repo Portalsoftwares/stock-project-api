@@ -114,6 +114,7 @@
 												:icon="InfoFilled"
 												icon-color="#626AEF"
 												title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+												cancel-button-type="info"
 												@confirm="handleDelete(scope.row.score_type_id)"
 											>
 												<template #reference>
@@ -139,6 +140,7 @@
 												:icon="InfoFilled"
 												icon-color="#626AEF"
 												title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+												cancel-button-type="info"
 												@confirm="handleDelete(scope.row.score_type_id)"
 											>
 												<template #reference>
@@ -383,11 +385,6 @@
 			ref="ruleForm"
 			id="fm"
 		>
-			<div class="flex flex-col">
-
-				<div class="flex flex-row ">
-					<div class="flex flex-col space-y-1">
-						<div>
 							<el-form-item
 								label="ឈ្មោះ"
 								prop="name"
@@ -401,8 +398,7 @@
 									clearable
 								></el-input>
 							</el-form-item>
-						</div>
-						<div>
+						
 							<el-form-item
 								label="កាលបរិច្ជេទ"
 								prop="date"
@@ -414,11 +410,7 @@
 									name="date"
 								/>
 							</el-form-item>
-						</div>
-					</div>
-				</div>
-			</div>
-
+						
 		</el-form>
 
 		<template #footer>
@@ -478,7 +470,7 @@
 								label="ឆ្នាំសិក្សា"
 								prop="academic_id"
 								class="sanfont-khmer"
-								:label-width="formLabelWidth"
+								:label-width="formLabelWidth1"
 							>
 								<el-select
 									v-model="ruleFormAcademic.academic_id"
@@ -505,7 +497,7 @@
 								label="ឆមាស"
 								prop="semester_id"
 								class="sanfont-khmer"
-								:label-width="formLabelWidth"
+								:label-width="formLabelWidth1"
 							>
 								<el-select
 									v-model="ruleFormAcademic.semester_id"
@@ -532,7 +524,7 @@
 								label="ប្រឡងក្នុងឆមាស"
 								prop="under_score_type_id"
 								class="sanfont-khmer"
-								:label-width="formLabelWidth"
+								:label-width="formLabelWidth1"
 							>
 								<el-select
 									v-model="ruleFormAcademic.under_score_type_id"
@@ -600,7 +592,8 @@ export default {
 		return {
 			tableData: [],
 			dialogFormVisible: false,
-			formLabelWidth: "150px",
+			formLabelWidth: "140px",
+			formLabelWidth1: "130px",
 			isShowButtonUpdate: false,
 			ruleForm: {
 				name: null,

@@ -1709,6 +1709,22 @@ header.el-dialog__header {
   padding-top: 25px;
 }
 
+.pb-8 {
+  padding-bottom: 2rem;
+}
+
+.pr-10 {
+  padding-right: 2.5rem;
+}
+
+.pr-4 {
+  padding-right: 1rem;
+}
+
+.pr-9 {
+  padding-right: 2.25rem;
+}
+
 .text-left {
   text-align: left;
 }

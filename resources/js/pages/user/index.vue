@@ -350,7 +350,10 @@
 				class="sanfont-khmer"
 				:label-width="formLabelWidth"
 			>
-				<div>
+				
+				<div class="flex flex-col">
+					<!--<div class="pb-5">រូបភាព</div> -->
+					<div>
 					<el-upload
 						class="avatar-uploader"
 						action="#"
@@ -375,6 +378,7 @@
 						name="photo_id"
 						v-model="ruleForm.photo_id"
 					>
+					</div>
 				</div>
 			</el-form-item>
 

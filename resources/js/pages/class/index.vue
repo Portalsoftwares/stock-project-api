@@ -1,9 +1,9 @@
 <template>
-	<div class="bg-white p-2 flex flex-col xl:flex-row xl:justify-between border rounded-t">
-		<div class="flex space-y-2  flex-col">
-
+	<div class="bg-white p-2 w-full border justify-between rounded-t xl:flex xl:flex-row">
+		<div class="flex  flex-col 2xl:flex  2xl:flex-row ">
+			
 			<div class="flex space-x-2">
-				<div class="self-start  ">
+				<div class="self-center pr-2">
 					<el-select
 						v-model="filter_academic_id"
 						filterable
@@ -19,7 +19,12 @@
 						</el-option>
 					</el-select>
 				</div>
-				<div class="self-start  ">
+			</div>	
+			<div class="flex space-y-2  2xl:space-y-0 ">
+				<div>
+				<!-- Use this <div> for space-y-2 work -->
+				</div>		
+				<div class="self-center  ">
 					<el-select
 						v-model="filter_class_type_id"
 						filterable
@@ -39,7 +44,8 @@
 						</el-option>
 					</el-select>
 				</div>
-				<div class="self-start ">
+				<div class="flex space-x-2 ">
+				<div class="self-center pl-2">
 					<el-select
 						v-model="filter_grade_level_id"
 						filterable
@@ -56,7 +62,7 @@
 						</el-option>
 					</el-select>
 				</div>
-
+				<div class="self-center">
 				<el-button
 					type="primary"
 					@click="filterAction"
@@ -65,11 +71,12 @@
 						<Search />
 					</el-icon>
 				</el-button>
-
-			</div>
+				</div>
+				</div>
+			</div>	
 		</div>
-		<div class="self-end space-y-2 ">
-			<div class=" space-x-2">
+		<div class="flex flex-col space-x-2  ">
+			<div class=" self-center">
 				<el-switch
 					v-model="is_show_trust"
 					@change="clickShowwTrush"
@@ -80,6 +87,8 @@
 					active-value="1"
 					inactive-value="0"
 				/>
+			</div>
+			<div class="self-center ">
 				<el-button type="info">
 					<el-icon>
 						<Document />
@@ -170,6 +179,7 @@
 										:icon="InfoFilled"
 										icon-color="#626AEF"
 										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+										cancel-button-type="info"
 										@confirm="handleDelete(scope.row.class_id)"
 									>
 										<template #reference>
@@ -205,6 +215,7 @@
 										:icon="InfoFilled"
 										icon-color="#626AEF"
 										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+										cancel-button-type="info"
 										@confirm="handleDelete(scope.row.class_id)"
 									>
 										<template #reference>
@@ -243,7 +254,7 @@
 		v-model="dialogFormVisible"
 		title="ព័ត៌មានថ្នាក់រៀន"
 		class="sanfont-khmer"
-		width="53%"
+		width="33%"
 		align-center="true"
 		draggable
 	>
@@ -254,7 +265,7 @@
 			</div>
 		</template>
 		<el-form
-			class="xl:grid xl:grid-cols-2"
+			class="grid grid-cols-1"
 			:model="ruleForm"
 			:rules="rules"
 			ref="ruleForm"
@@ -353,13 +364,12 @@
 						/>
 					</el-select>
 				</el-form-item>
-			</div>
-			<div>
 				<el-form-item
 					label="ផ្សេងៗ"
 					prop="other"
-					class="sanfont-khmer"
+					class="sanfont-khmer pr-4"
 					:label-width="formLabelWidth"
+					
 				>
 					<el-input
 						type="textarea"
@@ -370,6 +380,7 @@
 					</el-input>
 				</el-form-item>
 			</div>
+			
 		</el-form>
 		<el-dialog v-model="dialogVisible">
 			<img

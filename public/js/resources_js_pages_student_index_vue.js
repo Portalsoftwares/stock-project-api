@@ -933,6 +933,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             icon: _ctx.InfoFilled,
             "icon-color": "#626AEF",
             title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
+            "cancel-button-type": "info",
             onConfirm: function onConfirm($event) {
               return $options.handleDelete(scope.row.student_id);
             }
@@ -969,6 +970,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             icon: _ctx.InfoFilled,
             "icon-color": "#626AEF",
             title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
+            "cancel-button-type": "info",
             onConfirm: function onConfirm($event) {
               return $options.handleDelete(scope.row.student_id);
             }

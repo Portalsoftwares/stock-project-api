@@ -93,6 +93,7 @@
 								:icon="InfoFilled"
 								icon-color="#626AEF"
 								title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+								cancel-button-type="info"
 								@confirm="handleDelete(scope.row.score_type_id)"
 							>
 								<template #reference>

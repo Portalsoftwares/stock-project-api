@@ -544,13 +544,16 @@ var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-lg font-semibold text-white"
 }, "ព័ត៌មានអ្នកប្រើប្រាស់")], -1 /* HOISTED */);
-var _hoisted_20 = ["src"];
-var _hoisted_21 = {
+var _hoisted_20 = {
+  "class": "flex flex-col"
+};
+var _hoisted_21 = ["src"];
+var _hoisted_22 = {
   key: 1,
   "class": "el-icon-plus avatar-uploader-icon"
 };
-var _hoisted_22 = ["src"];
-var _hoisted_23 = {
+var _hoisted_23 = ["src"];
+var _hoisted_24 = {
   "class": "dialog-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -849,7 +852,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [_hoisted_19];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
         onClick: _cache[13] || (_cache[13] = function ($event) {
           return $options.cancelAction();
         }),
@@ -1034,7 +1037,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "label-width": $data.formLabelWidth
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_upload, {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("<div class=\"pb-5\">រូបភាព</div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_upload, {
                 "class": "avatar-uploader",
                 action: "#",
                 name: "file",
@@ -1048,7 +1051,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     key: 0,
                     src: $data.imageUrl,
                     "class": "avatar object-contain"
-                  }, null, 8 /* PROPS */, _hoisted_20)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_21))];
+                  }, null, 8 /* PROPS */, _hoisted_21)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_22))];
                 }),
                 _: 1 /* STABLE */
               }, 8 /* PROPS */, ["on-change", "before-upload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -1057,7 +1060,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
                   return $data.ruleForm.photo_id = $event;
                 })
-              }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.ruleForm.photo_id]])])];
+              }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.ruleForm.photo_id]])])])];
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width"])];
@@ -1074,7 +1077,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "w-full": "",
             src: $data.dialogImageUrl,
             alt: "Preview Image"
-          }, null, 8 /* PROPS */, _hoisted_22)];
+          }, null, 8 /* PROPS */, _hoisted_23)];
         }),
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["modelValue"])];
