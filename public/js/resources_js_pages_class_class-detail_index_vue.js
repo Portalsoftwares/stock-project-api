@@ -1046,7 +1046,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       report_total_low_women: 0,
       report_total_less_women: 0,
       //exam
-      tableData: []
+      tableData: [],
+      academic: [],
+      exam: [],
+      is_random: 0
     };
   },
   mounted: function mounted() {
@@ -1060,6 +1063,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         cancelButtonText: 'ទេ'
       }).then(function () {
         _this.dialogFormVisibleAll = false;
+        _this.dialogFormVisibleReports = false;
         _this.studentCallAttendance = [];
         _this.ruleForm.class_id = null;
         _this.ruleForm.score_type_id = null;
@@ -1084,6 +1088,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     formatDate: function formatDate(data) {
       return moment__WEBPACK_IMPORTED_MODULE_1___default()(new Date(data)).format("DD-MM-YYYY");
     },
+    randomScoreAll: function randomScoreAll() {
+      this.is_random = 1;
+      this.showInfomationStudentScoreAll();
+      this.is_random = 0;
+    },
     showInfomationStudentScoreAll: function showInfomationStudentScoreAll() {
       var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -1095,7 +1104,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this3.ruleForm.class_id = _this3.$route.query.id;
               scoreInfo = {
                 'class_id': _this3.ruleForm.class_id,
-                'score_type_id': _this3.ruleForm.score_type_id
+                'score_type_id': _this3.ruleForm.score_type_id,
+                'is_random': _this3.is_random
               };
               config = {
                 headers: {
@@ -1145,11 +1155,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this4.studentObj = response.data.student;
                 _this4.scoreTypeObj = response.data.score_type;
                 _this4.subjectDataSore = _this4.subjectData;
-                // this.dialogFormVisibleAll = true;
-                _this4.loading_score = false;
                 _this4.getExam();
                 _this4.showInfomationStudentScoreAll();
+                _this4.loading_score = false;
+                _this4.$notify.success({
+                  title: 'រួចរាល់',
+                  message: 'បញ្ចូលពិន្ទុបានជោគជ័យ ',
+                  showClose: true
+                });
               })["catch"](function (error) {
+                _this4.$notify.error({
+                  title: 'កំហុស',
+                  message: 'បញ្ចូលពិន្ទុមិនបានជោគជ័យទេ ',
+                  showClose: true
+                });
                 if (error.response.status == 401) {
                   _this4.$store.commit("auth/CLEAR_TOKEN");
                 }
@@ -1193,6 +1212,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _context3.next = 7;
               return axios.post('/score/collect/report/' + class_id, scoreInfo, config).then(function (response) {
+                _this6.academic = response.data.academic;
+                _this6.exam = response.data.exam;
                 _this6.studentObj = response.data.student;
                 _this6.scoreTypeObj = response.data.score_type;
 
@@ -1214,6 +1235,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this6.dialogFormVisibleReports = true;
                 _this6.loading_report = false;
               })["catch"](function (error) {
+                _this6.loading_report = false;
                 if (error.response.status == 401) {
                   _this6.$store.commit("auth/CLEAR_TOKEN");
                 }
@@ -1225,57 +1247,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    exportPDF: function exportPDF() {
+    getExam: function getExam() {
       var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var config, class_id;
+        var class_id;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              config = {
-                headers: {
-                  'content-type': 'application/json',
-                  'responseType': 'blob'
-                }
-              };
               class_id = _this7.$route.query.id;
-              _context4.next = 4;
-              return axios.post('/score/report/' + class_id + '/export', config).then(function (response) {
-                // response.data is a blob type
-                // FileSaver.saveAs(response.data, 'user');
+              _context4.next = 3;
+              return axios.get('/score/collect/all/' + class_id + '/exam').then(function (response) {
+                _this7.tableData = response.data.data;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
                   _this7.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 4:
+            case 3:
             case "end":
               return _context4.stop();
           }
         }, _callee4);
-      }))();
-    },
-    getExam: function getExam() {
-      var _this8 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var class_id;
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) switch (_context5.prev = _context5.next) {
-            case 0:
-              class_id = _this8.$route.query.id;
-              _context5.next = 3;
-              return axios.get('/score/collect/all/' + class_id + '/exam').then(function (response) {
-                _this8.tableData = response.data.data;
-              })["catch"](function (error) {
-                if (error.response.status == 401) {
-                  _this8.$store.commit("auth/CLEAR_TOKEN");
-                }
-              });
-            case 3:
-            case "end":
-              return _context5.stop();
-          }
-        }, _callee5);
       }))();
     },
     editExam: function editExam(id) {
@@ -1285,6 +1277,62 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     reportExam: function reportExam(id) {
       this.ruleFormReport.score_type_id = id;
       this.showInfomationStudentScoreReport();
+    },
+    exportPDF: function exportPDF() {
+      var _this8 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        var config, dataObj, class_id;
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
+            case 0:
+              config = {
+                headers: {
+                  'Content-Type': 'multipart/form-data; charset=utf-8; boundary=' + Math.random().toString().substr(2)
+                },
+                withCredentials: false,
+                responseType: 'arraybuffer' //important Thanks bong well noted save my life 🙏 
+              };
+              dataObj = {
+                'data': {
+                  'data': _this8.studentObj,
+                  'report_total_student': _this8.report_total_student,
+                  'report_total_good': _this8.report_total_good,
+                  'report_total_ok': _this8.report_total_ok,
+                  'report_total_medium': _this8.report_total_medium,
+                  'report_total_low': _this8.report_total_low,
+                  'report_total_less': _this8.report_total_less,
+                  'report_total_student_women': _this8.report_total_student_women,
+                  'report_total_good_women': _this8.report_total_good_women,
+                  'report_total_ok_women': _this8.report_total_ok_women,
+                  'report_total_medium_women': _this8.report_total_medium_women,
+                  'report_total_low_women': _this8.report_total_low_women,
+                  'report_total_less_women': _this8.report_total_less_women
+                },
+                'option': {
+                  'class': _this8.classData.class_name,
+                  'exam': _this8.exam,
+                  'academic': _this8.academic
+                }
+              };
+              class_id = _this8.$route.query.id;
+              _context5.next = 5;
+              return axios.post('/score/report/' + class_id + '/export', dataObj, config).then(function (response) {
+                var blob = new Blob([response.data], {
+                    type: 'application/pdf'
+                  }),
+                  url = window.URL.createObjectURL(blob);
+                var newOpen = window.open(url);
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this8.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 5:
+            case "end":
+              return _context5.stop();
+          }
+        }, _callee5);
+      }))();
     }
   }
 });
@@ -3991,7 +4039,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-button");
   var _component_Edit = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Edit");
   var _component_el_table_column = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-table-column");
-  var _component_el_popconfirm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-popconfirm");
   var _component_el_empty = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-empty");
   var _component_el_table = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-table");
   var _component_el_option = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-option");
@@ -4093,6 +4140,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             _: 2 /* DYNAMIC */
           }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             size: "small",
+            type: "primary",
             "class": "sanfont-khmer",
             onClick: function onClick($event) {
               return $options.editExam(scope.row.score_type_id);
@@ -4102,32 +4150,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("កែប្រែ")];
             }),
             _: 2 /* DYNAMIC */
-          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
-            width: "220",
-            "confirm-button-text": "យល់ព្រម",
-            "cancel-button-text": "ទេ",
-            icon: _ctx.InfoFilled,
-            "icon-color": "#626AEF",
-            title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
-            onConfirm: function onConfirm($event) {
-              return _ctx.handleDelete(scope.row.score_type_id);
-            }
-          }, {
-            reference: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-                size: "small",
-                type: "danger",
-                "class": "sanfont-khmer"
-              }, {
-                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុប ")];
-                }),
-                _: 1 /* STABLE */
-              })];
-            }),
-
-            _: 2 /* DYNAMIC */
-          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])];
+          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-popconfirm\r\n\t\t\t\t\t\t\t\twidth=\"220\"\r\n\t\t\t\t\t\t\t\tconfirm-button-text=\"យល់ព្រម\"\r\n\t\t\t\t\t\t\t\tcancel-button-text=\"ទេ\"\r\n\t\t\t\t\t\t\t\t:icon=\"InfoFilled\"\r\n\t\t\t\t\t\t\t\ticon-color=\"#626AEF\"\r\n\t\t\t\t\t\t\t\ttitle=\"តើអ្នកពិតជាចង់លុបមែនទេ?\"\r\n\t\t\t\t\t\t\t\t@confirm=\"handleDelete(scope.row.score_type_id)\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<template #reference>\r\n\t\t\t\t\t\t\t\t\t<el-button\r\n\t\t\t\t\t\t\t\t\t\tsize=\"small\"\r\n\t\t\t\t\t\t\t\t\t\ttype=\"danger\"\r\n\t\t\t\t\t\t\t\t\t\tclass=\"sanfont-khmer\"\r\n\t\t\t\t\t\t\t\t\t>លុប\r\n\t\t\t\t\t\t\t\t\t</el-button>\r\n\t\t\t\t\t\t\t\t</template>\r\n\t\t\t\t\t\t\t</el-popconfirm> ")])];
         }),
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_empty, {
@@ -4135,9 +4158,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       })];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading_class]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"grid grid-cols-4 gap-2 \">\r\n\t\t\t<div\r\n\t\t\t\tclass=\"z-10 mt-1 overflow-hidden rounded bg-white shadow ring-1 ring-gray-900/5 \"\r\n\t\t\t\tv-for=\"data in subjectData\"\r\n\t\t\t\t:key=\"data\"\r\n\t\t\t\t@click=\"showInfomationScore(data.teacher_subject_in_class.subject)\"\r\n\t\t\t>\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<div class=\"group relative flex items-center gap-x-6 rounded-lg p-3 text-sm leading-6 hover:bg-gray-50\">\r\n\t\t\t\t\t\t<div class=\"flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white\">\r\n\t\t\t\t\t\t\t<svg\r\n\t\t\t\t\t\t\t\tclass=\"h-6 w-6 text-gray-600 group-hover:text-indigo-600\"\r\n\t\t\t\t\t\t\t\tfill=\"none\"\r\n\t\t\t\t\t\t\t\tviewBox=\"0 0 24 24\"\r\n\t\t\t\t\t\t\t\tstroke-width=\"1.5\"\r\n\t\t\t\t\t\t\t\tstroke=\"currentColor\"\r\n\t\t\t\t\t\t\t\taria-hidden=\"true\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<path\r\n\t\t\t\t\t\t\t\t\tstroke-linecap=\"round\"\r\n\t\t\t\t\t\t\t\t\tstroke-linejoin=\"round\"\r\n\t\t\t\t\t\t\t\t\td=\"M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z\"\r\n\t\t\t\t\t\t\t\t/>\r\n\t\t\t\t\t\t\t\t<path\r\n\t\t\t\t\t\t\t\t\tstroke-linecap=\"round\"\r\n\t\t\t\t\t\t\t\t\tstroke-linejoin=\"round\"\r\n\t\t\t\t\t\t\t\t\td=\"M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z\"\r\n\t\t\t\t\t\t\t\t/>\r\n\t\t\t\t\t\t\t</svg>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"flex-auto text-left\">\r\n\t\t\t\t\t\t\t<a\r\n\t\t\t\t\t\t\t\thref=\"#\"\r\n\t\t\t\t\t\t\t\tclass=\"block font-semibold text-gray-900\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<span class=\"font-bold\"><span class=\"text-xl font-bold\">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span> </span>\r\n\t\t\t\t\t\t\t\t<p class=\"mt-1 text-gray-600\"> បង្រៀនដោយ {{ data.teacher_in_class.gender_id==1?'លោកគ្រូ':'អ្នកគ្រូ' }} : {{ data.teacher_in_class.full_name_kh}} </p>\r\n\t\t\t\t\t\t\t</a>\r\n\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  Manage Attendance list All "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
+  }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading_class]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  Manage Attendance list All "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisibleAll,
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.dialogFormVisibleAll = $event;
     }),
     fullscreen: "true",
@@ -4151,7 +4174,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[5] || (_cache[5] = function ($event) {
+        onClick: _cache[6] || (_cache[6] = function ($event) {
           return $options.closeForm();
         }),
         "class": "sanfont-khmer"
@@ -4163,7 +4186,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_button, {
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[6] || (_cache[6] = function ($event) {
+        onClick: _cache[7] || (_cache[7] = function ($event) {
           return $options.studentScoreSave();
         })
       }, {
@@ -4245,6 +4268,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" យល់ព្រម ")];
+        }),
+        _: 1 /* STABLE */
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+        type: "info",
+        "class": "sanfont-khmer mt-2",
+        onClick: _cache[5] || (_cache[5] = function ($event) {
+          return $options.randomScoreAll();
+        })
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ទាញទិន្នន័យស្រាប់ ")];
         }),
         _: 1 /* STABLE */
       }), _hoisted_11]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
@@ -4342,7 +4376,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - បញ្ឈប់បញ្ជីត្រឹមចំនួនសិស្សសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_student), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_student_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សជាប់និទ្ទេសល្អសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_good), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_good_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សជាប់និទ្ទេសល្អបង្គួរសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_ok), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_ok_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សជាប់និទ្ទេសមធ្យមសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_medium), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_medium_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សជាប់និទ្ទេសខ្សោយសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_low), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_low_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សគ្មានចំណាត់ថ្នាក់សរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_less), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_less_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[11] || (_cache[11] = function ($event) {
+        onClick: _cache[12] || (_cache[12] = function ($event) {
           return $options.closeForm();
         }),
         "class": "sanfont-khmer"
@@ -4353,20 +4387,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_button, {
         type: "primary",
-        "class": "sanfont-khmer",
-        onClick: _cache[12] || (_cache[12] = function ($event) {
-          return _ctx.collectScore();
-        })
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" បោះពុម្ភ ")];
-        }),
-        _: 1 /* STABLE */
-      })), [[_directive_loading, $data.fullscreenLoading, void 0, {
-        fullscreen: true,
-        lock: true
-      }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        type: "info",
         onClick: $options.exportPDF
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -4378,7 +4398,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }), _hoisted_46];
         }),
         _: 1 /* STABLE */
-      }, 8 /* PROPS */, ["onClick"])])])];
+      }, 8 /* PROPS */, ["onClick"])), [[_directive_loading, $data.fullscreenLoading, void 0, {
+        fullscreen: true,
+        lock: true
+      }]])])])];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
@@ -4396,7 +4419,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $props.classData.class_name,
-                "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+                "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
                   return $props.classData.class_name = $event;
                 }),
                 disabled: ""
@@ -4418,7 +4441,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleFormReport.score_type_id,
-                "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+                "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
                   return $data.ruleFormReport.score_type_id = $event;
                 })
               }, {
@@ -4443,7 +4466,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, 8 /* PROPS */, ["model", "rules"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
         type: "primary",
         disabled: $data.loading_report,
-        onClick: _cache[10] || (_cache[10] = function ($event) {
+        onClick: _cache[11] || (_cache[11] = function ($event) {
           return $options.submitFormReport('formScoreReport');
         })
       }, {

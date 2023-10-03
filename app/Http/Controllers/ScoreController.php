@@ -61,6 +61,8 @@ class ScoreController extends Controller
     {
         $class_id = $id;
         $scoreLine = null;
+
+        $is_random = $request->is_random  ?? 0;
         //យកតែការប្រលង 
 
         $class = Classes::find($id);
@@ -90,6 +92,9 @@ class ScoreController extends Controller
                 } else {
                     // មិនទាន់
                     $data['mark_' . $obj->teacher_subject_in_class->subject_grade_id] = 0.0;
+                    if ($is_random != 0) {
+                        $data['mark_' . $obj->teacher_subject_in_class->subject_grade_id] = $this->randomScore($obj->teacher_subject_in_class->average, $obj->teacher_subject_in_class->full_score);
+                    }
                 }
             }
         }
@@ -98,6 +103,11 @@ class ScoreController extends Controller
             'score_type' => $scoreType,
         ];
         return  response($response, 200);
+    }
+
+    public function randomScore($min, $max)
+    {
+        return rand($min, $max);
     }
 
     /**
@@ -231,6 +241,7 @@ class ScoreController extends Controller
 
         $class = Classes::find($id);
         $academic = $class->academic_id;
+        $academicObj = Academic::find($academic);
         $scoreTypeAcademic = scoreTypeAcademic::where('academic_id', $academic)->get();
         $under_score_type = [];
         foreach ($scoreTypeAcademic as $data) {
@@ -247,7 +258,7 @@ class ScoreController extends Controller
         //find women
 
         //Find divide total by subject , 50 pt = 1x 
-        $total_divide = 1;
+        $total_divide = 0;
         foreach ($subjectGradeInclass as $obj) {
             $total_divide += $obj->teacher_subject_in_class->divide;
         }
@@ -287,8 +298,8 @@ class ScoreController extends Controller
                         }
                     }
                 }
-                $total_score  = round($total_score, 2);
-                $avg_score = round($total_score / $total_divide, 2);
+                $total_score  = $total_score;
+                $avg_score = number_format($total_score / $total_divide, 2, '.');
 
                 $data['mark_total'] = $total_score;
                 $data['mark_avg'] = $avg_score;
@@ -340,7 +351,6 @@ class ScoreController extends Controller
         }
         //ប្រចាំឆមាស 
         if ($score_type_id->type == 3) {
-
             //avg total in semester month + avg exam semseter
             $monthInSemester = scoreTypeAcademic::where([['academic_id', $academic], ['semester_id', $score_type_id->score_type_id]])->first();
             $monnthly = explode(',', $monthInSemester->under_score_type_id);
@@ -375,7 +385,7 @@ class ScoreController extends Controller
                                 }
                             }
                         }
-                        $total_score_monthly += round($total_score, 2);
+                        $total_score_monthly += $total_score;
                         $total_avg_monthly += round(($total_score_monthly / $total_divide) / $number_monthly, 2);
                     }
                     $total_score_semester = 0;
@@ -398,15 +408,15 @@ class ScoreController extends Controller
                                 }
                             }
                         }
-                        $total_score_semester += round($total_score_semester, 2);
-                        $total_avg_semester += round(($total_score_semester / $total_divide), 2);
+                        $total_score_semester += $total_score_semester;
+                        $total_avg_semester += number_format(($total_score_semester / $total_divide), 2, '.');
                     }
 
                     $final_avg_semester = ($total_avg_semester + $total_avg_monthly) / 2;
                 }
 
                 $data['mark_total'] = null;
-                $data['mark_avg'] =  round($final_avg_semester, 2);
+                $data['mark_avg'] =  number_format($final_avg_semester, 2, '.');
 
                 $women = $data->student_in_class->gender_id == 2;
                 if ($women) {
@@ -469,6 +479,8 @@ class ScoreController extends Controller
             //ប្រចាំខែ រកមធ្យមភាគ
             foreach ($student as  $data) {
                 $final_avg_semester = 0;
+                $total_score_semester = 0;
+                $total_avg_semester = 0;
                 foreach ($dataMonthly as $mon) {
                     //toal 1 month
                     $total_score_monthly = 0;
@@ -492,11 +504,10 @@ class ScoreController extends Controller
                                 }
                             }
                         }
-                        $total_score_monthly += round($total_score, 2);
-                        $total_avg_monthly += round(($total_score_monthly / $total_divide) / $number_monthly, 2);
+                        $total_score_monthly += $total_score;
+                        $total_avg_monthly += round((($total_score_monthly / $total_divide) / $number_monthly), 2);
                     }
-                    $total_score_semester = 0;
-                    $total_avg_semester = 0;
+
                     if ($mon->type == 2) {
                         foreach ($subjectGradeInclass as $obj) {
                             $score = Score::where([['class_id', $class_id], ['score_type_id', $mon->score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
@@ -515,15 +526,16 @@ class ScoreController extends Controller
                                 }
                             }
                         }
-                        $total_score_semester += round($total_score_semester, 2);
-                        $total_avg_semester += round(($total_score_semester / $total_divide), 2);
+                        $total_score_semester += $total_score_semester;
+                        $total_avg_semester += number_format(($total_score_semester / $total_divide), 2, '.');
                     }
-
-                    $final_avg_semester = ($total_avg_semester + $total_avg_monthly) / 2;
+                    //Semester 1+2
+                    $final_avg_semester = ($total_avg_semester + $total_avg_monthly) / 4;
                 }
+                // dd($total_avg_semester);
 
                 //Exam Semester
-                $avg_score_yearly = round($final_avg_semester / 2, 2);
+                $avg_score_yearly = number_format(($final_avg_semester / 2), 2, '.');
 
 
 
@@ -608,6 +620,8 @@ class ScoreController extends Controller
             }
         }
         $response = [
+            'academic' =>  $academicObj,
+            'exam' =>  $score_type_id,
             'student' =>  $collection,
             'score_type' => $scoreType,
             'total_student' => $total_student,
@@ -625,23 +639,22 @@ class ScoreController extends Controller
         ];
         return  response($response, 200);
     }
-
-    //PDF EXPORT 
-
-    public function exportPDF()
-    {
-        $pdf = PDF::loadView('Score.monthly', [
-            'data' => [],
-            'preference' => [],
-            'template_options' => [],
-        ]);
-        return $pdf->save('reports_score.pdf');
-    }
     public function getExam($id)
     {
         $exam  = Score::where('class_id', $id)->with('score_type')->groupBy('score_type_id')->get();
         return  response([
             'data' => $exam
         ], 200);
+    }
+    //PDF EXPORT 
+    public function exportPDF(Request $request)
+    {
+        //return "hi";
+        $pdf = PDF::loadView('Score.monthly', [
+            'data' => $request->data,
+            'option' => $request->option,
+        ]);
+        // return $pdf;
+        return $pdf->stream('score.pdf');
     }
 }

@@ -565,7 +565,11 @@ header.el-dialog__header {
 }
 
 .el-dialog__headerbtn .el-dialog__close {
-  font-size: 25px!important;
+  font-size: 40px!important;
+}
+
+.el-message-box__headerbtn .el-message-box__close {
+  font-size: 20px !important;
 }
 
 .sr-only {
@@ -974,10 +978,6 @@ header.el-dialog__header {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-1\/2 {
-  width: 50%;
 }
 
 .min-w-\[200px\] {

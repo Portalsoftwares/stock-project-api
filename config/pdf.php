@@ -4,10 +4,10 @@ return [
     'mode'                  => 'utf-8',
     'format'                => 'A4',
     'margin_top'            => '40px',
-    'author'                => 'FaceAzur Online',
+    'author'                => 'SMS-HIGH_SCHOOL',
     'subject'               => '',
     'keywords'              => '',
-    'creator'               => 'FaceAzure Online',
+    'creator'               => 'SMS-HIGH_SCHOOL',
     'display_mode'          => 'fullpage',
     'tempDir'               => base_path('../temp/'),
     'pdf_a'                 => false,
@@ -45,6 +45,9 @@ return [
         ],
         "cour" => [
             'R' => "cour.ttf", // regular font
+        ],
+        "khmertacteing" => [
+            'R' => "TACTENG.TTF", // regular font
         ]
     ]
 ];
