@@ -63,6 +63,7 @@ Route::prefix('v1')->group(function () {
       Route::post('/update/{id}', [TeacherController::class, 'update']);
       Route::delete('/delete/{id}', [TeacherController::class, 'delete']);
       Route::post('/restore/{id}', [TeacherController::class, 'restore']);
+      Route::post('/exportExcel', [TeacherController::class, 'exportExcel']);
     });
     //Subject
     Route::prefix('subject')->group(function () {
