@@ -10,6 +10,8 @@ use App\Models\TeacherRole;
 use App\Models\TeacherStatus;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TeacherExport;
 
 class TeacherController extends Controller
 {
@@ -205,5 +207,10 @@ class TeacherController extends Controller
             'data' => 'Delete successfull',
         ];
         return  response($response, 200);
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new TeacherExport(), 'teacher.xlsx');
     }
 }
