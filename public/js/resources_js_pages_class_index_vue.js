@@ -105,12 +105,12 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   watch: {
     'ruleForm.grade_level_id': function ruleFormGrade_level_id(event) {
       var _this = this,
-        _obj$name,
+        _obj$grade_level_name,
         _this$ruleForm$class_;
       var obj = this.gradeLevel.find(function (e) {
-        return e.id == _this.ruleForm.grade_level_id;
+        return e.grade_level_id == _this.ruleForm.grade_level_id;
       });
-      this.ruleForm.class_name = ((_obj$name = obj === null || obj === void 0 ? void 0 : obj.name) !== null && _obj$name !== void 0 ? _obj$name : '') + " " + ((_this$ruleForm$class_ = this.ruleForm.class_symbol) !== null && _this$ruleForm$class_ !== void 0 ? _this$ruleForm$class_ : '');
+      this.ruleForm.class_name = ((_obj$grade_level_name = obj === null || obj === void 0 ? void 0 : obj.grade_level_name) !== null && _obj$grade_level_name !== void 0 ? _obj$grade_level_name : '') + " " + ((_this$ruleForm$class_ = this.ruleForm.class_symbol) !== null && _this$ruleForm$class_ !== void 0 ? _this$ruleForm$class_ : '');
     }
   },
   mounted: function mounted() {
@@ -146,12 +146,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     getNameClass: function getNameClass() {
       var _this3 = this,
-        _obj$name2,
+        _obj$grade_level_name2,
         _this$ruleForm$class_2;
       var obj = this.gradeLevel.find(function (e) {
-        return e.id == _this3.ruleForm.grade_level_id;
+        return e.grade_level_id == _this3.ruleForm.grade_level_id;
       });
-      this.ruleForm.class_name = ((_obj$name2 = obj.name) !== null && _obj$name2 !== void 0 ? _obj$name2 : '') + " " + ((_this$ruleForm$class_2 = this.ruleForm.class_symbol) !== null && _this$ruleForm$class_2 !== void 0 ? _this$ruleForm$class_2 : '');
+      console.log(obj);
+      this.ruleForm.class_name = ((_obj$grade_level_name2 = obj.grade_level_name) !== null && _obj$grade_level_name2 !== void 0 ? _obj$grade_level_name2 : '') + " " + ((_this$ruleForm$class_2 = this.ruleForm.class_symbol) !== null && _this$ruleForm$class_2 !== void 0 ? _this$ruleForm$class_2 : '');
     },
     submitForm: function submitForm(formName) {
       var _this4 = this;
@@ -898,8 +899,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.academic, function (data) {
                     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
                       key: data,
-                      label: data.name,
-                      value: data.id
+                      label: data.academic_name,
+                      value: data.academic_id
                     }, null, 8 /* PROPS */, ["label", "value"]);
                   }), 128 /* KEYED_FRAGMENT */))];
                 }),
@@ -927,8 +928,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                   return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.gradeLevel, function (data) {
                     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
                       key: data,
-                      label: data.name,
-                      value: data.id
+                      label: data.grade_level_name,
+                      value: data.grade_level_id
                     }, null, 8 /* PROPS */, ["label", "value"]);
                   }), 128 /* KEYED_FRAGMENT */))];
                 }),
@@ -990,7 +991,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
                       key: data,
                       label: data.name,
-                      value: data.id,
+                      value: data.class_type_id,
                       disabled: (_ctx$item = _ctx.item) === null || _ctx$item === void 0 ? void 0 : _ctx$item.disabled
                     }, null, 8 /* PROPS */, ["label", "value", "disabled"]);
                   }), 128 /* KEYED_FRAGMENT */))];

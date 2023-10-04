@@ -340,8 +340,8 @@
 					width="150"
 				>
 					<template #default="scope">
-						<span :style="'color:'+scope.row.student_in_class.status.color">
-							{{ scope.row.student_in_class.status.status_kh }}
+						<span :style="'color:'+scope.row.student_in_class?.status?.color">
+							{{ scope.row.student_in_class?.status?.status_kh }}
 						</span>
 					</template>
 				</el-table-column>
@@ -585,8 +585,8 @@
 				</el-table-column>
 				<el-table-column label="ស្ថានភាព">
 					<template #default="scope">
-						<span :style="'color:'+scope.row.student_in_class.status.color">
-							{{ scope.row.student_in_class.status.status_kh }}
+						<span :style="'color:'+scope.row.student_in_class?.status?.color">
+							{{ scope.row.student_in_class?.status?.status_kh }}
 						</span>
 					</template>
 				</el-table-column>

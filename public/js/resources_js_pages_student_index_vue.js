@@ -50,7 +50,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         password: null,
         email: null,
         file_upload_id: null
-      }, _defineProperty(_ruleForm, "student_id", null), _defineProperty(_ruleForm, "genderValue", null), _defineProperty(_ruleForm, "dobValue", null), _defineProperty(_ruleForm, "address", null), _defineProperty(_ruleForm, "phoneNum", null), _defineProperty(_ruleForm, "studentOtherText", null), _defineProperty(_ruleForm, "statusValue", null), _defineProperty(_ruleForm, "IDn", null), _defineProperty(_ruleForm, "from_secondary_high_school", null), _defineProperty(_ruleForm, "secondary_exam_date", null), _defineProperty(_ruleForm, "secondary_exam_place", null), _defineProperty(_ruleForm, "secondary_exam_room", null), _defineProperty(_ruleForm, "secondary_exam_desk", null), _ruleForm),
+      }, _defineProperty(_ruleForm, "student_id", null), _defineProperty(_ruleForm, "genderValue", null), _defineProperty(_ruleForm, "dobValue", null), _defineProperty(_ruleForm, "address", null), _defineProperty(_ruleForm, "birthAddress", null), _defineProperty(_ruleForm, "phoneNum", null), _defineProperty(_ruleForm, "studentOtherText", null), _defineProperty(_ruleForm, "statusValue", null), _defineProperty(_ruleForm, "IDn", null), _defineProperty(_ruleForm, "from_secondary_high_school", null), _defineProperty(_ruleForm, "secondary_exam_date", null), _defineProperty(_ruleForm, "secondary_exam_place", null), _defineProperty(_ruleForm, "secondary_exam_room", null), _defineProperty(_ruleForm, "secondary_exam_desk", null), _ruleForm),
       rules: {
         firstNameKh: [{
           required: true,
@@ -151,7 +151,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           message: 'សូមបញ្ជូលស្ថានភាព',
           trigger: 'blur'
         }],
-        address: [{
+        birthAddress: [{
           required: true,
           message: 'សូមបញ្ជូលអាស័យដ្ឋាន',
           trigger: 'blur'
@@ -471,6 +471,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               _this9.ruleForm.genderValue = null;
               _this9.ruleForm.dobValue = null;
               _this9.ruleForm.address = null;
+              _this9.ruleForm.birthAddress = null;
               _this9.ruleForm.phoneNum = null;
               _this9.ruleForm.studentOtherText = null;
               _this9.ruleForm.statusValue = null;
@@ -485,7 +486,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               _this9.roles = null;
               _this9.dialogFormVisible = true;
               _this9.isShowButtonUpdate = false;
-            case 29:
+            case 30:
             case "end":
               return _context7.stop();
           }
@@ -513,7 +514,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 _this10.ruleForm.IDn = response.data.data.sid;
                 _this10.ruleForm.genderValue = response.data.data.gender_id;
                 _this10.ruleForm.dobValue = response.data.data.date_of_birth;
-                _this10.ruleForm.birsthAddress = response.data.data.place_of_birth;
+                _this10.ruleForm.birthAddress = response.data.data.place_of_birth;
                 _this10.ruleForm.address = response.data.data.address;
                 _this10.ruleForm.phoneNum = response.data.data.phone;
                 _this10.ruleForm.firstNameKh = response.data.data.first_name_kh;
@@ -1253,15 +1254,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     _: 1 /* STABLE */
                   }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "ទីកន្លែងកំណើត",
-                    prop: "address",
+                    prop: "birthAddress",
                     "class": "sanfont-khmer",
                     "label-width": $data.formLabelWidth
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                        modelValue: $data.ruleForm.birsthAddress,
+                        modelValue: $data.ruleForm.birthAddress,
                         "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
-                          return $data.ruleForm.birsthAddress = $event;
+                          return $data.ruleForm.birthAddress = $event;
                         }),
                         autocomplete: "off",
                         name: "place_of_birth",

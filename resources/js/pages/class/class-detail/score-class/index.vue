@@ -187,7 +187,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100%"
+				style="width: 100% ; height: 780px;"
 				stripe
 				border
 			>
@@ -224,8 +224,8 @@
 					width="150"
 				>
 					<template #default="scope">
-						<span :style="'color:'+scope.row.student_in_class.status.color">
-							{{ scope.row.student_in_class.status.status_kh }}
+						<span :style="'color:'+scope.row.student_in_class?.status?.color">
+							{{ scope.row.student_in_class?.status?.status_kh }}
 						</span>
 					</template>
 				</el-table-column>
@@ -339,7 +339,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100%"
+				style="width: 100% ; height: 580px;"
 				stripe
 				border
 			>
@@ -376,8 +376,8 @@
 					width="150"
 				>
 					<template #default="scope">
-						<span :style="'color:'+scope.row.student_in_class.status.color">
-							{{ scope.row.student_in_class.status.status_kh }}
+						<span :style="'color:'+scope.row.student_in_class?.status?.color">
+							{{ scope.row.student_in_class?.status?.status_kh }}
 						</span>
 					</template>
 				</el-table-column>
@@ -729,10 +729,22 @@ export default {
 				withCredentials: false,
 				responseType: 'arraybuffer',//important Thanks bong well noted save my life 🙏 
 			}
+			var studentDataPDF = []
+			this.studentObj.forEach((data) => {
+				let objStudent = {
+					"mark_total": data.mark_total ?? '-',
+					"mark_avg": data.mark_avg ?? '-',
+					"mark_rank_text": data.mark_rank_text ?? '-',
+					"mark_rank": data.mark_rank ?? '-',
+					"student_name": data.student_in_class?.full_name_kh,
+				}
+				studentDataPDF.push(objStudent)
+			});
+
 
 			const dataObj = {
 				'data': {
-					'data': this.studentObj,
+					'data': studentDataPDF,
 					'report_total_student': this.report_total_student,
 					'report_total_good': this.report_total_good,
 					'report_total_ok': this.report_total_ok,

@@ -30,7 +30,7 @@
                                     {{ $i + 1 }}
                                 </td>
                                 <td class="font-siemreap font-14">
-                                    {{ $itemLine['student_in_class']['full_name_kh'] }}
+                                    {{ $itemLine['student_name'] }}
                                 </td>
                                 <td class="font-siemreap text-center font-14">
                                     {{ $itemLine['mark_avg'] }}

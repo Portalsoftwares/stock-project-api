@@ -308,7 +308,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100%"
+				style="width: 100% ; height: 780px;"
 				stripe
 				border
 			>
@@ -334,8 +334,8 @@
 				</el-table-column>
 				<el-table-column label="ស្ថានភាព">
 					<template #default="scope">
-						<span :style="'color:'+scope.row.student_in_class.status.color">
-							{{ scope.row.student_in_class.status.status_kh }}
+						<span :style="'color:'+scope.row.student_in_class?.status?.color">
+							{{ scope.row.student_in_class?.status?.status_kh }}
 						</span>
 					</template>
 				</el-table-column>

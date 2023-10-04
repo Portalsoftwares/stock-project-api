@@ -17,39 +17,39 @@
 			</div>
 		</div>
 
-	<div class="flex flex-col space-y-2 xl:flex-row  xl:space-y-0">
-		<div class="self-center  flex space-x-3">
-			<el-button type="info">
-				<el-icon>
-					<Document />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
-			</el-button>
-			<div>
-				<!-- Use this <div> for space-x-2 work -->
+		<div class="flex flex-col space-y-2 xl:flex-row  xl:space-y-0">
+			<div class="self-center  flex space-x-3">
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+				</el-button>
+				<div>
+					<!-- Use this <div> for space-x-2 work -->
+				</div>
 			</div>
-		</div>	
-		<div class="self-center ">
-			<el-button
-				type="primary"
-				@click="AddStudentToClass"
-			>
-				<el-icon>
-					<CirclePlusFilled />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> បន្ថែមសិស្សក្នុងថ្នាក់</span>
-			</el-button>
-			<el-button
-				type="primary"
-				class="sanfont-khmer"
-				@click="addStudent()"
-			>
-				<el-icon>
-					<CirclePlusFilled />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer">បង្កើតសិស្សថ្មី</span>
-			</el-button>
-		</div>
+			<div class="self-center ">
+				<el-button
+					type="primary"
+					@click="AddStudentToClass"
+				>
+					<el-icon>
+						<CirclePlusFilled />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> បន្ថែមសិស្សក្នុងថ្នាក់</span>
+				</el-button>
+				<el-button
+					type="primary"
+					class="sanfont-khmer"
+					@click="addStudent()"
+				>
+					<el-icon>
+						<CirclePlusFilled />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer">បង្កើតសិស្សថ្មី</span>
+				</el-button>
+			</div>
 		</div>
 	</div>
 
@@ -534,12 +534,12 @@
 									<div>
 										<el-form-item
 											label="ទីកន្លែងកំណើត"
-											prop="address"
+											prop="birthAddress"
 											class="sanfont-khmer"
 											:label-width="formLabelWidth"
 										>
 											<el-input
-												v-model="ruleForm.birsthAddress"
+												v-model="ruleForm.birthAddress"
 												autocomplete="off"
 												name="place_of_birth"
 												clearable
@@ -836,6 +836,7 @@ export default {
 				student_id: null,
 				genderValue: null,
 				dobValue: null,
+				birthAddress: null,
 				address: null,
 				phoneNum: null,
 				studentOtherText: null,
@@ -893,7 +894,7 @@ export default {
 					{ required: true, message: 'សូមបញ្ជូលស្ថានភាព', trigger: 'blur' },
 				],
 
-				address: [
+				birthAddress: [
 					{ required: true, message: 'សូមបញ្ជូលអាស័យដ្ឋាន', trigger: 'blur' },
 
 				],

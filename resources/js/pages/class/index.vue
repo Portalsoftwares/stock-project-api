@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-white p-2 w-full border justify-between rounded-t xl:flex xl:flex-row">
 		<div class="flex  flex-col 2xl:flex  2xl:flex-row ">
-			
+
 			<div class="flex space-x-2">
 				<div class="self-center pr-2">
 					<el-select
@@ -19,11 +19,11 @@
 						</el-option>
 					</el-select>
 				</div>
-			</div>	
+			</div>
 			<div class="flex space-y-2  2xl:space-y-0 ">
 				<div>
-				<!-- Use this <div> for space-y-2 work -->
-				</div>		
+					<!-- Use this <div> for space-y-2 work -->
+				</div>
 				<div class="self-center  ">
 					<el-select
 						v-model="filter_class_type_id"
@@ -45,35 +45,35 @@
 					</el-select>
 				</div>
 				<div class="flex space-x-2 ">
-				<div class="self-center pl-2">
-					<el-select
-						v-model="filter_grade_level_id"
-						filterable
-						clearable
-						multiple
-						placeholder="កម្រិត"
-					>
-						<el-option
-							v-for="item in gradeLevel"
-							:key="item"
-							:label="item.grade_level_name"
-							:value="item.grade_level_id"
+					<div class="self-center pl-2">
+						<el-select
+							v-model="filter_grade_level_id"
+							filterable
+							clearable
+							multiple
+							placeholder="កម្រិត"
 						>
-						</el-option>
-					</el-select>
+							<el-option
+								v-for="item in gradeLevel"
+								:key="item"
+								:label="item.grade_level_name"
+								:value="item.grade_level_id"
+							>
+							</el-option>
+						</el-select>
+					</div>
+					<div class="self-center">
+						<el-button
+							type="primary"
+							@click="filterAction"
+						>
+							<el-icon>
+								<Search />
+							</el-icon>
+						</el-button>
+					</div>
 				</div>
-				<div class="self-center">
-				<el-button
-					type="primary"
-					@click="filterAction"
-				>
-					<el-icon>
-						<Search />
-					</el-icon>
-				</el-button>
-				</div>
-				</div>
-			</div>	
+			</div>
 		</div>
 		<div class="flex flex-col space-x-2  ">
 			<div class=" self-center">
@@ -299,8 +299,8 @@
 						<el-option
 							v-for="data in academic"
 							:key="data"
-							:label="data.name"
-							:value="data.id"
+							:label="data.academic_name"
+							:value="data.academic_id"
 						/>
 					</el-select>
 				</el-form-item>
@@ -318,8 +318,8 @@
 						<el-option
 							v-for="data in gradeLevel"
 							:key="data"
-							:label="data.name"
-							:value="data.id"
+							:label="data.grade_level_name"
+							:value="data.grade_level_id"
 						/>
 					</el-select>
 				</el-form-item>
@@ -355,11 +355,12 @@
 						placeholder="ជ្រើសរើស"
 						class="text-left"
 					>
+
 						<el-option
 							v-for="data in classType"
 							:key="data"
 							:label="data.name"
-							:value="data.id"
+							:value="data.class_type_id"
 							:disabled="item?.disabled"
 						/>
 					</el-select>
@@ -369,7 +370,6 @@
 					prop="other"
 					class="sanfont-khmer pr-4"
 					:label-width="formLabelWidth"
-					
 				>
 					<el-input
 						type="textarea"
@@ -380,7 +380,7 @@
 					</el-input>
 				</el-form-item>
 			</div>
-			
+
 		</el-form>
 		<el-dialog v-model="dialogVisible">
 			<img
@@ -510,8 +510,8 @@ export default {
 	},
 	watch: {
 		'ruleForm.grade_level_id': function (event) {
-			var obj = this.gradeLevel.find(e => e.id == this.ruleForm.grade_level_id);
-			this.ruleForm.class_name = (obj?.name ?? '') + " " + (this.ruleForm.class_symbol ?? '');
+			var obj = this.gradeLevel.find(e => e.grade_level_id == this.ruleForm.grade_level_id);
+			this.ruleForm.class_name = (obj?.grade_level_name ?? '') + " " + (this.ruleForm.class_symbol ?? '');
 		}
 	},
 	mounted() {
@@ -548,8 +548,9 @@ export default {
 			this.getData();
 		},
 		getNameClass() {
-			var obj = this.gradeLevel.find(e => e.id == this.ruleForm.grade_level_id);
-			this.ruleForm.class_name = (obj.name ?? '') + " " + (this.ruleForm.class_symbol ?? '');
+			var obj = this.gradeLevel.find(e => e.grade_level_id == this.ruleForm.grade_level_id);
+			console.log(obj)
+			this.ruleForm.class_name = (obj.grade_level_name ?? '') + " " + (this.ruleForm.class_symbol ?? '');
 		},
 
 		submitForm(formName) {

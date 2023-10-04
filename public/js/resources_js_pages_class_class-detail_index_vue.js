@@ -1281,7 +1281,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     exportPDF: function exportPDF() {
       var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var config, dataObj, class_id;
+        var config, studentDataPDF, dataObj, class_id;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
@@ -1292,9 +1292,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 withCredentials: false,
                 responseType: 'arraybuffer' //important Thanks bong well noted save my life 🙏 
               };
+              studentDataPDF = [];
+              _this8.studentObj.forEach(function (data) {
+                var _data$mark_total, _data$mark_avg, _data$mark_rank_text, _data$mark_rank, _data$student_in_clas;
+                var objStudent = {
+                  "mark_total": (_data$mark_total = data.mark_total) !== null && _data$mark_total !== void 0 ? _data$mark_total : '-',
+                  "mark_avg": (_data$mark_avg = data.mark_avg) !== null && _data$mark_avg !== void 0 ? _data$mark_avg : '-',
+                  "mark_rank_text": (_data$mark_rank_text = data.mark_rank_text) !== null && _data$mark_rank_text !== void 0 ? _data$mark_rank_text : '-',
+                  "mark_rank": (_data$mark_rank = data.mark_rank) !== null && _data$mark_rank !== void 0 ? _data$mark_rank : '-',
+                  "student_name": (_data$student_in_clas = data.student_in_class) === null || _data$student_in_clas === void 0 ? void 0 : _data$student_in_clas.full_name_kh
+                };
+                studentDataPDF.push(objStudent);
+              });
               dataObj = {
                 'data': {
-                  'data': _this8.studentObj,
+                  'data': studentDataPDF,
                   'report_total_student': _this8.report_total_student,
                   'report_total_good': _this8.report_total_good,
                   'report_total_ok': _this8.report_total_ok,
@@ -1315,7 +1327,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
               };
               class_id = _this8.$route.query.id;
-              _context5.next = 5;
+              _context5.next = 7;
               return axios.post('/score/report/' + class_id + '/export', dataObj, config).then(function (response) {
                 var blob = new Blob([response.data], {
                     type: 'application/pdf'
@@ -1327,7 +1339,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this8.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 5:
+            case 7:
             case "end":
               return _context5.stop();
           }
@@ -1393,7 +1405,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         password: null,
         email: null,
         file_upload_id: null
-      }, _defineProperty(_ruleForm, "student_id", null), _defineProperty(_ruleForm, "genderValue", null), _defineProperty(_ruleForm, "dobValue", null), _defineProperty(_ruleForm, "address", null), _defineProperty(_ruleForm, "phoneNum", null), _defineProperty(_ruleForm, "studentOtherText", null), _defineProperty(_ruleForm, "statusValue", null), _defineProperty(_ruleForm, "IDn", null), _defineProperty(_ruleForm, "from_secondary_high_school", null), _defineProperty(_ruleForm, "secondary_exam_date", null), _defineProperty(_ruleForm, "secondary_exam_place", null), _defineProperty(_ruleForm, "secondary_exam_room", null), _defineProperty(_ruleForm, "secondary_exam_desk", null), _ruleForm),
+      }, _defineProperty(_ruleForm, "student_id", null), _defineProperty(_ruleForm, "genderValue", null), _defineProperty(_ruleForm, "dobValue", null), _defineProperty(_ruleForm, "birthAddress", null), _defineProperty(_ruleForm, "address", null), _defineProperty(_ruleForm, "phoneNum", null), _defineProperty(_ruleForm, "studentOtherText", null), _defineProperty(_ruleForm, "statusValue", null), _defineProperty(_ruleForm, "IDn", null), _defineProperty(_ruleForm, "from_secondary_high_school", null), _defineProperty(_ruleForm, "secondary_exam_date", null), _defineProperty(_ruleForm, "secondary_exam_place", null), _defineProperty(_ruleForm, "secondary_exam_room", null), _defineProperty(_ruleForm, "secondary_exam_desk", null), _ruleForm),
       rules: {
         firstNameKh: [{
           required: true,
@@ -1494,7 +1506,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           message: 'សូមបញ្ជូលស្ថានភាព',
           trigger: 'blur'
         }],
-        address: [{
+        birthAddress: [{
           required: true,
           message: 'សូមបញ្ជូលអាស័យដ្ឋាន',
           trigger: 'blur'
@@ -2486,9 +2498,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             width: "150"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+              var _scope$row$student_in3, _scope$row$student_in4, _scope$row$student_in5, _scope$row$student_in6;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + scope.row.student_in_class.status.color)
-              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.status.status_kh), 5 /* TEXT, STYLE */)];
+                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + ((_scope$row$student_in3 = scope.row.student_in_class) === null || _scope$row$student_in3 === void 0 ? void 0 : (_scope$row$student_in4 = _scope$row$student_in3.status) === null || _scope$row$student_in4 === void 0 ? void 0 : _scope$row$student_in4.color))
+              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in5 = scope.row.student_in_class) === null || _scope$row$student_in5 === void 0 ? void 0 : (_scope$row$student_in6 = _scope$row$student_in5.status) === null || _scope$row$student_in6 === void 0 ? void 0 : _scope$row$student_in6.status_kh), 5 /* TEXT, STYLE */)];
             }),
 
             _: 1 /* STABLE */
@@ -2793,9 +2806,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             label: "ស្ថានភាព"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+              var _scope$row$student_in7, _scope$row$student_in8, _scope$row$student_in9, _scope$row$student_in10;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + scope.row.student_in_class.status.color)
-              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.status.status_kh), 5 /* TEXT, STYLE */)];
+                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + ((_scope$row$student_in7 = scope.row.student_in_class) === null || _scope$row$student_in7 === void 0 ? void 0 : (_scope$row$student_in8 = _scope$row$student_in7.status) === null || _scope$row$student_in8 === void 0 ? void 0 : _scope$row$student_in8.color))
+              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in9 = scope.row.student_in_class) === null || _scope$row$student_in9 === void 0 ? void 0 : (_scope$row$student_in10 = _scope$row$student_in9.status) === null || _scope$row$student_in10 === void 0 ? void 0 : _scope$row$student_in10.status_kh), 5 /* TEXT, STYLE */)];
             }),
 
             _: 1 /* STABLE */
@@ -3461,7 +3475,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "header-cell-class-name": "sanfont-khmer text-md",
         "row-class-name": "sanfont-khmer",
         style: {
-          "width": "100%"
+          "width": "100%",
+          "height": "780px"
         },
         stripe: "",
         border: ""
@@ -3490,9 +3505,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             label: "ស្ថានភាព"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+              var _scope$row$student_in, _scope$row$student_in2, _scope$row$student_in3, _scope$row$student_in4;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + scope.row.student_in_class.status.color)
-              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.status.status_kh), 5 /* TEXT, STYLE */)];
+                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + ((_scope$row$student_in = scope.row.student_in_class) === null || _scope$row$student_in === void 0 ? void 0 : (_scope$row$student_in2 = _scope$row$student_in.status) === null || _scope$row$student_in2 === void 0 ? void 0 : _scope$row$student_in2.color))
+              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in3 = scope.row.student_in_class) === null || _scope$row$student_in3 === void 0 ? void 0 : (_scope$row$student_in4 = _scope$row$student_in3.status) === null || _scope$row$student_in4 === void 0 ? void 0 : _scope$row$student_in4.status_kh), 5 /* TEXT, STYLE */)];
             }),
 
             _: 1 /* STABLE */
@@ -4287,7 +4303,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "header-cell-class-name": "sanfont-khmer text-md",
         "row-class-name": "sanfont-khmer",
         style: {
-          "width": "100%"
+          "width": "100%",
+          "height": "780px"
         },
         stripe: "",
         border: ""
@@ -4323,9 +4340,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             width: "150"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+              var _scope$row$student_in, _scope$row$student_in2, _scope$row$student_in3, _scope$row$student_in4;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + scope.row.student_in_class.status.color)
-              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.status.status_kh), 5 /* TEXT, STYLE */)];
+                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + ((_scope$row$student_in = scope.row.student_in_class) === null || _scope$row$student_in === void 0 ? void 0 : (_scope$row$student_in2 = _scope$row$student_in.status) === null || _scope$row$student_in2 === void 0 ? void 0 : _scope$row$student_in2.color))
+              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in3 = scope.row.student_in_class) === null || _scope$row$student_in3 === void 0 ? void 0 : (_scope$row$student_in4 = _scope$row$student_in3.status) === null || _scope$row$student_in4 === void 0 ? void 0 : _scope$row$student_in4.status_kh), 5 /* TEXT, STYLE */)];
             }),
 
             _: 1 /* STABLE */
@@ -4487,7 +4505,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "header-cell-class-name": "sanfont-khmer text-md",
         "row-class-name": "sanfont-khmer",
         style: {
-          "width": "100%"
+          "width": "100%",
+          "height": "580px"
         },
         stripe: "",
         border: ""
@@ -4503,8 +4522,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "min-width": "250"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-              var _scope$row$student_in;
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in = scope.row.student_in_class) === null || _scope$row$student_in === void 0 ? void 0 : _scope$row$student_in.full_name_kh), 1 /* TEXT */)])];
+              var _scope$row$student_in5;
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in5 = scope.row.student_in_class) === null || _scope$row$student_in5 === void 0 ? void 0 : _scope$row$student_in5.full_name_kh), 1 /* TEXT */)])];
             }),
 
             _: 1 /* STABLE */
@@ -4524,9 +4543,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             width: "150"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+              var _scope$row$student_in6, _scope$row$student_in7, _scope$row$student_in8, _scope$row$student_in9;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + scope.row.student_in_class.status.color)
-              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.status.status_kh), 5 /* TEXT, STYLE */)];
+                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + ((_scope$row$student_in6 = scope.row.student_in_class) === null || _scope$row$student_in6 === void 0 ? void 0 : (_scope$row$student_in7 = _scope$row$student_in6.status) === null || _scope$row$student_in7 === void 0 ? void 0 : _scope$row$student_in7.color))
+              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in8 = scope.row.student_in_class) === null || _scope$row$student_in8 === void 0 ? void 0 : (_scope$row$student_in9 = _scope$row$student_in8.status) === null || _scope$row$student_in9 === void 0 ? void 0 : _scope$row$student_in9.status_kh), 5 /* TEXT, STYLE */)];
             }),
 
             _: 1 /* STABLE */
@@ -5357,15 +5377,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     _: 1 /* STABLE */
                   }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "ទីកន្លែងកំណើត",
-                    prop: "address",
+                    prop: "birthAddress",
                     "class": "sanfont-khmer",
                     "label-width": $data.formLabelWidth
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                        modelValue: $data.ruleForm.birsthAddress,
+                        modelValue: $data.ruleForm.birthAddress,
                         "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
-                          return $data.ruleForm.birsthAddress = $event;
+                          return $data.ruleForm.birthAddress = $event;
                         }),
                         autocomplete: "off",
                         name: "place_of_birth",
