@@ -40,6 +40,7 @@ Route::prefix('v1')->group(function () {
       Route::post('/restore/{id}', [UserController::class, 'restore']);
 
       Route::post('/exportExcel', [UserController::class, 'exportExcel']);
+      Route::post('/exportPDF', [UserController::class, 'exportPDF']);
     });
     // Files  
     Route::prefix('files')->group(function () {

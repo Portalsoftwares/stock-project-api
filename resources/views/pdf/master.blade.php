@@ -28,7 +28,9 @@
                 </div>
             </div>
             <div class="col-12 text-end">
-                <div class="font-siemreap font-12 ">ថ្នាក់ទី {{ $data }}</div>
+                @isset($data)
+                    <div class="font-siemreap font-12 ">ថ្នាក់ទី {{ $data }}</div>
+                @endisset
             </div>
         </div>
         @yield('body1')

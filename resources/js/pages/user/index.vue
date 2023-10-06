@@ -52,6 +52,17 @@
 				</el-button>
 
 				<el-button
+					type="info"
+					@click="exportPDF"
+				>
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+
+				</el-button>
+
+				<el-button
 					type="primary"
 					@click="AddUser"
 				>
@@ -737,8 +748,18 @@ export default {
 				// response.data is a blob type
 				FileSaver.saveAs(response.data, 'user');
 			});
-		}
+		},
 
+		async exportPDF(){
+			axios.post('/user/exportPDF', {
+				file_name: 'User'
+			}, {
+				responseType: 'blob'
+			}).then((response) => {
+				// response.data is a blob type
+				FileSaver.saveAs(response.data, 'user');
+			});
+		}
 	}
 }
 </script>
