@@ -75,6 +75,7 @@
 
 								<el-checkbox
 									name="remember-me"
+									v-model="rememberMe"
 									label="ចងចាំអ្នកប្រើប្រាស់"
 								/>
 
@@ -158,7 +159,20 @@ export default {
 			},
 			failed: false,
 			successfull: false,
-			message: ''
+			message: '',
+			rememberMe: false
+		}
+	},
+	mounted() {
+		this.rememberMe = localStorage.getItem('remember_me') ?? false
+		if (this.rememberMe == 'true') {
+			this.rememberMe = true
+			this.objData.email = localStorage.getItem('prarams1')
+			this.objData.password = localStorage.getItem('prarams2')
+		} else {
+			this.rememberMe = false
+			this.objData.email = ''
+			this.objData.password = ''
 		}
 	},
 	methods: {
@@ -176,6 +190,14 @@ export default {
 			this.$store.dispatch("auth/LOGIN_SYSTEM", this.objData).then(reponse => {
 				console.log(reponse)
 				if (reponse.status == '200' && localStorage.getItem('token') != null) {
+					localStorage.setItem('remember_me', this.rememberMe)
+					if (this.rememberMe) {
+						localStorage.setItem('prarams1', this.objData.email)
+						localStorage.setItem('prarams2', this.objData.password)
+					} else {
+						localStorage.setItem('prarams1', '')
+						localStorage.setItem('prarams2', '')
+					}
 					this.successfull = true
 					const self = this
 					setTimeout(() => {

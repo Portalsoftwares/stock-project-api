@@ -4,20 +4,24 @@
 			v-model="academic"
 			placeholder="ជ្រើសរើស"
 			class="text-left "
+			@change="changeData"
 		>
 			<el-option
 				v-for="data in academics"
 				:key="data"
-				:label="data.name"
-				:value="data.id"
+				:label="data.academic_name"
+				:value="data.academic_id"
 			/>
 		</el-select>
 	</div>
-	<div class=" mb-4 ">
+	<div
+		class=" mb-4 "
+		v-loading="loading"
+	>
 		<el-row :gutter="16">
 			<el-col :span="6">
-				<div class="statistic-card border rounded  bg-gray-50">
-					<el-statistic :value="4800">
+				<div class="statistic-card border rounded  bg-gray-50 hover:shadow-md  cursor-pointer transition ease-in-out delay-100">
+					<el-statistic :value="student.total">
 						<template #title>
 							<div style="display: inline-flex; align-items: center">
 								<div class="text-xl">​សិស្សសរុប</div>
@@ -25,22 +29,32 @@
 							</div>
 						</template>
 					</el-statistic>
-					<div class="statistic-footer">
-						<div class="footer-item">
-							<span class="text-[16px]">ច្រើនឆ្នាំមុន </span>
-							<span class="green text-[16px]">
-								24%
-								<el-icon>
-									<CaretTop />
-								</el-icon>
-							</span>
+					<div class="flex justify-center space-x-4 pt-2">
+						<div class="statistic-footer flex justify-center space-x-4">
+							<div class="footer-item">
+								<span class="text-[16px]">ប្រុស </span>
+								<span class="green text-[16px] px-1">
+									{{ student.st1 }}
+								</span>
+								<span class="text-[16px]">នាក់ </span>
+
+							</div>
+							<div class="footer-item">
+								<span class="text-[16px]">ស្រី </span>
+								<span class="green text-[16px] px-1">
+									{{ student.st2 }}
+
+								</span>
+								<span class="text-[16px]">នាក់ </span>
+
+							</div>
 						</div>
 					</div>
 				</div>
 			</el-col>
 			<el-col :span="6">
-				<div class="statistic-card border rounded  bg-gray-50">
-					<el-statistic :value="98">
+				<div class="statistic-card border rounded  bg-gray-50 hover:shadow-md  cursor-pointer transition ease-in-out delay-100">
+					<el-statistic :value="teacher.total">
 						<template #title>
 							<div style="display: inline-flex; align-items: center">
 								<div class="text-xl">​គ្រូសរុប</div>
@@ -48,22 +62,32 @@
 							</div>
 						</template>
 					</el-statistic>
-					<div class="statistic-footer">
-						<div class="footer-item">
-							<span class="text-[16px]">ច្រើនឆ្នាំមុន </span>
-							<span class="green text-[16px]">
-								2%
-								<el-icon>
-									<CaretTop />
-								</el-icon>
-							</span>
+					<div class="flex justify-center space-x-4 pt-2">
+						<div class="statistic-footer flex justify-center space-x-4">
+							<div class="footer-item">
+								<span class="text-[16px]">ប្រុស </span>
+								<span class="green text-[16px] px-1">
+									{{ teacher.tc1 }}
+								</span>
+								<span class="text-[16px] ">នាក់ </span>
+
+							</div>
+							<div class="footer-item">
+								<span class="text-[16px]">ស្រី </span>
+								<span class="green text-[16px] px-1">
+									{{ teacher.tc2 }}
+
+								</span>
+								<span class="text-[16px]">នាក់ </span>
+
+							</div>
 						</div>
 					</div>
 				</div>
 			</el-col>
 			<el-col :span="6">
-				<div class="statistic-card border rounded  bg-gray-50">
-					<el-statistic :value="5">
+				<div class="statistic-card border rounded  bg-gray-50 hover:shadow-md  cursor-pointer transition ease-in-out delay-100">
+					<el-statistic :value="user.total">
 						<template #title>
 							<div style="display: inline-flex; align-items: center">
 								<div class="text-xl">អ្នកប្រើប្រាស់សរុប</div>
@@ -71,38 +95,58 @@
 							</div>
 						</template>
 					</el-statistic>
-					<div class="statistic-footer">
-						<div class="footer-item">
-							<span class="text-[16px]">ច្រើនឆ្នាំមុន </span>
-							<span class="green text-[16px]">
-								2%
-								<el-icon>
-									<CaretTop />
-								</el-icon>
-							</span>
+					<div class="flex justify-center space-x-4 pt-2">
+						<div class="statistic-footer flex justify-center space-x-4">
+							<div class="footer-item">
+								<div class="text-[16px] px-2">តួនាទី:</div>
+								<div class="flex flex-wrap gap-1 my-2">
+									<el-tag
+										v-for="item in user.role"
+										:key="item.label"
+										:type="item.type"
+										class="text-[16px]"
+										effect="plain"
+										round
+									>
+										{{ item.label }}
+									</el-tag>
+								</div>
+							</div>
+
 						</div>
 					</div>
 				</div>
 			</el-col>
 			<el-col :span="6">
-				<div class="statistic-card border rounded  bg-gray-50">
-					<el-statistic :value="65">
+				<div class="statistic-card border rounded  bg-gray-50 hover:shadow-md  cursor-pointer transition ease-in-out delay-100">
+					<el-statistic :value="classs.total">
 						<template #title>
 							<div style="display: inline-flex; align-items: center">
 								<div class="text-xl">​ថ្នាក់សរុប</div>
-
 							</div>
 						</template>
 					</el-statistic>
-					<div class="statistic-footer">
-						<div class="footer-item">
-							<span class="text-[16px]">ច្រើនឆ្នាំមុន </span>
-							<span class="green text-[16px]">
-								2%
-								<el-icon>
-									<CaretTop />
-								</el-icon>
-							</span>
+					<div class="flex justify-center space-x-4 pt-2">
+						<div class="statistic-footer flex justify-center space-x-4">
+							<div class="footer-item">
+								<span class="text-[16px]">ធម្មតា </span>
+								<span class="green text-[16px]">
+									{{ classs.cl1 }}
+								</span>
+							</div>
+							<div class="footer-item">
+								<span class="text-[16px]">វិទ្យាសាស្រ្តពិត </span>
+								<span class="green text-[16px]">
+									{{ classs.cl2 }}
+								</span>
+							</div>
+							<div class="footer-item">
+								<span class="text-[16px]">វិទ្យាសាស្រ្តសង្គម </span>
+								<span class="green text-[16px]">
+									{{ classs.cl3 }}
+
+								</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -110,10 +154,10 @@
 		</el-row>
 	</div>
 	<div class="grid grid-cols-3 gap-4 ">
-		<div class="col-span-2 border rounded  bg-gray-50">
+		<div class="col-span-2 border rounded  bg-gray-50 p-5 hover:shadow-md  cursor-pointer transition ease-in-out delay-100">
 			<div class="flex flex-col  ">
 				<div class="py-2 text-xl">
-					ទិន្នន័យអត្រាសិស្សានុសិស្សតាមថ្នាក់
+					ទិន្នន័យសិស្សានុសិស្សតាមថ្នាក់
 				</div>
 				<div>
 					<apexchart
@@ -126,11 +170,14 @@
 
 			</div>
 		</div>
-		<div class="border rounded  bg-gray-50 ">
+		<div class="border rounded  bg-gray-50 p-5 hover:shadow-md  cursor-pointer transition ease-in-out delay-100">
 			<div class="py-2 text-xl">
-				ទិន្នន័យវត្តមាន
+				ទិន្នន័យអត្រាវត្តមាន
 			</div>
-			<div id="chartAttendace ">
+			<div
+				id="chartAttendace "
+				class="flex justify-center items-center"
+			>
 				<apexchart
 					type="pie"
 					width="380"
@@ -142,216 +189,40 @@
 
 	</div>
 
-	<!-- Dialog  -->
-	<el-dialog
-		v-model="dialogFormVisible"
-		title="ព័ត៌មានអ្នកប្រើប្រាស់"
-		class="sanfont-khmer"
-		width="50%"
-	>
-		<el-form
-			class="grid grid-cols-2"
-			:model="ruleForm"
-			:rules="rules"
-			ref="ruleForm"
-			id="fm"
-		>
-			<div>
-				<el-form-item
-					label="ឈ្មោះ"
-					prop="name"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.name"
-						autocomplete="off"
-						name="name"
-						clearable
-					></el-input>
-				</el-form-item>
-				<el-form-item
-					label="លេខទូរស័ព្ទ"
-					prop="phone"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.phone"
-						autocomplete="off"
-						name="phone"
-						clearable
-					/>
-				</el-form-item>
-				<el-form-item
-					label="សារអេឡិចត្រូនិច"
-					prop="email"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.email"
-						autocomplete="off"
-						name="email"
-						clearable
-					/>
-				</el-form-item>
-				<el-form-item
-					v-if="isShowPassword"
-					label="ពាក្យសម្ងាត់"
-					prop="password"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-input
-						v-model="ruleForm.password"
-						autocomplete="off"
-						name="password"
-						show-password
-					/>
-				</el-form-item>
-				<el-form-item
-					label="តួនាទី"
-					class="sanfont-khmer"
-					:label-width="formLabelWidth"
-				>
-					<el-select
-						v-model="ruleForm.roles"
-						placeholder="ជ្រើសរើស"
-						class="text-left"
-						name="roles"
-						multiple
-					>
-						<el-option
-							v-for="data in roles"
-							:key="data"
-							:label="data.name"
-							:value="data.name"
-						/>
-					</el-select>
-				</el-form-item>
-			</div>
-			<el-form-item
-				label="រូបភាព"
-				class="sanfont-khmer"
-				:label-width="formLabelWidth"
-			>
-				<div>
-					<el-upload
-						class="avatar-uploader"
-						action="#"
-						name="file"
-						:show-file-list="true"
-						:auto-upload="false"
-						:on-change="handleAvatarSuccess"
-						:before-upload="beforeAvatarUpload"
-					>
-						<img
-							v-if="imageUrl"
-							:src="imageUrl"
-							class="avatar 	object-contain "
-						>
-						<i
-							v-else
-							class="el-icon-plus avatar-uploader-icon"
-						></i>
-					</el-upload>
-					<input
-						type="hidden"
-						name="photo_id"
-						v-model="ruleForm.photo_id"
-					>
-				</div>
-			</el-form-item>
-		</el-form>
-		<el-dialog v-model="dialogVisible">
-			<img
-				w-full
-				:src="dialogImageUrl"
-				alt="Preview Image"
-			/>
-		</el-dialog>
-		<template #footer>
-			<span class="dialog-footer">
-				<el-button
-					@click="cancelAction()"
-					class="sanfont-khmer"
-				> បោះបង់</el-button>
-				<el-button
-					v-if="!isShowButtonUpdate"
-					type="primary"
-					class="sanfont-khmer"
-					@click="submitForm('ruleForm')"
-				>
-					រក្សាទុក
-				</el-button>
-				<el-button
-					v-if="isShowButtonUpdate"
-					type="primary"
-					class="sanfont-khmer"
-					@click="updateData('ruleForm')"
-				>
-					រក្សាទុក
-				</el-button>
-			</span>
-		</template>
-	</el-dialog>
-	<!-- Dialog user  -->
-
 </template>
 <script>
-
-import { ElNotification, ElMessage } from 'element-plus'
 export default {
 	components: {},
 
 	data() {
-		var optionsLine = {
-			series: [{
-				name: 'សិស្សប្រុស',
-				data: [31, 40]
-			}, {
-				name: 'សិស្សស្រី',
-				data: [11, 32]
-			}],
-			chart: {
-				height: 350,
-				type: 'area'
-			},
-			dataLabels: {
-				enabled: false
-			},
-			stroke: {
-				curve: 'smooth'
-			},
-			xaxis: {
-				type: 'string',
-				categories: ["២០២១-២០២២", "២០២២-២០២៣"]
-			},
-			tooltip: {
-				// x: {
-				// 	format: 'dd/MM/yy HH:mm'
-				// },
-			},
-		};
 		var optionsColumn = {
 			series: [{
 				name: 'សិស្សប្រុស',
-				data: [1900, 1900, 4800]
+				data: [10, 12, 13]
 			},
 			{
 				name: 'សិស្សស្រី',
-				data: [2500, 3600, 4800]
+				data: [22, 19, 24]
 			}
 			],
 			chartOptions: {
 				chart: {
 					height: 350,
 					type: 'bar',
+					fontFamily: 'Khmer OS Siemreap',
+					fontSize: '15px',
+
+
+				},
+				legend: {
+					position: 'bottom',
+					fontSize: '14px',
+					fontFamily: 'Khmer OS Siemreap',
 				},
 				plotOptions: {
 					bar: {
-						borderRadius: 10,
+						columnWidth: 70,
+						borderRadius: 5,
 						dataLabels: {
 							position: 'top', // top, center, bottom
 						},
@@ -364,14 +235,23 @@ export default {
 					},
 					offsetY: -20,
 					style: {
-						fontSize: '12px',
-						colors: ["#304758"]
+						fontSize: '15px',
+						colors: ["#304758"],
+						fontFamily: 'Khmer OS Siemreap',
+
 					}
 				},
 
 				xaxis: {
-					categories: ["ថ្នាក់ទី១០", "ថ្នាក់ទី១១", "ថ្នាក់ទី១២"],
+					categories: ["ថ្នាក់ធម្មតា", "ថ្នាក់វិទ្យាសាស្រ្តពិត", "ថ្នាក់វិទ្យាសាស្រ្តសង្គម"],
+					style: {
+						fontSize: '18px',
+						colors: ["#304758"],
+						fontFamily: 'Khmer OS Siemreap',
+
+					},
 					position: 'top',
+
 					axisBorder: {
 						show: false
 					},
@@ -392,6 +272,13 @@ export default {
 					},
 					tooltip: {
 						enabled: true,
+						style: {
+							fontSize: '15px',
+							colors: ["#304758"],
+							fontFamily: 'Khmer OS Siemreap',
+
+						},
+
 					}
 				},
 				yaxis: {
@@ -403,8 +290,14 @@ export default {
 					},
 					labels: {
 						show: false,
+						style: {
+							fontSize: '12px',
+							colors: ["#304758"],
+							fontFamily: 'Khmer OS Siemreap',
+
+						},
 						formatter: function (val) {
-							return val + "នាក់";
+							return `<span style="font-family: 'Khmer OS Siemreap'">${val} នាក់</span>`;
 						}
 					}
 
@@ -415,28 +308,42 @@ export default {
 					offsetY: 330,
 					align: 'center',
 					style: {
-						color: '#444'
+						color: '#444',
+						fontFamily: 'Khmer OS Siemreap',
+
 					}
 				}
 			},
 		};
 
 		var optionsAttendace = {
-			series: [44, 55, 13, 43],
+			series: [],
 			chartOptions: {
 				chart: {
-					width: 380,
+					width: 400,
 					type: 'pie',
+					align: "center"
+				},
+				legend: {
+					position: 'bottom',
+					fontSize: '14px',
+					fontFamily: 'Khmer OS Siemreap',
+					fontWeight: 500,
+					align: "center"
+
 				},
 				labels: ['វត្តមាន', 'ច្បាប់', 'មកយឺត', 'អវត្តមាន'],
 				responsive: [{
-					breakpoint: 480,
+					breakpoint: 680,
 					options: {
 						chart: {
-							width: 200
+							width: 250
 						},
 						legend: {
 							position: 'bottom'
+						},
+						title: {
+							align: 'center'
 						}
 					}
 				}]
@@ -444,84 +351,34 @@ export default {
 		};
 
 
-		const tableData = [
-			{
-				date: '2016-05-03',
-				name: 'Tom',
-				state: 'California',
-				city: 'Los Angeles',
-				address: 'No. 189, Grove St, Los Angeles',
-				zip: 'CA 90036',
-			},
-			{
-				date: '2016-05-02',
-				name: 'Tom',
-				state: 'California',
-				city: 'Los Angeles',
-				address: 'No. 189, Grove St, Los Angeles',
-				zip: 'CA 90036',
-			},
-			{
-				date: '2016-05-04',
-				name: 'Tom',
-				state: 'California',
-				city: 'Los Angeles',
-				address: 'No. 189, Grove St, Los Angeles',
-				zip: 'CA 90036',
-			},
-			{
-				date: '2016-05-01',
-				name: 'Tom',
-				state: 'California',
-				city: 'Los Angeles',
-				address: 'No. 189, Grove St, Los Angeles',
-				zip: 'CA 90036',
-			},
-			{
-				date: '2016-05-08',
-				name: 'Tom',
-				state: 'California',
-				city: 'Los Angeles',
-				address: 'No. 189, Grove St, Los Angeles',
-				zip: 'CA 90036',
-			},
-			{
-				date: '2016-05-06',
-				name: 'Tom',
-				state: 'California',
-				city: 'Los Angeles',
-				address: 'No. 189, Grove St, Los Angeles',
-				zip: 'CA 90036',
-			},
-			{
-				date: '2016-05-07',
-				name: 'Tom',
-				state: 'California',
-				city: 'Los Angeles',
-				address: 'No. 189, Grove St, Los Angeles',
-				zip: 'CA 90036',
-			},
-		]
 		return {
-			tableData,
-			showSuccess: false,
-			showInfo: false,
-			optionsLine,
 			optionsColumn,
 			optionsAttendace,
-			academic: '2',
+			academic: 1,
 			academics: [
-				{
-					name: "ឆ្នាំសិក្សា២០២១-២០២២",
-					id: '1',
+			],
+			dataSummary: [],
+			student: {
+				'total': 0,
+				'st1': 0,
+				'st2': 0,
+			},
+			teacher: {
+				'total': 0,
+				'tc1': 0,
+				'tc2': 0,
+			},
+			user: {
+				'total': 0,
+				'role': []
+			},
+			classs: {
+				'total': 0,
+				'cl1': 0,
+				'cl2': 0,
+				'cl3': 0,
+			},
 
-				},
-				{
-					name: "ឆ្នាំសិក្សា២០២២-២០២៣",
-					id: '2',
-
-				}
-			]
 		}
 	},
 	computed: {
@@ -529,28 +386,52 @@ export default {
 	},
 
 	mounted() {
-		// var chart = new ApexCharts(document.querySelector("#chart"), this.optionsColumn);
-		// chart.render();
-		// var chartAttendace = new ApexCharts(document.querySelector("#chartAttendace"), this.optionsAttendace);
-		// chartAttendace.render();
+		this.getData();
 	},
 	methods: {
-		notification() {
-			this.showSuccess = !this.showSuccess
-			ElNotification.success({
-				title: 'Success',
-				message: 'This is a success message',
-				offset: 100,
+		changeData() {
+			this.getData();
+		},
+		async getData() {
+			this.loading = true
+			await axios.get('/dashboard' + '?acc=' + this.academic).then(response => {
+
+				this.dataSummary = response.data.data
+				this.academics = this.dataSummary.academics
+				this.optionsAttendace.series = this.dataSummary.attendance
+				this.optionsColumn.series[0].data = this.dataSummary.student_class_type.st1
+				this.optionsColumn.series[1].data = this.dataSummary.student_class_type.st2
+
+				this.student.total = this.dataSummary.student.total
+				this.student.st1 = this.dataSummary.student.st1
+				this.student.st2 = this.dataSummary.student.st2
+
+				this.teacher.total = this.dataSummary.teacher.total
+				this.teacher.tc1 = this.dataSummary.teacher.tc1
+				this.teacher.tc2 = this.dataSummary.teacher.tc2
+
+				this.user.total = this.dataSummary.user.total
+				this.user.role = this.dataSummary.user.role
+
+				this.classs.total = this.dataSummary.class.total
+				this.classs.cl1 = this.dataSummary.class.cl1
+				this.classs.cl2 = this.dataSummary.class.cl2
+				this.classs.cl3 = this.dataSummary.class.cl3
+
+				this.loading = false
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
 			})
-			ElMessage({
-				message: 'Congrats, this is a success message.',
-				type: 'success',
-			})
-		}
+		},
 	}
 }
 </script>
-<style scoped>
+<style >
+tspan {
+	font-size: 15px !important;
+}
 :global(h2#card-usage ~ .example .example-showcase) {
 	background-color: var(--el-fill-color) !important;
 }

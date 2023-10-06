@@ -357,6 +357,7 @@
 								type="checkbox"
 								name="checkbox"
 								class="custom-checkbox"
+								style="accent-color: #16a34a;"
 								:checked="scope.row.attendance_type_id ==1"
 								@click="scope.row.attendance_type_id =1"
 							>
@@ -375,6 +376,7 @@
 								type="checkbox"
 								name="checkbox"
 								class="custom-checkbox"
+								style="accent-color: #ca8a04;"
 								:checked="scope.row.attendance_type_id ==2"
 								@click="scope.row.attendance_type_id =2"
 							>
@@ -392,6 +394,7 @@
 								type="checkbox"
 								name="checkbox"
 								class="custom-checkbox"
+								style="accent-color: #2563eb;"
 								:checked="scope.row.attendance_type_id ==3"
 								@click="scope.row.attendance_type_id =3"
 							>
@@ -409,6 +412,7 @@
 								type="checkbox"
 								name="checkbox"
 								class="custom-checkbox"
+								style="accent-color: #e74c3c;"
 								:checked="scope.row.attendance_type_id ==4"
 								@click="scope.row.attendance_type_id =4"
 							>

@@ -14,6 +14,7 @@ use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\TimeController;
 use App\Http\Controllers\AcademicController;
 use App\Http\Controllers\BackUpController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ScoreTypeController;
 use App\Http\Controllers\SettingController;
 //Version 1 API
@@ -25,7 +26,8 @@ Route::prefix('v1')->group(function () {
   Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user/get', [AuthController::class, 'get']);
     Route::post('/logout', [AuthController::class, 'logout']);
-
+    //Dashboard Data
+    Route::get('/dashboard', [DashboardController::class, 'index']);
     // Users  
     Route::prefix('user')->group(function () {
       Route::get('/get', [UserController::class, 'index']);

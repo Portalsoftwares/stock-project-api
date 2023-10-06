@@ -389,7 +389,8 @@
 				>
 					<template #default="scope">
 						<div class="text-center items-center w-full">
-							<span>{{  scope.row.mark_total }}</span>
+							<span v-if="scope.row.mark_total!=0 && scope.row.mark_total!=null">{{  scope.row.mark_total }}</span>
+							<span v-else>--</span>
 						</div>
 					</template>
 				</el-table-column>

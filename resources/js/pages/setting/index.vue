@@ -335,7 +335,7 @@
 												:label-width="formLabelWidth"
 											>
 												<el-radio-group v-model="ruleForm.backup_type">
-													<el-radio-button label="រាល់នាទី" />
+													<el-radio-button label="បិទ" />
 													<el-radio-button label="ប្រចាំថ្ងៃ" />
 													<el-radio-button label="ប្រចាំសប្តាហ៍" />
 													<el-radio-button label="ប្រចាំខែ" />

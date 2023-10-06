@@ -152,7 +152,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100%"
+				style="width: 100% ; height: 780px;"
 				stripe
 				border
 			>
@@ -303,7 +303,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100%"
+				style="width: 100% ; height: 780px;"
 				stripe
 				border
 			>
@@ -387,10 +387,16 @@
 						width="50"
 					>
 						<template #header>
-							<div class="text-green-600">PS</div>
+							<div
+								class="text-green-600"
+								style="color: #16a34a;"
+							>PS</div>
 						</template>
 						<template #default="scope">
-							<span class="text-green-600">
+							<span
+								class="text-green-600"
+								style="color: #16a34a;"
+							>
 								{{ scope.row.total_type_ps }}
 							</span>
 						</template>
@@ -401,10 +407,13 @@
 						width="50"
 					>
 						<template #header>
-							<div class="text-yellow-600">PM</div>
+							<div style="color: #ca8a04;">PM</div>
 						</template>
 						<template #default="scope">
-							<span class="text-yellow-600">
+							<span
+								class="text-yellow-600"
+								style="color: #ca8a04;"
+							>
 								{{ scope.row.total_type_pm }}
 							</span>
 						</template>
@@ -415,10 +424,16 @@
 						width="50"
 					>
 						<template #header>
-							<div class="text-blue-600">AL</div>
+							<div
+								class="text-blue-600"
+								style="color: #2563eb;"
+							>AL</div>
 						</template>
 						<template #default="scope">
-							<span class="text-blue-600">
+							<span
+								class="text-blue-600"
+								style="color: #2563eb;"
+							>
 								{{ scope.row.total_type_al }}
 							</span>
 						</template>
@@ -431,10 +446,16 @@
 						class="text-red-600"
 					>
 						<template #header>
-							<div class="text-red-600">A</div>
+							<div
+								class="text-red-600"
+								style="color: #dc2626;"
+							>A</div>
 						</template>
 						<template #default="scope">
-							<span class="text-red-600">
+							<span
+								class="text-red-600"
+								style="color: #dc2626;"
+							>
 								{{ scope.row.total_type_a }}
 							</span>
 						</template>
@@ -450,10 +471,13 @@
 				> បោះបង់</el-button>
 				<el-button
 					type="primary"
-					class="sanfont-khmer"
-					@click="printAttendance()"
+					@click="exportPDF"
+					v-loading.fullscreen.lock="fullscreenLoading"
 				>
-					បោះពុម្ភ
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
 				</el-button>
 			</span>
 		</template>
@@ -561,7 +585,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100%"
+				style="width: 100% ; height: 780px;"
 				stripe
 				border
 			>
@@ -608,6 +632,7 @@
 								type="checkbox"
 								name="checkbox"
 								class="custom-checkbox"
+								style="accent-color: #16a34a;"
 								:checked="scope.row.attendance_type_id ==1"
 								@click="scope.row.attendance_type_id =1"
 							>
@@ -625,6 +650,7 @@
 							<input
 								type="checkbox"
 								name="checkbox"
+								style="accent-color: #ca8a04;"
 								class="custom-checkbox"
 								:checked="scope.row.attendance_type_id ==2"
 								@click="scope.row.attendance_type_id =2"
@@ -642,6 +668,7 @@
 							<input
 								type="checkbox"
 								name="checkbox"
+								style="accent-color: #2563eb;"
 								class="custom-checkbox"
 								:checked="scope.row.attendance_type_id ==3"
 								@click="scope.row.attendance_type_id =3"
@@ -659,6 +686,7 @@
 							<input
 								type="checkbox"
 								name="checkbox"
+								style="accent-color: #e74c3c;"
 								class="custom-checkbox"
 								:checked="scope.row.attendance_type_id ==4"
 								@click="scope.row.attendance_type_id =4"
@@ -989,6 +1017,20 @@ export default {
 
 
 		},
+		async exportPDF() {
+			const class_id = this.$route.query.id;
+
+			await axios.post('/score/report/' + class_id + '/export', dataObj, config).then(response => {
+				let blob = new Blob([response.data], { type: 'application/pdf', }),
+					url = window.URL.createObjectURL(blob);
+				const newOpen = window.open(url);
+
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		}
 	}
 }
 </script>

@@ -208,46 +208,44 @@
 					id="fm"
 				>
 
-					
-								<el-form-item
-									label="ឈ្មោះមុខវិជ្ជា (ខ្មែរ)"
-									prop="subNameKh"
-									class="sanfont-khmer "
-									:label-width="formLabelWidth1"
-								>
-									<el-input
-										v-model="ruleForm.subNameKh"
-										name="subject_name_kh"
-										clearable
-									></el-input>
-								</el-form-item>
-							
-								<el-form-item
-									label="ឈ្មោះមុខវិជ្ជា (អង់គ្លេស)"
-									prop="subNameEng"
-									class="sanfont-khmer "
-									:label-width="formLabelWidth1"
-								>
-									<el-input
-										v-model="ruleForm.subNameEng"
-										name="subject_name_en"
-										clearable
-									></el-input>
-								</el-form-item>
-							
-								<el-form-item
-									label="ឈ្មោះមុខវិជ្ជា (អក្សរកាត់)"
-									prop="subShortNameEng"
-									class="sanfont-khmer "
-									:label-width="formLabelWidth1"
-								>
-									<el-input
-										v-model="ruleForm.subShortNameEng"
-										name="subject_sort_name_en"
-										clearable
-									></el-input>
-								</el-form-item>
-						
+					<el-form-item
+						label="ឈ្មោះមុខវិជ្ជា (ខ្មែរ)"
+						prop="subNameKh"
+						class="sanfont-khmer "
+						:label-width="formLabelWidth1"
+					>
+						<el-input
+							v-model="ruleForm.subNameKh"
+							name="subject_name_kh"
+							clearable
+						></el-input>
+					</el-form-item>
+
+					<el-form-item
+						label="ឈ្មោះមុខវិជ្ជា (អង់គ្លេស)"
+						prop="subNameEng"
+						class="sanfont-khmer "
+						:label-width="formLabelWidth1"
+					>
+						<el-input
+							v-model="ruleForm.subNameEng"
+							name="subject_name_en"
+							clearable
+						></el-input>
+					</el-form-item>
+
+					<el-form-item
+						label="ឈ្មោះមុខវិជ្ជា (អក្សរកាត់)"
+						prop="subShortNameEng"
+						class="sanfont-khmer "
+						:label-width="formLabelWidth1"
+					>
+						<el-input
+							v-model="ruleForm.subShortNameEng"
+							name="subject_sort_name_en"
+							clearable
+						></el-input>
+					</el-form-item>
 
 				</el-form>
 				<el-dialog v-model="dialogVisible">
@@ -311,7 +309,7 @@
 						<div class="flex space-x-2  ">
 							<div class="self-start pl-0 3xl:pl-2 ">
 								<el-select
-									v-model="SelectValue "
+									v-model="SelectValue"
 									filterable
 									clearable
 									multiple
@@ -319,9 +317,9 @@
 								>
 									<el-option
 										v-for="item in classType"
-										:key="item.classTypeValue"
-										:label="item.classTypeLabel"
-										:value="item.classTypeValue"
+										:key="item"
+										:label="item.name"
+										:value="item.class_type_id"
 									>
 									</el-option>
 								</el-select>
@@ -336,9 +334,9 @@
 								>
 									<el-option
 										v-for="item in gradeLevel"
-										:key="item.gradeLevelValue"
-										:label="item.gradeLevelLabel"
-										:value="item.gradeLevelValue"
+										:key="item"
+										:label="item.grade_level_name"
+										:value="item.grade_level_id"
 									>
 									</el-option>
 								</el-select>
@@ -655,7 +653,6 @@
 										<el-input
 											v-model="ruleFormSubjectLevel.divide"
 											autocomplete="off"
-											
 											name="divide"
 											clearable
 										/>
@@ -671,7 +668,6 @@
 										<el-input
 											v-model="ruleFormSubjectLevel.average"
 											autocomplete="off"
-											
 											name="average"
 											clearable
 										/>

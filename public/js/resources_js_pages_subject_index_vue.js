@@ -1192,9 +1192,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.classType, function (item) {
                 return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                  key: item.classTypeValue,
-                  label: item.classTypeLabel,
-                  value: item.classTypeValue
+                  key: item,
+                  label: item.name,
+                  value: item.class_type_id
                 }, null, 8 /* PROPS */, ["label", "value"]);
               }), 128 /* KEYED_FRAGMENT */))];
             }),
@@ -1213,9 +1213,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.gradeLevel, function (item) {
                 return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-                  key: item.gradeLevelValue,
-                  label: item.gradeLevelLabel,
-                  value: item.gradeLevelValue
+                  key: item,
+                  label: item.grade_level_name,
+                  value: item.grade_level_id
                 }, null, 8 /* PROPS */, ["label", "value"]);
               }), 128 /* KEYED_FRAGMENT */))];
             }),
