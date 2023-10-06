@@ -13,10 +13,19 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Teacher;
 use App\Exports\UsersExport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\mPDF\PdfWrapper as PDF;
+use Maatwebsite\Excel\Exporter;
 
 class UserController extends Controller
 {
+    private $exporter;
+
+    public function __construct(Exporter $exporter)
+    {
+        $this->exporter = $exporter;
+    }
+    
+
     /**
      * Display a listing of the resource.
      *
@@ -245,6 +254,13 @@ class UserController extends Controller
 
     public function exportExcel()
     {
-        return Excel::download(new UsersExport, 'users.xlsx');
+        return $this->exporter->download(new UsersExport, 'users.xlsx');
+    }
+
+    public function exportPDF(){
+        $pdf = PDF::loadView('list.user',  [
+            'users' => User::with(['roles'])->get()
+        ]);
+        return $pdf->stream('users.pdf');
     }
 }
