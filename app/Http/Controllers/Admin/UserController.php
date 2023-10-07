@@ -24,7 +24,7 @@ class UserController extends Controller
     {
         $this->exporter = $exporter;
     }
-    
+
 
     /**
      * Display a listing of the resource.
@@ -57,7 +57,7 @@ class UserController extends Controller
                 }
             });
         }
-        $data = $items->with('roles', 'img')
+        $data = $items->with('roles', 'img', 'used')
             ->orderBy($sort_by, $order_by)
             ->paginate($per_page);
 
@@ -257,7 +257,8 @@ class UserController extends Controller
         return $this->exporter->download(new UsersExport, 'users.xlsx');
     }
 
-    public function exportPDF(){
+    public function exportPDF()
+    {
         $pdf = PDF::loadView('list.user',  [
             'users' => User::with(['roles'])->get()
         ]);

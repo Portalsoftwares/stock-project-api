@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ReportScoreExport;
 use App\Models\Academic;
 use App\Models\Classes;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ use App\Models\SubjectGradeLevel;
 use App\Models\TeacherClass;
 use Carbon\Carbon;
 use App\mPDF\PdfWrapper as PDF;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ScoreController extends Controller
 {
@@ -261,6 +263,9 @@ class ScoreController extends Controller
         $total_divide = 0;
         foreach ($subjectGradeInclass as $obj) {
             $total_divide += $obj->teacher_subject_in_class->divide;
+        }
+        if ($total_divide == 0) {
+            $total_divide = 1;
         }
         $arrayScore = [];
         //Data More Infor
@@ -544,7 +549,7 @@ class ScoreController extends Controller
                 //Exam Semester
                 $avg_score_yearly = number_format(($total_avg_semester / 2), 2, '.');
 
-                $data['mark_total'] = $total_score_monthly;
+                $data['mark_total'] = 0;
                 $data['mark_avg'] = $avg_score_yearly;
 
                 $women = $data->student_in_class->gender_id == 2;
@@ -660,5 +665,12 @@ class ScoreController extends Controller
         ]);
         // return $pdf;
         return $pdf->stream('score.pdf');
+    }
+    //EXCEL EXPORT 
+    public function exportEXCEL(Request $request)
+    {
+        $data = $request->data;
+        $option = $request->option;
+        return Excel::download(new ReportScoreExport($data,  $option), 'teacher.xlsx');
     }
 }

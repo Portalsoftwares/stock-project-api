@@ -125,14 +125,14 @@ var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   "class": "mt-6 text-center text-3xl text-gray-800 sanfont-khmer"
 }, "សាលាចំណេះទូទៅ និងបច្ចេកទេសពួក "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
   "class": "text-2xl text-gray-600 text-[20px] font-bold"
-}, "PUOK TECHNICAL AND GENERAL SCHOOL ")], -1 /* HOISTED */);
+}, "PUOK GENERAL AND TECHNICAL SCHOOL ")], -1 /* HOISTED */);
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
   type: "hidden",
   name: "remember",
   value: "true"
 }, null, -1 /* HOISTED */);
 var _hoisted_6 = {
-  "class": "space-y-[10px] rounded-md shadow-sm"
+  "class": "space-y-[10px]"
 };
 var _hoisted_7 = {
   "class": "flex justify-center w-full"

@@ -308,7 +308,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100% ; height: 780px;"
+				style="width: 100% ; height: 660px;"
 				stripe
 				border
 			>
@@ -321,7 +321,7 @@
 
 						<div>
 
-							<span>{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}</span>
+							<span>{{ scope.row.student_in_class.full_name_kh }}</span>
 						</div>
 					</template>
 				</el-table-column>

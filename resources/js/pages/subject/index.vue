@@ -54,6 +54,13 @@
 							<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
 						</el-button>
+						<el-button type="info">
+							<el-icon>
+								<Document />
+							</el-icon>
+							<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+
+						</el-button>
 						<el-button
 							type="primary"
 							@click="AddSubject"
@@ -70,29 +77,9 @@
 			<div class="grid grid-cols-1 gap-2 ">
 				<div class=" border rounded bg-gray-50">
 					<div class="flex flex-col  ">
-						<div
-							class="m-2"
-							v-if="showSuccess"
-						>
-							<el-alert
-								title="success alert"
-								type="success"
-								show-icon
-							/>
-						</div>
-						<div
-							class="m-2"
-							v-if="showInfo"
-						>
-							<el-alert
-								title="info alert"
-								type="info"
-								show-icon
-							/>
-						</div>
 						<el-table
 							:data="tableData.data"
-							height="690"
+							height="700"
 							style="width: 100%"
 							resizable="true"
 							header-cell-class-name="header-table-font-khmer text-md"
@@ -350,7 +337,7 @@
 					</div>
 				</div>
 
-				<div class="flex flex-col  2xl:flex-row ">
+				<div class="flex flex-col   space-y-2">
 					<div class="self-center flex ">
 						<el-switch
 							v-model="is_show_trustSubjectLevel"
@@ -371,6 +358,13 @@
 							<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
 						</el-button>
+						<el-button type="info">
+							<el-icon>
+								<Document />
+							</el-icon>
+							<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+
+						</el-button>
 						<el-button
 							type="primary"
 							@click="AddSubjectLevel"
@@ -388,29 +382,9 @@
 			<div class="grid grid-cols-1 gap-2 ">
 				<div class=" border rounded bg-gray-50">
 					<div class="flex flex-col  ">
-						<div
-							class="m-2"
-							v-if="showSuccess"
-						>
-							<el-alert
-								title="success alert"
-								type="success"
-								show-icon
-							/>
-						</div>
-						<div
-							class="m-2"
-							v-if="showInfo"
-						>
-							<el-alert
-								title="info alert"
-								type="info"
-								show-icon
-							/>
-						</div>
 						<el-table
 							:data="tableDataSubjectLevel.data"
-							height="690"
+							height="660"
 							style="width: 100%"
 							resizable="true"
 							header-cell-class-name="header-table-font-khmer text-md"

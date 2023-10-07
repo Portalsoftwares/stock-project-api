@@ -89,10 +89,10 @@ class DashboardController extends Controller
             ];
         });
         //total class
-        $totalsClass = Classes::count();
-        $totalsClass1 = Classes::where('class_type_id', 1)->count();
-        $totalsClass2 = Classes::where('class_type_id', 2)->count();
-        $totalsClass3 = Classes::where('class_type_id', 3)->count();
+        $totalsClass = Classes::where('academic_id', $request->acc)->count();
+        $totalsClass1 = Classes::where('academic_id', $request->acc)->where('class_type_id', 1)->count();
+        $totalsClass2 = Classes::where('academic_id', $request->acc)->where('class_type_id', 2)->count();
+        $totalsClass3 = Classes::where('academic_id', $request->acc)->where('class_type_id', 3)->count();
 
         $response = [
             'data' => [

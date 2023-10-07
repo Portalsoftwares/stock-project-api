@@ -13,7 +13,7 @@
 
 				<div>
 					<h2 class="mt-6 text-center text-3xl text-gray-800 sanfont-khmer">សាលាចំណេះទូទៅ និងបច្ចេកទេសពួក </h2>
-					<h1 class="text-2xl text-gray-600 text-[20px] font-bold">PUOK TECHNICAL AND GENERAL SCHOOL </h1>
+					<h1 class="text-2xl text-gray-600 text-[20px] font-bold">PUOK GENERAL AND TECHNICAL SCHOOL </h1>
 				</div>
 				<div>
 					<el-alert
@@ -45,7 +45,7 @@
 						name="remember"
 						value="true"
 					/>
-					<div class="space-y-[10px] rounded-md shadow-sm">
+					<div class="space-y-[10px] ">
 						<div class="flex justify-center w-full ">
 							<el-form-item prop="email">
 								<el-input

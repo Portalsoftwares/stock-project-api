@@ -171,13 +171,13 @@
 				>
 					យល់ព្រម
 				</el-button>
-				<el-button
+				<!-- <el-button
 					type="info"
-					class="sanfont-khmer mt-2"
+					class="sanfont-khmer mt-2 hiden"
 					@click="randomScoreAll()"
 				>
 					ទាញទិន្នន័យស្រាប់
-				</el-button>
+				</el-button> -->
 				<div>
 				</div>
 			</div>
@@ -187,7 +187,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100% ; height: 780px;"
+				style="width: 100% ; height: 680px;"
 				stripe
 				border
 			>
@@ -461,6 +461,16 @@
 							<Document />
 						</el-icon>
 						<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+					</el-button>
+					<el-button
+						type="primary"
+						@click="exportEXCEL"
+						v-loading.fullscreen.lock="fullscreenLoading"
+					>
+						<el-icon>
+							<Document />
+						</el-icon>
+						<span class="mx-1 sanfont-khmer"> ទាញ EXCEL</span>
 					</el-button>
 				</div>
 			</div>
@@ -773,6 +783,59 @@ export default {
 					url = window.URL.createObjectURL(blob);
 				const newOpen = window.open(url);
 
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		async exportEXCEL() {
+			const config = {
+				headers: {
+					'Content-Type': 'applicaton/json',
+				},
+				responseType: 'blob'
+			}
+			var studentDataPDF = []
+			this.studentObj.forEach((data) => {
+				let objStudent = {
+					"mark_total": data.mark_total ?? '-',
+					"mark_avg": data.mark_avg ?? '-',
+					"mark_rank_text": data.mark_rank_text ?? '-',
+					"mark_rank": data.mark_rank ?? '-',
+					"student_name": data.student_in_class?.full_name_kh,
+				}
+				studentDataPDF.push(objStudent)
+			});
+
+
+			const dataObj = {
+				'data': {
+					'data': studentDataPDF,
+					'report_total_student': this.report_total_student,
+					'report_total_good': this.report_total_good,
+					'report_total_ok': this.report_total_ok,
+					'report_total_medium': this.report_total_medium,
+					'report_total_low': this.report_total_low,
+					'report_total_less': this.report_total_less,
+
+					'report_total_student_women': this.report_total_student_women,
+					'report_total_good_women': this.report_total_good_women,
+					'report_total_ok_women': this.report_total_ok_women,
+					'report_total_medium_women': this.report_total_medium_women,
+					'report_total_low_women': this.report_total_low_women,
+					'report_total_less_women': this.report_total_less_women,
+				},
+				'option': {
+					'class': this.classData.class_name,
+					'exam': this.exam,
+					'academic': this.academic,
+				}
+			}
+			const class_id = this.$route.query.id;
+
+			await axios.post('/score/report/' + class_id + '/export-excel', dataObj, config).then(response => {
+				FileSaver.saveAs(response.data, 'report_score');
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")

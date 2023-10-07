@@ -152,7 +152,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100% ; height: 780px;"
+				style="width: 100% ; height: 650px;"
 				stripe
 				border
 			>
@@ -244,7 +244,7 @@
 					class="sanfont-khmer"
 					@click="printAttendance()"
 				>
-					បោះពុម្ភ
+					ទាញ PDF
 				</el-button>
 			</span>
 		</template>
@@ -303,7 +303,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100% ; height: 780px;"
+				style="width: 100% ; height: 650px;"
 				stripe
 				border
 			>
@@ -585,7 +585,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100% ; height: 780px;"
+				style="width: 100% ; height: 650px;"
 				stripe
 				border
 			>

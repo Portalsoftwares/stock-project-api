@@ -1038,7 +1038,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-icon>\r\n\t\t\t\t\t\t\t\t\t<InfoFilled />\r\n\t\t\t\t\t\t\t\t</el-icon> "), _hoisted_26];
     }),
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, " បង្កើតដោយ @ 2023 BIT14", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])], 2 /* CLASS */)])])])], 2 /* CLASS */);
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, " បង្កើតដោយ @2023 USEA-IT14", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.dataSibar]])])], 2 /* CLASS */)])])])], 2 /* CLASS */);
 }
 
 /***/ }),

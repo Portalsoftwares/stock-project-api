@@ -17,7 +17,7 @@
 			</div>
 		</div>
 
-		<div class="flex flex-col space-y-2 xl:flex-row  xl:space-y-0">
+		<div class="flex flex-col space-x-2 space-y-2 xl:flex-row  xl:space-y-0">
 			<div class="self-center  flex space-x-3">
 				<el-button type="info">
 					<el-icon>
@@ -25,9 +25,12 @@
 					</el-icon>
 					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 				</el-button>
-				<div>
-					<!-- Use this <div> for space-x-2 work -->
-				</div>
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+				</el-button>
 			</div>
 			<div class="self-center ">
 				<el-button
@@ -97,7 +100,7 @@
 		<el-table-column label="ឈ្មោះភាសាខ្មែរ">
 			<template #default="scope">
 				<span>
-					{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}
+					{{ scope.row.student_in_class.full_name_kh }}
 				</span>
 			</template>
 		</el-table-column>
@@ -105,7 +108,7 @@
 		<el-table-column label="ឈ្មោះឡាតាំង">
 			<template #default="scope">
 				<span>
-					{{ scope.row.student_in_class.first_name_en }} {{ scope.row.student_in_class.last_name_en }}
+					{{ scope.row.student_in_class.full_name_en }}
 				</span>
 			</template>
 		</el-table-column>

@@ -1,6 +1,6 @@
 <template>
 	<div class="bg-white p-2 w-full border justify-between rounded-t xl:flex xl:flex-row">
-		<div class="flex  flex-col 2xl:flex  2xl:flex-row  ">
+		<div class="flex  flex-col space-y-2  ">
 			<div class="flex space-x-2 ">
 				<div class="self-center pr-2">
 					<el-input
@@ -14,10 +14,6 @@
 
 			</div>
 			<div class="flex space-y-2  2xl:space-y-0 ">
-				<div>
-					<!-- Use this <div> for space-y-2 work -->
-				</div>
-
 				<div class="self-center ">
 					<el-select
 						v-model="filterSelectValue "
@@ -64,7 +60,7 @@
 			</div>
 		</div>
 
-		<div class="flex flex-col  3xl:flex-row ">
+		<div class="flex flex-col  3xl:flex-row space-y-2 ">
 			<div class="self-center flex ">
 				<el-switch
 					v-model="is_show_trust"
@@ -88,6 +84,13 @@
 					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
 				</el-button>
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+
+				</el-button>
 				<el-button
 					type="primary"
 					@click="addStudent"
@@ -106,7 +109,7 @@
 				<!-- {{ tableData }} -->
 				<el-table
 					:data="tableData.data"
-					height="750"
+					height="730"
 					style="width: 100%"
 					resizable="true"
 					header-cell-class-name="header-table-font-khmer text-md"
@@ -293,7 +296,7 @@
 		v-model="dialogFormVisible"
 		title="ព័ត៌មានសិស្ស"
 		class="sanfont-khmer "
-		width="63%"
+		width="50%"
 		align-center="true"
 		draggable
 	>
@@ -477,7 +480,7 @@
 
 								<div>
 									<el-form-item
-										label="អាស័យដ្ឋានបច្ចុប្បន្ន"
+										label="អាសយដ្ឋានបច្ចុប្បន្ន"
 										class="sanfont-khmer"
 										:label-width="formLabelWidth"
 									>
@@ -599,7 +602,7 @@
 					</div>
 
 				</el-tab-pane>
-				<el-tab-pane label="ព័ត៌មានមធ្យមសិក្សបឋមភូមិ">
+				<el-tab-pane label="ព័ត៌មានមធ្យមសិក្សាបឋមភូមិ">
 					<div class="flex flex-col xl:flex-row">
 						<div class="flex flex-col space-y-1">
 							<div>
@@ -817,7 +820,7 @@ export default {
 				],
 
 				birthAddress: [
-					{ required: true, message: 'សូមបញ្ជូលអាស័យដ្ឋាន', trigger: 'blur' },
+					{ required: true, message: 'សូមបញ្ជូលអាសយដ្ឋាន', trigger: 'blur' },
 
 				],
 				phoneNum: [

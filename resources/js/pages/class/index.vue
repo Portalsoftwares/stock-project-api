@@ -1,6 +1,6 @@
 <template>
 	<div class="bg-white p-2 w-full border justify-between rounded-t xl:flex xl:flex-row">
-		<div class="flex  flex-col 2xl:flex  2xl:flex-row ">
+		<div class="flex  flex-col space-y-2 ">
 
 			<div class="flex space-x-2">
 				<div class="self-center pr-2">
@@ -21,9 +21,6 @@
 				</div>
 			</div>
 			<div class="flex space-y-2  2xl:space-y-0 ">
-				<div>
-					<!-- Use this <div> for space-y-2 work -->
-				</div>
 				<div class="self-center  ">
 					<el-select
 						v-model="filter_class_type_id"
@@ -75,7 +72,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="flex flex-col space-x-2  ">
+		<div class="flex flex-col space-x-2 space-y-2 ">
 			<div class=" self-center">
 				<el-switch
 					v-model="is_show_trust"
@@ -94,6 +91,13 @@
 						<Document />
 					</el-icon>
 					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+
+				</el-button>
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
 
 				</el-button>
 				<el-button
@@ -117,7 +121,7 @@
 					<el-table
 						v-loading="loading_class"
 						:data="tableData.data"
-						height="700"
+						height="730"
 						style="width: 100%"
 						resizable="true"
 						fit
@@ -372,6 +376,7 @@
 					:label-width="formLabelWidth"
 				>
 					<el-input
+						style="width: 300px;"
 						type="textarea"
 						:rows="5"
 						v-model="ruleForm.other"

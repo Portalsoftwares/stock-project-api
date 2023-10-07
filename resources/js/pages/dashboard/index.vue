@@ -154,7 +154,10 @@
 		</el-row>
 	</div>
 	<div class="grid grid-cols-3 gap-4 ">
-		<div class="col-span-2 border rounded  bg-gray-50 p-5 hover:shadow-md  cursor-pointer transition ease-in-out delay-100">
+		<div
+			class="col-span-2 border rounded  bg-gray-50 p-5 hover:shadow-md  cursor-pointer transition ease-in-out delay-100"
+			v-loading="loading"
+		>
 			<div class="flex flex-col  ">
 				<div class="py-2 text-xl">
 					ទិន្នន័យសិស្សានុសិស្សតាមថ្នាក់
@@ -170,7 +173,10 @@
 
 			</div>
 		</div>
-		<div class="border rounded  bg-gray-50 p-5 hover:shadow-md  cursor-pointer transition ease-in-out delay-100">
+		<div
+			class="border rounded  bg-gray-50 p-5 hover:shadow-md  cursor-pointer transition ease-in-out delay-100"
+			v-loading="loading"
+		>
 			<div class="py-2 text-xl">
 				ទិន្នន័យអត្រាវត្តមាន
 			</div>

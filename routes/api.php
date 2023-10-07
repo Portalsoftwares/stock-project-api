@@ -17,6 +17,9 @@ use App\Http\Controllers\BackUpController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ScoreTypeController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\PreferanceController;
+use App\Http\Controllers\RoleController;
+
 //Version 1 API
 Route::prefix('v1')->group(function () {
   // User 
@@ -132,6 +135,7 @@ Route::prefix('v1')->group(function () {
       Route::post('/collect/{id}/create', [ScoreController::class, 'create']);
       //Report
       Route::post('/report/{id}/export', [ScoreController::class, 'exportPDF']);
+      Route::post('/report/{id}/export-excel', [ScoreController::class, 'exportEXCEL']);
     });
     //Time 
     Route::prefix('time')->group(function () {
@@ -177,6 +181,17 @@ Route::prefix('v1')->group(function () {
     Route::prefix('setting')->group(function () {
       Route::get('/get', [SettingController::class, 'index']);
       Route::post('/update', [SettingController::class, 'update']);
+    });
+
+
+    //Report
+    Route::prefix('report')->group(function () {
+      Route::get('/preference', [PreferanceController::class, 'index']);
+    });
+
+    //Role
+    Route::prefix('role')->group(function () {
+      Route::get('/get', [RoleController::class, 'index']);
     });
   });
 });
