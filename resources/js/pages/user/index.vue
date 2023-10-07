@@ -741,7 +741,8 @@ export default {
 		},
 		async exportExcel() {
 			axios.post('/user/exportExcel', {
-				file_name: 'User'
+				file_name: 'User',
+				is_show_trust: this.is_show_trust
 			}, {
 				responseType: 'blob'
 			}).then((response) => {
@@ -752,7 +753,8 @@ export default {
 
 		async exportPDF(){
 			axios.post('/user/exportPDF', {
-				file_name: 'User'
+				file_name: 'User',
+				is_show_trust: this.is_show_trust
 			}, {
 				responseType: 'blob'
 			}).then((response) => {

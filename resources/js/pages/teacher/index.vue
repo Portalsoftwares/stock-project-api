@@ -53,7 +53,7 @@
 					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
 				</el-button>
-				<el-button type="info">
+				<el-button type="info" @click="exportPDF">
 					<el-icon>
 						<Document />
 					</el-icon>
@@ -783,7 +783,19 @@ export default {
 		},
 		async exportExcel() {
 			axios.post('/teacher/exportExcel', {
-				file_name: 'Teacher'
+				file_name: 'Teacher',
+				is_show_trust: this.is_show_trust
+			}, {
+				responseType: 'blob'
+			}).then((response) => {
+				// response.data is a blob type
+				FileSaver.saveAs(response.data, 'teacher');
+			});
+		},
+		async exportPDF(){
+			axios.post('/teacher/exportPDF', {
+				file_name: 'Teacher',
+				is_show_trust: this.is_show_trust
 			}, {
 				responseType: 'blob'
 			}).then((response) => {

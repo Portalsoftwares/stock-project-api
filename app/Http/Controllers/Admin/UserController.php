@@ -252,15 +252,27 @@ class UserController extends Controller
         return  response($response, 200);
     }
 
-    public function exportExcel()
+    public function exportExcel(Request $request)
     {
-        return $this->exporter->download(new UsersExport, 'users.xlsx');
+        if(isset($request->is_show_trust)){
+            return $this->exporter->download(new UsersExport($request->is_show_trust), 'users.xlsx');
+        }
+        return $this->exporter->download(new UsersExport(), 'users.xlsx');
     }
 
-    public function exportPDF(){
-        $pdf = PDF::loadView('list.user',  [
-            'users' => User::with(['roles'])->get()
+    public function exportPDF(Request $request)
+    {
+        $users = User::query();
+    
+        if ($request->has('is_show_trust') && $request->is_show_trust) {
+            $users = User::onlyTrashed();
+        }
+        
+        $pdf = PDF::loadView('list.user', [
+            'users' => $users->with(['roles'])->get()
         ]);
+        
         return $pdf->stream('users.pdf');
     }
+    
 }

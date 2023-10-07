@@ -1,49 +1,54 @@
 @extends('pdf.master', ['data' => null, 'title' => 'បញ្ជីរ អ្នកប្រើ'])
 @section('body1')
     @php
-        $line_count = count($users);
+        $line_count = count($teachers);
     @endphp
     <div class="row">
         <div class="col-12 py-2">
-            <h1 class="font-muollight font-13 text-center">បញ្ជីរាយនាម អ្នកប្រើប្រាស់</h1>
+            <h1 class="font-muollight font-13 text-center">បញ្ជីរាយនាម </h1>
         </div>
         <div class="col-12  mt-3" style="padding-bottom: 20px">
             <table width="100%" autosize="1.6" style="border-collapse: collapse; border-style: solid;" cellpadding="8">
                 <thead>
                     <tr>
                         <td class="font-siemreap font-13" style="width: 7%">ល.រ</td>
-                        <td class="font-siemreap font-13" style="width: 28%">គោត្តនាមនិងនាម</td>
-                        <td class="font-siemreap font-13" style="width: 20%">សារអេឡិចត្រូនិច</td>
-                        <td class="font-siemreap font-13" style="width: 20%">លេខទូរស័ព្ទ</td>
-                        <td class="font-siemreap font-13" style="width: 25%">តួនាទី</td>
+                        <td class="font-siemreap font-13">អត្តលេខ</td>
+                        <td class="font-siemreap font-13">គោត្តនាមនិងនាម ភាសាខ្មែរ</td>
+                        <td class="font-siemreap font-13">គោត្តនាមនិងនាម ឡាតាំង</td>
+                        <td class="font-siemreap font-13">ភេទ</td>
+                        <td class="font-siemreap font-13">ថ្ងៃ/ខែ/ឆ្នាំកំណើត</td>
+                        <td class="font-siemreap font-13">លេខទូរស័ព្ទ</td>
+                        <td class="font-siemreap font-13">បង្កើតគណនី</td>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $key => $user)
+                    @foreach ($teachers as $key => $teacher)
                         <tr>
                             <td class="font-siemreap font-13" style="text-align: center;">
                                 {{ $key + 1 }}
                             </td>
                             <td class="font-siemreap font-13">
-                                {{ $user->name }}
+                                {{ $teacher->tid }}
                             </td>
                             <td class="font-siemreap font-13" style="text-align: center;">
-                                {{ $user->email }}
+                                {{ $teacher->full_name_kh }}
                             </td>
 
                             <td class="font-siemreap font-13" style="text-align: left;">
-                                {{ $user->phone }}
+                                {{ $teacher->full_name_en }}
                             </td>
 
-                            <td class="font-siemreap font-13" style="text-align: center;">
-                                @isset($user->roles)
-                                    {{ implode(
-                                        ',',
-                                        $user->roles->map(function ($role) {
-                                                return $role['name'];
-                                            })->toArray(),
-                                    ) }}
-                                @endisset
+                            <td class="font-siemreap font-13" style="text-align: left;">
+                                {{ $teacher->gender_id ? 'ប្រុស' : 'ស្រី' }}
+                            </td>
+                            <td class="font-siemreap font-13" style="text-align: left;">
+                                {{ $teacher->date_of_birth }}
+                            </td>
+                            <td class="font-siemreap font-13" style="text-align: left;">
+                                {{ $teacher->phone }}
+                            </td>
+                            <td class="font-siemreap font-13" style="text-align: left;">
+                                {{ $teacher->is_enable_account == 1? 'មាន គណនី' : 'គ្មាន គណនី' }}
                             </td>
                         </tr>
                     @endforeach
@@ -51,6 +56,15 @@
                         <tr>
                             <td class="font-siemreap font-13" style="text-align: center;">
                                 1
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
                             </td>
                             <td class="font-siemreap font-13">
 
@@ -83,12 +97,30 @@
                             <td class="font-siemreap font-13">
 
                             </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
                         </tr>
                     @endif
                     @if ($line_count <= 2)
                         <tr>
                             <td class="font-siemreap font-13" style="text-align: center;">
                                 3
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
                             </td>
                             <td class="font-siemreap font-13">
 
@@ -121,12 +153,30 @@
                             <td class="font-siemreap font-13">
 
                             </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
                         </tr>
                     @endif
                     @if ($line_count <= 4)
                         <tr>
                             <td class="font-siemreap font-13" style="text-align: center;">
                                 5
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
                             </td>
                             <td class="font-siemreap font-13">
 
@@ -159,12 +209,30 @@
                             <td class="font-siemreap font-13">
 
                             </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
                         </tr>
                     @endif
                     @if ($line_count <= 6)
                         <tr>
                             <td class="font-siemreap font-13" style="text-align: center;">
                                 7
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
                             </td>
                             <td class="font-siemreap font-13">
 
@@ -197,12 +265,30 @@
                             <td class="font-siemreap font-13">
 
                             </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
                         </tr>
                     @endif
                     @if ($line_count <= 8)
                         <tr>
                             <td class="font-siemreap font-13" style="text-align: center;">
                                 9
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
                             </td>
                             <td class="font-siemreap font-13">
 
@@ -235,12 +321,30 @@
                             <td class="font-siemreap font-13">
 
                             </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
                         </tr>
                     @endif
                     @if ($line_count <= 10)
                         <tr>
                             <td class="font-siemreap font-13" style="text-align: center;">
                                 11
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
                             </td>
                             <td class="font-siemreap font-13">
 
@@ -273,12 +377,30 @@
                             <td class="font-siemreap font-13">
 
                             </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
                         </tr>
                     @endif
                     @if ($line_count <= 12)
                         <tr>
                             <td class="font-siemreap font-13" style="text-align: center;">
                                 13
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
                             </td>
                             <td class="font-siemreap font-13">
 
@@ -311,12 +433,30 @@
                             <td class="font-siemreap font-13">
 
                             </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
                         </tr>
                     @endif
                     @if ($line_count <= 14)
                         <tr>
                             <td class="font-siemreap font-13" style="text-align: center;">
                                 15
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
                             </td>
                             <td class="font-siemreap font-13">
 
@@ -349,12 +489,30 @@
                             <td class="font-siemreap font-13">
 
                             </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
                         </tr>
                     @endif
                     @if ($line_count <= 16)
                         <tr>
                             <td class="font-siemreap font-13" style="text-align: center;">
                                 17
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
                             </td>
                             <td class="font-siemreap font-13">
 
@@ -387,12 +545,30 @@
                             <td class="font-siemreap font-13">
 
                             </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
                         </tr>
                     @endif
                     @if ($line_count <= 18)
                         <tr>
                             <td class="font-siemreap font-13" style="text-align: center;">
                                 19
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
                             </td>
                             <td class="font-siemreap font-13">
 
@@ -425,12 +601,30 @@
                             <td class="font-siemreap font-13">
 
                             </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
                         </tr>
                     @endif
                     @if ($line_count <= 20)
                         <tr>
                             <td class="font-siemreap font-13" style="text-align: center;">
                                 21
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
                             </td>
                             <td class="font-siemreap font-13">
 
@@ -463,12 +657,30 @@
                             <td class="font-siemreap font-13">
 
                             </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
                         </tr>
                     @endif
                     @if ($line_count <= 22)
                         <tr>
                             <td class="font-siemreap font-13" style="text-align: center;">
                                 23
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
                             </td>
                             <td class="font-siemreap font-13">
 
@@ -501,6 +713,15 @@
                             <td class="font-siemreap font-13">
 
                             </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
                         </tr>
                     @endif
                     @if ($line_count <= 24)
@@ -520,13 +741,22 @@
                             <td class="font-siemreap font-13">
 
                             </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
+                            <td class="font-siemreap font-13">
+
+                            </td>
                         </tr>
                     @endif
                     <tr>
-                        <td colspan="4">
+                        <td colspan="6">
                             <div class="font-siemreap font-13">សរុប </div>
-                        </td colspan="2">
-                        <td class="font-siemreap font-13">
+                        </td>
+                        <td colspan="2" class="font-siemreap font-14">
                             <div style="width: 100%; text-align: right; padding: 3px 5px 3px 0;">
                                 {{ $line_count }}
                             </div>
