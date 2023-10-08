@@ -1,4 +1,4 @@
-@extends('pdf.master', ['data' => null, 'title' => 'បញ្ជីរ អ្នកប្រើ'])
+@extends('pdf.master', ['data' => null, 'title' => 'បញ្ជីរាយនាម អ្នកប្រើប្រាស់'])
 @section('body1')
     @php
         $line_count = count($users);
