@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('setting', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('phone'); //
-            $table->string('email'); // 
-            $table->string('address'); // 
-            $table->string('logo'); // 
-            $table->string('backup_type'); // 
-            $table->time('backup_time'); // 
+            $table->string('name')->nullable();;
+            $table->string('phone')->nullable();; //
+            $table->string('email')->nullable();; // 
+            $table->string('address')->nullable();; // 
+            $table->string('logo')->nullable();; // 
+            $table->string('backup_type')->nullable();; // 
+            $table->time('backup_time')->nullable();; // 
             $table->softDeletes();
             $table->timestamps();
         });

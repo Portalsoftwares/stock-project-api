@@ -308,7 +308,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100%"
+				style="width: 100% ; height: 660px;"
 				stripe
 				border
 			>
@@ -321,7 +321,7 @@
 
 						<div>
 
-							<span>{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}</span>
+							<span>{{ scope.row.student_in_class.full_name_kh }}</span>
 						</div>
 					</template>
 				</el-table-column>
@@ -334,8 +334,8 @@
 				</el-table-column>
 				<el-table-column label="ស្ថានភាព">
 					<template #default="scope">
-						<span :style="'color:'+scope.row.student_in_class.status.color">
-							{{ scope.row.student_in_class.status.status_kh }}
+						<span :style="'color:'+scope.row.student_in_class?.status?.color">
+							{{ scope.row.student_in_class?.status?.status_kh }}
 						</span>
 					</template>
 				</el-table-column>
@@ -357,6 +357,7 @@
 								type="checkbox"
 								name="checkbox"
 								class="custom-checkbox"
+								style="accent-color: #16a34a;"
 								:checked="scope.row.attendance_type_id ==1"
 								@click="scope.row.attendance_type_id =1"
 							>
@@ -375,6 +376,7 @@
 								type="checkbox"
 								name="checkbox"
 								class="custom-checkbox"
+								style="accent-color: #ca8a04;"
 								:checked="scope.row.attendance_type_id ==2"
 								@click="scope.row.attendance_type_id =2"
 							>
@@ -392,6 +394,7 @@
 								type="checkbox"
 								name="checkbox"
 								class="custom-checkbox"
+								style="accent-color: #2563eb;"
 								:checked="scope.row.attendance_type_id ==3"
 								@click="scope.row.attendance_type_id =3"
 							>
@@ -409,6 +412,7 @@
 								type="checkbox"
 								name="checkbox"
 								class="custom-checkbox"
+								style="accent-color: #e74c3c;"
 								:checked="scope.row.attendance_type_id ==4"
 								@click="scope.row.attendance_type_id =4"
 							>

@@ -173,7 +173,7 @@ class AttendanceController extends Controller
                 $type_a  += AttendanceLine::where('attendance_id', $att_row->attendance_id)->where([['student_id', $stu_row->student_id], ['attendance_type_id', '4']])->count();
                 if (!empty($attLine)) {
                     $fake_attendance = 'attendance_' . $att_row->attendance_id;
-                    $stu_row[$fake_attendance] = $attLine->attendance_type->attendance_sort_name;
+                    $stu_row[$fake_attendance] = !empty($attLine->attendance_type) ? $attLine->attendance_type->attendance_sort_name : '';
                 }
             }
             $stu_row['total_type_ps'] = $type_ps;

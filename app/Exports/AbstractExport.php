@@ -2,27 +2,20 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Events\AfterSheet;
-use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-abstract class AbstractExport implements WithEvents
+abstract class AbstractExport implements WithStyles
 {
-    public function registerEvents(): array
+
+    public function styles(Worksheet $sheet)
     {
-        return [
-            AfterSheet::class => function (AfterSheet $event) {
-                $event->sheet->getDelegate()->getStyle('A1:W1')->getFont()->applyFromArray([
-                    'name' => 'Khmer OS Siemreap',
-                    'size' => 10,
-                    'bold' => true,
-                    'italic' => false,
-                    'underline' => \PhpOffice\PhpSpreadsheet\Style\Font::UNDERLINE_DOUBLE,
-                    'strikethrough' => false,
-                    'color' => [
-                        'rgb' => '808080'
-                    ]
-                ]);
-            },
-        ];
+        $sheet->getStyle('A1:Z100')->getFont()->applyFromArray([
+            'name' => 'Khmer OS Siemreap',
+            'size' => 10,
+            'color' => [
+                'rgb' => '000'
+            ]
+        ]);
     }
 }

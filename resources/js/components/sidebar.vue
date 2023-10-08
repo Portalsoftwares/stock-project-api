@@ -350,7 +350,7 @@
 							<span
 								v-show="dataSibar"
 								class="sanfont-khmer text-sm"
-							> បង្កើតដោយ @ 2023 BIT14</span>
+							> បង្កើតដោយ @2023 USEA-IT14</span>
 						</div>
 					</div>
 				</div>

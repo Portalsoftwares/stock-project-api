@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ReportScoreExport;
 use App\Models\Academic;
 use App\Models\Classes;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ use App\Models\SubjectGradeLevel;
 use App\Models\TeacherClass;
 use Carbon\Carbon;
 use App\mPDF\PdfWrapper as PDF;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ScoreController extends Controller
 {
@@ -262,6 +264,9 @@ class ScoreController extends Controller
         foreach ($subjectGradeInclass as $obj) {
             $total_divide += $obj->teacher_subject_in_class->divide;
         }
+        if ($total_divide == 0) {
+            $total_divide = 1;
+        }
         $arrayScore = [];
         //Data More Infor
         $total_student = count($student);
@@ -362,11 +367,16 @@ class ScoreController extends Controller
             //ប្រចាំខែ រកមធ្យមភាគ
             foreach ($student as  $data) {
                 $final_avg_semester = 0;
+                //toal 1 month
+
+                $total_avg_monthly = 0;
+                $total_avg_semester = 0;
+
+                $total_score_monthly = 0;
+                $total_score_semester = 0;
+                $scoreIn = [];
                 foreach ($dataMonthly as $mon) {
-                    //toal 1 month
-                    $total_score_monthly = 0;
-                    $total_avg_monthly = 0;
-                    $total_score = 0;
+
                     if ($mon->type == 1) {
                         foreach ($subjectGradeInclass as $obj) {
                             $score = Score::where([['class_id', $class_id], ['score_type_id', $mon->score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
@@ -376,21 +386,19 @@ class ScoreController extends Controller
                                 if (!empty($scoreLine)) {
                                     //ក្រៅពីភាសាបរទេស
                                     if ($obj->teacher_subject_in_class->divide != 0) {
-                                        $total_score +=  $scoreLine->mark;
+                                        $total_score_monthly +=  $scoreLine->mark;
                                     }
                                     //ភាសាបរទេស
                                     if ($obj->teacher_subject_in_class->divide == 0) {
-                                        $total_score +=  $scoreLine->mark - 25;
+                                        $total_score_monthly +=  $scoreLine->mark - 25;
                                     }
                                 }
                             }
                         }
-                        $total_score_monthly += $total_score;
-                        $total_avg_monthly += round(($total_score_monthly / $total_divide) / $number_monthly, 2);
                     }
-                    $total_score_semester = 0;
-                    $total_avg_semester = 0;
+
                     if ($mon->type == 2) {
+
                         foreach ($subjectGradeInclass as $obj) {
                             $score = Score::where([['class_id', $class_id], ['score_type_id', $mon->score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
                             if (!empty($score)) {
@@ -399,6 +407,7 @@ class ScoreController extends Controller
                                 if (!empty($scoreLine)) {
                                     //ក្រៅពីភាសាបរទេស
                                     if ($obj->teacher_subject_in_class->divide != 0) {
+                                        $scoreIn[] = $scoreLine->mark;
                                         $total_score_semester +=  $scoreLine->mark;
                                     }
                                     //ភាសាបរទេស
@@ -408,13 +417,15 @@ class ScoreController extends Controller
                                 }
                             }
                         }
-                        $total_score_semester += $total_score_semester;
-                        $total_avg_semester += number_format(($total_score_semester / $total_divide), 2, '.');
                     }
-
-                    $final_avg_semester = ($total_avg_semester + $total_avg_monthly) / 2;
                 }
 
+                $total_avg_monthly = $total_score_monthly / $total_divide;
+                $total_avg_monthly_semester = $total_avg_monthly / $number_monthly;
+
+                $total_avg_semester = $total_score_semester / $total_divide;
+
+                $final_avg_semester = ($total_avg_monthly_semester + $total_avg_semester) / 2;
                 $data['mark_total'] = null;
                 $data['mark_avg'] =  number_format($final_avg_semester, 2, '.');
 
@@ -479,13 +490,14 @@ class ScoreController extends Controller
             //ប្រចាំខែ រកមធ្យមភាគ
             foreach ($student as  $data) {
                 $final_avg_semester = 0;
-                $total_score_semester = 0;
+
+                $total_avg_monthly = 0;
                 $total_avg_semester = 0;
+
+                $total_score_monthly = 0;
+                $total_score_semester = 0;
                 foreach ($dataMonthly as $mon) {
-                    //toal 1 month
-                    $total_score_monthly = 0;
-                    $total_avg_monthly = 0;
-                    $total_score = 0;
+
                     if ($mon->type == 1) {
                         foreach ($subjectGradeInclass as $obj) {
                             $score = Score::where([['class_id', $class_id], ['score_type_id', $mon->score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
@@ -495,20 +507,19 @@ class ScoreController extends Controller
                                 if (!empty($scoreLine)) {
                                     //ក្រៅពីភាសាបរទេស
                                     if ($obj->teacher_subject_in_class->divide != 0) {
-                                        $total_score +=  $scoreLine->mark;
+                                        $total_score_monthly +=  $scoreLine->mark;
                                     }
                                     //ភាសាបរទេស
                                     if ($obj->teacher_subject_in_class->divide == 0) {
-                                        $total_score +=  $scoreLine->mark - 25;
+                                        $total_score_monthly +=  $scoreLine->mark - 25;
                                     }
                                 }
                             }
                         }
-                        $total_score_monthly += $total_score;
-                        $total_avg_monthly += round((($total_score_monthly / $total_divide) / $number_monthly), 2);
                     }
 
                     if ($mon->type == 2) {
+
                         foreach ($subjectGradeInclass as $obj) {
                             $score = Score::where([['class_id', $class_id], ['score_type_id', $mon->score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
                             if (!empty($score)) {
@@ -517,6 +528,7 @@ class ScoreController extends Controller
                                 if (!empty($scoreLine)) {
                                     //ក្រៅពីភាសាបរទេស
                                     if ($obj->teacher_subject_in_class->divide != 0) {
+                                        $scoreIn[] = $scoreLine->mark;
                                         $total_score_semester +=  $scoreLine->mark;
                                     }
                                     //ភាសាបរទេស
@@ -526,20 +538,18 @@ class ScoreController extends Controller
                                 }
                             }
                         }
-                        $total_score_semester += $total_score_semester;
-                        $total_avg_semester += number_format(($total_score_semester / $total_divide), 2, '.');
                     }
-                    //Semester 1+2
-                    $final_avg_semester = ($total_avg_semester + $total_avg_monthly) / 4;
                 }
-                // dd($total_avg_semester);
+
+                $total_avg_monthly = $total_score_monthly / $total_divide;
+                $total_avg_monthly_semester = $total_avg_monthly / $number_monthly;
+
+                $total_avg_semester = $total_score_semester / $total_divide;
 
                 //Exam Semester
-                $avg_score_yearly = number_format(($final_avg_semester / 2), 2, '.');
+                $avg_score_yearly = number_format(($total_avg_semester / 2), 2, '.');
 
-
-
-                $data['mark_total'] = $total_score_monthly;
+                $data['mark_total'] = 0;
                 $data['mark_avg'] = $avg_score_yearly;
 
                 $women = $data->student_in_class->gender_id == 2;
@@ -595,7 +605,6 @@ class ScoreController extends Controller
                 return $item->mark_avg;
             }
         );
-
         $collection = $collection->values()->all();
         $rank = 1;
         $previous = null;
@@ -656,5 +665,12 @@ class ScoreController extends Controller
         ]);
         // return $pdf;
         return $pdf->stream('score.pdf');
+    }
+    //EXCEL EXPORT 
+    public function exportEXCEL(Request $request)
+    {
+        $data = $request->data;
+        $option = $request->option;
+        return Excel::download(new ReportScoreExport($data,  $option), 'teacher.xlsx');
     }
 }

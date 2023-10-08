@@ -54,6 +54,13 @@
 							<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
 						</el-button>
+						<el-button type="info">
+							<el-icon>
+								<Document />
+							</el-icon>
+							<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+
+						</el-button>
 						<el-button
 							type="primary"
 							@click="AddSubject"
@@ -70,29 +77,9 @@
 			<div class="grid grid-cols-1 gap-2 ">
 				<div class=" border rounded bg-gray-50">
 					<div class="flex flex-col  ">
-						<div
-							class="m-2"
-							v-if="showSuccess"
-						>
-							<el-alert
-								title="success alert"
-								type="success"
-								show-icon
-							/>
-						</div>
-						<div
-							class="m-2"
-							v-if="showInfo"
-						>
-							<el-alert
-								title="info alert"
-								type="info"
-								show-icon
-							/>
-						</div>
 						<el-table
 							:data="tableData.data"
-							height="690"
+							height="700"
 							style="width: 100%"
 							resizable="true"
 							header-cell-class-name="header-table-font-khmer text-md"
@@ -208,46 +195,44 @@
 					id="fm"
 				>
 
-					
-								<el-form-item
-									label="ឈ្មោះមុខវិជ្ជា (ខ្មែរ)"
-									prop="subNameKh"
-									class="sanfont-khmer "
-									:label-width="formLabelWidth1"
-								>
-									<el-input
-										v-model="ruleForm.subNameKh"
-										name="subject_name_kh"
-										clearable
-									></el-input>
-								</el-form-item>
-							
-								<el-form-item
-									label="ឈ្មោះមុខវិជ្ជា (អង់គ្លេស)"
-									prop="subNameEng"
-									class="sanfont-khmer "
-									:label-width="formLabelWidth1"
-								>
-									<el-input
-										v-model="ruleForm.subNameEng"
-										name="subject_name_en"
-										clearable
-									></el-input>
-								</el-form-item>
-							
-								<el-form-item
-									label="ឈ្មោះមុខវិជ្ជា (អក្សរកាត់)"
-									prop="subShortNameEng"
-									class="sanfont-khmer "
-									:label-width="formLabelWidth1"
-								>
-									<el-input
-										v-model="ruleForm.subShortNameEng"
-										name="subject_sort_name_en"
-										clearable
-									></el-input>
-								</el-form-item>
-						
+					<el-form-item
+						label="ឈ្មោះមុខវិជ្ជា (ខ្មែរ)"
+						prop="subNameKh"
+						class="sanfont-khmer "
+						:label-width="formLabelWidth1"
+					>
+						<el-input
+							v-model="ruleForm.subNameKh"
+							name="subject_name_kh"
+							clearable
+						></el-input>
+					</el-form-item>
+
+					<el-form-item
+						label="ឈ្មោះមុខវិជ្ជា (អង់គ្លេស)"
+						prop="subNameEng"
+						class="sanfont-khmer "
+						:label-width="formLabelWidth1"
+					>
+						<el-input
+							v-model="ruleForm.subNameEng"
+							name="subject_name_en"
+							clearable
+						></el-input>
+					</el-form-item>
+
+					<el-form-item
+						label="ឈ្មោះមុខវិជ្ជា (អក្សរកាត់)"
+						prop="subShortNameEng"
+						class="sanfont-khmer "
+						:label-width="formLabelWidth1"
+					>
+						<el-input
+							v-model="ruleForm.subShortNameEng"
+							name="subject_sort_name_en"
+							clearable
+						></el-input>
+					</el-form-item>
 
 				</el-form>
 				<el-dialog v-model="dialogVisible">
@@ -311,7 +296,7 @@
 						<div class="flex space-x-2  ">
 							<div class="self-start pl-0 3xl:pl-2 ">
 								<el-select
-									v-model="SelectValue "
+									v-model="SelectValue"
 									filterable
 									clearable
 									multiple
@@ -319,9 +304,9 @@
 								>
 									<el-option
 										v-for="item in classType"
-										:key="item.classTypeValue"
-										:label="item.classTypeLabel"
-										:value="item.classTypeValue"
+										:key="item"
+										:label="item.name"
+										:value="item.class_type_id"
 									>
 									</el-option>
 								</el-select>
@@ -336,9 +321,9 @@
 								>
 									<el-option
 										v-for="item in gradeLevel"
-										:key="item.gradeLevelValue"
-										:label="item.gradeLevelLabel"
-										:value="item.gradeLevelValue"
+										:key="item"
+										:label="item.grade_level_name"
+										:value="item.grade_level_id"
 									>
 									</el-option>
 								</el-select>
@@ -352,7 +337,7 @@
 					</div>
 				</div>
 
-				<div class="flex flex-col  2xl:flex-row ">
+				<div class="flex flex-col   space-y-2">
 					<div class="self-center flex ">
 						<el-switch
 							v-model="is_show_trustSubjectLevel"
@@ -373,6 +358,13 @@
 							<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
 						</el-button>
+						<el-button type="info">
+							<el-icon>
+								<Document />
+							</el-icon>
+							<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+
+						</el-button>
 						<el-button
 							type="primary"
 							@click="AddSubjectLevel"
@@ -390,29 +382,9 @@
 			<div class="grid grid-cols-1 gap-2 ">
 				<div class=" border rounded bg-gray-50">
 					<div class="flex flex-col  ">
-						<div
-							class="m-2"
-							v-if="showSuccess"
-						>
-							<el-alert
-								title="success alert"
-								type="success"
-								show-icon
-							/>
-						</div>
-						<div
-							class="m-2"
-							v-if="showInfo"
-						>
-							<el-alert
-								title="info alert"
-								type="info"
-								show-icon
-							/>
-						</div>
 						<el-table
 							:data="tableDataSubjectLevel.data"
-							height="690"
+							height="660"
 							style="width: 100%"
 							resizable="true"
 							header-cell-class-name="header-table-font-khmer text-md"
@@ -655,7 +627,6 @@
 										<el-input
 											v-model="ruleFormSubjectLevel.divide"
 											autocomplete="off"
-											
 											name="divide"
 											clearable
 										/>
@@ -671,7 +642,6 @@
 										<el-input
 											v-model="ruleFormSubjectLevel.average"
 											autocomplete="off"
-											
 											name="average"
 											clearable
 										/>

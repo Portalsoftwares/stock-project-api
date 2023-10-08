@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('class_type_id');
             $table->integer('grade_level_id');
             $table->integer('academic_id');
-            $table->string('other');
+            $table->string('other')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -24,7 +24,7 @@ class UserController extends Controller
     {
         $this->exporter = $exporter;
     }
-    
+
 
     /**
      * Display a listing of the resource.
@@ -57,7 +57,7 @@ class UserController extends Controller
                 }
             });
         }
-        $data = $items->with('roles', 'img')
+        $data = $items->with('roles', 'img', 'used')
             ->orderBy($sort_by, $order_by)
             ->paginate($per_page);
 

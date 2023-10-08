@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('teacher', function (Blueprint $table) {
             $table->bigIncrements('teacher_id');
-            $table->string('tid');
+            $table->string('tid')->nullable();
             $table->string('first_name_kh');
             $table->string('last_name_kh');
             $table->string('full_name_kh');
@@ -24,13 +24,13 @@ return new class extends Migration
             $table->string('full_name_en');
             $table->date('date_of_birth');
             $table->integer('gender_id');
-            $table->string('teacher_level');
+            $table->string('teacher_level')->nullable();
             $table->string('profession')->nullable();
-            $table->string('role');
-            $table->date('join_date');
-            $table->string('place_of_birth');
+            $table->string('role')->nullable();
+            $table->date('join_date')->nullable();
+            $table->string('place_of_birth')->nullable();
             $table->string('address')->nullable();
-            $table->integer('status_id');
+            $table->integer('status_id')->nullable();
             $table->integer('file_upload_id')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();

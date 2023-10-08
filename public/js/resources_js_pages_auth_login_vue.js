@@ -33,8 +33,22 @@ __webpack_require__.r(__webpack_exports__);
       },
       failed: false,
       successfull: false,
-      message: ''
+      message: '',
+      rememberMe: false
     };
+  },
+  mounted: function mounted() {
+    var _localStorage$getItem;
+    this.rememberMe = (_localStorage$getItem = localStorage.getItem('remember_me')) !== null && _localStorage$getItem !== void 0 ? _localStorage$getItem : false;
+    if (this.rememberMe == 'true') {
+      this.rememberMe = true;
+      this.objData.email = localStorage.getItem('prarams1');
+      this.objData.password = localStorage.getItem('prarams2');
+    } else {
+      this.rememberMe = false;
+      this.objData.email = '';
+      this.objData.password = '';
+    }
   },
   methods: {
     submitForm: function submitForm(formName) {
@@ -53,6 +67,14 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch("auth/LOGIN_SYSTEM", this.objData).then(function (reponse) {
         console.log(reponse);
         if (reponse.status == '200' && localStorage.getItem('token') != null) {
+          localStorage.setItem('remember_me', _this2.rememberMe);
+          if (_this2.rememberMe) {
+            localStorage.setItem('prarams1', _this2.objData.email);
+            localStorage.setItem('prarams2', _this2.objData.password);
+          } else {
+            localStorage.setItem('prarams1', '');
+            localStorage.setItem('prarams2', '');
+          }
           _this2.successfull = true;
           var self = _this2;
           setTimeout(function () {
@@ -103,14 +125,14 @@ var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   "class": "mt-6 text-center text-3xl text-gray-800 sanfont-khmer"
 }, "សាលាចំណេះទូទៅ និងបច្ចេកទេសពួក "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
   "class": "text-2xl text-gray-600 text-[20px] font-bold"
-}, "PUOK TECHNICAL AND GENERAL SCHOOL ")], -1 /* HOISTED */);
+}, "PUOK GENERAL AND TECHNICAL SCHOOL ")], -1 /* HOISTED */);
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
   type: "hidden",
   name: "remember",
   value: "true"
 }, null, -1 /* HOISTED */);
 var _hoisted_6 = {
-  "class": "space-y-[10px] rounded-md shadow-sm"
+  "class": "space-y-[10px]"
 };
 var _hoisted_7 = {
   "class": "flex justify-center w-full"
@@ -187,8 +209,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_checkbox, {
             name: "remember-me",
+            modelValue: $data.rememberMe,
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+              return $data.rememberMe = $event;
+            }),
             label: "ចងចាំអ្នកប្រើប្រាស់"
-          })];
+          }, null, 8 /* PROPS */, ["modelValue"])];
         }),
         _: 1 /* STABLE */
       })])])];
@@ -197,7 +223,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["model", "rules"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
     type: "primary",
-    onClick: _cache[2] || (_cache[2] = function ($event) {
+    onClick: _cache[3] || (_cache[3] = function ($event) {
       return $options.submitForm('formLogin');
     }),
     loading: $data.loading
