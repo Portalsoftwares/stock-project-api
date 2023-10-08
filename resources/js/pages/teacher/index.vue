@@ -88,7 +88,7 @@
 					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
 				</el-button>
-				<el-button type="info">
+				<el-button type="info" @click="exportPDF">
 					<el-icon>
 						<Document />
 					</el-icon>
@@ -888,6 +888,9 @@ export default {
 		this.getData()
 	},
 	methods: {
+		filterAction() {
+			this.getData()
+		},
 		async getData() {
 			this.loading = true;
 			await axios.get(`/teacher/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`).then(response => {
@@ -1150,7 +1153,19 @@ export default {
 		},
 		async exportExcel() {
 			axios.post('/teacher/exportExcel', {
-				file_name: 'Teacher'
+				file_name: 'Teacher',
+				is_show_trust: this.is_show_trust
+			}, {
+				responseType: 'blob'
+			}).then((response) => {
+				// response.data is a blob type
+				FileSaver.saveAs(response.data, 'teacher');
+			});
+		},
+		async exportPDF(){
+			axios.post('/teacher/exportPDF', {
+				file_name: 'Teacher',
+				is_show_trust: this.is_show_trust
 			}, {
 				responseType: 'blob'
 			}).then((response) => {

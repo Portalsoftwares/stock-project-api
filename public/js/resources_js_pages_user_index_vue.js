@@ -448,12 +448,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     exportExcel: function exportExcel() {
+      var _this11 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
         return _regeneratorRuntime().wrap(function _callee9$(_context9) {
           while (1) switch (_context9.prev = _context9.next) {
             case 0:
               axios.post('/user/exportExcel', {
-                file_name: 'User'
+                file_name: 'User',
+                is_show_trust: _this11.is_show_trust
               }, {
                 responseType: 'blob'
               }).then(function (response) {
@@ -468,12 +470,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     exportPDF: function exportPDF() {
+      var _this12 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
         return _regeneratorRuntime().wrap(function _callee10$(_context10) {
           while (1) switch (_context10.prev = _context10.next) {
             case 0:
               axios.post('/user/exportPDF', {
-                file_name: 'User'
+                file_name: 'User',
+                is_show_trust: _this12.is_show_trust
               }, {
                 responseType: 'blob'
               }).then(function (response) {
@@ -1222,7 +1226,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_794fb692__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=794fb692 */ "./resources/js/pages/user/index.vue?vue&type=template&id=794fb692");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/user/index.vue?vue&type=script&lang=js");
 /* harmony import */ var _index_vue_vue_type_style_index_0_id_794fb692_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=794fb692&lang=css */ "./resources/js/pages/user/index.vue?vue&type=style&index=0&id=794fb692&lang=css");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Personal_data_Projects_makara_s_Projects_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -1230,7 +1234,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_794fb692__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/user/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Personal_data_Projects_makara_s_Projects_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_794fb692__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/user/index.vue"]])
 /* hot reload */
 if (false) {}
 

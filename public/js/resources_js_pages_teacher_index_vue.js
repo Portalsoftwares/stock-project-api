@@ -228,6 +228,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getData();
   },
   methods: {
+    filterAction: function filterAction() {
+      this.getData();
+    },
     getData: function getData() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -584,12 +587,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     exportExcel: function exportExcel() {
+      var _this11 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
         return _regeneratorRuntime().wrap(function _callee9$(_context9) {
           while (1) switch (_context9.prev = _context9.next) {
             case 0:
               axios.post('/teacher/exportExcel', {
-                file_name: 'Teacher'
+                file_name: 'Teacher',
+                is_show_trust: _this11.is_show_trust
               }, {
                 responseType: 'blob'
               }).then(function (response) {
@@ -601,6 +606,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return _context9.stop();
           }
         }, _callee9);
+      }))();
+    },
+    exportPDF: function exportPDF() {
+      var _this12 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
+        return _regeneratorRuntime().wrap(function _callee10$(_context10) {
+          while (1) switch (_context10.prev = _context10.next) {
+            case 0:
+              axios.post('/teacher/exportPDF', {
+                file_name: 'Teacher',
+                is_show_trust: _this12.is_show_trust
+              }, {
+                responseType: 'blob'
+              }).then(function (response) {
+                // response.data is a blob type
+                file_saver__WEBPACK_IMPORTED_MODULE_0___default().saveAs(response.data, 'teacher');
+              });
+            case 1:
+            case "end":
+              return _context10.stop();
+          }
+        }, _callee10);
       }))();
     }
   }
@@ -821,7 +848,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-    type: "info"
+    type: "info",
+    onClick: $options.exportPDF
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -832,7 +860,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), _hoisted_13];
     }),
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+  }, 8 /* PROPS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
     type: "primary",
     onClick: $options.AddUser
   }, {
@@ -1661,7 +1689,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_2ef3774c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=2ef3774c */ "./resources/js/pages/teacher/index.vue?vue&type=template&id=2ef3774c");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/teacher/index.vue?vue&type=script&lang=js");
 /* harmony import */ var _index_vue_vue_type_style_index_0_id_2ef3774c_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=2ef3774c&lang=css */ "./resources/js/pages/teacher/index.vue?vue&type=style&index=0&id=2ef3774c&lang=css");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Personal_data_Projects_makara_s_Projects_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -1669,7 +1697,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_2ef3774c__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/teacher/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Personal_data_Projects_makara_s_Projects_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_2ef3774c__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/teacher/index.vue"]])
 /* hot reload */
 if (false) {}
 

@@ -60,6 +60,8 @@ Route::prefix('v1')->group(function () {
       Route::post('/update/{id}', [StudentController::class, 'update']);
       Route::delete('/delete/{id}', [StudentController::class, 'delete']);
       Route::post('/restore/{id}', [StudentController::class, 'restore']);
+      Route::post('/exportExcel', [StudentController::class, 'exportExcel']);
+      Route::post('/exportPDF', [StudentController::class, 'exportPDF']);
     });
     //Teacher
     Route::prefix('teacher')->group(function () {
@@ -70,6 +72,7 @@ Route::prefix('v1')->group(function () {
       Route::delete('/delete/{id}', [TeacherController::class, 'delete']);
       Route::post('/restore/{id}', [TeacherController::class, 'restore']);
       Route::post('/exportExcel', [TeacherController::class, 'exportExcel']);
+      Route::post('/exportPDF', [TeacherController::class, 'exportPDF']);
     });
     //Subject
     Route::prefix('subject')->group(function () {

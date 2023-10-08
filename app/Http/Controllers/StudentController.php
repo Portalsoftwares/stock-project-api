@@ -2,18 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\StudentExport;
 use App\Models\Classes;
 use App\Models\Gender;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\StudentRole;
 use App\Models\StudentStatus;
+use App\Models\Teacher;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-
+use Maatwebsite\Excel\Exporter;
+use App\mPDF\PdfWrapper as PDF;
 
 class StudentController extends Controller
 {
+    private $exporter;
+
+    public function __construct(Exporter $exporter)
+    {
+        $this->exporter = $exporter;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -197,5 +208,28 @@ class StudentController extends Controller
             'data' => 'Restore successfull',
         ];
         return  response($response, 200);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        if (isset($request->is_show_trust)) {
+            return $this->exporter->download(new StudentExport($request->is_show_trust), 'students.xlsx');
+        }
+        return $this->exporter->download(new StudentExport(), 'students.xlsx');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        $students = Student::query();
+
+        if ($request->has('is_show_trust') && $request->is_show_trust) {
+            $students = Student::onlyTrashed();
+        }
+
+        $pdf = PDF::loadView('list.student', [
+            'students' => $students->with(['current_class'])->get()
+        ]);
+
+        return $pdf->stream('students.pdf');
     }
 }

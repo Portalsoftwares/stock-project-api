@@ -10,11 +10,19 @@ use App\Models\TeacherRole;
 use App\Models\TeacherStatus;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\TeacherExport;
+use App\mPDF\PdfWrapper as PDF;
+use Maatwebsite\Excel\Exporter;
 
 class TeacherController extends Controller
 {
+    private $exporter;
+
+    public function __construct(Exporter $exporter)
+    {
+        $this->exporter = $exporter;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -209,8 +217,23 @@ class TeacherController extends Controller
         return  response($response, 200);
     }
 
-    public function exportExcel()
+    public function exportExcel(Request $request)
     {
-        return Excel::download(new TeacherExport(), 'teacher.xlsx');
+        if (isset($request->is_show_trust)) {
+            return $this->exporter->download(new TeacherExport($request->is_show_trust), 'teacher.xlsx');
+        }
+        return $this->exporter->download(new TeacherExport(), 'teacher.xlsx');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        $teachers = Teacher::query();
+
+        if ($request->has('is_show_trust') && $request->is_show_trust) {
+            $teachers = Teacher::onlyTrashed();
+        }
+
+        $pdf = PDF::loadView('list.teacher', ['teachers' => $teachers->get()]);
+        return $pdf->stream('teacher.pdf');
     }
 }

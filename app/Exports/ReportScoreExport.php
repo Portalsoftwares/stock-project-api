@@ -7,11 +7,8 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
-use Maatwebsite\Excel\Events\AfterSheet;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ReportScoreExport implements FromCollection, WithHeadings, WithMapping, WithColumnWidths, WithStyles
+class ReportScoreExport extends AbstractExport implements FromCollection, WithHeadings, WithMapping, WithColumnWidths
 {
     private $rowCount;
     public  $data = [];
@@ -61,14 +58,5 @@ class ReportScoreExport implements FromCollection, WithHeadings, WithMapping, Wi
             'C' => 35,
             'D' => 30
         ];
-    }
-    public function styles(Worksheet $sheet)
-    {
-        return [
-            // Style the first row as bold text.
-            1    => ['font' => ['family' => 'Khmer OS Siemreap', 'bold' => true,]],
-        ];
-        // $sheet->setFontFamily('Khmer OS Siemreap');
-        // $sheet->getStyle('B2')->getFont()->setBold(true);
     }
 }

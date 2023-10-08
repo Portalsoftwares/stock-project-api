@@ -8,34 +8,42 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\Font;
-use Maatwebsite\Excel\Concerns\Alignment;
-use Maatwebsite\Excel\Events\AfterSheet;
 
-class UsersExport implements FromCollection, WithHeadings, WithMapping, WithColumnWidths, ShouldAutoSize, WithEvents
+class UsersExport extends AbstractExport implements FromCollection, WithHeadings, WithMapping, WithColumnWidths, ShouldAutoSize
 {
-    private $rowCount;
+    private $row_count;
+    private $is_show_trust;
 
-    public function __construct()
+    public function __construct(bool $is_show_trust = false)
     {
-        $this->rowCount = 0;
+        $this->is_show_trust = $is_show_trust;
+        $this->row_count = 0;
     }
 
     /**
+     * Get the collection of users to export.
+     *
      * @return \Illuminate\Support\Collection
      */
     public function collection()
     {
+        if ($this->is_show_trust) {
+            return User::onlyTrashed()->with(['roles'])->get();
+        }
         return User::with(['roles'])->get();
     }
 
+    /**
+     * Map the user data to an array.
+     *
+     * @param  mixed  $user
+     * @return array
+     */
     public function map($user): array
     {
-        $this->rowCount++;
-
+        $this->row_count++;
         $row = [
-            $this->rowCount,
+            $this->row_count,
             $user->name,
             $user->email,
             $user->phone
@@ -45,13 +53,18 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping, WithColu
             return $row;
         }
 
-        $row[] = implode(",",  $user->roles->map(function ($role) {
+        $row[] = implode(",", $user->roles->map(function ($role) {
             return $role["name"];
         })->toArray());
 
         return $row;
     }
 
+    /**
+     * Get the headings for the exported file.
+     *
+     * @return array
+     */
     public function headings(): array
     {
         return [
@@ -63,6 +76,11 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping, WithColu
         ];
     }
 
+    /**
+     * Get the column widths for the exported file.
+     *
+     * @return array
+     */
     public function columnWidths(): array
     {
         return [
@@ -71,16 +89,6 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping, WithColu
             'C' => 35,
             'D' => 30,
             'E' => 25
-        ];
-    }
-
-    public function registerEvents(): array
-    {
-        return [
-            AfterSheet::class => function (AfterSheet $event) {
-                $cellRange = 'A1:W1'; // All headers
-                // $event->sheet->getDelegate()->getStyle($cellRange)->getFont()->setSize(14);
-            },
         ];
     }
 }
