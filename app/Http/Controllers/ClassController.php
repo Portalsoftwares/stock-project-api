@@ -227,6 +227,16 @@ class ClassController extends Controller
         return  response($response, 200);
     }
 
+    public function restore($id)
+    {
+        $items = Classes::withTrashed()->where('class_id', $id)->restore();
+        $response = [
+            'data' => 'Restore successfull',
+        ];
+        return  response($response, 200);
+    }
+
+
     //Add student in class
 
     public function addStudentClass(Request $request, $id)

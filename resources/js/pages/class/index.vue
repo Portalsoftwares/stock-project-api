@@ -716,7 +716,17 @@ export default {
 					type: 'success'
 				});
 			})
-		}
+		},
+		async restoreData(id) {
+			await axios.post('/class/restore/' + id).then(response => {
+				this.getData();
+				this.dialogFormVisible = false;
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+			})
+		},
 	}
 }
 </script>
