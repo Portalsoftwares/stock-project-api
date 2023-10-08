@@ -9,9 +9,19 @@ use App\Models\Subject;
 use App\Models\SubjectGradeLevel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\mPDF\PdfWrapper as PDF;
+use Maatwebsite\Excel\Exporter;
+use App\Exports\SubjectExport;
 
 class SubjectController extends Controller
 {
+    private $exporter;
+
+    public function __construct(Exporter $exporter)
+    {
+        $this->exporter = $exporter;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -282,6 +292,7 @@ class SubjectController extends Controller
         ];
         return  response($response, 200);
     }
+
     public function restoreSubjectLevel($id)
     {
         $items = SubjectGradeLevel::withTrashed()->find($id)->restore();
@@ -289,5 +300,28 @@ class SubjectController extends Controller
             'data' => 'Restore successfull',
         ];
         return  response($response, 200);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        if (isset($request->is_show_trust)) {
+            return $this->exporter->download(new SubjectExport($request->is_show_trust), 'subjects.xlsx');
+        }
+        return $this->exporter->download(new SubjectExport(), 'subjects.xlsx');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        $subjects = Subject::query();
+
+        if ($request->has('is_show_trust') && $request->is_show_trust) {
+            $subjects = Subject::onlyTrashed();
+        }
+
+        $pdf = PDF::loadView('list.subject', [
+            'subjects' => $subjects->get()
+        ]);
+
+        return $pdf->stream('subjects.pdf');
     }
 }

@@ -1,11 +1,11 @@
-@extends('pdf.master', ['data' => null, 'title' => 'បញ្ជីរ អ្នកប្រើ'])
+@extends('pdf.master', ['data' => null, 'title' => 'បញ្ជីរាយនាម សិស្សានុសិស្ស'])
 @section('body1')
     @php
         $line_count = count($students);
     @endphp
     <div class="row">
         <div class="col-12 py-2">
-            <h1 class="font-muollight font-13 text-center">បញ្ជីរាយនាម </h1>
+            <h1 class="font-muollight font-13 text-center">បញ្ជីរាយនាម សិស្សានុសិស្ស</h1>
         </div>
         <div class="col-12  mt-3" style="padding-bottom: 20px">
             <table width="100%" autosize="1.6" style="border-collapse: collapse; border-style: solid;" cellpadding="8">

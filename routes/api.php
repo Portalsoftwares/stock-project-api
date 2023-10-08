@@ -82,6 +82,9 @@ Route::prefix('v1')->group(function () {
       Route::post('/update/{id}', [SubjectController::class, 'update']);
       Route::delete('/delete/{id}', [SubjectController::class, 'delete']);
       Route::post('/restore/{id}', [SubjectController::class, 'restore']);
+
+      Route::post('/exportExcel', [SubjectController::class, 'exportExcel']);
+      Route::post('/exportPDF', [SubjectController::class, 'exportPDF']);
     });
     //Subject Grade Level 
     Route::prefix('subject-level')->group(function () {
