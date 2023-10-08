@@ -490,7 +490,7 @@
 					<el-icon>
 						<Document />
 					</el-icon>
-					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+					<span class="mx-1 sanfont-khmer"> ទាញ EXCEl</span>
 				</el-button>
 			</span>
 		</template>
@@ -947,7 +947,6 @@ export default {
 				}
 			})
 		},
-
 		//report attandance in month
 		async showInfomationAttendanceInMonthly() {
 			const class_id = this.$route.query.id;
