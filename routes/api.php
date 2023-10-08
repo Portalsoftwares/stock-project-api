@@ -128,6 +128,10 @@ Route::prefix('v1')->group(function () {
       Route::post('/report/{id}', [AttendanceController::class, 'reportInclass']);
       Route::post('/report/monthly/{id}', [AttendanceController::class, 'reportInclassMonthly']);
       Route::post('/report/monthly/get/{id}', [AttendanceController::class, 'reportInclassMonthlyGenerate']);
+
+      //Report
+      Route::post('/report/{id}/export', [AttendanceController::class, 'exportPDF']);
+      Route::post('/report/{id}/export-excel', [AttendanceController::class, 'exportEXCEL']);
     });
     //Score 
     Route::prefix('score')->group(function () {

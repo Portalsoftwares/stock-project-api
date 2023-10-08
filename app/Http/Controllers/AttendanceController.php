@@ -18,6 +18,8 @@ use App\Models\SubjectGradeLevel;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Models\TeacherClass;
+use App\mPDF\PdfWrapper as PDF;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceController extends Controller
 {
@@ -277,5 +279,24 @@ class AttendanceController extends Controller
             'classData' => $classData,
         ];
         return  response($response, 200);
+    }
+
+    //PDF EXPORT 
+    public function exportPDF(Request $request)
+    {
+        //return "hi";
+        $pdf = PDF::loadView('Attendance.monthly', [
+            'data' => $request->data,
+            'option' => $request->option,
+        ]);
+        // return $pdf;
+        return $pdf->stream('attendance.pdf');
+    }
+    //EXCEL EXPORT 
+    public function exportEXCEL(Request $request)
+    {
+        $data = $request->data;
+        $option = $request->option;
+        // return Excel::download(new ReportScoreExport($data,  $option), 'teacher.xlsx');
     }
 }
