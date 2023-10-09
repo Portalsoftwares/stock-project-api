@@ -386,6 +386,28 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           }
         }, _callee6);
       }))();
+    },
+    restoreData: function restoreData(id) {
+      var _this11 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.next = 2;
+              return axios.post('/class/restore/' + id).then(function (response) {
+                _this11.getData();
+                _this11.dialogFormVisible = false;
+                _this11.$message({
+                  message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+                  type: 'success'
+                });
+              });
+            case 2:
+            case "end":
+              return _context7.stop();
+          }
+        }, _callee7);
+      }))();
     }
   }
 });
@@ -703,7 +725,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             size: "small",
             "class": "sanfont-khmer",
             onClick: function onClick($event) {
-              return _ctx.restoreData(scope.row.class_id);
+              return $options.restoreData(scope.row.class_id);
             }
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {

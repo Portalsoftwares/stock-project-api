@@ -22,7 +22,7 @@ class AcademicSeeder extends Seeder
         ]);
         Academic::create([
             'academic_name' => 'ឆ្នាំសិក្សា​២០២៣​ - ២០២៤',
-            'start_date' => '20223-01-01',
+            'start_date' => '2023-01-01',
             'end_date' => '2024-01-01',
         ]);
     }

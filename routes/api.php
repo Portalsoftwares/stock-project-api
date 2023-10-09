@@ -104,6 +104,7 @@ Route::prefix('v1')->group(function () {
       Route::get('/edit/{id}', [ClassController::class, 'edit']);
       Route::post('/update/{id}', [ClassController::class, 'update']);
       Route::delete('/delete/{id}', [ClassController::class, 'delete']);
+      Route::post('/restore/{id}', [ClassController::class, 'restore']);
       //Add student in Class
       Route::post('/student/{id}/add', [ClassController::class, 'addStudentClass']);
       Route::get('/student/{id}/get', [ClassController::class, 'getStudentToClass']);
@@ -130,6 +131,10 @@ Route::prefix('v1')->group(function () {
       Route::post('/report/{id}', [AttendanceController::class, 'reportInclass']);
       Route::post('/report/monthly/{id}', [AttendanceController::class, 'reportInclassMonthly']);
       Route::post('/report/monthly/get/{id}', [AttendanceController::class, 'reportInclassMonthlyGenerate']);
+
+      //Report
+      Route::post('/report/{id}/export', [AttendanceController::class, 'exportPDF']);
+      Route::post('/report/{id}/export-excel', [AttendanceController::class, 'exportEXCEL']);
     });
     //Score 
     Route::prefix('score')->group(function () {
@@ -188,8 +193,6 @@ Route::prefix('v1')->group(function () {
       Route::get('/get', [SettingController::class, 'index']);
       Route::post('/update', [SettingController::class, 'update']);
     });
-
-
     //Report
     Route::prefix('report')->group(function () {
       Route::get('/preference', [PreferanceController::class, 'index']);

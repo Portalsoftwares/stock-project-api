@@ -296,7 +296,7 @@
 					border
 				>
 					<el-table-column
-						label="ID"
+						label="ល.រ"
 						type="index"
 						fixed
 					></el-table-column>
