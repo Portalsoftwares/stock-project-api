@@ -171,13 +171,13 @@
 				>
 					យល់ព្រម
 				</el-button>
-				<!-- <el-button
+				<el-button
 					type="info"
 					class="sanfont-khmer mt-2 hiden"
 					@click="randomScoreAll()"
 				>
 					ទាញទិន្នន័យស្រាប់
-				</el-button> -->
+				</el-button>
 				<div>
 				</div>
 			</div>

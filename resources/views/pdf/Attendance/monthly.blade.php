@@ -5,7 +5,6 @@
         <div class="col-12 py-2">
             <h1 class="font-muollight font-13 text-center">បញ្ជីសម្រង់អវត្តមានសិស្សថ្នាក់ទី​ {{ $option['class'] }} {{ $option['exam']['name'] }} </h1>
         </div>
-        {{-- {{ dd(1) }} --}}
         <div class="row">
             <div class="col-12  mt-3" style="padding-bottom: 20px">
                 <table width="100%" autosize="1.6" style="border-collapse: collapse; border-style: solid;" cellpadding="8">
@@ -29,7 +28,10 @@
                                 <p class="font-siemreap  font-14">ច្បាប់</p>
                             </td>
                             <td class="w-att text-center">
-                                <p class="font-siemreap  font-14">អច្បាប់</p>
+                                <p class="font-siemreap  font-14">អត់ច្បាប់</p>
+                            </td>
+                            <td class="w-att text-center">
+                                <p class="font-siemreap  font-14">សរុប</p>
                             </td>
                         </tr>
                     </thead>
@@ -52,6 +54,9 @@
                                 @endforeach
                                 <td class="font-siemreap text-center font-14">
                                     {{ $itemLine['total_type_pm'] }}
+                                </td>
+                                <td class="font-siemreap text-center font-14">
+                                    {{ $itemLine['total_type_a'] }}
                                 </td>
                                 <td class="font-siemreap text-center font-14">
                                     {{ $itemLine['total_type_a'] }}
@@ -120,7 +125,7 @@
             }
 
             table thead tr td.w-day {
-                width: 2%
+                width: 2.5%
             }
 
             table thead tr td.w-att {
