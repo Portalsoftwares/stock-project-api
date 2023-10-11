@@ -48,8 +48,8 @@
                                     {{ $itemLine['gender'] }}
                                 </td>
                                 @foreach ($option['dates'] as $inex => $date)
-                                    <td class="font-siemreap text-center font-14">
-                                        {{ $itemLine['day_' . $inex + 1] != 0 ? '1' : '' }}
+                                    <td class="font-siemreap text-center font-14" style="color: {{ $itemLine['day_' . $inex + 1] == 'A' ? '#DC2626' : '#CA8A04' }} ">
+                                        {{ $itemLine['day_' . $inex + 1] != 0 ? $itemLine['day_' . $inex + 1] : '' }}
                                     </td>
                                 @endforeach
                                 <td class="font-siemreap text-center font-14">
@@ -59,27 +59,13 @@
                                     {{ $itemLine['total_type_a'] }}
                                 </td>
                                 <td class="font-siemreap text-center font-14">
-                                    {{ $itemLine['total_type_a'] }}
+                                    {{ $itemLine['total'] }}
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-            {{-- <div class="col-12" style="padding-bottom: 30px">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="font-siemreap font-14 ">បញ្ឈប់បញ្ជីត្រឹមចំនួនសិស្សសរុប {{ $data['report_total_student'] }} នាក់​ ស្រី {{ $data['report_total_student_women'] }} នាក់</div>
-                        <div class="font-siemreap font-14 mt-1">សិស្សជាប់និទ្ទេសល្អសរុប {{ $data['report_total_good'] }} នាក់​ ស្រី {{ $data['report_total_good_women'] }} នាក់</div>
-                        <div class="font-siemreap font-14 mt-1">សិស្សជាប់និទ្ទេសល្អបង្គួរសរុប {{ $data['report_total_ok'] }} នាក់​ ស្រី {{ $data['report_total_ok_women'] }} នាក់</div>
-                    </div>
-                    <div class="col-6">
-                        <div class="font-siemreap font-14 ">សិស្សជាប់និទ្ទេសមធ្យមសរុប {{ $data['report_total_medium'] }} នាក់​ ស្រី {{ $data['report_total_medium_women'] }} នាក់</div>
-                        <div class="font-siemreap font-14 mt-1">សិស្សជាប់និទ្ទេសខ្សោយសរុប {{ $data['report_total_low'] }} នាក់​ ស្រី {{ $data['report_total_low_women'] }} នាក់</div>
-                        <div class="font-siemreap font-14 mt-1">សិស្សគ្មានចំណាត់ថ្នាក់សរុប {{ $data['report_total_less'] }} នាក់​ ស្រី {{ $data['report_total_less_women'] }} នាក់</div>
-                    </div>
-                </div>
-            </div> --}}
             <div class="col-12" style="padding-bottom: 10px">
                 <div class="row">
                     <div class="col-6 text-center">
@@ -117,19 +103,19 @@
             }
 
             table thead tr td.w-description {
-                width: 20%;
+                width: 15%;
             }
 
             table thead tr td.w-qty {
-                width: 10%
+                width: 5%
             }
 
             table thead tr td.w-day {
-                width: 2.5%
+                width: 2.6%
             }
 
             table thead tr td.w-att {
-                width: 5%;
+                width: 6%;
             }
 
             table thead tr td.w-unit-price {

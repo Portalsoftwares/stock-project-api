@@ -247,16 +247,18 @@ class AttendanceController extends Controller
                         // $type_al_day += AttendanceLine::where('attendance_id', $att_row->attendance_id)->where([['student_id', $stu_row->student_id], ['attendance_type_id', '3']])->count();
                         $type_a_day  += AttendanceLine::where('attendance_id', $att_row->attendance_id)->where([['student_id', $stu_row->student_id], ['attendance_type_id', '4']])->count();
                     }
-
+                    $TypeAP = "";
                     if ($type_a_day > 0 || $type_pm_day > 0) {
                         if ($type_a_day > 0) {
                             $type_a++;
+                            $TypeAP = "A";
                         }
                         if ($type_pm_day > 0) {
                             $type_pm++;
+                            $TypeAP = "P";
                         }
                         $fake_attendance = 'attendance_' . $date->format('Y-m-d');
-                        $stu_row[$fake_attendance] = 1;
+                        $stu_row[$fake_attendance] = $TypeAP;
                     } else {
                         $fake_attendance = 'attendance_' . $date->format('Y-m-d');
                         $stu_row[$fake_attendance] = null;
@@ -270,6 +272,7 @@ class AttendanceController extends Controller
             $stu_row['total_type_pm'] = $type_pm;
             // $stu_row['total_type_al'] = $type_al;
             $stu_row['total_type_a']  = $type_a;
+            $stu_row['total']  = $type_a + $type_pm;
         }
         $response = [
             'dates' => $dates,

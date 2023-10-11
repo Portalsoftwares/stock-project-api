@@ -164,7 +164,7 @@
 				<el-table-column
 					fixed
 					label="ឈ្មោះសិស្ស"
-					min-width="250"
+					min-width="180"
 				>
 					<template #default="scope">
 						<div>
@@ -194,7 +194,16 @@
 					</template>
 					<template #default="scope">
 
-						<span>
+						<span
+							v-if="scope.row['attendance_'+data]=='P'"
+							class="text-yellow-600"
+						>
+							{{ scope.row['attendance_'+data]}}
+						</span>
+						<span
+							v-if="scope.row['attendance_'+data]=='A'"
+							class="text-red-600"
+						>
 							{{ scope.row['attendance_'+data]}}
 						</span>
 					</template>
@@ -218,15 +227,30 @@
 				<el-table-column
 					value="10"
 					fixed="right"
-					width="70"
+					width="75"
 					align="center"
 				>
 					<template #header>
-						<div class="text-red-600">អច្បាប់</div>
+						<div class="text-red-600">អត់ច្បាប់</div>
 					</template>
 					<template #default="scope">
 						<span class="text-red-600">
 							{{ scope.row.total_type_a }}
+						</span>
+					</template>
+				</el-table-column>
+				<el-table-column
+					value="10"
+					fixed="right"
+					width="70"
+					align="center"
+				>
+					<template #header>
+						<div class="text-gray-600">សរុប</div>
+					</template>
+					<template #default="scope">
+						<span class="text-gray-600">
+							{{ scope.row.total }}
 						</span>
 					</template>
 				</el-table-column>
@@ -415,12 +439,12 @@
 						</template>
 					</el-table-column>
 					<el-table-column
-						label="PM"
+						label="P"
 						value="0"
 						width="50"
 					>
 						<template #header>
-							<div style="color: #ca8a04;">PM</div>
+							<div style="color: #ca8a04;">P</div>
 						</template>
 						<template #default="scope">
 							<span
@@ -657,7 +681,7 @@
 						align="center"
 					>
 						<template #header>
-							<div class="text-yellow-600">PM</div>
+							<div class="text-yellow-600">P</div>
 						</template>
 						<template #default="scope">
 							<input
@@ -1050,7 +1074,8 @@ export default {
 					"student_name": data.student_in_class?.full_name_kh,
 					"gender": data.student_in_class?.gender?.gender_name_kh,
 					"total_type_pm": data.total_type_pm,
-					"total_type_a": data.total_type_a
+					"total_type_a": data.total_type_a,
+					"total": data.total
 				};
 				this.dates.forEach((date, i) => {
 					let day = `day_${i + 1}`;
