@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UploadFile::class, 'file_upload_id', 'file_upload_id');
     }
+
+    public function used()
+    {
+        return $this->hasOne(PersonalAccessTokenn::class, 'tokenable_id', 'id');
+    }
 }

@@ -377,6 +377,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           message: action === 'cancel' ? 'អ្នកបានបោះបង់ដំណើរការ' : ''
         });
       });
+    },
+    exportPDF: function exportPDF() {
+      var _this11 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        var class_id;
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) switch (_context6.prev = _context6.next) {
+            case 0:
+              class_id = _this11.$route.query.id;
+              _context6.next = 3;
+              return axios.post('/score/report/' + class_id + '/export', dataObj, config).then(function (response) {
+                var blob = new Blob([response.data], {
+                    type: 'application/pdf'
+                  }),
+                  url = window.URL.createObjectURL(blob);
+                var newOpen = window.open(url);
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this11.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 3:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6);
+      }))();
     }
   }
 });
@@ -1046,7 +1073,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       report_total_low_women: 0,
       report_total_less_women: 0,
       //exam
-      tableData: []
+      tableData: [],
+      academic: [],
+      exam: [],
+      is_random: 0
     };
   },
   mounted: function mounted() {
@@ -1060,6 +1090,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         cancelButtonText: 'ទេ'
       }).then(function () {
         _this.dialogFormVisibleAll = false;
+        _this.dialogFormVisibleReports = false;
         _this.studentCallAttendance = [];
         _this.ruleForm.class_id = null;
         _this.ruleForm.score_type_id = null;
@@ -1084,6 +1115,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     formatDate: function formatDate(data) {
       return moment__WEBPACK_IMPORTED_MODULE_1___default()(new Date(data)).format("DD-MM-YYYY");
     },
+    randomScoreAll: function randomScoreAll() {
+      this.is_random = 1;
+      this.showInfomationStudentScoreAll();
+      this.is_random = 0;
+    },
     showInfomationStudentScoreAll: function showInfomationStudentScoreAll() {
       var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -1095,7 +1131,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this3.ruleForm.class_id = _this3.$route.query.id;
               scoreInfo = {
                 'class_id': _this3.ruleForm.class_id,
-                'score_type_id': _this3.ruleForm.score_type_id
+                'score_type_id': _this3.ruleForm.score_type_id,
+                'is_random': _this3.is_random
               };
               config = {
                 headers: {
@@ -1145,11 +1182,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this4.studentObj = response.data.student;
                 _this4.scoreTypeObj = response.data.score_type;
                 _this4.subjectDataSore = _this4.subjectData;
-                // this.dialogFormVisibleAll = true;
-                _this4.loading_score = false;
                 _this4.getExam();
                 _this4.showInfomationStudentScoreAll();
+                _this4.loading_score = false;
+                _this4.$notify.success({
+                  title: 'រួចរាល់',
+                  message: 'បញ្ចូលពិន្ទុបានជោគជ័យ ',
+                  showClose: true
+                });
               })["catch"](function (error) {
+                _this4.$notify.error({
+                  title: 'កំហុស',
+                  message: 'បញ្ចូលពិន្ទុមិនបានជោគជ័យទេ ',
+                  showClose: true
+                });
                 if (error.response.status == 401) {
                   _this4.$store.commit("auth/CLEAR_TOKEN");
                 }
@@ -1193,6 +1239,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _context3.next = 7;
               return axios.post('/score/collect/report/' + class_id, scoreInfo, config).then(function (response) {
+                _this6.academic = response.data.academic;
+                _this6.exam = response.data.exam;
                 _this6.studentObj = response.data.student;
                 _this6.scoreTypeObj = response.data.score_type;
 
@@ -1214,6 +1262,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this6.dialogFormVisibleReports = true;
                 _this6.loading_report = false;
               })["catch"](function (error) {
+                _this6.loading_report = false;
                 if (error.response.status == 401) {
                   _this6.$store.commit("auth/CLEAR_TOKEN");
                 }
@@ -1225,57 +1274,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    exportPDF: function exportPDF() {
+    getExam: function getExam() {
       var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var config, class_id;
+        var class_id;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              config = {
-                headers: {
-                  'content-type': 'application/json',
-                  'responseType': 'blob'
-                }
-              };
               class_id = _this7.$route.query.id;
-              _context4.next = 4;
-              return axios.post('/score/report/' + class_id + '/export', config).then(function (response) {
-                // response.data is a blob type
-                // FileSaver.saveAs(response.data, 'user');
+              _context4.next = 3;
+              return axios.get('/score/collect/all/' + class_id + '/exam').then(function (response) {
+                _this7.tableData = response.data.data;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
                   _this7.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 4:
+            case 3:
             case "end":
               return _context4.stop();
           }
         }, _callee4);
-      }))();
-    },
-    getExam: function getExam() {
-      var _this8 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var class_id;
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) switch (_context5.prev = _context5.next) {
-            case 0:
-              class_id = _this8.$route.query.id;
-              _context5.next = 3;
-              return axios.get('/score/collect/all/' + class_id + '/exam').then(function (response) {
-                _this8.tableData = response.data.data;
-              })["catch"](function (error) {
-                if (error.response.status == 401) {
-                  _this8.$store.commit("auth/CLEAR_TOKEN");
-                }
-              });
-            case 3:
-            case "end":
-              return _context5.stop();
-          }
-        }, _callee5);
       }))();
     },
     editExam: function editExam(id) {
@@ -1285,6 +1304,137 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     reportExam: function reportExam(id) {
       this.ruleFormReport.score_type_id = id;
       this.showInfomationStudentScoreReport();
+    },
+    exportPDF: function exportPDF() {
+      var _this8 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        var config, studentDataPDF, dataObj, class_id;
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
+            case 0:
+              config = {
+                headers: {
+                  'Content-Type': 'multipart/form-data; charset=utf-8; boundary=' + Math.random().toString().substr(2)
+                },
+                withCredentials: false,
+                responseType: 'arraybuffer' //important Thanks bong well noted save my life 🙏 
+              };
+              studentDataPDF = [];
+              _this8.studentObj.forEach(function (data) {
+                var _data$mark_total, _data$mark_avg, _data$mark_rank_text, _data$mark_rank, _data$student_in_clas;
+                var objStudent = {
+                  "mark_total": (_data$mark_total = data.mark_total) !== null && _data$mark_total !== void 0 ? _data$mark_total : '-',
+                  "mark_avg": (_data$mark_avg = data.mark_avg) !== null && _data$mark_avg !== void 0 ? _data$mark_avg : '-',
+                  "mark_rank_text": (_data$mark_rank_text = data.mark_rank_text) !== null && _data$mark_rank_text !== void 0 ? _data$mark_rank_text : '-',
+                  "mark_rank": (_data$mark_rank = data.mark_rank) !== null && _data$mark_rank !== void 0 ? _data$mark_rank : '-',
+                  "student_name": (_data$student_in_clas = data.student_in_class) === null || _data$student_in_clas === void 0 ? void 0 : _data$student_in_clas.full_name_kh
+                };
+                studentDataPDF.push(objStudent);
+              });
+              dataObj = {
+                'data': {
+                  'data': studentDataPDF,
+                  'report_total_student': _this8.report_total_student,
+                  'report_total_good': _this8.report_total_good,
+                  'report_total_ok': _this8.report_total_ok,
+                  'report_total_medium': _this8.report_total_medium,
+                  'report_total_low': _this8.report_total_low,
+                  'report_total_less': _this8.report_total_less,
+                  'report_total_student_women': _this8.report_total_student_women,
+                  'report_total_good_women': _this8.report_total_good_women,
+                  'report_total_ok_women': _this8.report_total_ok_women,
+                  'report_total_medium_women': _this8.report_total_medium_women,
+                  'report_total_low_women': _this8.report_total_low_women,
+                  'report_total_less_women': _this8.report_total_less_women
+                },
+                'option': {
+                  'class': _this8.classData.class_name,
+                  'exam': _this8.exam,
+                  'academic': _this8.academic
+                }
+              };
+              class_id = _this8.$route.query.id;
+              _context5.next = 7;
+              return axios.post('/score/report/' + class_id + '/export', dataObj, config).then(function (response) {
+                var blob = new Blob([response.data], {
+                    type: 'application/pdf'
+                  }),
+                  url = window.URL.createObjectURL(blob);
+                var newOpen = window.open(url);
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this8.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 7:
+            case "end":
+              return _context5.stop();
+          }
+        }, _callee5);
+      }))();
+    },
+    exportEXCEL: function exportEXCEL() {
+      var _this9 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        var config, studentDataPDF, dataObj, class_id;
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) switch (_context6.prev = _context6.next) {
+            case 0:
+              config = {
+                headers: {
+                  'Content-Type': 'applicaton/json'
+                },
+                responseType: 'blob'
+              };
+              studentDataPDF = [];
+              _this9.studentObj.forEach(function (data) {
+                var _data$mark_total2, _data$mark_avg2, _data$mark_rank_text2, _data$mark_rank2, _data$student_in_clas2;
+                var objStudent = {
+                  "mark_total": (_data$mark_total2 = data.mark_total) !== null && _data$mark_total2 !== void 0 ? _data$mark_total2 : '-',
+                  "mark_avg": (_data$mark_avg2 = data.mark_avg) !== null && _data$mark_avg2 !== void 0 ? _data$mark_avg2 : '-',
+                  "mark_rank_text": (_data$mark_rank_text2 = data.mark_rank_text) !== null && _data$mark_rank_text2 !== void 0 ? _data$mark_rank_text2 : '-',
+                  "mark_rank": (_data$mark_rank2 = data.mark_rank) !== null && _data$mark_rank2 !== void 0 ? _data$mark_rank2 : '-',
+                  "student_name": (_data$student_in_clas2 = data.student_in_class) === null || _data$student_in_clas2 === void 0 ? void 0 : _data$student_in_clas2.full_name_kh
+                };
+                studentDataPDF.push(objStudent);
+              });
+              dataObj = {
+                'data': {
+                  'data': studentDataPDF,
+                  'report_total_student': _this9.report_total_student,
+                  'report_total_good': _this9.report_total_good,
+                  'report_total_ok': _this9.report_total_ok,
+                  'report_total_medium': _this9.report_total_medium,
+                  'report_total_low': _this9.report_total_low,
+                  'report_total_less': _this9.report_total_less,
+                  'report_total_student_women': _this9.report_total_student_women,
+                  'report_total_good_women': _this9.report_total_good_women,
+                  'report_total_ok_women': _this9.report_total_ok_women,
+                  'report_total_medium_women': _this9.report_total_medium_women,
+                  'report_total_low_women': _this9.report_total_low_women,
+                  'report_total_less_women': _this9.report_total_less_women
+                },
+                'option': {
+                  'class': _this9.classData.class_name,
+                  'exam': _this9.exam,
+                  'academic': _this9.academic
+                }
+              };
+              class_id = _this9.$route.query.id;
+              _context6.next = 7;
+              return axios.post('/score/report/' + class_id + '/export-excel', dataObj, config).then(function (response) {
+                file_saver__WEBPACK_IMPORTED_MODULE_0___default().saveAs(response.data, 'report_score');
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this9.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 7:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6);
+      }))();
     }
   }
 });
@@ -1345,7 +1495,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         password: null,
         email: null,
         file_upload_id: null
-      }, _defineProperty(_ruleForm, "student_id", null), _defineProperty(_ruleForm, "genderValue", null), _defineProperty(_ruleForm, "dobValue", null), _defineProperty(_ruleForm, "address", null), _defineProperty(_ruleForm, "phoneNum", null), _defineProperty(_ruleForm, "studentOtherText", null), _defineProperty(_ruleForm, "statusValue", null), _defineProperty(_ruleForm, "IDn", null), _defineProperty(_ruleForm, "from_secondary_high_school", null), _defineProperty(_ruleForm, "secondary_exam_date", null), _defineProperty(_ruleForm, "secondary_exam_place", null), _defineProperty(_ruleForm, "secondary_exam_room", null), _defineProperty(_ruleForm, "secondary_exam_desk", null), _ruleForm),
+      }, _defineProperty(_ruleForm, "student_id", null), _defineProperty(_ruleForm, "genderValue", null), _defineProperty(_ruleForm, "dobValue", null), _defineProperty(_ruleForm, "birthAddress", null), _defineProperty(_ruleForm, "address", null), _defineProperty(_ruleForm, "phoneNum", null), _defineProperty(_ruleForm, "studentOtherText", null), _defineProperty(_ruleForm, "statusValue", null), _defineProperty(_ruleForm, "IDn", null), _defineProperty(_ruleForm, "from_secondary_high_school", null), _defineProperty(_ruleForm, "secondary_exam_date", null), _defineProperty(_ruleForm, "secondary_exam_place", null), _defineProperty(_ruleForm, "secondary_exam_room", null), _defineProperty(_ruleForm, "secondary_exam_desk", null), _ruleForm),
       rules: {
         firstNameKh: [{
           required: true,
@@ -1446,7 +1596,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           message: 'សូមបញ្ជូលស្ថានភាព',
           trigger: 'blur'
         }],
-        address: [{
+        birthAddress: [{
           required: true,
           message: 'សូមបញ្ជូលអាស័យដ្ឋាន',
           trigger: 'blur'
@@ -1987,67 +2137,93 @@ var _hoisted_31 = {
 };
 var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, null, -1 /* HOISTED */);
 var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-green-600"
+  "class": "text-green-600",
+  style: {
+    "color": "#16a34a"
+  }
 }, "PS", -1 /* HOISTED */);
 var _hoisted_34 = {
-  "class": "text-green-600"
+  "class": "text-green-600",
+  style: {
+    "color": "#16a34a"
+  }
 };
 var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-yellow-600"
+  style: {
+    "color": "#ca8a04"
+  }
 }, "PM", -1 /* HOISTED */);
 var _hoisted_36 = {
-  "class": "text-yellow-600"
+  "class": "text-yellow-600",
+  style: {
+    "color": "#ca8a04"
+  }
 };
 var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-blue-600"
+  "class": "text-blue-600",
+  style: {
+    "color": "#2563eb"
+  }
 }, "AL", -1 /* HOISTED */);
 var _hoisted_38 = {
-  "class": "text-blue-600"
+  "class": "text-blue-600",
+  style: {
+    "color": "#2563eb"
+  }
 };
 var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-red-600"
+  "class": "text-red-600",
+  style: {
+    "color": "#dc2626"
+  }
 }, "A", -1 /* HOISTED */);
 var _hoisted_40 = {
-  "class": "text-red-600"
+  "class": "text-red-600",
+  style: {
+    "color": "#dc2626"
+  }
 };
 var _hoisted_41 = {
   "class": "dialog-footer"
 };
-var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "mx-1 sanfont-khmer"
+}, " ទាញ PDF", -1 /* HOISTED */);
+var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "my-header"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-lg font-semibold text-white"
 }, "គ្រប់គ្រងអវត្តមាន")], -1 /* HOISTED */);
-var _hoisted_43 = {
+var _hoisted_44 = {
   "class": "bg-white px-5"
 };
-var _hoisted_44 = {
+var _hoisted_45 = {
   "class": "flex justify-between py-2"
 };
-var _hoisted_45 = {
+var _hoisted_46 = {
   "class": "flex space-x-2"
 };
-var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, null, -1 /* HOISTED */);
-var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_47 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, null, -1 /* HOISTED */);
+var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-green-600"
 }, "PS", -1 /* HOISTED */);
-var _hoisted_48 = ["checked", "onClick"];
-var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_49 = ["checked", "onClick"];
+var _hoisted_50 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-yellow-600"
 }, "PM", -1 /* HOISTED */);
-var _hoisted_50 = ["checked", "onClick"];
-var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_51 = ["checked", "onClick"];
+var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-blue-600"
 }, "AL", -1 /* HOISTED */);
-var _hoisted_52 = ["checked", "onClick"];
-var _hoisted_53 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_53 = ["checked", "onClick"];
+var _hoisted_54 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-red-600"
 }, "A", -1 /* HOISTED */);
-var _hoisted_54 = ["checked", "onClick"];
-var _hoisted_55 = {
+var _hoisted_55 = ["checked", "onClick"];
+var _hoisted_56 = {
   "class": "dialog-footer"
 };
-var _hoisted_56 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_57 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "hidden text-blue-600 text-red-600 text-green-600 text-yellow-600"
 }, null, -1 /* HOISTED */);
 
@@ -2140,7 +2316,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         })
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" បោះពុម្ភ ")];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ទាញ PDF ")];
         }),
         _: 1 /* STABLE */
       })])];
@@ -2230,7 +2406,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "header-cell-class-name": "sanfont-khmer text-md",
         "row-class-name": "sanfont-khmer",
         style: {
-          "width": "100%"
+          "width": "100%",
+          "height": "650px"
         },
         stripe: "",
         border: ""
@@ -2314,7 +2491,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  Report Attendance by Month "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  Report Attendance by Subject "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisible,
-    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+    "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
       return $data.dialogFormVisible = $event;
     }),
     fullscreen: "true",
@@ -2336,20 +2513,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" បោះបង់")];
         }),
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_button, {
         type: "primary",
-        "class": "sanfont-khmer",
-        onClick: _cache[11] || (_cache[11] = function ($event) {
-          return _ctx.printAttendance();
-        })
+        onClick: $options.exportPDF
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" បោះពុម្ភ ")];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Document)];
+            }),
+            _: 1 /* STABLE */
+          }), _hoisted_42];
         }),
         _: 1 /* STABLE */
-      })])];
+      }, 8 /* PROPS */, ["onClick"])), [[_directive_loading, $data.fullscreenLoading, void 0, {
+        fullscreen: true,
+        lock: true
+      }]])])];
     }),
-
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
         "label-position": "top",
@@ -2402,7 +2583,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "header-cell-class-name": "sanfont-khmer text-md",
         "row-class-name": "sanfont-khmer",
         style: {
-          "width": "100%"
+          "width": "100%",
+          "height": "650px"
         },
         stripe: "",
         border: ""
@@ -2438,9 +2620,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             width: "150"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+              var _scope$row$student_in3, _scope$row$student_in4, _scope$row$student_in5, _scope$row$student_in6;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + scope.row.student_in_class.status.color)
-              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.status.status_kh), 5 /* TEXT, STYLE */)];
+                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + ((_scope$row$student_in3 = scope.row.student_in_class) === null || _scope$row$student_in3 === void 0 ? void 0 : (_scope$row$student_in4 = _scope$row$student_in3.status) === null || _scope$row$student_in4 === void 0 ? void 0 : _scope$row$student_in4.color))
+              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in5 = scope.row.student_in_class) === null || _scope$row$student_in5 === void 0 ? void 0 : (_scope$row$student_in6 = _scope$row$student_in5.status) === null || _scope$row$student_in6 === void 0 ? void 0 : _scope$row$student_in6.status_kh), 5 /* TEXT, STYLE */)];
             }),
 
             _: 1 /* STABLE */
@@ -2545,7 +2728,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  Report Attendance by Subject "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  Manage Attendance list "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisibleAdd,
-    "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
+    "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
       return $data.dialogFormVisibleAdd = $event;
     }),
     fullscreen: "true",
@@ -2554,11 +2737,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "50%"
   }, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_42];
+      return [_hoisted_43];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[18] || (_cache[18] = function ($event) {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+        onClick: _cache[17] || (_cache[17] = function ($event) {
           return $options.closeFormAttendance();
         }),
         "class": "sanfont-khmer"
@@ -2570,7 +2753,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_button, {
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[19] || (_cache[19] = function ($event) {
+        onClick: _cache[18] || (_cache[18] = function ($event) {
           return $options.submitForm('ruleFormSchedule');
         })
       }, {
@@ -2584,7 +2767,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }]])])];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
         "label-position": "top",
         "label-width": "50px",
         model: $data.ruleForm,
@@ -2593,14 +2776,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         id: "ruleFormSchedule"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
             label: "ថ្នាក់រៀន",
             prop: "class_id"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.classData.class_name,
-                "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
+                "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
                   return $data.classData.class_name = $event;
                 }),
                 disabled: ""
@@ -2622,7 +2805,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleForm.day_id,
-                "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
+                "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
                   return $data.ruleForm.day_id = $event;
                 })
               }, {
@@ -2647,7 +2830,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleForm.time_id,
-                "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+                "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
                   return $data.ruleForm.time_id = $event;
                 })
               }, {
@@ -2672,7 +2855,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                 modelValue: $data.ruleForm.subject_grade_id,
-                "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
+                "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
                   return $data.ruleForm.subject_grade_id = $event;
                 })
               }, {
@@ -2698,7 +2881,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_date_picker, {
                 modelValue: $data.ruleForm.date,
-                "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
+                "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
                   return $data.ruleForm.date = $event;
                 }),
                 format: "YYYY-MM-DD",
@@ -2710,13 +2893,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
 
         _: 1 /* STABLE */
-      }, 8 /* PROPS */, ["model", "rules"]), _hoisted_46]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
+      }, 8 /* PROPS */, ["model", "rules"]), _hoisted_47]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
         data: $data.studentCallAttendance,
         resizable: "false",
         "header-cell-class-name": "sanfont-khmer text-md",
         "row-class-name": "sanfont-khmer",
         style: {
-          "width": "100%"
+          "width": "100%",
+          "height": "650px"
         },
         stripe: "",
         border: ""
@@ -2745,9 +2929,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             label: "ស្ថានភាព"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+              var _scope$row$student_in7, _scope$row$student_in8, _scope$row$student_in9, _scope$row$student_in10;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + scope.row.student_in_class.status.color)
-              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.status.status_kh), 5 /* TEXT, STYLE */)];
+                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + ((_scope$row$student_in7 = scope.row.student_in_class) === null || _scope$row$student_in7 === void 0 ? void 0 : (_scope$row$student_in8 = _scope$row$student_in7.status) === null || _scope$row$student_in8 === void 0 ? void 0 : _scope$row$student_in8.color))
+              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in9 = scope.row.student_in_class) === null || _scope$row$student_in9 === void 0 ? void 0 : (_scope$row$student_in10 = _scope$row$student_in9.status) === null || _scope$row$student_in10 === void 0 ? void 0 : _scope$row$student_in10.status_kh), 5 /* TEXT, STYLE */)];
             }),
 
             _: 1 /* STABLE */
@@ -2761,18 +2946,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 align: "center"
               }, {
                 header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [_hoisted_47];
+                  return [_hoisted_48];
                 }),
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
                     type: "checkbox",
                     name: "checkbox",
                     "class": "custom-checkbox",
+                    style: {
+                      "accent-color": "#16a34a"
+                    },
                     checked: scope.row.attendance_type_id == 1,
                     onClick: function onClick($event) {
                       return scope.row.attendance_type_id = 1;
                     }
-                  }, null, 8 /* PROPS */, _hoisted_48)];
+                  }, null, 8 /* PROPS */, _hoisted_49)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
@@ -2780,18 +2968,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 align: "center"
               }, {
                 header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [_hoisted_49];
+                  return [_hoisted_50];
                 }),
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
                     type: "checkbox",
                     name: "checkbox",
+                    style: {
+                      "accent-color": "#ca8a04"
+                    },
                     "class": "custom-checkbox",
                     checked: scope.row.attendance_type_id == 2,
                     onClick: function onClick($event) {
                       return scope.row.attendance_type_id = 2;
                     }
-                  }, null, 8 /* PROPS */, _hoisted_50)];
+                  }, null, 8 /* PROPS */, _hoisted_51)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
@@ -2799,18 +2990,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 align: "center"
               }, {
                 header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [_hoisted_51];
+                  return [_hoisted_52];
                 }),
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
                     type: "checkbox",
                     name: "checkbox",
+                    style: {
+                      "accent-color": "#2563eb"
+                    },
                     "class": "custom-checkbox",
                     checked: scope.row.attendance_type_id == 3,
                     onClick: function onClick($event) {
                       return scope.row.attendance_type_id = 3;
                     }
-                  }, null, 8 /* PROPS */, _hoisted_52)];
+                  }, null, 8 /* PROPS */, _hoisted_53)];
                 }),
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
@@ -2818,18 +3012,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 align: "center"
               }, {
                 header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [_hoisted_53];
+                  return [_hoisted_54];
                 }),
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
                     type: "checkbox",
                     name: "checkbox",
+                    style: {
+                      "accent-color": "#e74c3c"
+                    },
                     "class": "custom-checkbox",
                     checked: scope.row.attendance_type_id == 4,
                     onClick: function onClick($event) {
                       return scope.row.attendance_type_id = 4;
                     }
-                  }, null, 8 /* PROPS */, _hoisted_54)];
+                  }, null, 8 /* PROPS */, _hoisted_55)];
                 }),
                 _: 1 /* STABLE */
               })];
@@ -2842,7 +3039,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading_schedule]])])];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["modelValue"]), _hoisted_56], 64 /* STABLE_FRAGMENT */);
+  }, 8 /* PROPS */, ["modelValue"]), _hoisted_57], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
@@ -3413,7 +3610,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "header-cell-class-name": "sanfont-khmer text-md",
         "row-class-name": "sanfont-khmer",
         style: {
-          "width": "100%"
+          "width": "100%",
+          "height": "660px"
         },
         stripe: "",
         border: ""
@@ -3426,7 +3624,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             label: "ឈ្មោះសិស្ស"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.first_name_kh) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.last_name_kh), 1 /* TEXT */)])];
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.full_name_kh), 1 /* TEXT */)])];
             }),
 
             _: 1 /* STABLE */
@@ -3442,9 +3640,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             label: "ស្ថានភាព"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+              var _scope$row$student_in, _scope$row$student_in2, _scope$row$student_in3, _scope$row$student_in4;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + scope.row.student_in_class.status.color)
-              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.status.status_kh), 5 /* TEXT, STYLE */)];
+                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + ((_scope$row$student_in = scope.row.student_in_class) === null || _scope$row$student_in === void 0 ? void 0 : (_scope$row$student_in2 = _scope$row$student_in.status) === null || _scope$row$student_in2 === void 0 ? void 0 : _scope$row$student_in2.color))
+              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in3 = scope.row.student_in_class) === null || _scope$row$student_in3 === void 0 ? void 0 : (_scope$row$student_in4 = _scope$row$student_in3.status) === null || _scope$row$student_in4 === void 0 ? void 0 : _scope$row$student_in4.status_kh), 5 /* TEXT, STYLE */)];
             }),
 
             _: 1 /* STABLE */
@@ -3465,6 +3664,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     type: "checkbox",
                     name: "checkbox",
                     "class": "custom-checkbox",
+                    style: {
+                      "accent-color": "#16a34a"
+                    },
                     checked: scope.row.attendance_type_id == 1,
                     onClick: function onClick($event) {
                       return scope.row.attendance_type_id = 1;
@@ -3484,6 +3686,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     type: "checkbox",
                     name: "checkbox",
                     "class": "custom-checkbox",
+                    style: {
+                      "accent-color": "#ca8a04"
+                    },
                     checked: scope.row.attendance_type_id == 2,
                     onClick: function onClick($event) {
                       return scope.row.attendance_type_id = 2;
@@ -3503,6 +3708,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     type: "checkbox",
                     name: "checkbox",
                     "class": "custom-checkbox",
+                    style: {
+                      "accent-color": "#2563eb"
+                    },
                     checked: scope.row.attendance_type_id == 3,
                     onClick: function onClick($event) {
                       return scope.row.attendance_type_id = 3;
@@ -3522,6 +3730,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     type: "checkbox",
                     name: "checkbox",
                     "class": "custom-checkbox",
+                    style: {
+                      "accent-color": "#e74c3c"
+                    },
                     checked: scope.row.attendance_type_id == 4,
                     onClick: function onClick($event) {
                       return scope.row.attendance_type_id = 4;
@@ -3907,83 +4118,92 @@ var _hoisted_20 = {
   "class": "text-center items-center w-full"
 };
 var _hoisted_21 = {
-  "class": "text-center items-center"
+  key: 0
 };
 var _hoisted_22 = {
-  "class": "text-center items-center"
+  key: 1
 };
 var _hoisted_23 = {
-  "class": "text-red-500"
+  "class": "text-center items-center"
 };
 var _hoisted_24 = {
   "class": "text-center items-center"
 };
 var _hoisted_25 = {
-  "class": "flex justify-between px-5"
+  "class": "text-red-500"
 };
 var _hoisted_26 = {
-  "class": "flex justify-start align-start space-x-5 text-left bg-slate-50 border rounded p-5"
+  "class": "text-center items-center"
 };
 var _hoisted_27 = {
-  "class": "text-[14px]"
+  "class": "flex justify-between px-5"
 };
 var _hoisted_28 = {
-  "class": "font-bold"
+  "class": "flex justify-start align-start space-x-5 text-left bg-slate-50 border rounded p-5"
 };
 var _hoisted_29 = {
-  "class": "font-bold"
+  "class": "text-[14px]"
 };
 var _hoisted_30 = {
-  "class": "text-[14px]"
+  "class": "font-bold"
 };
 var _hoisted_31 = {
   "class": "font-bold"
 };
 var _hoisted_32 = {
-  "class": "font-bold"
+  "class": "text-[14px]"
 };
 var _hoisted_33 = {
-  "class": "text-[14px]"
+  "class": "font-bold"
 };
 var _hoisted_34 = {
   "class": "font-bold"
 };
 var _hoisted_35 = {
-  "class": "font-bold"
+  "class": "text-[14px]"
 };
 var _hoisted_36 = {
-  "class": "text-[14px]"
+  "class": "font-bold"
 };
 var _hoisted_37 = {
   "class": "font-bold"
 };
 var _hoisted_38 = {
-  "class": "font-bold"
+  "class": "text-[14px]"
 };
 var _hoisted_39 = {
-  "class": "text-[14px]"
+  "class": "font-bold"
 };
 var _hoisted_40 = {
   "class": "font-bold"
 };
 var _hoisted_41 = {
-  "class": "font-bold"
+  "class": "text-[14px]"
 };
 var _hoisted_42 = {
-  "class": "text-[14px]"
+  "class": "font-bold"
 };
 var _hoisted_43 = {
   "class": "font-bold"
 };
 var _hoisted_44 = {
-  "class": "font-bold"
+  "class": "text-[14px]"
 };
 var _hoisted_45 = {
+  "class": "font-bold"
+};
+var _hoisted_46 = {
+  "class": "font-bold"
+};
+var _hoisted_47 = {
   "class": "dialog-footer"
 };
-var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "mx-1 sanfont-khmer"
 }, " ទាញ PDF", -1 /* HOISTED */);
+var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "mx-1 sanfont-khmer"
+}, " ទាញ EXCEL", -1 /* HOISTED */);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Document = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Document");
@@ -3991,7 +4211,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-button");
   var _component_Edit = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Edit");
   var _component_el_table_column = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-table-column");
-  var _component_el_popconfirm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-popconfirm");
   var _component_el_empty = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-empty");
   var _component_el_table = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-table");
   var _component_el_option = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-option");
@@ -4093,6 +4312,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             _: 2 /* DYNAMIC */
           }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             size: "small",
+            type: "primary",
             "class": "sanfont-khmer",
             onClick: function onClick($event) {
               return $options.editExam(scope.row.score_type_id);
@@ -4102,33 +4322,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("កែប្រែ")];
             }),
             _: 2 /* DYNAMIC */
-          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
-            width: "220",
-            "confirm-button-text": "យល់ព្រម",
-            "cancel-button-text": "ទេ",
-            icon: _ctx.InfoFilled,
-            "icon-color": "#626AEF",
-            title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
-            "cancel-button-type": "info",
-            onConfirm: function onConfirm($event) {
-              return _ctx.handleDelete(scope.row.score_type_id);
-            }
-          }, {
-            reference: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-                size: "small",
-                type: "danger",
-                "class": "sanfont-khmer"
-              }, {
-                "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុប ")];
-                }),
-                _: 1 /* STABLE */
-              })];
-            }),
-
-            _: 2 /* DYNAMIC */
-          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])];
+          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-popconfirm\r\n\t\t\t\t\t\t\t\twidth=\"220\"\r\n\t\t\t\t\t\t\t\tconfirm-button-text=\"យល់ព្រម\"\r\n\t\t\t\t\t\t\t\tcancel-button-text=\"ទេ\"\r\n\t\t\t\t\t\t\t\t:icon=\"InfoFilled\"\r\n\t\t\t\t\t\t\t\ticon-color=\"#626AEF\"\r\n\t\t\t\t\t\t\t\ttitle=\"តើអ្នកពិតជាចង់លុបមែនទេ?\"\r\n\t\t\t\t\t\t\t\tcancel-button-type=\"info\"\r\n\t\t\t\t\t\t\t\t@confirm=\"handleDelete(scope.row.score_type_id)\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<template #reference>\r\n\t\t\t\t\t\t\t\t\t<el-button\r\n\t\t\t\t\t\t\t\t\t\tsize=\"small\"\r\n\t\t\t\t\t\t\t\t\t\ttype=\"danger\"\r\n\t\t\t\t\t\t\t\t\t\tclass=\"sanfont-khmer\"\r\n\t\t\t\t\t\t\t\t\t>លុប\r\n\t\t\t\t\t\t\t\t\t</el-button>\r\n\t\t\t\t\t\t\t\t</template>\r\n\t\t\t\t\t\t\t</el-popconfirm> ")])];
         }),
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_empty, {
@@ -4136,7 +4330,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       })];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading_class]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"grid grid-cols-4 gap-2 \">\r\n\t\t\t<div\r\n\t\t\t\tclass=\"z-10 mt-1 overflow-hidden rounded bg-white shadow ring-1 ring-gray-900/5 \"\r\n\t\t\t\tv-for=\"data in subjectData\"\r\n\t\t\t\t:key=\"data\"\r\n\t\t\t\t@click=\"showInfomationScore(data.teacher_subject_in_class.subject)\"\r\n\t\t\t>\r\n\t\t\t\t<div>\r\n\t\t\t\t\t<div class=\"group relative flex items-center gap-x-6 rounded-lg p-3 text-sm leading-6 hover:bg-gray-50\">\r\n\t\t\t\t\t\t<div class=\"flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white\">\r\n\t\t\t\t\t\t\t<svg\r\n\t\t\t\t\t\t\t\tclass=\"h-6 w-6 text-gray-600 group-hover:text-indigo-600\"\r\n\t\t\t\t\t\t\t\tfill=\"none\"\r\n\t\t\t\t\t\t\t\tviewBox=\"0 0 24 24\"\r\n\t\t\t\t\t\t\t\tstroke-width=\"1.5\"\r\n\t\t\t\t\t\t\t\tstroke=\"currentColor\"\r\n\t\t\t\t\t\t\t\taria-hidden=\"true\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<path\r\n\t\t\t\t\t\t\t\t\tstroke-linecap=\"round\"\r\n\t\t\t\t\t\t\t\t\tstroke-linejoin=\"round\"\r\n\t\t\t\t\t\t\t\t\td=\"M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z\"\r\n\t\t\t\t\t\t\t\t/>\r\n\t\t\t\t\t\t\t\t<path\r\n\t\t\t\t\t\t\t\t\tstroke-linecap=\"round\"\r\n\t\t\t\t\t\t\t\t\tstroke-linejoin=\"round\"\r\n\t\t\t\t\t\t\t\t\td=\"M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z\"\r\n\t\t\t\t\t\t\t\t/>\r\n\t\t\t\t\t\t\t</svg>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"flex-auto text-left\">\r\n\t\t\t\t\t\t\t<a\r\n\t\t\t\t\t\t\t\thref=\"#\"\r\n\t\t\t\t\t\t\t\tclass=\"block font-semibold text-gray-900\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<span class=\"font-bold\"><span class=\"text-xl font-bold\">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span> </span>\r\n\t\t\t\t\t\t\t\t<p class=\"mt-1 text-gray-600\"> បង្រៀនដោយ {{ data.teacher_in_class.gender_id==1?'លោកគ្រូ':'អ្នកគ្រូ' }} : {{ data.teacher_in_class.full_name_kh}} </p>\r\n\t\t\t\t\t\t\t</a>\r\n\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  Manage Attendance list All "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
+  }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading_class]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  Manage Attendance list All "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisibleAll,
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.dialogFormVisibleAll = $event;
@@ -4248,13 +4442,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" យល់ព្រម ")];
         }),
         _: 1 /* STABLE */
-      }), _hoisted_11]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-button\r\n\t\t\t\t\ttype=\"info\"\r\n\t\t\t\t\tclass=\"sanfont-khmer mt-2 hiden\"\r\n\t\t\t\t\t@click=\"randomScoreAll()\"\r\n\t\t\t\t>\r\n\t\t\t\t\tទាញទិន្នន័យស្រាប់\r\n\t\t\t\t</el-button> "), _hoisted_11]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
         data: $data.studentObj,
         resizable: "false",
         "header-cell-class-name": "sanfont-khmer text-md",
         "row-class-name": "sanfont-khmer",
         style: {
-          "width": "100%"
+          "width": "100%",
+          "height": "680px"
         },
         stripe: "",
         border: ""
@@ -4290,9 +4485,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             width: "150"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+              var _scope$row$student_in, _scope$row$student_in2, _scope$row$student_in3, _scope$row$student_in4;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + scope.row.student_in_class.status.color)
-              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.status.status_kh), 5 /* TEXT, STYLE */)];
+                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + ((_scope$row$student_in = scope.row.student_in_class) === null || _scope$row$student_in === void 0 ? void 0 : (_scope$row$student_in2 = _scope$row$student_in.status) === null || _scope$row$student_in2 === void 0 ? void 0 : _scope$row$student_in2.color))
+              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in3 = scope.row.student_in_class) === null || _scope$row$student_in3 === void 0 ? void 0 : (_scope$row$student_in4 = _scope$row$student_in3.status) === null || _scope$row$student_in4 === void 0 ? void 0 : _scope$row$student_in4.status_kh), 5 /* TEXT, STYLE */)];
             }),
 
             _: 1 /* STABLE */
@@ -4329,7 +4525,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["modelValue", "before-close"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog Form Schedule  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  Manage Score list Report "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisibleReports,
-    "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
+    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
       return $data.dialogFormVisibleReports = $event;
     }),
     fullscreen: "true",
@@ -4342,7 +4538,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [_hoisted_14];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - បញ្ឈប់បញ្ជីត្រឹមចំនួនសិស្សសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_student), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_student_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សជាប់និទ្ទេសល្អសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_good), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_good_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សជាប់និទ្ទេសល្អបង្គួរសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_ok), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_ok_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សជាប់និទ្ទេសមធ្យមសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_medium), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_medium_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សជាប់និទ្ទេសខ្សោយសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_low), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_low_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សគ្មានចំណាត់ថ្នាក់សរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_less), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_less_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - បញ្ឈប់បញ្ជីត្រឹមចំនួនសិស្សសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_student), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_student_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សជាប់និទ្ទេសល្អសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_good), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_good_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សជាប់និទ្ទេសល្អបង្គួរសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_ok), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_ok_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សជាប់និទ្ទេសមធ្យមសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_medium), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_medium_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សជាប់និទ្ទេសខ្សោយសរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_low), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_low_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" - សិស្សគ្មានចំណាត់ថ្នាក់សរុប "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_less), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់​ ស្រី "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.report_total_less_women), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" នាក់")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
         onClick: _cache[11] || (_cache[11] = function ($event) {
           return $options.closeForm();
         }),
@@ -4354,20 +4550,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_button, {
         type: "primary",
-        "class": "sanfont-khmer",
-        onClick: _cache[12] || (_cache[12] = function ($event) {
-          return _ctx.collectScore();
-        })
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" បោះពុម្ភ ")];
-        }),
-        _: 1 /* STABLE */
-      })), [[_directive_loading, $data.fullscreenLoading, void 0, {
-        fullscreen: true,
-        lock: true
-      }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        type: "info",
         onClick: $options.exportPDF
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -4376,10 +4558,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Document)];
             }),
             _: 1 /* STABLE */
-          }), _hoisted_46];
+          }), _hoisted_48];
         }),
         _: 1 /* STABLE */
-      }, 8 /* PROPS */, ["onClick"])])])];
+      }, 8 /* PROPS */, ["onClick"])), [[_directive_loading, $data.fullscreenLoading, void 0, {
+        fullscreen: true,
+        lock: true
+      }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_button, {
+        type: "primary",
+        onClick: $options.exportEXCEL
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Document)];
+            }),
+            _: 1 /* STABLE */
+          }), _hoisted_49];
+        }),
+        _: 1 /* STABLE */
+      }, 8 /* PROPS */, ["onClick"])), [[_directive_loading, $data.fullscreenLoading, void 0, {
+        fullscreen: true,
+        lock: true
+      }]])])])];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form, {
@@ -4465,7 +4666,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "header-cell-class-name": "sanfont-khmer text-md",
         "row-class-name": "sanfont-khmer",
         style: {
-          "width": "100%"
+          "width": "100%",
+          "height": "580px"
         },
         stripe: "",
         border: ""
@@ -4481,8 +4683,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "min-width": "250"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-              var _scope$row$student_in;
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in = scope.row.student_in_class) === null || _scope$row$student_in === void 0 ? void 0 : _scope$row$student_in.full_name_kh), 1 /* TEXT */)])];
+              var _scope$row$student_in5;
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in5 = scope.row.student_in_class) === null || _scope$row$student_in5 === void 0 ? void 0 : _scope$row$student_in5.full_name_kh), 1 /* TEXT */)])];
             }),
 
             _: 1 /* STABLE */
@@ -4502,9 +4704,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             width: "150"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
+              var _scope$row$student_in6, _scope$row$student_in7, _scope$row$student_in8, _scope$row$student_in9;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + scope.row.student_in_class.status.color)
-              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.status.status_kh), 5 /* TEXT, STYLE */)];
+                style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + ((_scope$row$student_in6 = scope.row.student_in_class) === null || _scope$row$student_in6 === void 0 ? void 0 : (_scope$row$student_in7 = _scope$row$student_in6.status) === null || _scope$row$student_in7 === void 0 ? void 0 : _scope$row$student_in7.color))
+              }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in8 = scope.row.student_in_class) === null || _scope$row$student_in8 === void 0 ? void 0 : (_scope$row$student_in9 = _scope$row$student_in8.status) === null || _scope$row$student_in9 === void 0 ? void 0 : _scope$row$student_in9.status_kh), 5 /* TEXT, STYLE */)];
             }),
 
             _: 1 /* STABLE */
@@ -4515,9 +4718,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "min-width": "100"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.mark_total), 1 /* TEXT */)])];
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [scope.row.mark_total != 0 && scope.row.mark_total != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.mark_total), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_22, "--"))])];
             }),
-
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
             fixed: "right",
@@ -4526,7 +4728,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "min-width": "100"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.mark_avg), 1 /* TEXT */)])];
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.mark_avg), 1 /* TEXT */)])];
             }),
 
             _: 1 /* STABLE */
@@ -4537,7 +4739,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "min-width": "100"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.mark_rank), 1 /* TEXT */)])];
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.mark_rank), 1 /* TEXT */)])];
             }),
 
             _: 1 /* STABLE */
@@ -4548,7 +4750,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "min-width": "100"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.mark_rank_text), 1 /* TEXT */)])];
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.mark_rank_text), 1 /* TEXT */)])];
             }),
 
             _: 1 /* STABLE */
@@ -4590,7 +4792,7 @@ var _hoisted_4 = {
   "class": "self-center"
 };
 var _hoisted_5 = {
-  "class": "flex flex-col space-y-2 xl:flex-row xl:space-y-0"
+  "class": "flex flex-col space-x-2 space-y-2 xl:flex-row xl:space-y-0"
 };
 var _hoisted_6 = {
   "class": "self-center flex space-x-3"
@@ -4598,7 +4800,9 @@ var _hoisted_6 = {
 var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "mx-1 sanfont-khmer"
 }, " ទាញ Excel", -1 /* HOISTED */);
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Use this <div> for space-x-2 work ")], -1 /* HOISTED */);
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "mx-1 sanfont-khmer"
+}, " ទាញ PDF", -1 /* HOISTED */);
 var _hoisted_9 = {
   "class": "self-center"
 };
@@ -4707,7 +4911,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), _hoisted_7];
     }),
     _: 1 /* STABLE */
-  }), _hoisted_8]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+    type: "info"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Document)];
+        }),
+        _: 1 /* STABLE */
+      }), _hoisted_8];
+    }),
+    _: 1 /* STABLE */
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
     type: "primary",
     onClick: $options.AddStudentToClass
   }, {
@@ -4785,7 +5001,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         label: "ឈ្មោះភាសាខ្មែរ"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.first_name_kh) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.last_name_kh), 1 /* TEXT */)];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.full_name_kh), 1 /* TEXT */)];
         }),
 
         _: 1 /* STABLE */
@@ -4793,7 +5009,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         label: "ឈ្មោះឡាតាំង"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.first_name_en) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.last_name_en), 1 /* TEXT */)];
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.student_in_class.full_name_en), 1 /* TEXT */)];
         }),
 
         _: 1 /* STABLE */
@@ -5335,15 +5551,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     _: 1 /* STABLE */
                   }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "ទីកន្លែងកំណើត",
-                    prop: "address",
+                    prop: "birthAddress",
                     "class": "sanfont-khmer",
                     "label-width": $data.formLabelWidth
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                        modelValue: $data.ruleForm.birsthAddress,
+                        modelValue: $data.ruleForm.birthAddress,
                         "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
-                          return $data.ruleForm.birsthAddress = $event;
+                          return $data.ruleForm.birthAddress = $event;
                         }),
                         autocomplete: "off",
                         name: "place_of_birth",

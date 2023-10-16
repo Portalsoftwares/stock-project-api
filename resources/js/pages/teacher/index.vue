@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-white p-2 w-full justify-between border rounded-t xl:flex xl:flex-row ">
 		<div class="flex  flex-col 3xl:flex  3xl:flex-row  ">
-			<div class="flex space-x-2"> 
+			<div class="flex space-x-2">
 				<div class="self-start">
 					<el-input
 						placeholder="ស្វែងរក"
@@ -35,7 +35,7 @@
 						</el-select>
 
 						<el-select
-							v-model="filterSelectValue "
+							v-model="filterSelectValue"
 							filterable
 							clearable
 							multiple
@@ -78,7 +78,10 @@
 			</div>
 
 			<div class="self-center ">
-				<el-button type="info">
+				<el-button
+					type="info"
+					@click="exportExcel"
+				>
 					<el-icon>
 						<Document />
 					</el-icon>
@@ -110,7 +113,7 @@
 			<div class="flex flex-col  ">
 				<el-table
 					:data="tableData.data"
-					height="750"
+					height="730"
 					style="width: 100%"
 					resizable="true"
 					header-cell-class-name="header-table-font-khmer text-md"
@@ -151,14 +154,14 @@
 						label="អត្តលេខ"
 						sortable
 					>
-						<template #default="scope">{{scope.row.tid}}</template>
+						<template #default="scope">{{ scope.row.tid }}</template>
 					</el-table-column>
 					<el-table-column
 						width="180"
 						label="ឈ្មោះភាសាខ្មែរ"
 						sortable
 					>
-						<template #default="scope">{{scope.row.full_name_kh}}</template>
+						<template #default="scope">{{ scope.row.full_name_kh }}</template>
 					</el-table-column>
 					<el-table-column
 						property="first_name_en"
@@ -166,7 +169,7 @@
 						width="180"
 						sortable
 					>
-						<template #default="scope">{{scope.row.full_name_en}}</template>
+						<template #default="scope">{{ scope.row.full_name_en }}</template>
 
 					</el-table-column>
 					<el-table-column
@@ -195,7 +198,7 @@
 					>
 						<template #default="scope">
 							<div>
-								{{ scope.row.date_of_birth}}
+								{{ scope.row.date_of_birth }}
 							</div>
 						</template>
 					</el-table-column>
@@ -205,7 +208,7 @@
 					>
 						<template #default="scope">
 							<div>
-								{{ scope.row.phone}}
+								{{ scope.row.phone }}
 							</div>
 						</template>
 					</el-table-column>
@@ -230,7 +233,7 @@
 						label="សកម្មភាព"
 					>
 						<template #default="scope">
-							<div v-if="is_show_trust==1 &&!loading">
+							<div v-if="is_show_trust == 1 && !loading">
 								<el-button
 									size="small"
 									class="sanfont-khmer"
@@ -256,7 +259,7 @@
 									</template>
 								</el-popconfirm>
 							</div>
-							<div v-if="is_show_trust==0&&!loading">
+							<div v-if="is_show_trust == 0 && !loading">
 								<el-button
 									size="small"
 									class="sanfont-khmer"
@@ -537,7 +540,7 @@
 								/>
 							</el-form-item>
 							<el-form-item
-								label="អាស័យដ្ឋានបច្ចុប្បន្ន"
+								label="អាសយដ្ឋានបច្ចុប្បន្ន"
 								prop=""
 								class="sanfont-khmer"
 								:label-width="formLabelWidth"
@@ -731,7 +734,9 @@
 	<!-- Dialog Teacher  -->
 </template>
 <script>
+import FileSaver from 'file-saver'
 export default {
+	components: { FileSaver },
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
 		return {
@@ -1142,6 +1147,16 @@ export default {
 				message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 				type: 'success',
 			})
+		},
+		async exportExcel() {
+			axios.post('/teacher/exportExcel', {
+				file_name: 'Teacher'
+			}, {
+				responseType: 'blob'
+			}).then((response) => {
+				// response.data is a blob type
+				FileSaver.saveAs(response.data, 'teacher');
+			});
 		}
 	}
 }
@@ -1154,9 +1169,11 @@ export default {
 	position: relative;
 	overflow: hidden;
 }
+
 .avatar-uploader .el-upload:hover {
 	border-color: #409eff;
 }
+
 .avatar-uploader-icon {
 	font-size: 28px;
 	color: #8c939d;
@@ -1165,6 +1182,7 @@ export default {
 	line-height: 178px;
 	text-align: center;
 }
+
 .avatar {
 	width: 140px;
 	height: 140px;
@@ -1174,15 +1192,19 @@ export default {
 .el-button--text {
 	margin-right: 15px;
 }
+
 .el-select {
 	width: 300px;
 }
+
 .el-input {
 	width: 300px;
 }
+
 .dialog-footer button:first-child {
 	margin-right: 10px;
 }
+
 :global(h2#card-usage ~ .example .example-showcase) {
 	background-color: var(--el-fill-color) !important;
 }
@@ -1213,9 +1235,11 @@ export default {
 	justify-content: space-between;
 	align-items: center;
 }
+
 .el-dialog__header {
 	text-align: left;
 }
+
 .statistic-footer .footer-item span:last-child {
 	display: inline-flex;
 	align-items: center;

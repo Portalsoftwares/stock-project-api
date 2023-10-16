@@ -11,37 +11,44 @@
 				</el-input>
 			</div>
 		</div>
-		<div class="flex flex-col xl:flex-row">	
-		<div class="self-center">
-			<el-switch
-				v-model="is_show_trust"
-				@change="clickShowwTrush"
-				class="px-2"
-				width="40"
-				active-text="បង្ហាញទិន្នន័យបានលុប"
-				inactive-text=""
-				active-value="1"
-				inactive-value="0"
-			/>
-		</div>
-		<div class="self-center">
-			<el-button type="info">
-				<el-icon>
-					<Document />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+		<div class="flex flex-col xl:flex-row">
+			<div class="self-center">
+				<el-switch
+					v-model="is_show_trust"
+					@change="clickShowwTrush"
+					class="px-2"
+					width="40"
+					active-text="បង្ហាញទិន្នន័យបានលុប"
+					inactive-text=""
+					active-value="1"
+					inactive-value="0"
+				/>
+			</div>
+			<div class="self-center">
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
-			</el-button>
-			<el-button
-				type="primary"
-				@click="AddTime"
-			>
-				<el-icon>
-					<CirclePlusFilled />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> បន្ថែម</span>
-			</el-button>
-		</div>	
+				</el-button>
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+
+				</el-button>
+				<el-button
+					type="primary"
+					@click="AddTime"
+				>
+					<el-icon>
+						<CirclePlusFilled />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> បន្ថែម</span>
+				</el-button>
+			</div>
 		</div>
 	</div>
 	<div class="grid grid-cols-1 gap-2 ">
@@ -49,7 +56,7 @@
 			<div class="flex flex-col  ">
 				<el-table
 					:data="tableData.data"
-					height="750"
+					height="770"
 					style="width: 100%"
 					resizable="true"
 					header-cell-class-name="header-table-font-khmer text-md"
@@ -97,8 +104,6 @@
 						align="center"
 						label="សកម្មភាព"
 						min-width="180"
-						
-						
 					>
 						<template #default="scope">
 							<div v-if="is_show_trust==1 &&!loading">

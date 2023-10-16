@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('student', function (Blueprint $table) {
             $table->bigIncrements('student_id');
-            $table->string('sid');
+            $table->string('sid')->nullable();
             $table->string('first_name_kh');
             $table->string('last_name_kh');
             $table->string('full_name_kh');
@@ -24,11 +24,11 @@ return new class extends Migration
             $table->string('full_name_en');
             $table->date('date_of_birth');
             $table->integer('file_upload_id')->nullable();
-            $table->integer('gender_id');
-            $table->integer('status_id');
+            $table->integer('gender_id')->nullable();
+            $table->integer('status_id')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->string('place_of_birth')->nullable();
             $table->string('from_secondary_high_school')->nullable();
             $table->date('secondary_exam_date')->nullable();

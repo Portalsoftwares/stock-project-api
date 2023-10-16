@@ -5,101 +5,44 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>{{ }} {{ date('d m Y') }}</title>
+    <title>{{ $title }} {{ date('d m Y') }}</title>
 </head>
 
 <body>
-    {{-- Loop data transaction --}}
-    {{-- {{dd(count($data))}} --}}
-    @php($t = 1)
-    @foreach ($data as $key => $item)
+    <div>
+        @php($t = 1)
         <div class="container">
-            <div class="row border-bottom border-dark  pb-2">
-                <div class="col-12">
-                    <div class="container mb-2">
-                        <div class="row ">
-                            <div class="col-2 ">
-                                {{-- @if (!empty($preference->phone_other) && !empty($preference->phone) && !empty($preference->email) && !empty($preference->website))
-                                    <div class="box pt-7" width="100px">
-                                        <img src="{{ $preference->logo_url }}" width="100px" />
-                                    </div>
-                                @elseif(empty($preference->phone_other) && empty($preference->phone) && empty($preference->email) && empty($preference->website))
-                                    <div class="box pt-5" width="100px">
-                                        <img src="{{ $preference->logo_url }}" width="100px" />
-                                    </div>
-                                @elseif(empty($preference->phone_other) && !empty($preference->phone) && !empty($preference->email) && !empty($preference->website))
-                                    <div class="box pt-7" width="100px">
-                                        <img src="{{ $preference->logo_url }}" width="100px" />
-                                    </div>
-                                @elseif(!empty($preference->phone_other) && empty($preference->phone) && !empty($preference->email) && !empty($preference->website))
-                                    <div class="box pt-7" width="100px">
-                                        <img src="{{ $preference->logo_url }}" width="100px" />
-                                    </div>
-                                @else
-                                    <div class="box pt-6" width="100px">
-                                        <img src="{{ $preference->logo_url }}" width="100px" />
-                                    </div>
-                                @endif --}}
-                            </div>
-                            <div class=" col-10">
-                                <div class="row text-center">
-                                    <div class="col-12 text-center ">
-                                        <div class="pb-4" style="vertical-align: middle; margin-left: -110px">
-                                            <div class=" text-center">
-                                                <h1 class="font-muollight  font-16">
-                                                    {{-- {{ $preference->name_of_enterprise }} --}}
-                                                </h1>
-                                                <span class="font-roboto font-roboto-bold">
-                                                    {{-- {{ $preference->name_of_enterprise_other }} --}}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4 font-siemreap font-12 ">លេខអត្តសញ្ញាណកម្ម អតប (VAT-TIN)
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="vattin" style="vertical-align: middle; ">
-                                            {{-- @if (!empty($preference->tin))
-                                                @foreach (str_split($preference->tin) as $rows)
-                                                    <div class="{{ $rows == '-' ? 'tin-none' : 'tin' }} ">
-                                                        {{ $rows }}
-                                                    </div>
-                                                @endforeach
-                                            @endif --}}
-                                        </div>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="font-siemreap font-12 mt-1">អាសយដ្ឋាន:
-                                            {{-- {{ $preference->current_address }} --}}
-                                        </div>
-                                        <div class="font-roboto font-12 mt-1">Address:
-                                            {{-- {{ $preference->current_address_other }} --}}
-                                        </div>
-                                    </div>
-                                    <div class="col-12 mt-1">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="row  pb-2">
+                <div class="col-6">
+                    <div class="mt-2"> &nbsp;</div>
+                    <div class="font-siemreap font-12 ">មន្ទីរអប់រំ យុវជន និងកីឡាខេត្តសៀមរាប</div>
+                    <div class="font-siemreap font-12 mt-1">វិទ្យាល័យចំណេះទូទៅ និងបច្ចេកទេសពួក</div>
+                </div>
+                <div class="col-6 text-end ">
+                    <div class="col-12 text-center">
+                        <h1 class="font-muollight  font-15 pb-2 "> ព្រះរាជាណាចក្រកម្ពុជា</h1>
+                        <h1 class="font-muollight  font-15 pb-2 ">ជាតិ សាសនា ព្រះមហាក្សត្រ</h1>
+                        <h1 class="font-tacteing pb-2 " style="font-size: 40px">3</h1>
                     </div>
+
                 </div>
             </div>
-            @yield("body{$key}")
-        </div>
-        <htmlpagefooter name="invoiceFooter" class="text-center">
-            <div class="text-center font-roboto font-12">
-                Page {PAGENO} of {nbpg}
+            <div class="col-12 text-end">
+                @isset($data)
+                    <div class="font-siemreap font-12 ">ថ្នាក់ទី {{ $data }}</div>
+                @endisset
             </div>
-        </htmlpagefooter>
-        @if ($t < $data->count())
-            <pagebreak resetpagenum="1" pagenumstyle="nbpg" suppress="off" />
-        @endif
-        @php($t++)
-    @endforeach
+        </div>
+        @yield('body1')
+    </div>
+    {{-- <htmlpagefooter name="invoiceFooter" class="text-center">
+        <div class="text-center font-roboto font-12">
+            Page {PAGENO} of {nbpg}
+        </div>
+    </htmlpagefooter> --}}
+    {{-- <pagebreak resetpagenum="1" pagenumstyle="nbpg" suppress="off" /> --}}
+    @php($t++)
+    </div>
 </body>
 
 </html>
@@ -107,7 +50,7 @@
     @page {
         /* header: html_invoiceheader; */
         size: 21cm 29.7cm;
-        footer: html_invoiceFooter;
+        /* footer: html_invoiceFooter; */
         /* margin-header: 10mm; */
         margin-footer: 10mm;
         /* marks:crop;  */
@@ -180,6 +123,10 @@
 
     .font-muollight {
         font-family: "khmerosmuollight", sans-serif
+    }
+
+    .font-tacteing {
+        font-family: "khmertacteing", sans-serif
     }
 
     .font-roboto {

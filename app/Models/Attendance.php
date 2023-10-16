@@ -18,4 +18,8 @@ class Attendance extends Model
         'teacher_id',
         'date',
     ];
+    public function class()
+    {
+        return $this->hasOne(Classes::class, 'class_id', 'class_id');
+    }
 }

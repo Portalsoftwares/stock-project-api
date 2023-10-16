@@ -82,10 +82,11 @@
 							>របាយការណ៍</el-button>
 							<el-button
 								size="small"
+								type="primary"
 								class="sanfont-khmer"
 								@click="editExam(scope.row.score_type_id)"
 							>កែប្រែ</el-button>
-							<el-popconfirm
+							<!-- <el-popconfirm
 								width="220"
 								confirm-button-text="យល់ព្រម"
 								cancel-button-text="ទេ"
@@ -103,57 +104,13 @@
 									>លុប
 									</el-button>
 								</template>
-							</el-popconfirm>
+							</el-popconfirm> -->
 						</div>
 					</template>
 				</el-table-column>
 				<el-empty description="description"></el-empty>
 			</el-table>
 		</div>
-		<!-- <div class="grid grid-cols-4 gap-2 ">
-			<div
-				class="z-10 mt-1 overflow-hidden rounded bg-white shadow ring-1 ring-gray-900/5 "
-				v-for="data in subjectData"
-				:key="data"
-				@click="showInfomationScore(data.teacher_subject_in_class.subject)"
-			>
-				<div>
-					<div class="group relative flex items-center gap-x-6 rounded-lg p-3 text-sm leading-6 hover:bg-gray-50">
-						<div class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-							<svg
-								class="h-6 w-6 text-gray-600 group-hover:text-indigo-600"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z"
-								/>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z"
-								/>
-							</svg>
-						</div>
-						<div class="flex-auto text-left">
-							<a
-								href="#"
-								class="block font-semibold text-gray-900"
-							>
-								<span class="font-bold"><span class="text-xl font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span> </span>
-								<p class="mt-1 text-gray-600"> បង្រៀនដោយ {{ data.teacher_in_class.gender_id==1?'លោកគ្រូ':'អ្នកគ្រូ' }} : {{ data.teacher_in_class.full_name_kh}} </p>
-							</a>
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> -->
 	</div>
 	<!-- Dialog  Manage Attendance list All -->
 	<el-dialog
@@ -214,6 +171,13 @@
 				>
 					យល់ព្រម
 				</el-button>
+				<!-- <el-button
+					type="info"
+					class="sanfont-khmer mt-2 hiden"
+					@click="randomScoreAll()"
+				>
+					ទាញទិន្នន័យស្រាប់
+				</el-button> -->
 				<div>
 				</div>
 			</div>
@@ -223,7 +187,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100%"
+				style="width: 100% ; height: 680px;"
 				stripe
 				border
 			>
@@ -260,8 +224,8 @@
 					width="150"
 				>
 					<template #default="scope">
-						<span :style="'color:'+scope.row.student_in_class.status.color">
-							{{ scope.row.student_in_class.status.status_kh }}
+						<span :style="'color:'+scope.row.student_in_class?.status?.color">
+							{{ scope.row.student_in_class?.status?.status_kh }}
 						</span>
 					</template>
 				</el-table-column>
@@ -375,7 +339,7 @@
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
 				row-class-name="sanfont-khmer"
-				style="width: 100%"
+				style="width: 100% ; height: 580px;"
 				stripe
 				border
 			>
@@ -412,8 +376,8 @@
 					width="150"
 				>
 					<template #default="scope">
-						<span :style="'color:'+scope.row.student_in_class.status.color">
-							{{ scope.row.student_in_class.status.status_kh }}
+						<span :style="'color:'+scope.row.student_in_class?.status?.color">
+							{{ scope.row.student_in_class?.status?.status_kh }}
 						</span>
 					</template>
 				</el-table-column>
@@ -425,7 +389,8 @@
 				>
 					<template #default="scope">
 						<div class="text-center items-center w-full">
-							<span>{{  scope.row.mark_total }}</span>
+							<span v-if="scope.row.mark_total!=0 && scope.row.mark_total!=null">{{  scope.row.mark_total }}</span>
+							<span v-else>--</span>
 						</div>
 					</template>
 				</el-table-column>
@@ -489,21 +454,23 @@
 					> បោះបង់</el-button>
 					<el-button
 						type="primary"
-						class="sanfont-khmer"
-						@click="collectScore()"
-						v-loading.fullscreen.lock="fullscreenLoading"
-					>
-						បោះពុម្ភ
-					</el-button>
-
-					<el-button
-						type="info"
 						@click="exportPDF"
+						v-loading.fullscreen.lock="fullscreenLoading"
 					>
 						<el-icon>
 							<Document />
 						</el-icon>
 						<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+					</el-button>
+					<el-button
+						type="primary"
+						@click="exportEXCEL"
+						v-loading.fullscreen.lock="fullscreenLoading"
+					>
+						<el-icon>
+							<Document />
+						</el-icon>
+						<span class="mx-1 sanfont-khmer"> ទាញ EXCEL</span>
 					</el-button>
 				</div>
 			</div>
@@ -574,7 +541,10 @@ export default {
 			report_total_low_women: 0,
 			report_total_less_women: 0,
 			//exam
-			tableData: []
+			tableData: [],
+			academic: [],
+			exam: [],
+			is_random: 0
 		}
 	},
 	mounted() {
@@ -591,7 +561,8 @@ export default {
 				}
 			)
 				.then(() => {
-					this.dialogFormVisibleAll = false
+					this.dialogFormVisibleAll = false;
+					this.dialogFormVisibleReports = false
 					this.studentCallAttendance = [];
 					this.ruleForm.class_id = null
 					this.ruleForm.score_type_id = null
@@ -621,6 +592,11 @@ export default {
 		formatDate(data) {
 			return moment(new Date(data)).format("DD-MM-YYYY");
 		},
+		randomScoreAll() {
+			this.is_random = 1;
+			this.showInfomationStudentScoreAll();
+			this.is_random = 0;
+		},
 
 		async showInfomationStudentScoreAll() {
 			this.loading_score = true;
@@ -628,6 +604,7 @@ export default {
 			const scoreInfo = {
 				'class_id': this.ruleForm.class_id,
 				'score_type_id': this.ruleForm.score_type_id,
+				'is_random': this.is_random,
 			}
 			const config = {
 				headers: { 'content-type': 'application/json' }
@@ -661,12 +638,21 @@ export default {
 				this.studentObj = response.data.student;
 				this.scoreTypeObj = response.data.score_type;
 				this.subjectDataSore = this.subjectData;
-				// this.dialogFormVisibleAll = true;
-				this.loading_score = false;
 				this.getExam();
 				this.showInfomationStudentScoreAll();
+				this.loading_score = false;
+				this.$notify.success({
+					title: 'រួចរាល់',
+					message: 'បញ្ចូលពិន្ទុបានជោគជ័យ ',
+					showClose: true
+				});
 
 			}).catch((error) => {
+				this.$notify.error({
+					title: 'កំហុស',
+					message: 'បញ្ចូលពិន្ទុមិនបានជោគជ័យទេ ',
+					showClose: true
+				});
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
@@ -694,6 +680,8 @@ export default {
 				headers: { 'content-type': 'application/json' }
 			}
 			await axios.post('/score/collect/report/' + class_id, scoreInfo, config).then(response => {
+				this.academic = response.data.academic;
+				this.exam = response.data.exam;
 				this.studentObj = response.data.student;
 				this.scoreTypeObj = response.data.score_type;
 
@@ -716,26 +704,8 @@ export default {
 				this.loading_report = false;
 
 			}).catch((error) => {
-				if (error.response.status == 401) {
-					this.$store.commit("auth/CLEAR_TOKEN")
-				}
-			})
-		},
+				this.loading_report = false;
 
-		async exportPDF() {
-			const config = {
-				headers: {
-					'content-type': 'application/json',
-					'responseType': 'blob'
-				}
-			}
-			const class_id = this.$route.query.id;
-
-			await axios.post('/score/report/' + class_id + '/export', config).then(response => {
-				// response.data is a blob type
-				// FileSaver.saveAs(response.data, 'user');
-
-			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
@@ -759,8 +729,119 @@ export default {
 		reportExam(id) {
 			this.ruleFormReport.score_type_id = id;
 			this.showInfomationStudentScoreReport();
+		},
+		async exportPDF() {
+			const config = {
+				headers: {
+					'Content-Type':
+						'multipart/form-data; charset=utf-8; boundary=' +
+						Math.random().toString().substr(2),
+				},
+				withCredentials: false,
+				responseType: 'arraybuffer',//important Thanks bong well noted save my life 🙏 
+			}
+			var studentDataPDF = []
+			this.studentObj.forEach((data) => {
+				let objStudent = {
+					"mark_total": data.mark_total ?? '-',
+					"mark_avg": data.mark_avg ?? '-',
+					"mark_rank_text": data.mark_rank_text ?? '-',
+					"mark_rank": data.mark_rank ?? '-',
+					"student_name": data.student_in_class?.full_name_kh,
+				}
+				studentDataPDF.push(objStudent)
+			});
 
-		}
+
+			const dataObj = {
+				'data': {
+					'data': studentDataPDF,
+					'report_total_student': this.report_total_student,
+					'report_total_good': this.report_total_good,
+					'report_total_ok': this.report_total_ok,
+					'report_total_medium': this.report_total_medium,
+					'report_total_low': this.report_total_low,
+					'report_total_less': this.report_total_less,
+
+					'report_total_student_women': this.report_total_student_women,
+					'report_total_good_women': this.report_total_good_women,
+					'report_total_ok_women': this.report_total_ok_women,
+					'report_total_medium_women': this.report_total_medium_women,
+					'report_total_low_women': this.report_total_low_women,
+					'report_total_less_women': this.report_total_less_women,
+				},
+				'option': {
+					'class': this.classData.class_name,
+					'exam': this.exam,
+					'academic': this.academic,
+				}
+			}
+			const class_id = this.$route.query.id;
+
+			await axios.post('/score/report/' + class_id + '/export', dataObj, config).then(response => {
+				let blob = new Blob([response.data], { type: 'application/pdf', }),
+					url = window.URL.createObjectURL(blob);
+				const newOpen = window.open(url);
+
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		async exportEXCEL() {
+			const config = {
+				headers: {
+					'Content-Type': 'applicaton/json',
+				},
+				responseType: 'blob'
+			}
+			var studentDataPDF = []
+			this.studentObj.forEach((data) => {
+				let objStudent = {
+					"mark_total": data.mark_total ?? '-',
+					"mark_avg": data.mark_avg ?? '-',
+					"mark_rank_text": data.mark_rank_text ?? '-',
+					"mark_rank": data.mark_rank ?? '-',
+					"student_name": data.student_in_class?.full_name_kh,
+				}
+				studentDataPDF.push(objStudent)
+			});
+
+
+			const dataObj = {
+				'data': {
+					'data': studentDataPDF,
+					'report_total_student': this.report_total_student,
+					'report_total_good': this.report_total_good,
+					'report_total_ok': this.report_total_ok,
+					'report_total_medium': this.report_total_medium,
+					'report_total_low': this.report_total_low,
+					'report_total_less': this.report_total_less,
+
+					'report_total_student_women': this.report_total_student_women,
+					'report_total_good_women': this.report_total_good_women,
+					'report_total_ok_women': this.report_total_ok_women,
+					'report_total_medium_women': this.report_total_medium_women,
+					'report_total_low_women': this.report_total_low_women,
+					'report_total_less_women': this.report_total_less_women,
+				},
+				'option': {
+					'class': this.classData.class_name,
+					'exam': this.exam,
+					'academic': this.academic,
+				}
+			}
+			const class_id = this.$route.query.id;
+
+			await axios.post('/score/report/' + class_id + '/export-excel', dataObj, config).then(response => {
+				FileSaver.saveAs(response.data, 'report_score');
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
 	}
 }
 </script>

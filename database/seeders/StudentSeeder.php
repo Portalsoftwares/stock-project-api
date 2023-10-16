@@ -137,7 +137,7 @@ class StudentSeeder extends Seeder
         );
         Student::create(
             [
-                'sid' => 'PK-S0005',
+                'sid' => 'PK-S0006',
                 'full_name_kh' => 'ម៉ាប់ ពិរុណ',
                 'full_name_en' => 'Mab Piron',
                 'first_name_kh' => 'ម៉ាប់ ',
@@ -157,7 +157,7 @@ class StudentSeeder extends Seeder
         );
         Student::create(
             [
-                'sid' => 'PK-S0005',
+                'sid' => 'PK-S0007',
                 'full_name_kh' => 'ឡាយ សារឿន',
                 'full_name_en' => 'Lay Saroeun',
                 'first_name_kh' => 'ឡាយ ',
@@ -177,7 +177,7 @@ class StudentSeeder extends Seeder
         );
         Student::create(
             [
-                'sid' => 'PK-S0005',
+                'sid' => 'PK-S0008',
                 'full_name_kh' => 'លំអង ឡុង',
                 'full_name_en' => 'Lomong Long',
                 'first_name_kh' => 'លំអង',
@@ -197,7 +197,7 @@ class StudentSeeder extends Seeder
         );
         Student::create(
             [
-                'sid' => 'PK-S0005',
+                'sid' => 'PK-S0009',
                 'full_name_kh' => 'ឯក សារិទ្ធ',
                 'full_name_en' => 'Ek Sarith',
                 'first_name_kh' => 'ឯក',
@@ -217,15 +217,295 @@ class StudentSeeder extends Seeder
         );
         Student::create(
             [
-                'sid' => 'PK-S0005',
-                'full_name_kh' => 'សន ដាវ់ាន់',
-                'full_name_en' => 'Sorn Davann',
-                'first_name_kh' => 'សន',
-                'last_name_kh' => 'ដាវ់ាន់',
-                'first_name_en' => 'Sorn',
-                'last_name_en' => 'Davann',
+                'sid' => 'PK-S0010',
+                'full_name_kh' => 'សោន សៀវផាច',
+                'full_name_en' => 'san sievpatch',
+                'first_name_kh' => 'សោន',
+                'last_name_kh' => 'សៀវផាច',
+                'first_name_en' => 'san',
+                'last_name_en' => 'sievpatch',
                 'date_of_birth' => '2003-01-01',
                 'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'មាស ឆាយ៉ា',
+                'full_name_en' => 'Meas Chariya',
+                'first_name_kh' => 'មាស',
+                'last_name_kh' => 'ឆាយ៉ា',
+                'first_name_en' => 'Meas',
+                'last_name_en' => 'Chariya',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'ផុន រិតសាក',
+                'full_name_en' => 'Phon Rithisak',
+                'first_name_kh' => 'ផុន',
+                'last_name_kh' => 'រិតសាក',
+                'first_name_en' => 'Phon',
+                'last_name_en' => 'Rithisak',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'អុក សារីន',
+                'full_name_en' => 'Ok Samrin',
+                'first_name_kh' => 'អុក',
+                'last_name_kh' => 'សារីន',
+                'first_name_en' => 'Ok',
+                'last_name_en' => 'Samrin',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'ហេង បូណា',
+                'full_name_en' => 'Heang Bona',
+                'first_name_kh' => 'ហេង',
+                'last_name_kh' => 'បូណា',
+                'first_name_en' => 'Heang',
+                'last_name_en' => 'Bona',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'អីវ ដារានី',
+                'full_name_en' => 'Iv Darany',
+                'first_name_kh' => 'មាស',
+                'last_name_kh' => 'ឆាយ៉ា',
+                'first_name_en' => 'Iv',
+                'last_name_en' => 'Darany',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'នោន សុធារិត',
+                'full_name_en' => 'Nourn Sotearith',
+                'first_name_kh' => 'នោន',
+                'last_name_kh' => 'សុធារិត',
+                'first_name_en' => 'Nourn',
+                'last_name_en' => 'Sotearith',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'សង់ ចក្រា',
+                'full_name_en' => 'Song Chakra',
+                'first_name_kh' => 'មាស',
+                'last_name_kh' => 'ឆាយ៉ា',
+                'first_name_en' => 'Song',
+                'last_name_en' => 'Chakra',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'ចិន រតនា',
+                'full_name_en' => 'Chin Rotha',
+                'first_name_kh' => 'ចិន',
+                'last_name_kh' => 'រតនា',
+                'first_name_en' => 'Chin',
+                'last_name_en' => 'Rotha',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "1",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'សាន ភក្ដី',
+                'full_name_en' => 'San Pheakkley',
+                'first_name_kh' => 'សាន',
+                'last_name_kh' => 'ភក្ដី',
+                'first_name_en' => 'San',
+                'last_name_en' => 'Pheakkley',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "2",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'រស់ ដាវី',
+                'full_name_en' => 'Rous Daevy',
+                'first_name_kh' => 'រស់',
+                'last_name_kh' => 'ដាវី',
+                'first_name_en' => 'Rous',
+                'last_name_en' => 'Daevy',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "2",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'សម វាសនា',
+                'full_name_en' => 'Som Veasna',
+                'first_name_kh' => 'សម',
+                'last_name_kh' => 'វាសនា',
+                'first_name_en' => 'Som',
+                'last_name_en' => 'Veasna',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "2",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'សៀង សុជាតិ',
+                'full_name_en' => 'Sieng Socheat',
+                'first_name_kh' => 'សៀង',
+                'last_name_kh' => 'សុជាតិ',
+                'first_name_en' => 'Sieng',
+                'last_name_en' => 'Socheat',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "2",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'ម៉េង សុរិយា',
+                'full_name_en' => 'Meng Sorya',
+                'first_name_kh' => 'ម៉េង',
+                'last_name_kh' => 'សុរិយា',
+                'first_name_en' => 'Meng',
+                'last_name_en' => 'Sorya',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "2",
+                'place_of_birth' => "siem reap",
+                'address' => "siem reap",
+                'status_id' => "1",
+                'file_upload_id' => "20",
+                'phone' => "08765432345",
+                'email' => "Davann@gmail.com",
+                'other' => ''
+            ]
+        );
+        Student::create(
+            [
+                'sid' => 'PK-S0011',
+                'full_name_kh' => 'ឈៀន រំចង់',
+                'full_name_en' => 'Choem Roumjong',
+                'first_name_kh' => 'ឈៀន',
+                'last_name_kh' => 'រំចង់',
+                'first_name_en' => 'Choem',
+                'last_name_en' => 'Roumjong',
+                'date_of_birth' => '2003-01-01',
+                'gender_id' =>  "2",
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",

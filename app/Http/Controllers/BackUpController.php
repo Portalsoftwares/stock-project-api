@@ -12,7 +12,7 @@ class BackUpController extends Controller
 {
     public function index(Request $request)
     {
-        $items = Backup::all();
+        $items = Backup::OrderBy('date', 'DESC')->get();
 
         return response()->json(['data' => $items]);
     }

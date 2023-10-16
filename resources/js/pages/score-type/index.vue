@@ -42,6 +42,13 @@
 								<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
 							</el-button>
+							<el-button type="info">
+								<el-icon>
+									<Document />
+								</el-icon>
+								<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+
+							</el-button>
 							<el-button
 								type="primary"
 								@click="AddScoreType"
@@ -59,7 +66,7 @@
 						<div class="flex flex-col  ">
 							<el-table
 								:data="tableData.data"
-								height="720"
+								height="700"
 								style="width: 100%"
 								resizable="true"
 								header-cell-class-name="header-table-font-khmer text-md"
@@ -225,7 +232,7 @@
 						<div class="flex flex-col  ">
 							<el-table
 								:data="tableDataAcademic.data"
-								height="720"
+								height="700"
 								style="width: 100%"
 								resizable="true"
 								header-cell-class-name="header-table-font-khmer text-md"
@@ -385,32 +392,32 @@
 			ref="ruleForm"
 			id="fm"
 		>
-							<el-form-item
-								label="ឈ្មោះ"
-								prop="name"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-input
-									v-model="ruleForm.name"
-									name="name"
-									style="width: 220px;"
-									clearable
-								></el-input>
-							</el-form-item>
-						
-							<el-form-item
-								label="កាលបរិច្ជេទ"
-								prop="date"
-								class="sanfont-khmer"
-								:label-width="formLabelWidth"
-							>
-								<el-date-picker
-									v-model="ruleForm.date"
-									name="date"
-								/>
-							</el-form-item>
-						
+			<el-form-item
+				label="ឈ្មោះ"
+				prop="name"
+				class="sanfont-khmer"
+				:label-width="formLabelWidth"
+			>
+				<el-input
+					v-model="ruleForm.name"
+					name="name"
+					style="width: 220px;"
+					clearable
+				></el-input>
+			</el-form-item>
+
+			<el-form-item
+				label="កាលបរិច្ជេទ"
+				prop="date"
+				class="sanfont-khmer"
+				:label-width="formLabelWidth"
+			>
+				<el-date-picker
+					v-model="ruleForm.date"
+					name="date"
+				/>
+			</el-form-item>
+
 		</el-form>
 
 		<template #footer>

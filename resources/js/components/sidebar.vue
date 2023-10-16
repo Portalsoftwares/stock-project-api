@@ -10,6 +10,7 @@
 		>
 			<div class="flex flex-col justify-between h-[100vh] w-full bg-blue-900 ">
 				<div class="menu-man text-left  whitespace-nowrap flex flex-col space-y-2 ">
+					<!-- https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MoEYS_%28Cambodia%29.svg/1518px-MoEYS_%28Cambodia%29.svg.png -->
 					<div
 						class="profile flex justify-center items-center text-center "
 						v-show="!dataSibar"
@@ -20,7 +21,7 @@
 						>
 
 							<img
-								src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
+								src="https://moeys.gov.kh/moeys%20100x100.png"
 								class="p-1 w-[50px] h-[50px] "
 								alt="Avatar"
 							/>
@@ -36,7 +37,7 @@
 						>
 
 							<img
-								src="https://apis.edu.kh/wp-content/uploads/2021/06/moeys-news.png"
+								src="https://moeys.gov.kh/moeys%20100x100.png"
 								class="p-1 w-24 h-24"
 								alt="Avatar"
 							/>
@@ -349,7 +350,7 @@
 							<span
 								v-show="dataSibar"
 								class="sanfont-khmer text-sm"
-							> បង្កើតដោយ @ 2023 BIT14</span>
+							> បង្កើតដោយ @2023 USEA-IT14</span>
 						</div>
 					</div>
 				</div>

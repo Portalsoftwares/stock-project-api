@@ -17,39 +17,42 @@
 			</div>
 		</div>
 
-	<div class="flex flex-col space-y-2 xl:flex-row  xl:space-y-0">
-		<div class="self-center  flex space-x-3">
-			<el-button type="info">
-				<el-icon>
-					<Document />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
-			</el-button>
-			<div>
-				<!-- Use this <div> for space-x-2 work -->
+		<div class="flex flex-col space-x-2 space-y-2 xl:flex-row  xl:space-y-0">
+			<div class="self-center  flex space-x-3">
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+				</el-button>
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+				</el-button>
 			</div>
-		</div>	
-		<div class="self-center ">
-			<el-button
-				type="primary"
-				@click="AddStudentToClass"
-			>
-				<el-icon>
-					<CirclePlusFilled />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> បន្ថែមសិស្សក្នុងថ្នាក់</span>
-			</el-button>
-			<el-button
-				type="primary"
-				class="sanfont-khmer"
-				@click="addStudent()"
-			>
-				<el-icon>
-					<CirclePlusFilled />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer">បង្កើតសិស្សថ្មី</span>
-			</el-button>
-		</div>
+			<div class="self-center ">
+				<el-button
+					type="primary"
+					@click="AddStudentToClass"
+				>
+					<el-icon>
+						<CirclePlusFilled />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> បន្ថែមសិស្សក្នុងថ្នាក់</span>
+				</el-button>
+				<el-button
+					type="primary"
+					class="sanfont-khmer"
+					@click="addStudent()"
+				>
+					<el-icon>
+						<CirclePlusFilled />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer">បង្កើតសិស្សថ្មី</span>
+				</el-button>
+			</div>
 		</div>
 	</div>
 
@@ -97,7 +100,7 @@
 		<el-table-column label="ឈ្មោះភាសាខ្មែរ">
 			<template #default="scope">
 				<span>
-					{{ scope.row.student_in_class.first_name_kh }} {{ scope.row.student_in_class.last_name_kh }}
+					{{ scope.row.student_in_class.full_name_kh }}
 				</span>
 			</template>
 		</el-table-column>
@@ -105,7 +108,7 @@
 		<el-table-column label="ឈ្មោះឡាតាំង">
 			<template #default="scope">
 				<span>
-					{{ scope.row.student_in_class.first_name_en }} {{ scope.row.student_in_class.last_name_en }}
+					{{ scope.row.student_in_class.full_name_en }}
 				</span>
 			</template>
 		</el-table-column>
@@ -534,12 +537,12 @@
 									<div>
 										<el-form-item
 											label="ទីកន្លែងកំណើត"
-											prop="address"
+											prop="birthAddress"
 											class="sanfont-khmer"
 											:label-width="formLabelWidth"
 										>
 											<el-input
-												v-model="ruleForm.birsthAddress"
+												v-model="ruleForm.birthAddress"
 												autocomplete="off"
 												name="place_of_birth"
 												clearable
@@ -836,6 +839,7 @@ export default {
 				student_id: null,
 				genderValue: null,
 				dobValue: null,
+				birthAddress: null,
 				address: null,
 				phoneNum: null,
 				studentOtherText: null,
@@ -893,7 +897,7 @@ export default {
 					{ required: true, message: 'សូមបញ្ជូលស្ថានភាព', trigger: 'blur' },
 				],
 
-				address: [
+				birthAddress: [
 					{ required: true, message: 'សូមបញ្ជូលអាស័យដ្ឋាន', trigger: 'blur' },
 
 				],

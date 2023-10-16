@@ -1,102 +1,106 @@
 <template>
 	<div class="bg-white p-2 w-full border justify-between rounded-t xl:flex xl:flex-row">
-		<div class="flex  flex-col 2xl:flex  2xl:flex-row  ">
-		<div class="flex space-x-2 ">
-			<div class="self-center pr-2">
-				<el-input
-					placeholder="ស្វែងរក"
-					class="sanfont-khmer"
-					v-model="search"
-					@input="clickSearch"
-				>
-				</el-input>
-			</div>
-			
-		</div>
-		<div class="flex space-y-2  2xl:space-y-0 ">	
-			<div>
-				<!-- Use this <div> for space-y-2 work -->
-			</div>
-			
-			<div class="self-center ">
-				<el-select
-					v-model="filterSelectValue "
-					filterable
-					clearable
-					multiple
-					placeholder="សិស្សនៃកម្រិត"
-					
-				>
-					<el-option
-						v-for="item in filter"
-						:key="item.filterValue"
-						:label="item.filterLabel"
-						:value="item.filterValue"
+		<div class="flex  flex-col space-y-2  ">
+			<div class="flex space-x-2 ">
+				<div class="self-center pr-2">
+					<el-input
+						placeholder="ស្វែងរក"
+						class="sanfont-khmer"
+						v-model="search"
+						@input="clickSearch"
 					>
-					</el-option>
-				</el-select>
-			</div>
+					</el-input>
+				</div>
 
-			<div class="flex space-x-2 "> 
-			<div class="self-center pl-2">
-				<el-select
-					v-model="academicSelectValue"
-					filterable
-					clearable
-					placeholder="ឆ្នាំសិក្សា"
-					
-				>
-					<el-option
-						v-for="item in academic"
-						:key="item.filterValue"
-						:label="item.filterLabel"
-						:value="item.filterValue"
+			</div>
+			<div class="flex space-y-2  2xl:space-y-0 ">
+				<div class="self-center ">
+					<el-select
+						v-model="filterSelectValue "
+						filterable
+						clearable
+						multiple
+						placeholder="សិស្សនៃកម្រិត"
 					>
-					</el-option>
-				</el-select>
+						<el-option
+							v-for="item in filter"
+							:key="item.filterValue"
+							:label="item.filterLabel"
+							:value="item.filterValue"
+						>
+						</el-option>
+					</el-select>
+				</div>
+
+				<div class="flex space-x-2 ">
+					<div class="self-center pl-2">
+						<el-select
+							v-model="academicSelectValue"
+							filterable
+							clearable
+							placeholder="ឆ្នាំសិក្សា"
+						>
+							<el-option
+								v-for="item in academic"
+								:key="item.filterValue"
+								:label="item.filterLabel"
+								:value="item.filterValue"
+							>
+							</el-option>
+						</el-select>
+					</div>
+					<div class="self-center">
+						<el-button type="primary">
+							<el-icon>
+								<Search />
+							</el-icon>
+						</el-button>
+					</div>
+				</div>
 			</div>
-			<div class="self-center">
-			<el-button type="primary" >
-				<el-icon >
-					<Search />
-				</el-icon>
-			</el-button>
-			</div>
-			</div>
-		</div>
 		</div>
 
-		<div class="flex flex-col  3xl:flex-row ">
-		<div class="self-center flex ">
-			<el-switch
-				v-model="is_show_trust"
-				@change="clickShowwTrush"
-				class="px-2"
-				width="40"
-				active-text="បង្ហាញទិន្នន័យបានលុប"
-				inactive-text=""
-				active-value="1"
-				inactive-value="0"
-			/>
-		</div>
+		<div class="flex flex-col  3xl:flex-row space-y-2 ">
+			<div class="self-center flex ">
+				<el-switch
+					v-model="is_show_trust"
+					@change="clickShowwTrush"
+					class="px-2"
+					width="40"
+					active-text="បង្ហាញទិន្នន័យបានលុប"
+					inactive-text=""
+					active-value="1"
+					inactive-value="0"
+				/>
+			</div>
 			<div class="self-center ">
-			<el-button type="info" style="width:111px">
-				<el-icon>
-					<Document />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
+				<el-button
+					type="info"
+					style="width:111px"
+				>
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
-			</el-button>
-			<el-button
-				type="primary"
-				@click="addStudent"
-			>
-				<el-icon>
-					<CirclePlusFilled />
-				</el-icon>
-				<span class="mx-1 sanfont-khmer"> បន្ថែមសិស្ស</span>
-			</el-button>
-		</div>	
+				</el-button>
+				<el-button type="info">
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+
+				</el-button>
+				<el-button
+					type="primary"
+					@click="addStudent"
+				>
+					<el-icon>
+						<CirclePlusFilled />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> បន្ថែមសិស្ស</span>
+				</el-button>
+			</div>
 		</div>
 	</div>
 	<div class="grid grid-cols-1 gap-2 ">
@@ -105,7 +109,7 @@
 				<!-- {{ tableData }} -->
 				<el-table
 					:data="tableData.data"
-					height="750"
+					height="730"
 					style="width: 100%"
 					resizable="true"
 					header-cell-class-name="header-table-font-khmer text-md"
@@ -191,7 +195,7 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត" >
+					<el-table-column label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត">
 						<template #default="scope">
 							<div>
 								{{ scope.row.date_of_birth}}
@@ -292,7 +296,7 @@
 		v-model="dialogFormVisible"
 		title="ព័ត៌មានសិស្ស"
 		class="sanfont-khmer "
-		width="63%"
+		width="50%"
 		align-center="true"
 		draggable
 	>
@@ -313,292 +317,292 @@
 				style="height: 650px; overflow: auto;"
 			>
 				<el-tab-pane label="ព័ត៌មានទូទៅ">
-					
-						<div class="flex flex-col w-full">
-							<div class="xl:flex xl:flex-row ">
-								<div class="flex flex-col space-y-1">
-									<div>
 
-										<el-form-item
-											label="នាមត្រកូល (ខ្មែរ)"
-											prop="firstNameKh"
-											class="sanfont-khmer "
-											:label-width="formLabelWidth"
-										>
-											<el-input
-												v-model="ruleForm.firstNameKh"
-												name="first_name_kh"
-												clearable
-											></el-input>
-										</el-form-item>
-									</div>
-									<div>
-										<el-form-item
-											label="នាមខ្លួន (ខ្មែរ)"
-											prop="LastNameKh"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
-											<el-input
-												v-model="ruleForm.LastNameKh"
-												name="last_name_kh"
-												clearable
-											></el-input>
-										</el-form-item>
-									</div>
-									<div>
-										<el-form-item
-											label="នាមពេញ (ខ្មែរ)"
-											prop="fullNameKh"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
-											<el-input
-												v-model="ruleForm.fullNameKh"
-												name="full_name_kh"
-												clearable
-											></el-input>
-										</el-form-item>
-									</div>
-									<div>
-										<el-form-item
-											label="នាមត្រកូល(អង់គ្លេស)"
-											prop="firstNameEng"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
-											<el-input
-												v-model="ruleForm.firstNameEng"
-												name="first_name_en"
-												clearable
-											></el-input>
-										</el-form-item>
-									</div>
-									<div>
-										<el-form-item
-											label="នាមខ្លួន (អង់គ្លេស)"
-											prop="LastNameEng"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
-											<el-input
-												v-model="ruleForm.LastNameEng"
-												name="last_name_en"
-												clearable
-											></el-input>
-										</el-form-item>
-									</div>
-									<div>
-										<el-form-item
-											label="នាមពេញ (អង់គ្លេស)"
-											prop="fullNameEng"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
-											<el-input
-												v-model="ruleForm.fullNameEng"
-												name="full_name_en"
-												clearable
-											></el-input>
-										</el-form-item>
-									</div>
-									<div>
-										<el-form-item
-											label="អត្តលេខ"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
-											<el-input
-												v-model="ruleForm.IDn"
-												autocomplete="off"
-												name="sid"
-												clearable
-											/>
-										</el-form-item>
-									</div>
-									<div>
-										<el-form-item
-											label="ភេទ"
-											prop="gender"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
+					<div class="flex flex-col w-full">
+						<div class="xl:flex xl:flex-row ">
+							<div class="flex flex-col space-y-1">
+								<div>
 
-											<el-select
-												v-model="ruleForm.genderValue"
-												placeholder="ជ្រើសរើស"
-												value-key="value"
+									<el-form-item
+										label="នាមត្រកូល (ខ្មែរ)"
+										prop="firstNameKh"
+										class="sanfont-khmer "
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.firstNameKh"
+											name="first_name_kh"
+											clearable
+										></el-input>
+									</el-form-item>
+								</div>
+								<div>
+									<el-form-item
+										label="នាមខ្លួន (ខ្មែរ)"
+										prop="LastNameKh"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.LastNameKh"
+											name="last_name_kh"
+											clearable
+										></el-input>
+									</el-form-item>
+								</div>
+								<div>
+									<el-form-item
+										label="នាមពេញ (ខ្មែរ)"
+										prop="fullNameKh"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.fullNameKh"
+											name="full_name_kh"
+											clearable
+										></el-input>
+									</el-form-item>
+								</div>
+								<div>
+									<el-form-item
+										label="នាមត្រកូល(អង់គ្លេស)"
+										prop="firstNameEng"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.firstNameEng"
+											name="first_name_en"
+											clearable
+										></el-input>
+									</el-form-item>
+								</div>
+								<div>
+									<el-form-item
+										label="នាមខ្លួន (អង់គ្លេស)"
+										prop="LastNameEng"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.LastNameEng"
+											name="last_name_en"
+											clearable
+										></el-input>
+									</el-form-item>
+								</div>
+								<div>
+									<el-form-item
+										label="នាមពេញ (អង់គ្លេស)"
+										prop="fullNameEng"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.fullNameEng"
+											name="full_name_en"
+											clearable
+										></el-input>
+									</el-form-item>
+								</div>
+								<div>
+									<el-form-item
+										label="អត្តលេខ"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.IDn"
+											autocomplete="off"
+											name="sid"
+											clearable
+										/>
+									</el-form-item>
+								</div>
+								<div>
+									<el-form-item
+										label="ភេទ"
+										prop="gender"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+
+										<el-select
+											v-model="ruleForm.genderValue"
+											placeholder="ជ្រើសរើស"
+											value-key="value"
+										>
+											<el-option
+												v-for="item in gender"
+												:key="item"
+												:value-key="item"
+												:label="item.gender_name_kh"
+												:value="item.gender_id"
 											>
-												<el-option
-													v-for="item in gender"
-													:key="item"
-													:value-key="item"
-													:label="item.gender_name_kh"
-													:value="item.gender_id"
-												>
 
-												</el-option>
-											</el-select>
-										</el-form-item>
-									</div>
+											</el-option>
+										</el-select>
+									</el-form-item>
+								</div>
 
-									<div>
-										<el-form-item
-											label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត"
-											prop="dobValue"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
+								<div>
+									<el-form-item
+										label="ថ្ងៃ/ខែ/ឆ្នាំកំណើត"
+										prop="dobValue"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+										name="date_of_birth"
+									>
+										<el-date-picker
+											v-model="ruleForm.dobValue"
+											type="date"
 											name="date_of_birth"
 										>
-											<el-date-picker
-												v-model="ruleForm.dobValue"
-												type="date"
-												name="date_of_birth"
-											>
-											</el-date-picker>
-										</el-form-item>
-									</div>
-									<div>
-										<el-form-item
-											label="ទីកន្លែងកំណើត"
-											prop="address"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
-											<el-input
-												v-model="ruleForm.birsthAddress"
-												autocomplete="off"
-												name="place_of_birth"
-												clearable
-											/>
-										</el-form-item>
-									</div>
-
-									<div>
-										<el-form-item
-											label="អាស័យដ្ឋានបច្ចុប្បន្ន"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
-											<el-input
-												v-model="ruleForm.address"
-												autocomplete="off"
-												name="address"
-												clearable
-											/>
-										</el-form-item>
-									</div>
-
+										</el-date-picker>
+									</el-form-item>
 								</div>
-								<div class="flex flex-col space-y-1">
-									<div>
-										<el-form-item
-											label="រូបភាព"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
-											<div>
-												<el-upload
-													class="avatar-uploader"
-													action="#"
-													name="file"
-													:show-file-list="true"
-													:auto-upload="false"
-													:on-change="handleAvatarSuccess"
-													:before-upload="beforeAvatarUpload"
-												>
-													<img
-														v-if="imageUrl"
-														:src="imageUrl"
-														class="avatar 	object-contain "
-													>
-													<i
-														v-else
-														class="el-icon-plus avatar-uploader-icon"
-													></i>
-												</el-upload>
-												<input
-													type="hidden"
-													name="file_upload_id"
-													v-model="ruleForm.file_upload_id"
-												>
-											</div>
-										</el-form-item>
-									</div>
+								<div>
+									<el-form-item
+										label="ទីកន្លែងកំណើត"
+										prop="birthAddress"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.birthAddress"
+											autocomplete="off"
+											name="place_of_birth"
+											clearable
+										/>
+									</el-form-item>
+								</div>
 
-									<div>
-										<el-form-item
-											label="លេខទូរស័ព្ទ"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
-											<el-input
-												v-model="ruleForm.phoneNum"
-												autocomplete="off"
-												type="number"
-												name="phone"
-												clearable
-											/>
-										</el-form-item>
-									</div>
-									<div>
-										<el-form-item
-											label="សារអេឡិចត្រូនិច"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
-											<el-input
-												v-model="ruleForm.email"
-												autocomplete="off"
-												name="email"
-												clearable
-											/>
-										</el-form-item>
-									</div>
+								<div>
+									<el-form-item
+										label="អាសយដ្ឋានបច្ចុប្បន្ន"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.address"
+											autocomplete="off"
+											name="address"
+											clearable
+										/>
+									</el-form-item>
+								</div>
 
-									<div>
-										<el-form-item
-											label="ស្ថានភាព"
-											prop="status"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
-											<el-select
-												v-model="ruleForm.statusValue"
-												placeholder="ជ្រើសរើស"
+							</div>
+							<div class="flex flex-col space-y-1">
+								<div>
+									<el-form-item
+										label="រូបភាព"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<div>
+											<el-upload
+												class="avatar-uploader"
+												action="#"
+												name="file"
+												:show-file-list="true"
+												:auto-upload="false"
+												:on-change="handleAvatarSuccess"
+												:before-upload="beforeAvatarUpload"
 											>
-												<el-option
-													v-for="item in status"
-													:key="item"
-													:label="item.status_kh"
-													:value="item.status_id"
+												<img
+													v-if="imageUrl"
+													:src="imageUrl"
+													class="avatar 	object-contain "
 												>
-												</el-option>
-											</el-select>
-										</el-form-item>
-									</div>
-									<div>
-										<el-form-item
-											label="ផ្សេងៗ"
-											prop="studentOtherText"
-											class="sanfont-khmer"
-											:label-width="formLabelWidth"
-										>
-											<el-input
-												type="textarea"
-												:rows="5"
-												v-model="ruleForm.studentOtherText"
-												name="other"
+												<i
+													v-else
+													class="el-icon-plus avatar-uploader-icon"
+												></i>
+											</el-upload>
+											<input
+												type="hidden"
+												name="file_upload_id"
+												v-model="ruleForm.file_upload_id"
 											>
-											</el-input>
-										</el-form-item>
-									</div>
+										</div>
+									</el-form-item>
+								</div>
+
+								<div>
+									<el-form-item
+										label="លេខទូរស័ព្ទ"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.phoneNum"
+											autocomplete="off"
+											type="number"
+											name="phone"
+											clearable
+										/>
+									</el-form-item>
+								</div>
+								<div>
+									<el-form-item
+										label="សារអេឡិចត្រូនិច"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											v-model="ruleForm.email"
+											autocomplete="off"
+											name="email"
+											clearable
+										/>
+									</el-form-item>
+								</div>
+
+								<div>
+									<el-form-item
+										label="ស្ថានភាព"
+										prop="status"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-select
+											v-model="ruleForm.statusValue"
+											placeholder="ជ្រើសរើស"
+										>
+											<el-option
+												v-for="item in status"
+												:key="item"
+												:label="item.status_kh"
+												:value="item.status_id"
+											>
+											</el-option>
+										</el-select>
+									</el-form-item>
+								</div>
+								<div>
+									<el-form-item
+										label="ផ្សេងៗ"
+										prop="studentOtherText"
+										class="sanfont-khmer"
+										:label-width="formLabelWidth"
+									>
+										<el-input
+											type="textarea"
+											:rows="5"
+											v-model="ruleForm.studentOtherText"
+											name="other"
+										>
+										</el-input>
+									</el-form-item>
 								</div>
 							</div>
 						</div>
-				
+					</div>
+
 				</el-tab-pane>
-				<el-tab-pane label="ព័ត៌មានមធ្យមសិក្សបឋមភូមិ">
+				<el-tab-pane label="ព័ត៌មានមធ្យមសិក្សាបឋមភូមិ">
 					<div class="flex flex-col xl:flex-row">
 						<div class="flex flex-col space-y-1">
 							<div>
@@ -758,6 +762,7 @@ export default {
 				genderValue: null,
 				dobValue: null,
 				address: null,
+				birthAddress: null,
 				phoneNum: null,
 				studentOtherText: null,
 				statusValue: null,
@@ -814,8 +819,8 @@ export default {
 					{ required: true, message: 'សូមបញ្ជូលស្ថានភាព', trigger: 'blur' },
 				],
 
-				address: [
-					{ required: true, message: 'សូមបញ្ជូលអាស័យដ្ឋាន', trigger: 'blur' },
+				birthAddress: [
+					{ required: true, message: 'សូមបញ្ជូលអាសយដ្ឋាន', trigger: 'blur' },
 
 				],
 				phoneNum: [
@@ -1054,6 +1059,7 @@ export default {
 			this.ruleForm.genderValue = null;
 			this.ruleForm.dobValue = null;
 			this.ruleForm.address = null;
+			this.ruleForm.birthAddress = null;
 			this.ruleForm.phoneNum = null;
 			this.ruleForm.studentOtherText = null;
 			this.ruleForm.statusValue = null;
@@ -1087,7 +1093,7 @@ export default {
 				this.ruleForm.IDn = response.data.data.sid
 				this.ruleForm.genderValue = response.data.data.gender_id
 				this.ruleForm.dobValue = response.data.data.date_of_birth
-				this.ruleForm.birsthAddress = response.data.data.place_of_birth
+				this.ruleForm.birthAddress = response.data.data.place_of_birth
 				this.ruleForm.address = response.data.data.address
 				this.ruleForm.phoneNum = response.data.data.phone
 				this.ruleForm.firstNameKh = response.data.data.first_name_kh

@@ -5,8 +5,161 @@
 		@tab-change="changeTap"
 	>
 		<el-tab-pane
-			label="Backup & ស្តាទិន្នន័យ"
+			label="ការកំណត់"
 			name="tab-setting-1"
+		>
+			<div class="grid grid-cols-1 gap-2 ">
+				<div class=" border rounded bg-gray-50  p-4">
+					<div class="flex flex-col  ">
+						<el-form
+							ref="ruleForm"
+							id="fm"
+							label-position="top"
+						>
+
+							<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+								<div class="grid grid-cols-2">
+									<div>
+										<div class="py-2">
+											<div class="font-bold text-left text-lg">
+												ព័ត៌មានសាលា
+											</div>
+										</div>
+										<div class="flex flex-col ">
+
+											<div>
+
+												<el-form-item
+													label="ឈ្មោះសាលា"
+													prop="from_secondary_high_school"
+													class="sanfont-khmer "
+													:label-width="formLabelWidth"
+												>
+													<el-input
+														v-model="ruleForm.name"
+														name="from_secondary_high_school"
+														clearable
+													></el-input>
+												</el-form-item>
+											</div>
+											<div>
+
+												<el-form-item
+													label="លេខទូរស័ព្ទ"
+													prop="secondary_exam_date"
+													class="sanfont-khmer "
+													:label-width="formLabelWidth"
+												>
+													<el-input
+														v-model="ruleForm.phone"
+														name="secondary_exam_date"
+														clearable
+													></el-input>
+												</el-form-item>
+											</div>
+											<div>
+
+												<el-form-item
+													label="សារអេឡិចទ្រូនិច"
+													prop="secondary_exam_place"
+													class="sanfont-khmer "
+													:label-width="formLabelWidth"
+												>
+													<el-input
+														v-model="ruleForm.email"
+														name="secondary_exam_place"
+														clearable
+													></el-input>
+												</el-form-item>
+											</div>
+										</div>
+									</div>
+									<div class="flex flex-col ">
+										<div class="py-2">
+											<div class="font-bold text-left text-lg h-7">
+
+											</div>
+										</div>
+										<el-form-item
+											label="ទីតាំង"
+											prop="secondary_exam_room"
+											class="sanfont-khmer "
+											:label-width="formLabelWidth"
+										>
+											<el-input
+												v-model="ruleForm.address"
+												name="secondary_exam_room"
+												type="textarea"
+												:rows="4"
+											></el-input>
+										</el-form-item>
+
+									</div>
+
+								</div>
+								<div class="grid grid-cols-1">
+									<div class="flex flex-col justify-start">
+										<div class="py-2">
+											<div class="font-bold text-left text-lg">
+												Backup ស្វ័យប្រវត្តិ
+											</div>
+										</div>
+										<div>
+
+											<el-form-item
+												label="ពេល BackUp"
+												prop="from_secondary_high_school"
+												class="sanfont-khmer "
+												:label-width="formLabelWidth"
+											>
+												<el-radio-group v-model="ruleForm.backup_type">
+													<el-radio-button label="បិទ" />
+													<el-radio-button label="ប្រចាំថ្ងៃ" />
+													<el-radio-button label="ប្រចាំសប្តាហ៍" />
+													<el-radio-button label="ប្រចាំខែ" />
+													<el-radio-button label="ប្រចាំឆ្នាំ" />
+												</el-radio-group>
+											</el-form-item>
+										</div>
+										<div>
+
+											<el-form-item
+												label="ម៉ោង BackUp"
+												prop="from_secondary_high_school"
+												class="sanfont-khmer "
+												:label-width="formLabelWidth"
+											>
+												<el-time-select
+													v-model="ruleForm.backup_time"
+													start="00:00"
+													step="00:30"
+													end="23:59"
+													format="hh:mm A"
+												/>
+											</el-form-item>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="flex align-end">
+
+								<el-button
+									@click="updateInfo"
+									type="primary"
+								>រក្សាទុក</el-button>
+							</div>
+						</el-form>
+					</div>
+				</div>
+
+			</div>
+
+		</el-tab-pane>
+		<el-tab-pane
+			label="Backup និងស្តាទិន្នន័យ"
+			name="tab-setting-2"
 		>
 			<div class="bg-white p-2 w-full flex justify-between">
 				<div class="flex space-x-2">
@@ -49,7 +202,7 @@
 
 						<el-table
 							:data="tableData"
-							height="690"
+							height="750"
 							style="width: 100%"
 							resizable="true"
 							header-cell-class-name="header-table-font-khmer text-md"
@@ -225,157 +378,113 @@
 			</el-dialog>
 			<!-- Dialog user  -->
 		</el-tab-pane>
+
 		<el-tab-pane
-			label="ការកំណត់"
-			name="tab-setting-2"
+			label="តួនាទីអ្នកប្រើប្រាស់"
+			name="tab-setting-3"
 		>
-			<div class="grid grid-cols-1 gap-2 ">
-				<div class=" border rounded bg-gray-50  p-4">
-					<div class="flex flex-col  ">
-						<el-form
-							ref="ruleForm"
-							id="fm"
-							label-position="top"
+			<div>
+				<div class="bg-white p-2 w-full flex justify-between">
+					<div class="flex space-x-2">
+						<div class="self-start">
+							<el-input
+								placeholder="ស្វែងរក"
+								class="sanfont-khmer"
+								v-model="search"
+							>
+								<i class="el-input__icon el-icon-search"></i>
+								<CirclePlusFilled class="el-input__icon" />
+							</el-input>
+						</div>
+						<div class="self-start hidden ">
+
+						</div>
+					</div>
+					<div class="self-end">
+						<!-- <el-button>
+						<el-icon>
+							<Document />
+						</el-icon>
+						<span class="mx-1 sanfont-khmer"> ស្តារទិន្នន័យពីម៉ាសុីន</span>
+
+					</el-button> -->
+						<el-button
+							type="primary"
+							@click="AddRole"
 						>
-
-							<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-
-								<div class="grid grid-cols-2">
-									<div>
-										<div class="py-2">
-											<div class="font-bold text-left text-md">
-												ព័ត៌មានសាលា
-											</div>
-										</div>
-										<div class="flex flex-col ">
-
-											<div>
-
-												<el-form-item
-													label="ឈ្មោះសាលា"
-													prop="from_secondary_high_school"
-													class="sanfont-khmer "
-													:label-width="formLabelWidth"
-												>
-													<el-input
-														v-model="ruleForm.name"
-														name="from_secondary_high_school"
-														clearable
-													></el-input>
-												</el-form-item>
-											</div>
-											<div>
-
-												<el-form-item
-													label="លេខទូរស័ព្ទ"
-													prop="secondary_exam_date"
-													class="sanfont-khmer "
-													:label-width="formLabelWidth"
-												>
-													<el-input
-														v-model="ruleForm.phone"
-														name="secondary_exam_date"
-														clearable
-													></el-input>
-												</el-form-item>
-											</div>
-											<div>
-
-												<el-form-item
-													label="សារអេឡិចទ្រូនិច"
-													prop="secondary_exam_place"
-													class="sanfont-khmer "
-													:label-width="formLabelWidth"
-												>
-													<el-input
-														v-model="ruleForm.email"
-														name="secondary_exam_place"
-														clearable
-													></el-input>
-												</el-form-item>
-											</div>
-										</div>
-									</div>
-									<div class="flex flex-col ">
-										<div class="py-2">
-											<div class="font-bold text-left text-lg h-7">
-
-											</div>
-										</div>
-										<el-form-item
-											label="ទីតាំង"
-											prop="secondary_exam_room"
-											class="sanfont-khmer "
-											:label-width="formLabelWidth"
-										>
-											<el-input
-												v-model="ruleForm.address"
-												name="secondary_exam_room"
-												type="textarea"
-												:rows="4"
-											></el-input>
-										</el-form-item>
-
-									</div>
-
-								</div>
-								<div class="grid grid-cols-1">
-									<div class="flex flex-col justify-start">
-										<div class="py-2">
-											<div class="font-bold text-left text-md">
-												Backup ស្វ័យប្រវត្តិ
-											</div>
-										</div>
-										<div>
-
-											<el-form-item
-												label="ពេល BackUp"
-												prop="from_secondary_high_school"
-												class="sanfont-khmer "
-												:label-width="formLabelWidth"
-											>
-												<el-radio-group v-model="ruleForm.backup_type">
-													<el-radio-button label="រាល់នាទី" />
-													<el-radio-button label="ប្រចាំថ្ងៃ" />
-													<el-radio-button label="ប្រចាំសប្តាហ៍" />
-													<el-radio-button label="ប្រចាំខែ" />
-													<el-radio-button label="ប្រចាំឆ្នាំ" />
-												</el-radio-group>
-											</el-form-item>
-										</div>
-										<div>
-
-											<el-form-item
-												label="ម៉ោង BackUp"
-												prop="from_secondary_high_school"
-												class="sanfont-khmer "
-												:label-width="formLabelWidth"
-											>
-												<el-time-select
-													v-model="ruleForm.backup_time"
-													start="00:00"
-													step="00:30"
-													end="23:59"
-													format="hh:mm A"
-												/>
-											</el-form-item>
-										</div>
-									</div>
-
-								</div>
-							</div>
-							<div class="flex align-end">
-
-								<el-button
-									@click="updateInfo"
-									type="primary"
-								>រក្សាទុក</el-button>
-							</div>
-						</el-form>
+							<el-icon>
+								<CirclePlusFilled />
+							</el-icon>
+							<span class="mx-1 sanfont-khmer"> បន្ថែម</span>
+						</el-button>
 					</div>
 				</div>
-			</div>
+				<el-table
+					v-loading="loading"
+					:data="roleData.data"
+					resizable="false"
+					header-cell-class-name="sanfont-khmer text-md"
+					row-class-name="sanfont-khmer"
+					style="width: 100% ; height: 750px;"
+					stripe
+					border
+				>
+					<el-table-column
+						label="ID"
+						type="index"
+					></el-table-column>
+					<el-table-column label="ឈ្មោះតួនាទី">
+						<template #default="scope">
+							<div>
+								<span>{{ scope.row.name }}</span>
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column label="កាលបរិច្ចេទបង្កើត">
+						<template #default="scope">
+							<div>
+								<span>{{ scope.row.date }}</span>
+							</div>
+						</template>
+					</el-table-column>
+					<el-table-column
+						width="220"
+						align="center"
+						fixed="right"
+						label="សកម្មភាព"
+					>
+						<template #default="scope">
+							<div v-if="!loading">
+								<el-button
+									size="small"
+									class="sanfont-khmer"
+									@click="editRole(scope.row.id)"
+								>កែប្រែ</el-button>
+								<el-popconfirm
+									width="220"
+									confirm-button-text="យល់ព្រម"
+									cancel-button-text="ទេ"
+									:icon="InfoFilled"
+									icon-color="#626AEF"
+									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+									cancel-button-type="info"
+									@confirm="handleDeleteRole(scope.row.id)"
+								>
+									<template #reference>
+										<el-button
+											size="small"
+											type="danger"
+											class="sanfont-khmer"
+										>លុប
+										</el-button>
+									</template>
+								</el-popconfirm>
+							</div>
+						</template>
+					</el-table-column>
 
+				</el-table>
+			</div>
 		</el-tab-pane>
 	</el-tabs>
 
@@ -414,20 +523,24 @@ export default {
 			search: '',
 
 			classTypeValue: '',
-			tabTypeScore: 'tab-setting-1'
+			tabTypeScore: 'tab-setting-1',
+
+			//role
+			roleData: []
 		}
 	},
 	mounted() {
 		this.getData();
 		this.tabTypeScore = localStorage.getItem('tab-setting') ?? 'tab-setting-1';
+		this.getDataRole();
 	},
 	methods: {
 		changeTap(name) {
 			localStorage.setItem('tab-setting', name);
 			if (name == 'tab-setting-1') {
-				this.getData();
-			} else {
 				this.getSetting();
+			} else {
+				this.getData();
 			}
 		},
 
@@ -561,7 +674,19 @@ export default {
 					type: 'success'
 				});
 			})
-		}
+		},
+
+		async getDataRole() {
+			this.loading = true
+			await axios.get('/role/get').then(response => {
+				this.roleData = response.data.data
+				this.loading = false
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
 
 	}
 }

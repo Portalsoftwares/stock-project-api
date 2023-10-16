@@ -52,6 +52,17 @@
 				</el-button>
 
 				<el-button
+					type="info"
+					@click="exportPDF"
+				>
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+
+				</el-button>
+
+				<el-button
 					type="primary"
 					@click="AddUser"
 				>
@@ -68,7 +79,7 @@
 			<div class="flex flex-col  ">
 				<el-table
 					:data="tableData.data"
-					height="750"
+					height="770"
 					style="width: 100%"
 					resizable="true"
 					header-cell-class-name="header-table-font-khmer text-md "
@@ -143,7 +154,19 @@
 							</div>
 						</template>
 					</el-table-column>
+					<el-table-column label="ស្ថានភាព">
+						<template #default="scope">
+							<span
+								v-if="scope.row.used!=null"
+								class="text-green-600"
+							>កំពុងប្រើប្រាស់ប្រព័ន្ធ</span>
+							<span
+								v-else
+								class="text-gray-400"
+							>បានចេញពីប្រព័ន្ធ</span>
+						</template>
 
+					</el-table-column>
 					<el-table-column
 						fixed="right"
 						align="center"
@@ -350,34 +373,34 @@
 				class="sanfont-khmer"
 				:label-width="formLabelWidth"
 			>
-				
+
 				<div class="flex flex-col">
 					<!--<div class="pb-5">រូបភាព</div> -->
 					<div>
-					<el-upload
-						class="avatar-uploader"
-						action="#"
-						name="file"
-						:show-file-list="false"
-						:auto-upload="false"
-						:on-change="handleAvatarSuccess"
-						:before-upload="beforeAvatarUpload"
-					>
-						<img
-							v-if="imageUrl"
-							:src="imageUrl"
-							class="avatar 	object-contain "
+						<el-upload
+							class="avatar-uploader"
+							action="#"
+							name="file"
+							:show-file-list="false"
+							:auto-upload="false"
+							:on-change="handleAvatarSuccess"
+							:before-upload="beforeAvatarUpload"
 						>
-						<i
-							v-else
-							class="el-icon-plus avatar-uploader-icon"
-						></i>
-					</el-upload>
-					<input
-						type="hidden"
-						name="photo_id"
-						v-model="ruleForm.photo_id"
-					>
+							<img
+								v-if="imageUrl"
+								:src="imageUrl"
+								class="avatar 	object-contain "
+							>
+							<i
+								v-else
+								class="el-icon-plus avatar-uploader-icon"
+							></i>
+						</el-upload>
+						<input
+							type="hidden"
+							name="photo_id"
+							v-model="ruleForm.photo_id"
+						>
 					</div>
 				</div>
 			</el-form-item>
@@ -737,8 +760,18 @@ export default {
 				// response.data is a blob type
 				FileSaver.saveAs(response.data, 'user');
 			});
-		}
+		},
 
+		async exportPDF() {
+			axios.post('/user/exportPDF', {
+				file_name: 'User'
+			}, {
+				responseType: 'blob'
+			}).then((response) => {
+				// response.data is a blob type
+				FileSaver.saveAs(response.data, 'user');
+			});
+		}
 	}
 }
 </script>
