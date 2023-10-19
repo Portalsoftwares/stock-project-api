@@ -117,6 +117,8 @@ Route::prefix('v1')->group(function () {
       Route::get('/{id}/edit', [ScheduleController::class, 'edit']);
       Route::get('/{id}/schedule', [ScheduleController::class, 'getScheduleDayTime']);
       Route::post('/{id}/create', [ScheduleController::class, 'create']);
+
+      Route::post('/{id}/schedule/export', [ScheduleController::class, 'exportExcel']);
     });
     //Teacher class
     Route::prefix('teacher_class')->group(function () {
@@ -135,6 +137,9 @@ Route::prefix('v1')->group(function () {
       //Report
       Route::post('/report/{id}/export', [AttendanceController::class, 'exportPDF']);
       Route::post('/report/{id}/export-excel', [AttendanceController::class, 'exportEXCEL']);
+
+      Route::post('/report-subject/{id}/export', [AttendanceController::class, 'exportSubjectPDF']);
+      Route::post('/report-subject/{id}/export-excel', [AttendanceController::class, 'exportSubjectEXCEL']);
     });
     //Score 
     Route::prefix('score')->group(function () {

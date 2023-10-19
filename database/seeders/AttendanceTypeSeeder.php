@@ -21,7 +21,7 @@ class AttendanceTypeSeeder extends Seeder
         ]);
         AttendanceType::create([
             'attendance_name' => 'ច្បាប់',
-            'attendance_sort_name' => 'PM',
+            'attendance_sort_name' => 'P',
         ]);
         AttendanceType::create([
             'attendance_name' => 'យឺត',

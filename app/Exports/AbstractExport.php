@@ -10,7 +10,7 @@ abstract class AbstractExport implements WithStyles
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('A1:Z100')->getFont()->applyFromArray([
+        $sheet->getStyle('A1:AK100')->getFont()->applyFromArray([
             'name' => 'Khmer OS Siemreap',
             'size' => 10,
             'color' => [

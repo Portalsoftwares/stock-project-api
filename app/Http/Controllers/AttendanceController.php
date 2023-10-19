@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ReportAttendanceExport;
+use App\Exports\ReportAttendanceSubjectExport;
 use App\Models\Attendance;
 use App\Models\AttendanceLine;
 use App\Models\Classes;
@@ -156,10 +158,13 @@ class AttendanceController extends Controller
         $class_id =  $request->class_id;
         $classData = Classes::find($class_id);
         $subject_grade_id = $request->subject_grade_id;
+        $month_id = $request->month_id;
+        $start_academic_date = $classData->academic->end_date;
+        $start_month = Carbon::parse($start_academic_date)->month($month_id);
+        $end_month = Carbon::parse($start_month)->endOfMonth();
         $dataSubjectGrade = SubjectGradeLevel::with('subject')->find($subject_grade_id);
-
-        $attendance = Attendance::where(function ($query) use ($class_id, $subject_grade_id) {
-            $query->where('class_id', $class_id)->where('subject_grade_id', $subject_grade_id);
+        $attendance = Attendance::where(function ($query) use ($class_id, $subject_grade_id, $start_month, $end_month) {
+            $query->where('class_id', $class_id)->where('subject_grade_id', $subject_grade_id)->whereBetween('date', [$start_month, $end_month]);
         })->orderBy('date', 'ASC')->get();
         $student =   StudentClass::query()->where('class_id', $class_id)->with(['student_in_class.gender', 'student_in_class.status',])->get();
         foreach ($student as $stu_row) {
@@ -295,11 +300,29 @@ class AttendanceController extends Controller
         // return $pdf;
         return $pdf->stream('attendance.pdf');
     }
+    //PDF EXPORT 
+    public function exportSubjectPDF(Request $request)
+    {
+        //return "hi";
+        $pdf = PDF::loadView('Attendance.subject', [
+            'data' => $request->data,
+            'option' => $request->option,
+        ]);
+        // return $pdf;
+        return $pdf->stream('attendance.pdf');
+    }
     //EXCEL EXPORT 
     public function exportEXCEL(Request $request)
     {
         $data = $request->data;
         $option = $request->option;
-        // return Excel::download(new ReportScoreExport($data,  $option), 'teacher.xlsx');
+        return Excel::download(new ReportAttendanceExport($data,  $option), 'attendance.xlsx');
+    }
+    //EXCEL EXPORT 
+    public function exportSubjectEXCEL(Request $request)
+    {
+        $data = $request->data;
+        $option = $request->option;
+        return Excel::download(new ReportAttendanceSubjectExport($data,  $option), 'attendance.xlsx');
     }
 }

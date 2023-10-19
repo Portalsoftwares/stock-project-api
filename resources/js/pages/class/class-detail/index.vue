@@ -30,7 +30,10 @@
 							<div class="flex justify-between items-center">
 								<div class="text-left text-xl  pb-2 ">កាលវិភាគប្រចាំសប្តាហ៍</div>
 								<div>
-									<el-button type="info">
+									<el-button
+										type="info"
+										@click="schedulePDF"
+									>
 										<el-icon>
 											<Document />
 										</el-icon>
@@ -1082,6 +1085,29 @@ export default {
 					})
 				});
 
+		},
+		async schedulePDF() {
+			const config = {
+				headers: {
+					'Content-Type':
+						'multipart/form-data; charset=utf-8; boundary=' +
+						Math.random().toString().substr(2),
+				},
+				withCredentials: false,
+				responseType: 'arraybuffer',//important Thanks bong well noted save my life 🙏 
+			}
+			const class_id = this.$route.query.id;
+
+			await axios.post('/schedule_class/' + class_id + '/schedule/export', null, config).then(response => {
+				let blob = new Blob([response.data], { type: 'application/pdf', }),
+					url = window.URL.createObjectURL(blob);
+				const newOpen = window.open(url);
+
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
 		}
 	}
 }

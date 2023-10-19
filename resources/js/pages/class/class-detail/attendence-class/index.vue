@@ -82,13 +82,13 @@
 	<el-dialog
 		v-model="dialogFormVisibleReportMonthly"
 		fullscreen="true"
-		title="របាយការណ៍វត្តមានសិស្ស"
+		title="របាយការណ៍អវត្តមានសិស្ស"
 		class="sanfont-khmer text-xl"
 		width="50%"
 	>
 		<template #header>
 			<div class="my-header">
-				<h4 class="text-lg font-semibold text-white">របាយការណ៍វត្តមានសិស្ស</h4>
+				<h4 class="text-lg font-semibold text-white">របាយការណ៍អវត្តមានសិស្ស</h4>
 			</div>
 		</template>
 		<div class="bg-white px-5">
@@ -186,7 +186,7 @@
 				<el-table-column
 					v-for="(data ,i) in dates"
 					:key="data"
-					width="50"
+					width="42"
 					align="center"
 				>
 					<template #header>
@@ -292,17 +292,17 @@
 	<el-dialog
 		v-model="dialogFormVisible"
 		fullscreen="true"
-		title="របាយការណ៍វត្តមានសិស្ស"
+		title="របាយការណ៍វត្តមានសិស្សតាមមុខវិជ្ជា"
 		class="sanfont-khmer text-xl"
 		width="50%"
 	>
 		<template #header>
 			<div class="my-header">
-				<h4 class="text-lg font-semibold text-white">របាយការណ៍វត្តមានសិស្ស</h4>
+				<h4 class="text-lg font-semibold text-white">របាយការណ៍វត្តមានសិស្សតាមមុខវិជ្ជា</h4>
 			</div>
 		</template>
 		<div class="bg-white px-5">
-			<div class="flex justify-between py-2">
+			<div class="flex justify-start items-end py-2 space-x-4">
 				<el-form
 					label-position="top"
 					label-width="50px"
@@ -329,13 +329,41 @@
 							>
 							</el-input>
 						</el-form-item>
+
+						<el-form-item
+							label="ប្រចាំខែ"
+							prop="month_id"
+						>
+							<el-select v-model="month_id">
+								<el-option
+									v-for="data in monthly"
+									:key="data"
+									:label="data.name"
+									:value="data.score_type_id"
+								/>
+							</el-select>
+
+						</el-form-item>
 					</div>
 				</el-form>
+				<div class="mb-5">
+
+					<el-button
+						type="primary"
+						:disabled="loading_report"
+						@click="showInfomationAttendance(dataSubjectGrade.subject_grade_id)"
+					>
+						<el-icon :class="loading_report==true?'animate-spin':''">
+							<Tools />
+						</el-icon>
+						<span class="mx-1 sanfont-khmer"> ដំណើរការទាញរបាយការណ៍ <span v-show="loading_report">...</span></span>
+					</el-button>
+				</div>
 				<div>
 				</div>
 			</div>
 			<el-table
-				v-loading="loading_schedule"
+				v-loading="loading_report"
 				:data="studentObj"
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
@@ -424,18 +452,10 @@
 						width="50"
 					>
 						<template #header>
-							<div
-								class="text-green-600"
-								style="color: #16a34a;"
-							>PS</div>
+							<div style="color: #16a34a;">PS</div>
 						</template>
 						<template #default="scope">
-							<span
-								class="text-green-600"
-								style="color: #16a34a;"
-							>
-								{{ scope.row.total_type_ps }}
-							</span>
+							<span style="color:  rgb(22, 163, 74);;">{{ scope.row.total_type_ps }}</span>
 						</template>
 					</el-table-column>
 					<el-table-column
@@ -447,10 +467,7 @@
 							<div style="color: #ca8a04;">P</div>
 						</template>
 						<template #default="scope">
-							<span
-								class="text-yellow-600"
-								style="color: #ca8a04;"
-							>
+							<span style="color: #ca8a04;">
 								{{ scope.row.total_type_pm }}
 							</span>
 						</template>
@@ -461,16 +478,10 @@
 						width="50"
 					>
 						<template #header>
-							<div
-								class="text-blue-600"
-								style="color: #2563eb;"
-							>AL</div>
+							<div style="color: #2563eb;">AL</div>
 						</template>
 						<template #default="scope">
-							<span
-								class="text-blue-600"
-								style="color: #2563eb;"
-							>
+							<span style="color: #2563eb;">
 								{{ scope.row.total_type_al }}
 							</span>
 						</template>
@@ -480,19 +491,12 @@
 						label="A"
 						value="10"
 						width="50"
-						class="text-red-600"
 					>
 						<template #header>
-							<div
-								class="text-red-600"
-								style="color: #dc2626;"
-							>A</div>
+							<div style="color: #dc2626;">A</div>
 						</template>
 						<template #default="scope">
-							<span
-								class="text-red-600"
-								style="color: #dc2626;"
-							>
+							<span style="color: #dc2626;">
 								{{ scope.row.total_type_a }}
 							</span>
 						</template>
@@ -508,7 +512,17 @@
 				> បោះបង់</el-button>
 				<el-button
 					type="primary"
-					@click="exportPDF"
+					@click="exportSubjectPDF"
+					v-loading.fullscreen.lock="fullscreenLoading"
+				>
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+				</el-button>
+				<el-button
+					type="primary"
+					@click="exportSubjectEXCEl"
 					v-loading.fullscreen.lock="fullscreenLoading"
 				>
 					<el-icon>
@@ -756,8 +770,9 @@
 <script>
 import moment from 'moment';
 import { ElMessageBox, ElMessage } from 'element-plus'
+import FileSaver from 'file-saver'
 export default {
-	components: { moment },
+	components: { moment, FileSaver },
 	props: {
 		subjectData: Object
 	},
@@ -807,6 +822,7 @@ export default {
 			//Report 
 			studentReport: [],
 			dialogFormVisibleReportMonthly: false,
+			month_id: 1,
 			// monthly: [],
 			monthly: [{ "score_type_id": 1, "name": "ខែមករា", "date": "2023-01-01", },
 			{ "score_type_id": 2, "name": "ខែកុម្ភៈ", "date": "2023-02-01", }, { "score_type_id": 3, "name": "ខែមីនា", "date": "2023-03-01", }, { "score_type_id": 4, "name": "ខែមេសា", "date": "2023-04-01", }, { "score_type_id": 5, "name": "ខែឧសភា", "date": "2023-05-01" }, { "score_type_id": 6, "name": "ខែមិថុនា", "date": "2023-06-01", }, { "score_type_id": 7, "name": "ខែកក្កដា", "date": "2023-07-01", }, { "score_type_id": 8, "name": "ខែសីហា", "date": "2023-08-01", }, { "score_type_id": 9, "name": "ខែកញ្ញា", "date": "2023-09-01", }, { "score_type_id": 10, "name": "ខែតុលា", "date": "2023-10-01", }, { "score_type_id": 11, "name": "ខែវិច្ចិកា", "date": "2023-11-01", }, { "score_type_id": 12, "name": "ខែធ្នូ", "date": "2023-12-01" }],
@@ -821,13 +837,13 @@ export default {
 					{ required: true, message: 'សូមបញ្ចូលខែ', trigger: 'change' },
 				]
 			},
+
 		}
 	},
 	watch: {
 		'ruleForm.time_id': function (event) {
 			var obj = this.dataTimeObj.find(e => e.time_id == this.ruleForm.time_id);
 			if (obj != null) {
-
 				this.showTimeOBJ = obj.name + ' : ' + obj.start_date + ' - ' + obj.end_date;
 			}
 		}
@@ -936,7 +952,7 @@ export default {
 			switch (typeinput) {
 				case 'PS':
 					return 'text-green-600';
-				case 'PM':
+				case 'P':
 					return 'text-yellow-600';
 				case 'AL':
 					return 'text-blue-600';
@@ -949,12 +965,14 @@ export default {
 		},
 		//report attendance by subject
 		async showInfomationAttendance(id) {
+			this.loading_report = true
 			const class_id = this.$route.query.id;
 			this.attendanceClassId = class_id;
 			this.attendanceSubjecGradetId = id
 			const attendanceInfo = {
 				'class_id': this.attendanceClassId,
 				'subject_grade_id': this.attendanceSubjecGradetId,
+				'month_id': this.month_id,
 			}
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
@@ -965,6 +983,7 @@ export default {
 				this.attendanceObj = response.data.attendance;
 				this.studentObj = response.data.student;
 				this.dialogFormVisible = true;
+				this.loading_report = false;
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
@@ -1020,6 +1039,7 @@ export default {
 				this.classData = response.data.classData
 				this.month = response.data.month
 				this.dates = response.data.dates;
+				this.studentReport = response.data.student;
 				this.studentReport = response.data.student;
 				this.loading_report = false
 
@@ -1091,7 +1111,7 @@ export default {
 					'class': this.classData.class_name,
 					'exam': this.getMonthNameKH(this.attendanceMonthId),
 					'dates': this.dates,
-					'academic': this.academic,
+					'academic': this.classData.academic,
 
 				}
 			}
@@ -1108,10 +1128,152 @@ export default {
 				}
 			})
 		},
+		async exportSubjectPDF() {
+			const config = {
+				headers: {
+					'Content-Type':
+						'multipart/form-data; charset=utf-8; boundary=' +
+						Math.random().toString().substr(2),
+				},
+				withCredentials: false,
+				responseType: 'arraybuffer',//important Thanks bong well noted save my life 🙏 
+			}
+			var studentDataPDF = []
+			this.studentObj.forEach((data) => {
+				let objStudent = {
+					"student_name": data.student_in_class?.full_name_kh,
+					"gender": data.student_in_class?.gender?.gender_name_kh,
+					"total_type_ps": data.total_type_ps,
+					"total_type_pm": data.total_type_pm,
+					"total_type_al": data.total_type_al,
+					"total_type_a": data.total_type_a
+				};
+				console.log(this.attendanceObj);
+				this.attendanceObj.forEach((date, i) => {
+					let day = `attendance_${i + 1}`;
+					objStudent[day] = data['attendance_' + date.attendance_id] ?? ''
+				});
+
+				studentDataPDF.push(objStudent)
+			});
+
+			const dataObj = {
+				'data': studentDataPDF,
+				'option': {
+					'class': this.classData.class_name,
+					'subject': this.dataSubjectGrade,
+					'attendanceObj': this.attendanceObj,
+					'academic': this.classData.academic,
+
+				}
+			}
+			const class_id = this.$route.query.id;
+
+			await axios.post('/attendance/report-subject/' + class_id + '/export', dataObj, config).then(response => {
+				let blob = new Blob([response.data], { type: 'application/pdf', }),
+					url = window.URL.createObjectURL(blob);
+				const newOpen = window.open(url);
+
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
 		getMonthNameKH(id) {
 			var name = this.monthly.find(e => e.score_type_id == id);
 			return name;
-		}
+		},
+		async exportEXCEL() {
+			const config = {
+				headers: {
+					'Content-Type': 'applicaton/json',
+				},
+				responseType: 'blob'
+			}
+			var studentDataPDF = []
+			this.studentReport.forEach((data) => {
+				console.log(data)
+				let objStudent = {
+					"student_name": data.student_in_class?.full_name_kh,
+					"gender": data.student_in_class?.gender?.gender_name_kh,
+					"total_type_pm": data.total_type_pm,
+					"total_type_a": data.total_type_a,
+					"total": data.total
+				};
+				this.dates.forEach((date, i) => {
+					let day = `day_${i + 1}`;
+					objStudent[day] = data['attendance_' + date] ?? 0
+				});
+
+				studentDataPDF.push(objStudent)
+			});
+
+
+			const dataObj = {
+				'data': studentDataPDF,
+				'option': {
+					'class': this.classData.class_name,
+					'exam': this.getMonthNameKH(this.attendanceMonthId),
+					'dates': this.dates,
+					'academic': this.classData.academic,
+				}
+			}
+			const class_id = this.$route.query.id;
+
+			await axios.post('/attendance/report/' + class_id + '/export-excel', dataObj, config).then(response => {
+				FileSaver.saveAs(response.data, 'report_attendance');
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		async exportSubjectEXCEl() {
+			const config = {
+				headers: {
+					'Content-Type': 'applicaton/json',
+				},
+				responseType: 'blob'
+			}
+			var studentDataPDF = []
+			this.studentObj.forEach((data) => {
+				let objStudent = {
+					"student_name": data.student_in_class?.full_name_kh,
+					"gender": data.student_in_class?.gender?.gender_name_kh,
+					"total_type_ps": data.total_type_ps == 0 ? '0' : data.total_type_ps,
+					"total_type_pm": data.total_type_pm == 0 ? '0' : data.total_type_pm,
+					"total_type_al": data.total_type_al == 0 ? '0' : data.total_type_al,
+					"total_type_a": data.total_type_a == 0 ? '0' : data.total_type_a
+				};
+				this.attendanceObj.forEach((date, i) => {
+					let day = `attendance_${i + 1}`;
+					objStudent[day] = data['attendance_' + date.attendance_id] ?? ''
+				});
+
+				studentDataPDF.push(objStudent)
+			});
+
+			const dataObj = {
+				'data': studentDataPDF,
+				'option': {
+					'class': this.classData.class_name,
+					'subject': this.dataSubjectGrade,
+					'attendanceObj': this.attendanceObj,
+					'academic': this.classData.academic,
+
+				}
+			}
+			const class_id = this.$route.query.id;
+
+			await axios.post('/attendance/report-subject/' + class_id + '/export-excel', dataObj, config).then(response => {
+				FileSaver.saveAs(response.data, 'report_attendance');
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
 	}
 }
 </script>

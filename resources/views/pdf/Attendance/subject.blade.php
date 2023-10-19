@@ -3,7 +3,8 @@
 @section('body1')
     <div class="row">
         <div class="col-12 py-2">
-            <h1 class="font-muollight font-13 text-center">បញ្ជីសម្រង់អវត្តមានសិស្សថ្នាក់ទី​ {{ $option['class'] }} {{ $option['exam']['name'] }} {{ $option['academic']['academic_name'] }} </h1>
+            <h1 class="font-muollight font-13 text-center">បញ្ជីសម្រង់អវត្តមានសិស្សថ្នាក់ទី​ {{ $option['class'] }} {{ $option['subject']['subject']['subject_name_kh'] }}
+            </h1>
         </div>
         <div class="row">
             <div class="col-12  mt-3" style="padding-bottom: 20px">
@@ -19,19 +20,22 @@
                             <td class="w-qty">
                                 <p class="font-siemreap font-14">ភេទ</p>
                             </td>
-                            @foreach ($option['dates'] as $inex => $date)
+                            @foreach ($option['attendanceObj'] as $inex => $date)
                                 <td class="w-day">
-                                    <p class="font-siemreap font-14">{{ $inex + 1 }}</p>
+                                    <p class="font-siemreap font-14">{{ \Carbon\Carbon::create($date['date'])->format('d-m-Y') }}</p>
                                 </td>
                             @endforeach
                             <td class="w-att text-center">
-                                <p class="font-siemreap  font-14">ច្បាប់</p>
+                                <p class="font-siemreap  font-14" style="color: #19d256">PS</p>
                             </td>
                             <td class="w-att text-center">
-                                <p class="font-siemreap  font-14">អត់ច្បាប់</p>
+                                <p class="font-siemreap  font-14" style="color: #ca8a04">P</p>
                             </td>
                             <td class="w-att text-center">
-                                <p class="font-siemreap  font-14">សរុប</p>
+                                <p class="font-siemreap  font-14" style="color: #2563eb">AL</p>
+                            </td>
+                            <td class="w-att text-center">
+                                <p class="font-siemreap  font-14" style="color: #DC2626">A</p>
                             </td>
                         </tr>
                     </thead>
@@ -47,19 +51,43 @@
                                 <td class="font-siemreap text-center font-14">
                                     {{ $itemLine['gender'] }}
                                 </td>
-                                @foreach ($option['dates'] as $inex => $date)
-                                    <td class="font-siemreap text-center font-14" style="color: {{ $itemLine['day_' . $inex + 1] == 'A' ? '#DC2626' : '#CA8A04' }} ">
-                                        {{ $itemLine['day_' . $inex + 1] != 0 ? $itemLine['day_' . $inex + 1] : '' }}
+                                @foreach ($option['attendanceObj'] as $inex => $date)
+                                    <td class="font-siemreap text-center font-14">
+                                        @if ($itemLine['attendance_' . $inex + 1] == 'PS')
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="12px" viewBox="0 0 448 512">
+                                                    <style>
+                                                        svg {
+                                                            fill: #19d256
+                                                        }
+                                                    </style>
+                                                    <path
+                                                        d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" />
+                                                </svg>
+                                            </span>
+                                        @endif
+                                        @if ($itemLine['attendance_' . $inex + 1] == 'P')
+                                            <span style="color: #ca8a04">P</span>
+                                        @endif
+                                        @if ($itemLine['attendance_' . $inex + 1] == 'AL')
+                                            <span style="color: #2563eb">AL</span>
+                                        @endif
+                                        @if ($itemLine['attendance_' . $inex + 1] == 'A')
+                                            <span style="color: #DC2626">A</span>
+                                        @endif
                                     </td>
                                 @endforeach
-                                <td class="font-siemreap text-center font-14">
+                                <td class="font-siemreap text-center font-14" style="color: #19d256">
+                                    {{ $itemLine['total_type_ps'] }}
+                                </td>
+                                <td class="font-siemreap text-center font-14" style="color: #ca8a04">
                                     {{ $itemLine['total_type_pm'] }}
                                 </td>
-                                <td class="font-siemreap text-center font-14">
-                                    {{ $itemLine['total_type_a'] }}
+                                <td class="font-siemreap text-center font-14" style="color: #2563eb">
+                                    {{ $itemLine['total_type_al'] }}
                                 </td>
-                                <td class="font-siemreap text-center font-14">
-                                    {{ $itemLine['total'] }}
+                                <td class="font-siemreap text-center font-14" style="color: #DC2626">
+                                    {{ $itemLine['total_type_a'] }}
                                 </td>
                             </tr>
                         @endforeach
@@ -83,6 +111,10 @@
     @endsection
     @section('style')
         <style>
+            svg {
+                fill: #19d256 color: #19d256 background: #19d256
+            }
+
             /* table */
             table {
                 border-collapse: collapse;
@@ -111,7 +143,7 @@
             }
 
             table thead tr td.w-day {
-                width: 2.6%
+                width: 2%
             }
 
             table thead tr td.w-att {

@@ -671,6 +671,6 @@ class ScoreController extends Controller
     {
         $data = $request->data;
         $option = $request->option;
-        return Excel::download(new ReportScoreExport($data,  $option), 'teacher.xlsx');
+        return Excel::download(new ReportScoreExport($data,  $option), 'score.xlsx');
     }
 }

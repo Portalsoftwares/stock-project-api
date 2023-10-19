@@ -3,64 +3,45 @@
 @section('body1')
     <div class="row">
         <div class="col-12 py-2">
-            <h1 class="font-muollight font-13 text-center">បញ្ជីសម្រង់អវត្តមានសិស្សថ្នាក់ទី​ {{ $option['class'] }} {{ $option['exam']['name'] }} {{ $option['academic']['academic_name'] }} </h1>
+            <h1 class="font-muollight font-13 text-center">កាលវិភាគប្រចាំសប្ដាហ៍​ថ្នាក់ទី​ {{ $option['class']['class_name'] }} {{ $option['academic']['academic_name'] }} </h1>
         </div>
         <div class="row">
             <div class="col-12  mt-3" style="padding-bottom: 20px">
                 <table width="100%" autosize="1.6" style="border-collapse: collapse; border-style: solid;" cellpadding="8">
                     <thead>
                         <tr>
-                            <td class="w-no">
-                                <p class="font-siemreap font-14">ល.រ</p>
-                            </td>
+
                             <td class="w-description">
-                                <p class="font-siemreap font-14">គោត្តនាមនិងនាម</p>
+                                <p class="font-siemreap font-14">ម៉ោង</p>
                             </td>
-                            <td class="w-qty">
-                                <p class="font-siemreap font-14">ភេទ</p>
-                            </td>
-                            @foreach ($option['dates'] as $inex => $date)
+
+                            @foreach ($option['day'] as $inex => $date)
                                 <td class="w-day">
-                                    <p class="font-siemreap font-14">{{ $inex + 1 }}</p>
+                                    <p class="font-siemreap font-14">{{ $date['day_name_kh'] }}</p>
                                 </td>
                             @endforeach
-                            <td class="w-att text-center">
-                                <p class="font-siemreap  font-14">ច្បាប់</p>
-                            </td>
-                            <td class="w-att text-center">
-                                <p class="font-siemreap  font-14">អត់ច្បាប់</p>
-                            </td>
-                            <td class="w-att text-center">
-                                <p class="font-siemreap  font-14">សរុប</p>
-                            </td>
+
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($data as $i => $itemLine)
                             <tr>
-                                <td class="font-siemreap text-center font-14 last-child">
-                                    {{ $i + 1 }}
+
+                                <td class="font-siemreap text-center items-center font-14">
+                                    <div>{{ $itemLine['name'] }}</div>
+                                    <div>{{ $itemLine['start_date'] }} - {{ $itemLine['end_date'] }}</div>
                                 </td>
-                                <td class="font-siemreap font-14">
-                                    {{ $itemLine['student_name'] }}
-                                </td>
-                                <td class="font-siemreap text-center font-14">
-                                    {{ $itemLine['gender'] }}
-                                </td>
-                                @foreach ($option['dates'] as $inex => $date)
-                                    <td class="font-siemreap text-center font-14" style="color: {{ $itemLine['day_' . $inex + 1] == 'A' ? '#DC2626' : '#CA8A04' }} ">
-                                        {{ $itemLine['day_' . $inex + 1] != 0 ? $itemLine['day_' . $inex + 1] : '' }}
+                                @foreach ($option['day'] as $inex => $date)
+                                    <td class="font-siemreap flex text-center items-center font-14 ">
+                                        <div>
+                                            {{ !empty($itemLine['name_subject_grade_day_' . $date->day_id]) ? $itemLine['name_subject_grade_day_' . $date->day_id]['subject']['subject_name_kh'] : '' }}
+                                        </div>
+                                        <div>
+                                            {{ !empty($itemLine['name_subject_grade_day_' . $date->day_id]) ? $itemLine['name_subject_grade_day_' . $date->day_id]['subject']['subject_sort_name_en'] : '' }}
+                                        </div>
                                     </td>
                                 @endforeach
-                                <td class="font-siemreap text-center font-14">
-                                    {{ $itemLine['total_type_pm'] }}
-                                </td>
-                                <td class="font-siemreap text-center font-14">
-                                    {{ $itemLine['total_type_a'] }}
-                                </td>
-                                <td class="font-siemreap text-center font-14">
-                                    {{ $itemLine['total'] }}
-                                </td>
+
                             </tr>
                         @endforeach
                     </tbody>
@@ -88,6 +69,10 @@
                 border-collapse: collapse;
             }
 
+            .items-center {
+                text-align: center !important
+            }
+
             table thead tr td {
                 padding: 5px;
                 border: 1px solid #000000;
@@ -111,7 +96,7 @@
             }
 
             table thead tr td.w-day {
-                width: 2.6%
+                width: 10%
             }
 
             table thead tr td.w-att {
