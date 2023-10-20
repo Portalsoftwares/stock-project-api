@@ -109,6 +109,8 @@ Route::prefix('v1')->group(function () {
       Route::post('/student/{id}/add', [ClassController::class, 'addStudentClass']);
       Route::get('/student/{id}/get', [ClassController::class, 'getStudentToClass']);
       Route::delete('/student/{id}/delete/{student_id}', [ClassController::class, 'deleteStudentToClass']);
+      Route::post('/student/{id}/export-pdf', [ClassController::class, 'exportStudentListPDF']);
+      Route::post('/student/{id}/export-excel', [ClassController::class, 'exportStudentListExcel']);
     });
 
     //Schedule class

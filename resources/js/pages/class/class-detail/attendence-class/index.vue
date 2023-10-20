@@ -1197,13 +1197,13 @@ export default {
 				let objStudent = {
 					"student_name": data.student_in_class?.full_name_kh,
 					"gender": data.student_in_class?.gender?.gender_name_kh,
-					"total_type_pm": data.total_type_pm,
-					"total_type_a": data.total_type_a,
-					"total": data.total
+					"total_type_pm": data.total_type_pm == 0 ? '0' : data.total_type_pm,
+					"total_type_a": data.total_type_a == 0 ? '0' : data.total_type_a,
+					"total": data.total == 0 ? '0' : data.total
 				};
 				this.dates.forEach((date, i) => {
 					let day = `day_${i + 1}`;
-					objStudent[day] = data['attendance_' + date] ?? 0
+					objStudent[day] = data['attendance_' + date] ?? '0'
 				});
 
 				studentDataPDF.push(objStudent)

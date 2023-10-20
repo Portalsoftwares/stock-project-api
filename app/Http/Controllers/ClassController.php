@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ClassStudentExport;
 use App\Models\Academic;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -18,8 +19,8 @@ use App\Models\GradeLevel;
 use App\Models\Student;
 use App\Models\StudentRole;
 use App\Models\StudentStatus;
-
-
+use App\mPDF\PdfWrapper;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClassController extends Controller
 {
@@ -288,5 +289,26 @@ class ClassController extends Controller
             ];
             return  response($response, 402);
         }
+    }
+
+
+    public function exportStudentListPDF(Request $request, $id)
+    {
+
+        $class = Classes::with('academic')->find($id);
+
+        $student = StudentClass::where('class_id', $id)->with(['student_in_class.profile_img', 'student_in_class.status', 'student_in_class.gender'])->get();
+
+        $pdf = PdfWrapper::loadView('ClassStudent.list', [
+            'students' => $student,
+            'class' => $class
+        ]);
+
+        return $pdf->stream('students-list.pdf');
+    }
+
+    public function exportStudentListExcel(Request $request, $id)
+    {
+        return Excel::download(new ClassStudentExport($id), 'class-student-list.xlsx');
     }
 }
