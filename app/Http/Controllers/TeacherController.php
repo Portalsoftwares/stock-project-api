@@ -11,6 +11,8 @@ use App\Models\TeacherStatus;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Exports\TeacherExport;
+use App\Models\TeacherClass;
+use App\Models\User;
 use App\mPDF\PdfWrapper as PDF;
 use Maatwebsite\Excel\Exporter;
 
@@ -37,13 +39,14 @@ class TeacherController extends Controller
         if ($per_page == -1) {
             $per_page = DB::table('teachers')->count() > 0 ? DB::table('teachers')->count() : $per_page;
         }
+     
         if (!empty($request->is_show_trust)) {
             $items =  Teacher::onlyTrashed()->where(function ($query) use ($request) {
                 if (!empty($request->filter_profession)) {
-                    $query->whereIn('profession', 'like', $request->filter_profession);
+                    $query->where('profession', 'like', '%'.$request->filter_profession.'%');
                 }
                 if (!empty($request->filter_teacher_level)) {
-                    $query->whereIn('teacher_level', $request->filter_teacher_level);
+                    $query->where('teacher_level', $request->filter_teacher_level);
                 }
                 if (!empty($request->search)) {
                     $query->where('tid', 'like', "%" . $request->search . "%");
@@ -54,12 +57,14 @@ class TeacherController extends Controller
                 }
             });
         } else {
+    
             $items =  Teacher::Where(function ($query) use ($request) {
                 if (!empty($request->filter_profession)) {
-                    $query->whereIn('profession', 'like', $request->filter_profession);
+                    $query->where('profession', 'like', '%'.$request->filter_profession.'%');
                 }
                 if (!empty($request->filter_teacher_level)) {
-                    $query->whereIn('teacher_level', $request->filter_teacher_level);
+                    // dd($request->filter_teacher_level);
+                    $query->where('teacher_level', $request->filter_teacher_level);
                 }
                 if (!empty($request->search)) {
                     $query->where('tid', 'like', "%" . $request->search . "%");
@@ -68,6 +73,8 @@ class TeacherController extends Controller
                     $query->orWhere('email', 'like', "%" . $request->search . "%");
                     $query->orWhere('phone', 'like', "%" . $request->search . "%");
                 }
+               
+
             });
         }
         $data = $items->with('profile_img', 'roles')
@@ -194,6 +201,15 @@ class TeacherController extends Controller
 
     public function delete($id)
     {
+        //check related record
+        $record_class = TeacherClass::where('teacher_id',$id)->count();
+        $record_account = User::where('teacher_id',$id)->count();
+        if($record_account>0 || $record_class>0){
+            $response = [
+                'data' => 'ទិន្នន័យមិនអាចលុបបានទេ​ ព្រោះមានទំនាក់ទំនងជាមួយទិន្នន័យដទែទៀត',
+            ];
+            return  response($response, 400);
+        }
         DB::transaction(function () use ($id) {
             //Delete soft
             $items = Teacher::find($id);
@@ -207,11 +223,12 @@ class TeacherController extends Controller
                     $items->forceDelete();
                 }
             }
-        });
+       
 
+        });
         $response = [
             'data' => 'Delete successfull',
-        ];
+        ]; 
         return  response($response, 200);
     }
 

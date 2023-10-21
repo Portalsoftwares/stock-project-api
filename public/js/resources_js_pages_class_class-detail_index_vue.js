@@ -1383,7 +1383,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       tableData: [],
       academic: [],
       exam: [],
-      is_random: 0
+      is_random: 0,
+      is_testing: false
     };
   },
   mounted: function mounted() {
@@ -4930,7 +4931,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" យល់ព្រម ")];
         }),
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+      }), $data.is_testing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_button, {
+        key: 0,
         type: "info",
         "class": "sanfont-khmer mt-2 hiden",
         onClick: _cache[5] || (_cache[5] = function ($event) {
@@ -4941,7 +4943,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ទាញទិន្នន័យស្រាប់ ")];
         }),
         _: 1 /* STABLE */
-      }), _hoisted_11]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
+      })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_11]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
         data: $data.studentObj,
         resizable: "false",
         "header-cell-class-name": "sanfont-khmer text-md",

@@ -457,7 +457,7 @@ var _hoisted_10 = {
   "class": "flex flex-col space-x-2 space-y-2"
 };
 var _hoisted_11 = {
-  "class": "self-center"
+  "class": "self-end"
 };
 var _hoisted_12 = {
   "class": "self-center"

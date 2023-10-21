@@ -338,7 +338,7 @@
 				</div>
 
 				<div class="flex flex-col   space-y-2">
-					<div class="self-center flex ">
+					<div class="self-end flex ">
 						<el-switch
 							v-model="is_show_trustSubjectLevel"
 							@change="clickShowwTrushSubjectLevel"
@@ -415,7 +415,7 @@
 							</el-table-column>
 							<el-table-column
 								label="ប្រភេទថ្នាក់"
-								sortable
+					
 							>
 								<template #default="scope">{{ scope.row.class_type?.name }}</template>
 							</el-table-column>

@@ -159,7 +159,7 @@ class AttendanceController extends Controller
         $classData = Classes::find($class_id);
         $subject_grade_id = $request->subject_grade_id;
         $month_id = $request->month_id;
-        $start_academic_date = $classData->academic->end_date;
+        $start_academic_date = $classData->academic->start_date;
         $start_month = Carbon::parse($start_academic_date)->month($month_id);
         $end_month = Carbon::parse($start_month)->endOfMonth();
         $dataSubjectGrade = SubjectGradeLevel::with('subject')->find($subject_grade_id);
@@ -213,7 +213,7 @@ class AttendanceController extends Controller
 
         $class_id =  $request->class_id;
         $classData = Classes::with('academic')->find($class_id);
-        $start_academic_date = $classData->academic->end_date;
+        $start_academic_date = $classData->academic->start_date;
         $month_id = $request->month_id;
         $month = scoreType::find($month_id);
         $month_number = Carbon::parse($month->date)->format('m');

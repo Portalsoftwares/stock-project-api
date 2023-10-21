@@ -199,7 +199,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       sort_by: 'tid',
       order_by: 1,
       filter_profession: '',
-      filter_teacher_level: 1,
+      filter_teacher_level: "2",
       search: '',
       tSearch: null,
       is_show_trust: 0,
@@ -430,6 +430,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
+              })["catch"](function (error) {
+                if (error.response.status == 400) {
+                  _this7.$message({
+                    message: error.response.data.data,
+                    type: 'error'
+                  });
+                }
               });
             case 2:
             case "end":

@@ -865,7 +865,7 @@ export default {
 			sort_by: 'tid',
 			order_by: 1,
 			filter_profession: '',
-			filter_teacher_level: 1,
+			filter_teacher_level:"2",
 			search: '',
 			tSearch: null,
 			is_show_trust: 0,
@@ -1040,6 +1040,13 @@ export default {
 					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
+			}).catch(error=>{
+				if(error.response.status==400){
+					this.$message({
+						message: error.response.data.data,
+						type: 'error'
+					});
+				}
 			})
 		},
 		async restoreData(id) {
