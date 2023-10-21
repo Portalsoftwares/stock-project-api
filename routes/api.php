@@ -39,6 +39,7 @@ Route::prefix('v1')->group(function () {
       Route::get('get/{id}', [UserController::class, 'show']);
       Route::get('edit/{id}', [UserController::class, 'edit']);
       Route::post('update/{id}', [UserController::class, 'update']);
+      Route::post('update/{id}/pw', [UserController::class, 'updatePW']);
       Route::delete('delete/{id}', [UserController::class, 'delete']);
       Route::post('/restore/{id}', [UserController::class, 'restore']);
 

@@ -121,7 +121,6 @@ class TeacherController extends Controller
             $items->file_upload_id    = $request->file_upload_id;
             $items->phone     = $request->phone;
             $items->email     = $request->email;
-            $items->is_enable_account = $request->is_enable_account ?? 0;
             $items->other     = $request->other;
             $items->save();
         });
@@ -183,7 +182,6 @@ class TeacherController extends Controller
             $items->file_upload_id    = $request->file_upload_id;
             $items->phone     = $request->phone;
             $items->email     = $request->email;
-            $items->is_enable_account = $request->is_enable_account;
             $items->other     = $request->other;
             $items->save();
         });
