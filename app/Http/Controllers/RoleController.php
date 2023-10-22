@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Academic;
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-
+use PhpParser\Node\Expr\Cast\Array_;
 
 class RoleController extends Controller
 {
@@ -44,7 +45,14 @@ class RoleController extends Controller
         ];
         return  response($response, 200);
     }
-
+    public function getPermissions(Request $request)
+    {
+        $permissions = Permission::all();
+        $response = [
+            'data' => $permissions,
+        ];
+        return  response($response, 200);
+    }
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [

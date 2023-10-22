@@ -390,7 +390,7 @@
 	<el-dialog
 		v-model="dialogFormVisible"
 		class="sanfont-khmer text-white"
-		width="30%"
+		width="50%"
 		align-center="true"
 		draggable
 	>
@@ -400,37 +400,39 @@
 			</div>
 		</template>
 		<el-form
-			class="grid grid-cols-2"
-			:model="ruleForm"
-			:rules="rules"
-			ref="ruleForm"
+			class="grid"
+			:model="ruleFormRole"
+			:rules="rulesRole"
+			ref="ruleFormRole"
 			id="fm"
 		>
 
 			<div class="">
-				<el-form-item label="ឈ្មោះតួនាទី">
-					<el-input v-model="form.name" />
+				<el-form-item label="ឈ្មោះតួនាទី" prop="name" >
+					<el-input v-model="ruleFormRole.name" />
 				</el-form-item>
 				<div class="text-left text-md font-bold py-2">
-					សិទ្ធិ
+					សិទ្ធិអ្នកប្រើប្រាស់
 				</div>
 				<div class="text-left">
+				<div class="py-2">
 					<el-checkbox
 						v-model="checkAll"
 						:indeterminate="isIndeterminate"
 						@change="handleCheckAllChange"
-					>ទាំងអស់</el-checkbox>
+					>ជ្រើសរើសទាំងអស់</el-checkbox>
+				</div>
 					<el-checkbox-group
 						v-model="checkedCities"
 						@change="handleCheckedCitiesChange"
 					>
-						<div class="flex ">
+						<div class="grid grid-cols-5 gap-5 ">
 							<el-checkbox
-								v-for="city in cities"
-								:key="city"
-								:label="city"
+								v-for="perms in permissionData"
+								:key="perms"
+								:label="perms"
 							>
-								{{city}}
+								{{perms.name}}
 							</el-checkbox>
 						</div>
 					</el-checkbox-group>
@@ -511,7 +513,18 @@ export default {
 
 			//role
 			roleData: [],
-			cities: ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen']
+			cities: ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'],
+			permissionData:[],
+			ruleFormRole:{
+				name: null,
+				permission: null,
+			},
+			rulesRole: {
+				name: [
+					{ required: true, message: 'សូមបញ្ជូលតួនាទី', trigger: 'blur' },
+					{ min: 3, max: 15, message: 'ចំនួនពីចាប់៣រតួហូតដល់១៥តួ', trigger: 'blur' }
+				],
+			}
 		}
 	},
 	mounted() {
@@ -675,8 +688,16 @@ export default {
 			})
 		},
 
-		AddRole() {
+		async AddRole() {
 			this.dialogFormVisible = true
+			await axios.get('/role/get-permission').then(response => {
+				this.permissionData = response.data.data
+				this.loading = false
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
 		}
 
 	}

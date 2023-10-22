@@ -209,6 +209,7 @@ Route::prefix('v1')->group(function () {
     //Role
     Route::prefix('role')->group(function () {
       Route::get('/get', [RoleController::class, 'index']);
+      Route::get('/get-permission', [RoleController::class, 'getPermissions']);
     });
   });
 });
