@@ -241,10 +241,23 @@
 				> បោះបង់</el-button>
 				<el-button
 					type="primary"
-					class="sanfont-khmer"
-					@click="printAttendance()"
+					@click="exportPDF"
+					v-loading.fullscreen.lock="fullscreenLoading"
 				>
-					ទាញ PDF
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+				</el-button>
+				<el-button
+					type="primary"
+					@click="exportEXCEL"
+					v-loading.fullscreen.lock="fullscreenLoading"
+				>
+					<el-icon>
+						<Document />
+					</el-icon>
+					<span class="mx-1 sanfont-khmer"> ទាញ EXCEL</span>
 				</el-button>
 			</span>
 		</template>
@@ -477,7 +490,7 @@
 					<el-icon>
 						<Document />
 					</el-icon>
-					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
+					<span class="mx-1 sanfont-khmer"> ទាញ EXCEl</span>
 				</el-button>
 			</span>
 		</template>
@@ -770,7 +783,10 @@ export default {
 			//Report 
 			studentReport: [],
 			dialogFormVisibleReportMonthly: false,
-			monthly: [],
+			// monthly: [],
+			monthly: [{ "score_type_id": 1, "name": "ខែមករា", "date": "2023-01-01", },
+			{ "score_type_id": 2, "name": "ខែកុម្ភៈ", "date": "2023-02-01", }, { "score_type_id": 3, "name": "ខែមីនា", "date": "2023-03-01", }, { "score_type_id": 4, "name": "ខែមេសា", "date": "2023-04-01", }, { "score_type_id": 5, "name": "ខែឧសភា", "date": "2023-05-01" }, { "score_type_id": 6, "name": "ខែមិថុនា", "date": "2023-06-01", }, { "score_type_id": 7, "name": "ខែកក្កដា", "date": "2023-07-01", }, { "score_type_id": 8, "name": "ខែសីហា", "date": "2023-08-01", }, { "score_type_id": 9, "name": "ខែកញ្ញា", "date": "2023-09-01", }, { "score_type_id": 10, "name": "ខែតុលា", "date": "2023-10-01", }, { "score_type_id": 11, "name": "ខែវិច្ចិកា", "date": "2023-11-01", }, { "score_type_id": 12, "name": "ខែធ្នូ", "date": "2023-12-01" }],
+
 			dates: [],
 			loading_report: false,
 			ruleFormReport: {
@@ -931,7 +947,6 @@ export default {
 				}
 			})
 		},
-
 		//report attandance in month
 		async showInfomationAttendanceInMonthly() {
 			const class_id = this.$route.query.id;
@@ -945,7 +960,7 @@ export default {
 			}
 			await axios.post('/attendance/report/monthly/' + class_id, attendanceInfo, config).then(response => {
 				this.classData = response.data.classData
-				this.monthly = response.data.month;
+				// this.monthly = response.data.month;
 				this.dialogFormVisibleReportMonthly = true;
 			}).catch((error) => {
 				if (error.response.status == 401) {
@@ -979,6 +994,7 @@ export default {
 			}
 			await axios.post('/attendance/report/monthly/get/' + class_id, attendanceInfo, config).then(response => {
 				this.classData = response.data.classData
+				this.month = response.data.month
 				this.dates = response.data.dates;
 				this.studentReport = response.data.student;
 				this.loading_report = false
@@ -1018,9 +1034,45 @@ export default {
 
 		},
 		async exportPDF() {
+			const config = {
+				headers: {
+					'Content-Type':
+						'multipart/form-data; charset=utf-8; boundary=' +
+						Math.random().toString().substr(2),
+				},
+				withCredentials: false,
+				responseType: 'arraybuffer',//important Thanks bong well noted save my life 🙏 
+			}
+			var studentDataPDF = []
+			this.studentReport.forEach((data) => {
+				console.log(data)
+				let objStudent = {
+					"student_name": data.student_in_class?.full_name_kh,
+					"gender": data.student_in_class?.gender?.gender_name_kh,
+					"total_type_pm": data.total_type_pm,
+					"total_type_a": data.total_type_a
+				};
+				this.dates.forEach((date, i) => {
+					let day = `day_${i + 1}`;
+					objStudent[day] = data['attendance_' + date] ?? 0
+				});
+
+				studentDataPDF.push(objStudent)
+			});
+
+			const dataObj = {
+				'data': studentDataPDF,
+				'option': {
+					'class': this.classData.class_name,
+					'exam': this.getMonthNameKH(this.attendanceMonthId),
+					'dates': this.dates,
+					'academic': this.academic,
+
+				}
+			}
 			const class_id = this.$route.query.id;
 
-			await axios.post('/score/report/' + class_id + '/export', dataObj, config).then(response => {
+			await axios.post('/attendance/report/' + class_id + '/export', dataObj, config).then(response => {
 				let blob = new Blob([response.data], { type: 'application/pdf', }),
 					url = window.URL.createObjectURL(blob);
 				const newOpen = window.open(url);
@@ -1030,6 +1082,10 @@ export default {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
 			})
+		},
+		getMonthNameKH(id) {
+			var name = this.monthly.find(e => e.score_type_id == id);
+			return name;
 		}
 	}
 }

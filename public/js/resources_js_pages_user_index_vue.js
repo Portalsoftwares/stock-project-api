@@ -448,12 +448,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     exportExcel: function exportExcel() {
+      var _this11 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
         return _regeneratorRuntime().wrap(function _callee9$(_context9) {
           while (1) switch (_context9.prev = _context9.next) {
             case 0:
               axios.post('/user/exportExcel', {
-                file_name: 'User'
+                file_name: 'User',
+                is_show_trust: _this11.is_show_trust
               }, {
                 responseType: 'blob'
               }).then(function (response) {
@@ -468,12 +470,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     exportPDF: function exportPDF() {
+      var _this12 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
         return _regeneratorRuntime().wrap(function _callee10$(_context10) {
           while (1) switch (_context10.prev = _context10.next) {
             case 0:
               axios.post('/user/exportPDF', {
-                file_name: 'User'
+                file_name: 'User',
+                is_show_trust: _this12.is_show_trust
               }, {
                 responseType: 'blob'
               }).then(function (response) {

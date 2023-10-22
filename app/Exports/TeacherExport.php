@@ -8,39 +8,48 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 
-class TeacherExport implements FromCollection, WithHeadings, WithMapping, WithColumnWidths
+class TeacherExport extends AbstractExport implements FromCollection, WithHeadings, WithMapping, WithColumnWidths
 {
-    private $rowCount;
+    private $row_count;
+    private $is_show_trust;
 
-    public function __construct()
+    public function __construct($is_show_trust = false)
     {
-        $rowCount = 0;
+        $this->is_show_trust = $is_show_trust;
+        $this->row_count = 0;
     }
 
+    // Returns collection of teachers
     public function collection()
     {
+        if ($this->is_show_trust) {
+            return Teacher::onlyTrashed()->with(['roles'])->get();
+        }
         return Teacher::with(['roles'])->get();
     }
 
+    // Maps teacher data to array
     public function map($teacher): array
     {
-        $this->rowCount++;
+        $this->row_count++;
 
         $row = [
-            $this->rowCount,
+            $this->row_count,
             $teacher->tid,
             $teacher->full_name_en,
             $teacher->full_name_kh,
-            $teacher->gender_id,
+            $teacher->gender_id == 1 ? 'ប្រុស' : 'ស្រី',
             $teacher->date_of_birth,
             $teacher->phone,
             $teacher->is_enable_account,
         ];
 
-         if (!isset($teacher->roles)) {
+        // Check if roles are set for teacher
+        if (!isset($teacher->roles)) {
             return $row;
         }
 
+        // Add roles to row
         $row[] = implode(",",  $teacher->roles->map(function ($role) {
             return $role["name"];
         })->toArray());
@@ -48,13 +57,14 @@ class TeacherExport implements FromCollection, WithHeadings, WithMapping, WithCo
         return $row;
     }
 
+    // Returns headings for the teacher data
     public function headings(): array
     {
         return [
             "ល.រ",
             "អត្តលេខ",
-            "ឈ្មោះភាសាខ្មែរ",
-            "ឈ្មោះឡាតាំង",
+            "គោត្តនាមនិងនាម ភាសាខ្មែរ",
+            "គោត្តនាមនិងនាម ឡាតាំង",
             "ភេទ",
             "ថ្ងៃ/ខែ/ឆ្នាំកំណើត",
             "លេខទូរស័ព្ទ",
@@ -63,6 +73,7 @@ class TeacherExport implements FromCollection, WithHeadings, WithMapping, WithCo
         ];
     }
 
+    // Returns column widths for the teacher data
     public function columnWidths(): array
     {
         return [

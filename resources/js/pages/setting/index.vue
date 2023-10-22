@@ -277,106 +277,6 @@
 				</div>
 			</div>
 
-			<!-- Dialog  -->
-			<el-dialog
-				v-model="dialogFormVisible"
-				title="ព័ត៌មានមុខវិទ្យា"
-				class="sanfont-khmer"
-				width="30%"
-				align-center="true"
-				draggable
-			>
-				<el-form
-					class="grid grid-cols-2"
-					:model="ruleForm"
-					:rules="rules"
-					ref="ruleForm"
-					id="fm"
-				>
-
-					<div class="flex flex-row ">
-						<div class="flex flex-col space-y-1">
-							<div>
-								<el-form-item
-									label="ឈ្មោះមុខវិទ្យា (ខ្មែរ)"
-									prop="subjectKhName"
-									class="sanfont-khmer "
-									:label-width="formLabelWidth"
-								>
-									<el-input
-										v-model="ruleForm.firstNameKh"
-										name="firstNameKh1"
-										clearable
-									></el-input>
-								</el-form-item>
-							</div>
-							<div>
-								<el-form-item
-									label="ឈ្មោះមុខវិទ្យា (អង់គ្លេស)"
-									prop="subjectEngName"
-									class="sanfont-khmer "
-									:label-width="formLabelWidth"
-								>
-									<el-input
-										v-model="ruleForm.subjectEngName"
-										name="subjectEngName"
-										clearable
-									></el-input>
-								</el-form-item>
-							</div>
-							<div>
-								<el-form-item
-									label="ឈ្មោះមុខវិទ្យា (អក្សរកាត់)"
-									prop="subjectShortName"
-									class="sanfont-khmer "
-									:label-width="formLabelWidth"
-								>
-									<el-input
-										v-model="ruleForm.subjectShortName"
-										name="subjectShortName"
-										clearable
-									></el-input>
-								</el-form-item>
-							</div>
-
-						</div>
-					</div>
-
-				</el-form>
-				<el-dialog v-model="dialogVisible">
-					<img
-						w-full
-						:src="dialogImageUrl"
-						alt="Preview Image"
-					/>
-				</el-dialog>
-				<template #footer>
-					<span class="dialog-footer">
-						<el-button
-							@click="cancelAction()"
-							class="sanfont-khmer"
-							type="danger"
-						> បោះបង់</el-button>
-						<el-button
-							v-if="!isShowButtonUpdate"
-							type="primary"
-							class="sanfont-khmer"
-							@click="submitForm('ruleForm')"
-						>
-							រក្សាទុក
-						</el-button>
-						<el-button
-							v-if="isShowButtonUpdate"
-							type="primary"
-							class="sanfont-khmer"
-							@click="updateData('ruleForm')"
-						>
-							រក្សាទុក
-						</el-button>
-					</span>
-				</template>
-			</el-dialog>
-			<!-- Dialog user  -->
 		</el-tab-pane>
 
 		<el-tab-pane
@@ -427,7 +327,6 @@
 					row-class-name="sanfont-khmer"
 					style="width: 100% ; height: 750px;"
 					stripe
-					border
 				>
 					<el-table-column
 						label="ID"
@@ -487,7 +386,92 @@
 			</div>
 		</el-tab-pane>
 	</el-tabs>
+	<!-- Dialog  -->
+	<el-dialog
+		v-model="dialogFormVisible"
+		class="sanfont-khmer text-white"
+		width="30%"
+		align-center="true"
+		draggable
+	>
+		<template #header>
+			<div class="my-header">
+				<h4 class="text-lg font-semibold text-white">ព័ត៌មានតួនាទី</h4>
+			</div>
+		</template>
+		<el-form
+			class="grid grid-cols-2"
+			:model="ruleForm"
+			:rules="rules"
+			ref="ruleForm"
+			id="fm"
+		>
 
+			<div class="">
+				<el-form-item label="ឈ្មោះតួនាទី">
+					<el-input v-model="form.name" />
+				</el-form-item>
+				<div class="text-left text-md font-bold py-2">
+					សិទ្ធិ
+				</div>
+				<div class="text-left">
+					<el-checkbox
+						v-model="checkAll"
+						:indeterminate="isIndeterminate"
+						@change="handleCheckAllChange"
+					>ទាំងអស់</el-checkbox>
+					<el-checkbox-group
+						v-model="checkedCities"
+						@change="handleCheckedCitiesChange"
+					>
+						<div class="flex ">
+							<el-checkbox
+								v-for="city in cities"
+								:key="city"
+								:label="city"
+							>
+								{{city}}
+							</el-checkbox>
+						</div>
+					</el-checkbox-group>
+				</div>
+			</div>
+
+		</el-form>
+		<el-dialog v-model="dialogVisible">
+			<img
+				w-full
+				:src="dialogImageUrl"
+				alt="Preview Image"
+			/>
+		</el-dialog>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button
+					@click="cancelAction()"
+					class="sanfont-khmer"
+					type="danger"
+				> បោះបង់</el-button>
+				<el-button
+					v-if="!isShowButtonUpdate"
+					type="primary"
+					class="sanfont-khmer"
+					@click="submitForm('ruleForm')"
+				>
+					រក្សាទុក
+				</el-button>
+				<el-button
+					v-if="isShowButtonUpdate"
+					type="primary"
+					class="sanfont-khmer"
+					@click="updateData('ruleForm')"
+				>
+					រក្សាទុក
+				</el-button>
+			</span>
+		</template>
+	</el-dialog>
+	<!-- Dialog user  -->
 </template>
 <script>
 export default {
@@ -526,7 +510,8 @@ export default {
 			tabTypeScore: 'tab-setting-1',
 
 			//role
-			roleData: []
+			roleData: [],
+			cities: ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen']
 		}
 	},
 	mounted() {
@@ -539,8 +524,12 @@ export default {
 			localStorage.setItem('tab-setting', name);
 			if (name == 'tab-setting-1') {
 				this.getSetting();
-			} else {
+			} else if (name == 'tab-setting-2') {
 				this.getData();
+
+			} else {
+				this.getDataRole();
+
 			}
 		},
 
@@ -687,6 +676,10 @@ export default {
 				}
 			})
 		},
+
+		AddRole() {
+			this.dialogFormVisible = true
+		}
 
 	}
 }
