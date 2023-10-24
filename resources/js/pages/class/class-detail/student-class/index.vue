@@ -19,13 +19,19 @@
 
 		<div class="flex flex-col space-x-2 space-y-2 xl:flex-row  xl:space-y-0">
 			<div class="self-center  flex space-x-3">
-				<el-button type="info">
+				<el-button
+					type="info"
+					@click="exportExcel"
+				>
 					<el-icon>
 						<Document />
 					</el-icon>
 					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 				</el-button>
-				<el-button type="info">
+				<el-button
+					type="info"
+					@click="exportPDF"
+				>
 					<el-icon>
 						<Document />
 					</el-icon>
@@ -92,12 +98,17 @@
 		<el-table-column
 			width="100"
 			align="start"
+			property="sid"
 			label="អត្តលេខ"
 			sortable
 		>
-			<template #default="scope">{{ "PK-S00"+ scope.row.student_in_class.student_id}}</template>
+			<template #default="scope">{{scope.row.student_in_class.sid}}</template>
 		</el-table-column>
-		<el-table-column label="ឈ្មោះភាសាខ្មែរ">
+		<el-table-column
+			label="ឈ្មោះភាសាខ្មែរ"
+			property="full_name_kh"
+			sortable
+		>
 			<template #default="scope">
 				<span>
 					{{ scope.row.student_in_class.full_name_kh }}
@@ -105,7 +116,12 @@
 			</template>
 		</el-table-column>
 
-		<el-table-column label="ឈ្មោះឡាតាំង">
+		<el-table-column
+			label="ឈ្មោះឡាតាំង"
+			property="full_name_en"
+			sortable
+		>
+
 			<template #default="scope">
 				<span>
 					{{ scope.row.student_in_class.full_name_en }}
@@ -211,26 +227,18 @@
 
 			<div>
 				<div class="flex flex-col space-y-1">
-					<div>
-						<el-form-item
-							label="ថ្នាក់"
-							prop="roles"
-							class="sanfont-khmer"
-							:label-width="formLabelWidth"
-						>
-							<el-select
-								v-model="ruleForm.roles"
-								placeholder="ជ្រើសរើស"
-								class="text-left "
-							>
-								<el-option
-									label="១០​ A"
-									value="1"
-								></el-option>
 
-							</el-select>
-						</el-form-item>
-					</div>
+					<el-form-item
+						label="ថ្នាក់"
+						prop="roles"
+						class="sanfont-khmer"
+						:label-width="formLabelWidth"
+					>
+						<el-input
+							v-model="classData.class_name"
+							disabled
+						></el-input>
+					</el-form-item>
 
 				</div>
 				<div class=" border rounded bg-gray-50">
@@ -289,19 +297,20 @@
 								<template #default="scope">{{ "PK-S00"+ scope.row.student_id}}</template>
 							</el-table-column>
 							<el-table-column
+								property="full_name_kh"
 								width="180"
 								label="គោត្តនាម និងនាម"
 								sortable
 							>
-								<template #default="scope">{{scope.row.first_name_kh +" "+scope.row.last_name_kh }}</template>
+								<template #default="scope">{{scope.row.full_name_kh}}</template>
 							</el-table-column>
 							<el-table-column
-								property="first_name_en"
+								property="full_name_en"
 								label="គោត្តនាម និងនាមឡាតាំង"
 								width="250"
 								sortable
 							>
-								<template #default="scope">{{scope.row.first_name_en +" "+scope.row.last_name_en }}</template>
+								<template #default="scope">{{scope.row.full_name_en }}</template>
 
 							</el-table-column>
 							<el-table-column
@@ -799,6 +808,8 @@
 
 </template>
 <script>
+import FileSaver from 'file-saver'
+
 export default {
 
 	props: {
@@ -933,6 +944,45 @@ export default {
 	},
 
 	methods: {
+
+		async exportExcel() {
+			const config = {
+				headers: {
+					'Content-Type': 'applicaton/json',
+				},
+				responseType: 'blob'
+			}
+			const class_id = this.$route.query.id;
+			await axios.post('/class/student/' + class_id + '/export-excel', null, config).then(response => {
+				FileSaver.saveAs(response.data, 'class-student-list');
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		async exportPDF() {
+			const class_id = this.$route.query.id;
+			const config = {
+				headers: {
+					'Content-Type':
+						'multipart/form-data; charset=utf-8; boundary=' +
+						Math.random().toString().substr(2),
+				},
+				withCredentials: false,
+				responseType: 'arraybuffer',//important Thanks bong well noted save my life 🙏 
+			}
+			await axios.post('/class/student/' + class_id + '/export-pdf', null, config).then(response => {
+				let blob = new Blob([response.data], { type: 'application/pdf', }),
+					url = window.URL.createObjectURL(blob);
+				const newOpen = window.open(url);
+
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
 		//Change Per Page
 		changePageSize(event) {
 			this.per_page = event;
@@ -1005,6 +1055,7 @@ export default {
 			const class_id = this.$route.query.id;
 			await axios.get(`/class/teacher/${class_id}/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`).then(response => {
 				this.studentData = response.data.student
+				this.classData = response.data.class
 				this.status = response.data.status
 				this.gender = response.data.gender
 				this.loading = false;

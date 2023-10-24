@@ -20,7 +20,7 @@
 				<div class="flex  ">
 					<div class="self-start  space-x-2">
 						<el-select
-							v-model="teacher_levelSelectValue"
+							v-model="filter_teacher_level"
 							filterable
 							clearable
 							placeholder="កម្រិត"
@@ -35,22 +35,25 @@
 						</el-select>
 
 						<el-select
-							v-model="filterSelectValue"
+							v-model="filter_profession"
 							filterable
 							clearable
 							multiple
 							placeholder="ឯកទេស"
 						>
 							<el-option
-								v-for="item in filter"
-								:key="item.filterValue"
-								:label="item.filterLabel"
-								:value="item.filterValue"
+								v-for="item in subject"
+								:key="item.subject_name_kh"
+								:label="item.subject_name_kh"
+								:value="item.subject_id"
 							>
 							</el-option>
 						</el-select>
 
-						<el-button type="primary">
+						<el-button
+							type="primary"
+							@click="filterAction"
+						>
 							<el-icon>
 								<Search />
 							</el-icon>
@@ -63,7 +66,7 @@
 		</div>
 
 		<div class="flex flex-col 3xl:flex-row space-y-2 ">
-			<div class="self-center flex pt-2 xl:pt-0">
+			<div class="self-end flex pt-2 xl:pt-0">
 				<el-switch
 					v-model="is_show_trust"
 					@change="clickShowwTrush"
@@ -88,7 +91,10 @@
 					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
 				</el-button>
-				<el-button type="info" @click="exportPDF">
+				<el-button
+					type="info"
+					@click="exportPDF"
+				>
 					<el-icon>
 						<Document />
 					</el-icon>
@@ -149,6 +155,7 @@
 						</template>
 					</el-table-column>
 					<el-table-column
+						property="tid"
 						width="100"
 						align="start"
 						label="អត្តលេខ"
@@ -157,6 +164,7 @@
 						<template #default="scope">{{ scope.row.tid }}</template>
 					</el-table-column>
 					<el-table-column
+						property="full_name_kh"
 						width="180"
 						label="ឈ្មោះភាសាខ្មែរ"
 						sortable
@@ -164,7 +172,7 @@
 						<template #default="scope">{{ scope.row.full_name_kh }}</template>
 					</el-table-column>
 					<el-table-column
-						property="first_name_en"
+						property="full_name_en"
 						label="ឈ្មោះឡាតាំង"
 						width="180"
 						sortable
@@ -175,7 +183,6 @@
 					<el-table-column
 						width="120"
 						label="តួនាទី"
-						sortable
 					>
 						<template #default="scope">
 							<div>{{ scope.row.roles?.name }}</div>
@@ -183,6 +190,7 @@
 						</template>
 					</el-table-column>
 					<el-table-column
+						property="gender_id"
 						width="120"
 						label="ភេទ"
 						sortable
@@ -837,21 +845,6 @@ export default {
 					{ required: true, message: 'Please add photo', trigger: 'change' }
 				],
 			},
-			filter: [{
-				filterValue: 'តាមឈ្មោះ',
-				filterLabel: 'ភាសាខ្មែរ'
-			}, {
-				filterValue: 'តាមលេខរៀង',
-				filterLabel: 'គណិតវិទ្យា'
-			}, {
-				filterValue: 'តាមកាលបរិច្ឆេត',
-				filterLabel: 'រូបវិទ្យា'
-			}, {
-				filterValue: 'តាមទំហំផ្ទុក',
-				filterLabel: 'គីមីវិទ្យា'
-			}],
-			filterSelectValue: "",
-
 			teacher_level: [
 				{
 					teacher_level_value: '1',
@@ -871,8 +864,8 @@ export default {
 			per_page: 10,
 			sort_by: 'tid',
 			order_by: 1,
-			filter_profession: [],
-			filter_teacher_level: 1,
+			filter_profession: '',
+			filter_teacher_level:"2",
 			search: '',
 			tSearch: null,
 			is_show_trust: 0,
@@ -893,7 +886,7 @@ export default {
 		},
 		async getData() {
 			this.loading = true;
-			await axios.get(`/teacher/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`).then(response => {
+			await axios.get(`/teacher/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}&filter_teacher_level=${this.filter_teacher_level}&filter_profession=${this.filter_profession}`).then(response => {
 				this.tableData = response.data.data
 				this.status = response.data.status
 				this.role = response.data.role
@@ -1047,6 +1040,13 @@ export default {
 					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
+			}).catch(error=>{
+				if(error.response.status==400){
+					this.$message({
+						message: error.response.data.data,
+						type: 'error'
+					});
+				}
 			})
 		},
 		async restoreData(id) {
@@ -1162,7 +1162,7 @@ export default {
 				FileSaver.saveAs(response.data, 'teacher');
 			});
 		},
-		async exportPDF(){
+		async exportPDF() {
 			axios.post('/teacher/exportPDF', {
 				file_name: 'Teacher',
 				is_show_trust: this.is_show_trust

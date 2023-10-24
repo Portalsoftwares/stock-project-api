@@ -795,7 +795,7 @@ var _hoisted_26 = {
   "class": "flex flex-col space-y-2"
 };
 var _hoisted_27 = {
-  "class": "self-center flex"
+  "class": "self-end flex"
 };
 var _hoisted_28 = {
   "class": "self-center"
@@ -1367,8 +1367,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
                 _: 1 /* STABLE */
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-                label: "ប្រភេទថ្នាក់",
-                sortable: ""
+                label: "ប្រភេទថ្នាក់"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
                   var _scope$row$class_type;

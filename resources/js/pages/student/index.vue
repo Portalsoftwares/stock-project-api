@@ -37,7 +37,7 @@
 		</div>
 
 		<div class="flex flex-col  3xl:flex-row space-y-2 ">
-			<div class="self-center flex ">
+			<div class="self-end flex ">
 				<el-switch v-model="is_show_trust" @change="clickShowwTrush" class="px-2" width="40"
 					active-text="បង្ហាញទិន្នន័យបានលុប" inactive-text="" active-value="1" inactive-value="0" />
 			</div>

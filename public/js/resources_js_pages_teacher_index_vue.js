@@ -184,20 +184,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           trigger: 'change'
         }]
       },
-      filter: [{
-        filterValue: 'តាមឈ្មោះ',
-        filterLabel: 'ភាសាខ្មែរ'
-      }, {
-        filterValue: 'តាមលេខរៀង',
-        filterLabel: 'គណិតវិទ្យា'
-      }, {
-        filterValue: 'តាមកាលបរិច្ឆេត',
-        filterLabel: 'រូបវិទ្យា'
-      }, {
-        filterValue: 'តាមទំហំផ្ទុក',
-        filterLabel: 'គីមីវិទ្យា'
-      }],
-      filterSelectValue: "",
       teacher_level: [{
         teacher_level_value: '1',
         teacher_level_Label: 'មបភ'
@@ -212,8 +198,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       per_page: 10,
       sort_by: 'tid',
       order_by: 1,
-      filter_profession: [],
-      filter_teacher_level: 1,
+      filter_profession: '',
+      filter_teacher_level: "2",
       search: '',
       tSearch: null,
       is_show_trust: 0,
@@ -239,7 +225,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               _this.loading = true;
               _context.next = 3;
-              return axios.get("/teacher/get?page=".concat(_this.page, "&per_page=").concat(_this.per_page, "&sort_by=").concat(_this.sort_by, "&order_by=").concat(_this.order_by, "&search=").concat(_this.search, "&is_show_trust=").concat(_this.is_show_trust)).then(function (response) {
+              return axios.get("/teacher/get?page=".concat(_this.page, "&per_page=").concat(_this.per_page, "&sort_by=").concat(_this.sort_by, "&order_by=").concat(_this.order_by, "&search=").concat(_this.search, "&is_show_trust=").concat(_this.is_show_trust, "&filter_teacher_level=").concat(_this.filter_teacher_level, "&filter_profession=").concat(_this.filter_profession)).then(function (response) {
                 _this.tableData = response.data.data;
                 _this.status = response.data.status;
                 _this.role = response.data.role;
@@ -444,6 +430,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
+              })["catch"](function (error) {
+                if (error.response.status == 400) {
+                  _this7.$message({
+                    message: error.response.data.data,
+                    type: 'error'
+                  });
+                }
               });
             case 2:
             case "end":
@@ -674,7 +667,7 @@ var _hoisted_9 = {
   "class": "flex flex-col 3xl:flex-row space-y-2"
 };
 var _hoisted_10 = {
-  "class": "self-center flex pt-2 xl:pt-0"
+  "class": "self-end flex pt-2 xl:pt-0"
 };
 var _hoisted_11 = {
   "class": "self-center"
@@ -769,9 +762,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     onInput: $options.clickSearch
   }, null, 8 /* PROPS */, ["modelValue", "onInput"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-    modelValue: $data.teacher_levelSelectValue,
+    modelValue: $data.filter_teacher_level,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $data.teacher_levelSelectValue = $event;
+      return $data.filter_teacher_level = $event;
     }),
     filterable: "",
     clearable: "",
@@ -789,9 +782,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
-    modelValue: $data.filterSelectValue,
+    modelValue: $data.filter_profession,
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      return $data.filterSelectValue = $event;
+      return $data.filter_profession = $event;
     }),
     filterable: "",
     clearable: "",
@@ -799,18 +792,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "ឯកទេស"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filter, function (item) {
+      return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.subject, function (item) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-          key: item.filterValue,
-          label: item.filterLabel,
-          value: item.filterValue
+          key: item.subject_name_kh,
+          label: item.subject_name_kh,
+          value: item.subject_id
         }, null, 8 /* PROPS */, ["label", "value"]);
       }), 128 /* KEYED_FRAGMENT */))];
     }),
 
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-    type: "primary"
+    type: "primary",
+    onClick: $options.filterAction
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -822,7 +816,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
 
     _: 1 /* STABLE */
-  })])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_switch, {
+  }, 8 /* PROPS */, ["onClick"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_switch, {
     modelValue: $data.is_show_trust,
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.is_show_trust = $event;
@@ -914,6 +908,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
+        property: "tid",
         width: "100",
         align: "start",
         label: "អត្តលេខ",
@@ -925,6 +920,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
+        property: "full_name_kh",
         width: "180",
         label: "ឈ្មោះភាសាខ្មែរ",
         sortable: ""
@@ -935,7 +931,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-        property: "first_name_en",
+        property: "full_name_en",
         label: "ឈ្មោះឡាតាំង",
         width: "180",
         sortable: ""
@@ -947,8 +943,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         width: "120",
-        label: "តួនាទី",
-        sortable: ""
+        label: "តួនាទី"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
           var _scope$row$roles;
@@ -957,6 +952,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
+        property: "gender_id",
         width: "120",
         label: "ភេទ",
         sortable: ""

@@ -952,6 +952,10 @@ header.el-dialog__header {
   width: 100vw;
 }
 
+.w-\[300px\] {
+  width: 300px;
+}
+
 .w-\[50px\] {
   width: 50px;
 }

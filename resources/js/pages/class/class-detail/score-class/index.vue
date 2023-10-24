@@ -171,13 +171,14 @@
 				>
 					យល់ព្រម
 				</el-button>
-				<!-- <el-button
+				<el-button
+				v-if="is_testing"
 					type="info"
 					class="sanfont-khmer mt-2 hiden"
 					@click="randomScoreAll()"
 				>
 					ទាញទិន្នន័យស្រាប់
-				</el-button> -->
+				</el-button>
 				<div>
 				</div>
 			</div>
@@ -544,7 +545,8 @@ export default {
 			tableData: [],
 			academic: [],
 			exam: [],
-			is_random: 0
+			is_random: 0,
+			is_testing:false
 		}
 	},
 	mounted() {

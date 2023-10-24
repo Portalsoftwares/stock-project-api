@@ -16,14 +16,14 @@ class AcademicSeeder extends Seeder
     public function run()
     {
         Academic::create([
-            'academic_name' => 'ឆ្នាំសិក្សា​២០២២​ - ២០២៣',
-            'start_date' => '2022-01-01',
-            'end_date' => '2023-01-01',
-        ]);
-        Academic::create([
             'academic_name' => 'ឆ្នាំសិក្សា​២០២៣​ - ២០២៤',
             'start_date' => '2023-01-01',
             'end_date' => '2024-01-01',
+        ]);
+        Academic::create([
+            'academic_name' => '្នាំសិក្សា​២០២៤ - ២០២៥',
+            'start_date' => '2024-01-01',
+            'end_date' => '2025-01-01',
         ]);
     }
 }

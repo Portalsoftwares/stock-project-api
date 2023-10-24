@@ -27,7 +27,7 @@ class StudentClass extends Model
 
     public function student_in_class()
     {
-        return $this->hasOne(Student::class, 'student_id', 'student_id');
+        return $this->hasOne(Student::class, 'student_id', 'student_id')->orderBy('full_name_kh', 'asc');
     }
     public function class()
     {

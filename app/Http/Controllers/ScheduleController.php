@@ -16,6 +16,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Subject;
+use App\mPDF\PdfWrapper;
 
 class ScheduleController extends Controller
 {
@@ -199,5 +200,52 @@ class ScheduleController extends Controller
             'message' => "Teacher class  was created."
         ];
         return  response($response, 200);
+    }
+
+    public function exportExcel(Request $request, $id)
+    {
+        $data =  Schedule::where('class_id', $id)->first();
+        $day =  Day::all();
+        $class = Classes::find($id);
+        $timeData = [];
+
+        if (!empty($data)) {
+            $schedule = $data->schedule_id;
+            $timeData =  Time::with([
+                'getSchedule.subject.subject', 'getSchedule' => function ($query) use ($schedule) {
+                    $query->where('schedule_id', $schedule);
+                }
+            ])->get();
+        }
+        foreach ($timeData as $ix => $obj) {
+            foreach ($day as $index => $data) {
+                // បាន​ហៅ វត្តមានហើយ
+                if (count($obj->getSchedule) != 0) {
+                    foreach ($obj->getSchedule as $si => $scd) {
+                        if ($data->day_id == $obj->getSchedule[$si]->day_id) {
+                            $obj['subject_grade_day_' . $data->day_id] = $obj->getSchedule[$si]->subject_grade_id;
+                            // $sub = Subject::find($obj->getSchedule[$si]->subject_grade_id);
+                            $obj['name_subject_grade_day_' . $data->day_id] = !empty($obj->getSchedule[$si]->subject) ? $obj->getSchedule[$si]->subject : '';
+                        }
+                    }
+                } else {
+                    // មិនទាន់
+                    $obj['subject_grade_day_' . $data->day_id] = null;
+                }
+            }
+        }
+
+        //return "hi";
+        $pdf = PdfWrapper::loadView('Schedule.subject', [
+            'data' => $timeData,
+            'option' => [
+                'day' => $day,
+                'time' => Time::all(),
+                'class' => $class,
+                'academic' => $class->academic,
+            ]
+        ]);
+        // return $pdf;
+        return $pdf->stream('schedule.pdf');
     }
 }

@@ -94,7 +94,6 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'unique:users'],
-            'photo_id' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', Rules\Password::defaults()],
             'role' => 'required',
@@ -254,7 +253,7 @@ class UserController extends Controller
 
     public function exportExcel(Request $request)
     {
-        if(isset($request->is_show_trust)){
+        if (isset($request->is_show_trust)) {
             return $this->exporter->download(new UsersExport($request->is_show_trust), 'users.xlsx');
         }
         return $this->exporter->download(new UsersExport(), 'users.xlsx');
@@ -263,16 +262,36 @@ class UserController extends Controller
     public function exportPDF(Request $request)
     {
         $users = User::query();
-    
+
         if ($request->has('is_show_trust') && $request->is_show_trust) {
             $users = User::onlyTrashed();
         }
-        
+
         $pdf = PDF::loadView('list.user', [
             'users' => $users->with(['roles'])->get()
         ]);
-        
+
         return $pdf->stream('users.pdf');
     }
-    
+
+    public function updatePW(Request $request, $id)
+    {
+        $request->validate([
+            'old_pw' => 'required',
+            'new_pw' => 'required',
+        ]);
+        $field = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $user = User::where('id', $id)->first();
+        if (!$user || !Hash::check($request->old_pw, $user->password)) {
+            return response([
+                'message' => 'ពាក្យសម្ងាត់ចាស់មិនត្រឹមត្រូវ'
+            ], 403);
+        }
+        $user->password = bcrypt($request->new_pw);
+        $user->save();
+        $response = [
+            'data' => 'ពាក្យសម្ងាត់បានផ្លាស់ប្ដូរ',
+        ];
+        return  response($response, 200);
+    }
 }

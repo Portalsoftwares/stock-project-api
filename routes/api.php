@@ -39,6 +39,7 @@ Route::prefix('v1')->group(function () {
       Route::get('get/{id}', [UserController::class, 'show']);
       Route::get('edit/{id}', [UserController::class, 'edit']);
       Route::post('update/{id}', [UserController::class, 'update']);
+      Route::post('update/{id}/pw', [UserController::class, 'updatePW']);
       Route::delete('delete/{id}', [UserController::class, 'delete']);
       Route::post('/restore/{id}', [UserController::class, 'restore']);
 
@@ -109,6 +110,8 @@ Route::prefix('v1')->group(function () {
       Route::post('/student/{id}/add', [ClassController::class, 'addStudentClass']);
       Route::get('/student/{id}/get', [ClassController::class, 'getStudentToClass']);
       Route::delete('/student/{id}/delete/{student_id}', [ClassController::class, 'deleteStudentToClass']);
+      Route::post('/student/{id}/export-pdf', [ClassController::class, 'exportStudentListPDF']);
+      Route::post('/student/{id}/export-excel', [ClassController::class, 'exportStudentListExcel']);
     });
 
     //Schedule class
@@ -117,6 +120,8 @@ Route::prefix('v1')->group(function () {
       Route::get('/{id}/edit', [ScheduleController::class, 'edit']);
       Route::get('/{id}/schedule', [ScheduleController::class, 'getScheduleDayTime']);
       Route::post('/{id}/create', [ScheduleController::class, 'create']);
+
+      Route::post('/{id}/schedule/export', [ScheduleController::class, 'exportExcel']);
     });
     //Teacher class
     Route::prefix('teacher_class')->group(function () {
@@ -135,6 +140,9 @@ Route::prefix('v1')->group(function () {
       //Report
       Route::post('/report/{id}/export', [AttendanceController::class, 'exportPDF']);
       Route::post('/report/{id}/export-excel', [AttendanceController::class, 'exportEXCEL']);
+
+      Route::post('/report-subject/{id}/export', [AttendanceController::class, 'exportSubjectPDF']);
+      Route::post('/report-subject/{id}/export-excel', [AttendanceController::class, 'exportSubjectEXCEL']);
     });
     //Score 
     Route::prefix('score')->group(function () {

@@ -76,7 +76,7 @@
 					<div class="self-center">
 						<el-button
 							type="info"
-							@click="exportExcel"
+							@click="exportAttendancEXCEL"
 							v-loading.fullscreen.lock="fullscreenLoading"
 						>
 							<el-icon>
@@ -87,7 +87,7 @@
 						</el-button>
 						<el-button
 							type="info"
-							@click="exportPDF"
+							@click="exportAttendancePDF"
 							v-loading.fullscreen.lock="fullscreenLoading"
 						>
 							<el-icon>
@@ -148,8 +148,17 @@
 						</template>
 						<template #default="scope">
 
-							<span>
-								{{ scope.row['attendance_' + data] }}
+							<span
+								v-if="scope.row['attendance_'+data]=='P'"
+								class="text-yellow-600"
+							>
+								{{ scope.row['attendance_'+data]}}
+							</span>
+							<span
+								v-if="scope.row['attendance_'+data]=='A'"
+								class="text-red-600"
+							>
+								{{ scope.row['attendance_'+data]}}
 							</span>
 						</template>
 					</el-table-column>
@@ -172,15 +181,30 @@
 					<el-table-column
 						value="10"
 						fixed="right"
-						width="70"
+						width="75"
 						align="center"
 					>
 						<template #header>
-							<div class="text-red-600">អច្បាប់</div>
+							<div class="text-red-600">អត់ច្បាប់</div>
 						</template>
 						<template #default="scope">
 							<span class="text-red-600">
 								{{ scope.row.total_type_a }}
+							</span>
+						</template>
+					</el-table-column>
+					<el-table-column
+						value="10"
+						fixed="right"
+						width="70"
+						align="center"
+					>
+						<template #header>
+							<div class="text-gray-600">សរុប</div>
+						</template>
+						<template #default="scope">
+							<span class="text-gray-600">
+								{{ scope.row.total }}
 							</span>
 						</template>
 					</el-table-column>
@@ -263,7 +287,7 @@
 					<div class="self-center">
 						<el-button
 							type="info"
-							@click="exportExcel"
+							@click="exportScoreEXCEL"
 							v-loading.fullscreen.lock="fullscreenLoading"
 						>
 							<el-icon>
@@ -274,7 +298,7 @@
 						</el-button>
 						<el-button
 							type="info"
-							@click="exportPDF"
+							@click="exportScorePDF"
 							v-loading.fullscreen.lock="fullscreenLoading"
 						>
 							<el-icon>
@@ -389,6 +413,7 @@
 	</div>
 </template>
 <script>
+import FileSaver from 'file-saver'
 export default {
 	data() {
 		return {
@@ -411,7 +436,24 @@ export default {
 			//Score Report
 			reportType: [],
 			report_type_id: '',
-			studentObj: []
+			studentObj: [],
+			report_total_student: 0,
+			report_total_good: 0,
+			report_total_ok: 0,
+			report_total_medium: 0,
+			report_total_low: 0,
+			report_total_less: 0,
+			report_total_student_women: 0,
+			report_total_good_women: 0,
+			report_total_ok_women: 0,
+			report_total_medium_women: 0,
+			report_total_low_women: 0,
+			report_total_less_women: 0,
+			//exam
+			tableData: [],
+			exam: [],
+			academicName: [],
+			is_random: 0
 		}
 	},
 	mounted() {
@@ -460,6 +502,103 @@ export default {
 				}
 			})
 		},
+		getMonthNameKH(id) {
+			var name = this.scoreType.find(e => e.score_type_id == id);
+			return name;
+		},
+		//Export PDF
+		async exportAttendancePDF() {
+			const config = {
+				headers: {
+					'Content-Type':
+						'multipart/form-data; charset=utf-8; boundary=' +
+						Math.random().toString().substr(2),
+				},
+				withCredentials: false,
+				responseType: 'arraybuffer',//important Thanks bong well noted save my life 🙏 
+			}
+			var studentDataPDF = []
+			this.studentReport.forEach((data) => {
+				let objStudent = {
+					"student_name": data.student_in_class?.full_name_kh,
+					"gender": data.student_in_class?.gender?.gender_name_kh,
+					"total_type_pm": data.total_type_pm,
+					"total_type_a": data.total_type_a,
+					"total": data.total
+				};
+				this.dates.forEach((date, i) => {
+					let day = `day_${i + 1}`;
+					objStudent[day] = data['attendance_' + date] ?? 0
+				});
+
+				studentDataPDF.push(objStudent)
+			});
+
+			const dataObj = {
+				'data': studentDataPDF,
+				'option': {
+					'class': this.classData.class_name,
+					'exam': this.getMonthNameKH(this.score_type_id),
+					'dates': this.dates,
+					'academic': this.classData.academic,
+
+				}
+			}
+			await axios.post('/attendance/report/' + this.class_id + '/export', dataObj, config).then(response => {
+				let blob = new Blob([response.data], { type: 'application/pdf', }),
+					url = window.URL.createObjectURL(blob);
+				const newOpen = window.open(url);
+
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		//Export EXcel
+		async exportAttendancEXCEL() {
+			const config = {
+				headers: {
+					'Content-Type': 'applicaton/json',
+				},
+				responseType: 'blob'
+			}
+			var studentDataPDF = []
+			this.studentReport.forEach((data) => {
+				console.log(data)
+				let objStudent = {
+					"student_name": data.student_in_class?.full_name_kh,
+					"gender": data.student_in_class?.gender?.gender_name_kh,
+					"total_type_pm": data.total_type_pm == 0 ? '0' : data.total_type_pm,
+					"total_type_a": data.total_type_a == 0 ? '0' : data.total_type_a,
+					"total": data.total == 0 ? '0' : data.total
+				};
+				this.dates.forEach((date, i) => {
+					let day = `day_${i + 1}`;
+					objStudent[day] = data['attendance_' + date] ?? 0
+				});
+
+				studentDataPDF.push(objStudent)
+			});
+
+
+			const dataObj = {
+				'data': studentDataPDF,
+				'option': {
+					'class': this.classData.class_name,
+					'exam': this.getMonthNameKH(this.score_type_id),
+					'dates': this.dates,
+					'academic': this.classData.academic,
+				}
+			}
+			await axios.post('/attendance/report/' + this.class_id + '/export-excel', dataObj, config).then(response => {
+				FileSaver.saveAs(response.data, 'report_attendance');
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
 
 		//Score Report
 		async showInfomationStudentScoreReport() {
@@ -472,25 +611,25 @@ export default {
 				headers: { 'content-type': 'application/json' }
 			}
 			await axios.post('/score/collect/report/' + this.class_id, scoreInfo, config).then(response => {
-				// this.academic = response.data.academic;
-				// this.exam = response.data.exam;
+				this.academicName = response.data.academic;
+				this.exam = response.data.exam;
 				this.studentObj = response.data.student;
-				// this.scoreTypeObj = response.data.score_type;
+				this.scoreTypeObj = response.data.score_type;
 
-				// //total
-				// this.report_total_student = response.data.total_student;
-				// this.report_total_good = response.data.total_good;
-				// this.report_total_ok = response.data.total_ok;
-				// this.report_total_medium = response.data.total_medium;
-				// this.report_total_low = response.data.total_low;
-				// this.report_total_less = response.data.total_less;
-				// //Women
-				// this.report_total_student_women = response.data.total_student_women;
-				// this.report_total_good_women = response.data.total_good_women;
-				// this.report_total_ok_women = response.data.total_ok_women;
-				// this.report_total_medium_women = response.data.total_medium_women;
-				// this.report_total_low_women = response.data.total_low_women;
-				// this.report_total_less_women = response.data.total_less_women;
+				//total
+				this.report_total_student = response.data.total_student;
+				this.report_total_good = response.data.total_good;
+				this.report_total_ok = response.data.total_ok;
+				this.report_total_medium = response.data.total_medium;
+				this.report_total_low = response.data.total_low;
+				this.report_total_less = response.data.total_less;
+				//Women
+				this.report_total_student_women = response.data.total_student_women;
+				this.report_total_good_women = response.data.total_good_women;
+				this.report_total_ok_women = response.data.total_ok_women;
+				this.report_total_medium_women = response.data.total_medium_women;
+				this.report_total_low_women = response.data.total_low_women;
+				this.report_total_less_women = response.data.total_less_women;
 				//
 				// this.dialogFormVisibleReports = true;
 				this.loading_report = false;
@@ -503,6 +642,122 @@ export default {
 				}
 			})
 		},
+		//Export 
+		async exportScorePDF() {
+			const config = {
+				headers: {
+					'Content-Type':
+						'multipart/form-data; charset=utf-8; boundary=' +
+						Math.random().toString().substr(2),
+				},
+				withCredentials: false,
+				responseType: 'arraybuffer',//important Thanks bong well noted save my life 🙏 
+			}
+			var studentDataPDF = []
+			this.studentObj.forEach((data) => {
+				let objStudent = {
+					"mark_total": data.mark_total ?? '-',
+					"mark_avg": data.mark_avg ?? '-',
+					"mark_rank_text": data.mark_rank_text ?? '-',
+					"mark_rank": data.mark_rank ?? '-',
+					"student_name": data.student_in_class?.full_name_kh,
+				}
+				studentDataPDF.push(objStudent)
+			});
+
+
+			const dataObj = {
+				'data': {
+					'data': studentDataPDF,
+					'report_total_student': this.report_total_student,
+					'report_total_good': this.report_total_good,
+					'report_total_ok': this.report_total_ok,
+					'report_total_medium': this.report_total_medium,
+					'report_total_low': this.report_total_low,
+					'report_total_less': this.report_total_less,
+
+					'report_total_student_women': this.report_total_student_women,
+					'report_total_good_women': this.report_total_good_women,
+					'report_total_ok_women': this.report_total_ok_women,
+					'report_total_medium_women': this.report_total_medium_women,
+					'report_total_low_women': this.report_total_low_women,
+					'report_total_less_women': this.report_total_less_women,
+				},
+				'option': {
+					'class': this.classData.class_name,
+					'exam': this.exam,
+					'academic': this.academicName,
+				}
+			}
+			const class_id = this.$route.query.id;
+
+			await axios.post('/score/report/' + class_id + '/export', dataObj, config).then(response => {
+				let blob = new Blob([response.data], { type: 'application/pdf', }),
+					url = window.URL.createObjectURL(blob);
+				const newOpen = window.open(url);
+
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		async exportScoreEXCEL() {
+			const config = {
+				headers: {
+					'Content-Type': 'applicaton/json',
+				},
+				responseType: 'blob'
+			}
+			var studentDataPDF = []
+			this.studentObj.forEach((data) => {
+				let objStudent = {
+					"mark_total": data.mark_total ?? '-',
+					"mark_avg": data.mark_avg ?? '-',
+					"mark_rank_text": data.mark_rank_text ?? '-',
+					"mark_rank": data.mark_rank ?? '-',
+					"student_name": data.student_in_class?.full_name_kh,
+				}
+				studentDataPDF.push(objStudent)
+			});
+
+
+			const dataObj = {
+				'data': {
+					'data': studentDataPDF,
+					'report_total_student': this.report_total_student,
+					'report_total_good': this.report_total_good,
+					'report_total_ok': this.report_total_ok,
+					'report_total_medium': this.report_total_medium,
+					'report_total_low': this.report_total_low,
+					'report_total_less': this.report_total_less,
+
+					'report_total_student_women': this.report_total_student_women,
+					'report_total_good_women': this.report_total_good_women,
+					'report_total_ok_women': this.report_total_ok_women,
+					'report_total_medium_women': this.report_total_medium_women,
+					'report_total_low_women': this.report_total_low_women,
+					'report_total_less_women': this.report_total_less_women,
+				},
+				'option': {
+					'class': this.classData.class_name,
+					'exam': this.exam,
+					'academic': this.academic,
+				}
+			}
+			const class_id = this.$route.query.id;
+
+			await axios.post('/score/report/' + class_id + '/export-excel', dataObj, config).then(response => {
+				FileSaver.saveAs(response.data, 'report_score');
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+
+
+
 
 	}
 }

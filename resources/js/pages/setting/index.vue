@@ -518,18 +518,16 @@ export default {
 		this.getData();
 		this.tabTypeScore = localStorage.getItem('tab-setting') ?? 'tab-setting-1';
 		this.getDataRole();
+		this.getSetting();
+
 	},
 	methods: {
 		changeTap(name) {
 			localStorage.setItem('tab-setting', name);
-			if (name == 'tab-setting-1') {
-				this.getSetting();
-			} else if (name == 'tab-setting-2') {
+			if (name == 'tab-setting-2') {
 				this.getData();
-
 			} else {
 				this.getDataRole();
-
 			}
 		},
 

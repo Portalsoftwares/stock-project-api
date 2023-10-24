@@ -73,7 +73,7 @@
 			</div>
 		</div>
 		<div class="flex flex-col space-x-2 space-y-2 ">
-			<div class=" self-center">
+			<div class=" self-end">
 				<el-switch
 					v-model="is_show_trust"
 					@change="clickShowwTrush"
