@@ -1021,9 +1021,19 @@ export default {
 				});
 				this.getStudentClass()
 			}).catch((error) => {
+			
+				if (error.response.status == 400) {
+					this.$message({
+						message: error.response.data.data,
+						type: 'error'
+					});
+				}
+		
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
+				this.loading = false
+
 			})
 		},
 		//select student id

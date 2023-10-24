@@ -33,7 +33,8 @@ class BackUPTask extends Command
      */
     public function handle()
     {
-        $status = Artisan::call('backup:run --only-db');
+        $status = Artisan::call('backup:run --only-db --verbose');
+        Log::info(Artisan::output());
         //Successfull Status =0 
         if ($status == 0) {
             $disk = Storage::disk(config('backup.destination.disks'));
@@ -67,6 +68,8 @@ class BackUPTask extends Command
             }
             Backup::truncate();
             Backup::insert($backups);
+            Log::info($backups);
+
         }
         Log::info($status);
     }

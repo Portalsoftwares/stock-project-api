@@ -2049,9 +2049,16 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 });
                 _this4.getStudentClass();
               })["catch"](function (error) {
+                if (error.response.status == 400) {
+                  _this4.$message({
+                    message: error.response.data.data,
+                    type: 'error'
+                  });
+                }
                 if (error.response.status == 401) {
                   _this4.$store.commit("auth/CLEAR_TOKEN");
                 }
+                _this4.loading = false;
               });
             case 5:
             case "end":

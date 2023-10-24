@@ -379,6 +379,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
+              })["catch"](function (error) {
+                if (error.response.status == 400) {
+                  _this10.$message({
+                    message: error.response.data.data,
+                    type: 'error'
+                  });
+                }
               });
             case 3:
             case "end":

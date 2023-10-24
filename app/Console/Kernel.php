@@ -10,6 +10,7 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         Commands\BackUPTask::class,
+        Commands\RestoreTask::class,
     ];
     /**
      * Define the application's command schedule.
@@ -41,6 +42,7 @@ class Kernel extends ConsoleKernel
             }
         }
         $schedule->command('backup:custom')->everyMinute();
+        $schedule->command('restore:custom')->everyMinute();
     }
 
     /**
