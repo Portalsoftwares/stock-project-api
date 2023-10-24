@@ -164,14 +164,8 @@
 			<div class="bg-white p-2 w-full flex justify-between">
 				<div class="flex space-x-2">
 					<div class="self-start">
-						<el-input
-							placeholder="ស្វែងរក"
-							class="sanfont-khmer"
-							v-model="search"
-						>
-							<i class="el-input__icon el-icon-search"></i>
-							<CirclePlusFilled class="el-input__icon" />
-						</el-input>
+						<el-input placeholder="ស្វែងរក" class="sanfont-khmer" v-model="search" @input="clickSearch">
+					</el-input>
 					</div>
 					<div class="self-start hidden ">
 
@@ -187,10 +181,14 @@
 					</el-button> -->
 					<el-button
 						type="primary"
+						:disabled="loading_backup"
 						@click="backup"
 					>
-						<el-icon>
+						<el-icon v-if="!loading_backup" >
 							<CirclePlusFilled />
+						</el-icon>
+						<el-icon v-if="loading_backup" :class="loading_backup==true?'animate-spin':''">
+										<Tools />
 						</el-icon>
 						<span class="mx-1 sanfont-khmer"> បង្កើត Backup File</span>
 					</el-button>
@@ -255,16 +253,30 @@
 								label="សកម្មភាព"
 							>
 								<template #default="scope">
-									<el-button
-										size="small"
-										class="sanfont-khmer "
-									>ស្ដារទិន្នន័យ</el-button>
+									<el-popconfirm
+										width="220"
+										confirm-button-text="យល់ព្រម"
+										cancel-button-text="ទេ"
+										:icon="InfoFilled"
+										icon-color="#626AEF"
+										title="តើអ្នកពិតជាចង់ស្ដារទិន្នន័យមែនទេ?"
+										cancel-button-type="info"
+										@confirm="restore(scope.row.id)"
+									>
+										<template #reference>
+											<el-button
+												size="small"
+												class="sanfont-khmer"
+											>ស្ដារទិន្នន័យ</el-button>
+										</template>
+									</el-popconfirm>
+			
 
 									<el-button
 										size="small"
 										type="danger"
 										class="sanfont-khmer"
-										@click="handleDelete(scope.$index, scope.row)"
+										@click="handleDelete(scope.row.id)"
 									>លុប</el-button>
 
 								</template>
@@ -287,14 +299,7 @@
 				<div class="bg-white p-2 w-full flex justify-between">
 					<div class="flex space-x-2">
 						<div class="self-start">
-							<el-input
-								placeholder="ស្វែងរក"
-								class="sanfont-khmer"
-								v-model="search"
-							>
-								<i class="el-input__icon el-icon-search"></i>
-								<CirclePlusFilled class="el-input__icon" />
-							</el-input>
+							<el-input placeholder="ស្វែងរក" class="sanfont-khmer" v-model="search" @input="clickSearch"></el-input>
 						</div>
 						<div class="self-start hidden ">
 
@@ -367,7 +372,7 @@
 									icon-color="#626AEF"
 									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
 									cancel-button-type="info"
-									@confirm="handleDeleteRole(scope.row.id)"
+									@confirm="deleteRole(scope.row.id)"
 								>
 									<template #reference>
 										<el-button
@@ -390,7 +395,7 @@
 	<el-dialog
 		v-model="dialogFormVisible"
 		class="sanfont-khmer text-white"
-		width="30%"
+		width="50%"
 		align-center="true"
 		draggable
 	>
@@ -400,40 +405,40 @@
 			</div>
 		</template>
 		<el-form
-			class="grid grid-cols-2"
-			:model="ruleForm"
-			:rules="rules"
-			ref="ruleForm"
+			class="grid"
+			:model="ruleFormRole"
+			:rules="rulesRole"
+			ref="ruleFormRole"
 			id="fm"
 		>
 
 			<div class="">
-				<el-form-item label="ឈ្មោះតួនាទី">
-					<el-input v-model="form.name" />
+				<el-form-item label="ឈ្មោះតួនាទី" prop="name" >
+					<el-input v-model="ruleFormRole.name"  />
 				</el-form-item>
 				<div class="text-left text-md font-bold py-2">
-					សិទ្ធិ
+					សិទ្ធិអ្នកប្រើប្រាស់
 				</div>
 				<div class="text-left">
+				<div class="py-2">
 					<el-checkbox
 						v-model="checkAll"
 						:indeterminate="isIndeterminate"
 						@change="handleCheckAllChange"
-					>ទាំងអស់</el-checkbox>
-					<el-checkbox-group
-						v-model="checkedCities"
-						@change="handleCheckedCitiesChange"
-					>
-						<div class="flex ">
+					>ជ្រើសរើសទាំងអស់</el-checkbox>
+				</div>
+		
+						<div class="grid grid-cols-5 gap-5 ">
 							<el-checkbox
-								v-for="city in cities"
-								:key="city"
-								:label="city"
+								v-for="perms in permissionData"
+								:key="perms.id"
+								:label="perms.id"
+								v-model="perms.checked"
 							>
-								{{city}}
+								{{perms.name}}
 							</el-checkbox>
 						</div>
-					</el-checkbox-group>
+				
 				</div>
 			</div>
 
@@ -453,10 +458,11 @@
 					type="danger"
 				> បោះបង់</el-button>
 				<el-button
-					v-if="!isShowButtonUpdate"
+				    v-if="!isShowButtonUpdate"
+
 					type="primary"
 					class="sanfont-khmer"
-					@click="submitForm('ruleForm')"
+					@click="submitFormRole('ruleFormRole')"
 				>
 					រក្សាទុក
 				</el-button>
@@ -464,7 +470,7 @@
 					v-if="isShowButtonUpdate"
 					type="primary"
 					class="sanfont-khmer"
-					@click="updateData('ruleForm')"
+					@click="submitFormUpdateRole('ruleFormRole')"
 				>
 					រក្សាទុក
 				</el-button>
@@ -511,7 +517,24 @@ export default {
 
 			//role
 			roleData: [],
-			cities: ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen']
+			cities: ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'],
+			permissionData:[],
+			ruleFormRole:{
+				name: null,
+				permission: null,
+				id: null,
+			},
+			rulesRole: {
+				name: [
+					{ required: true, message: 'សូមបញ្ជូលតួនាទី', trigger: 'blur' },
+					{ min: 3, max: 15, message: 'ចំនួនពីចាប់៣រតួហូតដល់១៥តួ', trigger: 'blur' }
+				],
+			},
+			checkAll: false,
+			tSearch: null,
+			search: '',
+			//Backup
+			loading_backup:false
 		}
 	},
 	mounted() {
@@ -530,7 +553,70 @@ export default {
 				this.getDataRole();
 			}
 		},
+		async updateInfo() {
+			const data = {
+				'name': this.ruleForm.name,
+				'email': this.ruleForm.email,
+				'phone': this.ruleForm.phone,
+				'address': this.ruleForm.address,
+				'backup_type': this.upBackUpType(this.ruleForm.backup_type),
+				'backup_time': this.ruleForm.backup_time
+			}
+			const config = {
+				headers: { 'content-type': 'application/json' }
+			}
+			await axios.post('/setting/update', data, config).then(response => {
+				this.getSetting();
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+			})
+		},
+		async getSetting() {
+			await axios.get('/setting/get').then(response => {
+				this.ruleForm.name = response.data.data.name
+				this.ruleForm.email = response.data.data.email
+				this.ruleForm.phone = response.data.data.phone
+				this.ruleForm.address = response.data.data.address
+				this.ruleForm.backup_type = this.getBackUpType(response.data.data.backup_type)
+				this.ruleForm.backup_time = response.data.data.backup_time
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
 
+		getBackUpType(t) {
+			switch (t) {
+				case "1":
+					return 'ប្រចាំថ្ងៃ'
+				case "2":
+					return 'ប្រចាំសប្តាហ៍'
+				case "3":
+					return 'ប្រចាំឆ្នាំខែ'
+				case "4":
+					return 'ប្រចាំឆ្នាំ'
+				default:
+					return 'រាល់នាទី'
+
+			}
+		},
+		upBackUpType(t) {
+			switch (t) {
+				case "ប្រចាំថ្ងៃ":
+					return 1
+				case "ប្រចាំសប្តាហ៍":
+					return 2
+				case "ប្រចាំឆ្នាំខែ":
+					return 3
+				case "ប្រចាំឆ្នាំ":
+					return 4
+				default:
+					return 0
+			}
+		},
 		submitForm(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
@@ -579,12 +665,33 @@ export default {
 	*  Function update new user  
 	*/
 		async backup() {
+			this.loading_backup = true;
+			this.loading = true;
 			await axios.post('/backup/create').then(response => {
-				this.getData();
-				this.$message({
-					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
-					type: 'success'
-				});
+				if (response.status == 200) {
+					this.loading_backup = false;
+					this.loading = false;
+					this.$message({
+						message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+						type: 'success'
+					});
+					this.getData();
+				}
+			})
+		},
+		async restore(id) {
+			this.loading_backup = true;
+			this.loading = true;
+			await axios.post('/backup/restore/'+id).then(response => {
+				if (response.status == 200) {
+					this.loading_backup = false;
+					this.loading = false;
+					this.$message({
+						message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+						type: 'success'
+					});
+					this.getData();
+				}
 			})
 		},
 		async getData() {
@@ -598,74 +705,24 @@ export default {
 				}
 			})
 		},
-		async getSetting() {
-			await axios.get('/setting/get').then(response => {
-				this.ruleForm.name = response.data.data.name
-				this.ruleForm.email = response.data.data.email
-				this.ruleForm.phone = response.data.data.phone
-				this.ruleForm.address = response.data.data.address
-				this.ruleForm.backup_type = this.getBackUpType(response.data.data.backup_type)
-				this.ruleForm.backup_time = response.data.data.backup_time
-			}).catch((error) => {
-				if (error.response.status == 401) {
-					this.$store.commit("auth/CLEAR_TOKEN")
+
+
+		//Role 
+		// ស្វែងរក ទិន្នន័យ
+		clickSearch() {
+
+			clearTimeout(this.tSearch);
+			this.tSearch = setTimeout(() => {
+				if (this.search != null) {
+					if (this.search.replace(/\s/g, '') !== '') {
+					}
+					this.getDataRole();
 				}
-			})
+			}, 1000);
 		},
-
-		getBackUpType(t) {
-			switch (t) {
-				case "1":
-					return 'ប្រចាំថ្ងៃ'
-				case "2":
-					return 'ប្រចាំសប្តាហ៍'
-				case "3":
-					return 'ប្រចាំឆ្នាំខែ'
-				case "4":
-					return 'ប្រចាំឆ្នាំ'
-				default:
-					return 'រាល់នាទី'
-
-			}
-		},
-		upBackUpType(t) {
-			switch (t) {
-				case "ប្រចាំថ្ងៃ":
-					return 1
-				case "ប្រចាំសប្តាហ៍":
-					return 2
-				case "ប្រចាំឆ្នាំខែ":
-					return 3
-				case "ប្រចាំឆ្នាំ":
-					return 4
-				default:
-					return 0
-			}
-		},
-		async updateInfo() {
-			const data = {
-				'name': this.ruleForm.name,
-				'email': this.ruleForm.email,
-				'phone': this.ruleForm.phone,
-				'address': this.ruleForm.address,
-				'backup_type': this.upBackUpType(this.ruleForm.backup_type),
-				'backup_time': this.ruleForm.backup_time
-			}
-			const config = {
-				headers: { 'content-type': 'application/json' }
-			}
-			await axios.post('/setting/update', data, config).then(response => {
-				this.getSetting();
-				this.$message({
-					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
-					type: 'success'
-				});
-			})
-		},
-
 		async getDataRole() {
 			this.loading = true
-			await axios.get('/role/get').then(response => {
+			await axios.get('/role/get?search='+this.search).then(response => {
 				this.roleData = response.data.data
 				this.loading = false
 			}).catch((error) => {
@@ -675,10 +732,99 @@ export default {
 			})
 		},
 
-		AddRole() {
-			this.dialogFormVisible = true
-		}
+		async AddRole() {
+			await axios.get('/role/get-permission').then(response => {
+				this.permissionData = response.data.data
+				this.loading = false
+				this.dialogFormVisible = true
+				this.isShowButtonUpdate = false
+				this.ruleFormRole.name = ''
+				this.ruleFormRole.id = ''
 
+			}).catch((error) => {
+				if (error.response.status == 401) {
+					this.$store.commit("auth/CLEAR_TOKEN")
+				}
+			})
+		},
+		handleCheckAllChange() {
+			this.permissionData.forEach(e => {
+				e.checked = this.checkAll
+			})
+		},
+		submitFormRole(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					this.StoreRole()
+				} else {
+					console.log('error submit!!');
+					return false;
+				}
+			});
+		},
+		submitFormUpdateRole(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					this.UpdateRole()
+				} else {
+					console.log('error submit!!');
+					return false;
+				}
+			});
+		},
+		async StoreRole() {
+			const data = {
+				'role_name': this.ruleFormRole.name,
+				'permissions': this.permissionData
+			}
+			await axios.post('/role/store', data).then(response => {
+				this.getDataRole();
+				this.dialogFormVisible = false;
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+			})
+		},
+		async UpdateRole() {
+			const data = {
+				'role_name': this.ruleFormRole.name,
+				'permissions': this.permissionData
+			}
+			await axios.post('/role/update/'+this.ruleFormRole.id , data).then(response => {
+				this.getDataRole();
+				this.dialogFormVisible = false;
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+			})
+		},
+		async editRole(id) {
+			await axios.get('/role/edit/' + id).then(response => {
+				this.isShowButtonUpdate=true
+				this.permissionData = response.data.data
+				this.ruleFormRole.name = response.data.role_name.name
+				this.ruleFormRole.id = response.data.role_name.id
+				this.dialogFormVisible = true;
+			})
+		},
+		async deleteRole(id) {
+			await axios.delete('/role/delete/'+id).then(response => {
+				this.getDataRole();
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
+			}).catch((error) => {
+				if (error.response.status == 400) {
+					this.$message({
+						message: error.response.data.data,
+						type: 'error'
+					});
+				}
+			})
+		}
 	}
 }
 </script>

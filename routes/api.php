@@ -195,6 +195,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('backup')->group(function () {
       Route::get('/get', [BackUpController::class, 'index']);
       Route::post('/create', [BackUpController::class, 'create']);
+      Route::post('/restore/{id}', [BackUpController::class, 'restore']);
     });
     //Setting
     Route::prefix('setting')->group(function () {
@@ -209,6 +210,11 @@ Route::prefix('v1')->group(function () {
     //Role
     Route::prefix('role')->group(function () {
       Route::get('/get', [RoleController::class, 'index']);
+      Route::get('/get-permission', [RoleController::class, 'getPermissions']);
+      Route::post('/store', [RoleController::class, 'create']);
+      Route::get('/edit/{id}', [RoleController::class, 'edit']);
+      Route::post('/update/{id}', [RoleController::class, 'update']);
+      Route::delete('/delete/{id}', [RoleController::class, 'delete']);
     });
   });
 });

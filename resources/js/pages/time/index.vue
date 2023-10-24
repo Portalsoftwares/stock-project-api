@@ -234,7 +234,7 @@
 									start="00:00"
 									step="00:10"
 									end="23:59"
-									placeholder="Select time"
+									placeholder="ជ្រើសរើសម៉ោង"
 									format="hh:mm A"
 								/>
 
@@ -257,7 +257,7 @@
 									start="00:00"
 									step="00:10"
 									end="23:59"
-									placeholder="Select time"
+									placeholder="ជ្រើសរើសម៉ោង"
 									format="hh:mm A"
 								/>
 							</el-form-item>

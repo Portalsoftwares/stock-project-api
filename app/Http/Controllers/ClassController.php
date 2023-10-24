@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exports\ClassStudentExport;
 use App\Models\Academic;
+use App\Models\Attendance;
+use App\Models\AttendanceLine;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
@@ -16,6 +18,8 @@ use App\Models\Schedule;
 
 use App\Models\Gender;
 use App\Models\GradeLevel;
+use App\Models\score;
+use App\Models\scoreLine;
 use App\Models\Student;
 use App\Models\StudentRole;
 use App\Models\StudentStatus;
@@ -207,6 +211,14 @@ class ClassController extends Controller
 
     public function delete($id)
     {
+        $studentClass = StudentClass::where('class_id',$id)->count();
+        $teacherClass = TeacherClass::where('class_id',$id)->count();
+        if($studentClass>0 || $teacherClass>0){
+            $response = [
+                'data' => 'ទិន្នន័យមិនអាចលុបបានទេ​ ព្រោះមានទំនាក់ទំនងជាមួយទិន្នន័យដទែទៀត',
+            ];
+            return  response($response, 400);
+        }
         DB::transaction(function () use ($id) {
             //Delete soft
             $items = Classes::find($id);
@@ -264,9 +276,9 @@ class ClassController extends Controller
         $class_type_id =  $class->class_type_id;
         $grade_level_id =  $class->grade_level_id;
         $academic_id =  $class->academic_id;
-
+        $all_class_academic = Classes::where('academic_id',$academic_id)->pluck('class_id');
         //array student in class
-        $studentClass = StudentClass::where('class_id', $id)->pluck('student_id');
+        $studentClass = StudentClass::whereIn('class_id', $all_class_academic)->pluck('student_id');
         $allStudentData = Student::whereNotIn('student_id', $studentClass)->with('profile_img', 'status', 'gender')->get();
         $response = [
             'data' => $allStudentData
@@ -275,6 +287,17 @@ class ClassController extends Controller
     }
     public function deleteStudentToClass($id, $student_id)
     {
+        $attendace = Attendance::where('class_id', $id)->pluck('attendance_id');
+        $studentAttendance = AttendanceLine::whereIn('attendance_id', $attendace)->where('student_id',$student_id)->count();
+
+        $score = score::where('class_id', $id)->pluck('score_id');
+        $studentScore = scoreLine::whereIn('score_id',$score)->where('student_id',$student_id)->count();
+        if($studentAttendance>0 || $studentScore>0){
+            $response = [
+                'data' => 'ទិន្នន័យមិនអាចលុបបានទេ​ ព្រោះមានទំនាក់ទំនងជាមួយទិន្នន័យដទែទៀត',
+            ];
+            return  response($response, 400);
+        }
         $stuClass = StudentClass::find($student_id)->delete();
         if ($stuClass) {
 

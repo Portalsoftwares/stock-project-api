@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Academic;
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-
+use Spatie\Permission\Models\Role as spatieRole;
 
 class RoleController extends Controller
 {
@@ -44,13 +45,22 @@ class RoleController extends Controller
         ];
         return  response($response, 200);
     }
-
+    public function getPermissions(Request $request)
+    {
+        $permissions = Permission::all();
+        foreach($permissions as $perm){
+            $perm['checked'] = false;
+        }
+        $response = [
+            'data' => $permissions,
+        ];
+        return  response($response, 200);
+    }
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'academic_name' => 'required|string',
-            'start_date' => 'required',
-            'end_date' => 'required'
+            'role_name' => 'required|string',
+            'permissions' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -59,10 +69,20 @@ class RoleController extends Controller
             ];
             return  response($response, 400);
         }
-        DB::transaction(function () use ($validator, $request) {
-            $items = new Academic();
-            $items->fill($validator->validated());
-            $items->save();
+        $permissions = collect($request->permissions);
+        $rightPerm = $permissions->filter(function (array $item) {
+            if($item['checked'] == true){
+                return $item;
+            }
+        });
+        $namePermission = $rightPerm->pluck('name')->toArray();
+        // dd($namePermission);
+        DB::transaction(function () use ($validator, $request, $namePermission ) {
+            $role =  spatieRole::create([
+                'name'=>$request->role_name,
+                'guard_name'=>'web'
+            ]);
+            $role->givePermissionTo($namePermission);
         });
 
         $response = [
@@ -82,7 +102,23 @@ class RoleController extends Controller
 
     public function edit($id)
     {
-        $items = Academic::find($id);
+        //All Permission
+        $permissions = Permission::all();
+        $Role = spatieRole::find($id);
+        //Has Permission
+        $RolePermissions = $Role->permissions;
+        $collectionPermission = collect($RolePermissions)->pluck('id');
+        $array_value = function ($id) use ($collectionPermission) {
+            return in_array($id,$collectionPermission->toArray(), true); 
+        };
+        foreach($permissions as $perm){
+            $perm['checked'] = $array_value($perm['id']);
+        }
+        $response = [
+            'data' => $permissions,
+            'role_name' => $Role,
+        ];
+        return  response($response, 200);
         $response = [
             'data' => $items,
         ];
@@ -92,39 +128,59 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'academic_name' => 'required|string',
-            'start_date' => 'required',
-            'end_date' => 'required'
+            'role_name' => 'required|string',
+            'permissions' => 'required',
         ]);
+
         if ($validator->fails()) {
             $response = [
                 'errors' => $validator->messages(),
             ];
             return  response($response, 400);
         }
-        DB::transaction(function () use ($validator, $request, $id) {
-            $items = Academic::find($id);
-            $items->fill($validator->validated());
-            $items->save();
+        $permissions = collect($request->permissions);
+        $rightPerm = $permissions->filter(function (array $item) {
+            if($item['checked'] == true){
+                return $item;
+            }
+        });
+        $namePermission = $rightPerm->pluck('name')->toArray();
+        // dd($namePermission);
+        DB::transaction(function () use ($validator, $request, $id,$namePermission ) {
+            $role =  spatieRole::find($id)->update([
+                'name'=>$request->role_name,
+                'guard_name'=>'web'
+            ]);
+            $role =  spatieRole::find($id);
+            $role->syncPermissions([]);
+            $role->givePermissionTo($namePermission);
         });
 
         $response = [
-            'data' => 'Update successfull',
+            'data' => ' Create successfull',
         ];
-        return  response($response, 200);
     }
 
     public function delete($id)
     {
-        DB::transaction(function () use ($id) {
+        $items = spatieRole::find($id);
+        if(count($items->users)>0){
+            $response = [
+                'data' => 'ទិន្នន័យមិនអាចលុបបានទេ​ ព្រោះមានទំនាក់ទំនងជាមួយទិន្នន័យដទែទៀត',
+            ];
+            return  response($response, 400);
+            
+        }
+
+        DB::transaction(function () use ($id , $items) {
             //Delete soft
-            $items = Academic::find($id);
+    
             if (!empty($items)) {
                 $items->delete();
             }
             //Hard Delete
             if (empty($items)) {
-                $items = Academic::onlyTrashed()->where('academic_id', $id);
+                $items = spatieRole::onlyTrashed()->find($id);
                 if (!empty($items)) {
                     $items->forceDelete();
                 }

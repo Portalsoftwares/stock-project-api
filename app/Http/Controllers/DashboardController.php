@@ -84,7 +84,7 @@ class DashboardController extends Controller
         $types = ['', 'success', 'info'];
         $totalsRole = Role::all()->map(function ($item, $index) use ($types) {
             return [
-                "type" => $types[$index],
+                "type" => $types[0],
                 "label" => $item["name"]
             ];
         });
