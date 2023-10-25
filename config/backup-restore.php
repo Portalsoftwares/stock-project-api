@@ -12,6 +12,7 @@ return [
      * You can add your own health checks by adding a class that extends the HealthCheck class.
      * The restore command will fail, if any health checks fail.
      */
+    'database_dumps_path'=>'SMS/',
     'health-checks' => [
         \Wnx\LaravelBackupRestore\HealthChecks\Checks\DatabaseHasTables::class,
     ],

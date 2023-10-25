@@ -18,7 +18,7 @@ class RestoreTask extends Command
      * @var string
      */
 
-    protected $signature = 'restore:custom';
+    protected $signature = 'restore:custom {id}';
 
     /**
      * The console command description.
@@ -34,7 +34,7 @@ class RestoreTask extends Command
      */
     public function handle()
     {
-        $id = $this->argument('backup');
+        $id = $this->argument('id');
         $status =  Artisan::call('backup:restore ',[ '--backup' => $id]);
         Log::info(Artisan::output());
     }

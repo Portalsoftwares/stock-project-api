@@ -103,7 +103,8 @@ class BackUpController extends Controller
         }
         if(count($backups)>0){
             $index = getIndexOfArrayByPath($backups ,$items->path);
-            $status =  Artisan::call('restore:custom ',[ '--backup' => $index]);
+            // $status =  Artisan::call("restore:custom $index");
+            $status =  Artisan::call('backup:restore --backup='.$id);
             Log::info(Artisan::output());
             try {
                 // start the restore proces

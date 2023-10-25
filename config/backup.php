@@ -9,7 +9,6 @@ return [
          * the backups.
          */
         'name' => env('APP_NAME', 'laravel-backup-restore'),
-
         'source' => [
 
             'files' => [
