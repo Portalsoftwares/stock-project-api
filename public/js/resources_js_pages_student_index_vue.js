@@ -1086,7 +1086,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     title: "ព័ត៌មានសិស្ស",
     "class": "sanfont-khmer",
-    width: "50%",
+    width: "auto",
     "align-center": "true",
     draggable: ""
   }, {

@@ -162,7 +162,7 @@
 		</div>
 	</div>
 	<!-- Dialog  -->
-	<el-dialog v-model="dialogFormVisible" title="ព័ត៌មានសិស្ស" class="sanfont-khmer " width="50%" align-center="true"
+	<el-dialog v-model="dialogFormVisible" title="ព័ត៌មានសិស្ស" class="sanfont-khmer " width="auto" align-center="true"
 		draggable>
 		<template #header>
 			<div class="my-header">

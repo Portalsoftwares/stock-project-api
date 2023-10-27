@@ -5588,6 +5588,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "cancel-button-text": "ទេ",
             icon: _ctx.InfoFilled,
             "icon-color": "#626AEF",
+            "cancel-button-type": "info",
             title: "តើអ្នកពិតជាចង់ដកសិស្សចេញពីថ្នាក់មែនទេ?",
             onConfirm: function onConfirm($event) {
               return $options.handleDeleteFromClass(scope.row.id);

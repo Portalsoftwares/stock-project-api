@@ -174,6 +174,7 @@
 					cancel-button-text="ទេ"
 					:icon="InfoFilled"
 					icon-color="#626AEF"
+					cancel-button-type="info"
 					title="តើអ្នកពិតជាចង់ដកសិស្សចេញពីថ្នាក់មែនទេ?"
 					@confirm="handleDeleteFromClass(scope.row.id)"
 				>
