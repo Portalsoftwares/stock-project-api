@@ -171,6 +171,7 @@
 						fixed="right"
 						align="center"
 						label="សកម្មភាព"
+						width="220"
 					>
 						<template #default="scope">
 

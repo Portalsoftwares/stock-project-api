@@ -235,7 +235,7 @@
 						</template>
 					</el-table-column>
 					<el-table-column
-						width="180"
+						width="220"
 						fixed="right"
 						align="center"
 						label="សកម្មភាព"
