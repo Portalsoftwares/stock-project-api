@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Subject;
 use App\mPDF\PdfWrapper;
 
+use App\Models\Attendance;
+use App\Models\AttendanceLine;
+use App\Models\score;
+use App\Models\scoreLine;
+
 class ScheduleController extends Controller
 {
     /**
@@ -143,7 +148,7 @@ class ScheduleController extends Controller
             'subject_grade_id' => [
                 'required', 'exists:subject_grade_level,subject_grade_id',
                 Rule::unique('teacher_class')->where(function ($query) use ($request) {
-                    return $query->where('subject_grade_id', $request->subject_grade_id)->where('teacher_id', $request->teacher_id)->where('class_id', $request->class_id)->get();
+                    return $query->where('subject_grade_id', $request->subject_grade_id)->where('class_id', $request->class_id)->get();
                 })
             ],
             'teacher_id' => [
@@ -198,6 +203,29 @@ class ScheduleController extends Controller
         $response = [
             'teacher_class' => $teacherData,
             'message' => "Teacher class  was created."
+        ];
+        return  response($response, 200);
+    }
+    public function deleteTeacher(Request $request, $id)
+    {
+
+        $TeacherClass =  TeacherClass::where('id', $id)->first();
+        $subject_grade_id = $TeacherClass->subject_grade_id;
+        $class_id = $TeacherClass->class_id;
+
+        $attendace = Attendance::where([['class_id', $class_id],['subject_grade_id',$subject_grade_id]])->count();
+        $score = score::where([['class_id', $class_id],['subject_grade_id',$subject_grade_id]])->count();
+        if($attendace>0 || $score>0){
+            $response = [
+                'data' => 'ទិន្នន័យមិនអាចលុបបានទេ​ ព្រោះមានទំនាក់ទំនងជាមួយទិន្នន័យដទែទៀត',
+            ];
+            return  response($response, 400);
+        }
+
+        $teacherData =  TeacherClass::where('id', $id)->delete();
+        $response = [
+            'teacher_class' => $teacherData,
+            'message' => "Teacher class  was deleted."
         ];
         return  response($response, 200);
     }

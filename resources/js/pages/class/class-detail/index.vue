@@ -652,8 +652,25 @@
 				<el-button
 					@click="closeForm()"
 					class="sanfont-khmer"
-					type="danger"
 				> បោះបង់</el-button>
+				<el-popconfirm
+					width="220"
+					confirm-button-text="យល់ព្រម"
+					cancel-button-text="ទេ"
+					:icon="InfoFilled"
+					icon-color="#626AEF"
+					title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+					cancel-button-type="info"
+					@confirm="DeleteTeacher()"
+				>
+					<template #reference>
+						<el-button
+							type="danger"
+							class="sanfont-khmer"
+						>លុប
+						</el-button>
+					</template>
+				</el-popconfirm>
 				<el-button
 					type="primary"
 					class="sanfont-khmer"
@@ -892,6 +909,26 @@ export default {
 				}
 			})
 		},
+		async DeleteTeacher() {
+			await axios.delete('/teacher_class/delete/' + this.ruleFormTeacher.id).then(response => {
+				if (response.status == 200) {
+					this.$message({
+						message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+						type: 'success'
+					});
+					this.getTeacher();
+					this.dialogFormTeacher = true;
+				}
+			}).catch((error) => {
+				console.log(error)
+				if (error.response.status == 400) {
+					this.$message({
+						message: error.response.data.data,
+						type: 'error'
+					});
+				}
+			})
+		},
 		// Schedule Function
 		closeForm() {
 			this.dialogFormSchedule = false;
@@ -901,8 +938,6 @@ export default {
 			this.submitForm(formName);
 			this.dialogFormSchedule = false;
 		},
-
-
 
 		submitForm(formName) {
 			this.$refs[formName].validate((valid) => {

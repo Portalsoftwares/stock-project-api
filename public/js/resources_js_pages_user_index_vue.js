@@ -42,7 +42,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       ruleForm: {
         name: null,
         phone: null,
-        roles: null,
+        roles: '',
         password: null,
         email: null,
         teacher_id: null,
@@ -63,7 +63,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         roles: [{
           required: true,
           message: 'សូមបញ្ចូលតួនាទី',
-          trigger: 'change'
+          trigger: 'blur'
         }],
         email: [{
           required: true,
@@ -81,7 +81,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, {
           min: 8,
           max: 15,
-          message: 'ចាប់ពី ៣តួ ទៅ ១៥តួអក្សរ',
+          message: 'ចាប់ពី ៨តួ ទៅ ១៥តួអក្សរ',
           trigger: 'blur'
         }],
         photo_id: [{
@@ -1058,6 +1058,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
             label: "តួនាទី",
+            prop: "roles",
             "class": "sanfont-khmer",
             "label-width": $data.formLabelWidth
           }, {

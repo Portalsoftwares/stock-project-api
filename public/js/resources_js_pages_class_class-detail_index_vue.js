@@ -1002,6 +1002,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
+    DeleteTeacher: function DeleteTeacher() {
+      var _this7 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) switch (_context6.prev = _context6.next) {
+            case 0:
+              _context6.next = 2;
+              return axios["delete"]('/teacher_class/delete/' + _this7.ruleFormTeacher.id).then(function (response) {
+                if (response.status == 200) {
+                  _this7.$message({
+                    message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+                    type: 'success'
+                  });
+                  _this7.getTeacher();
+                  _this7.dialogFormTeacher = true;
+                }
+              })["catch"](function (error) {
+                console.log(error);
+                if (error.response.status == 400) {
+                  _this7.$message({
+                    message: error.response.data.data,
+                    type: 'error'
+                  });
+                }
+              });
+            case 2:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6);
+      }))();
+    },
     // Schedule Function
     closeForm: function closeForm() {
       this.dialogFormSchedule = false;
@@ -1012,10 +1044,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.dialogFormSchedule = false;
     },
     submitForm: function submitForm(formName) {
-      var _this7 = this;
+      var _this8 = this;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          _this7.submitData();
+          _this8.submitData();
         } else {
           console.log('error submit!!');
           return false;
@@ -1026,30 +1058,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function create schedule
     */
     submitData: function submitData() {
-      var _this8 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+      var _this9 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
         var config;
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) switch (_context6.prev = _context6.next) {
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+          while (1) switch (_context7.prev = _context7.next) {
             case 0:
               config = {
                 headers: {
                   'content-type': 'application/json'
                 }
               };
-              _context6.next = 3;
-              return axios.post('/schedule_class/' + _this8.classData.class_id + '/create', {
-                'data': _this8.dataSchedule
+              _context7.next = 3;
+              return axios.post('/schedule_class/' + _this9.classData.class_id + '/create', {
+                'data': _this9.dataSchedule
               }, config).then(function (response) {
-                _this8.getScheduleData();
-                _this8.$message({
+                _this9.getScheduleData();
+                _this9.$message({
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
               })["catch"](function (error) {
                 if (error.response.status == 400) {
-                  _this8.errors = error.response.data.errors;
-                  _this8.$message({
+                  _this9.errors = error.response.data.errors;
+                  _this9.$message({
                     message: 'Error, this is a errror message.',
                     type: 'error'
                   });
@@ -1057,63 +1089,63 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
             case 3:
             case "end":
-              return _context6.stop();
-          }
-        }, _callee6);
-      }))();
-    },
-    getTeacher: function getTeacher() {
-      var _this9 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
-        var class_id;
-        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-          while (1) switch (_context7.prev = _context7.next) {
-            case 0:
-              _this9.loading_student = true;
-              class_id = _this9.$route.query.id;
-              _context7.next = 4;
-              return axios.get('/class/teacher/' + class_id + '/get').then(function (response) {
-                _this9.teacherData = response.data.teacher;
-                _this9.studentData = response.data.student;
-                _this9.classData = response.data["class"];
-                _this9.loading_student = false;
-              })["catch"](function (error) {
-                _this9.loading_student = false;
-                if (error.response.status == 401) {
-                  _this9.$store.commit("auth/CLEAR_TOKEN");
-                }
-              });
-            case 4:
-            case "end":
               return _context7.stop();
           }
         }, _callee7);
       }))();
     },
-    getTimeDayData: function getTimeDayData() {
+    getTeacher: function getTeacher() {
       var _this10 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
         var class_id;
         return _regeneratorRuntime().wrap(function _callee8$(_context8) {
           while (1) switch (_context8.prev = _context8.next) {
             case 0:
+              _this10.loading_student = true;
               class_id = _this10.$route.query.id;
-              _context8.next = 3;
-              return axios.get('/schedule_class/' + class_id + '/schedule').then(function (response) {
-                _this10.dataDay = response.data.data;
-                _this10.subjectData = response.data.data.subject;
-                _this10.allTeacherData = response.data.data.teacher;
-                _this10.columnDay = _this10.dataDay.day;
+              _context8.next = 4;
+              return axios.get('/class/teacher/' + class_id + '/get').then(function (response) {
+                _this10.teacherData = response.data.teacher;
+                _this10.studentData = response.data.student;
+                _this10.classData = response.data["class"];
+                _this10.loading_student = false;
               })["catch"](function (error) {
+                _this10.loading_student = false;
                 if (error.response.status == 401) {
                   _this10.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
-            case 3:
+            case 4:
             case "end":
               return _context8.stop();
           }
         }, _callee8);
+      }))();
+    },
+    getTimeDayData: function getTimeDayData() {
+      var _this11 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
+        var class_id;
+        return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+          while (1) switch (_context9.prev = _context9.next) {
+            case 0:
+              class_id = _this11.$route.query.id;
+              _context9.next = 3;
+              return axios.get('/schedule_class/' + class_id + '/schedule').then(function (response) {
+                _this11.dataDay = response.data.data;
+                _this11.subjectData = response.data.data.subject;
+                _this11.allTeacherData = response.data.data.teacher;
+                _this11.columnDay = _this11.dataDay.day;
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this11.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 3:
+            case "end":
+              return _context9.stop();
+          }
+        }, _callee9);
       }))();
     },
     // Attendance
@@ -1121,45 +1153,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function create attendace
     */
     submitFormAttendance: function submitFormAttendance() {
-      var _this11 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
+      var _this12 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
         var attendanceInfo, config;
-        return _regeneratorRuntime().wrap(function _callee9$(_context9) {
-          while (1) switch (_context9.prev = _context9.next) {
+        return _regeneratorRuntime().wrap(function _callee10$(_context10) {
+          while (1) switch (_context10.prev = _context10.next) {
             case 0:
-              _this11.fullscreenLoading = true;
+              _this12.fullscreenLoading = true;
               attendanceInfo = {
-                'class_id': _this11.attendanceClassId,
-                'time_id': _this11.attendanceTimeId,
-                'day_id': _this11.attendanceDayId,
-                'subject_grade_id': _this11.attendanceSubjecGradetId,
-                'date': _this11.date,
-                'data': _this11.studentCallAttendance
+                'class_id': _this12.attendanceClassId,
+                'time_id': _this12.attendanceTimeId,
+                'day_id': _this12.attendanceDayId,
+                'subject_grade_id': _this12.attendanceSubjecGradetId,
+                'date': _this12.date,
+                'data': _this12.studentCallAttendance
               };
               config = {
                 headers: {
                   'content-type': 'application/json'
                 }
               };
-              _context9.next = 5;
+              _context10.next = 5;
               return axios.post('/attendance/create', attendanceInfo, config).then(function (response) {
-                _this11.getScheduleData();
-                _this11.fullscreenLoading = false;
-                _this11.$notify.success({
+                _this12.getScheduleData();
+                _this12.fullscreenLoading = false;
+                _this12.$notify.success({
                   title: 'រួចរាល់',
                   message: 'បញ្ចូលវត្តមានបានជោគជ័យ 😊',
                   showClose: true
                 });
               })["catch"](function (error) {
-                _this11.fullscreenLoading = false;
-                _this11.$notify.error({
+                _this12.fullscreenLoading = false;
+                _this12.$notify.error({
                   title: 'កំហុស',
                   message: 'បញ្ចូលវត្តមានមិនបានជោគជ័យទេ 😓',
                   showClose: true
                 });
                 if (error.response.status == 400) {
-                  _this11.errors = error.response.data.errors;
-                  _this11.$message({
+                  _this12.errors = error.response.data.errors;
+                  _this12.$message({
                     message: 'Error, this is a errror message.',
                     type: 'error'
                   });
@@ -1167,16 +1199,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
             case 5:
             case "end":
-              return _context9.stop();
+              return _context10.stop();
           }
-        }, _callee9);
+        }, _callee10);
       }))();
     },
     submitFormAD: function submitFormAD(formName) {
-      var _this12 = this;
+      var _this13 = this;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          _this12.submitFormAttendance();
+          _this13.submitFormAttendance();
         } else {
           console.log('error submit!!');
           return false;
@@ -1184,69 +1216,69 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     callAttenance: function callAttenance(day_id, time_id, subject_id) {
-      var _this13 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
+      var _this14 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11() {
         var class_id, attendanceInfo, config;
-        return _regeneratorRuntime().wrap(function _callee10$(_context10) {
-          while (1) switch (_context10.prev = _context10.next) {
+        return _regeneratorRuntime().wrap(function _callee11$(_context11) {
+          while (1) switch (_context11.prev = _context11.next) {
             case 0:
               // console.log(day_id, time_id, subject_id);
               // return;
-              _this13.fullscreenLoading = true;
-              class_id = _this13.$route.query.id;
-              _this13.attendanceTimeId = time_id;
-              _this13.attendanceDayId = day_id;
-              _this13.attendanceClassId = class_id;
-              _this13.attendanceSubjecGradetId = subject_id;
+              _this14.fullscreenLoading = true;
+              class_id = _this14.$route.query.id;
+              _this14.attendanceTimeId = time_id;
+              _this14.attendanceDayId = day_id;
+              _this14.attendanceClassId = class_id;
+              _this14.attendanceSubjecGradetId = subject_id;
               attendanceInfo = {
-                'class_id': _this13.attendanceClassId,
-                'time_id': _this13.attendanceTimeId,
-                'day_id': _this13.attendanceDayId,
-                'subject_grade_id': _this13.attendanceSubjecGradetId
+                'class_id': _this14.attendanceClassId,
+                'time_id': _this14.attendanceTimeId,
+                'day_id': _this14.attendanceDayId,
+                'subject_grade_id': _this14.attendanceSubjecGradetId
               };
               config = {
                 headers: {
                   'content-type': 'application/json'
                 }
               };
-              _context10.next = 10;
+              _context11.next = 10;
               return axios.post('/attendance/call/' + class_id, attendanceInfo, config).then(function (response) {
-                var _this13$dataTimeObj, _this13$dataTimeObj2, _this13$dataTimeObj3;
-                _this13.studentCallAttendance = response.data.data;
-                _this13.dataDayObj = response.data.day;
-                _this13.dataTimeObj = response.data.time;
-                _this13.dataSubjectGradeObj = response.data.subject;
-                _this13.dialogFormVisibleAdd = true;
-                _this13.showTimeOBJ = ((_this13$dataTimeObj = _this13.dataTimeObj) === null || _this13$dataTimeObj === void 0 ? void 0 : _this13$dataTimeObj.name) + ' : ' + ((_this13$dataTimeObj2 = _this13.dataTimeObj) === null || _this13$dataTimeObj2 === void 0 ? void 0 : _this13$dataTimeObj2.start_date) + ' - ' + ((_this13$dataTimeObj3 = _this13.dataTimeObj) === null || _this13$dataTimeObj3 === void 0 ? void 0 : _this13$dataTimeObj3.end_date);
+                var _this14$dataTimeObj, _this14$dataTimeObj2, _this14$dataTimeObj3;
+                _this14.studentCallAttendance = response.data.data;
+                _this14.dataDayObj = response.data.day;
+                _this14.dataTimeObj = response.data.time;
+                _this14.dataSubjectGradeObj = response.data.subject;
+                _this14.dialogFormVisibleAdd = true;
+                _this14.showTimeOBJ = ((_this14$dataTimeObj = _this14.dataTimeObj) === null || _this14$dataTimeObj === void 0 ? void 0 : _this14$dataTimeObj.name) + ' : ' + ((_this14$dataTimeObj2 = _this14.dataTimeObj) === null || _this14$dataTimeObj2 === void 0 ? void 0 : _this14$dataTimeObj2.start_date) + ' - ' + ((_this14$dataTimeObj3 = _this14.dataTimeObj) === null || _this14$dataTimeObj3 === void 0 ? void 0 : _this14$dataTimeObj3.end_date);
                 setTimeout(function () {
-                  _this13.fullscreenLoading = false;
+                  _this14.fullscreenLoading = false;
                 }, 2000);
               })["catch"](function (error) {
                 var _error$response;
-                _this13.fullscreenLoading = false;
+                _this14.fullscreenLoading = false;
                 console.log(error);
                 if (((_error$response = error.response) === null || _error$response === void 0 ? void 0 : _error$response.status) == 401) {
-                  _this13.$store.commit("auth/CLEAR_TOKEN");
+                  _this14.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 10:
             case "end":
-              return _context10.stop();
+              return _context11.stop();
           }
-        }, _callee10);
+        }, _callee11);
       }))();
     },
     closeFormAttendance: function closeFormAttendance() {
-      var _this14 = this;
+      var _this15 = this;
       element_plus__WEBPACK_IMPORTED_MODULE_4__.ElMessageBox.confirm('អ្នកមិនទាន់បានរក្សាទុកការកែប្រែទេ, តើអ្នកពិតជាចង់បោះបង់មែនឬទេ?', 'ការដាស់តើន', {
         confirmButtonText: 'យល់ព្រម',
         cancelButtonText: 'ទេ'
       }).then(function () {
-        _this14.dialogFormVisibleAdd = false;
-        _this14.studentCallAttendance = [];
-        _this14.dataDayObj = [];
-        _this14.dataTimeObj = [];
-        _this14.dataSubjectGradeObj = [];
+        _this15.dialogFormVisibleAdd = false;
+        _this15.studentCallAttendance = [];
+        _this15.dataDayObj = [];
+        _this15.dataTimeObj = [];
+        _this15.dataSubjectGradeObj = [];
       })["catch"](function (action) {
         (0,element_plus__WEBPACK_IMPORTED_MODULE_5__.ElMessage)({
           type: 'info',
@@ -1255,11 +1287,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     schedulePDF: function schedulePDF() {
-      var _this15 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11() {
+      var _this16 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12() {
         var config, class_id;
-        return _regeneratorRuntime().wrap(function _callee11$(_context11) {
-          while (1) switch (_context11.prev = _context11.next) {
+        return _regeneratorRuntime().wrap(function _callee12$(_context12) {
+          while (1) switch (_context12.prev = _context12.next) {
             case 0:
               config = {
                 headers: {
@@ -1268,8 +1300,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 withCredentials: false,
                 responseType: 'arraybuffer' //important Thanks bong well noted save my life 🙏 
               };
-              class_id = _this15.$route.query.id;
-              _context11.next = 4;
+              class_id = _this16.$route.query.id;
+              _context12.next = 4;
               return axios.post('/schedule_class/' + class_id + '/schedule/export', null, config).then(function (response) {
                 var blob = new Blob([response.data], {
                     type: 'application/pdf'
@@ -1278,14 +1310,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 var newOpen = window.open(url);
               })["catch"](function (error) {
                 if (error.response.status == 401) {
-                  _this15.$store.commit("auth/CLEAR_TOKEN");
+                  _this16.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 4:
             case "end":
-              return _context11.stop();
+              return _context12.stop();
           }
-        }, _callee11);
+        }, _callee12);
       }))();
     }
   }
@@ -3734,6 +3766,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_input = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-input");
   var _component_el_radio = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-radio");
   var _component_el_radio_group = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-radio-group");
+  var _component_el_popconfirm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-popconfirm");
   var _directive_loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("loading");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_page_header, {
     onBack: $options.Back
@@ -4365,7 +4398,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog Form Schedule  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog Form Teacher Subject  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormTeacher,
-    "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
+    "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
       return $data.dialogFormTeacher = $event;
     }),
     title: "ព័ត៌មានគ្រូបង្រៀន",
@@ -4381,17 +4414,41 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[17] || (_cache[17] = function ($event) {
           return $options.closeForm();
         }),
-        "class": "sanfont-khmer",
-        type: "danger"
+        "class": "sanfont-khmer"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" បោះបង់")];
         }),
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
+        width: "220",
+        "confirm-button-text": "យល់ព្រម",
+        "cancel-button-text": "ទេ",
+        icon: _ctx.InfoFilled,
+        "icon-color": "#626AEF",
+        title: "តើអ្នកពិតជាចង់លុបមែនទេ?",
+        "cancel-button-type": "info",
+        onConfirm: _cache[18] || (_cache[18] = function ($event) {
+          return $options.DeleteTeacher();
+        })
+      }, {
+        reference: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+            type: "danger",
+            "class": "sanfont-khmer"
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុប ")];
+            }),
+            _: 1 /* STABLE */
+          })];
+        }),
+
+        _: 1 /* STABLE */
+      }, 8 /* PROPS */, ["icon"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[18] || (_cache[18] = function ($event) {
+        onClick: _cache[19] || (_cache[19] = function ($event) {
           return $options.submitFormTeacher('ruleFormTeacher');
         })
       }, {

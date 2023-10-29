@@ -349,6 +349,7 @@
 				</el-form-item>
 				<el-form-item
 					label="តួនាទី"
+					prop="roles"
 					class="sanfont-khmer"
 					:label-width="formLabelWidth"
 				>
@@ -466,7 +467,7 @@ export default {
 			ruleForm: {
 				name: null,
 				phone: null,
-				roles: null,
+				roles: '',
 				password: null,
 				email: null,
 				teacher_id: null,
@@ -479,7 +480,7 @@ export default {
 					{ min: 3, max: 15, message: 'ចាប់ពី ៣តួ ទៅ ១៥តួអក្សរ', trigger: 'blur' }
 				],
 				roles: [
-					{ required: true, message: 'សូមបញ្ចូលតួនាទី', trigger: 'change' }
+					{ required: true, message: 'សូមបញ្ចូលតួនាទី', trigger:  'blur'  }
 				],
 				email: [
 					{ required: true, message: 'សូមបញ្ចូលសារអេឡិចត្រូនិច', trigger: 'blur' },
@@ -487,7 +488,7 @@ export default {
 				],
 				password: [
 					{ required: true, message: 'សូមបញ្ចូលដាក់ពាក្សសម្ងាត់', trigger: 'blur' },
-					{ min: 8, max: 15, message: 'ចាប់ពី ៣តួ ទៅ ១៥តួអក្សរ', trigger: 'blur' }
+					{ min: 8, max: 15, message: 'ចាប់ពី ៨តួ ទៅ ១៥តួអក្សរ', trigger: 'blur' }
 				],
 				photo_id: [
 					{ required: true, message: 'សូមដាក់រូបភាព', trigger: 'change' }

@@ -127,6 +127,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('teacher_class')->group(function () {
       Route::post('/create', [ScheduleController::class, 'createTeacher']);
       Route::get('/edit/{id}', [ScheduleController::class, 'editTeacher']);
+      Route::delete('/delete/{id}', [ScheduleController::class, 'deleteTeacher']);
     });
     //Attendance 
     Route::prefix('attendance')->group(function () {
