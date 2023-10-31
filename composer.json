@@ -20,7 +20,7 @@
         "spatie/laravel-backup": "^8.3",
         "spatie/laravel-html": "*",
         "spatie/laravel-permission": "^5.5",
-        "wnx/laravel-backup-restore": "1.1.2"
+        "wnx/laravel-backup-restore": "dev-feat/use-dump_binary_path"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

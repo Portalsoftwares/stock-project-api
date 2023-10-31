@@ -1007,7 +1007,7 @@ export default {
 		*  Function create attendace
 		*/
 		async submitFormAttendance() {
-			this.fullscreenLoading = true;
+			
 			const attendanceInfo = {
 				'class_id': this.attendanceClassId,
 				'time_id': this.attendanceTimeId,
@@ -1019,6 +1019,14 @@ export default {
 			const config = {
 				headers: { 'content-type': 'application/json' }
 			}
+			if (this.blankAttendaceCheck(this.studentCallAttendance)) {
+				this.$message({
+					message: 'អ្នកបំពេញប្រអប់វត្តមានមិនទាន់អស់',
+					type: 'error'
+				});
+				return;
+			}
+			this.fullscreenLoading = true;
 			await axios.post('/attendance/create', attendanceInfo, config).then(response => {
 				this.getScheduleData();
 				this.fullscreenLoading = false;
@@ -1042,6 +1050,15 @@ export default {
 					});
 				}
 			})
+		},
+		blankAttendaceCheck(row) {
+			let is_blank = false
+			row.forEach(el => {
+				if (el.attendance_type_id == null) {
+					is_blank =  true;
+				}
+			})
+			return is_blank;
 		},
 		submitFormAD(formName) {
 			this.$refs[formName].validate((valid) => {

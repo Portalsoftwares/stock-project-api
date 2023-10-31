@@ -576,6 +576,10 @@ header.el-dialog__header {
   font-family: 'Khmer OS Siemreap', sans-serif !important;
 }
 
+.el-table  .warning-row {
+  background: rgb(255, 156, 156) !important;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1454,6 +1458,11 @@ header.el-dialog__header {
 .bg-green-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(240 253 244 / var(--tw-bg-opacity));
+}
+
+.bg-red-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 202 202 / var(--tw-bg-opacity));
 }
 
 .bg-red-50 {

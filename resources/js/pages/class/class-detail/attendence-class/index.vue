@@ -635,7 +635,6 @@
 				:data="studentCallAttendance"
 				resizable="false"
 				header-cell-class-name="sanfont-khmer text-md"
-				row-class-name="sanfont-khmer"
 				style="width: 100% ; height: 650px;"
 				stripe
 				border
@@ -678,21 +677,26 @@
 						<template #header>
 							<div class="text-green-600">PS</div>
 						</template>
-						<template #default="scope">
-							<input
-								type="checkbox"
-								name="checkbox"
-								class="custom-checkbox"
-								style="accent-color: #16a34a;"
-								:checked="scope.row.attendance_type_id ==1"
-								@click="scope.row.attendance_type_id =1"
-							>
+						<template #default="scope" >
+							<div class="">
+
+								<input
+									type="checkbox"
+									name="checkbox"
+									class="custom-checkbox"
+									style="accent-color: #16a34a;"
+									@click="scope.row.attendance_type_id==1?scope.row.attendance_type_id=null: scope.row.attendance_type_id=1"
+									:checked="scope.row.attendance_type_id ==1"
+								>
+							</div>
 
 						</template>
 					</el-table-column>
 					<el-table-column
 						width="80"
 						align="center"
+						
+
 					>
 						<template #header>
 							<div class="text-yellow-600">P</div>
@@ -704,13 +708,15 @@
 								style="accent-color: #ca8a04;"
 								class="custom-checkbox"
 								:checked="scope.row.attendance_type_id ==2"
-								@click="scope.row.attendance_type_id =2"
+								@click="scope.row.attendance_type_id==2?scope.row.attendance_type_id=null: scope.row.attendance_type_id=2"
 							>
 						</template>
 					</el-table-column>
 					<el-table-column
 						width="80"
 						align="center"
+						
+
 					>
 						<template #header>
 							<div class="text-blue-600">AL</div>
@@ -722,13 +728,15 @@
 								style="accent-color: #2563eb;"
 								class="custom-checkbox"
 								:checked="scope.row.attendance_type_id ==3"
-								@click="scope.row.attendance_type_id =3"
+								@click="scope.row.attendance_type_id==3?scope.row.attendance_type_id=null: scope.row.attendance_type_id=3"
 							>
 						</template>
 					</el-table-column>
 					<el-table-column
 						width="80"
 						align="center"
+						
+
 					>
 						<template #header>
 							<div class="text-red-600">A</div>
@@ -740,7 +748,7 @@
 								style="accent-color: #e74c3c;"
 								class="custom-checkbox"
 								:checked="scope.row.attendance_type_id ==4"
-								@click="scope.row.attendance_type_id =4"
+								@click="scope.row.attendance_type_id==4?scope.row.attendance_type_id=null: scope.row.attendance_type_id=4"
 							>
 						</template>
 					</el-table-column>
@@ -771,6 +779,7 @@
 import moment from 'moment';
 import { ElMessageBox, ElMessage } from 'element-plus'
 import FileSaver from 'file-saver'
+import { boolean } from 'yup';
 export default {
 	components: { moment, FileSaver },
 	props: {
@@ -802,7 +811,8 @@ export default {
 				subject_grade_id: null,
 				time_id: null,
 				day_id: null,
-				class_id: null
+				class_id: null,
+				is_save:false
 			},
 			rules: {
 				date: [
@@ -901,6 +911,7 @@ export default {
 					this.ruleForm.time_id = null
 					this.ruleForm.day_id = null
 					this.ruleForm.time_id = null
+					this.ruleForm.is_save = false
 				})
 				.catch((action) => {
 					ElMessage({
@@ -916,7 +927,9 @@ export default {
 
 		},
 		async AttenanceSave() {
-			this.fullscreenLoading = true;
+			
+			this.ruleForm.is_save = true
+
 			const data = {
 				'data': this.studentCallAttendance,
 				'subject_grade_id': this.ruleForm.subject_grade_id,
@@ -925,9 +938,18 @@ export default {
 				'class_id': this.ruleForm.class_id,
 				'date': moment(new Date(this.ruleForm.date)).format("YYYY-MM-DD"),
 			}
+
 			const config = {
 				headers: { 'content-type': 'application/json' }
 			}
+			if (this.blankAttendaceCheck(this.studentCallAttendance)) {
+				this.$message({
+					message: 'អ្នកបំពេញប្រអប់វត្តមានមិនទាន់អស់',
+					type: 'error'
+				});
+				return;
+			}
+			this.fullscreenLoading = true;
 			await axios.post('/attendance/create', data, config).then(response => {
 				// this.dialogFormVisibleAdd = true
 				setTimeout(() => {
@@ -940,12 +962,22 @@ export default {
 				}, 200)
 
 			}).catch((error) => {
+
 				this.fullscreenLoading = false;
 				if (error.response?.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
 			})
 
+		},
+		blankAttendaceCheck(row) {
+			let is_blank = false
+			row.forEach(el => {
+				if (el.attendance_type_id == null) {
+					is_blank =  true;
+				}
+			})
+			return is_blank;
 		},
 		geColor(type) {
 			const typeinput = type.replace(/[\u200B-\u200D\uFEFF]/g, '');
@@ -1292,4 +1324,10 @@ export default {
 	color: transparent;
 	transition: 0.2s;
 }
+
+
+
+  /* .el-table .success-row {
+    background: #f0f9eb;
+  } */
 </style>

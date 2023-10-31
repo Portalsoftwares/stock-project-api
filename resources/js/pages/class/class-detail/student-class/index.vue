@@ -223,17 +223,29 @@
 			:model="ruleForm"
 			:rules="rules"
 			ref="ruleForm"
+			label-position="left"
 			id="fm"
 		>
 
 			<div>
-				<div class="flex flex-col space-y-1">
+				<div class="flex justify-between space-x-2">
 
+					<el-form-item
+						label="ស្វែងរកសិស្ស"
+						class="sanfont-khmer"
+						label-width="120px"
+					>
+						<el-input
+							@input="searchStudent"
+							v-model="search_student"
+						></el-input>
+					</el-form-item>
 					<el-form-item
 						label="ថ្នាក់"
 						prop="roles"
 						class="sanfont-khmer"
-						:label-width="formLabelWidth"
+						label-width="50px"
+
 					>
 						<el-input
 							v-model="classData.class_name"
@@ -253,7 +265,7 @@
 							header-cell-class-name="header-table-font-khmer text-md"
 							row-class-name="sanfont-khmer"
 							selectable
-							v-loading="loading"
+							v-loading="loading_student"
 							highlight-current-row="true"
 							@selection-change="handleSelectionChange"
 							ref="multipleTableRef"
@@ -295,7 +307,7 @@
 								label="អត្តលេខ"
 								sortable
 							>
-								<template #default="scope">{{ "PK-S00"+ scope.row.student_id}}</template>
+								<template #default="scope">{{ scope.row.sid}} </template>
 							</el-table-column>
 							<el-table-column
 								property="full_name_kh"
@@ -926,6 +938,7 @@ export default {
 			gender: [],
 			imageUrl: '',
 			loading: false,
+			loading_student: false,
 			//Data Page filter
 			page: 1,
 			per_page: 10,
@@ -935,6 +948,8 @@ export default {
 			tSearch: null,
 			is_show_trust: 0,
 			//Data Page filter
+
+			search_student:'',
 
 
 		}
@@ -1007,6 +1022,17 @@ export default {
 				}
 			}, 1000);
 		},
+		// ស្វែងរក ទិន្នន័យ
+		searchStudent() {
+			clearTimeout(this.tSearch);
+			this.tSearch = setTimeout(() => {
+				if (this.search_student != null) {
+					if (this.search_student.replace(/\s/g, '') !== '') {
+					}
+					this.getData();
+				}
+			}, 1000);
+		},
 
 		async handleDeleteFromClass(id) {
 			this.loading = true
@@ -1043,43 +1069,45 @@ export default {
 		},
 		//Add student in class 
 		async addStudentInClass() {
-			this.loading = true
+			this.loading_student = true
 			const config = {
 				headers: { 'content-type': 'application/json' }
 			}
 			const class_id = this.$route.query.id;
 			await axios.post('/class/student/' + class_id + '/add', { 'data': this.selectDataStudent }, config).then(response => {
-				this.loading = false
+				this.loading_student = false
 				this.$message({
 					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
 				this.getStudentClass()
 			}).catch((error) => {
+				this.loading_student = false
+
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
 			})
 		},
 		async getStudentClass() {
-			this.loading = true;
+			this.loading = true
 			const class_id = this.$route.query.id;
 			await axios.get(`/class/teacher/${class_id}/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`).then(response => {
 				this.studentData = response.data.student
 				this.classData = response.data.class
 				this.status = response.data.status
 				this.gender = response.data.gender
-				this.loading = false;
+				this.loading = false
+
 				this.dialogVisibleAdd = false
 			}).catch((error) => {
-				this.loading = false;
+				this.loading = false
+
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
 			})
 		},
-
-
 		handleAvatarSuccess(file) {
 			if (file) {
 				this.ruleForm.profile_img = file
@@ -1190,12 +1218,16 @@ export default {
 			this.dialogVisibleAdd = true;
 		},
 		async getData() {
-			this.loading = true
+			this.loading_student = true
+
 			const class_id = this.$route.query.id;
-			await axios.get('/class/student/' + class_id + '/get').then(response => {
+			await axios.get('/class/student/' + class_id + '/get?search='+this.search_student).then(response => {
 				this.tableData = response.data
-				this.loading = false
+				this.loading_student = false
+
 			}).catch((error) => {
+				this.loading_student = false
+
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}

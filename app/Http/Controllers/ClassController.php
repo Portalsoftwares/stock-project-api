@@ -105,7 +105,7 @@ class ClassController extends Controller
 
                 if (!empty($request->search)) {
                     $query->where(function ($query) use ($request) {
-                        $query->orWhere('sid', 'like', "%" . $request->search . "%");
+                        $query->Where('sid', 'like', "%" . $request->search . "%");
                         $query->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
                         $query->orWhere('full_name_en', 'like', "%" . $request->search . "%");
                         $query->orWhere('email', 'like', "%" . $request->search . "%");
@@ -279,7 +279,17 @@ class ClassController extends Controller
         $all_class_academic = Classes::where('academic_id',$academic_id)->pluck('class_id');
         //array student in class
         $studentClass = StudentClass::whereIn('class_id', $all_class_academic)->pluck('student_id');
-        $allStudentData = Student::whereNotIn('student_id', $studentClass)->with('profile_img', 'status', 'gender')->get();
+        $allStudentData = Student::whereNotIn('student_id', $studentClass)
+        ->where(function ($query) use ($request) {
+            if (!empty($request->search)) {
+                $query->Where('sid', 'like', "%" . $request->search . "%");
+                $query->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
+                $query->orWhere('full_name_en', 'like', "%" . $request->search . "%");
+                $query->orWhere('email', 'like', "%" . $request->search . "%");
+                $query->orWhere('phone', 'like', "%" . $request->search . "%");
+            }
+        })
+        ->with('profile_img', 'status', 'gender')->get();
         $response = [
             'data' => $allStudentData
         ];

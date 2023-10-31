@@ -41,7 +41,7 @@ class StudentController extends Controller
         if (!empty($request->is_show_trust)) {
             $items =  Student::onlyTrashed()->where(function ($query) use ($request) {
                 if (!empty($request->search)) {
-                    $query->orWhere('sid', 'like', "%" . $request->search . "%");
+                    $query->Where('sid', 'like', "%" . $request->search . "%");
                     $query->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
                     $query->orWhere('full_name_en', 'like', "%" . $request->search . "%");
                     $query->orWhere('email', 'like', "%" . $request->search . "%");
@@ -51,7 +51,7 @@ class StudentController extends Controller
         } else {
             $items =  Student::where(function ($query) use ($request) {
                 if (!empty($request->search)) {
-                    $query->orWhere('sid', 'like', "%" . $request->search . "%");
+                    $query->Where('sid', 'like', "%" . $request->search . "%");
                     $query->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
                     $query->orWhere('full_name_en', 'like', "%" . $request->search . "%");
                     $query->orWhere('email', 'like', "%" . $request->search . "%");

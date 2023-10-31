@@ -26,4 +26,7 @@
     font-family: 'Khmer OS Siemreap', sans-serif !important;
   
 }
+.el-table  .warning-row {
+  background: rgb(255, 156, 156) !important;
+}
 @tailwind utilities;
