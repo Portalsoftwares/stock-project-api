@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class BackUpController extends Controller
 {
@@ -61,58 +62,10 @@ class BackUpController extends Controller
 
     public  function restore(Request $request, $id){
         $items = Backup::find($id);
-        $disk = Storage::disk(config('backup.destination.disks'));
-        $files = $disk->files(config('backup.backup.name'));
-        $backups = [];
-
-        function getIndexOfArrayByPath(array $array, string $path): int|null
-        {
-            for ($i = 0; $i < count($array); $i++) {
-                if ($array[$i]['path'] === $path) {
-                    return $i;
-                }
-            }
-
-            return null;
-        }
         // make an array of backup files, with their filesize and creation date
-        foreach ($files as $k => $f) {
-            // only take the zip files into account
-            if (substr($f, -4) == '.zip' && $disk->exists($f)) {
-                $bytes = $disk->size($f);
-                if ($bytes >= 1073741824) {
-                    $bytes = number_format($bytes / 1073741824, 2) . ' GB';
-                } elseif ($bytes >= 1048576) {
-                    $bytes = number_format($bytes / 1048576, 2) . ' MB';
-                } elseif ($bytes >= 1024) {
-                    $bytes = number_format($bytes / 1024, 2) . ' KB';
-                } elseif ($bytes > 1) {
-                    $bytes = $bytes . ' bytes';
-                } elseif ($bytes == 1) {
-                    $bytes = $bytes . ' byte';
-                } else {
-                    $bytes = '0 bytes';
-                }
-                $backups[] = [
-                    'path' => $f,
-                    'type' => 'sql',
-                    'size' =>  $bytes,
-                    'date' => date("Y-m-d", $disk->lastModified($f)),
-                ];
-            }
-        }
-        if(count($backups)>0){
-            $index = getIndexOfArrayByPath($backups ,$items->path);
-            // $status =  Artisan::call("restore:custom $index");
-            $status =  Artisan::call('backup:restore --backup='.$id);
-            Log::info(Artisan::output());
+        if($items){
+            $status =  Artisan::call("restore:custom $items->path");
             try {
-                // start the restore proces
-
-        
-                // if(function_exists('shell_exec')) {
-                //     dd("shell_exec is enabled");
-                // }
                 if ($status == 0) {
                     return response()->json([
                         'message' => 'successfully restore database.' .$status
@@ -159,14 +112,21 @@ class BackUpController extends Controller
     /**
      * Deletes a backup file.
      */
-    public function delete($file_name)
+    public function delete($id)
     {
-        $disk = Storage::disk(config('backup.backup.destination.disks')[0]);
-        if ($disk->exists(config('backup.backup.name') . '/' . $file_name)) {
-            $disk->delete(config('backup.backup.name') . '/' . $file_name);
-            return redirect()->back();
-        } else {
-            abort(404, "The backup file doesn't exist.");
+        $items = Backup::find($id);
+        // make an array of backup files, with their filesize and creation date
+        if($items){
+            $disk = Storage::disk(config('backup.backup.destination.disks')[0]);
+            if ($disk->exists($items->path)) {
+                $disk->delete($items->path);
+                $items->delete();
+                return response()->json([
+                    'message' => 'successfully restore database.' .$items->path
+                ]);
+            } else {
+                abort(404, "The backup file doesn't exist.");
+            }
         }
     }
 }

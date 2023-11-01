@@ -197,6 +197,7 @@ Route::prefix('v1')->group(function () {
       Route::get('/get', [BackUpController::class, 'index']);
       Route::post('/create', [BackUpController::class, 'create']);
       Route::post('/restore/{id}', [BackUpController::class, 'restore']);
+      Route::delete('/delete/{id}', [BackUpController::class, 'delete']);
     });
     //Setting
     Route::prefix('setting')->group(function () {

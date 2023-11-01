@@ -35,7 +35,10 @@ class RestoreTask extends Command
     public function handle()
     {
         $id = $this->argument('id');
-        $status =  Artisan::call('backup:restore ',[ '--backup' => $id]);
+        $status =  Artisan::call("backup:restore",[
+            '--backup' => $id,
+            '--no-interaction' => true,
+        ]);
         Log::info(Artisan::output());
     }
 

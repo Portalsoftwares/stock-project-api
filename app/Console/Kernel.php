@@ -39,10 +39,9 @@ class Kernel extends ConsoleKernel
                     $schedule->command('backup:custom')->yearlyOn(1, 1, $backupTime);
                     break;
                 default;
+                    $schedule->command('backup:custom')->everyMinute();
             }
         }
-        $schedule->command('backup:custom')->everyMinute();
-        $schedule->command('restore:custom')->everyMinute();
     }
 
     /**

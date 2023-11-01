@@ -270,15 +270,24 @@
 											>ស្ដារទិន្នន័យ</el-button>
 										</template>
 									</el-popconfirm>
-			
-
-									<el-button
-										size="small"
-										type="danger"
-										class="sanfont-khmer"
-										@click="handleDelete(scope.row.id)"
-									>លុប</el-button>
-
+									<el-popconfirm
+										width="220"
+										confirm-button-text="យល់ព្រម"
+										cancel-button-text="ទេ"
+										:icon="InfoFilled"
+										icon-color="#626AEF"
+										title="តើអ្នកពិតជាចង់លុបទិន្នន័យមែនទេ?"
+										cancel-button-type="info"
+										@confirm="handleDelete(scope.row.id)"
+									>
+										<template #reference>
+											<el-button
+												size="small"
+												type="danger"
+												class="sanfont-khmer"
+											>លុប</el-button>
+										</template>
+									</el-popconfirm>
 								</template>
 							</el-table-column>
 
@@ -683,6 +692,21 @@ export default {
 			this.loading_backup = true;
 			this.loading = true;
 			await axios.post('/backup/restore/'+id).then(response => {
+				if (response.status == 200) {
+					this.loading_backup = false;
+					this.loading = false;
+					this.$message({
+						message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+						type: 'success'
+					});
+					this.getData();
+				}
+			})
+		},
+		async handleDelete(id) {
+			this.loading_backup = true;
+			this.loading = true;
+			await axios.delete('/backup/delete/'+id).then(response => {
 				if (response.status == 200) {
 					this.loading_backup = false;
 					this.loading = false;
