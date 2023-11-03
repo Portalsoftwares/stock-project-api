@@ -358,6 +358,7 @@
 								<el-input
 									v-model="ruleForm.firstNameKh"
 									name="first_name_kh"
+									@input="fillFullNameKh()"
 									clearable
 								></el-input>
 							</el-form-item>
@@ -372,6 +373,7 @@
 								<el-input
 									v-model="ruleForm.LastNameKh"
 									name="last_name_kh"
+									@input="fillFullNameKh()"
 									clearable
 								></el-input>
 							</el-form-item>
@@ -401,6 +403,7 @@
 								<el-input
 									v-model="ruleForm.firstNameEng"
 									name="first_name_en"
+									@input="fillFullNameEng()"
 									clearable
 								></el-input>
 							</el-form-item>
@@ -415,6 +418,7 @@
 								<el-input
 									v-model="ruleForm.LastNameEng"
 									name="last_name_en"
+									@input="fillFullNameEng()"
 									clearable
 								></el-input>
 							</el-form-item>
@@ -944,6 +948,13 @@ export default {
 			}
 			return isJPG && isLt2M;
 		},
+		fillFullNameKh(){
+			this.ruleForm.fullNameKh = (this.ruleForm.firstNameKh ?? '')+" "+ (this.ruleForm.LastNameKh ?? '') 
+		},
+		fillFullNameEng(){
+			this.ruleForm.fullNameEng = (this.ruleForm.firstNameEng ?? '')+" "+ (this.ruleForm.LastNameEng ?? '')  
+		},
+
 		submitForm(formName) {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {

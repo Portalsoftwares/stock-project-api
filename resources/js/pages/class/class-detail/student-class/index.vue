@@ -421,6 +421,7 @@
 											label="នាមត្រកូល (ខ្មែរ)"
 											prop="firstNameKh"
 											class="sanfont-khmer "
+											@input="fillFullNameKh()"
 											:label-width="formLabelWidth"
 										>
 											<el-input
@@ -435,6 +436,7 @@
 											label="នាមខ្លួន (ខ្មែរ)"
 											prop="LastNameKh"
 											class="sanfont-khmer"
+											@input="fillFullNameKh()"
 											:label-width="formLabelWidth"
 										>
 											<el-input
@@ -468,6 +470,7 @@
 											<el-input
 												v-model="ruleForm.firstNameEng"
 												name="first_name_en"
+												@input="fillFullNameEng()"
 												clearable
 											></el-input>
 										</el-form-item>
@@ -477,6 +480,7 @@
 											label="នាមខ្លួន (អង់គ្លេស)"
 											prop="LastNameEng"
 											class="sanfont-khmer"
+											@input="fillFullNameEng()"
 											:label-width="formLabelWidth"
 										>
 											<el-input
@@ -1211,6 +1215,13 @@ export default {
 					type: 'success'
 				});
 			})
+		},
+
+		fillFullNameKh(){
+			this.ruleForm.fullNameKh = (this.ruleForm.firstNameKh ?? '')+" "+ (this.ruleForm.LastNameKh ?? '') 
+		},
+		fillFullNameEng(){
+			this.ruleForm.fullNameEng = (this.ruleForm.firstNameEng ?? '')+" "+ (this.ruleForm.LastNameEng ?? '')  
 		},
 
 		AddStudentToClass() {

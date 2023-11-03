@@ -527,8 +527,8 @@ export default {
 			}
 		},
 		selectTeacher(event) {
-			// this.ruleForm.teacher_id = event.teacher_id.toString()
-			// this.ruleForm.name = event.last_name_en
+			
+			this.ruleForm.name = this.ruleForm.full_name_kh
 		},
 		//Change Per Page
 		changePageSize(event) {
