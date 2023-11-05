@@ -121,8 +121,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     selectTeacher: function selectTeacher(event) {
-      // this.ruleForm.teacher_id = event.teacher_id.toString()
-      // this.ruleForm.name = event.last_name_en
+      var _this = this;
+      var obj = this.teachers.find(function (e) {
+        return e.teacher_id == _this.ruleForm.teacher_id;
+      });
+      console.log(obj);
+      this.ruleForm.name = obj.full_name_kh;
     },
     //Change Per Page
     changePageSize: function changePageSize(event) {
@@ -136,12 +140,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     // ស្វែងរក ទិន្នន័យ
     clickSearch: function clickSearch() {
-      var _this = this;
+      var _this2 = this;
       clearTimeout(this.tSearch);
       this.tSearch = setTimeout(function () {
-        if (_this.search != null) {
-          if (_this.search.replace(/\s/g, '') !== '') {}
-          _this.getData();
+        if (_this2.search != null) {
+          if (_this2.search.replace(/\s/g, '') !== '') {}
+          _this2.getData();
         }
       }, 1000);
     },
@@ -168,11 +172,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return isJPG && isLt2M;
     },
     submitForm: function submitForm(formName) {
-      var _this2 = this;
+      var _this3 = this;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          _this2.submitData();
-          _this2.resetForm('ruleForm');
+          _this3.submitData();
+          _this3.resetForm('ruleForm');
         } else {
           console.log('error submit!!');
           return false;
@@ -193,7 +197,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function upload image 
     */
     submitUplaod: function submitUplaod() {
-      var _this3 = this;
+      var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var form, config;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -207,8 +211,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _context.next = 4;
               return axios.post('/files/create/upload', form, config).then(function (response) {
-                _this3.ruleForm.photo_id = response.data.file.id;
-                _this3.$message({
+                _this4.ruleForm.photo_id = response.data.file.id;
+                _this4.$message({
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
@@ -224,15 +228,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function create new user  
     */
     submitData: function submitData() {
-      var _this4 = this;
+      var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var form, config;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               form = new FormData(document.getElementById('fm'));
-              form.append('role', _this4.ruleForm.roles);
-              form.append('teacher_id', _this4.ruleForm.teacher_id);
+              form.append('role', _this5.ruleForm.roles);
+              form.append('teacher_id', _this5.ruleForm.teacher_id);
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
@@ -240,9 +244,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _context2.next = 6;
               return axios.post('/user/store', form, config).then(function (response) {
-                _this4.getData();
-                _this4.dialogFormVisible = false;
-                _this4.$message({
+                _this5.getData();
+                _this5.dialogFormVisible = false;
+                _this5.$message({
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
@@ -258,25 +262,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     *  Function update new user  
     */
     updateData: function updateData() {
-      var _this5 = this;
+      var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var form, config;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               form = new FormData(document.getElementById('fm'));
-              form.append('role', _this5.ruleForm.roles);
-              form.append('teacher_id', _this5.ruleForm.teacher_id);
+              form.append('role', _this6.ruleForm.roles);
+              form.append('teacher_id', _this6.ruleForm.teacher_id);
               config = {
                 headers: {
                   'content-type': 'multipart/form-data'
                 }
               };
               _context3.next = 6;
-              return axios.post('/user/update/' + _this5.ruleForm.userId, form, config).then(function (response) {
-                _this5.getData();
-                _this5.dialogFormVisible = false;
-                _this5.$message({
+              return axios.post('/user/update/' + _this6.ruleForm.userId, form, config).then(function (response) {
+                _this6.getData();
+                _this6.dialogFormVisible = false;
+                _this6.$message({
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
@@ -296,29 +300,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       console.log(UploadFile);
     },
     AddUser: function AddUser() {
-      var _this6 = this;
+      var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
               // this.cancelAction()
               // this.resetForm('ruleForm');
-              _this6.ruleForm.name = '';
-              _this6.ruleForm.phone = '';
-              _this6.ruleForm.userId = '';
-              _this6.ruleForm.roles = null;
-              _this6.ruleForm.email = '';
-              _this6.imageUrl = '';
-              _this6.ruleForm.photo_id = '';
-              _this6.ruleForm.teacher_id = '';
-              _this6.roles = null;
-              _this6.dialogFormVisible = true;
-              _this6.isShowButtonUpdate = false;
-              _this6.isShowPassword = true;
+              _this7.ruleForm.name = '';
+              _this7.ruleForm.phone = '';
+              _this7.ruleForm.userId = '';
+              _this7.ruleForm.roles = null;
+              _this7.ruleForm.email = '';
+              _this7.imageUrl = '';
+              _this7.ruleForm.photo_id = '';
+              _this7.ruleForm.teacher_id = '';
+              _this7.roles = null;
+              _this7.dialogFormVisible = true;
+              _this7.isShowButtonUpdate = false;
+              _this7.isShowPassword = true;
               _context4.next = 14;
               return axios.get('/user/create').then(function (response) {
-                _this6.roles = response.data.roles;
-                _this6.teachers = response.data.teachers;
+                _this7.roles = response.data.roles;
+                _this7.teachers = response.data.teachers;
               })["catch"](function (error) {
                 console.log(error);
               });
@@ -330,19 +334,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getData: function getData() {
-      var _this7 = this;
+      var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              _this7.loading = true;
+              _this8.loading = true;
               _context5.next = 3;
-              return axios.get("/user/get?page=".concat(_this7.page, "&per_page=").concat(_this7.per_page, "&sort_by=").concat(_this7.sort_by, "&order_by=").concat(_this7.order_by, "&search=").concat(_this7.search, "&is_show_trust=").concat(_this7.is_show_trust)).then(function (response) {
-                _this7.tableData = response.data.data;
-                _this7.loading = false;
+              return axios.get("/user/get?page=".concat(_this8.page, "&per_page=").concat(_this8.per_page, "&sort_by=").concat(_this8.sort_by, "&order_by=").concat(_this8.order_by, "&search=").concat(_this8.search, "&is_show_trust=").concat(_this8.is_show_trust)).then(function (response) {
+                _this8.tableData = response.data.data;
+                _this8.loading = false;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
-                  _this7.$store.commit("auth/CLEAR_TOKEN");
+                  _this8.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 3:
@@ -353,30 +357,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     editUser: function editUser(id) {
-      var _this8 = this;
+      var _this9 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
-              _this8.isShowButtonUpdate = true;
-              _this8.isShowPassword = false;
+              _this9.isShowButtonUpdate = true;
+              _this9.isShowPassword = false;
               _context6.next = 4;
               return axios.get('/user/edit/' + id).then(function (response) {
                 var _response$data$user$i, _response$data$user$i2;
-                _this8.ruleForm.name = response.data.user.name;
-                _this8.ruleForm.phone = response.data.user.phone;
-                _this8.ruleForm.userId = response.data.user.id;
-                _this8.ruleForm.roles = response.data.user_has_roles;
-                _this8.ruleForm.email = response.data.user.email;
-                _this8.ruleForm.teacher_id = response.data.user.teacher_id;
-                _this8.imageUrl = (_response$data$user$i = response.data.user.img) === null || _response$data$user$i === void 0 ? void 0 : _response$data$user$i.file_path;
-                _this8.ruleForm.photo_id = (_response$data$user$i2 = response.data.user.img) === null || _response$data$user$i2 === void 0 ? void 0 : _response$data$user$i2.file_upload_id;
-                _this8.roles = response.data.roles;
-                _this8.teachers = response.data.teachers;
-                _this8.dialogFormVisible = true;
+                _this9.ruleForm.name = response.data.user.name;
+                _this9.ruleForm.phone = response.data.user.phone;
+                _this9.ruleForm.userId = response.data.user.id;
+                _this9.ruleForm.roles = response.data.user_has_roles;
+                _this9.ruleForm.email = response.data.user.email;
+                _this9.ruleForm.teacher_id = response.data.user.teacher_id;
+                _this9.imageUrl = (_response$data$user$i = response.data.user.img) === null || _response$data$user$i === void 0 ? void 0 : _response$data$user$i.file_path;
+                _this9.ruleForm.photo_id = (_response$data$user$i2 = response.data.user.img) === null || _response$data$user$i2 === void 0 ? void 0 : _response$data$user$i2.file_upload_id;
+                _this9.roles = response.data.roles;
+                _this9.teachers = response.data.teachers;
+                _this9.dialogFormVisible = true;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
-                  _this8.$store.commit("auth/CLEAR_TOKEN");
+                  _this9.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 4:
@@ -399,7 +403,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     handleDelete: function handleDelete(id) {
-      var _this9 = this;
+      var _this10 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
         var config;
         return _regeneratorRuntime().wrap(function _callee7$(_context7) {
@@ -412,10 +416,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _context7.next = 3;
               return axios["delete"]('/user/delete/' + id, config).then(function (response) {
-                _this9.getData();
+                _this10.getData();
               })["catch"](function (error) {
                 if (error.response.status == 401) {
-                  _this9.$store.commit("auth/CLEAR_TOKEN");
+                  _this10.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 3:
@@ -426,16 +430,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     restoreData: function restoreData(id) {
-      var _this10 = this;
+      var _this11 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
         return _regeneratorRuntime().wrap(function _callee8$(_context8) {
           while (1) switch (_context8.prev = _context8.next) {
             case 0:
               _context8.next = 2;
               return axios.post('/user/restore/' + id).then(function (response) {
-                _this10.getData();
-                _this10.dialogFormVisible = false;
-                _this10.$message({
+                _this11.getData();
+                _this11.dialogFormVisible = false;
+                _this11.$message({
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
@@ -448,14 +452,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     exportExcel: function exportExcel() {
-      var _this11 = this;
+      var _this12 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
         return _regeneratorRuntime().wrap(function _callee9$(_context9) {
           while (1) switch (_context9.prev = _context9.next) {
             case 0:
               axios.post('/user/exportExcel', {
                 file_name: 'User',
-                is_show_trust: _this11.is_show_trust
+                is_show_trust: _this12.is_show_trust
               }, {
                 responseType: 'blob'
               }).then(function (response) {
@@ -470,14 +474,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     exportPDF: function exportPDF() {
-      var _this12 = this;
+      var _this13 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
         return _regeneratorRuntime().wrap(function _callee10$(_context10) {
           while (1) switch (_context10.prev = _context10.next) {
             case 0:
               axios.post('/user/exportPDF', {
                 file_name: 'User',
-                is_show_trust: _this12.is_show_trust
+                is_show_trust: _this13.is_show_trust
               }, {
                 responseType: 'blob'
               }).then(function (response) {
@@ -1228,7 +1232,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_794fb692__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=794fb692 */ "./resources/js/pages/user/index.vue?vue&type=template&id=794fb692");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/user/index.vue?vue&type=script&lang=js");
 /* harmony import */ var _index_vue_vue_type_style_index_0_id_794fb692_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=794fb692&lang=css */ "./resources/js/pages/user/index.vue?vue&type=style&index=0&id=794fb692&lang=css");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -1236,7 +1240,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_794fb692__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/user/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_794fb692__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/user/index.vue"]])
 /* hot reload */
 if (false) {}
 

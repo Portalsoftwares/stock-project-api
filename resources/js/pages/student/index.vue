@@ -86,7 +86,7 @@
 					</el-table-column>
 
 					<el-table-column width="100" align="start" label="អត្តលេខ" sortable>
-						<template #default="scope">{{ "PK-S00" + scope.row.student_id }}</template>
+						<template #default="scope">{{ scope.row.sid }}</template>
 					</el-table-column>
 					<el-table-column width="180" label="ឈ្មោះភាសាខ្មែរ" sortable>
 						<template #default="scope">{{ scope.row.full_name_kh }}</template>
@@ -152,9 +152,15 @@
 					</el-table-column>
 				</el-table>
 				<div class="py-2 flex justify-center">
-					<el-pagination background v-model:current-page="page" v-model:page-size="per_page"
-						:page-count="tableData.last_page" layout="total, prev, pager, next, sizes" :total="tableData.total"
-						@current-change="changePage" @size-change="changePageSize">
+					<el-pagination 
+					background 
+					v-model:current-page="page"
+					v-model:page-size="per_page"
+					:page-count="tableData.last_page"
+					layout="total, prev, pager, next, sizes" 
+					:total="tableData.total"
+					@current-change="changePage" 
+					@size-change="changePageSize">
 					</el-pagination>
 
 				</div>
@@ -180,13 +186,13 @@
 
 									<el-form-item label="នាមត្រកូល (ខ្មែរ)" prop="firstNameKh" class="sanfont-khmer "
 										:label-width="formLabelWidth">
-										<el-input v-model="ruleForm.firstNameKh" name="first_name_kh" clearable></el-input>
+										<el-input v-model="ruleForm.firstNameKh" name="first_name_kh" @input="fillFullNameKh" clearable></el-input>
 									</el-form-item>
 								</div>
 								<div>
 									<el-form-item label="នាមខ្លួន (ខ្មែរ)" prop="LastNameKh" class="sanfont-khmer"
 										:label-width="formLabelWidth">
-										<el-input v-model="ruleForm.LastNameKh" name="last_name_kh" clearable></el-input>
+										<el-input v-model="ruleForm.LastNameKh" name="last_name_kh" @input="fillFullNameKh" clearable></el-input>
 									</el-form-item>
 								</div>
 								<div>
@@ -198,13 +204,13 @@
 								<div>
 									<el-form-item label="នាមត្រកូល(អង់គ្លេស)" prop="firstNameEng" class="sanfont-khmer"
 										:label-width="formLabelWidth">
-										<el-input v-model="ruleForm.firstNameEng" name="first_name_en" clearable></el-input>
+										<el-input v-model="ruleForm.firstNameEng" name="first_name_en" @input="fillFullNameEng" clearable></el-input>
 									</el-form-item>
 								</div>
 								<div>
 									<el-form-item label="នាមខ្លួន (អង់គ្លេស)" prop="LastNameEng" class="sanfont-khmer"
 										:label-width="formLabelWidth">
-										<el-input v-model="ruleForm.LastNameEng" name="last_name_en" clearable></el-input>
+										<el-input v-model="ruleForm.LastNameEng" name="last_name_en" @input="fillFullNameEng" clearable></el-input>
 									</el-form-item>
 								</div>
 								<div>
@@ -693,6 +699,13 @@ export default {
 		},
 		handleRemove(UploadFile) {
 			console.log(UploadFile)
+		},
+
+		fillFullNameKh(){
+			this.ruleForm.fullNameKh = (this.ruleForm.firstNameKh ?? '')+" "+ (this.ruleForm.LastNameKh ?? '') 
+		},
+		fillFullNameEng(){
+			this.ruleForm.fullNameEng = (this.ruleForm.firstNameEng ?? '')+" "+ (this.ruleForm.LastNameEng ?? '')  
 		},
 
 		async addStudent() {
