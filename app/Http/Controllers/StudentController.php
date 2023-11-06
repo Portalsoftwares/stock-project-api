@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\StudentRole;
 use App\Models\StudentStatus;
+use App\Models\StudentClass;
+use App\Models\GradeLevel;
+use App\Models\Academic;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -47,6 +50,17 @@ class StudentController extends Controller
                     $query->orWhere('email', 'like', "%" . $request->search . "%");
                     $query->orWhere('phone', 'like', "%" . $request->search . "%");
                 }
+                if (!empty($request->academic)) {
+                    $query->whereHas('current_class.class',function ($query) use ($request) {
+                        $query->where('academic_id', $request->academic);
+                    });
+                }
+                if (!empty($request->grade_level)) {
+                    $query->whereHas('current_class.class',function ($query) use ($request) {
+                        $query->whereIn('grade_level_id',explode(',', $request->grade_level));
+                    });
+                }
+
             });
         } else {
             $items =  Student::where(function ($query) use ($request) {
@@ -57,6 +71,17 @@ class StudentController extends Controller
                     $query->orWhere('email', 'like', "%" . $request->search . "%");
                     $query->orWhere('phone', 'like', "%" . $request->search . "%");
                 }
+                if (!empty($request->academic)) {
+                    $query->whereHas('current_class.class',function ($query) use ($request) {
+                        $query->where('academic_id', $request->academic);
+                    });
+                }
+                if (!empty($request->grade_level)) {
+                    $query->whereHas('current_class.class',function ($query) use ($request) {
+                        $query->where('grade_level_id', $request->grade_level);
+                    });
+                }
+
             });
         }
         $data = $items->with('current_class.class', 'profile_img', 'gender', 'status')
@@ -79,6 +104,8 @@ class StudentController extends Controller
             'status' => $status,
             'role' => $role,
             'gender' => $gender,
+            'grade_level' => GradeLevel::all(),
+            'academic' => Academic::all(),
         ];
         return  response($response, 200);
     }
@@ -182,6 +209,15 @@ class StudentController extends Controller
 
     public function delete($id)
     {
+
+        //check related record
+        $record_class = StudentClass::where('student_id',$id)->count();
+        if($record_class>0){
+            $response = [
+                'data' => 'ទិន្នន័យមិនអាចលុបបានទេ​ ព្រោះមានទំនាក់ទំនងជាមួយទិន្នន័យដទែទៀត',
+            ];
+            return  response($response, 400);
+        }
         DB::transaction(function () use ($id) {
             $items = Student::find($id);
             if (!empty($items)) {

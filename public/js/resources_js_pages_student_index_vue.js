@@ -172,26 +172,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           trigger: 'blur'
         }]
       },
-      filter: [{
-        filterValue: 'តាមឈ្មោះ',
-        filterLabel: 'ទី១០'
-      }, {
-        filterValue: 'តាមលេខរៀង',
-        filterLabel: 'ទី១១'
-      }, {
-        filterValue: 'តាមកាលបរិច្ឆេត',
-        filterLabel: 'ទី១២'
-      }],
-      academic: [{
-        filterValue: 'តាមឈ្មោះ',
-        filterLabel: 'ឆ្នាំ២០២១-២០២២'
-      }, {
-        filterValue: 'តាមលេខរៀង',
-        filterLabel: 'ឆ្នាំ២០២២-២០២៣'
-      }, {
-        filterValue: 'តាមកាលបរិច្ឆេត',
-        filterLabel: 'ឆ្នាំ២០២៣-២០២៤'
-      }],
+      filter: [],
+      academic: [],
       filterSelectValue: "",
       academicSelectValue: "",
       loading: false,
@@ -220,11 +202,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
             case 0:
               _this.loading = true;
               _context.next = 3;
-              return axios.get("/student/get?page=".concat(_this.page, "&per_page=").concat(_this.per_page, "&sort_by=").concat(_this.sort_by, "&order_by=").concat(_this.order_by, "&search=").concat(_this.search, "&is_show_trust=").concat(_this.is_show_trust)).then(function (response) {
+              return axios.get("/student/get?page=".concat(_this.page, "&per_page=").concat(_this.per_page, "&sort_by=").concat(_this.sort_by, "&order_by=").concat(_this.order_by, "&search=").concat(_this.search, "&academic=").concat(_this.academicSelectValue, "&grade_level=").concat(_this.filterSelectValue, "&is_show_trust=").concat(_this.is_show_trust)).then(function (response) {
                 _this.tableData = response.data.data;
                 _this.classData = response.data["class"];
                 _this.status = response.data.status;
                 _this.gender = response.data.gender;
+                _this.filter = response.data.grade_level;
+                _this.academic = response.data.academic;
                 _this.loading = false;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
@@ -419,6 +403,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                   message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
                   type: 'success'
                 });
+              })["catch"](function (error) {
+                if (error.response.status == 400) {
+                  _this7.$message({
+                    message: error.response.data.data,
+                    type: 'error'
+                  });
+                }
               });
             case 2:
             case "end":
@@ -691,47 +682,41 @@ var _hoisted_20 = {
   key: 1
 };
 var _hoisted_21 = {
-  key: 0
-};
-var _hoisted_22 = {
-  key: 1
-};
-var _hoisted_23 = {
   "class": "py-2 flex justify-center"
 };
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "my-header"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-lg font-semibold text-white"
 }, "ព័ត៌មានសិស្ស")], -1 /* HOISTED */);
-var _hoisted_25 = {
+var _hoisted_23 = {
   "class": "flex flex-col w-full"
 };
-var _hoisted_26 = {
+var _hoisted_24 = {
   "class": "xl:flex xl:flex-row"
 };
-var _hoisted_27 = {
+var _hoisted_25 = {
   "class": "flex flex-col space-y-1"
 };
+var _hoisted_26 = {
+  "class": "flex flex-col space-y-1"
+};
+var _hoisted_27 = ["src"];
 var _hoisted_28 = {
-  "class": "flex flex-col space-y-1"
-};
-var _hoisted_29 = ["src"];
-var _hoisted_30 = {
   key: 1,
   "class": "el-icon-plus avatar-uploader-icon"
 };
-var _hoisted_31 = {
+var _hoisted_29 = {
   "class": "flex flex-col xl:flex-row"
 };
-var _hoisted_32 = {
+var _hoisted_30 = {
   "class": "flex flex-col space-y-1"
 };
+var _hoisted_31 = {
+  "class": "flex flex-col space-y-1"
+};
+var _hoisted_32 = ["src"];
 var _hoisted_33 = {
-  "class": "flex flex-col space-y-1"
-};
-var _hoisted_34 = ["src"];
-var _hoisted_35 = {
   "class": "dialog-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -778,9 +763,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filter, function (item) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-          key: item.filterValue,
-          label: item.filterLabel,
-          value: item.filterValue
+          key: item.grade_level_id,
+          label: item.grade_level_name,
+          value: item.grade_level_id
         }, null, 8 /* PROPS */, ["label", "value"]);
       }), 128 /* KEYED_FRAGMENT */))];
     }),
@@ -798,16 +783,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.academic, function (item) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_option, {
-          key: item.filterValue,
-          label: item.filterLabel,
-          value: item.filterValue
+          key: item.academic_id,
+          label: item.academic_name,
+          value: item.academic_id
         }, null, 8 /* PROPS */, ["label", "value"]);
       }), 128 /* KEYED_FRAGMENT */))];
     }),
 
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-    type: "primary"
+    type: "primary",
+    onClick: _cache[3] || (_cache[3] = function ($event) {
+      return $options.getData();
+    })
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -821,7 +809,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   })])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_switch, {
     modelValue: $data.is_show_trust,
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.is_show_trust = $event;
     }),
     onChange: $options.clickShowwTrush,
@@ -919,6 +907,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         width: "100",
         align: "start",
         label: "អត្តលេខ",
+        property: "sid",
         sortable: ""
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
@@ -929,6 +918,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         width: "180",
         label: "ឈ្មោះភាសាខ្មែរ",
+        property: "full_name_kh",
         sortable: ""
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
@@ -937,7 +927,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
-        property: "first_name_en",
+        property: "full_name_en",
         label: "ឈ្មោះឡាតាំង",
         width: "220",
         sortable: ""
@@ -949,17 +939,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         width: "130",
-        label: "ភេទ",
-        filters: _ctx.genders
+        label: "ភេទ"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [scope.row.gender_id == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, "ប្រុស")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, "ស្រី"))];
+          var _scope$row$gender;
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$gender = scope.row.gender) === null || _scope$row$gender === void 0 ? void 0 : _scope$row$gender.gender_name_kh), 1 /* TEXT */)];
         }),
+
         _: 1 /* STABLE */
-      }, 8 /* PROPS */, ["filters"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
+      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         width: "150",
-        label: "ថ្នាក់រៀន",
-        sortable: ""
+        label: "ថ្នាក់រៀន"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
           var _scope$row$current_cl;
@@ -991,7 +981,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         label: "សកម្មភាព"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [$data.is_show_trust == 1 && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+          return [$data.is_show_trust == 1 && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             size: "small",
             "class": "sanfont-khmer",
             onClick: function onClick($event) {
@@ -1028,7 +1018,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
 
             _: 2 /* DYNAMIC */
-          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.is_show_trust == 0 && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.is_show_trust == 0 && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             size: "small",
             "class": "sanfont-khmer",
             onClick: function onClick($event) {
@@ -1072,14 +1062,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
 
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
+  }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
     background: "",
     "current-page": $data.page,
-    "onUpdate:currentPage": _cache[4] || (_cache[4] = function ($event) {
+    "onUpdate:currentPage": _cache[5] || (_cache[5] = function ($event) {
       return $data.page = $event;
     }),
     "page-size": $data.per_page,
-    "onUpdate:pageSize": _cache[5] || (_cache[5] = function ($event) {
+    "onUpdate:pageSize": _cache[6] || (_cache[6] = function ($event) {
       return $data.per_page = $event;
     }),
     "page-count": $data.tableData.last_page,
@@ -1089,7 +1079,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onSizeChange: $options.changePageSize
   }, null, 8 /* PROPS */, ["current-page", "page-size", "page-count", "total", "onCurrentChange", "onSizeChange"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisible,
-    "onUpdate:modelValue": _cache[31] || (_cache[31] = function ($event) {
+    "onUpdate:modelValue": _cache[32] || (_cache[32] = function ($event) {
       return $data.dialogFormVisible = $event;
     }),
     title: "ព័ត៌មានសិស្ស",
@@ -1099,11 +1089,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     draggable: ""
   }, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_24];
+      return [_hoisted_22];
     }),
     footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-        onClick: _cache[28] || (_cache[28] = function ($event) {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+        onClick: _cache[29] || (_cache[29] = function ($event) {
           return $options.cancelAction();
         }),
         "class": "sanfont-khmer",
@@ -1117,7 +1107,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 0,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[29] || (_cache[29] = function ($event) {
+        onClick: _cache[30] || (_cache[30] = function ($event) {
           return $options.submitForm('ruleForm');
         })
       }, {
@@ -1129,7 +1119,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: 1,
         type: "primary",
         "class": "sanfont-khmer",
-        onClick: _cache[30] || (_cache[30] = function ($event) {
+        onClick: _cache[31] || (_cache[31] = function ($event) {
           return $options.updateData('ruleForm');
         })
       }, {
@@ -1160,7 +1150,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 label: "ព័ត៌មានទូទៅ"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "នាមត្រកូល (ខ្មែរ)",
                     prop: "firstNameKh",
                     "class": "sanfont-khmer",
@@ -1169,7 +1159,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.firstNameKh,
-                        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+                        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
                           return $data.ruleForm.firstNameKh = $event;
                         }),
                         name: "first_name_kh",
@@ -1187,7 +1177,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.LastNameKh,
-                        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+                        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
                           return $data.ruleForm.LastNameKh = $event;
                         }),
                         name: "last_name_kh",
@@ -1205,7 +1195,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.fullNameKh,
-                        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+                        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
                           return $data.ruleForm.fullNameKh = $event;
                         }),
                         name: "full_name_kh",
@@ -1222,7 +1212,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.firstNameEng,
-                        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+                        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
                           return $data.ruleForm.firstNameEng = $event;
                         }),
                         name: "first_name_en",
@@ -1240,7 +1230,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.LastNameEng,
-                        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+                        "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
                           return $data.ruleForm.LastNameEng = $event;
                         }),
                         name: "last_name_en",
@@ -1258,7 +1248,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.fullNameEng,
-                        "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+                        "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
                           return $data.ruleForm.fullNameEng = $event;
                         }),
                         name: "full_name_en",
@@ -1274,7 +1264,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.IDn,
-                        "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+                        "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
                           return $data.ruleForm.IDn = $event;
                         }),
                         autocomplete: "off",
@@ -1292,7 +1282,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                         modelValue: $data.ruleForm.genderValue,
-                        "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
+                        "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
                           return $data.ruleForm.genderValue = $event;
                         }),
                         placeholder: "ជ្រើសរើស",
@@ -1323,7 +1313,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_date_picker, {
                         modelValue: $data.ruleForm.dobValue,
-                        "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
+                        "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
                           return $data.ruleForm.dobValue = $event;
                         }),
                         type: "date",
@@ -1340,7 +1330,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.birthAddress,
-                        "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+                        "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
                           return $data.ruleForm.birthAddress = $event;
                         }),
                         autocomplete: "off",
@@ -1357,7 +1347,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.address,
-                        "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
+                        "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
                           return $data.ruleForm.address = $event;
                         }),
                         autocomplete: "off",
@@ -1366,7 +1356,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       }, null, 8 /* PROPS */, ["modelValue"])];
                     }),
                     _: 1 /* STABLE */
-                  }, 8 /* PROPS */, ["label-width"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                  }, 8 /* PROPS */, ["label-width"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "រូបភាព",
                     "class": "sanfont-khmer",
                     "label-width": $data.formLabelWidth
@@ -1386,13 +1376,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                             key: 0,
                             src: $data.imageUrl,
                             "class": "avatar object-contain"
-                          }, null, 8 /* PROPS */, _hoisted_29)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_30))];
+                          }, null, 8 /* PROPS */, _hoisted_27)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_28))];
                         }),
                         _: 1 /* STABLE */
                       }, 8 /* PROPS */, ["on-change", "before-upload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
                         type: "hidden",
                         name: "file_upload_id",
-                        "onUpdate:modelValue": _cache[17] || (_cache[17] = function ($event) {
+                        "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
                           return $data.ruleForm.file_upload_id = $event;
                         })
                       }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.ruleForm.file_upload_id]])])];
@@ -1406,7 +1396,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.phoneNum,
-                        "onUpdate:modelValue": _cache[18] || (_cache[18] = function ($event) {
+                        "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
                           return $data.ruleForm.phoneNum = $event;
                         }),
                         autocomplete: "off",
@@ -1424,7 +1414,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.email,
-                        "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
+                        "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
                           return $data.ruleForm.email = $event;
                         }),
                         autocomplete: "off",
@@ -1442,7 +1432,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                         modelValue: $data.ruleForm.statusValue,
-                        "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
+                        "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
                           return $data.ruleForm.statusValue = $event;
                         }),
                         placeholder: "ជ្រើសរើស"
@@ -1472,7 +1462,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         type: "textarea",
                         rows: 5,
                         modelValue: $data.ruleForm.studentOtherText,
-                        "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
+                        "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
                           return $data.ruleForm.studentOtherText = $event;
                         }),
                         name: "other"
@@ -1486,7 +1476,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 label: "ព័ត៌មានមធ្យមសិក្សាបឋមភូមិ"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                  return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "អនុវិទ្យាល័យ",
                     prop: "from_secondary_high_school",
                     "class": "sanfont-khmer",
@@ -1495,7 +1485,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.from_secondary_high_school,
-                        "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
+                        "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
                           return $data.ruleForm.from_secondary_high_school = $event;
                         }),
                         name: "from_secondary_high_school",
@@ -1512,7 +1502,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.secondary_exam_date,
-                        "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
+                        "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
                           return $data.ruleForm.secondary_exam_date = $event;
                         }),
                         name: "secondary_exam_date",
@@ -1529,7 +1519,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.secondary_exam_place,
-                        "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
+                        "onUpdate:modelValue": _cache[25] || (_cache[25] = function ($event) {
                           return $data.ruleForm.secondary_exam_place = $event;
                         }),
                         name: "secondary_exam_place",
@@ -1537,7 +1527,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       }, null, 8 /* PROPS */, ["modelValue"])];
                     }),
                     _: 1 /* STABLE */
-                  }, 8 /* PROPS */, ["label-width"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                  }, 8 /* PROPS */, ["label-width"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "បន្ទប់ប្រលង",
                     prop: "secondary_exam_room",
                     "class": "sanfont-khmer",
@@ -1546,7 +1536,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.secondary_exam_room,
-                        "onUpdate:modelValue": _cache[25] || (_cache[25] = function ($event) {
+                        "onUpdate:modelValue": _cache[26] || (_cache[26] = function ($event) {
                           return $data.ruleForm.secondary_exam_room = $event;
                         }),
                         name: "secondary_exam_room",
@@ -1563,7 +1553,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleForm.secondary_exam_desk,
-                        "onUpdate:modelValue": _cache[26] || (_cache[26] = function ($event) {
+                        "onUpdate:modelValue": _cache[27] || (_cache[27] = function ($event) {
                           return $data.ruleForm.secondary_exam_desk = $event;
                         }),
                         name: "secondary_exam_desk",
@@ -1583,7 +1573,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["model", "rules"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
         modelValue: $data.dialogVisible,
-        "onUpdate:modelValue": _cache[27] || (_cache[27] = function ($event) {
+        "onUpdate:modelValue": _cache[28] || (_cache[28] = function ($event) {
           return $data.dialogVisible = $event;
         })
       }, {
@@ -1592,7 +1582,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "w-full": "",
             src: $data.dialogImageUrl,
             alt: "Preview Image"
-          }, null, 8 /* PROPS */, _hoisted_34)];
+          }, null, 8 /* PROPS */, _hoisted_32)];
         }),
         _: 1 /* STABLE */
       }, 8 /* PROPS */, ["modelValue"])];
@@ -1686,7 +1676,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_bf525b36__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=bf525b36 */ "./resources/js/pages/student/index.vue?vue&type=template&id=bf525b36");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/student/index.vue?vue&type=script&lang=js");
 /* harmony import */ var _index_vue_vue_type_style_index_0_id_bf525b36_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=bf525b36&lang=css */ "./resources/js/pages/student/index.vue?vue&type=style&index=0&id=bf525b36&lang=css");
-/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -1694,7 +1684,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_bf525b36__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/student/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_bf525b36__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/student/index.vue"]])
 /* hot reload */
 if (false) {}
 

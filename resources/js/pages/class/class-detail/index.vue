@@ -662,12 +662,13 @@
 					title="តើអ្នកពិតជាចង់លុបមែនទេ?"
 					cancel-button-type="info"
 					@confirm="DeleteTeacher()"
+					v-if="ruleFormTeacher.id !=null"
 				>
 					<template #reference>
 						<el-button
 							type="danger"
 							class="sanfont-khmer"
-						>លុប
+						>លុប 
 						</el-button>
 					</template>
 				</el-popconfirm>
@@ -799,7 +800,7 @@ export default {
 		addTeacher() {
 			this.dialogFormTeacher = true;
 			this.ruleFormTeacher.class_id = this.classData.class_id
-			this.ruleFormTeacher.id = '';
+			this.ruleFormTeacher.id = null;
 			this.ruleFormTeacher.teacher_id = null
 			this.ruleFormTeacher.role_id = '0'
 			this.ruleFormTeacher.subject_grade_id = null
@@ -917,10 +918,9 @@ export default {
 						type: 'success'
 					});
 					this.getTeacher();
-					this.dialogFormTeacher = true;
+					this.dialogFormTeacher = false;
 				}
 			}).catch((error) => {
-				console.log(error)
 				if (error.response.status == 400) {
 					this.$message({
 						message: error.response.data.data,

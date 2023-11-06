@@ -259,7 +259,7 @@
 				<el-button
 					type="primary"
 					class="sanfont-khmer"
-					@click="studentScoreSave()"
+					@click="submitFormSoreSave('formScoreAll')"
 					v-loading.fullscreen.lock="fullscreenLoading"
 				>
 					រក្សាទុក
@@ -623,6 +623,16 @@ export default {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
 			})
+		},
+		submitFormSoreSave(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					this.studentScoreSave()
+				} else {
+					console.log('error submit!!');
+					return false;
+				}
+			});
 		},
 
 		async studentScoreSave() {

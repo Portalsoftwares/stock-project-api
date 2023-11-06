@@ -6,6 +6,7 @@ use App\Models\ClassType;
 use App\Models\GradeLevel;
 use Illuminate\Http\Request;
 use App\Models\Subject;
+use App\Models\TeacherClass;
 use App\Models\SubjectGradeLevel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -127,6 +128,19 @@ class SubjectController extends Controller
 
     public function delete($id)
     {
+        $subject_grade = SubjectGradeLevel::where('subject_id', $id)->count();
+
+        $subject_class = TeacherClass::where(function($query) use ($id) {
+            $query->whereHas('teacher_subject_in_class.subject',function ($query) use ($id) {
+                $query->where('subject_id', $id);
+            });
+        })->count();
+        if($subject_class>0 || $subject_grade>0){
+            $response = [
+                'data' => 'ទិន្នន័យមិនអាចលុបបានទេ​ ព្រោះមានទំនាក់ទំនងជាមួយទិន្នន័យដទែទៀត',
+            ];
+            return  response($response, 400);
+        }
         DB::transaction(function () use ($id) {
             $items = Subject::find($id);
             if (!empty($items)) {
@@ -172,17 +186,47 @@ class SubjectController extends Controller
         if (!empty($request->is_show_trust)) {
             $items =  SubjectGradeLevel::onlyTrashed()->where(function ($query) use ($request) {
                 if (!empty($request->search)) {
-                    $query->where('full_score', $request->search);
-                    $query->where('divide', $request->search);
-                    $query->where('average', $request->search);
+                    $query->whereHas('subject',function ($query) use ($request) {
+                        $query->where('subject_name_kh','like', "%" . $request->search . "%");
+                        $query->orWhere('subject_name_en','like', "%" . $request->search . "%");
+                        $query->orWhere('subject_sort_name_en','like', "%" . $request->search . "%");
+                    });
+                    // $query->where('full_score', $request->search);
+                    // $query->where('divide', $request->search);
+                    // $query->where('average', $request->search);
+                }
+                if (!empty($request->class_type)) {
+                    $query->whereHas('class_type',function ($query) use ($request) {
+                        $query->where('class_type_id', $request->class_type);
+                    });
+                }
+                if (!empty($request->grade_level)) {
+                    $query->whereHas('grade_level',function ($query) use ($request) {
+                        $query->whereIn('grade_level_id',explode(',', $request->grade_level));
+                    });
                 }
             });
         } else {
             $items =  SubjectGradeLevel::where(function ($query) use ($request) {
                 if (!empty($request->search)) {
-                    $query->where('full_score', $request->search);
-                    $query->where('divide', $request->search);
-                    $query->where('average', $request->search);
+                    $query->whereHas('subject',function ($query) use ($request) {
+                        $query->where('subject_name_kh','like', "%" . $request->search . "%");
+                        $query->orWhere('subject_name_en','like', "%" . $request->search . "%");
+                        $query->orWhere('subject_sort_name_en','like', "%" . $request->search . "%");
+                    });
+                    // $query->where('full_score', $request->search);
+                    // $query->where('divide', $request->search);
+                    // $query->where('average', $request->search);
+                }
+                if (!empty($request->class_type)) {
+                    $query->whereHas('class_type',function ($query) use ($request) {
+                        $query->where('class_type_id', $request->class_type);
+                    });
+                }
+                if (!empty($request->grade_level)) {
+                    $query->whereHas('grade_level',function ($query) use ($request) {
+                        $query->whereIn('grade_level_id',explode(',', $request->grade_level));
+                    });
                 }
             });
         }
@@ -273,6 +317,17 @@ class SubjectController extends Controller
     }
     public function deleteSubjectLevel($id)
     {
+        $subject_class = TeacherClass::where(function($query) use ($id) {
+            $query->whereHas('teacher_subject_in_class.subject',function ($query) use ($id) {
+                $query->where('subject_grade_id', $id);
+            });
+        })->count();
+        if($subject_class>0){
+            $response = [
+                'data' => 'ទិន្នន័យមិនអាចលុបបានទេ​ ព្រោះមានទំនាក់ទំនងជាមួយទិន្នន័យដទែទៀត',
+            ];
+            return  response($response, 400);
+        }
         DB::transaction(function () use ($id) {
             $items = SubjectGradeLevel::find($id);
             if (!empty($items)) {

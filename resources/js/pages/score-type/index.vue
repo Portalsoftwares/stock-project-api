@@ -370,7 +370,6 @@
 			</div>
 		</el-tab-pane>
 	</el-tabs>
-
 	<!-- Dialog  -->
 	<el-dialog
 		v-model="dialogFormVisible"
@@ -796,11 +795,17 @@ export default {
 		},
 		async handleDelete(id) {
 			await axios.delete('/score-type/delete/' + id).then(response => {
+				this.$message({
+					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
+					type: 'success'
+				});
 				this.getData();
-
-			}).catch((error) => {
-				if (error.response.status == 401) {
-					this.$store.commit("auth/CLEAR_TOKEN")
+			}).catch(error=>{
+				if(error.response.status==400){
+					this.$message({
+						message: error.response.data.data,
+						type: 'error'
+					});
 				}
 			})
 		},
@@ -836,6 +841,19 @@ export default {
 		clickShowwTrushAcademic() {
 			this.getDataAcademic();
 		},
+		
+		// ស្វែងរក ទិន្នន័យ
+		clickSearchAcademic() {
+			clearTimeout(this.tSearchAcademic);
+			this.tSearchAcademic = setTimeout(() => {
+				if (this.searchAcademic != null) {
+					if (this.searchAcademic.replace(/\s/g, '') !== '') {
+					}
+					this.getDataAcademic();
+				}
+			}, 1000);
+		},
+
 		async getDataAcademic() {
 			this.loading = true
 			await axios.get(`/score-type/academic/get?page=${this.pageAcademic}&per_page=${this.per_pageAcademic}&sort_by=${this.sort_byAcademic}&order_by=${this.order_byAcademic}&search=${this.searchAcademic}&is_show_trust=${this.is_show_trustAcademic}`).then(response => {

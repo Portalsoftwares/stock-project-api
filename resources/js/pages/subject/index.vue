@@ -120,38 +120,66 @@
 							>
 								<template #default="scope">{{ scope.row.subject_sort_name_en }}</template>
 							</el-table-column>
-
 							<el-table-column
 								fixed="right"
 								align="center"
 								label="សកម្មភាព"
-								width="180"
+								width="280"
 							>
 								<template #default="scope">
-									<el-button
-										size="small"
-										class="sanfont-khmer"
-										@click="editSubject(scope.row.subject_id)"
-									>កែប្រែ</el-button>
+									<div v-if="is_show_trust==1 &&!loading">
+										<el-button
+											size="small"
+											class="sanfont-khmer"
+											@click="restoreData(scope.row.subject_id)"
+										>ស្ដារឡើងវិញ</el-button>
+										<el-popconfirm
+											width="220"
+											confirm-button-text="យល់ព្រម"
+											cancel-button-text="ទេ"
+											:icon="InfoFilled"
+											icon-color="#626AEF"
+											title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+											cancel-button-type="info"
+											@confirm="handleDelete(scope.row.subject_id)"
+										>
+											<template #reference>
+												<el-button
+													size="small"
+													type="danger"
+													class="sanfont-khmer"
+												>លុបជាអចិន្ត្រៃយ៍
+												</el-button>
+											</template>
+										</el-popconfirm>
+									</div>
+									<div  v-if="is_show_trust==0 &&!loading">
 
-									<el-popconfirm
-										width="220"
-										confirm-button-text="យល់ព្រម"
-										cancel-button-text="ទេ"
-										:icon="InfoFilled"
-										icon-color="#626AEF"
-										title="តើអ្នកពិតជាចង់លុបមែនទេ?"
-										cancel-button-type="info"
-										@confirm="handleDelete(scope.row.subject_id)"
-									>
-										<template #reference>
-											<el-button
-												size="small"
-												type="danger"
-												class="sanfont-khmer"
-											>លុប</el-button>
-										</template>
-									</el-popconfirm>
+										<el-button
+											size="small"
+											class="sanfont-khmer"
+											@click="editSubject(scope.row.subject_id)"
+										>កែប្រែ</el-button>
+	
+										<el-popconfirm
+											width="220"
+											confirm-button-text="យល់ព្រម"
+											cancel-button-text="ទេ"
+											:icon="InfoFilled"
+											icon-color="#626AEF"
+											title="តើអ្នកពិតជាចង់លុបមែនទេ?"
+											cancel-button-type="info"
+											@confirm="handleDelete(scope.row.subject_id)"
+										>
+											<template #reference>
+												<el-button
+													size="small"
+													type="danger"
+													class="sanfont-khmer"
+												>លុប</el-button>
+											</template>
+										</el-popconfirm>
+									</div>
 								</template>
 							</el-table-column>
 							<el-empty description="description"></el-empty>
@@ -242,6 +270,7 @@
 						alt="Preview Image"
 					/>
 				</el-dialog>
+				
 				<template #footer>
 					<span class="dialog-footer">
 						<el-button
@@ -296,7 +325,7 @@
 						<div class="flex space-x-2  ">
 							<div class="self-start pl-0 3xl:pl-2 ">
 								<el-select
-									v-model="SelectValue"
+									v-model="filter_class_type"
 									filterable
 									clearable
 									multiple
@@ -313,7 +342,7 @@
 							</div>
 							<div class="self-start  ">
 								<el-select
-									v-model="filterSelectValue "
+									v-model="filter_grade_level"
 									filterable
 									clearable
 									multiple
@@ -328,7 +357,7 @@
 									</el-option>
 								</el-select>
 							</div>
-							<el-button type="primary">
+							<el-button type="primary" @click="getDataSubjectLevel()">
 								<el-icon>
 									<Search />
 								</el-icon>
@@ -406,15 +435,17 @@
 							>
 							</el-table-column>
 
-							<el-table-column label="មុខវិជ្ជា">
+							<el-table-column label="មុខវិជ្ជា" 	property="subject_id" sortable>
 								<template #default="scope">{{ scope.row.subject?.subject_name_kh }}</template>
 							</el-table-column>
-							<el-table-column label="កម្រិត">
+							<el-table-column label="កម្រិត" property="grade_level_id" sortable>
 
 								<template #default="scope">{{ scope.row.grade_level?.grade_level_name }}</template>
 							</el-table-column>
 							<el-table-column
 								label="ប្រភេទថ្នាក់"
+								property="class_type_id"
+								sortable
 					
 							>
 								<template #default="scope">{{ scope.row.class_type?.name }}</template>
@@ -816,6 +847,9 @@ export default {
 			gradeLevel: [],
 			classType: [],
 
+			filter_class_type: '',
+			filter_grade_level:'',
+
 			tabClassDetail: 1,
 		}
 	},
@@ -947,29 +981,6 @@ export default {
 		},
 
 		/*
-	*  Function Delete 
-	*/
-		async handleDelete(id) {
-			await axios.delete('/subject' + '/delete/' + id).then(response => {
-				this.getData();
-				this.dialogFormVisible = false;
-				this.$message({
-					message: 'Congrats, this is a success message.',
-					type: 'success'
-				});
-			})
-		},
-
-		handlePictureCardPreview(UploadFile) {
-			this.dialogImageUrl = UploadFile.url
-			this.dialogVisible = true
-		},
-		handleRemove(UploadFile) {
-			console.log(UploadFile)
-		},
-
-
-		/*
 		*  Function Delete 
 		*/
 		async handleDelete(id) {
@@ -980,6 +991,13 @@ export default {
 					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
+			}).catch(error=>{
+				if(error.response.status==400){
+					this.$message({
+						message: error.response.data.data,
+						type: 'error'
+					});
+				}
 			})
 		},
 		async restoreData(id) {
@@ -1042,8 +1060,7 @@ export default {
 		//--------------------------------------Subeject Level---------------------------------------------
 		async getDataSubjectLevel() {
 			this.loading = true
-
-			await axios.get(`/subject-level/get?page=${this.pageSubjectLevel}&per_page=${this.per_pageSubjectLevel}&sort_by=${this.sort_bySubjectLevel}&order_by=${this.order_bySubjectLevel}&search=${this.searchSubjectLevel}&is_show_trust=${this.is_show_trustSubjectLevel}`).then(response => {
+			await axios.get(`/subject-level/get?page=${this.pageSubjectLevel}&per_page=${this.per_pageSubjectLevel}&sort_by=${this.sort_bySubjectLevel}&order_by=${this.order_bySubjectLevel}&search=${this.searchSubjectLevel}&class_type=${this.filter_class_type}&grade_level=${this.filter_grade_level}&is_show_trust=${this.is_show_trustSubjectLevel}`).then(response => {
 				this.tableDataSubjectLevel = response.data.data
 				this.subject = response.data.subject
 				this.gradeLevel = response.data.gradeLevel
@@ -1185,6 +1202,13 @@ export default {
 					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
+			}).catch(error=>{
+				if(error.response.status==400){
+					this.$message({
+						message: error.response.data.data,
+						type: 'error'
+					});
+				}
 			})
 		},
 		async restoreDataSubjectLevel(id) {

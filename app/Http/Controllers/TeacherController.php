@@ -42,12 +42,6 @@ class TeacherController extends Controller
      
         if (!empty($request->is_show_trust)) {
             $items =  Teacher::onlyTrashed()->where(function ($query) use ($request) {
-                if (!empty($request->filter_profession)) {
-                    $query->where('profession', 'like', '%'.$request->filter_profession.'%');
-                }
-                if (!empty($request->filter_teacher_level)) {
-                    $query->where('teacher_level', $request->filter_teacher_level);
-                }
                 if (!empty($request->search)) {
                     $query->where('tid', 'like', "%" . $request->search . "%");
                     $query->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
@@ -55,10 +49,24 @@ class TeacherController extends Controller
                     $query->orWhere('email', 'like', "%" . $request->search . "%");
                     $query->orWhere('phone', 'like', "%" . $request->search . "%");
                 }
+                if (!empty($request->filter_profession)) {
+                    $query->where('profession', 'like', '%'.$request->filter_profession.'%');
+                }
+                if (!empty($request->filter_teacher_level)) {
+                    $query->where('teacher_level', $request->filter_teacher_level);
+                }
+
             });
         } else {
     
             $items =  Teacher::Where(function ($query) use ($request) {
+                if (!empty($request->search)) {
+                    $query->where('tid', 'like', "%" . $request->search . "%");
+                    $query->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
+                    $query->orWhere('full_name_en', 'like', "%" . $request->search . "%");
+                    $query->orWhere('email', 'like', "%" . $request->search . "%");
+                    $query->orWhere('phone', 'like', "%" . $request->search . "%");
+                }
                 if (!empty($request->filter_profession)) {
                     $query->where('profession', 'like', '%'.$request->filter_profession.'%');
                 }
@@ -66,13 +74,7 @@ class TeacherController extends Controller
                     // dd($request->filter_teacher_level);
                     $query->where('teacher_level', $request->filter_teacher_level);
                 }
-                if (!empty($request->search)) {
-                    $query->where('tid', 'like', "%" . $request->search . "%");
-                    $query->orWhere('full_name_kh', 'like', "%" . $request->search . "%");
-                    $query->orWhere('full_name_en', 'like', "%" . $request->search . "%");
-                    $query->orWhere('email', 'like', "%" . $request->search . "%");
-                    $query->orWhere('phone', 'like', "%" . $request->search . "%");
-                }
+
                
 
             });

@@ -867,7 +867,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     addTeacher: function addTeacher() {
       this.dialogFormTeacher = true;
       this.ruleFormTeacher.class_id = this.classData.class_id;
-      this.ruleFormTeacher.id = '';
+      this.ruleFormTeacher.id = null;
       this.ruleFormTeacher.teacher_id = null;
       this.ruleFormTeacher.role_id = '0';
       this.ruleFormTeacher.subject_grade_id = null;
@@ -1040,10 +1040,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     type: 'success'
                   });
                   _this7.getTeacher();
-                  _this7.dialogFormTeacher = true;
+                  _this7.dialogFormTeacher = false;
                 }
               })["catch"](function (error) {
-                console.log(error);
                 if (error.response.status == 400) {
                   _this7.$message({
                     message: error.response.data.data,
@@ -1541,19 +1540,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    studentScoreSave: function studentScoreSave() {
+    submitFormSoreSave: function submitFormSoreSave(formName) {
       var _this4 = this;
+      this.$refs[formName].validate(function (valid) {
+        if (valid) {
+          _this4.studentScoreSave();
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    studentScoreSave: function studentScoreSave() {
+      var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var scoreInfo, config;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _this4.loading_score = true;
-              _this4.ruleForm.class_id = _this4.$route.query.id;
+              _this5.loading_score = true;
+              _this5.ruleForm.class_id = _this5.$route.query.id;
               scoreInfo = {
-                'class_id': _this4.ruleForm.class_id,
-                'score_type_id': _this4.ruleForm.score_type_id,
-                'data': _this4.studentObj
+                'class_id': _this5.ruleForm.class_id,
+                'score_type_id': _this5.ruleForm.score_type_id,
+                'data': _this5.studentObj
               };
               config = {
                 headers: {
@@ -1561,26 +1571,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
               };
               _context2.next = 6;
-              return axios.post('/score/collect/all/' + _this4.ruleForm.class_id + '/create', scoreInfo, config).then(function (response) {
-                _this4.studentObj = response.data.student;
-                _this4.scoreTypeObj = response.data.score_type;
-                _this4.subjectDataSore = _this4.subjectData;
-                _this4.getExam();
-                _this4.showInfomationStudentScoreAll();
-                _this4.loading_score = false;
-                _this4.$notify.success({
+              return axios.post('/score/collect/all/' + _this5.ruleForm.class_id + '/create', scoreInfo, config).then(function (response) {
+                _this5.studentObj = response.data.student;
+                _this5.scoreTypeObj = response.data.score_type;
+                _this5.subjectDataSore = _this5.subjectData;
+                _this5.getExam();
+                _this5.showInfomationStudentScoreAll();
+                _this5.loading_score = false;
+                _this5.$notify.success({
                   title: 'រួចរាល់',
                   message: 'បញ្ចូលពិន្ទុបានជោគជ័យ ',
                   showClose: true
                 });
               })["catch"](function (error) {
-                _this4.$notify.error({
+                _this5.$notify.error({
                   title: 'កំហុស',
                   message: 'បញ្ចូលពិន្ទុមិនបានជោគជ័យទេ ',
                   showClose: true
                 });
                 if (error.response.status == 401) {
-                  _this4.$store.commit("auth/CLEAR_TOKEN");
+                  _this5.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 6:
@@ -1591,10 +1601,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     submitFormReport: function submitFormReport(formName) {
-      var _this5 = this;
+      var _this6 = this;
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          _this5.showInfomationStudentScoreReport();
+          _this6.showInfomationStudentScoreReport();
         } else {
           console.log('error submit!!');
           return false;
@@ -1602,18 +1612,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     showInfomationStudentScoreReport: function showInfomationStudentScoreReport() {
-      var _this6 = this;
+      var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var class_id, scoreInfo, config;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              _this6.loading_report = true;
-              class_id = _this6.$route.query.id;
-              _this6.ruleFormReport.class_id = class_id;
+              _this7.loading_report = true;
+              class_id = _this7.$route.query.id;
+              _this7.ruleFormReport.class_id = class_id;
               scoreInfo = {
-                'class_id': _this6.ruleFormReport.class_id,
-                'score_type_id': _this6.ruleFormReport.score_type_id
+                'class_id': _this7.ruleFormReport.class_id,
+                'score_type_id': _this7.ruleFormReport.score_type_id
               };
               config = {
                 headers: {
@@ -1622,32 +1632,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               };
               _context3.next = 7;
               return axios.post('/score/collect/report/' + class_id, scoreInfo, config).then(function (response) {
-                _this6.academic = response.data.academic;
-                _this6.exam = response.data.exam;
-                _this6.studentObj = response.data.student;
-                _this6.scoreTypeObj = response.data.score_type;
+                _this7.academic = response.data.academic;
+                _this7.exam = response.data.exam;
+                _this7.studentObj = response.data.student;
+                _this7.scoreTypeObj = response.data.score_type;
 
                 //total
-                _this6.report_total_student = response.data.total_student;
-                _this6.report_total_good = response.data.total_good;
-                _this6.report_total_ok = response.data.total_ok;
-                _this6.report_total_medium = response.data.total_medium;
-                _this6.report_total_low = response.data.total_low;
-                _this6.report_total_less = response.data.total_less;
+                _this7.report_total_student = response.data.total_student;
+                _this7.report_total_good = response.data.total_good;
+                _this7.report_total_ok = response.data.total_ok;
+                _this7.report_total_medium = response.data.total_medium;
+                _this7.report_total_low = response.data.total_low;
+                _this7.report_total_less = response.data.total_less;
                 //Women
-                _this6.report_total_student_women = response.data.total_student_women;
-                _this6.report_total_good_women = response.data.total_good_women;
-                _this6.report_total_ok_women = response.data.total_ok_women;
-                _this6.report_total_medium_women = response.data.total_medium_women;
-                _this6.report_total_low_women = response.data.total_low_women;
-                _this6.report_total_less_women = response.data.total_less_women;
+                _this7.report_total_student_women = response.data.total_student_women;
+                _this7.report_total_good_women = response.data.total_good_women;
+                _this7.report_total_ok_women = response.data.total_ok_women;
+                _this7.report_total_medium_women = response.data.total_medium_women;
+                _this7.report_total_low_women = response.data.total_low_women;
+                _this7.report_total_less_women = response.data.total_less_women;
                 //
-                _this6.dialogFormVisibleReports = true;
-                _this6.loading_report = false;
+                _this7.dialogFormVisibleReports = true;
+                _this7.loading_report = false;
               })["catch"](function (error) {
-                _this6.loading_report = false;
+                _this7.loading_report = false;
                 if (error.response.status == 401) {
-                  _this6.$store.commit("auth/CLEAR_TOKEN");
+                  _this7.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 7:
@@ -1658,19 +1668,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getExam: function getExam() {
-      var _this7 = this;
+      var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var class_id;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              class_id = _this7.$route.query.id;
+              class_id = _this8.$route.query.id;
               _context4.next = 3;
               return axios.get('/score/collect/all/' + class_id + '/exam').then(function (response) {
-                _this7.tableData = response.data.data;
+                _this8.tableData = response.data.data;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
-                  _this7.$store.commit("auth/CLEAR_TOKEN");
+                  _this8.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 3:
@@ -1689,7 +1699,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.showInfomationStudentScoreReport();
     },
     exportPDF: function exportPDF() {
-      var _this8 = this;
+      var _this9 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         var config, studentDataPDF, dataObj, class_id;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
@@ -1703,7 +1713,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 responseType: 'arraybuffer' //important Thanks bong well noted save my life 🙏 
               };
               studentDataPDF = [];
-              _this8.studentObj.forEach(function (data) {
+              _this9.studentObj.forEach(function (data) {
                 var _data$mark_total, _data$mark_avg, _data$mark_rank_text, _data$mark_rank, _data$student_in_clas;
                 var objStudent = {
                   "mark_total": (_data$mark_total = data.mark_total) !== null && _data$mark_total !== void 0 ? _data$mark_total : '-',
@@ -1711,73 +1721,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   "mark_rank_text": (_data$mark_rank_text = data.mark_rank_text) !== null && _data$mark_rank_text !== void 0 ? _data$mark_rank_text : '-',
                   "mark_rank": (_data$mark_rank = data.mark_rank) !== null && _data$mark_rank !== void 0 ? _data$mark_rank : '-',
                   "student_name": (_data$student_in_clas = data.student_in_class) === null || _data$student_in_clas === void 0 ? void 0 : _data$student_in_clas.full_name_kh
-                };
-                studentDataPDF.push(objStudent);
-              });
-              dataObj = {
-                'data': {
-                  'data': studentDataPDF,
-                  'report_total_student': _this8.report_total_student,
-                  'report_total_good': _this8.report_total_good,
-                  'report_total_ok': _this8.report_total_ok,
-                  'report_total_medium': _this8.report_total_medium,
-                  'report_total_low': _this8.report_total_low,
-                  'report_total_less': _this8.report_total_less,
-                  'report_total_student_women': _this8.report_total_student_women,
-                  'report_total_good_women': _this8.report_total_good_women,
-                  'report_total_ok_women': _this8.report_total_ok_women,
-                  'report_total_medium_women': _this8.report_total_medium_women,
-                  'report_total_low_women': _this8.report_total_low_women,
-                  'report_total_less_women': _this8.report_total_less_women
-                },
-                'option': {
-                  'class': _this8.classData.class_name,
-                  'exam': _this8.exam,
-                  'academic': _this8.academic
-                }
-              };
-              class_id = _this8.$route.query.id;
-              _context5.next = 7;
-              return axios.post('/score/report/' + class_id + '/export', dataObj, config).then(function (response) {
-                var blob = new Blob([response.data], {
-                    type: 'application/pdf'
-                  }),
-                  url = window.URL.createObjectURL(blob);
-                var newOpen = window.open(url);
-              })["catch"](function (error) {
-                if (error.response.status == 401) {
-                  _this8.$store.commit("auth/CLEAR_TOKEN");
-                }
-              });
-            case 7:
-            case "end":
-              return _context5.stop();
-          }
-        }, _callee5);
-      }))();
-    },
-    exportEXCEL: function exportEXCEL() {
-      var _this9 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        var config, studentDataPDF, dataObj, class_id;
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) switch (_context6.prev = _context6.next) {
-            case 0:
-              config = {
-                headers: {
-                  'Content-Type': 'applicaton/json'
-                },
-                responseType: 'blob'
-              };
-              studentDataPDF = [];
-              _this9.studentObj.forEach(function (data) {
-                var _data$mark_total2, _data$mark_avg2, _data$mark_rank_text2, _data$mark_rank2, _data$student_in_clas2;
-                var objStudent = {
-                  "mark_total": (_data$mark_total2 = data.mark_total) !== null && _data$mark_total2 !== void 0 ? _data$mark_total2 : '-',
-                  "mark_avg": (_data$mark_avg2 = data.mark_avg) !== null && _data$mark_avg2 !== void 0 ? _data$mark_avg2 : '-',
-                  "mark_rank_text": (_data$mark_rank_text2 = data.mark_rank_text) !== null && _data$mark_rank_text2 !== void 0 ? _data$mark_rank_text2 : '-',
-                  "mark_rank": (_data$mark_rank2 = data.mark_rank) !== null && _data$mark_rank2 !== void 0 ? _data$mark_rank2 : '-',
-                  "student_name": (_data$student_in_clas2 = data.student_in_class) === null || _data$student_in_clas2 === void 0 ? void 0 : _data$student_in_clas2.full_name_kh
                 };
                 studentDataPDF.push(objStudent);
               });
@@ -1804,12 +1747,79 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
               };
               class_id = _this9.$route.query.id;
+              _context5.next = 7;
+              return axios.post('/score/report/' + class_id + '/export', dataObj, config).then(function (response) {
+                var blob = new Blob([response.data], {
+                    type: 'application/pdf'
+                  }),
+                  url = window.URL.createObjectURL(blob);
+                var newOpen = window.open(url);
+              })["catch"](function (error) {
+                if (error.response.status == 401) {
+                  _this9.$store.commit("auth/CLEAR_TOKEN");
+                }
+              });
+            case 7:
+            case "end":
+              return _context5.stop();
+          }
+        }, _callee5);
+      }))();
+    },
+    exportEXCEL: function exportEXCEL() {
+      var _this10 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        var config, studentDataPDF, dataObj, class_id;
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) switch (_context6.prev = _context6.next) {
+            case 0:
+              config = {
+                headers: {
+                  'Content-Type': 'applicaton/json'
+                },
+                responseType: 'blob'
+              };
+              studentDataPDF = [];
+              _this10.studentObj.forEach(function (data) {
+                var _data$mark_total2, _data$mark_avg2, _data$mark_rank_text2, _data$mark_rank2, _data$student_in_clas2;
+                var objStudent = {
+                  "mark_total": (_data$mark_total2 = data.mark_total) !== null && _data$mark_total2 !== void 0 ? _data$mark_total2 : '-',
+                  "mark_avg": (_data$mark_avg2 = data.mark_avg) !== null && _data$mark_avg2 !== void 0 ? _data$mark_avg2 : '-',
+                  "mark_rank_text": (_data$mark_rank_text2 = data.mark_rank_text) !== null && _data$mark_rank_text2 !== void 0 ? _data$mark_rank_text2 : '-',
+                  "mark_rank": (_data$mark_rank2 = data.mark_rank) !== null && _data$mark_rank2 !== void 0 ? _data$mark_rank2 : '-',
+                  "student_name": (_data$student_in_clas2 = data.student_in_class) === null || _data$student_in_clas2 === void 0 ? void 0 : _data$student_in_clas2.full_name_kh
+                };
+                studentDataPDF.push(objStudent);
+              });
+              dataObj = {
+                'data': {
+                  'data': studentDataPDF,
+                  'report_total_student': _this10.report_total_student,
+                  'report_total_good': _this10.report_total_good,
+                  'report_total_ok': _this10.report_total_ok,
+                  'report_total_medium': _this10.report_total_medium,
+                  'report_total_low': _this10.report_total_low,
+                  'report_total_less': _this10.report_total_less,
+                  'report_total_student_women': _this10.report_total_student_women,
+                  'report_total_good_women': _this10.report_total_good_women,
+                  'report_total_ok_women': _this10.report_total_ok_women,
+                  'report_total_medium_women': _this10.report_total_medium_women,
+                  'report_total_low_women': _this10.report_total_low_women,
+                  'report_total_less_women': _this10.report_total_less_women
+                },
+                'option': {
+                  'class': _this10.classData.class_name,
+                  'exam': _this10.exam,
+                  'academic': _this10.academic
+                }
+              };
+              class_id = _this10.$route.query.id;
               _context6.next = 7;
               return axios.post('/score/report/' + class_id + '/export-excel', dataObj, config).then(function (response) {
                 file_saver__WEBPACK_IMPORTED_MODULE_0___default().saveAs(response.data, 'report_score');
               })["catch"](function (error) {
                 if (error.response.status == 401) {
-                  _this9.$store.commit("auth/CLEAR_TOKEN");
+                  _this10.$store.commit("auth/CLEAR_TOKEN");
                 }
               });
             case 7:
@@ -4489,7 +4499,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" បោះបង់")];
         }),
         _: 1 /* STABLE */
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
+      }), $data.ruleFormTeacher.id != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_popconfirm, {
+        key: 0,
         width: "220",
         "confirm-button-text": "យល់ព្រម",
         "cancel-button-text": "ទេ",
@@ -4514,7 +4525,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
 
         _: 1 /* STABLE */
-      }, 8 /* PROPS */, ["icon"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+      }, 8 /* PROPS */, ["icon"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
         type: "primary",
         "class": "sanfont-khmer",
         onClick: _cache[19] || (_cache[19] = function ($event) {
@@ -4981,7 +4992,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "primary",
         "class": "sanfont-khmer",
         onClick: _cache[7] || (_cache[7] = function ($event) {
-          return $options.studentScoreSave();
+          return $options.submitFormSoreSave('formScoreAll');
         })
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -12241,7 +12252,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=5c9c0168 */ "./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=template&id=5c9c0168");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=script&lang=js");
 /* harmony import */ var _index_vue_vue_type_style_index_0_id_5c9c0168_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=5c9c0168&lang=css */ "./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=style&index=0&id=5c9c0168&lang=css");
-/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -12249,7 +12260,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/attendence-class/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/attendence-class/index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -12272,7 +12283,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_db54c3ae__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=db54c3ae */ "./resources/js/pages/class/class-detail/index.vue?vue&type=template&id=db54c3ae");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/class/class-detail/index.vue?vue&type=script&lang=js");
 /* harmony import */ var _index_vue_vue_type_style_index_0_id_db54c3ae_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=db54c3ae&lang=css */ "./resources/js/pages/class/class-detail/index.vue?vue&type=style&index=0&id=db54c3ae&lang=css");
-/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -12280,7 +12291,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_db54c3ae__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_db54c3ae__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -12302,13 +12313,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _index_vue_vue_type_template_id_17ce6ad2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=17ce6ad2 */ "./resources/js/pages/class/class-detail/score-class/index.vue?vue&type=template&id=17ce6ad2");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/class/class-detail/score-class/index.vue?vue&type=script&lang=js");
-/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_17ce6ad2__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/score-class/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_17ce6ad2__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/score-class/index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -12330,13 +12341,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=2c9d6f00 */ "./resources/js/pages/class/class-detail/student-class/index.vue?vue&type=template&id=2c9d6f00");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/class/class-detail/student-class/index.vue?vue&type=script&lang=js");
-/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/student-class/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/student-class/index.vue"]])
 /* hot reload */
 if (false) {}
 

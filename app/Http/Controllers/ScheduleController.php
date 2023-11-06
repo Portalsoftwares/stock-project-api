@@ -167,6 +167,7 @@ class ScheduleController extends Controller
                 })
             ],
         ]);
+        // dd(1);
         if ($validator->fails()) {
             $response = [
                 'errors' => $validator->messages(),
@@ -174,7 +175,7 @@ class ScheduleController extends Controller
             return  response($response, 400);
         }
         DB::transaction(function () use ($request) {
-            if (!empty($request->id)) {
+            if (!empty($request->id) && $request->id != 'null') {
                 $teacherData =  TeacherClass::where('id', $request->id)->update([
                     'class_id' => $request->class_id,
                     'teacher_id' => $request->teacher_id,

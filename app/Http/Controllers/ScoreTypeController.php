@@ -127,6 +127,15 @@ class ScoreTypeController extends Controller
 
     public function delete($id)
     {
+        $exam_semester = scoreTypeAcademic::where('semester_id', $id)->count();
+        $exam_month = scoreTypeAcademic::where('under_score_type_id','LIKE', '%'. $id.'%')->count();
+        $score_exam = score::where('score_type_id', $id)->count();
+        if($exam_semester>0 || $score_exam>0 || $exam_month>0){
+            $response = [
+                'data' => 'ទិន្នន័យមិនអាចលុបបានទេ​ ព្រោះមានទំនាក់ទំនងជាមួយទិន្នន័យដទែទៀត',
+            ];
+            return  response($response, 400);
+        }
         DB::transaction(function () use ($id) {
             //Delete soft
             $items = ScoreType::find($id);
@@ -163,13 +172,23 @@ class ScoreTypeController extends Controller
         if (!empty($request->is_show_trust)) {
             $items =  scoreTypeAcademic::onlyTrashed()->where(function ($query) use ($request) {
                 if (!empty($request->search)) {
-                    // $query->where('name', 'like', "%" . $request->search . "%");
+                    $query->whereHas('semester', function($query) use ($request){
+                        $query->where('name', 'like', "%" . $request->search . "%");
+                    });
+                    $query->orWhereHas('academic', function($query) use ($request){
+                        $query->where('academic_name', 'like', "%" . $request->search . "%");
+                    });
                 }
             });
         } else {
             $items =  scoreTypeAcademic::where(function ($query) use ($request) {
                 if (!empty($request->search)) {
-                    // $query->where('name', 'like', "%" . $request->search . "%");
+                    $query->whereHas('semester', function($query) use ($request) {
+                       $query->where('name', 'like', "%" . $request->search . "%");
+                    });
+                    $query->orWhereHas('academic', function($query) use ($request){
+                       $query->where('academic_name', 'like', "%" . $request->search . "%");
+                    });
                 }
             });
         }
@@ -269,6 +288,15 @@ class ScoreTypeController extends Controller
 
     public function deleteAcademic($id)
     {
+        // $exma_semester = scoreTypeAcademic::where('score_type_id', $id)->count();
+        // $score_exam = score::where('score_type_id', $id)->count();
+        // if($exma_semester>0 || $score_exam>0){
+        //     $response = [
+        //         'data' => 'ទិន្នន័យមិនអាចលុបបានទេ​ ព្រោះមានទំនាក់ទំនងជាមួយទិន្នន័យដទែទៀត',
+        //     ];
+        //     return  response($response, 400);
+        // }
+
         DB::transaction(function () use ($id) {
             //Delete soft
             $items = scoreTypeAcademic::find($id);

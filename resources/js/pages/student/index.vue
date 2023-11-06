@@ -11,8 +11,8 @@
 			<div class="flex space-y-2  2xl:space-y-0 ">
 				<div class="self-center ">
 					<el-select v-model="filterSelectValue" filterable clearable multiple placeholder="សិស្សនៃកម្រិត">
-						<el-option v-for="item in filter" :key="item.filterValue" :label="item.filterLabel"
-							:value="item.filterValue">
+						<el-option v-for="item in filter" :key="item.grade_level_id" :label="item.grade_level_name"
+							:value="item.grade_level_id">
 						</el-option>
 					</el-select>
 				</div>
@@ -20,13 +20,13 @@
 				<div class="flex space-x-2 ">
 					<div class="self-center pl-2">
 						<el-select v-model="academicSelectValue" filterable clearable placeholder="ឆ្នាំសិក្សា">
-							<el-option v-for="item in academic" :key="item.filterValue" :label="item.filterLabel"
-								:value="item.filterValue">
+							<el-option v-for="item in academic" :key="item.academic_id" :label="item.academic_name"
+								:value="item.academic_id">
 							</el-option>
 						</el-select>
 					</div>
 					<div class="self-center">
-						<el-button type="primary">
+						<el-button type="primary" @click="getData()">
 							<el-icon>
 								<Search />
 							</el-icon>
@@ -85,23 +85,22 @@
 						</template>
 					</el-table-column>
 
-					<el-table-column width="100" align="start" label="អត្តលេខ" sortable>
+					<el-table-column width="100" align="start" label="អត្តលេខ" property="sid"  sortable>
 						<template #default="scope">{{ scope.row.sid }}</template>
 					</el-table-column>
-					<el-table-column width="180" label="ឈ្មោះភាសាខ្មែរ" sortable>
+					<el-table-column width="180" label="ឈ្មោះភាសាខ្មែរ" property="full_name_kh" sortable>
 						<template #default="scope">{{ scope.row.full_name_kh }}</template>
 					</el-table-column>
-					<el-table-column property="first_name_en" label="ឈ្មោះឡាតាំង" width="220" sortable>
+					<el-table-column property="full_name_en" label="ឈ្មោះឡាតាំង" width="220" sortable>
 						<template #default="scope">{{ scope.row.full_name_en }}</template>
 
 					</el-table-column>
-					<el-table-column width="130" label="ភេទ" :filters="genders">
+					<el-table-column width="130" label="ភេទ">
 						<template #default="scope">
-							<div v-if="scope.row.gender_id == 1">ប្រុស</div>
-							<div v-else>ស្រី</div>
+							<div>{{ scope.row.gender?.gender_name_kh }}</div>
 						</template>
 					</el-table-column>
-					<el-table-column width="150" label="ថ្នាក់រៀន" sortable>
+					<el-table-column width="150" label="ថ្នាក់រៀន">
 						<template #default="scope">
 							<div>
 								{{ scope.row.current_class?.class.class_name }}
@@ -488,27 +487,8 @@ export default {
 				],
 
 			},
-			filter: [{
-				filterValue: 'តាមឈ្មោះ',
-				filterLabel: 'ទី១០'
-			}, {
-				filterValue: 'តាមលេខរៀង',
-				filterLabel: 'ទី១១'
-			}, {
-				filterValue: 'តាមកាលបរិច្ឆេត',
-				filterLabel: 'ទី១២'
-			}],
-			academic: [{
-				filterValue: 'តាមឈ្មោះ',
-				filterLabel: 'ឆ្នាំ២០២១-២០២២'
-			}, {
-				filterValue: 'តាមលេខរៀង',
-				filterLabel: 'ឆ្នាំ២០២២-២០២៣'
-			}, {
-				filterValue: 'តាមកាលបរិច្ឆេត',
-				filterLabel: 'ឆ្នាំ២០២៣-២០២៤'
-			}
-			],
+			filter: [],
+			academic: [],
 			filterSelectValue: "",
 			academicSelectValue: "",
 			loading: false,
@@ -523,7 +503,7 @@ export default {
 			is_show_trust: 0,
 			//Data Page filter
 			status: [],
-			gender: []
+			gender: [],
 		}
 	},
 	mounted() {
@@ -532,12 +512,14 @@ export default {
 	methods: {
 		async getData() {
 			this.loading = true
-			await axios.get(`/student/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&is_show_trust=${this.is_show_trust}`)
+			await axios.get(`/student/get?page=${this.page}&per_page=${this.per_page}&sort_by=${this.sort_by}&order_by=${this.order_by}&search=${this.search}&academic=${this.academicSelectValue}&grade_level=${this.filterSelectValue}&is_show_trust=${this.is_show_trust}`)
 				.then(response => {
 					this.tableData = response.data.data
 					this.classData = response.data.class
 					this.status = response.data.status
 					this.gender = response.data.gender
+					this.filter = response.data.grade_level
+					this.academic = response.data.academic
 					this.loading = false
 				}).catch((error) => {
 					if (error.response.status == 401) {
@@ -680,6 +662,13 @@ export default {
 					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
+			}).catch(error=>{
+				if(error.response.status==400){
+					this.$message({
+						message: error.response.data.data,
+						type: 'error'
+					});
+				}
 			})
 		},
 		async restoreData(id) {
