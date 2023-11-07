@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Time;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Attendance;
+use App\Models\ScheduleLine;
+
 
 class TimeController extends Controller
 {
@@ -119,6 +122,15 @@ class TimeController extends Controller
 
     public function delete($id)
     {
+
+        $record_attendance = Attendance::where('time_id', $id)->count();
+        $record_schedule = ScheduleLine::where('time_id', $id)->count();
+        if($record_attendance>0 || $record_schedule>0 ){
+            $response = [
+                'data' => 'ទិន្នន័យមិនអាចលុបបានទេ​ ព្រោះមានទំនាក់ទំនងជាមួយទិន្នន័យដទែទៀត',
+            ];
+            return  response($response, 400);
+        }
         DB::transaction(function () use ($id) {
             //Delete soft
             $items = Time::find($id);
