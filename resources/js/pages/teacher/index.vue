@@ -147,7 +147,7 @@
 						<template #default="scope">
 							<el-image
 								style="width: 40px; height: 40px"
-								:src="scope.row.profile_img?.file_path"
+								:src="scope.row.profile_img !=null? scope.row.profile_img?.file_path: 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'"
 								fit="cover"
 								:lazy="true"
 								class="rounded-full"
@@ -1088,18 +1088,19 @@ export default {
 			this.ruleForm.fullNameEng = null
 			this.ruleForm.IDn = null
 			this.ruleForm.teacher_level_value = null
-			this.ruleForm.professionValue = null
-			this.ruleForm.genderValue = null
+			this.ruleForm.professionValue = [1,2]
+			this.ruleForm.genderValue = 1
 			this.ruleForm.dobValue = null
 			this.ruleForm.birsthAddress = null
 			this.ruleForm.address = null
-			this.ruleForm.teachDate = null
+			this.ruleForm.teachDate = '2023-09-08'
 			this.ruleForm.phoneNum = null
 			this.ruleForm.teacherId = null
-			this.ruleForm.statusValue = null
+			this.ruleForm.statusValue = 1
 			this.ruleForm.email = null
-			this.ruleForm.roles = null
-			this.imageUrl = null
+			this.ruleForm.roles = 8
+			this.ruleForm.studentOtherText = 'ភូមិប្រយុទ្ធ ឃុំពួក​ ស្រុកពួក ខេត្តសៀមរាប'
+			this.imageUrl = 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'
 			this.ruleForm.file_upload_id = null
 
 			this.dialogFormVisible = true;
@@ -1141,6 +1142,7 @@ export default {
 				this.ruleForm.email = response.data.data.email
 				this.ruleForm.roles = Number(response.data.data.role)
 				this.imageUrl = response.data.data.profile_img?.file_path
+				this.ruleForm.studentOtherText = response.data.data.other
 				this.ruleForm.file_upload_id = response.data.data.file_upload_id
 				this.dialogFormVisible = true;
 

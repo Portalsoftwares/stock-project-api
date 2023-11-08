@@ -497,29 +497,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this9.ruleForm.fullNameEng = null;
               _this9.ruleForm.IDn = null;
               _this9.ruleForm.teacher_level_value = null;
-              _this9.ruleForm.professionValue = null;
-              _this9.ruleForm.genderValue = null;
+              _this9.ruleForm.professionValue = [1, 2];
+              _this9.ruleForm.genderValue = 1;
               _this9.ruleForm.dobValue = null;
               _this9.ruleForm.birsthAddress = null;
               _this9.ruleForm.address = null;
-              _this9.ruleForm.teachDate = null;
+              _this9.ruleForm.teachDate = '2023-09-08';
               _this9.ruleForm.phoneNum = null;
               _this9.ruleForm.teacherId = null;
-              _this9.ruleForm.statusValue = null;
+              _this9.ruleForm.statusValue = 1;
               _this9.ruleForm.email = null;
-              _this9.ruleForm.roles = null;
-              _this9.imageUrl = null;
+              _this9.ruleForm.roles = 8;
+              _this9.ruleForm.studentOtherText = 'ភូមិប្រយុទ្ធ ឃុំពួក​ ស្រុកពួក ខេត្តសៀមរាប';
+              _this9.imageUrl = 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1';
               _this9.ruleForm.file_upload_id = null;
               _this9.dialogFormVisible = true;
               _this9.isShowButtonUpdate = false;
               _this9.isShowPassword = false;
-              _context7.next = 27;
+              _context7.next = 28;
               return axios.get('/user/create').then(function (response) {
                 _this9.roles = response.data.roles;
               })["catch"](function (error) {
                 console.log(error);
               });
-            case 27:
+            case 28:
             case "end":
               return _context7.stop();
           }
@@ -561,6 +562,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this10.ruleForm.email = response.data.data.email;
                 _this10.ruleForm.roles = Number(response.data.data.role);
                 _this10.imageUrl = (_response$data$data$p = response.data.data.profile_img) === null || _response$data$data$p === void 0 ? void 0 : _response$data$data$p.file_path;
+                _this10.ruleForm.studentOtherText = response.data.data.other;
                 _this10.ruleForm.file_upload_id = response.data.data.file_upload_id;
                 _this10.dialogFormVisible = true;
               })["catch"](function (error) {
@@ -908,7 +910,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               "width": "40px",
               "height": "40px"
             },
-            src: (_scope$row$profile_im = scope.row.profile_img) === null || _scope$row$profile_im === void 0 ? void 0 : _scope$row$profile_im.file_path,
+            src: scope.row.profile_img != null ? (_scope$row$profile_im = scope.row.profile_img) === null || _scope$row$profile_im === void 0 ? void 0 : _scope$row$profile_im.file_path : 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1',
             fit: "cover",
             lazy: true,
             "class": "rounded-full"

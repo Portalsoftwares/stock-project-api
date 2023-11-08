@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Academic;
+use App\Models\Classes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -49,7 +50,7 @@ class AcademicController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'academic_name' => 'required|string',
+            'academic_name' => 'required|string|unique:academic,academic_name',
             'start_date' => 'required',
             'end_date' => 'required'
         ]);
@@ -117,6 +118,13 @@ class AcademicController extends Controller
 
     public function delete($id)
     {
+        $record_classes= Classes::where('academic_id', $id)->count();
+        if($record_classes>0){
+            $response = [
+                'data' => 'ទិន្នន័យមិនអាចលុបបានទេ​ ព្រោះមានទំនាក់ទំនងជាមួយទិន្នន័យដទែទៀត',
+            ];
+            return  response($response, 400);
+        }
         DB::transaction(function () use ($id) {
             //Delete soft
             $items = Academic::find($id);

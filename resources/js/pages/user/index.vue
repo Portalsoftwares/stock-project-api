@@ -108,7 +108,7 @@
 						<template #default="scope">
 							<el-image
 								style="width: 40px; height: 40px"
-								:src="scope.row.img?.file_path"
+								:src="scope.row.img !=null? scope.row.img?.file_path: 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'"
 								fit="cover"
 								:lazy="true"
 								class="rounded-full"
@@ -461,7 +461,7 @@ export default {
 			dialogVisible: false,
 			files: {},
 			form: {},
-			imageUrl: '',
+			imageUrl: 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1',
 			isShowPassword: true,
 			isShowButtonUpdate: false,
 
@@ -528,8 +528,11 @@ export default {
 		},
 		selectTeacher(event) {
 			var obj = this.teachers.find(e => e.teacher_id == this.ruleForm.teacher_id);
-			console.log(obj)
 			this.ruleForm.name = obj.full_name_kh
+			this.imageUrl = obj.profile_img.file_path
+			this.ruleForm.photo_id = obj.file_upload_id
+			this.ruleForm.email = obj.email
+			this.ruleForm.phone = obj.phone
 		},
 		//Change Per Page
 		changePageSize(event) {
@@ -669,7 +672,7 @@ export default {
 			this.ruleForm.userId = ''
 			this.ruleForm.roles = null
 			this.ruleForm.email = ''
-			this.imageUrl = ''
+			// this.imageUrl = ''
 			this.ruleForm.photo_id = ''
 			this.ruleForm.teacher_id = ''
 			this.roles = null
@@ -706,7 +709,7 @@ export default {
 				this.ruleForm.roles = response.data.user_has_roles
 				this.ruleForm.email = response.data.user.email
 				this.ruleForm.teacher_id = response.data.user.teacher_id
-				this.imageUrl = response.data.user.img?.file_path
+				this.imageUrl = response.data.user.img != null ? response.data.user.img.file_path: 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'
 				this.ruleForm.photo_id = response.data.user.img?.file_upload_id
 				this.roles = response.data.roles
 				this.teachers = response.data.teachers

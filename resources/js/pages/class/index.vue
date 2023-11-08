@@ -141,7 +141,6 @@
 							width="90"
 							label="ល.រ"
 						>
-							<template #default="scope">{{scope.row.class_id }}</template>
 						</el-table-column>
 
 						<el-table-column label="ឈ្មោះថ្នាក់">

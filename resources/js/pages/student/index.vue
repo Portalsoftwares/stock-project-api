@@ -80,12 +80,13 @@
 
 					<el-table-column width="100" align="start" label="រូបភាព">
 						<template #default="scope">
-							<el-image style="width: 40px; height: 40px" :src="scope.row.profile_img?.file_path" fit="cover"
-								:lazy="true" class="rounded-full" />
+							<el-image style="width: 40px; height: 40px"
+								:src="scope.row.profile_img != null ? scope.row.profile_img?.file_path : 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'"
+								fit="cover" :lazy="true" class="rounded-full" />
 						</template>
 					</el-table-column>
 
-					<el-table-column width="100" align="start" label="អត្តលេខ" property="sid"  sortable>
+					<el-table-column width="100" align="start" label="អត្តលេខ" property="sid" sortable>
 						<template #default="scope">{{ scope.row.sid }}</template>
 					</el-table-column>
 					<el-table-column width="180" label="ឈ្មោះភាសាខ្មែរ" property="full_name_kh" sortable>
@@ -151,15 +152,9 @@
 					</el-table-column>
 				</el-table>
 				<div class="py-2 flex justify-center">
-					<el-pagination 
-					background 
-					v-model:current-page="page"
-					v-model:page-size="per_page"
-					:page-count="tableData.last_page"
-					layout="total, prev, pager, next, sizes" 
-					:total="tableData.total"
-					@current-change="changePage" 
-					@size-change="changePageSize">
+					<el-pagination background v-model:current-page="page" v-model:page-size="per_page"
+						:page-count="tableData.last_page" layout="total, prev, pager, next, sizes" :total="tableData.total"
+						@current-change="changePage" @size-change="changePageSize">
 					</el-pagination>
 
 				</div>
@@ -185,13 +180,15 @@
 
 									<el-form-item label="នាមត្រកូល (ខ្មែរ)" prop="firstNameKh" class="sanfont-khmer "
 										:label-width="formLabelWidth">
-										<el-input v-model="ruleForm.firstNameKh" name="first_name_kh" @input="fillFullNameKh" clearable></el-input>
+										<el-input v-model="ruleForm.firstNameKh" name="first_name_kh"
+											@input="fillFullNameKh" clearable></el-input>
 									</el-form-item>
 								</div>
 								<div>
 									<el-form-item label="នាមខ្លួន (ខ្មែរ)" prop="LastNameKh" class="sanfont-khmer"
 										:label-width="formLabelWidth">
-										<el-input v-model="ruleForm.LastNameKh" name="last_name_kh" @input="fillFullNameKh" clearable></el-input>
+										<el-input v-model="ruleForm.LastNameKh" name="last_name_kh" @input="fillFullNameKh"
+											clearable></el-input>
 									</el-form-item>
 								</div>
 								<div>
@@ -203,13 +200,15 @@
 								<div>
 									<el-form-item label="នាមត្រកូល(អង់គ្លេស)" prop="firstNameEng" class="sanfont-khmer"
 										:label-width="formLabelWidth">
-										<el-input v-model="ruleForm.firstNameEng" name="first_name_en" @input="fillFullNameEng" clearable></el-input>
+										<el-input v-model="ruleForm.firstNameEng" name="first_name_en"
+											@input="fillFullNameEng" clearable></el-input>
 									</el-form-item>
 								</div>
 								<div>
 									<el-form-item label="នាមខ្លួន (អង់គ្លេស)" prop="LastNameEng" class="sanfont-khmer"
 										:label-width="formLabelWidth">
-										<el-input v-model="ruleForm.LastNameEng" name="last_name_en" @input="fillFullNameEng" clearable></el-input>
+										<el-input v-model="ruleForm.LastNameEng" name="last_name_en"
+											@input="fillFullNameEng" clearable></el-input>
 									</el-form-item>
 								</div>
 								<div>
@@ -662,8 +661,8 @@ export default {
 					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
-			}).catch(error=>{
-				if(error.response.status==400){
+			}).catch(error => {
+				if (error.response.status == 400) {
 					this.$message({
 						message: error.response.data.data,
 						type: 'error'
@@ -690,11 +689,11 @@ export default {
 			console.log(UploadFile)
 		},
 
-		fillFullNameKh(){
-			this.ruleForm.fullNameKh = (this.ruleForm.firstNameKh ?? '')+" "+ (this.ruleForm.LastNameKh ?? '') 
+		fillFullNameKh() {
+			this.ruleForm.fullNameKh = (this.ruleForm.firstNameKh ?? '') + " " + (this.ruleForm.LastNameKh ?? '')
 		},
-		fillFullNameEng(){
-			this.ruleForm.fullNameEng = (this.ruleForm.firstNameEng ?? '')+" "+ (this.ruleForm.LastNameEng ?? '')  
+		fillFullNameEng() {
+			this.ruleForm.fullNameEng = (this.ruleForm.firstNameEng ?? '') + " " + (this.ruleForm.LastNameEng ?? '')
 		},
 
 		async addStudent() {
@@ -710,21 +709,20 @@ export default {
 			this.ruleForm.email = null;
 			this.ruleForm.file_upload_id = null;
 			this.ruleForm.student_id = null;
-			this.ruleForm.genderValue = null;
+			this.ruleForm.genderValue = 1;
 			this.ruleForm.dobValue = null;
 			this.ruleForm.address = null;
 			this.ruleForm.birthAddress = null;
 			this.ruleForm.phoneNum = null;
-			this.ruleForm.studentOtherText = null;
-			this.ruleForm.statusValue = null;
+			this.ruleForm.studentOtherText = 'ភូមិប្រយុទ្ធ ឃុំពួក​ ស្រុកពួក ខេត្តសៀមរាប'
+			this.imageUrl = 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'
+			this.ruleForm.statusValue = 1;
 			this.ruleForm.IDn = null;
 			this.ruleForm.from_secondary_high_school = null;
 			this.ruleForm.secondary_exam_date = null;
 			this.ruleForm.secondary_exam_place = null;
 			this.ruleForm.secondary_exam_room = null;
 			this.ruleForm.secondary_exam_desk = null;
-
-			this.imageUrl = ''
 			this.ruleForm.photo_id = ''
 			this.roles = null
 
@@ -755,7 +753,7 @@ export default {
 				this.ruleForm.statusValue = response.data.data.status_id
 				this.ruleForm.studentOtherText = response.data.data.other
 				//	this.ruleForm.roles = response.data.data.role
-				this.imageUrl = response.data.data.profile_img?.file_path
+				this.imageUrl = response.data.data.profile_img !=null ?response.data.data.profile_img?.file_path :'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'
 				this.ruleForm.file_upload_id = response.data.data.file_upload_id
 				//	this.roles = response.data.roles
 				this.ruleForm.from_secondary_high_school = response.data.data.from_secondary_high_school;

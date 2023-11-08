@@ -473,20 +473,20 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
               _this9.ruleForm.email = null;
               _this9.ruleForm.file_upload_id = null;
               _this9.ruleForm.student_id = null;
-              _this9.ruleForm.genderValue = null;
+              _this9.ruleForm.genderValue = 1;
               _this9.ruleForm.dobValue = null;
               _this9.ruleForm.address = null;
               _this9.ruleForm.birthAddress = null;
               _this9.ruleForm.phoneNum = null;
-              _this9.ruleForm.studentOtherText = null;
-              _this9.ruleForm.statusValue = null;
+              _this9.ruleForm.studentOtherText = 'ភូមិប្រយុទ្ធ ឃុំពួក​ ស្រុកពួក ខេត្តសៀមរាប';
+              _this9.imageUrl = 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1';
+              _this9.ruleForm.statusValue = 1;
               _this9.ruleForm.IDn = null;
               _this9.ruleForm.from_secondary_high_school = null;
               _this9.ruleForm.secondary_exam_date = null;
               _this9.ruleForm.secondary_exam_place = null;
               _this9.ruleForm.secondary_exam_room = null;
               _this9.ruleForm.secondary_exam_desk = null;
-              _this9.imageUrl = '';
               _this9.ruleForm.photo_id = '';
               _this9.roles = null;
               _this9.dialogFormVisible = true;
@@ -527,7 +527,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 _this10.ruleForm.statusValue = response.data.data.status_id;
                 _this10.ruleForm.studentOtherText = response.data.data.other;
                 //	this.ruleForm.roles = response.data.data.role
-                _this10.imageUrl = (_response$data$data$p = response.data.data.profile_img) === null || _response$data$data$p === void 0 ? void 0 : _response$data$data$p.file_path;
+                _this10.imageUrl = response.data.data.profile_img != null ? (_response$data$data$p = response.data.data.profile_img) === null || _response$data$data$p === void 0 ? void 0 : _response$data$data$p.file_path : 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1';
                 _this10.ruleForm.file_upload_id = response.data.data.file_upload_id;
                 //	this.roles = response.data.roles
                 _this10.ruleForm.from_secondary_high_school = response.data.data.from_secondary_high_school;
@@ -896,7 +896,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               "width": "40px",
               "height": "40px"
             },
-            src: (_scope$row$profile_im = scope.row.profile_img) === null || _scope$row$profile_im === void 0 ? void 0 : _scope$row$profile_im.file_path,
+            src: scope.row.profile_img != null ? (_scope$row$profile_im = scope.row.profile_img) === null || _scope$row$profile_im === void 0 ? void 0 : _scope$row$profile_im.file_path : 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1',
             fit: "cover",
             lazy: true,
             "class": "rounded-full"

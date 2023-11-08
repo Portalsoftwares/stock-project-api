@@ -738,12 +738,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "index",
         width: "90",
         label: "ល.រ"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(scope.row.class_id), 1 /* TEXT */)];
-        }),
-
-        _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_table_column, {
         label: "ឈ្មោះថ្នាក់"
       }, {

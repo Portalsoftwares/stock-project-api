@@ -932,6 +932,7 @@ export default {
 		// Schedule Function
 		closeForm() {
 			this.dialogFormSchedule = false;
+			this.resetForm('ruleFormTeacher');
 			this.dialogFormTeacher = false
 		},
 		submitFormClose(formName) {

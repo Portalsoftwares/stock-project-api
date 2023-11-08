@@ -55,7 +55,7 @@ class TimeController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'start_date' => 'required',
+            'start_date' => 'required|unignu',
             'end_date' => 'required'
         ]);
 

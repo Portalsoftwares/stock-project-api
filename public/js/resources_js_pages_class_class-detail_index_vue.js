@@ -1060,6 +1060,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     // Schedule Function
     closeForm: function closeForm() {
       this.dialogFormSchedule = false;
+      this.resetForm('ruleFormTeacher');
       this.dialogFormTeacher = false;
     },
     submitFormClose: function submitFormClose(formName) {
@@ -2443,14 +2444,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 _this13.ruleForm.IDn = response.data.data.sid;
                 _this13.ruleForm.genderValue = response.data.data.gender_id;
                 _this13.ruleForm.dobValue = response.data.data.date_of_birth;
-                _this13.ruleForm.birsthAddress = response.data.data.place_of_birth;
+                _this13.ruleForm.birthAddress = response.data.data.place_of_birth;
                 _this13.ruleForm.address = response.data.data.address;
                 _this13.ruleForm.phoneNum = response.data.data.phone;
                 _this13.ruleForm.firstNameKh = response.data.data.first_name_kh;
                 _this13.ruleForm.email = response.data.data.email;
                 _this13.ruleForm.statusValue = response.data.data.status_id;
                 _this13.ruleForm.studentOtherText = response.data.data.other;
-                _this13.imageUrl = (_response$data$data$p = response.data.data.profile_img) === null || _response$data$data$p === void 0 ? void 0 : _response$data$data$p.file_path;
+                _this13.imageUrl = response.data.data.profile_img != null ? (_response$data$data$p = response.data.data.profile_img) === null || _response$data$data$p === void 0 ? void 0 : _response$data$data$p.file_path : 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1';
                 _this13.ruleForm.file_upload_id = response.data.data.file_upload_id;
                 _this13.ruleForm.from_secondary_high_school = response.data.data.from_secondary_high_school;
                 _this13.ruleForm.secondary_exam_date = response.data.data.secondary_exam_date;
@@ -2481,19 +2482,20 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       this.ruleForm.email = null;
       this.ruleForm.file_upload_id = null;
       this.ruleForm.student_id = null;
-      this.ruleForm.genderValue = null;
+      this.ruleForm.genderValue = 1;
       this.ruleForm.dobValue = null;
+      this.ruleForm.birthAddress = null;
       this.ruleForm.address = null;
       this.ruleForm.phoneNum = null;
-      this.ruleForm.studentOtherText = null;
-      this.ruleForm.statusValue = null;
+      this.ruleForm.studentOtherText = 'ភូមិប្រយុទ្ធ ឃុំពួក​ ស្រុកពួក ខេត្តសៀមរាប';
+      this.ruleForm.statusValue = 1;
       this.ruleForm.IDn = null;
       this.ruleForm.from_secondary_high_school = null;
       this.ruleForm.secondary_exam_date = null;
       this.ruleForm.secondary_exam_place = null;
       this.ruleForm.secondary_exam_room = null;
       this.ruleForm.secondary_exam_desk = null;
-      this.imageUrl = '';
+      this.imageUrl = 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1';
       this.ruleForm.photo_id = '';
       this.roles = null;
       this.dialogFormVisible = true;
@@ -5620,13 +5622,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         label: "រូបភាព"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          var _scope$row$student_in;
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_image, {
             style: {
               "width": "40px",
               "height": "40px"
             },
-            src: (_scope$row$student_in = scope.row.student_in_class.profile_img) === null || _scope$row$student_in === void 0 ? void 0 : _scope$row$student_in.file_path,
+            src: scope.row.student_in_class.profile_img != null ? scope.row.student_in_class.profile_img.file_path : 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1',
             fit: "cover",
             lazy: true,
             "class": "rounded-full"
@@ -5669,8 +5670,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         label: "ភេទ"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          var _scope$row$student_in2, _scope$row$student_in3;
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in2 = scope.row.student_in_class) === null || _scope$row$student_in2 === void 0 ? void 0 : (_scope$row$student_in3 = _scope$row$student_in2.gender) === null || _scope$row$student_in3 === void 0 ? void 0 : _scope$row$student_in3.gender_name_kh), 1 /* TEXT */)];
+          var _scope$row$student_in, _scope$row$student_in2;
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in = scope.row.student_in_class) === null || _scope$row$student_in === void 0 ? void 0 : (_scope$row$student_in2 = _scope$row$student_in.gender) === null || _scope$row$student_in2 === void 0 ? void 0 : _scope$row$student_in2.gender_name_kh), 1 /* TEXT */)];
         }),
 
         _: 1 /* STABLE */
@@ -5694,10 +5695,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         label: "ស្ថានភាព"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-          var _scope$row$student_in4, _scope$row$student_in5, _scope$row$student_in6;
+          var _scope$row$student_in3, _scope$row$student_in4, _scope$row$student_in5;
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-            style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + ((_scope$row$student_in4 = scope.row.student_in_class) === null || _scope$row$student_in4 === void 0 ? void 0 : (_scope$row$student_in5 = _scope$row$student_in4.status) === null || _scope$row$student_in5 === void 0 ? void 0 : _scope$row$student_in5.color))
-          }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in6 = scope.row.student_in_class.status) === null || _scope$row$student_in6 === void 0 ? void 0 : _scope$row$student_in6.status_kh), 5 /* TEXT, STYLE */)];
+            style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)('color:' + ((_scope$row$student_in3 = scope.row.student_in_class) === null || _scope$row$student_in3 === void 0 ? void 0 : (_scope$row$student_in4 = _scope$row$student_in3.status) === null || _scope$row$student_in4 === void 0 ? void 0 : _scope$row$student_in4.color))
+          }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row$student_in5 = scope.row.student_in_class.status) === null || _scope$row$student_in5 === void 0 ? void 0 : _scope$row$student_in5.status_kh), 5 /* TEXT, STYLE */)];
         }),
 
         _: 1 /* STABLE */
@@ -5876,13 +5877,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 label: "រូបភាព"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                  var _scope$row$profile_im;
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_image, {
                     style: {
                       "width": "40px",
                       "height": "40px"
                     },
-                    src: (_scope$row$profile_im = scope.row.profile_img) === null || _scope$row$profile_im === void 0 ? void 0 : _scope$row$profile_im.file_path,
+                    src: scope.row.profile_img != null ? scope.row.profile_img.file_path : 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1',
                     fit: "cover",
                     lazy: true,
                     "class": "rounded-full"

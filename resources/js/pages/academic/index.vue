@@ -207,6 +207,7 @@
 								prop="academic_name"
 								class="sanfont-khmer "
 								:label-width="formLabelWidth"
+								:error="errors?.academic_name"
 							>
 								<el-input
 									v-model="ruleForm.academic_name"
@@ -368,7 +369,7 @@ export default {
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
 					this.submitData()
-					this.resetForm('ruleForm')
+				
 				} else {
 					console.log('error submit!!');
 					return false;
@@ -398,10 +399,20 @@ export default {
 			await axios.post('/academic/create', form, config).then(response => {
 				this.getData();
 				this.dialogFormVisible = false;
+				this.resetForm('ruleForm')
 				this.$message({
 					message: 'ប្រតិបត្តិការរបស់អ្នកទទួលបានជោគជ័យ',
 					type: 'success'
 				});
+			}).catch((error) => {
+				if (error.response.status == 400) {
+					this.errors = error.response.data.errors;
+					console.log(this.errors )
+					this.$message({
+						message: 'ប្រតិបត្តិការរបស់អ្នកមិនទទួលបានជោគជ័យទេ',
+						type: 'error'
+					});
+				}
 			})
 		},
 		/*
@@ -459,9 +470,12 @@ export default {
 					type: 'success'
 				});
 				this.getData();
-			}).catch((error) => {
-				if (error.response.status == 401) {
-					this.$store.commit("auth/CLEAR_TOKEN")
+			}).catch(error=>{
+				if(error.response.status==400){
+					this.$message({
+						message: error.response.data.data,
+						type: 'error'
+					});
 				}
 			})
 		},

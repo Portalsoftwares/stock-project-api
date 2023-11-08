@@ -87,7 +87,7 @@
 			<template #default="scope">
 				<el-image
 					style="width: 40px; height: 40px"
-					:src="scope.row.student_in_class.profile_img?.file_path"
+					:src="scope.row.student_in_class.profile_img != null ? scope.row.student_in_class.profile_img.file_path :'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'"
 					fit="cover"
 					:lazy="true"
 					class="rounded-full"
@@ -293,7 +293,7 @@
 								<template #default="scope">
 									<el-image
 										style="width: 40px; height: 40px"
-										:src="scope.row.profile_img?.file_path"
+										:src="scope.row.profile_img != null ? scope.row.profile_img.file_path :'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'"
 										fit="cover"
 										:lazy="true"
 										class="rounded-full"
@@ -1258,14 +1258,14 @@ export default {
 				this.ruleForm.IDn = response.data.data.sid
 				this.ruleForm.genderValue = response.data.data.gender_id
 				this.ruleForm.dobValue = response.data.data.date_of_birth
-				this.ruleForm.birsthAddress = response.data.data.place_of_birth
+				this.ruleForm.birthAddress = response.data.data.place_of_birth
 				this.ruleForm.address = response.data.data.address
 				this.ruleForm.phoneNum = response.data.data.phone
 				this.ruleForm.firstNameKh = response.data.data.first_name_kh
 				this.ruleForm.email = response.data.data.email
 				this.ruleForm.statusValue = response.data.data.status_id
 				this.ruleForm.studentOtherText = response.data.data.other
-				this.imageUrl = response.data.data.profile_img?.file_path
+				this.imageUrl = response.data.data.profile_img !=null ?response.data.data.profile_img?.file_path :'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'
 				this.ruleForm.file_upload_id = response.data.data.file_upload_id
 				this.ruleForm.from_secondary_high_school = response.data.data.from_secondary_high_school;
 				this.ruleForm.secondary_exam_date = response.data.data.secondary_exam_date;
@@ -1292,12 +1292,13 @@ export default {
 			this.ruleForm.email = null;
 			this.ruleForm.file_upload_id = null;
 			this.ruleForm.student_id = null;
-			this.ruleForm.genderValue = null;
+			this.ruleForm.genderValue = 1;
 			this.ruleForm.dobValue = null;
+			this.ruleForm.birthAddress = null;
 			this.ruleForm.address = null;
 			this.ruleForm.phoneNum = null;
-			this.ruleForm.studentOtherText = null;
-			this.ruleForm.statusValue = null;
+			this.ruleForm.studentOtherText = 'ភូមិប្រយុទ្ធ ឃុំពួក​ ស្រុកពួក ខេត្តសៀមរាប'
+			this.ruleForm.statusValue = 1;
 			this.ruleForm.IDn = null;
 			this.ruleForm.from_secondary_high_school = null;
 			this.ruleForm.secondary_exam_date = null;
@@ -1305,7 +1306,7 @@ export default {
 			this.ruleForm.secondary_exam_room = null;
 			this.ruleForm.secondary_exam_desk = null;
 
-			this.imageUrl = ''
+			this.imageUrl = 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'
 			this.ruleForm.photo_id = ''
 			this.roles = null
 

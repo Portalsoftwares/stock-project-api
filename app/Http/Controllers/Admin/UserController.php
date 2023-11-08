@@ -78,7 +78,7 @@ class UserController extends Controller
 
         $response = [
             'roles' => Role::all(),
-            'teachers' => Teacher::whereNotIn('teacher_id', $unuser)->get()
+            'teachers' => Teacher::whereNotIn('teacher_id', $unuser)->with('profile_img')->get()
         ];
         return  response($response, 200);
     }

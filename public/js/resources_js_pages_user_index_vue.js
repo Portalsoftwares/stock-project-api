@@ -36,7 +36,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       dialogVisible: false,
       files: {},
       form: {},
-      imageUrl: '',
+      imageUrl: 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1',
       isShowPassword: true,
       isShowButtonUpdate: false,
       ruleForm: {
@@ -125,8 +125,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var obj = this.teachers.find(function (e) {
         return e.teacher_id == _this.ruleForm.teacher_id;
       });
-      console.log(obj);
       this.ruleForm.name = obj.full_name_kh;
+      this.imageUrl = obj.profile_img.file_path;
+      this.ruleForm.photo_id = obj.file_upload_id;
+      this.ruleForm.email = obj.email;
+      this.ruleForm.phone = obj.phone;
     },
     //Change Per Page
     changePageSize: function changePageSize(event) {
@@ -312,21 +315,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this7.ruleForm.userId = '';
               _this7.ruleForm.roles = null;
               _this7.ruleForm.email = '';
-              _this7.imageUrl = '';
+              // this.imageUrl = ''
               _this7.ruleForm.photo_id = '';
               _this7.ruleForm.teacher_id = '';
               _this7.roles = null;
               _this7.dialogFormVisible = true;
               _this7.isShowButtonUpdate = false;
               _this7.isShowPassword = true;
-              _context4.next = 14;
+              _context4.next = 13;
               return axios.get('/user/create').then(function (response) {
                 _this7.roles = response.data.roles;
                 _this7.teachers = response.data.teachers;
               })["catch"](function (error) {
                 console.log(error);
               });
-            case 14:
+            case 13:
             case "end":
               return _context4.stop();
           }
@@ -366,15 +369,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this9.isShowPassword = false;
               _context6.next = 4;
               return axios.get('/user/edit/' + id).then(function (response) {
-                var _response$data$user$i, _response$data$user$i2;
+                var _response$data$user$i;
                 _this9.ruleForm.name = response.data.user.name;
                 _this9.ruleForm.phone = response.data.user.phone;
                 _this9.ruleForm.userId = response.data.user.id;
                 _this9.ruleForm.roles = response.data.user_has_roles;
                 _this9.ruleForm.email = response.data.user.email;
                 _this9.ruleForm.teacher_id = response.data.user.teacher_id;
-                _this9.imageUrl = (_response$data$user$i = response.data.user.img) === null || _response$data$user$i === void 0 ? void 0 : _response$data$user$i.file_path;
-                _this9.ruleForm.photo_id = (_response$data$user$i2 = response.data.user.img) === null || _response$data$user$i2 === void 0 ? void 0 : _response$data$user$i2.file_upload_id;
+                _this9.imageUrl = response.data.user.img != null ? response.data.user.img.file_path : 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1';
+                _this9.ruleForm.photo_id = (_response$data$user$i = response.data.user.img) === null || _response$data$user$i === void 0 ? void 0 : _response$data$user$i.file_upload_id;
                 _this9.roles = response.data.roles;
                 _this9.teachers = response.data.teachers;
                 _this9.dialogFormVisible = true;
@@ -733,7 +736,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               "width": "40px",
               "height": "40px"
             },
-            src: (_scope$row$img = scope.row.img) === null || _scope$row$img === void 0 ? void 0 : _scope$row$img.file_path,
+            src: scope.row.img != null ? (_scope$row$img = scope.row.img) === null || _scope$row$img === void 0 ? void 0 : _scope$row$img.file_path : 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1',
             fit: "cover",
             lazy: true,
             "class": "rounded-full"
