@@ -4,11 +4,24 @@
 			<el-tab-pane label="របាយការណ៏វត្តមានសិស្ស">
 				<div class="bg-white p-2 w-full justify-between space-y-2 flex flex-col lg:flex-row lg:space-y-0">
 					<div>
+						<el-form 
+						    label-position="top" 			
+							:model="ruleForm"
+							:rules="rules"
+							ref="ruleForm"
+							id="fm"
+						>
 						<div class="flex flex-col space-x-2 xl:flex-row xl:space-y-0">
 							<div class="self-start flex space-x-2">
 								<div>
+									<el-form-item
+				
+										class="sanfont-khmer"
+										prop="academic_id"
+										:label-width="formLabelWidth"
+									>
 									<el-select
-										v-model="academic_id"
+										v-model="ruleForm.academic_id"
 										filterable
 										clearable
 										placeholder="ឆ្នាំសិក្សា"
@@ -22,12 +35,19 @@
 										>
 										</el-option>
 									</el-select>
+									</el-form-item>
 								</div>
 
 							</div>
 							<div class="self-start  ">
+								<el-form-item
+							
+										class="sanfont-khmer"
+										prop="class_id"
+										:label-width="formLabelWidth"
+									>
 								<el-select
-									v-model="class_id"
+									v-model="ruleForm.class_id"
 									filterable
 									clearable
 									placeholder="ថ្នាក់រៀន"
@@ -40,10 +60,16 @@
 									>
 									</el-option>
 								</el-select>
+								</el-form-item>
 							</div>
 							<div class="self-start  ">
+								<el-form-item
+									class="sanfont-khmer"
+									prop="score_type_id"
+									:label-width="formLabelWidth"
+									>
 								<el-select
-									v-model="score_type_id"
+									v-model="ruleForm.score_type_id"
 									filterable
 									clearable
 									placeholder="ប្រចាំខែ"
@@ -56,12 +82,13 @@
 									>
 									</el-option>
 								</el-select>
+								</el-form-item>
 							</div>
-							<div class="self-center">
+							<div class="self-start">
 								<el-button
 									type="primary"
 									:disabled="loading_report"
-									@click="showReportAtendanceMonthly"
+									@click="submitForm('ruleForm')"
 								>
 									<el-icon :class="loading_report==true?'animate-spin':''">
 										<Tools />
@@ -71,6 +98,7 @@
 
 							</div>
 						</div>
+						</el-form>
 
 					</div>
 					<div class="self-center">
@@ -216,11 +244,23 @@
 				<div class="bg-white p-2 w-full flex justify-between space-y-2 flex flex-col xl:flex-row 2xl:space-y-0">
 
 					<div class="flex flex-col space-y-2 2xl:flex-row 2xl:space-y-0 ">
+						<el-form 
+						label-position="top" 			
+						:model="ruleForm"
+						:rules="rulesScore"
+						ref="ruleFormScore"
+						id="fm"
+					>
 						<div class="self-start flex space-x-2">
 							<div class="self-start flex space-x-2">
 								<div>
+									<el-form-item
+										class="sanfont-khmer"
+										prop="academic_id"
+										:label-width="formLabelWidth"
+									>
 									<el-select
-										v-model="academic_id"
+										v-model="ruleForm.academic_id"
 										filterable
 										clearable
 										placeholder="ឆ្នាំសិក្សា"
@@ -234,12 +274,18 @@
 										>
 										</el-option>
 									</el-select>
+									</el-form-item>
 								</div>
 
 							</div>
 							<div class="self-start  ">
+								<el-form-item
+								class="sanfont-khmer"
+								prop="class_id"
+								:label-width="formLabelWidth"
+								>
 								<el-select
-									v-model="class_id"
+									v-model="ruleForm.class_id"
 									filterable
 									clearable
 									placeholder="ថ្នាក់រៀន"
@@ -252,10 +298,16 @@
 									>
 									</el-option>
 								</el-select>
+								</el-form-item>
 							</div>
 							<div class="self-start  ">
+								<el-form-item
+								class="sanfont-khmer"
+								prop="report_type_id"
+								:label-width="formLabelWidth"
+								>
 								<el-select
-									v-model="report_type_id"
+									v-model="ruleForm.report_type_id"
 									filterable
 									clearable
 									placeholder="ប្រភេទរបាយការណ៏"
@@ -268,12 +320,13 @@
 									>
 									</el-option>
 								</el-select>
+								</el-form-item>
 							</div>
-							<div class="self-center">
+							<div class="self-start">
 								<el-button
 									type="primary"
 									:disabled="loading_report"
-									@click="showInfomationStudentScoreReport"
+									@click="submitFormScore('ruleFormScore')"
 								>
 									<el-icon :class="loading_report==true?'animate-spin':''">
 										<Tools />
@@ -282,6 +335,7 @@
 								</el-button>
 							</div>
 						</div>
+					</el-form>
 					</div>
 
 					<div class="self-center">
@@ -421,6 +475,34 @@ export default {
 			formLabelWidth: "350px",
 
 			ruleForm: {
+				class_id: null,
+				academic_id: null,
+				score_type_id:null,
+				report_type_id:null,
+			},
+			rules: {
+				class_id: [
+					{ required: true, message: 'សូមបញ្ចូលថ្នាក់' },
+				],
+				score_type_id: [
+					{ required: true, message: 'សូមបញ្ចូលខែ', trigger: 'change' }
+				],
+				academic_id: [
+					{ required: true, message: 'សូមបញ្ចូលឆ្នាំសិក្សា', trigger: 'change' },
+				],
+
+			},
+			rulesScore: {
+				class_id: [
+					{ required: true, message: 'សូមបញ្ចូលថ្នាក់' },
+				],
+				report_type_id: [
+					{ required: true, message: 'សូមបញ្ចូលប្រភេទរបាយការណ៍', trigger: 'change' }
+				],
+				academic_id: [
+					{ required: true, message: 'សូមបញ្ចូលឆ្នាំសិក្សា', trigger: 'change' },
+				],
+
 			},
 
 			classes: [],
@@ -460,6 +542,20 @@ export default {
 		this.getPreference()
 	},
 	methods: {
+		submitForm(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					this.showReportAtendanceMonthly()
+				}
+			});
+		},
+		submitFormScore(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					this.showInfomationStudentScoreReport()
+				}
+			});
+		},
 
 		async popUpProfile() {
 			this.dialogFormVisible = true
@@ -483,13 +579,13 @@ export default {
 		async showReportAtendanceMonthly() {
 			this.loading_report = true
 			const attendanceInfo = {
-				'class_id': this.class_id,
-				'month_id': this.score_type_id,
+				'class_id': this.ruleForm.class_id,
+				'month_id': this.ruleForm.score_type_id,
 			}
 			const config = {
 				headers: { 'content-type': 'multipart/form-data' }
 			}
-			await axios.post('/attendance/report/monthly/get/' + this.class_id, attendanceInfo, config).then(response => {
+			await axios.post('/attendance/report/monthly/get/' + this.ruleForm.class_id, attendanceInfo, config).then(response => {
 				this.classData = response.data.classData
 				this.dates = response.data.dates;
 				this.studentReport = response.data.student;
@@ -538,7 +634,7 @@ export default {
 				'data': studentDataPDF,
 				'option': {
 					'class': this.classData.class_name,
-					'exam': this.getMonthNameKH(this.score_type_id),
+					'exam': this.getMonthNameKH(this.ruleForm.score_type_id),
 					'dates': this.dates,
 					'academic': this.classData.academic,
 
@@ -586,7 +682,7 @@ export default {
 				'data': studentDataPDF,
 				'option': {
 					'class': this.classData.class_name,
-					'exam': this.getMonthNameKH(this.score_type_id),
+					'exam': this.getMonthNameKH(this.ruleForm.score_type_id),
 					'dates': this.dates,
 					'academic': this.classData.academic,
 				}
@@ -604,13 +700,13 @@ export default {
 		async showInfomationStudentScoreReport() {
 			this.loading_report = true;
 			const scoreInfo = {
-				'class_id': this.class_id,
-				'score_type_id': this.report_type_id,
+				'class_id': this.ruleForm.class_id,
+				'score_type_id': this.ruleForm.report_type_id,
 			}
 			const config = {
 				headers: { 'content-type': 'application/json' }
 			}
-			await axios.post('/score/collect/report/' + this.class_id, scoreInfo, config).then(response => {
+			await axios.post('/score/collect/report/' + this.ruleForm.class_id, scoreInfo, config).then(response => {
 				this.academicName = response.data.academic;
 				this.exam = response.data.exam;
 				this.studentObj = response.data.student;

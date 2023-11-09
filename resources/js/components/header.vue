@@ -107,19 +107,13 @@
 			<div class="flex flex-col items-center py-5 ">
 				<div
 					class="flex justify-center"
-					v-if="user.img"
 				>
 					<img
-						:src="user.img.file_path"
+						:src="user.img !=null?user.img.file_path : 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'"
 						class="avatar object-contain rounded-full"
 					>
 				</div>
-				<div
-					class="flex justify-center"
-					v-else
-				>
-					<i class="el-icon-plus avatar-uploader-icon"></i>
-				</div>
+
 				<div>
 					<div
 						prop="name"
@@ -388,6 +382,10 @@ export default {
 					});
 				}
 			})
+		},
+		cancelAction() {
+			this.dialogFormVisible = false;
+			this.is_changePW = false;
 		},
 		getRoleNames(roles) {
 			return roles.map(role => `${role.name}`).join(' ,');
