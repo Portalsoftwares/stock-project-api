@@ -8,7 +8,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Attendance;
 use App\Models\ScheduleLine;
+use App\Exports\TimeExport;
+use Maatwebsite\Excel\Facades\Excel;
 
+use App\mPDF\PdfWrapper as PDF;
 
 class TimeController extends Controller
 {
@@ -150,5 +153,25 @@ class TimeController extends Controller
             'data' => 'Delete successfull',
         ];
         return  response($response, 200);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        if (isset($request->is_show_trust)) {
+            return  Excel::download(new TimeExport($request->is_show_trust), 'time.xlsx');
+        }
+        return Excel::download(new TimeExport(), 'time.xlsx');
+    }
+    public function exportPDF(Request $request)
+    {
+        $Time = Time::query();
+
+        if ($request->has('is_show_trust') && $request->is_show_trust) {
+            $Time = Time::onlyTrashed();
+        }
+        $pdf = PDF::loadView('list.time', [
+            'time' => $Time->get()
+        ]);
+        return $pdf->stream('time.pdf');
     }
 }

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\mPDF\PdfWrapper as PDF;
 use Maatwebsite\Excel\Exporter;
 use App\Exports\SubjectExport;
+use App\Exports\SubjectLevelExport;
 
 class SubjectController extends Controller
 {
@@ -379,4 +380,27 @@ class SubjectController extends Controller
 
         return $pdf->stream('subjects.pdf');
     }
+    public function exportExcelSubjectLevel(Request $request)
+    {
+        if (isset($request->is_show_trust)) {
+            return $this->exporter->download(new SubjectLevelExport($request->is_show_trust), 'subjects_level.xlsx');
+        }
+        return $this->exporter->download(new SubjectLevelExport(), 'subjects_level.xlsx');
+    }
+
+    public function exportPDFSubjectLevel(Request $request)
+    {
+        $subjects = SubjectGradeLevel::query();
+
+        if ($request->has('is_show_trust') && $request->is_show_trust) {
+            $subjects = SubjectGradeLevel::onlyTrashed();
+        }
+
+        $pdf = PDF::loadView('list.subject_level', [
+            'subjects' => $subjects->get()
+        ]);
+
+        return $pdf->stream('subjects_level.pdf');
+    }
+
 }

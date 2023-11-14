@@ -546,7 +546,7 @@ export default {
 			academic: [],
 			exam: [],
 			is_random: 0,
-			is_testing:false
+			is_testing:true
 		}
 	},
 	mounted() {

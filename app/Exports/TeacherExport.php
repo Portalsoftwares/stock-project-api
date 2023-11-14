@@ -41,18 +41,10 @@ class TeacherExport extends AbstractExport implements FromCollection, WithHeadin
             $teacher->gender_id == 1 ? 'ប្រុស' : 'ស្រី',
             $teacher->date_of_birth,
             $teacher->phone,
-            $teacher->is_enable_account,
+            $teacher->is_enable_account==1 ?'មាន':'គ្មាន',
+            $teacher->roles['name'],
+            
         ];
-
-        // Check if roles are set for teacher
-        if (!isset($teacher->roles)) {
-            return $row;
-        }
-
-        // Add roles to row
-        $row[] = implode(",",  $teacher->roles->map(function ($role) {
-            return $role["name"];
-        })->toArray());
 
         return $row;
     }
@@ -68,7 +60,7 @@ class TeacherExport extends AbstractExport implements FromCollection, WithHeadin
             "ភេទ",
             "ថ្ងៃ/ខែ/ឆ្នាំកំណើត",
             "លេខទូរស័ព្ទ",
-            "បង្កើតគណនី",
+            "គណនី",
             "តួនាទី"
         ];
     }
@@ -77,15 +69,15 @@ class TeacherExport extends AbstractExport implements FromCollection, WithHeadin
     public function columnWidths(): array
     {
         return [
-            'A' => 15,
-            'B' => 45,
-            'C' => 35,
-            'D' => 30,
-            'E' => 25,
-            'F' => 25,
-            'G' => 25,
-            'H' => 25,
-            'I' => 25,
+            'A' => 5,
+            'B' => 10,
+            'C' => 25,
+            'D' => 25,
+            'E' => 8,
+            'F' => 15,
+            'G' => 15,
+            'H' => 10,
+            'I' => 10,
         ];
     }
 }

@@ -782,7 +782,7 @@ export default {
 		},
 		async exportExcel() {
 			axios.post('/student/exportExcel', {
-				file_name: 'Teacher',
+				file_name: 'student',
 				is_show_trust: this.is_show_trust
 			}, {
 				responseType: 'blob'

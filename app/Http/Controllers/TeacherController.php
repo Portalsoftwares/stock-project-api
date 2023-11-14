@@ -250,7 +250,7 @@ class TeacherController extends Controller
             $teachers = Teacher::onlyTrashed();
         }
 
-        $pdf = PDF::loadView('list.teacher', ['teachers' => $teachers->get()]);
+        $pdf = PDF::loadView('list.teacher', ['teachers' => $teachers->with(['gender'])->get()]);
         return $pdf->stream('teacher.pdf');
     }
 }

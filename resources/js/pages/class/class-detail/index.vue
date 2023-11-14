@@ -276,7 +276,7 @@
 								/>
 							</el-select>
 						</el-form-item>
-						<el-form-item label="មុខវិទ្យា">
+						<el-form-item label="មុខវិជ្ជា">
 
 							<el-select
 								v-if="dataSubjectGradeObj.subject!=null"
@@ -606,7 +606,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item
-					label="មុខវិទ្យា"
+					label="មុខវិជ្ជា"
 					prop="subject_grade_id"
 					:error="errors.subject_grade_id"
 					class="sanfont-khmer"
@@ -614,7 +614,7 @@
 				>
 					<el-select
 						v-model="ruleFormTeacher.subject_grade_id"
-						placeholder="ជ្រើសរើសមុខវិទ្យា"
+						placeholder="ជ្រើសរើសមុខវិជ្ជា"
 						class="text-left "
 					>
 						<el-option

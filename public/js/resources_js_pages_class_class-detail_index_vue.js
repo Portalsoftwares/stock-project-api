@@ -1459,7 +1459,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       academic: [],
       exam: [],
       is_random: 0,
-      is_testing: false
+      is_testing: true
     };
   },
   mounted: function mounted() {
@@ -4173,7 +4173,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "មុខវិទ្យា"
+            label: "មុខវិជ្ជា"
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [$data.dataSubjectGradeObj.subject != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_select, {
@@ -4599,7 +4599,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["error", "label-width"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
-            label: "មុខវិទ្យា",
+            label: "មុខវិជ្ជា",
             prop: "subject_grade_id",
             error: $data.errors.subject_grade_id,
             "class": "sanfont-khmer",
@@ -4611,7 +4611,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
                   return $data.ruleFormTeacher.subject_grade_id = $event;
                 }),
-                placeholder: "ជ្រើសរើសមុខវិទ្យា",
+                placeholder: "ជ្រើសរើសមុខវិជ្ជា",
                 "class": "text-left"
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {

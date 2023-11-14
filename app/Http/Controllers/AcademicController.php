@@ -7,7 +7,9 @@ use App\Models\Academic;
 use App\Models\Classes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-
+use App\Exports\AcademicExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\mPDF\PdfWrapper as PDF;
 
 class AcademicController extends Controller
 {
@@ -144,5 +146,24 @@ class AcademicController extends Controller
             'data' => 'Delete successfull',
         ];
         return  response($response, 200);
+    }
+    public function exportExcel(Request $request)
+    {
+        if (isset($request->is_show_trust)) {
+            return  Excel::download(new AcademicExport($request->is_show_trust), 'academic.xlsx');
+        }
+        return Excel::download(new AcademicExport(), 'academic.xlsx');
+    }
+    public function exportPDF(Request $request)
+    {
+        $Academic = Academic::query();
+
+        if ($request->has('is_show_trust') && $request->is_show_trust) {
+            $Academic = Academic::onlyTrashed();
+        }
+        $pdf = PDF::loadView('list.academic', [
+            'academic' => $Academic->get()
+        ]);
+        return $pdf->stream('academic.pdf');
     }
 }

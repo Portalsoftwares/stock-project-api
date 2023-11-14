@@ -10,7 +10,10 @@ use App\Models\scoreTypeAcademic;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use App\Exports\ExamExport;
+use Maatwebsite\Excel\Facades\Excel;
 
+use App\mPDF\PdfWrapper as PDF;
 
 class ScoreTypeController extends Controller
 {
@@ -156,7 +159,25 @@ class ScoreTypeController extends Controller
         ];
         return  response($response, 200);
     }
+    public function exportExcel(Request $request)
+    {
+        if (isset($request->is_show_trust)) {
+            return  Excel::download(new ExamExport($request->is_show_trust), 'exam.xlsx');
+        }
+        return Excel::download(new ExamExport(), 'exam.xlsx');
+    }
+    public function exportPDF(Request $request)
+    {
+        $ScoreType = ScoreType::query();
 
+        if ($request->has('is_show_trust') && $request->is_show_trust) {
+            $ScoreType = ScoreType::onlyTrashed()->whereNotIn('type', [3, 4]);
+        }
+        $pdf = PDF::loadView('list.exam', [
+            'exam' => $ScoreType->whereNotIn('type', [3, 4])->get()
+        ]);
+        return $pdf->stream('exam.pdf');
+    }
 
     //For Academic
 

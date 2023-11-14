@@ -380,14 +380,14 @@
 						/>
 					</div>
 					<div class="self-center ">
-						<el-button type="info">
+						<el-button type="info" @click="exportExcelSubjectLevel()">
 							<el-icon>
 								<Document />
 							</el-icon>
 							<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
 						</el-button>
-						<el-button type="info">
+						<el-button type="info"  @click="exportPDFSubjectLevel()">
 							<el-icon>
 								<Document />
 							</el-icon>
@@ -1241,6 +1241,29 @@ export default {
 			}).then((response) => {
 				// response.data is a blob type
 				FileSaver.saveAs(response.data, 'subject');
+			});
+		},
+		async exportExcelSubjectLevel() {
+			axios.post('/subject-level/exportExcel', {
+				file_name: 'Subject_level',
+				is_show_trust: this.is_show_trust
+			}, {
+				responseType: 'blob'
+			}).then((response) => {
+				// response.data is a blob type
+				FileSaver.saveAs(response.data, 'Subject_level');
+			});
+		},
+
+		async exportPDFSubjectLevel() {
+			axios.post('/subject-level/exportPDF', {
+				file_name: 'Subject_level',
+				is_show_trust: this.is_show_trust
+			}, {
+				responseType: 'blob'
+			}).then((response) => {
+				// response.data is a blob type
+				FileSaver.saveAs(response.data, 'Subject_level');
 			});
 		}
 	}

@@ -566,7 +566,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           while (1) switch (_context9.prev = _context9.next) {
             case 0:
               axios.post('/student/exportExcel', {
-                file_name: 'Teacher',
+                file_name: 'student',
                 is_show_trust: _this11.is_show_trust
               }, {
                 responseType: 'blob'

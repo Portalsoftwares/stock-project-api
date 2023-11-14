@@ -86,14 +86,14 @@
 				/>
 			</div>
 			<div class="self-center ">
-				<el-button type="info">
+				<el-button type="info" @click="exportExcel">
 					<el-icon>
 						<Document />
 					</el-icon>
 					<span class="mx-1 sanfont-khmer"> ទាញ Excel</span>
 
 				</el-button>
-				<el-button type="info">
+				<el-button type="info" @click="exportPDF">
 					<el-icon>
 						<Document />
 					</el-icon>
@@ -422,6 +422,8 @@
 	<!-- Dialog user  -->
 </template>
 <script>
+import FileSaver from 'file-saver'
+
 export default {
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
@@ -816,6 +818,29 @@ export default {
 					type: 'success'
 				});
 			})
+		},
+		async exportExcel() {
+			axios.post('/class/exportExcel', {
+				file_name: 'class',
+				is_show_trust: this.is_show_trust
+			}, {
+				responseType: 'blob'
+			}).then((response) => {
+				// response.data is a blob type
+				FileSaver.saveAs(response.data, 'class');
+			});
+		},
+
+		async exportPDF() {
+			axios.post('/class/exportPDF', {
+				file_name: 'class',
+				is_show_trust: this.is_show_trust
+			}, {
+				responseType: 'blob'
+			}).then((response) => {
+				// response.data is a blob type
+				FileSaver.saveAs(response.data, 'class');
+			});
 		},
 	}
 }

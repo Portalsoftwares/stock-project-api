@@ -704,6 +704,48 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         }
       }, _callee16);
     }))();
+  }), _defineProperty(_methods, "exportExcelSubjectLevel", function exportExcelSubjectLevel() {
+    var _this21 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee17() {
+      return _regeneratorRuntime().wrap(function _callee17$(_context17) {
+        while (1) switch (_context17.prev = _context17.next) {
+          case 0:
+            axios.post('/subject-level/exportExcel', {
+              file_name: 'Subject_level',
+              is_show_trust: _this21.is_show_trust
+            }, {
+              responseType: 'blob'
+            }).then(function (response) {
+              // response.data is a blob type
+              file_saver__WEBPACK_IMPORTED_MODULE_0___default().saveAs(response.data, 'Subject_level');
+            });
+          case 1:
+          case "end":
+            return _context17.stop();
+        }
+      }, _callee17);
+    }))();
+  }), _defineProperty(_methods, "exportPDFSubjectLevel", function exportPDFSubjectLevel() {
+    var _this22 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee18() {
+      return _regeneratorRuntime().wrap(function _callee18$(_context18) {
+        while (1) switch (_context18.prev = _context18.next) {
+          case 0:
+            axios.post('/subject-level/exportPDF', {
+              file_name: 'Subject_level',
+              is_show_trust: _this22.is_show_trust
+            }, {
+              responseType: 'blob'
+            }).then(function (response) {
+              // response.data is a blob type
+              file_saver__WEBPACK_IMPORTED_MODULE_0___default().saveAs(response.data, 'Subject_level');
+            });
+          case 1:
+          case "end":
+            return _context18.stop();
+        }
+      }, _callee18);
+    }))();
   }), _methods)
 });
 
@@ -881,7 +923,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_tabs, {
     type: "border-card",
     modelValue: $data.tabClassDetail,
-    "onUpdate:modelValue": _cache[30] || (_cache[30] = function ($event) {
+    "onUpdate:modelValue": _cache[32] || (_cache[32] = function ($event) {
       return $data.tabClassDetail = $event;
     }),
     onTabChange: $options.changeTap
@@ -1341,7 +1383,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "active-value": "1",
             "inactive-value": "0"
           }, null, 8 /* PROPS */, ["modelValue", "onChange"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-            type: "info"
+            type: "info",
+            onClick: _cache[18] || (_cache[18] = function ($event) {
+              return $options.exportExcelSubjectLevel();
+            })
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -1353,7 +1398,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             _: 1 /* STABLE */
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-            type: "info"
+            type: "info",
+            onClick: _cache[19] || (_cache[19] = function ($event) {
+              return $options.exportPDFSubjectLevel();
+            })
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -1547,11 +1595,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, 8 /* PROPS */, ["data"])), [[_directive_loading, _ctx.loading]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_pagination, {
             background: "",
             "current-page": $data.pageSubjectLevel,
-            "onUpdate:currentPage": _cache[18] || (_cache[18] = function ($event) {
+            "onUpdate:currentPage": _cache[20] || (_cache[20] = function ($event) {
               return $data.pageSubjectLevel = $event;
             }),
             "page-size": $data.per_pageSubjectLevel,
-            "onUpdate:pageSize": _cache[19] || (_cache[19] = function ($event) {
+            "onUpdate:pageSize": _cache[21] || (_cache[21] = function ($event) {
               return $data.per_pageSubjectLevel = $event;
             }),
             "page-count": $data.tableDataSubjectLevel.last_page,
@@ -1561,7 +1609,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             onSizeChange: $options.changePageSizeSubjectLevel
           }, null, 8 /* PROPS */, ["current-page", "page-size", "page-count", "total", "onCurrentChange", "onSizeChange"])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
             modelValue: $data.dialogFormVisibleSubjectLevel,
-            "onUpdate:modelValue": _cache[29] || (_cache[29] = function ($event) {
+            "onUpdate:modelValue": _cache[31] || (_cache[31] = function ($event) {
               return $data.dialogFormVisibleSubjectLevel = $event;
             }),
             title: "ព័ត៌មានមុខវិជ្ជាតាមកម្រិត",
@@ -1575,7 +1623,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             }),
             footer: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
-                onClick: _cache[26] || (_cache[26] = function ($event) {
+                onClick: _cache[28] || (_cache[28] = function ($event) {
                   return $options.cancelActionSubjectLevel();
                 }),
                 "class": "sanfont-khmer",
@@ -1589,7 +1637,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 key: 0,
                 type: "primary",
                 "class": "sanfont-khmer",
-                onClick: _cache[27] || (_cache[27] = function ($event) {
+                onClick: _cache[29] || (_cache[29] = function ($event) {
                   return $options.submitFormSubjectLevel('ruleFormSubjectLevel');
                 })
               }, {
@@ -1601,7 +1649,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 key: 1,
                 type: "primary",
                 "class": "sanfont-khmer",
-                onClick: _cache[28] || (_cache[28] = function ($event) {
+                onClick: _cache[30] || (_cache[30] = function ($event) {
                   return $options.updateDataSubjectLevel('ruleFormSubjectLevel');
                 })
               }, {
@@ -1629,7 +1677,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                         modelValue: $data.ruleFormSubjectLevel.subject_id,
-                        "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
+                        "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
                           return $data.ruleFormSubjectLevel.subject_id = $event;
                         }),
                         placeholder: "ជ្រើសរើស"
@@ -1657,7 +1705,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                         modelValue: $data.ruleFormSubjectLevel.grade_level_id,
-                        "onUpdate:modelValue": _cache[21] || (_cache[21] = function ($event) {
+                        "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
                           return $data.ruleFormSubjectLevel.grade_level_id = $event;
                         }),
                         placeholder: "ជ្រើសរើស"
@@ -1685,7 +1733,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_select, {
                         modelValue: $data.ruleFormSubjectLevel.class_type_id,
-                        "onUpdate:modelValue": _cache[22] || (_cache[22] = function ($event) {
+                        "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
                           return $data.ruleFormSubjectLevel.class_type_id = $event;
                         }),
                         placeholder: "ជ្រើសរើស"
@@ -1713,7 +1761,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleFormSubjectLevel.full_score,
-                        "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
+                        "onUpdate:modelValue": _cache[25] || (_cache[25] = function ($event) {
                           return $data.ruleFormSubjectLevel.full_score = $event;
                         }),
                         autocomplete: "off",
@@ -1732,7 +1780,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleFormSubjectLevel.divide,
-                        "onUpdate:modelValue": _cache[24] || (_cache[24] = function ($event) {
+                        "onUpdate:modelValue": _cache[26] || (_cache[26] = function ($event) {
                           return $data.ruleFormSubjectLevel.divide = $event;
                         }),
                         autocomplete: "off",
@@ -1750,7 +1798,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
                         modelValue: $data.ruleFormSubjectLevel.average,
-                        "onUpdate:modelValue": _cache[25] || (_cache[25] = function ($event) {
+                        "onUpdate:modelValue": _cache[27] || (_cache[27] = function ($event) {
                           return $data.ruleFormSubjectLevel.average = $event;
                         }),
                         autocomplete: "off",

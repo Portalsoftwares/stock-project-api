@@ -263,7 +263,7 @@ class StudentController extends Controller
         }
 
         $pdf = PDF::loadView('list.student', [
-            'students' => $students->with(['current_class'])->get()
+            'students' => $students->with(['current_class','gender'])->get()
         ]);
 
         return $pdf->stream('students.pdf');

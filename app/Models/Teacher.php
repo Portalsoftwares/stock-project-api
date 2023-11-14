@@ -37,6 +37,10 @@ class Teacher extends Model
         'is_enable_account',
         'other',
     ];
+    public function gender()
+    {
+        return  $this->hasOne(Gender::class, 'gender_id', 'gender_id');
+    }
     public function profile_img()
     {
         return $this->hasOne(UploadFile::class, 'file_upload_id', 'file_upload_id');

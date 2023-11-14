@@ -95,6 +95,9 @@ Route::prefix('v1')->group(function () {
       Route::post('/update/{id}', [SubjectController::class, 'updateSubjectLevel']);
       Route::delete('/delete/{id}', [SubjectController::class, 'deleteSubjectLevel']);
       Route::post('/restore/{id}', [SubjectController::class, 'restoreSubjectLevel']);
+
+      Route::post('/exportExcel', [SubjectController::class, 'exportExcelSubjectLevel']);
+      Route::post('/exportPDF', [SubjectController::class, 'exportPDFSubjectLevel']);
     });
 
     //Class
@@ -106,6 +109,8 @@ Route::prefix('v1')->group(function () {
       Route::post('/update/{id}', [ClassController::class, 'update']);
       Route::delete('/delete/{id}', [ClassController::class, 'delete']);
       Route::post('/restore/{id}', [ClassController::class, 'restore']);
+      Route::post('/exportExcel', [ClassController::class, 'exportExcel']);
+      Route::post('/exportPDF', [ClassController::class, 'exportPDF']);
       //Add student in Class
       Route::post('/student/{id}/add', [ClassController::class, 'addStudentClass']);
       Route::get('/student/{id}/get', [ClassController::class, 'getStudentToClass']);
@@ -165,6 +170,8 @@ Route::prefix('v1')->group(function () {
       Route::post('/update/{id}', [TimeController::class, 'update']);
       Route::post('/restore/{id}', [TimeController::class, 'restore']);
       Route::delete('/delete/{id}', [TimeController::class, 'delete']);
+      Route::post('/exportExcel', [TimeController::class, 'exportExcel']);
+      Route::post('/exportPDF', [TimeController::class, 'exportPDF']);
     });
     //Academic
     Route::prefix('academic')->group(function () {
@@ -174,6 +181,8 @@ Route::prefix('v1')->group(function () {
       Route::post('/update/{id}', [AcademicController::class, 'update']);
       Route::post('/restore/{id}', [AcademicController::class, 'restore']);
       Route::delete('/delete/{id}', [AcademicController::class, 'delete']);
+      Route::post('/exportExcel', [AcademicController::class, 'exportExcel']);
+      Route::post('/exportPDF', [AcademicController::class, 'exportPDF']);
     });
     //Score Type
     Route::prefix('score-type')->group(function () {
@@ -183,6 +192,8 @@ Route::prefix('v1')->group(function () {
       Route::post('/update/{id}', [ScoreTypeController::class, 'update']);
       Route::post('/restore/{id}', [ScoreTypeController::class, 'restore']);
       Route::delete('/delete/{id}', [ScoreTypeController::class, 'delete']);
+      Route::post('/exportExcel', [ScoreTypeController::class, 'exportExcel']);
+      Route::post('/exportPDF', [ScoreTypeController::class, 'exportPDF']);
       //academic
       Route::get('/academic/get', [ScoreTypeController::class, 'indexAcademic']);
       Route::post('/academic/create', [ScoreTypeController::class, 'createAcademic']);

@@ -24,6 +24,8 @@ use App\Models\Student;
 use App\Models\StudentRole;
 use App\Models\StudentStatus;
 use App\mPDF\PdfWrapper;
+use App\mPDF\PdfWrapper as PDF;
+use App\Exports\ClassExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ClassController extends Controller
@@ -343,5 +345,27 @@ class ClassController extends Controller
     public function exportStudentListExcel(Request $request, $id)
     {
         return Excel::download(new ClassStudentExport($id), 'class-student-list.xlsx');
+    }
+
+
+    
+    public function exportExcel(Request $request)
+    {
+        if (isset($request->is_show_trust)) {
+            return Excel::download(new ClassExport($request->is_show_trust), 'class.xlsx');
+        }
+        return Excel::download(new ClassExport(), 'class.xlsx');
+    }
+
+    public function exportPDF(Request $request)
+    {
+        $items = Classes::query();
+
+        if ($request->has('is_show_trust') && $request->is_show_trust) {
+            $items = Classes::onlyTrashed();
+        }
+
+        $pdf = PDF::loadView('list.class', ['classes' => $items->with(['class_type', 'academic', 'count_student_in_class.student_in_class', 'get_teacher_in_class.teacher_in_class'])->get()]);
+        return $pdf->stream('class.pdf');
     }
 }
