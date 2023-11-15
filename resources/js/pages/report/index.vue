@@ -640,7 +640,7 @@ export default {
 
 				}
 			}
-			await axios.post('/attendance/report/' + this.class_id + '/export', dataObj, config).then(response => {
+			await axios.post('/attendance/report/' + this.ruleForm.class_id+ '/export', dataObj, config).then(response => {
 				let blob = new Blob([response.data], { type: 'application/pdf', }),
 					url = window.URL.createObjectURL(blob);
 				const newOpen = window.open(url);
@@ -687,7 +687,7 @@ export default {
 					'academic': this.classData.academic,
 				}
 			}
-			await axios.post('/attendance/report/' + this.class_id + '/export-excel', dataObj, config).then(response => {
+			await axios.post('/attendance/report/' + this.ruleForm.class_id + '/export-excel', dataObj, config).then(response => {
 				FileSaver.saveAs(response.data, 'report_attendance');
 			}).catch((error) => {
 				if (error.response.status == 401) {
@@ -785,7 +785,7 @@ export default {
 					'academic': this.academicName,
 				}
 			}
-			const class_id = this.$route.query.id;
+			const class_id = this.ruleForm.class_id
 
 			await axios.post('/score/report/' + class_id + '/export', dataObj, config).then(response => {
 				let blob = new Blob([response.data], { type: 'application/pdf', }),
@@ -841,7 +841,7 @@ export default {
 					'academic': this.academic,
 				}
 			}
-			const class_id = this.$route.query.id;
+			const class_id = this.ruleForm.class_id
 
 			await axios.post('/score/report/' + class_id + '/export-excel', dataObj, config).then(response => {
 				FileSaver.saveAs(response.data, 'report_score');

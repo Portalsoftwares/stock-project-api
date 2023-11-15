@@ -65,6 +65,7 @@
 				<el-button
 					type="primary"
 					@click="AddUser"
+					:disabled="permission_create"
 				>
 					<el-icon>
 						<CirclePlusFilled />
@@ -204,11 +205,13 @@
 								</div>
 								<div v-if="is_show_trust==0&&!loading">
 									<el-button
+									    :disabled="permission_edit"
 										size="small"
 										class="sanfont-khmer"
 										@click="editUser(scope.row.id)"
 									>កែប្រែ</el-button>
 									<el-popconfirm
+								    	
 										width="220"
 										confirm-button-text="យល់ព្រម"
 										cancel-button-text="ទេ"
@@ -220,6 +223,7 @@
 									>
 										<template #reference>
 											<el-button
+											   :disabled="permission_delete"
 												size="small"
 												type="danger"
 												class="sanfont-khmer"
@@ -359,7 +363,6 @@
 						placeholder="ជ្រើសរើស"
 						class="text-left"
 						name="roles"
-						multiple
 					>
 						<el-option
 							v-for="data in roles"
@@ -444,11 +447,18 @@
 	<!-- Dialog user  -->
 </template>
 <script>
+import { fnpermissions } from '../../permissions'
 import FileSaver from 'file-saver'
 export default {
 	components: { FileSaver },
 	data() {
 		return {
+			//Check permission
+			permission_view: !fnpermissions.can('user-view'),
+			permission_create: !fnpermissions.can('user-create'),
+			permission_edit: !fnpermissions.can('user-edit'),
+			permission_delete: !fnpermissions.can('user-delete'),
+
 			tableData: [],
 			showSuccess: false,
 			showInfo: false,

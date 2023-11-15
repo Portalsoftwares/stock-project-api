@@ -1,12 +1,14 @@
 
 // import axios from "axios";
 import axios from "axios";
+import vuexLocal from '../plugins/vuexPersist';
 export const auth = {
   namespaced: true,
   state: {
     LOGGINED: JSON.parse(localStorage.getItem('logined')) ?? false,
     TOKEN: JSON.parse(localStorage.getItem('token')) ?? '',
     USER: JSON.parse(localStorage.getItem('user')) ?? '',
+    PERMISSIONS: JSON.parse(localStorage.getItem('permissions')) ?? '',
   },
   getters: {
     user: state => state.USER
@@ -17,12 +19,21 @@ export const auth = {
       //SET SATE
       state.TOKEN = value.token;
       state.USER = value.user;
+      //get permission 
+      let permissions = []
+        if (value.user) {
+          let role = value.user.roles[0].permissions
+          role.forEach(element => {
+            permissions=[...permissions,element.name]
+          });
+        }
+      state.PERMISSIONS = permissions;
       state.LOGGINED = true;
       //LOCAL STORE
-      console.log(axios.defaults)
 
       localStorage.setItem('token', JSON.stringify(state.TOKEN));
       localStorage.setItem('user', JSON.stringify(state.USER));
+      localStorage.setItem('permissions', JSON.stringify(state.PERMISSIONS));
       localStorage.setItem('logined', JSON.stringify(state.LOGGINED));
       const success = "ok";
       return success;
@@ -32,11 +43,13 @@ export const auth = {
       //SET SATE
       state.TOKEN = null;
       state.USER = null;
+      state.PERMISSIONS = null;
       state.LOGGINED = false;
       //LOCAL STORE
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       localStorage.removeItem('logined');
+      localStorage.removeItem('permissions');
     }
   },
   actions: {
@@ -63,5 +76,6 @@ export const auth = {
       return response;
 
     }
-  }
+  },
+  plugins: [vuexLocal.plugin],
 };

@@ -14,16 +14,22 @@ import { ElNotification, ElMessage, ElCollapseTransition, ElTable, ElPopover } f
 import VueApexCharts from "vue3-apexcharts";
 //IMPORT COMPONENTS
 import store from "./store/index"
+//wait store from localstorage restored @vuexpersist
+await store.restored
 import router from "./router"
+//Permissions
+import { permissions } from './permissions';
 import * as moment from 'moment'
 const app = createApp(App)
 //COMPONENTS
 app.use(ElNotification)
 app.use(ElMessage)
 app.use(VueApexCharts)
+app.use(permissions);
 app.use(moment)
 app.component(ElTable)
 app.component(ElPopover)
+//KH font in Elemt
 import km from 'element-plus/dist/locale/km.mjs'
 app.component(ElCollapseTransition, ElCollapseTransition.name)
 app.use(ElementPlus, { locale: km, });
