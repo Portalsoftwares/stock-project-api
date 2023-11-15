@@ -984,7 +984,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 placeholder: "ជ្រើសរើស",
                 "class": "text-left",
                 onChange: $options.selectTeacher,
-                filterable: ""
+                filterable: "",
+                disabled: $data.isShowButtonUpdate
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teachers, function (data) {
@@ -997,7 +998,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 }),
 
                 _: 1 /* STABLE */
-              }, 8 /* PROPS */, ["modelValue", "onChange"])];
+              }, 8 /* PROPS */, ["modelValue", "onChange", "disabled"])];
             }),
             _: 1 /* STABLE */
           }, 8 /* PROPS */, ["label-width"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {

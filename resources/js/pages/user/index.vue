@@ -290,6 +290,7 @@
 						class="text-left"
 						@change="selectTeacher"
 						filterable
+						:disabled="isShowButtonUpdate"
 					>
 						<el-option
 							v-for="data in teachers"
@@ -536,6 +537,7 @@ export default {
 				return 'info'
 			}
 		},
+
 		selectTeacher(event) {
 			var obj = this.teachers.find(e => e.teacher_id == this.ruleForm.teacher_id);
 			this.ruleForm.name = obj.full_name_kh
