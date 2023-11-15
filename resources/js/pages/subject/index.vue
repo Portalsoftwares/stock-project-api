@@ -64,6 +64,7 @@
 						<el-button
 							type="primary"
 							@click="AddSubject"
+							:disabled="permission_view"
 						>
 							<el-icon>
 								<CirclePlusFilled />
@@ -159,6 +160,7 @@
 											size="small"
 											class="sanfont-khmer"
 											@click="editSubject(scope.row.subject_id)"
+											:disabled="permission_edit"
 										>កែប្រែ</el-button>
 	
 										<el-popconfirm
@@ -176,6 +178,7 @@
 													size="small"
 													type="danger"
 													class="sanfont-khmer"
+													:disabled="permission_delete"
 												>លុប</el-button>
 											</template>
 										</el-popconfirm>
@@ -397,6 +400,7 @@
 						<el-button
 							type="primary"
 							@click="AddSubjectLevel"
+							:disabled="permission_create1"
 						>
 							<el-icon>
 								<CirclePlusFilled />
@@ -497,6 +501,7 @@
 											size="small"
 											class="sanfont-khmer"
 											@click="editSubjectLevel(scope.row.subject_grade_id)"
+											:disabled="permission_edit1"
 										>កែប្រែ</el-button>
 										<el-popconfirm
 											width="220"
@@ -513,6 +518,7 @@
 													size="small"
 													type="danger"
 													class="sanfont-khmer"
+													:disabled="permission_delete1"
 												>លុប
 												</el-button>
 											</template>
@@ -719,12 +725,23 @@
 
 </template>
 <script>
+import { fnpermissions } from '../../permissions'
 import FileSaver from 'file-saver'
 export default {
 	components: { FileSaver },
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
 		return {
+			//Check permission
+			permission_view: !fnpermissions.can('subject-view'),
+			permission_create: !fnpermissions.can('subject-create'),
+			permission_edit: !fnpermissions.can('subject-edit'),
+			permission_delete: !fnpermissions.can('subject-delete'),
+			permission_view1: !fnpermissions.can('subject-level-view'),
+			permission_create2: !fnpermissions.can('subject-level-create'),
+			permission_edit3: !fnpermissions.can('subject-level-edit'),
+			permission_delete4: !fnpermissions.can('subject-level-delete'),
+
 			tableData: [],
 			tableDataSubjectLevel: [],
 			showSuccess: false,

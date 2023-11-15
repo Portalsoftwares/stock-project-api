@@ -42,11 +42,12 @@
 				<el-button
 					type="primary"
 					@click="AddAcademic"
+					:disabled="permission_create"
 				>
 					<el-icon>
 						<CirclePlusFilled />
 					</el-icon>
-					<span class="mx-1 sanfont-khmer"> បន្ថែម</span>
+					<span class="mx-1 sanfont-khmer" > បន្ថែម</span>
 				</el-button>
 			</div>
 		</div>
@@ -134,6 +135,7 @@
 									size="small"
 									class="sanfont-khmer"
 									@click="editAcademic(scope.row.academic_id)"
+									:disabled="permission_edit"
 								>កែប្រែ</el-button>
 								<el-popconfirm
 									width="220"
@@ -150,6 +152,7 @@
 											size="small"
 											type="danger"
 											class="sanfont-khmer"
+											:disabled="permission_delete"
 										>លុប
 										</el-button>
 									</template>
@@ -282,12 +285,19 @@
 	<!-- Dialog academic  -->
 </template>
 <script>
+import { fnpermissions } from '../../permissions'
 import FileSaver from 'file-saver'
 
 export default {
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
 		return {
+			//Check permission
+			permission_view: !fnpermissions.can('academic-view'),
+			permission_create: !fnpermissions.can('academic-create'),
+			permission_edit: !fnpermissions.can('academic-edit'),
+			permission_delete: !fnpermissions.can('academic-delete'),
+
 			tableData: [],
 			dialogFormVisible: false,
 			formLabelWidth: "105px",

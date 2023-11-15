@@ -52,6 +52,7 @@
 							<el-button
 								type="primary"
 								@click="AddScoreType"
+								:disabled="permission_create"
 							>
 								<el-icon>
 									<CirclePlusFilled />
@@ -139,6 +140,7 @@
 												size="small"
 												class="sanfont-khmer"
 												@click="editScoreType(scope.row.score_type_id)"
+												:disabled="permission_edit"
 											>កែប្រែ</el-button>
 											<el-popconfirm
 												width="220"
@@ -155,6 +157,7 @@
 														size="small"
 														type="danger"
 														class="sanfont-khmer"
+														:disabled="permission_delete"
 													>លុប
 													</el-button>
 												</template>
@@ -218,6 +221,7 @@
 							<el-button
 								type="primary"
 								@click="AddScoreTypeAcademic"
+								:disabled="permission_create"
 							>
 								<el-icon>
 									<CirclePlusFilled />
@@ -325,6 +329,7 @@
 												size="small"
 												class="sanfont-khmer"
 												@click="editScoreTypeAcademic(scope.row.id)"
+												:disabled="permission_edit"
 											>កែប្រែ</el-button>
 											<el-popconfirm
 												width="220"
@@ -340,6 +345,7 @@
 														size="small"
 														type="danger"
 														class="sanfont-khmer"
+														:disabled="permission_delete"
 													>លុប
 													</el-button>
 												</template>
@@ -591,11 +597,18 @@
 	<!-- Dialog Academic  -->
 </template>
 <script>
+import { fnpermissions } from '../../permissions'
 import FileSaver from 'file-saver'
 export default {
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
 		return {
+			//Check permission
+			permission_view: !fnpermissions.can('exam-view'),
+			permission_create: !fnpermissions.can('exam-create'),
+			permission_edit: !fnpermissions.can('exam-edit'),
+			permission_delete: !fnpermissions.can('exam-delete'),
+
 			tableData: [],
 			dialogFormVisible: false,
 			formLabelWidth: "140px",

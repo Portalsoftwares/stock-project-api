@@ -42,6 +42,7 @@
 				<el-button
 					type="primary"
 					@click="AddTime"
+					:disabled="permission_create"
 				>
 					<el-icon>
 						<CirclePlusFilled />
@@ -137,6 +138,7 @@
 									size="small"
 									class="sanfont-khmer"
 									@click="editTime(scope.row.time_id)"
+									:disabled="permission_edit"
 								>កែប្រែ</el-button>
 								<el-popconfirm
 									width="220"
@@ -153,6 +155,7 @@
 											size="small"
 											type="danger"
 											class="sanfont-khmer"
+											:disabled="permission_delete"
 										>លុប
 										</el-button>
 									</template>
@@ -297,12 +300,19 @@
 	<!-- Dialog user  -->
 </template>
 <script>
+import { fnpermissions } from '../../permissions'
 import FileSaver from 'file-saver'
 
 export default {
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
 		return {
+			//Check permission
+			permission_view: !fnpermissions.can('time-view'),
+			permission_create: !fnpermissions.can('time-create'),
+			permission_edit: !fnpermissions.can('time-edit'),
+			permission_delete: !fnpermissions.can('time-delete'),
+
 			tableData: [],
 			showSuccess: false,
 			showInfo: false,
