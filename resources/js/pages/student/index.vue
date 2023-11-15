@@ -56,7 +56,7 @@
 					<span class="mx-1 sanfont-khmer"> ទាញ PDF</span>
 
 				</el-button>
-				<el-button type="primary" @click="addStudent">
+				<el-button type="primary" @click="addStudent" :disabled="permission_create">
 					<el-icon>
 						<CirclePlusFilled />
 					</el-icon>
@@ -138,12 +138,12 @@
 							</div>
 							<div v-if="is_show_trust == 0 && !loading">
 								<el-button size="small" class="sanfont-khmer"
-									@click="editStudent(scope.row.student_id)">កែប្រែ</el-button>
+									@click="editStudent(scope.row.student_id)" :disabled="permission_edit">កែប្រែ</el-button>
 								<el-popconfirm width="220" confirm-button-text="យល់ព្រម" cancel-button-text="ទេ"
 									:icon="InfoFilled" icon-color="#626AEF" title="តើអ្នកពិតជាចង់លុបមែនទេ?"
-									cancel-button-type="info" @confirm="handleDelete(scope.row.student_id)">
+									cancel-button-type="info" @confirm="handleDelete(scope.row.student_id) ">
 									<template #reference>
-										<el-button size="small" type="danger" class="sanfont-khmer">លុប
+										<el-button size="small" type="danger" class="sanfont-khmer" :disabled="permission_delete">លុប
 										</el-button>
 									</template>
 								</el-popconfirm>
@@ -380,12 +380,20 @@
 	<!-- Dialog user  -->
 </template>
 <script>
+import { fnpermissions } from '../../permissions'
 import FileSaver from 'file-saver'
 export default {
 	components: { FileSaver },
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
 		return {
+			//Check permission
+			permission_view: !fnpermissions.can('student-view'),
+			permission_create: !fnpermissions.can('student-create'),
+			permission_edit: !fnpermissions.can('student-edit'),
+			permission_delete: !fnpermissions.can('student-delete'),
+
+
 			tableData: [],
 			classData: [],
 			showSuccess: false,

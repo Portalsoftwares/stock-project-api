@@ -31,6 +31,7 @@
 						collapse-tags
 						collapse-tags-tooltip
 						:max-collapse-tags="2"
+						
 					>
 						<el-option
 							v-for="item in classType"
@@ -103,6 +104,7 @@
 				<el-button
 					type="primary"
 					@click="AddClass"
+					:disabled="permission_create"
 				>
 					<el-icon>
 						<CirclePlusFilled />
@@ -210,6 +212,7 @@
 										size="small"
 										class="sanfont-khmer"
 										@click="editClass(scope.row.class_id)"
+										:disabled="permission_edit"
 									>កែប្រែ</el-button>
 									<el-popconfirm
 										width="220"
@@ -226,6 +229,7 @@
 												size="small"
 												type="danger"
 												class="sanfont-khmer"
+												:disabled="permission_delete"
 											>លុប
 											</el-button>
 										</template>
@@ -317,6 +321,7 @@
 						placeholder="ជ្រើសរើស"
 						class="text-left "
 						v-model="ruleForm.grade_level_id"
+						@change="autoClassType"
 					>
 						<el-option
 							v-for="data in gradeLevel"
@@ -422,12 +427,19 @@
 	<!-- Dialog user  -->
 </template>
 <script>
+import { fnpermissions } from '../../permissions'
 import FileSaver from 'file-saver'
 
 export default {
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
 		return {
+			//Check permission
+			permission_view: !fnpermissions.can('class-view'),
+			permission_create: !fnpermissions.can('class-create'),
+			permission_edit: !fnpermissions.can('class-edit'),
+			permission_delete: !fnpermissions.can('class-delete'),
+
 			loading_class: false,
 			tableData: [],
 			showSuccess: false,
@@ -596,6 +608,10 @@ export default {
 			filter_academic_id: '',
 			filter_class_type_id: '',
 			filter_grade_level_id: '',
+
+			level1:[],
+			level2:[],
+			
 		}
 	},
 	watch: {
@@ -608,6 +624,19 @@ export default {
 		// this.getData()
 	},
 	methods: {
+		autoClassType(event){
+		let items =  this.gradeLevel.find(el=>	el.grade_level_id == event)	
+		 console.log(items)
+		 if(items.grade_level_name=="10"){
+			console.log(this.level1)
+			this.classType = this.level1
+		 }else{
+			this.classType = this.level2
+		 }
+
+		 this.ruleForm.class_type_id = null 
+		},
+
 		filterAction() {
 			this.getData()
 		},
@@ -756,7 +785,16 @@ export default {
 				this.tableData = response.data.data
 				this.academic = response.data.academic
 				this.gradeLevel = response.data.grade_level
+
+
 				this.classType = response.data.class_type
+				this.classType.forEach(e=>{
+					if(e.name == "ធម្មតា"){
+						this.level1.push(e)
+					}else{ 
+						this.level2.push(e)
+					}
+				})
 				this.loading_class = false;
 			}).catch((error) => {
 				this.loading_class = false;

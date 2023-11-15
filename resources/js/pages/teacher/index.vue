@@ -104,6 +104,7 @@
 				<el-button
 					type="primary"
 					@click="AddUser"
+					:disabled="permission_create"
 				>
 					<el-icon>
 						<CirclePlusFilled />
@@ -272,6 +273,7 @@
 									size="small"
 									class="sanfont-khmer"
 									@click="editTeacher(scope.row.teacher_id)"
+									:disabled="permission_edit"
 								>កែប្រែ</el-button>
 								<el-popconfirm
 									width="220"
@@ -282,12 +284,14 @@
 									title="តើអ្នកពិតជាចង់លុបមែនទេ?"
 									cancel-button-type="info"
 									@confirm="handleDelete(scope.row.teacher_id)"
+									
 								>
 									<template #reference>
 										<el-button
 											size="small"
 											type="danger"
 											class="sanfont-khmer"
+											:disabled="permission_delete"
 										>លុប
 										</el-button>
 									</template>
@@ -746,12 +750,19 @@
 	<!-- Dialog Teacher  -->
 </template>
 <script>
+import { fnpermissions } from '../../permissions'
 import FileSaver from 'file-saver'
 export default {
 	components: { FileSaver },
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
 		return {
+			//Check permission
+			permission_view: !fnpermissions.can('subject-view'),
+			permission_create: !fnpermissions.can('subject-create'),
+			permission_edit: !fnpermissions.can('subject-edit'),
+			permission_delete: !fnpermissions.can('subject-delete'),
+
 			tableData: [],
 			showSuccess: false,
 			showInfo: false,

@@ -183,6 +183,7 @@
 						type="primary"
 						:disabled="loading_backup"
 						@click="backup"
+						
 					>
 						<el-icon v-if="!loading_backup" >
 							<CirclePlusFilled />
@@ -262,6 +263,7 @@
 										title="តើអ្នកពិតជាចង់ស្ដារទិន្នន័យមែនទេ?"
 										cancel-button-type="info"
 										@confirm="restore(scope.row.id)"
+										:disabled="permission_restore"
 									>
 										<template #reference>
 											<el-button
@@ -285,6 +287,7 @@
 												size="small"
 												type="danger"
 												class="sanfont-khmer"
+												:disabled="permission_delete"
 											>លុប</el-button>
 										</template>
 									</el-popconfirm>
@@ -325,6 +328,7 @@
 						<el-button
 							type="primary"
 							@click="AddRole"
+							:disabled="permission_create1"
 						>
 							<el-icon>
 								<CirclePlusFilled />
@@ -372,6 +376,7 @@
 									size="small"
 									class="sanfont-khmer"
 									@click="editRole(scope.row.id)"
+									:disabled="permission_edit1"
 								>កែប្រែ</el-button>
 								<el-popconfirm
 									width="220"
@@ -388,6 +393,7 @@
 											size="small"
 											type="danger"
 											class="sanfont-khmer"
+											:disabled="permission_delete1"
 										>លុប
 										</el-button>
 									</template>
@@ -489,10 +495,23 @@
 	<!-- Dialog user  -->
 </template>
 <script>
+import { fnpermissions } from '../../permissions'
+
 export default {
 	// components: { Delete, Edit, Search, Share, Upload },
 	data() {
 		return {
+			//Check permission
+			permission_view: !fnpermissions.can('backup-view'),
+			permission_create: !fnpermissions.can('backup-create'),
+			permission_restore: !fnpermissions.can('backup-restore'),
+			permission_delete: !fnpermissions.can('backup-delete'),
+			permission_view1: !fnpermissions.can('role-permission-view'),
+			permission_create1: !fnpermissions.can('role-permission-create'),
+			permission_edit1: !fnpermissions.can('role-permission-edit'),
+			permission_delete1: !fnpermissions.can('role-permission-delete'),
+
+
 			tableData: [],
 			tableDataSubjectLevel: [],
 			showSuccess: false,
