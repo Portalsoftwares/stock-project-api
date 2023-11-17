@@ -64,7 +64,7 @@
 						<el-button
 							type="primary"
 							@click="AddSubject"
-							:disabled="permission_view"
+							:disabled="permission_create"
 						>
 							<el-icon>
 								<CirclePlusFilled />
@@ -743,9 +743,9 @@ export default {
 			permission_edit: !fnpermissions.can('subject-edit'),
 			permission_delete: !fnpermissions.can('subject-delete'),
 			permission_view1: !fnpermissions.can('subject-level-view'),
-			permission_create2: !fnpermissions.can('subject-level-create'),
-			permission_edit3: !fnpermissions.can('subject-level-edit'),
-			permission_delete4: !fnpermissions.can('subject-level-delete'),
+			permission_create1: !fnpermissions.can('subject-level-create'),
+			permission_edit1: !fnpermissions.can('subject-level-edit'),
+			permission_delete1: !fnpermissions.can('subject-level-delete'),
 
 			tableData: [],
 			tableDataSubjectLevel: [],
@@ -1067,14 +1067,6 @@ export default {
 				}
 			})
 
-			this.classType.forEach(e=>{
-					if(e.name == "ធម្មតា"){
-						this.level1.push(e)
-					}else{ 
-						this.level2.push(e)
-					}
-				})
-
 		},
 
 		async editSubject(id) {
@@ -1121,7 +1113,7 @@ export default {
 						this.level2.push(e)
 					}
 				})
-				this.loading = false
+				this.loading = false;
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")

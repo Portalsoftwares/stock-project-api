@@ -42,6 +42,7 @@
 				<el-button
 					type="primary"
 					@click="AddStudentToClass"
+					:disabled="permission_student_add"
 				>
 					<el-icon>
 						<CirclePlusFilled />
@@ -842,10 +843,12 @@ export default {
 	data() {
 		return {
 			//Check permission
-			permission_view: !fnpermissions.can('user-view'),
+			permission_view: !fnpermissions.can('class-student'),
 			permission_create: !fnpermissions.can('user-create'),
 			permission_edit: !fnpermissions.can('user-edit'),
-			permission_delete: !fnpermissions.can('user-delete'),
+			permission_delete: !fnpermissions.can('class-student-remove'),
+			permission_student_add: !fnpermissions.can('class-student-add'),
+			
 			
 			studentData: [],
 			studentClass: [],

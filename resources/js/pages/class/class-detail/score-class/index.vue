@@ -21,6 +21,7 @@
 					type="primary"
 					class="sanfont-khmer"
 					@click="showInfomationStudentScoreAll()"
+					:disabled="permission_score_collect"
 				>
 
 					<el-icon>
@@ -85,6 +86,7 @@
 								type="primary"
 								class="sanfont-khmer"
 								@click="editExam(scope.row.score_type_id)"
+								:disabled="permission_score_collect"
 							>កែប្រែ</el-button>
 							<!-- <el-popconfirm
 								width="220"
@@ -480,6 +482,7 @@
 	<!-- Dialog Form Schedule  -->
 </template>
 <script>
+import { fnpermissions } from '../../../../permissions'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import FileSaver from 'file-saver'
 import moment from 'moment'
@@ -492,6 +495,11 @@ export default {
 	},
 	data() {
 		return {
+			//Check permission
+			permission_view: !fnpermissions.can('class-score'),
+			permission_score_collect: !fnpermissions.can('class-score-collect'),
+			
+
 			dialogFormVisible: false,
 			dialogFormVisibleAll: false,
 			dialogFormVisibleReports: false,

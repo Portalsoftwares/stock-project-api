@@ -38,9 +38,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       permission_edit: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('subject-edit'),
       permission_delete: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('subject-delete'),
       permission_view1: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('subject-level-view'),
-      permission_create2: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('subject-level-create'),
-      permission_edit3: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('subject-level-edit'),
-      permission_delete4: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('subject-level-delete'),
+      permission_create1: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('subject-level-create'),
+      permission_edit1: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('subject-level-edit'),
+      permission_delete1: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('subject-level-delete'),
       tableData: [],
       tableDataSubjectLevel: [],
       showSuccess: false,
@@ -421,14 +421,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 }
               });
             case 3:
-              _this9.classType.forEach(function (e) {
-                if (e.name == "ធម្មតា") {
-                  _this9.level1.push(e);
-                } else {
-                  _this9.level2.push(e);
-                }
-              });
-            case 4:
             case "end":
               return _context7.stop();
           }
@@ -1042,7 +1034,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, 8 /* PROPS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             type: "primary",
             onClick: $options.AddSubject,
-            disabled: $data.permission_view
+            disabled: $data.permission_create
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -1458,7 +1450,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             type: "primary",
             onClick: $options.AddSubjectLevel,
-            disabled: _ctx.permission_create1
+            disabled: $data.permission_create1
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -1560,7 +1552,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     onClick: function onClick($event) {
                       return $options.restoreDataSubjectLevel(scope.row.subject_grade_id);
                     },
-                    disabled: _ctx.permission_edit1
+                    disabled: $data.permission_edit1
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("ស្ដារឡើងវិញ")];
@@ -1583,7 +1575,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         size: "small",
                         type: "danger",
                         "class": "sanfont-khmer",
-                        disabled: _ctx.permission_delete1
+                        disabled: $data.permission_delete1
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុបជាអចិន្ត្រៃយ៍ ")];
@@ -1598,7 +1590,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     onClick: function onClick($event) {
                       return $options.editSubjectLevel(scope.row.subject_grade_id);
                     },
-                    disabled: _ctx.permission_edit1
+                    disabled: $data.permission_edit1
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("កែប្រែ")];
@@ -1621,7 +1613,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         size: "small",
                         type: "danger",
                         "class": "sanfont-khmer",
-                        disabled: _ctx.permission_delete1
+                        disabled: $data.permission_delete1
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុប ")];
@@ -1954,7 +1946,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=659f27d4 */ "./resources/js/pages/subject/index.vue?vue&type=template&id=659f27d4");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/subject/index.vue?vue&type=script&lang=js");
 /* harmony import */ var _index_vue_vue_type_style_index_0_id_659f27d4_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=659f27d4&lang=css */ "./resources/js/pages/subject/index.vue?vue&type=style&index=0&id=659f27d4&lang=css");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -1962,7 +1954,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/subject/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_659f27d4__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/subject/index.vue"]])
 /* hot reload */
 if (false) {}
 

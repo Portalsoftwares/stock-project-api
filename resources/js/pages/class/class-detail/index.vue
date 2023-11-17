@@ -70,6 +70,7 @@
 										width="250px"
 										fixed
 										align="center"
+										
 									>
 										<template #default="scope">
 											<span class="text-center">
@@ -102,6 +103,7 @@
 													<el-link
 														@click="callAttenance(day.day_id,scope.row.time_id , scope.row['name_subject_grade_day_'+day.day_id]?.subject_grade_id)"
 														type="primary"
+														:disabled="permission_attendance_collect"
 													>{{ scope.row['name_subject_grade_day_'+day.day_id]?.subject?.subject_name_kh}}</el-link>
 												</div>
 												<div v-else>
@@ -122,6 +124,7 @@
 									type="primary"
 									size="medium"
 									@click="addTeacher"
+									:disabled="permission_add_teacher"
 								>
 									<el-icon>
 										<Setting />
@@ -174,6 +177,7 @@
 													size="small"
 													class="sanfont-khmer"
 													@click="editDataTeacher(data.id)"
+													:disabled="permission_edit_teacher"
 												>កែប្រែ</el-button>
 											</div>
 										</div>
@@ -687,7 +691,7 @@
 
 </template>
 <script>
-
+import { fnpermissions } from '../../../permissions'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import studentClass from './student-class/index.vue'
 import scoreClass from './score-class/index.vue'
@@ -697,7 +701,12 @@ export default {
 	components: { studentClass, attendanceClass, scoreClass },
 	data() {
 		return {
-			
+			//Check permission
+			permission_view: !fnpermissions.can('class-info'),
+			permission_manage_schedule: !fnpermissions.can('class-info-manage-schedule'),
+			permission_add_teacher: !fnpermissions.can('class-info-add-teacher'),
+			permission_edit_teacher: !fnpermissions.can('class-info-edit-teacher'),
+			permission_attendance_collect: !fnpermissions.can('class-attendance-collect'),
 
 			// Tap 
 			tabClassDetail: '',

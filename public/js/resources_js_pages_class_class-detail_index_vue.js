@@ -11,13 +11,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message-box/index.mjs");
-/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message/index.mjs");
-/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
-/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var yup__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! yup */ "./node_modules/yup/es/index.js");
+/* harmony import */ var _permissions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../permissions */ "./resources/js/permissions/index.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message-box/index.mjs");
+/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message/index.mjs");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var yup__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! yup */ "./node_modules/yup/es/index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -26,16 +27,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    moment: (moment__WEBPACK_IMPORTED_MODULE_0___default()),
-    FileSaver: (file_saver__WEBPACK_IMPORTED_MODULE_1___default())
+    moment: (moment__WEBPACK_IMPORTED_MODULE_1___default()),
+    FileSaver: (file_saver__WEBPACK_IMPORTED_MODULE_2___default())
   },
   props: {
     subjectData: Object
   },
   data: function data() {
     return {
+      //Check permission
+      permission_attendance_collect: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('class-attendance-collect'),
+      permission_view: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('class-attendance'),
       dialogFormVisible: false,
       dialogFormVisibleAdd: false,
       attendanceTimeId: '1',
@@ -55,7 +60,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       classData: [],
       fullscreenLoading: false,
       ruleForm: {
-        date: moment__WEBPACK_IMPORTED_MODULE_0___default()(new Date()).format("YYYY-MM-DD"),
+        date: moment__WEBPACK_IMPORTED_MODULE_1___default()(new Date()).format("YYYY-MM-DD"),
         subject_grade_id: null,
         time_id: null,
         day_id: null,
@@ -194,7 +199,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this3.dataSubjectGradeObj = response.data.teacher_subject;
                 _this3.classData = response.data.classData;
                 _this3.ruleForm.class_id = (_response$data$classD = response.data.classData) === null || _response$data$classD === void 0 ? void 0 : _response$data$classD.class_id;
-                _this3.ruleForm.date = moment__WEBPACK_IMPORTED_MODULE_0___default()(new Date()).format("YYYY-MM-DD");
+                _this3.ruleForm.date = moment__WEBPACK_IMPORTED_MODULE_1___default()(new Date()).format("YYYY-MM-DD");
                 _this3.dialogFormVisibleAdd = true;
                 setTimeout(function () {
                   _this3.fullscreenLoading = false;
@@ -215,7 +220,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     closeFormAttendance: function closeFormAttendance() {
       var _this4 = this;
-      element_plus__WEBPACK_IMPORTED_MODULE_3__.ElMessageBox.confirm('អ្នកមិនទាន់បាន រក្សាទុកការកែប្រែទេ, តើអ្នកពិតជាចង់បោះបង់មែនឬទេ?', 'ការដាស់តើន', {
+      element_plus__WEBPACK_IMPORTED_MODULE_4__.ElMessageBox.confirm('អ្នកមិនទាន់បាន រក្សាទុកការកែប្រែទេ, តើអ្នកពិតជាចង់បោះបង់មែនឬទេ?', 'ការដាស់តើន', {
         confirmButtonText: 'យល់ព្រម',
         cancelButtonText: 'ទេ'
       }).then(function () {
@@ -228,7 +233,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this4.ruleForm.time_id = null;
         _this4.ruleForm.is_save = false;
       })["catch"](function (action) {
-        (0,element_plus__WEBPACK_IMPORTED_MODULE_4__.ElMessage)({
+        (0,element_plus__WEBPACK_IMPORTED_MODULE_5__.ElMessage)({
           type: 'info',
           message: action === 'cancel' ? 'អ្នកបានបោះបង់ដំណើរការ' : ''
         });
@@ -248,7 +253,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 'time_id': _this5.ruleForm.time_id,
                 'day_id': _this5.ruleForm.day_id,
                 'class_id': _this5.ruleForm.class_id,
-                'date': moment__WEBPACK_IMPORTED_MODULE_0___default()(new Date(_this5.ruleForm.date)).format("YYYY-MM-DD")
+                'date': moment__WEBPACK_IMPORTED_MODULE_1___default()(new Date(_this5.ruleForm.date)).format("YYYY-MM-DD")
               };
               config = {
                 headers: {
@@ -314,7 +319,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     formatDate: function formatDate(date) {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(date).format('DD-MM-YYYY');
+      return moment__WEBPACK_IMPORTED_MODULE_1___default()(date).format('DD-MM-YYYY');
     },
     //report attendance by subject
     showInfomationAttendance: function showInfomationAttendance(id) {
@@ -447,7 +452,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     closeFormAttendanceReport: function closeFormAttendanceReport() {
       var _this10 = this;
-      element_plus__WEBPACK_IMPORTED_MODULE_3__.ElMessageBox.confirm('អ្នកមិនទាន់បាន រក្សាទុកការកែប្រែទេ, តើអ្នកពិតជាចង់បោះបង់មែនឬទេ?', 'ការដាស់តើន', {
+      element_plus__WEBPACK_IMPORTED_MODULE_4__.ElMessageBox.confirm('អ្នកមិនទាន់បាន រក្សាទុកការកែប្រែទេ, តើអ្នកពិតជាចង់បោះបង់មែនឬទេ?', 'ការដាស់តើន', {
         confirmButtonText: 'យល់ព្រម',
         cancelButtonText: 'ទេ'
       }).then(function () {
@@ -455,7 +460,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this10.studentReport = [];
         _this10.ruleFormReport.month_id = null;
       })["catch"](function (action) {
-        (0,element_plus__WEBPACK_IMPORTED_MODULE_4__.ElMessage)({
+        (0,element_plus__WEBPACK_IMPORTED_MODULE_5__.ElMessage)({
           type: 'info',
           message: action === 'cancel' ? 'អ្នកបានបោះបង់ដំណើរការ' : ''
         });
@@ -633,7 +638,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               class_id = _this13.$route.query.id;
               _context8.next = 7;
               return axios.post('/attendance/report/' + class_id + '/export-excel', dataObj, config).then(function (response) {
-                file_saver__WEBPACK_IMPORTED_MODULE_1___default().saveAs(response.data, 'report_attendance');
+                file_saver__WEBPACK_IMPORTED_MODULE_2___default().saveAs(response.data, 'report_attendance');
               })["catch"](function (error) {
                 if (error.response.status == 401) {
                   _this13.$store.commit("auth/CLEAR_TOKEN");
@@ -689,7 +694,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               class_id = _this14.$route.query.id;
               _context9.next = 7;
               return axios.post('/attendance/report-subject/' + class_id + '/export-excel', dataObj, config).then(function (response) {
-                file_saver__WEBPACK_IMPORTED_MODULE_1___default().saveAs(response.data, 'report_attendance');
+                file_saver__WEBPACK_IMPORTED_MODULE_2___default().saveAs(response.data, 'report_attendance');
               })["catch"](function (error) {
                 if (error.response.status == 401) {
                   _this14.$store.commit("auth/CLEAR_TOKEN");
@@ -718,13 +723,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message-box/index.mjs");
-/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message/index.mjs");
-/* harmony import */ var _student_class_index_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./student-class/index.vue */ "./resources/js/pages/class/class-detail/student-class/index.vue");
-/* harmony import */ var _score_class_index_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./score-class/index.vue */ "./resources/js/pages/class/class-detail/score-class/index.vue");
-/* harmony import */ var _attendence_class_index_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./attendence-class/index.vue */ "./resources/js/pages/class/class-detail/attendence-class/index.vue");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _permissions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../permissions */ "./resources/js/permissions/index.js");
+/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message-box/index.mjs");
+/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message/index.mjs");
+/* harmony import */ var _student_class_index_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./student-class/index.vue */ "./resources/js/pages/class/class-detail/student-class/index.vue");
+/* harmony import */ var _score_class_index_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./score-class/index.vue */ "./resources/js/pages/class/class-detail/score-class/index.vue");
+/* harmony import */ var _attendence_class_index_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./attendence-class/index.vue */ "./resources/js/pages/class/class-detail/attendence-class/index.vue");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -734,14 +740,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    studentClass: _student_class_index_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    attendanceClass: _attendence_class_index_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    scoreClass: _score_class_index_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    studentClass: _student_class_index_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    attendanceClass: _attendence_class_index_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    scoreClass: _score_class_index_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
     return {
+      //Check permission
+      permission_view: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('class-info'),
+      permission_manage_schedule: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('class-info-manage-schedule'),
+      permission_add_teacher: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('class-info-add-teacher'),
+      permission_edit_teacher: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('class-info-edit-teacher'),
+      permission_attendance_collect: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('class-attendance-collect'),
       // Tap 
       tabClassDetail: '',
       // Attendance 
@@ -822,7 +835,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       errors: {},
       activeDay: '',
       fullscreenLoading: false,
-      date: moment__WEBPACK_IMPORTED_MODULE_3___default()(new Date()).format("YYYY-MM-DD"),
+      date: moment__WEBPACK_IMPORTED_MODULE_4___default()(new Date()).format("YYYY-MM-DD"),
       dataSchedule: [],
       //Schedule Class 
       dialogFormVisibleAdd: false,
@@ -1313,7 +1326,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     closeFormAttendance: function closeFormAttendance() {
       var _this15 = this;
-      element_plus__WEBPACK_IMPORTED_MODULE_4__.ElMessageBox.confirm('អ្នកមិនទាន់បានរក្សាទុកការកែប្រែទេ, តើអ្នកពិតជាចង់បោះបង់មែនឬទេ?', 'ការដាស់តើន', {
+      element_plus__WEBPACK_IMPORTED_MODULE_5__.ElMessageBox.confirm('អ្នកមិនទាន់បានរក្សាទុកការកែប្រែទេ, តើអ្នកពិតជាចង់បោះបង់មែនឬទេ?', 'ការដាស់តើន', {
         confirmButtonText: 'យល់ព្រម',
         cancelButtonText: 'ទេ'
       }).then(function () {
@@ -1323,7 +1336,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this15.dataTimeObj = [];
         _this15.dataSubjectGradeObj = [];
       })["catch"](function (action) {
-        (0,element_plus__WEBPACK_IMPORTED_MODULE_5__.ElMessage)({
+        (0,element_plus__WEBPACK_IMPORTED_MODULE_6__.ElMessage)({
           type: 'info',
           message: action === 'cancel' ? 'អ្នកបានបោះបង់ដំណើរការ' : ''
         });
@@ -1379,12 +1392,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message-box/index.mjs");
-/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message/index.mjs");
-/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
-/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _permissions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../permissions */ "./resources/js/permissions/index.js");
+/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message-box/index.mjs");
+/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message/index.mjs");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1392,9 +1406,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    FileSaver: (file_saver__WEBPACK_IMPORTED_MODULE_0___default())
+    FileSaver: (file_saver__WEBPACK_IMPORTED_MODULE_1___default())
   },
   props: {
     data: Object,
@@ -1403,6 +1418,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
+      //Check permission
+      permission_view: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('class-score'),
+      permission_score_collect: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('class-score-collect'),
       dialogFormVisible: false,
       dialogFormVisibleAll: false,
       dialogFormVisibleReports: false,
@@ -1468,7 +1486,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     closeForm: function closeForm() {
       var _this = this;
-      element_plus__WEBPACK_IMPORTED_MODULE_2__.ElMessageBox.confirm('អ្នកមិនទាន់បាន រក្សាទុកការកែប្រែទេ, តើអ្នកពិតជាចង់បោះបង់មែនឬទេ?', 'ការដាស់តើន', {
+      element_plus__WEBPACK_IMPORTED_MODULE_3__.ElMessageBox.confirm('អ្នកមិនទាន់បាន រក្សាទុកការកែប្រែទេ, តើអ្នកពិតជាចង់បោះបង់មែនឬទេ?', 'ការដាស់តើន', {
         confirmButtonText: 'យល់ព្រម',
         cancelButtonText: 'ទេ'
       }).then(function () {
@@ -1478,7 +1496,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this.ruleForm.class_id = null;
         _this.ruleForm.score_type_id = null;
       })["catch"](function (action) {
-        (0,element_plus__WEBPACK_IMPORTED_MODULE_3__.ElMessage)({
+        (0,element_plus__WEBPACK_IMPORTED_MODULE_4__.ElMessage)({
           type: 'info',
           message: action === 'cancel' ? 'អ្នកបានបោះបង់ដំណើរការ' : ''
         });
@@ -1496,7 +1514,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     formatDate: function formatDate(data) {
-      return moment__WEBPACK_IMPORTED_MODULE_1___default()(new Date(data)).format("DD-MM-YYYY");
+      return moment__WEBPACK_IMPORTED_MODULE_2___default()(new Date(data)).format("DD-MM-YYYY");
     },
     randomScoreAll: function randomScoreAll() {
       this.is_random = 1;
@@ -1817,7 +1835,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               class_id = _this10.$route.query.id;
               _context6.next = 7;
               return axios.post('/score/report/' + class_id + '/export-excel', dataObj, config).then(function (response) {
-                file_saver__WEBPACK_IMPORTED_MODULE_0___default().saveAs(response.data, 'report_score');
+                file_saver__WEBPACK_IMPORTED_MODULE_1___default().saveAs(response.data, 'report_score');
               })["catch"](function (error) {
                 if (error.response.status == 401) {
                   _this10.$store.commit("auth/CLEAR_TOKEN");
@@ -1869,10 +1887,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     var _ruleForm;
     return {
       //Check permission
-      permission_view: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('user-view'),
+      permission_view: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('class-student'),
       permission_create: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('user-create'),
       permission_edit: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('user-edit'),
-      permission_delete: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('user-delete'),
+      permission_delete: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('class-student-remove'),
+      permission_student_add: !_permissions__WEBPACK_IMPORTED_MODULE_0__.fnpermissions.can('class-student-add'),
       studentData: [],
       studentClass: [],
       tableData: [],
@@ -2790,7 +2809,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "sanfont-khmer",
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $options.AttenanceCall();
-    })
+    }),
+    disabled: $data.permission_attendance_collect
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -2801,7 +2821,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), _hoisted_6];
     }),
     _: 1 /* STABLE */
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.subjectData, function (data) {
+  }, 8 /* PROPS */, ["disabled"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.subjectData, function (data) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "z-10 mt-1 overflow-hidden rounded bg-white shadow ring-1 ring-gray-900/5",
       key: data,
@@ -3898,7 +3918,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             type: "primary",
             size: "medium",
             onClick: $options.addNewSchedule,
-            disabled: _ctx.permission_manage_schedule
+            disabled: $data.permission_manage_schedule
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -3946,7 +3966,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         var _scope$row;
                         return $options.callAttenance(day.day_id, scope.row.time_id, (_scope$row = scope.row['name_subject_grade_day_' + day.day_id]) === null || _scope$row === void 0 ? void 0 : _scope$row.subject_grade_id);
                       },
-                      type: "primary"
+                      type: "primary",
+                      disabled: $data.permission_attendance_collect
                     }, {
                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                         var _scope$row2, _scope$row2$subject;
@@ -3954,7 +3975,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       }),
 
                       _: 2 /* DYNAMIC */
-                    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row3 = scope.row['name_subject_grade_day_' + day.day_id]) === null || _scope$row3 === void 0 ? void 0 : (_scope$row3$subject = _scope$row3.subject) === null || _scope$row3$subject === void 0 ? void 0 : _scope$row3$subject.subject_name_kh), 1 /* TEXT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+                    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick", "disabled"])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_scope$row3 = scope.row['name_subject_grade_day_' + day.day_id]) === null || _scope$row3 === void 0 ? void 0 : (_scope$row3$subject = _scope$row3.subject) === null || _scope$row3$subject === void 0 ? void 0 : _scope$row3$subject.subject_name_kh), 1 /* TEXT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
                   }),
                   _: 2 /* DYNAMIC */
                 }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["prop", "label"]);
@@ -3965,7 +3986,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, 8 /* PROPS */, ["data"])), [[_directive_loading, $data.loading_schedule]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
             type: "primary",
             size: "medium",
-            onClick: $options.addTeacher
+            onClick: $options.addTeacher,
+            disabled: $data.permission_add_teacher
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -3976,7 +3998,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }), _hoisted_21];
             }),
             _: 1 /* STABLE */
-          }, 8 /* PROPS */, ["onClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teacherData, function (data) {
+          }, 8 /* PROPS */, ["onClick", "disabled"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.teacherData, function (data) {
             return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_col, {
               key: data
             }, {
@@ -4000,13 +4022,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       "class": "sanfont-khmer",
                       onClick: function onClick($event) {
                         return $options.editDataTeacher(data.id);
-                      }
+                      },
+                      disabled: $data.permission_edit_teacher
                     }, {
                       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("កែប្រែ")];
                       }),
                       _: 2 /* DYNAMIC */
-                    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"])])])];
+                    }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick", "disabled"])])])];
                   }),
                   _: 2 /* DYNAMIC */
                 }, 1024 /* DYNAMIC_SLOTS */)];
@@ -4885,7 +4908,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "sanfont-khmer",
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $options.showInfomationStudentScoreAll();
-    })
+    }),
+    disabled: $data.permission_score_collect
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -4896,7 +4920,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), _hoisted_6];
     }),
     _: 1 /* STABLE */
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
+  }, 8 /* PROPS */, ["disabled"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_el_table, {
     data: $data.tableData,
     height: "700",
     style: {
@@ -4959,13 +4983,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "class": "sanfont-khmer",
             onClick: function onClick($event) {
               return $options.editExam(scope.row.score_type_id);
-            }
+            },
+            disabled: $data.permission_score_collect
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("កែប្រែ")];
             }),
             _: 2 /* DYNAMIC */
-          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-popconfirm\r\n\t\t\t\t\t\t\t\twidth=\"220\"\r\n\t\t\t\t\t\t\t\tconfirm-button-text=\"យល់ព្រម\"\r\n\t\t\t\t\t\t\t\tcancel-button-text=\"ទេ\"\r\n\t\t\t\t\t\t\t\t:icon=\"InfoFilled\"\r\n\t\t\t\t\t\t\t\ticon-color=\"#626AEF\"\r\n\t\t\t\t\t\t\t\ttitle=\"តើអ្នកពិតជាចង់លុបមែនទេ?\"\r\n\t\t\t\t\t\t\t\tcancel-button-type=\"info\"\r\n\t\t\t\t\t\t\t\t@confirm=\"handleDelete(scope.row.score_type_id)\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<template #reference>\r\n\t\t\t\t\t\t\t\t\t<el-button\r\n\t\t\t\t\t\t\t\t\t\tsize=\"small\"\r\n\t\t\t\t\t\t\t\t\t\ttype=\"danger\"\r\n\t\t\t\t\t\t\t\t\t\tclass=\"sanfont-khmer\"\r\n\t\t\t\t\t\t\t\t\t>លុប\r\n\t\t\t\t\t\t\t\t\t</el-button>\r\n\t\t\t\t\t\t\t\t</template>\r\n\t\t\t\t\t\t\t</el-popconfirm> ")])];
+          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick", "disabled"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <el-popconfirm\r\n\t\t\t\t\t\t\t\twidth=\"220\"\r\n\t\t\t\t\t\t\t\tconfirm-button-text=\"យល់ព្រម\"\r\n\t\t\t\t\t\t\t\tcancel-button-text=\"ទេ\"\r\n\t\t\t\t\t\t\t\t:icon=\"InfoFilled\"\r\n\t\t\t\t\t\t\t\ticon-color=\"#626AEF\"\r\n\t\t\t\t\t\t\t\ttitle=\"តើអ្នកពិតជាចង់លុបមែនទេ?\"\r\n\t\t\t\t\t\t\t\tcancel-button-type=\"info\"\r\n\t\t\t\t\t\t\t\t@confirm=\"handleDelete(scope.row.score_type_id)\"\r\n\t\t\t\t\t\t\t>\r\n\t\t\t\t\t\t\t\t<template #reference>\r\n\t\t\t\t\t\t\t\t\t<el-button\r\n\t\t\t\t\t\t\t\t\t\tsize=\"small\"\r\n\t\t\t\t\t\t\t\t\t\ttype=\"danger\"\r\n\t\t\t\t\t\t\t\t\t\tclass=\"sanfont-khmer\"\r\n\t\t\t\t\t\t\t\t\t>លុប\r\n\t\t\t\t\t\t\t\t\t</el-button>\r\n\t\t\t\t\t\t\t\t</template>\r\n\t\t\t\t\t\t\t</el-popconfirm> ")])];
         }),
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_empty, {
@@ -5579,7 +5604,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["onClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
     type: "primary",
-    onClick: $options.AddStudentToClass
+    onClick: $options.AddStudentToClass,
+    disabled: $data.permission_student_add
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_icon, null, {
@@ -5590,7 +5616,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), _hoisted_10];
     }),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
+  }, 8 /* PROPS */, ["onClick", "disabled"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
     type: "primary",
     "class": "sanfont-khmer",
     onClick: _cache[1] || (_cache[1] = function ($event) {
@@ -12259,7 +12285,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=5c9c0168 */ "./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=template&id=5c9c0168");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=script&lang=js");
 /* harmony import */ var _index_vue_vue_type_style_index_0_id_5c9c0168_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=5c9c0168&lang=css */ "./resources/js/pages/class/class-detail/attendence-class/index.vue?vue&type=style&index=0&id=5c9c0168&lang=css");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -12267,7 +12293,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/attendence-class/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_5c9c0168__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/attendence-class/index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -12290,7 +12316,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_template_id_db54c3ae__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=db54c3ae */ "./resources/js/pages/class/class-detail/index.vue?vue&type=template&id=db54c3ae");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/class/class-detail/index.vue?vue&type=script&lang=js");
 /* harmony import */ var _index_vue_vue_type_style_index_0_id_db54c3ae_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&id=db54c3ae&lang=css */ "./resources/js/pages/class/class-detail/index.vue?vue&type=style&index=0&id=db54c3ae&lang=css");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -12298,7 +12324,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_db54c3ae__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_db54c3ae__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -12320,13 +12346,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _index_vue_vue_type_template_id_17ce6ad2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=17ce6ad2 */ "./resources/js/pages/class/class-detail/score-class/index.vue?vue&type=template&id=17ce6ad2");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/class/class-detail/score-class/index.vue?vue&type=script&lang=js");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_17ce6ad2__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/score-class/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_17ce6ad2__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/score-class/index.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -12348,13 +12374,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.vue?vue&type=template&id=2c9d6f00 */ "./resources/js/pages/class/class-detail/student-class/index.vue?vue&type=template&id=2c9d6f00");
 /* harmony import */ var _index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js */ "./resources/js/pages/class/class-detail/student-class/index.vue?vue&type=script&lang=js");
-/* harmony import */ var D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,D_USEA_Thesis_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/student-class/index.vue"]])
+const __exports__ = /*#__PURE__*/(0,C_Users_yimso_OneDrive_Documents_USEA_YEAR5_S2_Sms_High_School_sms_high_school_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_index_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_index_vue_vue_type_template_id_2c9d6f00__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/pages/class/class-detail/student-class/index.vue"]])
 /* hot reload */
 if (false) {}
 

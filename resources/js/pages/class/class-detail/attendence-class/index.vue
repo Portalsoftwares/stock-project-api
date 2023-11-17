@@ -21,6 +21,7 @@
 					type="primary"
 					class="sanfont-khmer"
 					@click="AttenanceCall()"
+					:disabled="permission_attendance_collect"
 				>
 
 					<el-icon>
@@ -776,6 +777,7 @@
 	<div class="hidden text-blue-600 text-red-600 text-green-600 text-yellow-600"></div>
 </template>
 <script>
+import { fnpermissions } from '../../../../permissions'
 import moment from 'moment';
 import { ElMessageBox, ElMessage } from 'element-plus'
 import FileSaver from 'file-saver'
@@ -787,6 +789,11 @@ export default {
 	},
 	data() {
 		return {
+			//Check permission
+			permission_attendance_collect: !fnpermissions.can('class-attendance-collect'),
+			permission_view: !fnpermissions.can('class-attendance'),
+			
+
 			dialogFormVisible: false,
 			dialogFormVisibleAdd: false,
 			attendanceTimeId: '1',
