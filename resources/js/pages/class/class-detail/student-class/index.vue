@@ -52,6 +52,7 @@
 					type="primary"
 					class="sanfont-khmer"
 					@click="addStudent()"
+					:disabled="permission_create"
 				>
 					<el-icon>
 						<CirclePlusFilled />
@@ -167,6 +168,7 @@
 					size="small"
 					class="sanfont-khmer"
 					@click="editUser(scope.row.student_id)"
+					:disabled="permission_edit"
 				>កែប្រែ</el-button>
 				<el-popconfirm
 					width="220"
@@ -183,6 +185,7 @@
 							size="small"
 							type="danger"
 							class="sanfont-khmer"
+							:disabled="permission_delete"
 						>ដកចេញពីថ្នាក់
 						</el-button>
 					</template>
@@ -390,7 +393,7 @@
 		v-model="dialogFormVisible"
 		title="ព័ត៌មានសិស្ស"
 		class="sanfont-khmer "
-		width="50%"
+		width="auto"
 		align-center="true"
 		draggable
 	>
@@ -411,7 +414,7 @@
 				style="height: 650px; overflow: auto;"
 			>
 				<el-tab-pane label="ព័ត៌មានទូទៅ">
-					<div class="grid grid-cols-2">
+					
 						<div class="flex flex-col w-full">
 							<div class="flex flex-row ">
 								<div class="flex flex-col space-y-1">
@@ -698,7 +701,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					
 				</el-tab-pane>
 				<el-tab-pane label="ព័ត៌មានមធ្យមសិក្សបឋមភូមិ">
 					<div class="flex flex-row ">
@@ -825,6 +828,7 @@
 
 </template>
 <script>
+import { fnpermissions } from '../../../../permissions'
 import FileSaver from 'file-saver'
 
 export default {
@@ -837,6 +841,12 @@ export default {
 	},
 	data() {
 		return {
+			//Check permission
+			permission_view: !fnpermissions.can('user-view'),
+			permission_create: !fnpermissions.can('user-create'),
+			permission_edit: !fnpermissions.can('user-edit'),
+			permission_delete: !fnpermissions.can('user-delete'),
+			
 			studentData: [],
 			studentClass: [],
 			tableData: [],

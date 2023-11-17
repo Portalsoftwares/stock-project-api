@@ -114,6 +114,7 @@
 												size="small"
 												class="sanfont-khmer"
 												@click="restoreData(scope.row.score_type_id)"
+												:disabled="permission_edit1"
 											>ស្ដារឡើងវិញ</el-button>
 											<el-popconfirm
 												width="220"
@@ -130,6 +131,7 @@
 														size="small"
 														type="danger"
 														class="sanfont-khmer"
+														:disabled="permission_delete1"
 													>លុបជាអចិន្ត្រៃយ៍
 													</el-button>
 												</template>
@@ -304,6 +306,7 @@
 												size="small"
 												class="sanfont-khmer"
 												@click="restoreDataAcademic(scope.row.id)"
+												:disabled="permission_edit"
 											>ស្ដារឡើងវិញ</el-button>
 											<el-popconfirm
 												width="220"
@@ -319,6 +322,7 @@
 														size="small"
 														type="danger"
 														class="sanfont-khmer"
+														:disabled="permission_delte"
 													>លុបជាអចិន្ត្រៃយ៍
 													</el-button>
 												</template>

@@ -125,13 +125,13 @@
 					<el-table-column width="220" align="center" fixed="right" label="សកម្មភាព">
 						<template #default="scope">
 							<div v-if="is_show_trust == 1 && !loading">
-								<el-button size="small" class="sanfont-khmer"
+								<el-button size="small" class="sanfont-khmer" :disabled="permission_edit"
 									@click="restoreData(scope.row.student_id)">ស្ដារឡើងវិញ</el-button>
 								<el-popconfirm width="220" confirm-button-text="យល់ព្រម" cancel-button-text="ទេ"
 									:icon="InfoFilled" icon-color="#626AEF" title="តើអ្នកពិតជាចង់លុបមែនទេ?"
 									cancel-button-type="info" @confirm="handleDelete(scope.row.student_id)">
 									<template #reference>
-										<el-button size="small" type="danger" class="sanfont-khmer">លុបជាអចិន្ត្រៃយ៍
+										<el-button size="small" type="danger" class="sanfont-khmer" :disabled="permission_delete">លុបជាអចិន្ត្រៃយ៍
 										</el-button>
 									</template>
 								</el-popconfirm>
@@ -172,7 +172,7 @@
 		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" id="fm">
 			<el-tabs type="card" @tab-click="handleClick" style="height: 650px; overflow: auto;">
 				<el-tab-pane label="ព័ត៌មានទូទៅ">
-
+					
 					<div class="flex flex-col w-full">
 						<div class="xl:flex xl:flex-row ">
 							<div class="flex flex-col space-y-1">

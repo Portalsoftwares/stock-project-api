@@ -154,7 +154,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         message: 'សូមជ្រើសរើសប្រភេទថ្នាក់',
         trigger: 'blur'
       }]
-    }), _defineProperty(_ref, "dialogFormVisibleSubjectLevel", false), _defineProperty(_ref, "isShowButtonUpdateSubjectLevel", false), _defineProperty(_ref, "pageSubjectLevel", 1), _defineProperty(_ref, "per_pageSubjectLevel", 10), _defineProperty(_ref, "sort_bySubjectLevel", 'subject_id'), _defineProperty(_ref, "order_bySubjectLevel", 1), _defineProperty(_ref, "searchSubjectLevel", ''), _defineProperty(_ref, "tSearchSubjectLevel", null), _defineProperty(_ref, "is_show_trustSubjectLevel", 0), _defineProperty(_ref, "subject", []), _defineProperty(_ref, "gradeLevel", []), _defineProperty(_ref, "classType", []), _defineProperty(_ref, "filter_class_type", ''), _defineProperty(_ref, "filter_grade_level", ''), _defineProperty(_ref, "tabClassDetail", 1), _ref;
+    }), _defineProperty(_ref, "dialogFormVisibleSubjectLevel", false), _defineProperty(_ref, "isShowButtonUpdateSubjectLevel", false), _defineProperty(_ref, "pageSubjectLevel", 1), _defineProperty(_ref, "per_pageSubjectLevel", 10), _defineProperty(_ref, "sort_bySubjectLevel", 'subject_id'), _defineProperty(_ref, "order_bySubjectLevel", 1), _defineProperty(_ref, "searchSubjectLevel", ''), _defineProperty(_ref, "tSearchSubjectLevel", null), _defineProperty(_ref, "is_show_trustSubjectLevel", 0), _defineProperty(_ref, "subject", []), _defineProperty(_ref, "gradeLevel", []), _defineProperty(_ref, "classType", []), _defineProperty(_ref, "filter_class_type", ''), _defineProperty(_ref, "filter_grade_level", ''), _defineProperty(_ref, "tabClassDetail", 1), _defineProperty(_ref, "level1", []), _defineProperty(_ref, "level2", []), _ref;
   },
   mounted: function mounted() {
     var _localStorage$getItem;
@@ -167,6 +167,20 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   },
   methods: (_methods = {
+    //auto select classtype
+    autoClassType: function autoClassType(event) {
+      var items = this.gradeLevel.find(function (el) {
+        return el.grade_level_id == event;
+      });
+      console.log(items);
+      if (items.grade_level_name == "10") {
+        console.log(this.level1);
+        this.classType = this.level1;
+      } else {
+        this.classType = this.level2;
+      }
+      this.ruleForm.class_type_id = null;
+    },
     //tap funtion
     changeTap: function changeTap(name) {
       localStorage.setItem('tab-subject', name);
@@ -407,6 +421,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 }
               });
             case 3:
+              _this9.classType.forEach(function (e) {
+                if (e.name == "ធម្មតា") {
+                  _this9.level1.push(e);
+                } else {
+                  _this9.level2.push(e);
+                }
+              });
+            case 4:
             case "end":
               return _context7.stop();
           }
@@ -467,6 +489,13 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 _this11.subject = response.data.subject;
                 _this11.gradeLevel = response.data.gradeLevel;
                 _this11.classType = response.data.classType;
+                _this11.classType.forEach(function (e) {
+                  if (e.name == "ធម្មតា") {
+                    _this11.level1.push(e);
+                  } else {
+                    _this11.level2.push(e);
+                  }
+                });
                 _this11.loading = false;
               })["catch"](function (error) {
                 if (error.response.status == 401) {
@@ -1084,13 +1113,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "class": "sanfont-khmer",
                     onClick: function onClick($event) {
                       return $options.restoreData(scope.row.subject_id);
-                    }
+                    },
+                    disabled: $data.permission_edit
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("ស្ដារឡើងវិញ")];
                     }),
                     _: 2 /* DYNAMIC */
-                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
+                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick", "disabled"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
                     width: "220",
                     "confirm-button-text": "យល់ព្រម",
                     "cancel-button-text": "ទេ",
@@ -1106,15 +1136,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
                         size: "small",
                         type: "danger",
-                        "class": "sanfont-khmer"
+                        "class": "sanfont-khmer",
+                        disabled: $data.permission_delete
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុបជាអចិន្ត្រៃយ៍ ")];
                         }),
                         _: 1 /* STABLE */
-                      })];
+                      }, 8 /* PROPS */, ["disabled"])];
                     }),
-
                     _: 2 /* DYNAMIC */
                   }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.is_show_trust == 0 && !_ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
                     size: "small",
@@ -1529,13 +1559,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     "class": "sanfont-khmer",
                     onClick: function onClick($event) {
                       return $options.restoreDataSubjectLevel(scope.row.subject_grade_id);
-                    }
+                    },
+                    disabled: _ctx.permission_edit1
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("ស្ដារឡើងវិញ")];
                     }),
                     _: 2 /* DYNAMIC */
-                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
+                  }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick", "disabled"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
                     width: "220",
                     "confirm-button-text": "យល់ព្រម",
                     "cancel-button-text": "ទេ",
@@ -1551,15 +1582,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
                         size: "small",
                         type: "danger",
-                        "class": "sanfont-khmer"
+                        "class": "sanfont-khmer",
+                        disabled: _ctx.permission_delete1
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុបជាអចិន្ត្រៃយ៍ ")];
                         }),
                         _: 1 /* STABLE */
-                      })];
+                      }, 8 /* PROPS */, ["disabled"])];
                     }),
-
                     _: 2 /* DYNAMIC */
                   }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.is_show_trustSubjectLevel == 0 && !_ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
                     size: "small",
@@ -1723,7 +1754,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         "onUpdate:modelValue": _cache[23] || (_cache[23] = function ($event) {
                           return $data.ruleFormSubjectLevel.grade_level_id = $event;
                         }),
-                        placeholder: "ជ្រើសរើស"
+                        placeholder: "ជ្រើសរើស",
+                        onChange: $options.autoClassType
                       }, {
                         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                           return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.gradeLevel, function (item) {
@@ -1736,7 +1768,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                         }),
 
                         _: 1 /* STABLE */
-                      }, 8 /* PROPS */, ["modelValue"])];
+                      }, 8 /* PROPS */, ["modelValue", "onChange"])];
                     }),
                     _: 1 /* STABLE */
                   }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {

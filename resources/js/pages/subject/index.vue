@@ -133,6 +133,7 @@
 											size="small"
 											class="sanfont-khmer"
 											@click="restoreData(scope.row.subject_id)"
+											:disabled="permission_edit"
 										>ស្ដារឡើងវិញ</el-button>
 										<el-popconfirm
 											width="220"
@@ -149,6 +150,7 @@
 													size="small"
 													type="danger"
 													class="sanfont-khmer"
+													:disabled="permission_delete"
 												>លុបជាអចិន្ត្រៃយ៍
 												</el-button>
 											</template>
@@ -475,6 +477,7 @@
 											size="small"
 											class="sanfont-khmer"
 											@click="restoreDataSubjectLevel(scope.row.subject_grade_id)"
+											:disabled="permission_edit1"
 										>ស្ដារឡើងវិញ</el-button>
 										<el-popconfirm
 											width="220"
@@ -491,6 +494,7 @@
 													size="small"
 													type="danger"
 													class="sanfont-khmer"
+													:disabled="permission_delete1"
 												>លុបជាអចិន្ត្រៃយ៍
 												</el-button>
 											</template>
@@ -605,6 +609,7 @@
 										<el-select
 											v-model="ruleFormSubjectLevel.grade_level_id"
 											placeholder="ជ្រើសរើស"
+											@change="autoClassType"
 										>
 											<el-option
 												v-for="item in gradeLevel"
@@ -868,6 +873,9 @@ export default {
 			filter_grade_level:'',
 
 			tabClassDetail: 1,
+
+			level1:[],
+			level2:[],
 		}
 	},
 	mounted() {
@@ -881,6 +889,20 @@ export default {
 		}
 	},
 	methods: {
+		//auto select classtype
+		autoClassType(event){
+		let items =  this.gradeLevel.find(el=>	el.grade_level_id == event)	
+		 console.log(items)
+		 if(items.grade_level_name=="10"){
+			console.log(this.level1)
+			this.classType = this.level1
+		 }else{
+			this.classType = this.level2
+		 }
+
+		 this.ruleForm.class_type_id = null 
+		},
+
 		//tap funtion
 		changeTap(name) {
 			localStorage.setItem('tab-subject', name);
@@ -1044,6 +1066,15 @@ export default {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}
 			})
+
+			this.classType.forEach(e=>{
+					if(e.name == "ធម្មតា"){
+						this.level1.push(e)
+					}else{ 
+						this.level2.push(e)
+					}
+				})
+
 		},
 
 		async editSubject(id) {
@@ -1081,7 +1112,15 @@ export default {
 				this.tableDataSubjectLevel = response.data.data
 				this.subject = response.data.subject
 				this.gradeLevel = response.data.gradeLevel
+
 				this.classType = response.data.classType
+				this.classType.forEach(e=>{
+					if(e.name == "ធម្មតា"){
+						this.level1.push(e)
+					}else{ 
+						this.level2.push(e)
+					}
+				})
 				this.loading = false
 			}).catch((error) => {
 				if (error.response.status == 401) {

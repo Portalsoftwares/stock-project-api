@@ -182,6 +182,7 @@
 										size="small"
 										class="sanfont-khmer"
 										@click="restoreData(scope.row.id)"
+										:disabled="permission_edit"
 									>ស្ដារឡើងវិញ</el-button>
 									<el-popconfirm
 										width="220"
@@ -198,6 +199,7 @@
 												size="small"
 												type="danger"
 												class="sanfont-khmer"
+												:disabled="permission_delete"
 											>លុបជាអចិន្ត្រៃយ៍
 											</el-button>
 										</template>

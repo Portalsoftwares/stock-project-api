@@ -44,6 +44,7 @@
 										type="primary"
 										size="medium"
 										@click="addNewSchedule"
+										:disabled="permission_manage_schedule"
 									>
 										<el-icon>
 											<Setting />
@@ -686,6 +687,7 @@
 
 </template>
 <script>
+
 import { ElMessage, ElMessageBox } from 'element-plus'
 import studentClass from './student-class/index.vue'
 import scoreClass from './score-class/index.vue'
@@ -695,6 +697,8 @@ export default {
 	components: { studentClass, attendanceClass, scoreClass },
 	data() {
 		return {
+			
+
 			// Tap 
 			tabClassDetail: '',
 			// Attendance 

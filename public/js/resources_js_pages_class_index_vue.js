@@ -868,13 +868,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             "class": "sanfont-khmer",
             onClick: function onClick($event) {
               return $options.restoreData(scope.row.class_id);
-            }
+            },
+            disabled: $data.permission_edit
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("ស្ដារឡើងវិញ")];
             }),
             _: 2 /* DYNAMIC */
-          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
+          }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["onClick", "disabled"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_popconfirm, {
             width: "220",
             "confirm-button-text": "យល់ព្រម",
             "cancel-button-text": "ទេ",
@@ -890,15 +891,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_button, {
                 size: "small",
                 type: "danger",
-                "class": "sanfont-khmer"
+                "class": "sanfont-khmer",
+                disabled: $data.permission_delete
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("លុបជាអចិន្ត្រៃយ៍ ")];
                 }),
                 _: 1 /* STABLE */
-              })];
+              }, 8 /* PROPS */, ["disabled"])];
             }),
-
             _: 2 /* DYNAMIC */
           }, 1032 /* PROPS, DYNAMIC_SLOTS */, ["icon", "onConfirm"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.is_show_trust == 0 && !_ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
             to: '/class-detail?id=' + scope.row.class_id,
