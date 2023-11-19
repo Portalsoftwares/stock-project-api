@@ -374,7 +374,7 @@
 				border
 			>
 				<el-table-column
-					label="ID"
+					label="ល.រ"
 					type="index"
 					fixed
 				></el-table-column>
@@ -641,7 +641,7 @@
 				border
 			>
 				<el-table-column
-					label="ID"
+					label="ល.រ"
 					type="index"
 				></el-table-column>
 				<el-table-column label="ឈ្មោះសិស្ស">

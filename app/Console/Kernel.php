@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Models\Setting;
+use Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +25,8 @@ class Kernel extends ConsoleKernel
         //BackUp Database
         if (!empty($data)) {
             $backupType = $data->backup_type;
-            $backupTime =  date("g:i", strtotime($data->backup_time));
+            $backupTime =  date("H:i", strtotime($data->backup_time));
+            Log::info("Cron JOb".$backupType.'- Time:'.$backupTime);
             switch ($backupType) {
                 case 1:
                     $schedule->command('backup:custom')->dailyAt($backupTime);

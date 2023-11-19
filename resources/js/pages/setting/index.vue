@@ -135,7 +135,6 @@
 													start="00:00"
 													step="00:30"
 													end="23:59"
-													format="hh:mm A"
 												/>
 											</el-form-item>
 										</div>
@@ -347,7 +346,7 @@
 					stripe
 				>
 					<el-table-column
-						label="ID"
+						label="ល.រ"
 						type="index"
 					></el-table-column>
 					<el-table-column label="ឈ្មោះតួនាទី">

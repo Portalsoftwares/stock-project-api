@@ -12,8 +12,20 @@ function Router() {
     });
     return router;
 }
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to, from, next) => {
 
+    //permission page 
+    const permission = store.state.auth.PERMISSIONS;
+    if (to.meta && to.meta.permission != null) {
+        console.log(133)
+        if (permission) {
+            if (permission.includes(to.meta.permission)) {
+                next();
+            } else {
+                next({ name: 'no-permission' });
+            }
+        }
+    }
     const MenuData = [
         {
             path: "/dashboard",
@@ -65,7 +77,6 @@ router.beforeEach(async (to, from) => {
         }
 
     ]
-    console.log(to)
     let menuActive = MenuData.filter((row) => row.path == to.path);
     if (menuActive != null) {
         store.commit('menu/getMenu', menuActive[0]);
@@ -75,11 +86,16 @@ router.beforeEach(async (to, from) => {
     // ❗️ Avoid an infinite redirect
     if (!isAuthenticated && to.name !== 'Login') {
         // redirect the user to the login page
-        return { name: 'Login' }
+        next({ name: 'Login' })
     }
     if (isAuthenticated && to.name == 'Login') {
-        return { name: 'Master' }
+        next({ name: 'Master' })
     }
+    next();
+
+
+
+
 
 
 

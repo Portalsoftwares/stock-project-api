@@ -63,6 +63,7 @@
 						</router-link>
 					</div>
 					<div
+					    v-if="permission_view_user"
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
 						:class="dataSibar == true ? ' ' : ''"
 					>
@@ -91,6 +92,7 @@
 						</router-link>
 					</div>
 					<div
+				    	v-if="permission_view_teacher"
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
 						:class="dataSibar == true ? ' ' : ''"
 					>
@@ -119,7 +121,8 @@
 						</router-link>
 					</div>
 					<div
-						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
+					    v-if="permission_view_student"
+						class="rounded-md cursor-pointer  text-gray-300 hover:text-white"
 						:class="dataSibar == true ? ' ' : ''"
 					>
 						<router-link
@@ -148,6 +151,7 @@
 					</div>
 
 					<div
+					    v-if="permission_view_subject"
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
 						:class="dataSibar == true ? ' ' : ''"
 					>
@@ -176,6 +180,7 @@
 						</router-link>
 					</div>
 					<div
+					    v-if="permission_view_class"
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
 						:class="dataSibar == true ? ' ' : ''"
 					>
@@ -202,6 +207,7 @@
 						</router-link>
 					</div>
 					<div
+				     	v-if="permission_view_exam"
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
 						:class="dataSibar == true ? ' ' : ''"
 					>
@@ -228,6 +234,7 @@
 						</router-link>
 					</div>
 					<div
+					    v-if="permission_view_time"
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
 						:class="dataSibar == true ? ' ' : ''"
 					>
@@ -254,6 +261,7 @@
 						</router-link>
 					</div>
 					<div
+					    v-if="permission_view_academic"
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
 						:class="dataSibar == true ? ' ' : ''"
 					>
@@ -280,6 +288,7 @@
 						</router-link>
 					</div>
 					<div
+				     	v-if="permission_view_report"
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white  "
 						:class="dataSibar == true ? ' ' : ''"
 					>
@@ -306,6 +315,7 @@
 				</div>
 				<div class="menu-man text-left  whitespace-nowrap flex flex-col space-y-2">
 					<div
+				    	v-if="permission_view_preference"
 						class="    rounded-md cursor-pointer  text-gray-300 hover:text-white"
 						:class="dataSibar == true ? ' ' : ''"
 					>
@@ -361,10 +371,21 @@
 
 <script>
 import { mapGetters } from "vuex"
+import { fnpermissions } from '../permissions'
 export default {
 	data() {
 		return {
 			sideBarVisible: false,
+			permission_view_user: fnpermissions.can('user-view'),
+			permission_view_student: fnpermissions.can('student-view'),
+			permission_view_teacher: fnpermissions.can('teacher-view'),
+			permission_view_subject: fnpermissions.can('subject-view'),
+			permission_view_class: fnpermissions.can('class-view'),
+			permission_view_exam: fnpermissions.can('exam-view'),
+			permission_view_time: fnpermissions.can('time-view'),
+			permission_view_academic: fnpermissions.can('academic-view'),
+			permission_view_report: fnpermissions.can('report-view'),
+			permission_view_preference: fnpermissions.can('preference-view'),
 		};
 	},
 	props: {

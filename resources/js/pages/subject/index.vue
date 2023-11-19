@@ -891,16 +891,14 @@ export default {
 	methods: {
 		//auto select classtype
 		autoClassType(event){
-		let items =  this.gradeLevel.find(el=>	el.grade_level_id == event)	
-		 console.log(items)
-		 if(items.grade_level_name=="10"){
-			console.log(this.level1)
-			this.classType = this.level1
-		 }else{
-			this.classType = this.level2
-		 }
+		     let items =  this.gradeLevel.find(el=>	el.grade_level_id == event)	
+			if(items.grade_level_name=="10"){
+				this.classType = this.level1
+			}else{
+				this.classType = this.level2
+			}
 
-		 this.ruleForm.class_type_id = null 
+		   this.ruleFormSubjectLevel.class_type_id = null 
 		},
 
 		//tap funtion
@@ -1106,6 +1104,8 @@ export default {
 				this.gradeLevel = response.data.gradeLevel
 
 				this.classType = response.data.classType
+				this.level1 =[]
+				this.level2 =[]
 				this.classType.forEach(e=>{
 					if(e.name == "ធម្មតា"){
 						this.level1.push(e)

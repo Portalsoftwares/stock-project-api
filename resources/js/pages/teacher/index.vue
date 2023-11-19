@@ -760,10 +760,10 @@ export default {
 	data() {
 		return {
 			//Check permission
-			permission_view: !fnpermissions.can('subject-view'),
-			permission_create: !fnpermissions.can('subject-create'),
-			permission_edit: !fnpermissions.can('subject-edit'),
-			permission_delete: !fnpermissions.can('subject-delete'),
+			permission_view: !fnpermissions.can('teacher-view'),
+			permission_create: !fnpermissions.can('teacher-create'),
+			permission_edit: !fnpermissions.can('teacher-edit'),
+			permission_delete: !fnpermissions.can('teacher-delete'),
 
 			tableData: [],
 			showSuccess: false,

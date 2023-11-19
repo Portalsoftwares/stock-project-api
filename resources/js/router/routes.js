@@ -9,26 +9,43 @@ export default [
                 name: "Dashboard",
                 component: import('./../pages/dashboard'),
                 path: "/dashboard",
+                
             },
             {
                 name: "User",
                 component: import('./../pages/user'),
                 path: "/user",
+                meta: {
+                    permission: 'user-view',
+                    title: 'user',
+                },
             },
             {
                 name: "student",
                 component: import('./../pages/student'),
                 path: "/student",
+                meta: {
+                    permission: 'student-view',
+                    title: 'student',
+                },
             },
             {
                 name: "teacher",
                 component: import('./../pages/teacher'),
                 path: "/teacher",
+                meta: {
+                    permission: 'teacher-view',
+                    title: 'teacher',
+                },
             },
             {
                 name: "subject",
                 component: import('./../pages/subject'),
                 path: "/subject",
+                meta: {
+                    permission: 'subject-view',
+                    title: 'subject',
+                },
             },
             {
 
@@ -36,6 +53,10 @@ export default [
                 component: import('./../pages/class'),
                 path: "/class",
                 exact: false,
+                meta: {
+                    permission: 'class-view',
+                    title: 'class',
+                },
             },
             {
 
@@ -49,6 +70,10 @@ export default [
                 name: "score-type",
                 component: import('./../pages/score-type'),
                 path: "/score-type",
+                meta: {
+                    permission: 'exam-view',
+                    title: 'exam',
+                },
 
             },
             {
@@ -56,6 +81,10 @@ export default [
                 name: "time",
                 component: import('./../pages/time'),
                 path: "/time",
+                meta: {
+                    permission: 'time-view',
+                    title: 'time',
+                },
 
             },
             {
@@ -63,6 +92,10 @@ export default [
                 name: "academic",
                 component: import('./../pages/academic'),
                 path: "/academic",
+                meta: {
+                    permission: 'academic-view',
+                    title: 'academic',
+                },
 
             },
             {
@@ -70,7 +103,10 @@ export default [
                 name: "reports",
                 component: import('./../pages/report'),
                 path: "/reports",
-                meta: { transition: 'fade' }
+                meta: {
+                    permission: 'report-view',
+                    title: 'report',
+                },
 
             },
             {
@@ -78,7 +114,10 @@ export default [
                 name: "setting",
                 component: import('./../pages/setting'),
                 path: "/setting",
-                meta: { transition: 'fade' }
+                meta: {
+                    permission: 'preference-view',
+                    title: 'preference',
+                },
 
             }
         ]
@@ -88,11 +127,23 @@ export default [
         component: import('./../pages/auth/login'),
         path: "/login",
     },
-    // {
+    // Not Found page
+    {
+        name: 'not found',
+        path: '/:pathMatch(.*)*',
+        component: import('./../pages/notfound'), // page('error/PageNotFound')
+        meta: {
+            title: '404 Not Found',
+        },
+    },
+    {
 
-    //     name: "preview",
-    //     component: import('./../pages/preview'),
-    //     path: "/preview",
-    //     props: true,
-    // }
+        name: "no-permission",
+        component: import('./../pages/nopermission'),
+        path: "/no-permission",
+        meta: {
+            title: 'no permission',
+        },
+
+    }
 ]
