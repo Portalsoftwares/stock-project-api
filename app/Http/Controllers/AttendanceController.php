@@ -231,6 +231,7 @@ class AttendanceController extends Controller
 
 
         $student =   StudentClass::query()->where('class_id', $class_id)->with(['student_in_class.gender', 'student_in_class.status'])->get();
+        $attendance =[];
         foreach ($student as $stu_row) {
             // $type_ps = 0;
             $type_pm = 0;
