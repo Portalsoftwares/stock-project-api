@@ -14,7 +14,7 @@
 						<Document />
 					</el-icon>
 					<span class="mx-1">
-						របាយការណ៍វត្តមានសិស្ស
+						របាយការណ៍អវត្តមានសិស្ស
 					</span>
 				</el-button>
 				<el-button
@@ -540,13 +540,13 @@
 	<el-dialog
 		v-model="dialogFormVisibleAdd"
 		fullscreen="true"
-		title="គ្រប់គ្រងអវត្តមាន"
+		title="ស្រង់វត្តមានសិស្ស"
 		class="sanfont-khmer"
 		width="50%"
 	>
 		<template #header>
 			<div class="my-header">
-				<h4 class="text-lg font-semibold text-white">គ្រប់គ្រងអវត្តមាន</h4>
+				<h4 class="text-lg font-semibold text-white">ស្រង់វត្តមានសិស្ស</h4>
 			</div>
 		</template>
 		<div class="bg-white px-5">

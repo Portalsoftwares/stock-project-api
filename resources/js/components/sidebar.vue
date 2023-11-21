@@ -21,7 +21,7 @@
 						>
 
 							<img
-								src="/moeys_logo.png"
+								src="https://moeys.gov.kh/moeys%20100x100.png"
 								class="p-1 w-[50px] h-[50px] "
 								alt="Avatar"
 							/>
@@ -37,7 +37,7 @@
 						>
 
 							<img
-								src="/moeys_logo.png"
+								src="https://moeys.gov.kh/moeys%20100x100.png"
 								class="p-1 w-24 h-24"
 								alt="Avatar"
 							/>

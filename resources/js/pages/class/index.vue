@@ -722,7 +722,7 @@ export default {
 				this.dialogFormVisible = false;
 				this.$notify.success({
 					title: 'ព័ត៌មាន',
-					message: 'បញ្ចូលបានជោគជ័យ 😊',
+					message: 'បញ្ចូលបានជោគជ័យ ',
 					showClose: true
 				});
 				this.getData();
@@ -790,6 +790,8 @@ export default {
 
 
 				this.classType = response.data.class_type
+				this.level1 = [];
+				this.level2 = [];
 				this.classType.forEach(e=>{
 					if(e.name == "ធម្មតា"){
 						this.level1.push(e)

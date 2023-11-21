@@ -686,7 +686,7 @@ export default {
 			this.ruleForm.userId = ''
 			this.ruleForm.roles = null
 			this.ruleForm.email = ''
-			// this.imageUrl = ''
+			this.imageUrl = 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'
 			this.ruleForm.photo_id = ''
 			this.ruleForm.teacher_id = ''
 			this.roles = null
@@ -720,11 +720,12 @@ export default {
 				this.ruleForm.name = response.data.user.name
 				this.ruleForm.phone = response.data.user.phone
 				this.ruleForm.userId = response.data.user.id
-				this.ruleForm.roles = response.data.user_has_roles
+				this.ruleForm.roles = response.data.user_has_roles[0]
 				this.ruleForm.email = response.data.user.email
 				this.ruleForm.teacher_id = response.data.user.teacher_id
 				this.imageUrl = response.data.user.img != null ? response.data.user.img.file_path: 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1'
 				this.ruleForm.photo_id = response.data.user.img?.file_upload_id
+				console.log(response.data.user_has_roles)
 				this.roles = response.data.roles
 				this.teachers = response.data.teachers
 

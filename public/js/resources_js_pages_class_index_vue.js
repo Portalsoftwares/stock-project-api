@@ -296,7 +296,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 _this5.dialogFormVisible = false;
                 _this5.$notify.success({
                   title: 'ព័ត៌មាន',
-                  message: 'បញ្ចូលបានជោគជ័យ 😊',
+                  message: 'បញ្ចូលបានជោគជ័យ ',
                   showClose: true
                 });
                 _this5.getData();
@@ -396,6 +396,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 _this8.academic = response.data.academic;
                 _this8.gradeLevel = response.data.grade_level;
                 _this8.classType = response.data.class_type;
+                _this8.level1 = [];
+                _this8.level2 = [];
                 _this8.classType.forEach(function (e) {
                   if (e.name == "ធម្មតា") {
                     _this8.level1.push(e);

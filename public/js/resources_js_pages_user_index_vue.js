@@ -322,21 +322,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this7.ruleForm.userId = '';
               _this7.ruleForm.roles = null;
               _this7.ruleForm.email = '';
-              // this.imageUrl = ''
+              _this7.imageUrl = 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1';
               _this7.ruleForm.photo_id = '';
               _this7.ruleForm.teacher_id = '';
               _this7.roles = null;
               _this7.dialogFormVisible = true;
               _this7.isShowButtonUpdate = false;
               _this7.isShowPassword = true;
-              _context4.next = 13;
+              _context4.next = 14;
               return axios.get('/user/create').then(function (response) {
                 _this7.roles = response.data.roles;
                 _this7.teachers = response.data.teachers;
               })["catch"](function (error) {
                 console.log(error);
               });
-            case 13:
+            case 14:
             case "end":
               return _context4.stop();
           }
@@ -380,11 +380,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this9.ruleForm.name = response.data.user.name;
                 _this9.ruleForm.phone = response.data.user.phone;
                 _this9.ruleForm.userId = response.data.user.id;
-                _this9.ruleForm.roles = response.data.user_has_roles;
+                _this9.ruleForm.roles = response.data.user_has_roles[0];
                 _this9.ruleForm.email = response.data.user.email;
                 _this9.ruleForm.teacher_id = response.data.user.teacher_id;
                 _this9.imageUrl = response.data.user.img != null ? response.data.user.img.file_path : 'https://th.bing.com/th/id/OIP.PJB4lxw88QRaADN8UWxV4AHaHa?pid=ImgDet&rs=1';
                 _this9.ruleForm.photo_id = (_response$data$user$i = response.data.user.img) === null || _response$data$user$i === void 0 ? void 0 : _response$data$user$i.file_upload_id;
+                console.log(response.data.user_has_roles);
                 _this9.roles = response.data.roles;
                 _this9.teachers = response.data.teachers;
                 _this9.dialogFormVisible = true;

@@ -2559,7 +2559,7 @@ var _hoisted_4 = {
 };
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "mx-1"
-}, " របាយការណ៍វត្តមានសិស្ស ", -1 /* HOISTED */);
+}, " របាយការណ៍អវត្តមានសិស្ស ", -1 /* HOISTED */);
 var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "mx-1"
 }, " ស្រង់វត្តមានសិស្ស ", -1 /* HOISTED */);
@@ -2734,7 +2734,7 @@ var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
   "class": "my-header"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-lg font-semibold text-white"
-}, "គ្រប់គ្រងអវត្តមាន")], -1 /* HOISTED */);
+}, "ស្រង់វត្តមានសិស្ស")], -1 /* HOISTED */);
 var _hoisted_53 = {
   "class": "bg-white px-5"
 };
@@ -3368,7 +3368,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.dialogFormVisibleAdd = $event;
     }),
     fullscreen: "true",
-    title: "គ្រប់គ្រងអវត្តមាន",
+    title: "ស្រង់វត្តមានសិស្ស",
     "class": "sanfont-khmer",
     width: "50%"
   }, {
