@@ -111,9 +111,10 @@
 												label="ពេល BackUp"
 												prop="from_secondary_high_school"
 												class="sanfont-khmer "
+												
 												:label-width="formLabelWidth"
 											>
-												<el-radio-group v-model="ruleForm.backup_type">
+												<el-radio-group disabled v-model="ruleForm.backup_type">
 													<el-radio-button label="បិទ" />
 													<el-radio-button label="ប្រចាំថ្ងៃ" />
 													<el-radio-button label="ប្រចាំសប្តាហ៍" />
@@ -131,6 +132,7 @@
 												:label-width="formLabelWidth"
 											>
 												<el-time-select
+												    disabled
 													v-model="ruleForm.backup_time"
 													start="00:00"
 													step="00:30"
@@ -409,7 +411,7 @@
 	<el-dialog
 		v-model="dialogFormVisible"
 		class="sanfont-khmer text-white"
-		width="50%"
+		width="70%"
 		align-center="true"
 		draggable
 	>
@@ -622,7 +624,7 @@ export default {
 				case "2":
 					return 'ប្រចាំសប្តាហ៍'
 				case "3":
-					return 'ប្រចាំឆ្នាំខែ'
+					return 'ប្រចាំខែ'
 				case "4":
 					return 'ប្រចាំឆ្នាំ'
 				default:
@@ -636,7 +638,7 @@ export default {
 					return 1
 				case "ប្រចាំសប្តាហ៍":
 					return 2
-				case "ប្រចាំឆ្នាំខែ":
+				case "ប្រចាំខែ":
 					return 3
 				case "ប្រចាំឆ្នាំ":
 					return 4

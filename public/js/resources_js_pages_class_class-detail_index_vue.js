@@ -278,7 +278,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this5.fullscreenLoading = false;
                   _this5.$notify.success({
                     title: 'ព័ត៌មាន',
-                    message: 'បញ្ចូលបានជោគជ័យ 😊',
+                    message: 'បញ្ចូលបានជោគជ័យ ',
                     showClose: true
                   });
                 }, 200);
@@ -1226,14 +1226,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this12.fullscreenLoading = false;
                 _this12.$notify.success({
                   title: 'រួចរាល់',
-                  message: 'បញ្ចូលវត្តមានបានជោគជ័យ 😊',
+                  message: 'បញ្ចូលវត្តមានបានជោគជ័យ ',
                   showClose: true
                 });
               })["catch"](function (error) {
                 _this12.fullscreenLoading = false;
                 _this12.$notify.error({
                   title: 'កំហុស',
-                  message: 'បញ្ចូលវត្តមានមិនបានជោគជ័យទេ 😓',
+                  message: 'បញ្ចូលវត្តមានមិនបានជោគជ័យទេ ',
                   showClose: true
                 });
                 if (error.response.status == 400) {
@@ -3807,7 +3807,7 @@ var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_37 = ["checked", "onClick"];
 var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-yellow-600"
-}, "PM", -1 /* HOISTED */);
+}, "P", -1 /* HOISTED */);
 var _hoisted_39 = ["checked", "onClick"];
 var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-blue-600"

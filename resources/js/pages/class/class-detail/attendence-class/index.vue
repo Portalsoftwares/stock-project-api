@@ -963,7 +963,7 @@ export default {
 					this.fullscreenLoading = false;
 					this.$notify.success({
 						title: 'ព័ត៌មាន',
-						message: 'បញ្ចូលបានជោគជ័យ 😊',
+						message: 'បញ្ចូលបានជោគជ័យ ',
 						showClose: true
 					});
 				}, 200)

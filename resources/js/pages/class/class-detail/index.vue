@@ -377,7 +377,7 @@
 						align="center"
 					>
 						<template #header>
-							<div class="text-yellow-600">PM</div>
+							<div class="text-yellow-600">P</div>
 						</template>
 						<template #default="scope">
 							<input
@@ -1046,14 +1046,14 @@ export default {
 				this.fullscreenLoading = false;
 				this.$notify.success({
 					title: 'រួចរាល់',
-					message: 'បញ្ចូលវត្តមានបានជោគជ័យ 😊',
+					message: 'បញ្ចូលវត្តមានបានជោគជ័យ ',
 					showClose: true
 				});
 			}).catch((error) => {
 				this.fullscreenLoading = false;
 				this.$notify.error({
 					title: 'កំហុស',
-					message: 'បញ្ចូលវត្តមានមិនបានជោគជ័យទេ 😓',
+					message: 'បញ្ចូលវត្តមានមិនបានជោគជ័យទេ ',
 					showClose: true
 				});
 				if (error.response.status == 400) {
