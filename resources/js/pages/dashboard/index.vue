@@ -14,6 +14,7 @@
 			/>
 		</el-select>
 	</div>
+<div  v-if="!is_teacher && is_teacher!=null">
 	<div
 		class=" mb-4 "
 		v-loading="loading"
@@ -194,6 +195,45 @@
 		</div>
 
 	</div>
+</div>
+
+<div class="grid grid-cols-2 gap-4 mt-4" v-if="is_teacher  && is_teacher != null">
+		<div
+			class=" border rounded  bg-gray-50  hover:shadow-md  cursor-pointer transition ease-in-out delay-100"
+			
+		>
+			<div class="flex flex-col  ">
+				<div class=" text-xl bg-gray-100 border">
+					<div class="py-5">ថ្នាក់​​ របស់ខ្ញុំ</div>
+				</div>
+            <div class="p-8">
+				<el-scrollbar height="400px">
+					<div class="flex flex-col items-start" v-if="teacher_class.length >0">
+						<div v-for="tclass in teacher_class" :key="tclass" class="w-full text-start" >
+							<el-link  type="primary" :href="'/class-detail?id='+ tclass.class?.class_id">ថ្នាក់ទី {{ tclass.class?.class_name }} | {{ tclass.class.class_type.name }}  | {{ tclass.teacher_subject_in_class.subject.subject_name_kh }} | {{ tclass.role_id==1?"គ្រូបន្ទុក":"មិនមែនគ្រូបន្ទុក" }} </el-link>
+							<el-divider border-style="dashed" />
+						</div>
+					</div>
+					<div v-else class="py-5 ">
+					<span class="py-5" style="color: #909399;">គ្មានទិន្នន័យ</span>
+					</div>
+			   </el-scrollbar>
+			</div>
+
+			</div>
+		</div>
+		<div
+			class="border rounded  bg-gray-50 hover:shadow-md  cursor-pointer transition ease-in-out delay-100"
+		>
+			<div class=" text-xl bg-gray-100 border">
+					<div class="py-5">កាលវិភាគ របស់ខ្ញុំ</div>
+				</div>
+            <div class="p-8">
+			</div>
+		</div>
+
+	</div>
+
 
 </template>
 <script>
@@ -385,6 +425,9 @@ export default {
 				'cl3': 0,
 			},
 
+			teacher_class: [],
+			is_teacher: null,
+
 		}
 	},
 	computed: {
@@ -423,9 +466,14 @@ export default {
 				this.classs.cl1 = this.dataSummary.class.cl1
 				this.classs.cl2 = this.dataSummary.class.cl2
 				this.classs.cl3 = this.dataSummary.class.cl3
+				this.teacher_class = this.dataSummary.teacher_class
+				this.is_teacher = this.dataSummary.is_teacher
 
 				this.loading = false
+
 			}).catch((error) => {
+				this.loading = false
+
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")
 				}

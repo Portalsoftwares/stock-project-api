@@ -255,7 +255,7 @@ class AttendanceController extends Controller
                     }
                     $TypeAP = "";
                     if ($type_a_day > 0 || $type_pm_day > 0) {
-                        if ($type_a_day > 0) {
+                        if ($type_a_day > 0 && $type_pm_day == 0) {
                             $type_a++;
                             $TypeAP = "A";
                         }

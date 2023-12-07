@@ -306,6 +306,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return is_blank;
     },
     geColor: function geColor(type) {
+      if (type == null) {
+        return '';
+      }
       var typeinput = type.replace(/[\u200B-\u200D\uFEFF]/g, '');
       switch (typeinput) {
         case 'PS':

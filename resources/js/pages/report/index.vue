@@ -564,6 +564,7 @@ export default {
 
 		async getPreference() {
 			this.loading = true
+			this.academic_id = this.ruleForm.academic_id
 			await axios.get(`/report/preference?acc=${this.academic_id}`)
 				.then(response => {
 					this.classes = response.data.class
@@ -587,6 +588,7 @@ export default {
 			}
 			await axios.post('/attendance/report/monthly/get/' + this.ruleForm.class_id, attendanceInfo, config).then(response => {
 				this.classData = response.data.classData
+				console.log(response.data.classData)
 				this.dates = response.data.dates;
 				this.studentReport = response.data.student;
 

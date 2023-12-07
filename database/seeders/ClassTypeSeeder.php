@@ -16,7 +16,7 @@ class ClassTypeSeeder extends Seeder
     public function run()
     {
         ClassType::create([
-            'name' => 'ធម្មតា',
+            'name' => 'ថ្នាក់ ធម្មតា',
             'note' => 'សម្រាប់ថ្នាក់ទី​៧​,៨,​៩,១០'
         ]);
         ClassType::create([

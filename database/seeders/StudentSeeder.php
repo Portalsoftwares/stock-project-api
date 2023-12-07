@@ -229,7 +229,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -249,7 +248,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -269,7 +267,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -289,7 +286,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -309,7 +305,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -329,7 +324,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -349,7 +343,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -369,7 +362,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -389,7 +381,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -409,7 +400,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -429,7 +419,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -449,7 +438,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -469,7 +457,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -489,7 +476,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''
@@ -509,7 +495,6 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'file_upload_id' => "20",
                 'phone' => "08765432345",
                 'email' => "Davann@gmail.com",
                 'other' => ''

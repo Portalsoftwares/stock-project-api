@@ -20,7 +20,6 @@ class UserSeeder extends Seeder
             'phone' => '0956487667',
             'email' => 'admin@gmail.com',
             'is_system' => 1,
-            'file_upload_id' => 1,
             'password' => bcrypt('dev123')
         ])->each(
             function ($user) {

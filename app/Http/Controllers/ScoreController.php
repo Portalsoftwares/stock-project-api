@@ -138,16 +138,24 @@ class ScoreController extends Controller
             foreach ($student as  $data) {
                 foreach ($subjectGradeInclass as $obj) {
                     $score = Score::where([['class_id', $request->class_id], ['score_type_id', $request->score_type_id], ['subject_grade_id', $obj->teacher_subject_in_class->subject_grade_id]])->first();
+                    $subject = SubjectGradeLevel::find($obj->teacher_subject_in_class->subject_grade_id);
+                    //Check mark o - full score
+                    $min = 0 ;
+                    $max = $subject->full_score;
+                    $mark = $data['mark_' . $obj->teacher_subject_in_class->subject_grade_id];
+                    if($mark<$min || $mark>$max) {
+                        $mark = $mark<$min ? $min : $max;
+                    }
                     if (empty($score)) {
                         $score = Score::create([
                             'class_id' => $request->class_id,
                             'score_type_id' => $request->score_type_id,
                             'subject_grade_id' => $obj->teacher_subject_in_class->subject_grade_id
                         ]);
-                        $scoreLine[] = ['score_id' => $score->score_id, 'student_id' => $data['student_id'], 'mark' => $data['mark_' . $obj->teacher_subject_in_class->subject_grade_id]];
+                        $scoreLine[] = ['score_id' => $score->score_id, 'student_id' => $data['student_id'], 'mark' => $mark];
                     } else {
                         scoreLine::where('score_id', $score->score_id)->delete();
-                        $scoreLine[] = ['score_id' => $score->score_id, 'student_id' => $data['student_id'], 'mark' => $data['mark_' . $obj->teacher_subject_in_class->subject_grade_id]];
+                        $scoreLine[] = ['score_id' => $score->score_id, 'student_id' => $data['student_id'], 'mark' => $mark];
                     }
                 }
                 scoreLine::insert($scoreLine);
@@ -227,6 +235,9 @@ class ScoreController extends Controller
         }
         if ($avg < 25 && $avg > 0) {
             return 'ខ្សោយ';
+        }
+        if($avg <=0){
+            return 'មិនចាត់ថ្នាក់';
         }
     }
 
@@ -350,7 +361,11 @@ class ScoreController extends Controller
                         }
                     }
                 } else {
-                    $data['mark_rank_text'] = null;
+                    $total_less++;
+                    if ($women) {
+                        $total_less_women++;
+                    }
+                    $data['mark_rank_text'] = 'មិនចាត់ថ្នាក់';
                 }
             }
         }
@@ -626,6 +641,8 @@ class ScoreController extends Controller
 
                 $data['mark_rank'] = $rank;
                 $previous = $data;
+            }else{
+                $data['mark_rank'] = '--';
             }
         }
         $response = [

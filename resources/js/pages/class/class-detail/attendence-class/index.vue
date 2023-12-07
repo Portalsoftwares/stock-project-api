@@ -680,7 +680,6 @@
 						</template>
 						<template #default="scope" >
 							<div class="">
-
 								<input
 									type="checkbox"
 									name="checkbox"
@@ -987,6 +986,9 @@ export default {
 			return is_blank;
 		},
 		geColor(type) {
+			if (type == null) {
+				return '';
+			}
 			const typeinput = type.replace(/[\u200B-\u200D\uFEFF]/g, '');
 			switch (typeinput) {
 				case 'PS':

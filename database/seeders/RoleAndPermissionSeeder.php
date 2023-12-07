@@ -24,6 +24,7 @@ class RoleAndPermissionSeeder extends Seeder
         $superAdmin = 'super-admin';
         $editor = 'role-editor';
         $viewer = 'role-viewer';
+        $teacher = 'teacher';
         //Permissions
         $permissions_edit = [
             'user-view',
@@ -81,9 +82,46 @@ class RoleAndPermissionSeeder extends Seeder
             'backup-view',
             'role-permission-view',
         ];
+        $permissions_teacher =[
+            // 'user-view',
+            // 'user-edit',
+            'student-view',
+            'student-edit',
+            'teacher-view',
+            'teacher-edit',
+            'subject-view',
+            'subject-edit',
+            'subject-level-view',
+            'subject-level-edit',
+            // 'class-view',
+            // 'class-edit',
+            'class-info',
+            'class-info-manage-schedule',
+            'class-info-edit-teacher',
+            'class-teacher',
+            'class-student',
+            'class-attendance',
+            'class-attendance-collect',
+            'class-score',
+            'class-score-collect',
+            // 'exam-view',
+            // 'exam-edit',
+            // 'time-view',
+            // 'time-edit',
+            // 'academic-view',
+            // 'academic-edit',
+            'report-view',
+            // 'preference-view',
+            // 'preference-update',
+            // 'backup-view',
+            // 'backup-restore',
+            // 'role-permission-view',
+            // 'role-permission-edit',
+        ];
 
         Role::create(['name' => $superAdmin])->givePermissionTo(Permission::all());
         Role::create(['name' => $editor])->givePermissionTo($permissions_edit);
         Role::create(['name' => $viewer])->givePermissionTo($permissions_view);
+        Role::create(['name' => $teacher])->givePermissionTo($permissions_teacher);
     }
 }

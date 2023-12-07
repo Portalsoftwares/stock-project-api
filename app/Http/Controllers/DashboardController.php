@@ -11,9 +11,11 @@ use App\Models\Student;
 use App\Models\StudentClass;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Models\TeacherClass;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
+use Auth;
 
 class DashboardController extends Controller
 {
@@ -94,6 +96,18 @@ class DashboardController extends Controller
         $totalsClass2 = Classes::where('academic_id', $request->acc)->where('class_type_id', 2)->count();
         $totalsClass3 = Classes::where('academic_id', $request->acc)->where('class_type_id', 3)->count();
 
+        //Teacher class
+        $teacher_role_id = Auth::user()->roles[0]->id;
+        $teacher_id = null;
+        $teacherClass =[];
+        $is_teacher = false;
+        if($teacher_role_id == 4){
+            $is_teacher = true;
+            $teacher_id = Auth::user()->teacher_id;
+            $teacherClass = TeacherClass::where('teacher_id', $teacher_id)->whereHas('class', function ($query) use ($request) {
+                $query->where('academic_id', $request->acc);
+            })->with('class.class_type','teacher_subject_in_class.subject')->get();
+        }
         $response = [
             'data' => [
                 'academics' => $academics,
@@ -122,6 +136,9 @@ class DashboardController extends Controller
                     'st1' =>  $studen1,
                     'st2' =>  $studen2,
                 ],
+                'teacher_id'=>$teacher_id,
+                'teacher_class'=>$teacherClass,
+                'is_teacher'=>$is_teacher,
             ],
         ];
         return  response($response, 200);
