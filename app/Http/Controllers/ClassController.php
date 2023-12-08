@@ -99,7 +99,7 @@ class ClassController extends Controller
         $data = $items->with([
             'class_type', 'academic', 'count_student_in_class.student_in_class', 'get_teacher_in_class.teacher_in_class', 'get_teacher_in_class.teacher_subject_in_class'
         ])
-            // ->orderBy($sort_by, $order_by)
+            
             ->orderBy('academic_id', 'DESC')
             ->paginate($per_page);
         $response = [

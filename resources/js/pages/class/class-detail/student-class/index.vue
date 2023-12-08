@@ -169,7 +169,7 @@
 					size="small"
 					class="sanfont-khmer"
 					@click="editUser(scope.row.student_id)"
-					:disabled="permission_edit"
+					:disabled="permission_edit || !is_teacher_manager"
 				>កែប្រែ</el-button>
 				<el-popconfirm
 					width="220"
@@ -186,7 +186,7 @@
 							size="small"
 							type="danger"
 							class="sanfont-khmer"
-							:disabled="permission_delete"
+							:disabled="permission_delete || !is_teacher_manager"
 						>ដកចេញពីថ្នាក់
 						</el-button>
 					</template>
@@ -846,8 +846,8 @@ export default {
 		return {
 			//Check permission
 			permission_view: !fnpermissions.can('class-student'),
-			permission_create: !fnpermissions.can('user-create'),
-			permission_edit: !fnpermissions.can('user-edit'),
+			permission_create: !fnpermissions.can('student-create'),
+			permission_edit: !fnpermissions.can('student-edit'),
 			permission_delete: !fnpermissions.can('class-student-remove'),
 			permission_student_add: !fnpermissions.can('class-student-add'),
 			

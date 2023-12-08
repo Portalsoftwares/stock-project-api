@@ -101,6 +101,7 @@ class RoleAndPermissionSeeder extends Seeder
             'class-teacher',
             'class-student',
             'class-student-add',
+            'class-student-remove',
             'class-attendance',
             'class-attendance-collect',
             'class-score',

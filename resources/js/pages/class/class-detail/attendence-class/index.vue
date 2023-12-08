@@ -41,10 +41,11 @@
 				@click="showInfomationAttendance(data.teacher_subject_in_class.subject_grade_id)"
 			>
 				<div>
-					<div class="group relative flex items-center gap-x-6 rounded-lg p-3 text-sm leading-6 hover:bg-gray-50">
-						<div class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+					<div class="group relative flex items-center gap-x-6 rounded-lg p-3 text-sm leading-6 hover:bg-gray-50 ">
+						<div class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white  border group-hover:border-blue-600" :class="teacher_id == data.teacher_subject_in_class.subject_grade_id ?'border-blue-600':'border-gray-600'">
 							<svg
-								class="h-6 w-6 text-gray-600 group-hover:text-indigo-600"
+						    	:class="teacher_id == data.teacher_subject_in_class.subject_grade_id ?'text-blue-600':'text-gray-600'"
+								class="h-6 w-6  group-hover:text-blue-600"
 								fill="none"
 								viewBox="0 0 24 24"
 								stroke-width="1.5"
@@ -66,10 +67,10 @@
 						<div class="flex-auto text-left">
 							<a
 								href="#"
-								class="block font-semibold text-gray-900"
+								:class="teacher_id == data.teacher_subject_in_class.subject_grade_id ?'text-blue-600 block ':'text-gray-900 block ' "
 							>
-								<span class="font-bold"><span class="text-xl font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span> </span>
-								<p class="mt-1 text-gray-600"> បង្រៀនដោយ {{ data.teacher_in_class.gender_id==1?'លោកគ្រូ':'អ្នកគ្រូ' }} : {{ data.teacher_in_class.full_name_kh}} </p>
+								<span class=""><span class="text-xl ">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span> </span>
+								<p :class="teacher_id == data.teacher_subject_in_class.subject_grade_id ?'text-blue-400 mt-1':'text-gray-900 mt-1 text-gray-600'" > បង្រៀនដោយ {{ data.teacher_in_class.gender_id==1?'លោកគ្រូ':'អ្នកគ្រូ' }} : {{ data.teacher_in_class.full_name_kh}} </p>
 							</a>
 
 						</div>
@@ -784,7 +785,11 @@ import { boolean } from 'yup';
 export default {
 	components: { moment, FileSaver },
 	props: {
-		subjectData: Object
+		subjectData: Object,
+		is_teacher_manager: Boolean,
+		teacher_subject_id: Object,
+		teacher_id: Number,
+
 	},
 	data() {
 		return {
@@ -883,6 +888,11 @@ export default {
 				this.dataDayObj = response.data.day
 				this.dataTimeObj = response.data.time
 				this.dataSubjectGradeObj = response.data.teacher_subject
+				if (!this.is_teacher_manager) {
+					this.dataSubjectGradeObj = this.dataSubjectGradeObj.filter(e => {
+						return this.teacher_subject_id.includes(e.subject_grade_id)
+					})
+				}
 				this.classData = response.data.classData
 				this.ruleForm.class_id = response.data.classData?.class_id
 				this.ruleForm.date = moment(new Date()).format("YYYY-MM-DD");

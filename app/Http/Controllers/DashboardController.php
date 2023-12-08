@@ -106,7 +106,7 @@ class DashboardController extends Controller
             $teacher_id = Auth::user()->teacher_id;
             $teacherClass = TeacherClass::where('teacher_id', $teacher_id)->whereHas('class', function ($query) use ($request) {
                 $query->where('academic_id', $request->acc);
-            })->with('class.class_type','teacher_subject_in_class.subject')->get();
+            })->with('class.class_type','teacher_subject_in_class.subject')->groupBy('class_id')->get();
         }
         $response = [
             'data' => [

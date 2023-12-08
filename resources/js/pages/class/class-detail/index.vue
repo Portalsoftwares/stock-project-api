@@ -211,6 +211,9 @@
 						:dataTimeObj="dataTimeObj"
 						:dataSubjectGradeObj="dataSubjectGradeObj"
 						:studentCallAttendance="studentCallAttendance"
+						:is_teacher_manager="is_teacher_manager"
+						:teacher_subject_id="teacher_subject_id"
+						:teacher_id="teacher_id"
 					></attendanceClass>
 				</el-tab-pane>
 				<el-tab-pane
@@ -223,6 +226,9 @@
 						:classData="classData"
 						:dataSubjectGradeObj="dataSubjectGradeObj"
 						:studentCallAttendance="studentCallAttendance"
+						:is_teacher_manager="is_teacher_manager"
+						:teacher_subject_id="teacher_subject_id"
+
 					></scoreClass>
 				</el-tab-pane>
 			</el-tabs>

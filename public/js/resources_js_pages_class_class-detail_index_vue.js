@@ -34,7 +34,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     FileSaver: (file_saver__WEBPACK_IMPORTED_MODULE_2___default())
   },
   props: {
-    subjectData: Object
+    subjectData: Object,
+    is_teacher_manager: Boolean,
+    teacher_subject_id: Object,
+    teacher_id: Number
   },
   data: function data() {
     return {
@@ -197,6 +200,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this3.dataDayObj = response.data.day;
                 _this3.dataTimeObj = response.data.time;
                 _this3.dataSubjectGradeObj = response.data.teacher_subject;
+                if (!_this3.is_teacher_manager) {
+                  _this3.dataSubjectGradeObj = _this3.dataSubjectGradeObj.filter(function (e) {
+                    return _this3.teacher_subject_id.includes(e.subject_grade_id);
+                  });
+                }
                 _this3.classData = response.data.classData;
                 _this3.ruleForm.class_id = (_response$data$classD = response.data.classData) === null || _response$data$classD === void 0 ? void 0 : _response$data$classD.class_id;
                 _this3.ruleForm.date = moment__WEBPACK_IMPORTED_MODULE_1___default()(new Date()).format("YYYY-MM-DD");
@@ -1423,7 +1431,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   props: {
     data: Object,
     subjectData: Object,
-    classData: Object
+    classData: Object,
+    is_teacher_manager: Boolean,
+    teacher_subject_id: Object,
+    teacher_id: Number
   },
   data: function data() {
     return {
@@ -1900,8 +1911,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     return {
       //Check permission
       permission_view: !_permissions__WEBPACK_IMPORTED_MODULE_1__.fnpermissions.can('class-student'),
-      permission_create: !_permissions__WEBPACK_IMPORTED_MODULE_1__.fnpermissions.can('user-create'),
-      permission_edit: !_permissions__WEBPACK_IMPORTED_MODULE_1__.fnpermissions.can('user-edit'),
+      permission_create: !_permissions__WEBPACK_IMPORTED_MODULE_1__.fnpermissions.can('student-create'),
+      permission_edit: !_permissions__WEBPACK_IMPORTED_MODULE_1__.fnpermissions.can('student-edit'),
       permission_delete: !_permissions__WEBPACK_IMPORTED_MODULE_1__.fnpermissions.can('class-student-remove'),
       permission_student_add: !_permissions__WEBPACK_IMPORTED_MODULE_1__.fnpermissions.can('class-student-add'),
       studentData: [],
@@ -2582,39 +2593,25 @@ var _hoisted_8 = ["onClick"];
 var _hoisted_9 = {
   "class": "group relative flex items-center gap-x-6 rounded-lg p-3 text-sm leading-6 hover:bg-gray-50"
 };
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
-  "class": "h-6 w-6 text-gray-600 group-hover:text-indigo-600",
-  fill: "none",
-  viewBox: "0 0 24 24",
-  "stroke-width": "1.5",
-  stroke: "currentColor",
-  "aria-hidden": "true"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z"
-}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+}, null, -1 /* HOISTED */);
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z"
-})])], -1 /* HOISTED */);
-var _hoisted_11 = {
+}, null, -1 /* HOISTED */);
+var _hoisted_12 = [_hoisted_10, _hoisted_11];
+var _hoisted_13 = {
   "class": "flex-auto text-left"
 };
-var _hoisted_12 = {
-  href: "#",
-  "class": "block font-semibold text-gray-900"
-};
-var _hoisted_13 = {
-  "class": "font-bold"
-};
 var _hoisted_14 = {
-  "class": "text-xl font-bold"
+  "class": ""
 };
 var _hoisted_15 = {
-  "class": "mt-1 text-gray-600"
+  "class": "text-xl"
 };
 var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "my-header"
@@ -2840,7 +2837,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.showInfomationAttendance(data.teacher_subject_in_class.subject_grade_id);
       }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_subject_in_class.subject.subject_name_kh), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, " បង្រៀនដោយ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.gender_id == 1 ? 'លោកគ្រូ' : 'អ្នកគ្រូ') + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.full_name_kh), 1 /* TEXT */)])])])])], 8 /* PROPS */, _hoisted_8);
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white border group-hover:border-blue-600", $props.teacher_id == data.teacher_subject_in_class.subject_grade_id ? 'border-blue-600' : 'border-gray-600'])
+    }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$props.teacher_id == data.teacher_subject_in_class.subject_grade_id ? 'text-blue-600' : 'text-gray-600', "h-6 w-6 group-hover:text-blue-600"]),
+      fill: "none",
+      viewBox: "0 0 24 24",
+      "stroke-width": "1.5",
+      stroke: "currentColor",
+      "aria-hidden": "true"
+    }, _hoisted_12, 2 /* CLASS */))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: "#",
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($props.teacher_id == data.teacher_subject_in_class.subject_grade_id ? 'text-blue-600 block ' : 'text-gray-900 block ')
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_subject_in_class.subject.subject_name_kh), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($props.teacher_id == data.teacher_subject_in_class.subject_grade_id ? 'text-blue-400 mt-1' : 'text-gray-900 mt-1 text-gray-600')
+    }, " បង្រៀនដោយ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.gender_id == 1 ? 'លោកគ្រូ' : 'អ្នកគ្រូ') + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.teacher_in_class.full_name_kh), 3 /* TEXT, CLASS */)], 2 /* CLASS */)])])])], 8 /* PROPS */, _hoisted_8);
   }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dialog  Report Attendance by Month "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_dialog, {
     modelValue: $data.dialogFormVisibleReportMonthly,
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
@@ -4082,8 +4093,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             dataDayObj: $data.dataDayObj,
             dataTimeObj: $data.dataTimeObj,
             dataSubjectGradeObj: $data.dataSubjectGradeObj,
-            studentCallAttendance: $data.studentCallAttendance
-          }, null, 8 /* PROPS */, ["subjectData", "classData", "dataDayObj", "dataTimeObj", "dataSubjectGradeObj", "studentCallAttendance"])];
+            studentCallAttendance: $data.studentCallAttendance,
+            is_teacher_manager: $data.is_teacher_manager,
+            teacher_subject_id: $data.teacher_subject_id,
+            teacher_id: $data.teacher_id
+          }, null, 8 /* PROPS */, ["subjectData", "classData", "dataDayObj", "dataTimeObj", "dataSubjectGradeObj", "studentCallAttendance", "is_teacher_manager", "teacher_subject_id", "teacher_id"])];
         }),
         _: 1 /* STABLE */
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_tab_pane, {
@@ -4096,8 +4110,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             subjectData: $data.teacherData,
             classData: $data.classData,
             dataSubjectGradeObj: $data.dataSubjectGradeObj,
-            studentCallAttendance: $data.studentCallAttendance
-          }, null, 8 /* PROPS */, ["subjectData", "classData", "dataSubjectGradeObj", "studentCallAttendance"])];
+            studentCallAttendance: $data.studentCallAttendance,
+            is_teacher_manager: $data.is_teacher_manager,
+            teacher_subject_id: $data.teacher_subject_id
+          }, null, 8 /* PROPS */, ["subjectData", "classData", "dataSubjectGradeObj", "studentCallAttendance", "is_teacher_manager", "teacher_subject_id"])];
         }),
         _: 1 /* STABLE */
       })];
@@ -5202,15 +5218,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }),
 
               "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (scope) {
-                var _data$teacher_subject3;
+                var _data$teacher_subject3, _data$teacher_subject4;
                 return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
-                  modelValue: scope.row['mark_' + ((_data$teacher_subject3 = data.teacher_subject_in_class) === null || _data$teacher_subject3 === void 0 ? void 0 : _data$teacher_subject3.subject_grade_id)],
+                  disabled: !$props.teacher_subject_id.includes((_data$teacher_subject3 = data.teacher_subject_in_class) === null || _data$teacher_subject3 === void 0 ? void 0 : _data$teacher_subject3.subject_grade_id) && !$props.is_teacher_manager,
+                  modelValue: scope.row['mark_' + ((_data$teacher_subject4 = data.teacher_subject_in_class) === null || _data$teacher_subject4 === void 0 ? void 0 : _data$teacher_subject4.subject_grade_id)],
                   "onUpdate:modelValue": function onUpdateModelValue($event) {
-                    var _data$teacher_subject4;
-                    return scope.row['mark_' + ((_data$teacher_subject4 = data.teacher_subject_in_class) === null || _data$teacher_subject4 === void 0 ? void 0 : _data$teacher_subject4.subject_grade_id)] = $event;
+                    var _data$teacher_subject5;
+                    return scope.row['mark_' + ((_data$teacher_subject5 = data.teacher_subject_in_class) === null || _data$teacher_subject5 === void 0 ? void 0 : _data$teacher_subject5.subject_grade_id)] = $event;
                   },
                   placeholder: "0.00"
-                }, null, 8 /* PROPS */, ["modelValue", "onUpdate:modelValue"])])];
+                }, null, 8 /* PROPS */, ["disabled", "modelValue", "onUpdate:modelValue"])])];
               }),
               _: 2 /* DYNAMIC */
             }, 1024 /* DYNAMIC_SLOTS */);
@@ -5765,7 +5782,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             onClick: function onClick($event) {
               return $options.editUser(scope.row.student_id);
             },
-            disabled: $data.permission_edit
+            disabled: $data.permission_edit || !$props.is_teacher_manager
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("កែប្រែ")];
@@ -5788,7 +5805,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 size: "small",
                 type: "danger",
                 "class": "sanfont-khmer",
-                disabled: $data.permission_delete
+                disabled: $data.permission_delete || !$props.is_teacher_manager
               }, {
                 "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                   return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("ដកចេញពីថ្នាក់ ")];

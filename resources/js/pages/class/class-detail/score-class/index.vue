@@ -244,6 +244,7 @@
 					<template #default="scope">
 						<div class="flex space-x-4 ">
 							<el-input
+							    :disabled="!teacher_subject_id.includes(data.teacher_subject_in_class?.subject_grade_id) && !is_teacher_manager"
 								v-model="scope.row['mark_'+data.teacher_subject_in_class?.subject_grade_id]"
 								placeholder="0.00"
 							/>
@@ -491,7 +492,10 @@ export default {
 	props: {
 		data: Object,
 		subjectData: Object,
-		classData: Object
+		classData: Object,
+		is_teacher_manager: Boolean,
+		teacher_subject_id: Object,
+		teacher_id: Number,
 	},
 	data() {
 		return {
