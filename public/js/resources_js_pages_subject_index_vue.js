@@ -172,7 +172,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       var items = this.gradeLevel.find(function (el) {
         return el.grade_level_id == event;
       });
-      if (items.grade_level_name == "10") {
+      if (Number(items.grade_level_name) <= 10) {
         this.classType = this.level1;
       } else {
         this.classType = this.level2;
@@ -482,7 +482,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 _this11.level1 = [];
                 _this11.level2 = [];
                 _this11.classType.forEach(function (e) {
-                  if (e.name == "ធម្មតា") {
+                  if (e.name == "ថ្នាក់ ធម្មតា") {
                     _this11.level1.push(e);
                   } else {
                     _this11.level2.push(e);

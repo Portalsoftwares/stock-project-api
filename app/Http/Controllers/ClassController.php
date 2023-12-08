@@ -27,6 +27,7 @@ use App\mPDF\PdfWrapper;
 use App\mPDF\PdfWrapper as PDF;
 use App\Exports\ClassExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Auth;
 
 class ClassController extends Controller
 {
@@ -41,8 +42,26 @@ class ClassController extends Controller
         $per_page = $request->per_page ?? 10;
         $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
         $sort_by = $request->sort_by ?: 'class_name';
-        if ($per_page == -1) {
-            $per_page = DB::table('class')->count() > 0 ? DB::table('class')->count() : $per_page;
+
+        //Teacher class
+        $teacher_role_id = Auth::user()->roles[0]->id;
+        $teacher_id = null;
+        $teacherClass =[];
+        $is_teacher = false;
+        if($teacher_role_id == 4){
+            $is_teacher = true;
+            $teacher_id = Auth::user()->teacher_id;
+            $teacherClass = TeacherClass::where('teacher_id', $teacher_id)->pluck('class_id');
+        }
+
+        if($is_teacher){
+            if ($per_page == -1) {
+                $per_page = DB::table('class')->whereIn('class_id',$teacherClass)->count() > 0 ? DB::table('class')->whereIn('class_id',$teacherClass)->count() : $per_page;
+            }
+        }else{
+            if ($per_page == -1) {
+                $per_page = DB::table('class')->count() > 0 ? DB::table('class')->count() : $per_page;
+            }
         }
 
         if (!empty($request->class_type)) {
@@ -63,6 +82,9 @@ class ClassController extends Controller
         // if (!empty($request->filter_teacher_level)) {
         //     $items->whereIn('teacher_level', $request->filter_teacher_level);
         // }
+        if($is_teacher){
+            $items->whereIn('class_id', $teacherClass);
+        }
 
         if (!empty($request->search)) {
             // $items->where('subject_name_kh', 'like', "%" . $request->search . "%");
@@ -77,7 +99,8 @@ class ClassController extends Controller
         $data = $items->with([
             'class_type', 'academic', 'count_student_in_class.student_in_class', 'get_teacher_in_class.teacher_in_class', 'get_teacher_in_class.teacher_subject_in_class'
         ])
-            ->orderBy($sort_by, $order_by)
+            // ->orderBy($sort_by, $order_by)
+            ->orderBy('academic_id', 'DESC')
             ->paginate($per_page);
         $response = [
             'data' => $data,
@@ -93,6 +116,20 @@ class ClassController extends Controller
         $teacher = TeacherClass::where('class_id', $id)->with(['teacher_subject_in_class.subject', 'teacher_in_class.profile_img'])->get();
         $class = Classes::where('class_id', $id)->first();
 
+        $teacher_id = false;
+        $is_teacher = false;
+        $teacherSubject = [];
+        $is_teacher_manager = false;
+        $teacher_role_id = Auth::user()->roles[0]->id;
+        if($teacher_role_id == 4){
+            $is_teacher = true;
+            $teacher_id = Auth::user()->teacher_id;
+            $teacherSubject = TeacherClass::where([['teacher_id', $teacher_id], ['class_id', $id]])->pluck('subject_grade_id');
+            $isManager =  TeacherClass::where([['teacher_id', $teacher_id], ['class_id', $id],['role_id', 1]])->count();
+            $is_teacher_manager = $isManager >0 ? true : false;
+        }else{
+            $is_teacher_manager = true;
+        }
 
         $per_page = $request->per_page ?? 10;
         $order_by = $request->order_by == -1 ? 'DESC' : 'ASC';
@@ -128,6 +165,9 @@ class ClassController extends Controller
             'status' => $status,
             'role' => $role,
             'gender' => $gender,
+            'teacher_subject_id' => $teacherSubject,
+            'teacher_id' => $teacher_id,
+            'is_teacher_manager' => $is_teacher_manager,
 
         ];
         return  response($response, 200);

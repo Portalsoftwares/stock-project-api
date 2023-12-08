@@ -194,9 +194,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       var items = this.gradeLevel.find(function (el) {
         return el.grade_level_id == event;
       });
-      console.log(items);
-      if (items.grade_level_name == "10") {
-        console.log(this.level1);
+      if (Number(items.grade_level_name) <= 10) {
         this.classType = this.level1;
       } else {
         this.classType = this.level2;
@@ -249,7 +247,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         } else {
           _this4.$notify.error({
             title: 'កំហុស',
-            message: 'បញ្ចូលមិនបានជោគជ័យទេ 😓',
+            message: 'បញ្ចូលមិនបានជោគជ័យទេ ',
             showClose: true
           });
           return false;
@@ -399,7 +397,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
                 _this8.level1 = [];
                 _this8.level2 = [];
                 _this8.classType.forEach(function (e) {
-                  if (e.name == "ធម្មតា") {
+                  if (e.name == "ថ្នាក់ ធម្មតា") {
                     _this8.level1.push(e);
                   } else {
                     _this8.level2.push(e);

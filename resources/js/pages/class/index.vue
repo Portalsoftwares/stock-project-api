@@ -628,9 +628,7 @@ export default {
 	methods: {
 		autoClassType(event){
 		let items =  this.gradeLevel.find(el=>	el.grade_level_id == event)	
-		 console.log(items)
-		 if(items.grade_level_name=="10"){
-			console.log(this.level1)
+		 if(Number(items.grade_level_name) <= 10){
 			this.classType = this.level1
 		 }else{
 			this.classType = this.level2
@@ -682,7 +680,7 @@ export default {
 				} else {
 					this.$notify.error({
 						title: 'កំហុស',
-						message: 'បញ្ចូលមិនបានជោគជ័យទេ 😓',
+						message: 'បញ្ចូលមិនបានជោគជ័យទេ ',
 						showClose: true
 					});
 					return false;
@@ -793,7 +791,7 @@ export default {
 				this.level1 = [];
 				this.level2 = [];
 				this.classType.forEach(e=>{
-					if(e.name == "ធម្មតា"){
+					if(e.name == "ថ្នាក់ ធម្មតា"){
 						this.level1.push(e)
 					}else{ 
 						this.level2.push(e)

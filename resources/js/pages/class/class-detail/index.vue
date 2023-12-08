@@ -44,7 +44,7 @@
 										type="primary"
 										size="medium"
 										@click="addNewSchedule"
-										:disabled="permission_manage_schedule"
+										:disabled="permission_manage_schedule || !is_teacher_manager "
 									>
 										<el-icon>
 											<Setting />
@@ -103,7 +103,7 @@
 													<el-link
 														@click="callAttenance(day.day_id,scope.row.time_id , scope.row['name_subject_grade_day_'+day.day_id]?.subject_grade_id)"
 														type="primary"
-														:disabled="permission_attendance_collect"
+														:disabled="permission_attendance_collect || (!is_teacher_manager && !teacher_subject_id.includes(scope.row['name_subject_grade_day_'+day.day_id]?.subject_grade_id))"
 													>{{ scope.row['name_subject_grade_day_'+day.day_id]?.subject?.subject_name_kh}}</el-link>
 												</div>
 												<div v-else>
@@ -124,7 +124,7 @@
 									type="primary"
 									size="medium"
 									@click="addTeacher"
-									:disabled="permission_add_teacher"
+									:disabled="permission_add_teacher || !is_teacher_manager"
 								>
 									<el-icon>
 										<Setting />
@@ -137,25 +137,28 @@
 								<el-col
 									v-for="data in teacherData "
 									:key="data"
+									class=""
 								>
 									<el-card
 										shadow="hover"
-										class="text-left"
+										class="text-left  bg-green-100"
+										:body-style="teacher_id == data.teacher_in_class.teacher_id ?'color: #409eff':'' "
 									>
 
-										<div class="flex items-center space-x-2 justify-between">
+										<div class="flex items-center space-x-2 justify-between ">
 											<div class="flex items-center space-x-2 justify-start">
 												<div class="flex h-14 w-14 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
 													<img
 														:src="data.teacher_in_class?.profile_img?.file_path"
 														alt=""
+														:class="teacher_id == data.teacher_in_class.teacher_id ?'border-2 border-[#409eff]':''"
 													>
 
 												</div>
 												<div>
 
 													<div>
-														ឈ្មោះ : <span class="font-bold">{{ data.teacher_in_class.first_name_kh }} {{ data.teacher_in_class.last_name_kh }}</span>
+														ឈ្មោះ : <span class="font-bold">{{ data.teacher_in_class.first_name_kh }} {{ data.teacher_in_class.last_name_kh }}</span><span  class="font-bold px-2"> {{ teacher_id == data.teacher_in_class.teacher_id ?' (ខ្ញុំ)':'' }}</span>
 													</div>
 													<div>
 														មុខវិជ្ជា : <span class="font-bold">{{ data.teacher_subject_in_class.subject.subject_name_kh }}</span>
@@ -177,7 +180,7 @@
 													size="small"
 													class="sanfont-khmer"
 													@click="editDataTeacher(data.id)"
-													:disabled="permission_edit_teacher"
+													:disabled="permission_edit_teacher || !is_teacher_manager"
 												>កែប្រែ</el-button>
 											</div>
 										</div>
@@ -193,7 +196,7 @@
 					name="tab-class-detail-2"
 				>
 					<keep-alive>
-						<studentClass :data="studentData"></studentClass>
+						<studentClass :data="studentData" :is_teacher_manager="is_teacher_manager"></studentClass>
 					</keep-alive>
 				</el-tab-pane>
 				<el-tab-pane
@@ -782,7 +785,10 @@ export default {
 			dialogFormVisibleAdd: false,
 
 
-			showTimeOBJ: ''
+			showTimeOBJ: '',
+			teacher_subject_id: [],
+			is_teacher_manager: false,
+			teacher_id: null,
 
 		}
 	},
@@ -995,6 +1001,10 @@ export default {
 				this.teacherData = response.data.teacher
 				this.studentData = response.data.student
 				this.classData = response.data.class
+				this.teacher_subject_id = response.data.teacher_subject_id
+				this.is_teacher_manager = response.data.is_teacher_manager
+				this.teacher_id = response.data.teacher_id
+
 				this.loading_student = false;
 			}).catch((error) => {
 				this.loading_student = false;

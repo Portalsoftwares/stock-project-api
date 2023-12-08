@@ -52,8 +52,8 @@ class SubjectSeeder extends Seeder
             'subject_sort_name_en' => 'H',
         ]);
 
-          //Subject Level  10
-          SubjectGradeLevel::create([
+         //Subject Level  7
+         SubjectGradeLevel::create([
             'subject_id'=>1,
             'grade_level_id'=>1,
             'class_type_id'=>1,
@@ -109,10 +109,186 @@ class SubjectSeeder extends Seeder
             'divide'=>0.75,
             'average'=>17,
          ]);
-         //11 វីទ្យាសាស្រ្ត
+
+         //Subject Level  8
          SubjectGradeLevel::create([
             'subject_id'=>1,
             'grade_level_id'=>2,
+            'class_type_id'=>1,
+            'full_score'=>150,
+            'divide'=>3,
+            'average'=>75,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>2,
+            'grade_level_id'=>2,
+            'class_type_id'=>1,
+            'full_score'=>150,
+            'divide'=>3,
+            'average'=>75,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>3,
+            'grade_level_id'=>2,
+            'class_type_id'=>1,
+            'full_score'=>50,
+            'divide'=>1,
+            'average'=>25,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>4,
+            'grade_level_id'=>2,
+            'class_type_id'=>1,
+            'full_score'=>37,
+            'divide'=>0.75,
+            'average'=>17,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>5,
+            'grade_level_id'=>2,
+            'class_type_id'=>1,
+            'full_score'=>38,
+            'divide'=>0.75,
+            'average'=>17,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>6,
+            'grade_level_id'=>2,
+            'class_type_id'=>1,
+            'full_score'=>38,
+            'divide'=>0.75,
+            'average'=>17,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>7,
+            'grade_level_id'=>2,
+            'class_type_id'=>1,
+            'full_score'=>38,
+            'divide'=>0.75,
+            'average'=>17,
+         ]);
+         //Subject Level  9
+         SubjectGradeLevel::create([
+            'subject_id'=>1,
+            'grade_level_id'=>3,
+            'class_type_id'=>1,
+            'full_score'=>150,
+            'divide'=>3,
+            'average'=>75,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>2,
+            'grade_level_id'=>3,
+            'class_type_id'=>1,
+            'full_score'=>150,
+            'divide'=>3,
+            'average'=>75,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>3,
+            'grade_level_id'=>3,
+            'class_type_id'=>1,
+            'full_score'=>50,
+            'divide'=>1,
+            'average'=>25,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>4,
+            'grade_level_id'=>3,
+            'class_type_id'=>1,
+            'full_score'=>37,
+            'divide'=>0.75,
+            'average'=>17,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>5,
+            'grade_level_id'=>3,
+            'class_type_id'=>1,
+            'full_score'=>38,
+            'divide'=>0.75,
+            'average'=>17,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>6,
+            'grade_level_id'=>3,
+            'class_type_id'=>1,
+            'full_score'=>38,
+            'divide'=>0.75,
+            'average'=>17,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>7,
+            'grade_level_id'=>3,
+            'class_type_id'=>1,
+            'full_score'=>38,
+            'divide'=>0.75,
+            'average'=>17,
+         ]);
+
+          //Subject Level  10
+          SubjectGradeLevel::create([
+            'subject_id'=>1,
+            'grade_level_id'=>4,
+            'class_type_id'=>1,
+            'full_score'=>150,
+            'divide'=>3,
+            'average'=>75,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>2,
+            'grade_level_id'=>4,
+            'class_type_id'=>1,
+            'full_score'=>150,
+            'divide'=>3,
+            'average'=>75,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>3,
+            'grade_level_id'=>4,
+            'class_type_id'=>1,
+            'full_score'=>50,
+            'divide'=>1,
+            'average'=>25,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>4,
+            'grade_level_id'=>4,
+            'class_type_id'=>1,
+            'full_score'=>37,
+            'divide'=>0.75,
+            'average'=>17,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>5,
+            'grade_level_id'=>4,
+            'class_type_id'=>1,
+            'full_score'=>38,
+            'divide'=>0.75,
+            'average'=>17,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>6,
+            'grade_level_id'=>4,
+            'class_type_id'=>1,
+            'full_score'=>38,
+            'divide'=>0.75,
+            'average'=>17,
+         ]);
+         SubjectGradeLevel::create([
+            'subject_id'=>7,
+            'grade_level_id'=>4,
+            'class_type_id'=>1,
+            'full_score'=>38,
+            'divide'=>0.75,
+            'average'=>17,
+         ]);
+
+
+
+         //11 វីទ្យាសាស្រ្ត
+         SubjectGradeLevel::create([
+            'subject_id'=>1,
+            'grade_level_id'=>5,
             'class_type_id'=>2,
             'full_score'=>75,
             'divide'=>1.5,
@@ -120,7 +296,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
             'subject_id'=>2,
-            'grade_level_id'=>2,
+            'grade_level_id'=>5,
             'class_type_id'=>2,
             'full_score'=>125,
             'divide'=>2.5,
@@ -128,7 +304,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
             'subject_id'=>3,
-            'grade_level_id'=>2,
+            'grade_level_id'=>5,
             'class_type_id'=>2,
             'full_score'=>75,
             'divide'=>1.5,
@@ -136,7 +312,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
             'subject_id'=>4,
-            'grade_level_id'=>2,
+            'grade_level_id'=>5,
             'class_type_id'=>2,
             'full_score'=>75,
             'divide'=>1.5,
@@ -144,7 +320,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
             'subject_id'=>5,
-            'grade_level_id'=>2,
+            'grade_level_id'=>5,
             'class_type_id'=>2,
             'full_score'=>75,
             'divide'=>1.5,
@@ -152,7 +328,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
             'subject_id'=>6,
-            'grade_level_id'=>2,
+            'grade_level_id'=>5,
             'class_type_id'=>2,
             'full_score'=>50,
             'divide'=>1,
@@ -160,7 +336,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
              'subject_id'=>7,
-             'grade_level_id'=>2,
+             'grade_level_id'=>5,
              'class_type_id'=>2,
              'full_score'=>50,
              'divide'=>1,
@@ -169,7 +345,7 @@ class SubjectSeeder extends Seeder
          //11 សង្គម
          SubjectGradeLevel::create([
          'subject_id'=>1,
-         'grade_level_id'=>2,
+         'grade_level_id'=>5,
          'class_type_id'=>3,
          'full_score'=>125,
          'divide'=>2.5,
@@ -177,7 +353,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
          'subject_id'=>2,
-         'grade_level_id'=>2,
+         'grade_level_id'=>5,
          'class_type_id'=>3,
          'full_score'=>75,
          'divide'=>1.5,
@@ -185,7 +361,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
          'subject_id'=>3,
-         'grade_level_id'=>2,
+         'grade_level_id'=>5,
          'class_type_id'=>3,
          'full_score'=>50,
          'divide'=>1,
@@ -193,7 +369,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
          'subject_id'=>4,
-         'grade_level_id'=>2,
+         'grade_level_id'=>5,
          'class_type_id'=>3,
          'full_score'=>50,
          'divide'=>1,
@@ -201,7 +377,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
          'subject_id'=>5,
-         'grade_level_id'=>2,
+         'grade_level_id'=>5,
          'class_type_id'=>3,
          'full_score'=>50,
          'divide'=>1,
@@ -209,7 +385,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
          'subject_id'=>6,
-         'grade_level_id'=>2,
+         'grade_level_id'=>5,
          'class_type_id'=>3,
          'full_score'=>75,
          'divide'=>1.5,
@@ -217,16 +393,17 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
          'subject_id'=>7,
-         'grade_level_id'=>2,
+         'grade_level_id'=>5,
          'class_type_id'=>3,
          'full_score'=>75,
          'divide'=>1.5,
          'average'=>37,
          ]);
+
          //12 វីទ្យាសាស្រ្ត
          SubjectGradeLevel::create([
          'subject_id'=>1,
-         'grade_level_id'=>3,
+         'grade_level_id'=>6,
          'class_type_id'=>2,
          'full_score'=>75,
          'divide'=>1.5,
@@ -234,7 +411,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
          'subject_id'=>2,
-         'grade_level_id'=>3,
+         'grade_level_id'=>6,
          'class_type_id'=>2,
          'full_score'=>125,
          'divide'=>2.5,
@@ -242,7 +419,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
          'subject_id'=>3,
-         'grade_level_id'=>3,
+         'grade_level_id'=>6,
          'class_type_id'=>2,
          'full_score'=>75,
          'divide'=>1.5,
@@ -250,7 +427,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
          'subject_id'=>4,
-         'grade_level_id'=>3,
+         'grade_level_id'=>6,
          'class_type_id'=>2,
          'full_score'=>75,
          'divide'=>1.5,
@@ -258,7 +435,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
          'subject_id'=>5,
-         'grade_level_id'=>3,
+         'grade_level_id'=>6,
          'class_type_id'=>2,
          'full_score'=>75,
          'divide'=>1.5,
@@ -266,7 +443,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
          'subject_id'=>6,
-         'grade_level_id'=>3,
+         'grade_level_id'=>6,
          'class_type_id'=>2,
          'full_score'=>50,
          'divide'=>1,
@@ -274,7 +451,7 @@ class SubjectSeeder extends Seeder
          ]);
          SubjectGradeLevel::create([
              'subject_id'=>7,
-             'grade_level_id'=>3,
+             'grade_level_id'=>6,
              'class_type_id'=>2,
              'full_score'=>50,
              'divide'=>1,
@@ -284,7 +461,7 @@ class SubjectSeeder extends Seeder
          //12 សង្គម
          SubjectGradeLevel::create([
              'subject_id'=>1,
-             'grade_level_id'=>3,
+             'grade_level_id'=>6,
              'class_type_id'=>3,
              'full_score'=>125,
              'divide'=>2.5,
@@ -292,7 +469,7 @@ class SubjectSeeder extends Seeder
              ]);
              SubjectGradeLevel::create([
              'subject_id'=>2,
-             'grade_level_id'=>3,
+             'grade_level_id'=>6,
              'class_type_id'=>3,
              'full_score'=>75,
              'divide'=>1.5,
@@ -300,7 +477,7 @@ class SubjectSeeder extends Seeder
              ]);
              SubjectGradeLevel::create([
              'subject_id'=>3,
-             'grade_level_id'=>3,
+             'grade_level_id'=>6,
              'class_type_id'=>3,
              'full_score'=>50,
              'divide'=>1,
@@ -308,7 +485,7 @@ class SubjectSeeder extends Seeder
              ]);
              SubjectGradeLevel::create([
              'subject_id'=>4,
-             'grade_level_id'=>3,
+             'grade_level_id'=>6,
              'class_type_id'=>3,
              'full_score'=>50,
              'divide'=>1,
@@ -316,7 +493,7 @@ class SubjectSeeder extends Seeder
              ]);
              SubjectGradeLevel::create([
              'subject_id'=>5,
-             'grade_level_id'=>3,
+             'grade_level_id'=>6,
              'class_type_id'=>3,
              'full_score'=>50,
              'divide'=>1,
@@ -324,7 +501,7 @@ class SubjectSeeder extends Seeder
              ]);
              SubjectGradeLevel::create([
              'subject_id'=>6,
-             'grade_level_id'=>3,
+             'grade_level_id'=>6,
              'class_type_id'=>3,
              'full_score'=>75,
              'divide'=>1.5,
@@ -332,7 +509,7 @@ class SubjectSeeder extends Seeder
              ]);
              SubjectGradeLevel::create([
              'subject_id'=>7,
-             'grade_level_id'=>3,
+             'grade_level_id'=>6,
              'class_type_id'=>3,
              'full_score'=>75,
              'divide'=>1.5,

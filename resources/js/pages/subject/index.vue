@@ -892,7 +892,7 @@ export default {
 		//auto select classtype
 		autoClassType(event){
 		     let items =  this.gradeLevel.find(el=>	el.grade_level_id == event)	
-			if(items.grade_level_name=="10"){
+			if(Number(items.grade_level_name) <= 10){
 				this.classType = this.level1
 			}else{
 				this.classType = this.level2
@@ -1107,7 +1107,7 @@ export default {
 				this.level1 =[]
 				this.level2 =[]
 				this.classType.forEach(e=>{
-					if(e.name == "ធម្មតា"){
+					if(e.name == "ថ្នាក់ ធម្មតា"){
 						this.level1.push(e)
 					}else{ 
 						this.level2.push(e)

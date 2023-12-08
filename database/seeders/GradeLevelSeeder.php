@@ -16,6 +16,15 @@ class GradeLevelSeeder extends Seeder
     public function run()
     {
         GradeLevel::create([
+            'grade_level_name' => '7'
+        ]);
+        GradeLevel::create([
+            'grade_level_name' => '8'
+        ]);
+        GradeLevel::create([
+            'grade_level_name' => '9'
+        ]);
+        GradeLevel::create([
             'grade_level_name' => '10'
         ]);
         GradeLevel::create([

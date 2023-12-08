@@ -42,7 +42,7 @@
 				<el-button
 					type="primary"
 					@click="AddStudentToClass"
-					:disabled="permission_student_add"
+					:disabled="permission_student_add || !is_teacher_manager"
 				>
 					<el-icon>
 						<CirclePlusFilled />
@@ -829,13 +829,15 @@
 
 </template>
 <script>
+import { boolean } from 'yup/lib/locale'
 import { fnpermissions } from '../../../../permissions'
 import FileSaver from 'file-saver'
 
 export default {
 
 	props: {
-		data: Object
+		data: Object,
+		is_teacher_manager: Boolean
 	},
 	created() {
 		this.studentClass = this.$props.data

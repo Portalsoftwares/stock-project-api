@@ -45,12 +45,12 @@ class StudentSeeder extends Seeder
                 'first_name_en' => 'Phim',
                 'last_name_en' => 'Samiii',
                 'date_of_birth' => '2003-01-01',
-                'gender_id' =>  "1",
+                'gender_id' =>  "2",
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
                 'file_upload_id' => "12",
-                'phone' => "08765432345",
+                'phone' => "03951706824",
                 'email' => "Samiii@gmail.com",
                 'other' => ''
             ]
@@ -70,7 +70,7 @@ class StudentSeeder extends Seeder
                 'address' => "siem reap",
                 'status_id' => "1",
                 'file_upload_id' => "13",
-                'phone' => "08765432345",
+                'phone' => "02187653094",
                 'email' => "hab@gmail.com",
                 'other' => ''
             ]
@@ -85,12 +85,12 @@ class StudentSeeder extends Seeder
                 'first_name_en' => 'Vireak',
                 'last_name_en' => 'Chann navy',
                 'date_of_birth' => '2003-01-01',
-                'gender_id' =>  "1",
+                'gender_id' =>  "2",
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
                 'file_upload_id' => "14",
-                'phone' => "08765432345",
+                'phone' => "08742053169",
                 'email' => "navy@gmail.com",
                 'other' => ''
             ]
@@ -110,7 +110,7 @@ class StudentSeeder extends Seeder
                 'address' => "siem reap",
                 'status_id' => "1",
                 'file_upload_id' => "15",
-                'phone' => "08765432345",
+                'phone' => "06309251784",
                 'email' => "meas@gmail.com",
                 'other' => ''
             ]
@@ -125,12 +125,12 @@ class StudentSeeder extends Seeder
                 'first_name_en' => 'Siev',
                 'last_name_en' => 'Sreyneath',
                 'date_of_birth' => '2003-01-01',
-                'gender_id' =>  "1",
+                'gender_id' =>  "2",
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
                 'file_upload_id' => "16",
-                'phone' => "08765432345",
+                'phone' => "04956873210",
                 'email' => "neath@gmail.com",
                 'other' => ''
             ]
@@ -150,7 +150,7 @@ class StudentSeeder extends Seeder
                 'address' => "siem reap",
                 'status_id' => "1",
                 'file_upload_id' => "17",
-                'phone' => "08765432345",
+                'phone' => "07132485096",
                 'email' => "piron@gmail.com",
                 'other' => ''
             ]
@@ -170,7 +170,7 @@ class StudentSeeder extends Seeder
                 'address' => "siem reap",
                 'status_id' => "1",
                 'file_upload_id' => "18",
-                'phone' => "08765432345",
+                'phone' => "08294761053",
                 'email' => "roeun@gmail.com",
                 'other' => ''
             ]
@@ -190,7 +190,7 @@ class StudentSeeder extends Seeder
                 'address' => "siem reap",
                 'status_id' => "1",
                 'file_upload_id' => "19",
-                'phone' => "08765432345",
+                'phone' => "05601928374",
                 'email' => "Long@gmail.com",
                 'other' => ''
             ]
@@ -210,7 +210,7 @@ class StudentSeeder extends Seeder
                 'address' => "siem reap",
                 'status_id' => "1",
                 'file_upload_id' => "20",
-                'phone' => "08765432345",
+                'phone' => "03872405169",
                 'email' => "Sarith@gmail.com",
                 'other' => ''
             ]
@@ -225,11 +225,11 @@ class StudentSeeder extends Seeder
                 'first_name_en' => 'san',
                 'last_name_en' => 'sievpatch',
                 'date_of_birth' => '2003-01-01',
-                'gender_id' =>  "1",
+                'gender_id' =>  "2",
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "01246357890",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
@@ -248,14 +248,14 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "09052746183",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
         );
         Student::create(
             [
-                'sid' => 'PK-S0011',
+                'sid' => 'PK-S0012',
                 'full_name_kh' => 'ផុន រិតសាក',
                 'full_name_en' => 'Phon Rithisak',
                 'first_name_kh' => 'ផុន',
@@ -267,14 +267,14 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "06798154320",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
         );
         Student::create(
             [
-                'sid' => 'PK-S0011',
+                'sid' => 'PK-S0013',
                 'full_name_kh' => 'អុក សារីន',
                 'full_name_en' => 'Ok Samrin',
                 'first_name_kh' => 'អុក',
@@ -286,14 +286,14 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "03184592067",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
         );
         Student::create(
             [
-                'sid' => 'PK-S0011',
+                'sid' => 'PK-S0014',
                 'full_name_kh' => 'ហេង បូណា',
                 'full_name_en' => 'Heang Bona',
                 'first_name_kh' => 'ហេង',
@@ -305,14 +305,14 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "05426873019",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
         );
         Student::create(
             [
-                'sid' => 'PK-S0011',
+                'sid' => 'PK-S0014',
                 'full_name_kh' => 'អីវ ដារានី',
                 'full_name_en' => 'Iv Darany',
                 'first_name_kh' => 'មាស',
@@ -320,18 +320,18 @@ class StudentSeeder extends Seeder
                 'first_name_en' => 'Iv',
                 'last_name_en' => 'Darany',
                 'date_of_birth' => '2003-01-01',
-                'gender_id' =>  "1",
+                'gender_id' =>  "2",
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "07652301984",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
         );
         Student::create(
             [
-                'sid' => 'PK-S0011',
+                'sid' => 'PK-S0016',
                 'full_name_kh' => 'នោន សុធារិត',
                 'full_name_en' => 'Nourn Sotearith',
                 'first_name_kh' => 'នោន',
@@ -343,14 +343,14 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "01406975283",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
         );
         Student::create(
             [
-                'sid' => 'PK-S0011',
+                'sid' => 'PK-S0017',
                 'full_name_kh' => 'សង់ ចក្រា',
                 'full_name_en' => 'Song Chakra',
                 'first_name_kh' => 'មាស',
@@ -362,14 +362,14 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "09823470156",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
         );
         Student::create(
             [
-                'sid' => 'PK-S0011',
+                'sid' => 'PK-S0018',
                 'full_name_kh' => 'ចិន រតនា',
                 'full_name_en' => 'Chin Rotha',
                 'first_name_kh' => 'ចិន',
@@ -381,14 +381,14 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "03562081974",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
         );
         Student::create(
             [
-                'sid' => 'PK-S0011',
+                'sid' => 'PK-S0019',
                 'full_name_kh' => 'សាន ភក្ដី',
                 'full_name_en' => 'San Pheakkley',
                 'first_name_kh' => 'សាន',
@@ -400,14 +400,14 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "08740563219",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
         );
         Student::create(
             [
-                'sid' => 'PK-S0011',
+                'sid' => 'PK-S0020',
                 'full_name_kh' => 'រស់ ដាវី',
                 'full_name_en' => 'Rous Daevy',
                 'first_name_kh' => 'រស់',
@@ -419,14 +419,14 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "06198342750",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
         );
         Student::create(
             [
-                'sid' => 'PK-S0011',
+                'sid' => 'PK-S0021',
                 'full_name_kh' => 'សម វាសនា',
                 'full_name_en' => 'Som Veasna',
                 'first_name_kh' => 'សម',
@@ -434,18 +434,18 @@ class StudentSeeder extends Seeder
                 'first_name_en' => 'Som',
                 'last_name_en' => 'Veasna',
                 'date_of_birth' => '2003-01-01',
-                'gender_id' =>  "2",
+                'gender_id' =>  "1",
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "05032167894",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
         );
         Student::create(
             [
-                'sid' => 'PK-S0011',
+                'sid' => 'PK-S0022',
                 'full_name_kh' => 'សៀង សុជាតិ',
                 'full_name_en' => 'Sieng Socheat',
                 'first_name_kh' => 'សៀង',
@@ -457,14 +457,14 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "02918475036",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
         );
         Student::create(
             [
-                'sid' => 'PK-S0011',
+                'sid' => 'PK-S0023',
                 'full_name_kh' => 'ម៉េង សុរិយា',
                 'full_name_en' => 'Meng Sorya',
                 'first_name_kh' => 'ម៉េង',
@@ -476,14 +476,14 @@ class StudentSeeder extends Seeder
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "04289056137",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
         );
         Student::create(
             [
-                'sid' => 'PK-S0011',
+                'sid' => 'PK-S0024',
                 'full_name_kh' => 'ឈៀន រំចង់',
                 'full_name_en' => 'Choem Roumjong',
                 'first_name_kh' => 'ឈៀន',
@@ -491,11 +491,11 @@ class StudentSeeder extends Seeder
                 'first_name_en' => 'Choem',
                 'last_name_en' => 'Roumjong',
                 'date_of_birth' => '2003-01-01',
-                'gender_id' =>  "2",
+                'gender_id' =>  "1",
                 'place_of_birth' => "siem reap",
                 'address' => "siem reap",
                 'status_id' => "1",
-                'phone' => "08765432345",
+                'phone' => "07650321984",
                 'email' => "Davann@gmail.com",
                 'other' => ''
             ]
