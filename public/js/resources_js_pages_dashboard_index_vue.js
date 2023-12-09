@@ -471,16 +471,6 @@ var _hoisted_62 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
   }
 }, "គ្មានទិន្នន័យ", -1 /* HOISTED */);
 var _hoisted_63 = [_hoisted_62];
-var _hoisted_64 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "border rounded bg-gray-50 hover:shadow-md cursor-pointer transition ease-in-out delay-100"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-xl bg-gray-100 border"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "py-5"
-}, "កាលវិភាគ របស់ខ្ញុំ")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "p-8"
-})], -1 /* HOISTED */);
-
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_el_option = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-option");
   var _component_el_select = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("el-select");
@@ -628,7 +618,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_61, _hoisted_63))];
     }),
     _: 1 /* STABLE */
-  })])])]), _hoisted_64])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */);
+  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div\r\n\t\t\tclass=\"border rounded  bg-gray-50 hover:shadow-md  cursor-pointer transition ease-in-out delay-100\"\r\n\t\t>\r\n\t\t\t<div class=\" text-xl bg-gray-100 border\">\r\n\t\t\t\t\t<div class=\"py-5\">កាលវិភាគ របស់ខ្ញុំ</div>\r\n\t\t\t\t</div>\r\n            <div class=\"p-8\">\r\n\t\t\t</div>\r\n\t\t</div> ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),

@@ -222,7 +222,7 @@
 
 			</div>
 		</div>
-		<div
+		<!-- <div
 			class="border rounded  bg-gray-50 hover:shadow-md  cursor-pointer transition ease-in-out delay-100"
 		>
 			<div class=" text-xl bg-gray-100 border">
@@ -230,7 +230,7 @@
 				</div>
             <div class="p-8">
 			</div>
-		</div>
+		</div> -->
 
 	</div>
 

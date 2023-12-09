@@ -1497,7 +1497,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       academic: [],
       exam: [],
       is_random: 0,
-      is_testing: true
+      is_testing: false
     };
   },
   mounted: function mounted() {
