@@ -1182,9 +1182,8 @@ export default {
 
 			await axios.post('/schedule_class/' + class_id + '/schedule/export', null, config).then(response => {
 				let blob = new Blob([response.data], { type: 'application/pdf', }),
-					url = window.URL.createObjectURL(blob);
+				url = window.URL.createObjectURL(blob);
 				const newOpen = window.open(url);
-
 			}).catch((error) => {
 				if (error.response.status == 401) {
 					this.$store.commit("auth/CLEAR_TOKEN")

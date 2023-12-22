@@ -7,7 +7,7 @@
         </div>
         <div class="row">
             <div class="col-12  mt-3" style="padding-bottom: 20px">
-                <table width="100%" autosize="1.6" style="border-collapse: collapse; border-style: solid;" cellpadding="8">
+                <table width="100%" autosize="1.6" class="table" style=" border-collapse: collapse; border-style: solid;" cellpadding="8">
                     <thead>
                         <tr>
 
@@ -46,6 +46,20 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div style="padding-top: 10px">
+                    <table width="100%" autosize="1.6"  cellpadding="8">
+                        <tbody>
+                            <tr>
+                                @foreach ($teacher as $i => $row)
+                                <td class="font-siemreap text-center items-center font-14">
+                                    <div class="font-siemreap font-13 " >{{$row->teacher_in_class->full_name_kh}} ({{$row->teacher_in_class->phone}})</div>
+                                    <div class="font-siemreap font-13 "> {{$row->teacher_subject_in_class->subject->subject_sort_name_en}}</div>
+                                </td>
+                                @endforeach
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="col-12" style="padding-bottom: 10px">
                 <div class="row">
@@ -64,8 +78,8 @@
     @endsection
     @section('style')
         <style>
-            /* table */
-            table {
+            /* .table */
+            .table {
                 border-collapse: collapse;
             }
 
@@ -73,72 +87,72 @@
                 text-align: center !important
             }
 
-            table thead tr td {
+            .table thead tr td {
                 padding: 5px;
                 border: 1px solid #000000;
                 text-align: center;
             }
 
-            table thead tr td.w-no {
+            .table thead tr td.w-no {
                 width: 5%;
             }
 
-            table thead tr td.w-item {
+            .table thead tr td.w-item {
                 width: 20%;
             }
 
-            table thead tr td.w-description {
+            .table thead tr td.w-description {
                 width: 15%;
             }
 
-            table thead tr td.w-qty {
+            .table thead tr td.w-qty {
                 width: 5%
             }
 
-            table thead tr td.w-day {
+            .table thead tr td.w-day {
                 width: 10%
             }
 
-            table thead tr td.w-att {
+            .table thead tr td.w-att {
                 width: 6%;
             }
 
-            table thead tr td.w-unit-price {
+            .table thead tr td.w-unit-price {
                 width: 15%;
             }
 
-            table thead tr td.w-amount {
+            .table thead tr td.w-amount {
                 width: 15%;
             }
 
-            table tr td {
+            .table tr td {
                 padding: 5px;
                 border-left: 1px solid #000000;
                 border-right: 1px solid #000000;
             }
 
-            table tbody td {
+            .table tbody td {
                 vertical-align: top;
             }
 
-            table tbody {
+            .table tbody {
                 border: 1px solid #000000 !important;
             }
 
-            table tbody tr {
+            .table tbody tr {
                 border-width: 1px;
                 border-style: solid;
                 border-color: #000000;
             }
 
-            table tfoot tr td,
+            .table tfoot tr td,
             th {
                 border-width: 1px;
                 border-style: solid;
                 border-color: #000000;
             }
 
-            table tfoot tr td.noborder {
+            .table tfoot tr td.noborder {
                 border-bottom-width: 0;
                 border-left-width: 0;
             }

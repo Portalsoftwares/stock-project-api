@@ -237,6 +237,7 @@ class ScheduleController extends Controller
         $day =  Day::all();
         $class = Classes::find($id);
         $timeData = [];
+        $teacher = TeacherClass::where('class_id', $id)->with(['teacher_subject_in_class.subject', 'teacher_in_class.profile_img'])->get();
 
         if (!empty($data)) {
             $schedule = $data->schedule_id;
@@ -263,10 +264,10 @@ class ScheduleController extends Controller
                 }
             }
         }
-
         //return "hi";
         $pdf = PdfWrapper::loadView('Schedule.subject', [
             'data' => $timeData,
+            'teacher' => $teacher,
             'option' => [
                 'day' => $day,
                 'time' => Time::all(),
