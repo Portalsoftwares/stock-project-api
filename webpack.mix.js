@@ -11,10 +11,5 @@ const mix = require('laravel-mix');
  |
  */
 mix.copy('resources/font', 'public/font');
-mix.js('resources/js/app.js', 'public/js')
-    .vue()
-    .disableNotifications()
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+mix.js('resources/js/app.js', 'public/js');
 
