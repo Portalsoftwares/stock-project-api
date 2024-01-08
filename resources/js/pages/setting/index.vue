@@ -198,7 +198,7 @@
 			</div>
 			<div class="grid grid-cols-1 gap-2 ">
 				<div class=" border rounded bg-gray-50">
-					<div class="flex flex-col  ">
+					<div class="flex flex-col  " v-loading="loading_backup">
 
 						<el-table
 							:data="tableData"

@@ -111,14 +111,14 @@ class UserController extends Controller
             'phone' => $request->phone,
             'email' => $request->email,
             'teacher_id' => $request->teacher_id ?? null,
-            'file_upload_id' => $request->photo_id,
+            'file_upload_id' => $request->photo_id?? null,
             'password' => Hash::make($request->password),
         ]);
-        $rolesArray =   explode(',', $request->role);
+        // $rolesArray =   explode(',', $request->role);
 
-        foreach ($rolesArray as $row) {
-            $user->assignRole($row);
-        }
+        $user->assignRole($request->role);
+        // foreach ($rolesArray as $row) {
+        // }
         $teacher = Teacher::find($request->teacher_id);
         if (!empty($teacher)) {
             $teacher->update(['is_enable_account' => 1]);

@@ -648,6 +648,7 @@
 										prop="full_score"
 										class="sanfont-khmer"
 										:label-width="formLabelWidth"
+										@change="calcDivide"
 									>
 										<el-input
 											v-model="ruleFormSubjectLevel.full_score"
@@ -889,6 +890,9 @@ export default {
 		}
 	},
 	methods: {
+		calcDivide() {
+			this.ruleFormSubjectLevel.divide = (this.ruleFormSubjectLevel.full_score / 50);	
+		},
 		//auto select classtype
 		autoClassType(event){
 		     let items =  this.gradeLevel.find(el=>	el.grade_level_id == event)	

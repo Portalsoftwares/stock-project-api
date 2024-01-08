@@ -167,6 +167,9 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   },
   methods: (_methods = {
+    calcDivide: function calcDivide() {
+      this.ruleFormSubjectLevel.divide = this.ruleFormSubjectLevel.full_score / 50;
+    },
     //auto select classtype
     autoClassType: function autoClassType(event) {
       var items = this.gradeLevel.find(function (el) {
@@ -1795,7 +1798,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                     label: "ពិន្ទុពេញ",
                     prop: "full_score",
                     "class": "sanfont-khmer",
-                    "label-width": $data.formLabelWidth
+                    "label-width": $data.formLabelWidth,
+                    onChange: $options.calcDivide
                   }, {
                     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
                       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_input, {
@@ -1810,7 +1814,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                       }, null, 8 /* PROPS */, ["modelValue"])];
                     }),
                     _: 1 /* STABLE */
-                  }, 8 /* PROPS */, ["label-width"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
+                  }, 8 /* PROPS */, ["label-width", "onChange"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_el_form_item, {
                     label: "មេគុណ",
                     prop: "divide",
                     "class": "sanfont-khmer",

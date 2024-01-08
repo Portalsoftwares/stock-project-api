@@ -761,6 +761,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _assets_moey_small_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../assets/moey-small.png */ "./resources/js/assets/moey-small.png");
+
 
 var _hoisted_1 = {
   style: {
@@ -782,7 +784,7 @@ var _hoisted_5 = {
   "class": "text-center flex-col flex justify-center items-center h-full"
 };
 var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: "https://moeys.gov.kh/moeys%20100x100.png",
+  src: _assets_moey_small_png__WEBPACK_IMPORTED_MODULE_1__["default"],
   "class": "p-1 w-[50px] h-[50px]",
   alt: "Avatar"
 }, null, -1 /* HOISTED */);
@@ -795,8 +797,8 @@ var _hoisted_9 = {
   "class": "text-center flex-col flex justify-center items-center h-full"
 };
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: "https://moeys.gov.kh/moeys%20100x100.png",
-  "class": "p-1 w-24 h-24",
+  src: _assets_moey_small_png__WEBPACK_IMPORTED_MODULE_1__["default"],
+  "class": "p-1 w-28 h-28",
   alt: "Avatar"
 }, null, -1 /* HOISTED */);
 var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -1296,6 +1298,20 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.p-tooltip-text {\r\n\tfont-size: 10
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
+
+/***/ }),
+
+/***/ "./resources/js/assets/moey-small.png":
+/*!********************************************!*\
+  !*** ./resources/js/assets/moey-small.png ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/moey-small.png?6feb0dfe49efaf1f08283c185ab02dad");
 
 /***/ }),
 

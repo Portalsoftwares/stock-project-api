@@ -37,12 +37,16 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
         $field = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+
         $user = User::where($field, $request->email)->with('img')->with('roles.permissions')->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
-                'message' => ' Bad creds'
+                'message' => 'មិនត្រឹមត្រូវ'
             ], 401);
         }
+
+        $user_old = $user ;
+        $user_old->tokens()->delete();
         $token = $user->createToken('devop')->plainTextToken;
         $response = [
             'user' => $user,
