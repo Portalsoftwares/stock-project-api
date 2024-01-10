@@ -36,6 +36,7 @@ class AuthController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
+        
         $field = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
         $user = User::where($field, $request->email)->with('img')->with('roles.permissions')->first();

@@ -22,4 +22,4 @@ Route::get("/preivew", function () {
 // route main point to vue index
 Route::get('/{any?}', function () {
     return view('app');
-})->where('any', '^(?!api\/)[\/\w\.-]*');
+});
