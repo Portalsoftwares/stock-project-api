@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\CustomersController;
 
 //Version 1 API
 Route::prefix('v1')->group(function () {
@@ -42,7 +43,13 @@ Route::prefix('v1')->group(function () {
        Route::get('/edit/{id}', [ProductsController::class, 'edit']);
        Route::post('/update/{id}', [ProductsController::class, 'update']);
        Route::delete('/delete/{id}', [ProductsController::class, 'destroy']);
-
+    });
+    Route::prefix('customer')->group(function (){
+       Route::get('/get', [CustomersController::class, 'index']);
+       Route::post('/create', [CustomersController::class, 'create']);
+       Route::get('/edit/{id}', [CustomersController::class, 'edit']);
+       Route::post('/update/{id}', [CustomersController::class, 'update']);
+       Route::delete('/delete/{id}', [CustomersController::class, 'destroy']);
     });
     // Files  
     Route::prefix('files')->group(function () {
